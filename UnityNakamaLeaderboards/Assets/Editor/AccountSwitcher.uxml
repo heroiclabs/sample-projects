@@ -1,0 +1,9 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:Label text="Nakama Account Switcher" style="-unity-text-align: upper-center; -unity-font-style: bold; font-size: 28px; margin-bottom: 4px; margin-top: 8px;" />
+    <ui:VisualElement style="margin-top: 8px;">
+        <ui:DropdownField label="Account:" name="account-dropdown" choices="ACCOUNT 1,ACCOUNT 2,ACCOUNT 3,ACCOUNT 4" index="0" />
+        <ui:VisualElement style="flex-grow: 1; height: 8px;" />
+        <ui:Label text="Account Usernames" style="-unity-text-align: upper-center; -unity-font-style: bold;" />
+        <ui:Label name="usernames" selectable="true" />
+    </ui:VisualElement>
+</ui:UXML>

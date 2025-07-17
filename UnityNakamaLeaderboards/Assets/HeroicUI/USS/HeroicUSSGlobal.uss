@@ -1,0 +1,59 @@
+.unity-base-dropdown__container-inner {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.unity-base-dropdown__container-outer {
+    background-image: url("project://database/Assets/HeroicUI/TextInput/text_input_merged_gray.png?fileID=2800000&guid=c0934a7a45f1d4937aae187c0cfbe078&type=3#text_input_merged_gray");
+    -unity-slice-left: 25;
+    -unity-slice-top: 25;
+    -unity-slice-right: 25;
+    -unity-slice-bottom: 25;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.unity-base-dropdown__label {
+    font-size: 32px;
+    color: rgb(0, 0, 0);
+    -unity-font-style: bold;
+}
+
+.unity-base-dropdown__item {
+    margin: 5px 10px;
+    border-radius: 15px;
+    border-width: 5px;
+}
+
+.unity-base-dropdown__item:checked .unity-base-dropdown__label {
+    color: rgb(121, 99, 255); 
+}
+
+.unity-base-dropdown__item:hover:enabled {
+    border-color: rgb(227,220,252);
+    background-color: rgb(227,220,252);
+}
+
+.unity-base-dropdown__item:checked:enabled {
+    border-color: rgb(227,220,252);
+    background-color: rgb(227,220,252);
+}
+
+.unity-base-dropdown__item-content {
+    flex-direction: row-reverse;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.unity-base-dropdown__checkmark {
+    width: 40px;
+    height: 40px;
+    margin-left: auto;
+    -unity-background-image-tint-color: rgb(121, 99, 255);
+    background-image: url("project://database/Assets/HeroicUI/IconPictogram/128/icon_check.png?fileID=2800000&guid=aba6f95cfca8f4b5cbff7cc9387f9e4d&type=3#icon_check");
+}

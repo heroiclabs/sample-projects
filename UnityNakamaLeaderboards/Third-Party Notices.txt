@@ -1,0 +1,85 @@
+THIRD-PARTY NOTICES
+==================
+
+This package contains third-party software components governed by the license(s) 
+listed below:
+
+Nakama Unity SDK
+----------------
+
+The following files are covered by the Apache License 2.0:
+- All files in the Packages/Nakama Unity folder and its subdirectories
+
+Apache License 2.0:
+
+Copyright (c) 2017 GameUp Online Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Additional Information:
+- Nakama Unity SDK Source: https://github.com/heroiclabs/nakama-unity
+- Full Apache 2.0 License Text: https://www.apache.org/licenses/LICENSE-2.0
+
+LayerLab UI Assets
+------------------
+
+The following files are covered by Creative Commons BY-NC-ND 4.0:
+- All PNG files in the HeroicUI folder and its subdirectories, which includes: UI design assets, icons, and backgrounds
+
+Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License:
+
+Copyright (c) 2025 LayerLab
+
+This work is licensed under the Creative Commons Attribution-NonCommercial-
+NoDerivatives 4.0 International License. To view a copy of this license, 
+visit http://creativecommons.org/licenses/by-nc-nd/4.0/ or send a letter to 
+Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
+
+You are free to:
+- Share — copy and redistribute the material in any medium or format
+
+Under the following terms:
+- Attribution — You must give appropriate credit as "Asset Design by LayerLab", 
+  provide a link to the license, and indicate if changes were made. You may do 
+  so in any reasonable manner, but not in any way that suggests the licensor 
+  endorses you or your use.
+- Non Commercial — You may not use the material for commercial purposes.
+- No Derivatives — If you remix, transform, or build upon the material, you may 
+  not distribute the modified material.
+
+Additional Information:
+- Full Creative Commons BY-NC-ND 4.0 License: https://creativecommons.org/licenses/by-nc-nd/4.0/
+
+IMPORTANT NOTES FOR END USERS:
+==============================
+1. The Nakama Unity SDK is free to use under Apache 2.0 license for both 
+   commercial and non-commercial projects.
+
+2. The LayerLab UI assets are provided under Creative Commons BY-NC-ND 4.0, 
+   which means:
+   - They can be used for non-commercial projects only
+   - Attribution to LayerLab must be provided
+   - The assets cannot be modified or redistributed separately
+   - For commercial use, you must replace these assets with your own designs
+
+3. You will need to set up your own Nakama server to use this template in 
+   production. The demo server is provided for testing purposes only.
+
+4. When using this template in your own projects, ensure you comply with all 
+   applicable licenses, especially regarding the UI assets if you intend 
+   commercial use.
+
+5. This package redistributes the Nakama Unity SDK under the terms of the 
+   Apache License 2.0, which permits such distribution.
+
+Last Updated: January 2025
