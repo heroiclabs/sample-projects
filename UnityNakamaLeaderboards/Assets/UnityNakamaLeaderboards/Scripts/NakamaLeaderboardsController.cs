@@ -109,6 +109,7 @@ namespace SampleProjects.Leaderboards
             weeklyTab = rootElement.Q<Button>("weekly-tab");
             weeklyTab.RegisterCallback<ClickEvent>(_ =>
             {
+                if (selectedLeaderboardId == WeeklyLeaderboardId) return;
                 weeklyTab.AddToClassList("selected");
                 globalTab.RemoveFromClassList("selected");
                 UpdateLeaderboardRecords(WeeklyLeaderboardId);
@@ -117,6 +118,7 @@ namespace SampleProjects.Leaderboards
             globalTab = rootElement.Q<Button>("global-tab");
             globalTab.RegisterCallback<ClickEvent>(_ =>
             {
+                if (selectedLeaderboardId == GlobalLeaderboardId) return;
                 globalTab.AddToClassList("selected");
                 weeklyTab.RemoveFromClassList("selected");
                 UpdateLeaderboardRecords(GlobalLeaderboardId);
