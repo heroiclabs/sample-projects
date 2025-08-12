@@ -1,0 +1,61 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="ErrorPopup" src="project://database/Assets/UnityNakamaFriends/HeroicUI/CustomComponents/ErrorPopup.uxml?fileID=9197481963319205126&amp;guid=0104c211a1dfc4d17b2607e880de676f&amp;type=3#ErrorPopup" />
+    <Style src="project://database/Assets/UnityNakamaFriends/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
+    <ui:VisualElement name="friends-top" class="heroic-top__background">
+        <ui:Label text="FRIENDS" class="heroic-title" style="color: rgb(31, 49, 81);" />
+    </ui:VisualElement>
+    <ui:VisualElement name="friends-main" class="heroic-main__background">
+        <ui:VisualElement name="main-left" style="padding-top: 20px; padding-right: 20px; padding-bottom: 24px; padding-left: 20px; width: 25%;">
+            <ui:VisualElement template="VerticalTabButton" name="VerticalTabButton">
+                <ui:Button text="Friends" name="friends-tab" class="heroic-vertical-tab-button selected" style="padding-left: 84px;">
+                    <ui:VisualElement name="tab-icon" style="background-image: url(&quot;project://database/Assets/UnityNakamaFriends/HeroicUI/IconItem/128/icon_friends.png?fileID=2800000&amp;guid=dda3969555f2d45d38cbfa30172f7acf&amp;type=3#icon_friends&quot;); -unity-background-scale-mode: scale-to-fit; width: 60px; height: 60px; align-self: center; position: absolute; left: 10px;" />
+                    <ui:VisualElement name="arrow" class="heroic-vertical-tab-button__arrow" />
+                    <ui:VisualElement name="red-dot" style="position: absolute; top: -4px; right: -4px; background-image: url(&quot;project://database/Assets/UnityNakamaFriends/HeroicUI/Badge/badge_circle_red.png?fileID=2800000&amp;guid=2c9e71d1338db4bcc860d5fdfa777d22&amp;type=3#badge_circle_red&quot;); width: 20px; height: 20px; display: none;" />
+                </ui:Button>
+            </ui:VisualElement>
+            <ui:VisualElement template="VerticalTabButton" name="VerticalTabButton">
+                <ui:Button text="Sent" name="sent-tab" class="heroic-vertical-tab-button" style="padding-left: 84px;">
+                    <ui:VisualElement name="tab-icon" style="background-image: url(&quot;project://database/Assets/UnityNakamaFriends/HeroicUI/Avatar/avatar_square_icon_withe.png?fileID=2800000&amp;guid=719934047251e4daeb8e0f9528cffed4&amp;type=3#avatar_square_icon_withe&quot;); -unity-background-scale-mode: scale-to-fit; width: 50px; height: 50px; -unity-background-image-tint-color: rgb(120, 99, 255); align-self: center; left: 10px; position: absolute;">
+                        <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UnityNakamaFriends/HeroicUI/IconPictogram/128/icon_arrow_up.png?fileID=2800000&amp;guid=7002605ae47874419bb932ec013c9433&amp;type=3#icon_arrow_up&quot;); -unity-background-image-tint-color: rgb(19, 210, 194); background-size: 64% 64%; right: auto; top: -13px; left: 31px; bottom: auto; font-size: 32px;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="arrow" class="heroic-vertical-tab-button__arrow" />
+                    <ui:VisualElement name="red-dot" style="position: absolute; top: -4px; right: -4px; background-image: url(&quot;project://database/Assets/UnityNakamaFriends/HeroicUI/Badge/badge_circle_red.png?fileID=2800000&amp;guid=2c9e71d1338db4bcc860d5fdfa777d22&amp;type=3#badge_circle_red&quot;); width: 20px; height: 20px; display: none;" />
+                </ui:Button>
+            </ui:VisualElement>
+            <ui:VisualElement template="VerticalTabButton" name="VerticalTabButton">
+                <ui:Button text="Received" name="received-tab" class="heroic-vertical-tab-button" style="padding-left: 84px;">
+                    <ui:VisualElement name="tab-icon" style="background-image: url(&quot;project://database/Assets/UnityNakamaFriends/HeroicUI/Avatar/avatar_square_icon_withe.png?fileID=2800000&amp;guid=719934047251e4daeb8e0f9528cffed4&amp;type=3#avatar_square_icon_withe&quot;); -unity-background-scale-mode: scale-to-fit; width: 50px; height: 50px; -unity-background-image-tint-color: rgb(120, 99, 255); align-self: center; left: 10px; position: absolute;">
+                        <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UnityNakamaFriends/HeroicUI/IconPictogram/128/icon_arrow_down.png?fileID=2800000&amp;guid=7370fff97473d4330b424152937c0f49&amp;type=3#icon_arrow_down&quot;); -unity-background-image-tint-color: rgb(19, 210, 194); background-size: 64% 64%; right: auto; top: -13px; left: 31px; bottom: auto; font-size: 32px;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="arrow" class="heroic-vertical-tab-button__arrow" />
+                    <ui:VisualElement name="red-dot" style="position: absolute; top: -4px; right: -4px; background-image: url(&quot;project://database/Assets/UnityNakamaFriends/HeroicUI/Badge/badge_circle_red.png?fileID=2800000&amp;guid=2c9e71d1338db4bcc860d5fdfa777d22&amp;type=3#badge_circle_red&quot;); width: 20px; height: 20px; display: none;" />
+                </ui:Button>
+            </ui:VisualElement>
+            <ui:VisualElement template="VerticalTabButton" name="VerticalTabButton">
+                <ui:Button text="Blocked" name="blocked-tab" class="heroic-vertical-tab-button" style="padding-left: 84px;">
+                    <ui:VisualElement name="tab-icon" style="background-image: url(&quot;project://database/Assets/UnityNakamaFriends/HeroicUI/IconPictogram/Trimmed/icon_cancle_round.png?fileID=2800000&amp;guid=8918e2c485dc446c183031bce8fe138f&amp;type=3#icon_cancle_round&quot;); -unity-background-scale-mode: scale-to-fit; width: 50px; height: 50px; -unity-background-image-tint-color: rgb(120, 99, 255); align-self: center; left: 10px; position: absolute;" />
+                    <ui:VisualElement name="arrow" class="heroic-vertical-tab-button__arrow" />
+                    <ui:VisualElement name="red-dot" style="position: absolute; top: -4px; right: -4px; background-image: url(&quot;project://database/Assets/UnityNakamaFriends/HeroicUI/Badge/badge_circle_red.png?fileID=2800000&amp;guid=2c9e71d1338db4bcc860d5fdfa777d22&amp;type=3#badge_circle_red&quot;); width: 20px; height: 20px; display: none;" />
+                </ui:Button>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="main-right" style="width: 75%; padding-top: 20px; padding-right: 20px; padding-bottom: 24px; padding-left: 20px;">
+            <ui:VisualElement style="flex-direction: row; align-self: flex-end; padding-right: 40px; width: 100%; align-items: stretch; align-content: flex-end; justify-content: flex-end; height: 10%;">
+                <ui:TextField placeholder-text="Enter name..." name="friend-to-invite" class="unity-text-field" style="margin-right: 16px;" />
+                <ui:Button text="Invite Friend" name="invite-friend" icon-image="project://database/Assets/UnityNakamaFriends/HeroicUI/Frame/frame_item_icon_add.png?fileID=2800000&amp;guid=53d006f88b10f49e78a3afc686176768&amp;type=3#frame_item_icon_add" class="heroic-button-dark" style="width: 375px; flex-direction: row; padding-left: 12px; padding-right: 12px; justify-content: space-evenly; font-size: 32px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="VisualElement" class="heroic-main__panel" style="margin-top: 10px; background-image: none; margin-right: 20px; height: 90%;">
+                <ui:Label text="My Friends" name="tab-title" class="heroic-list__title" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 20px; margin-right: auto; margin-bottom: 0; margin-left: 0; -unity-text-align: middle-left; font-size: 32px; -unity-font-style: normal; -unity-font-definition: url(&quot;project://database/Assets/UnityNakamaFriends/HeroicUI/Fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-Bold.ttf?fileID=12800000&amp;guid=b0eab255566194e3c923ef0f1d4571da&amp;type=3#PlusJakartaSans-Bold&quot;); word-spacing: 8px; color: rgb(31, 49, 81); justify-content: flex-start;" />
+                <ui:VisualElement style="flex-grow: 1; background-image: none; margin-top: 12px; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px;">
+                    <ui:ListView name="records-list" fixed-item-height="130" style="flex-grow: 1; padding-top: 10px; padding-left: 0; background-image: none; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0;" />
+                    <ui:VisualElement name="TemplateContainer" template="ListControls" style="background-image: none;">
+                        <ui:VisualElement name="list-controls" style="padding-bottom: 8px; padding-right: 4px; flex-direction: row; justify-content: flex-end; height: 98px; align-items: flex-end; flex-shrink: 0; padding-left: 4px; padding-top: 0;">
+                            <ui:Button text="Refresh" name="refresh" class="heroic-button-square" style="margin-right: auto;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:Instance template="ErrorPopup" name="error-popup" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: none;" />
+</ui:UXML>
