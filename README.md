@@ -7,6 +7,7 @@ Ready-to-use templates for **Nakama** game development. Download, play, and copy
 **Nakama Templates**
 
 - [Leaderboards](./UnityNakamaLeaderboards/) - Weekly and global rankings with real-time record updates
+- [Friends](./UnityNakamaFriends/) - Manage friends lists and requests, block and unblock players.
 
 ## Documentation
 
