@@ -89,6 +89,9 @@ namespace SampleProjects.NakamaFriends
             {
                 Session = await Client.AuthenticateDeviceAsync($"{deviceId}_0");
                 Debug.Log($"Authenticated {Session.Username} with Device ID");
+
+                // Sockets are not required to use the Nakama Friends feature.
+                // However, they can be useful to update UI in response to friend requests beging received/accepted.
                 MainSocket = Client.NewSocket(true);
                 await MainSocket.ConnectAsync(Session, true);
                 MainSocket.ReceivedNotification += OnReceivedNotification;
