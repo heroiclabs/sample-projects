@@ -33,32 +33,18 @@ Additional Information:
 LayerLab UI Assets
 ------------------
 
-The following files are covered by Creative Commons BY-NC-ND 4.0:
-- All PNG files in the HeroicUI folder and its subdirectories, which includes: UI design assets, icons, and backgrounds
+The following files are covered by Creative Commons CC0 1.0 Universal:
+- All PNG files in the HeroicUI folder and its subdirectories, which includes: UI design assets, icons, and backgrounds.
 
-Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License:
+Creative Commons CC0 1.0 Universal Public Domain Dedication:
+Original work created by LayerLab (2025)
 
-Copyright (c) 2025 LayerLab
+To the extent possible under law, LayerLab has dedicated this work to the public domain under Creative Commons CC0 1.0 Universal Public Domain Dedication.
 
-This work is licensed under the Creative Commons Attribution-NonCommercial-
-NoDerivatives 4.0 International License. To view a copy of this license, 
-visit http://creativecommons.org/licenses/by-nc-nd/4.0/ or send a letter to 
-Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
-
-You are free to:
-- Share — copy and redistribute the material in any medium or format
-
-Under the following terms:
-- Attribution — You must give appropriate credit as "Asset Design by LayerLab", 
-  provide a link to the license, and indicate if changes were made. You may do 
-  so in any reasonable manner, but not in any way that suggests the licensor 
-  endorses you or your use.
-- Non Commercial — You may not use the material for commercial purposes.
-- No Derivatives — If you remix, transform, or build upon the material, you may 
-  not distribute the modified material.
+You can copy, modify, distribute, and perform the work, even for commercial purposes, all without asking permission.
 
 Additional Information:
-- Full Creative Commons BY-NC-ND 4.0 License: https://creativecommons.org/licenses/by-nc-nd/4.0/
+- Full Creative Commons CC0 1.0 License: https://creativecommons.org/publicdomain/zero/1.0/
 
 IMPORTANT NOTES FOR END USERS:
 ==============================
