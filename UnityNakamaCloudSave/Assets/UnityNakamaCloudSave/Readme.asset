@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcf7219bab7fe46a1ad266029b2fee19, type: 3}
+  m_Name: Readme
+  m_EditorClassIdentifier: 
+  icon: {fileID: 2800000, guid: 2287ceace33d64348b1c2701d0b0bd2e, type: 3}
+  title: Cloud Save, powered by Nakama
+  sections:
+  - heading: Cloud Save
+    text: The official sample project for Nakama Cloud Save functionality. Built
+      with minimal boilerplate so you can easily copy the code into your project
+      and adapt the scripts and UI to suit your game.
+    linkText: 
+    url: 
+  - heading: 
+    text: In order to authenticate or link an account to Facebook, you'll need your
+      own Meta developer account and credentials. This project comes pre-loaded with
+      the Facebook Unity SDK so you don't need to download and install the package
+      yourself. Refer to the docs for detailed setup instructions.
+    linkText: 
+    url: 
+  - heading: Resources
+    text: 
+    linkText: 
+    url: 
+  - heading: 
+    text: 
+    linkText: Docs
+    url: https://heroiclabs.com/docs/sample-projects/unity/cloud-save
+  - heading: 
+    text: 
+    linkText: Community forums
+    url: https://forum.heroiclabs.com/
+  - heading: 
+    text: 
+    linkText: Github
+    url: https://github.com/heroiclabs/sample-projects
+  - heading: 
+    text: 
+    linkText: Nakama Unity Client SDK Guide
+    url: https://heroiclabs.com/docs/nakama/client-libraries/unity/index.html#authentication
+  - heading: 
+    text: 
+    linkText: Learn about Nakama
+    url: https://heroiclabs.com/docs/nakama/getting-started/
+  loadedLayout: 1

@@ -1,0 +1,42 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="ErrorPopup" src="project://database/Assets/UnityNakamaCloudSave/HeroicUI/CustomComponents/ErrorPopup.uxml?fileID=9197481963319205126&amp;guid=0104c211a1dfc4d17b2607e880de676f&amp;type=3#ErrorPopup" />
+    <Style src="project://database/Assets/UnityNakamaCloudSave/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
+    <ui:VisualElement name="cloudsave-top" class="heroic-top__background">
+        <ui:Label text="CLOUD SAVE" class="heroic-title" />
+    </ui:VisualElement>
+    <ui:VisualElement name="cloudsave-main" class="heroic-main__background" style="flex-grow: 1; justify-content: center;">
+        <ui:VisualElement name="unauthenticated-container" style="flex-direction: column; margin-top: 0; margin-bottom: 0; justify-content: center; display: flex; width: 25%; align-self: center; align-items: stretch;">
+            <ui:Button text="Sign in as Guest" name="login-guest" class="heroic-button" />
+            <ui:Button text="Sign in with Facebook" name="login-facebook" class="heroic-button" style="margin-top: 8px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="authenticated-container" class="heroic-main__background" style="flex-direction: column; justify-content: center; align-items: center; position: absolute; top: -1px; right: 0; bottom: 2px; left: 0; background-color: rgba(0, 0, 0, 0.39); display: none;">
+        <ui:VisualElement name="modal" style="width: 60%; height: auto; align-self: center; align-items: center; background-image: url(&quot;project://database/Assets/UnityNakamaCloudSave/HeroicUI/Background/bg_square_white_bg.png?fileID=2800000&amp;guid=67d215d1d8d594a32a38b4040c328dfa&amp;type=3#bg_square_white_bg&quot;); border-top-right-radius: 50px; border-bottom-right-radius: 50px; border-top-left-radius: 50px; border-bottom-left-radius: 50px;">
+            <ui:VisualElement name="header" style="background-image: url(&quot;project://database/Assets/UnityNakamaCloudSave/HeroicUI/Background/bg_square_white_bg.png?fileID=2800000&amp;guid=67d215d1d8d594a32a38b4040c328dfa&amp;type=3#bg_square_white_bg&quot;); width: 100%; height: 90px; border-top-left-radius: 50px; border-top-right-radius: 50px; justify-content: center; -unity-background-image-tint-color: rgb(152, 158, 253);">
+                <ui:Label text="MY ACCOUNT" class="heroic-title" style="color: rgb(255, 255, 255);" />
+            </ui:VisualElement>
+            <ui:VisualElement name="container" style="flex-grow: 1; justify-content: flex-start; width: auto; display: flex; align-self: stretch; background-color: rgb(240, 241, 243); border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 50px; border-bottom-left-radius: 50px;">
+                <ui:VisualElement name="account" style="flex-grow: initial; flex-direction: row; justify-content: space-between; padding-top: 32px; padding-right: 32px; padding-bottom: 32px; padding-left: 32px; background-color: rgba(0, 0, 0, 0); background-image: url(&quot;project://database/Assets/UnityNakamaCloudSave/HeroicUI/Tab/tab_01_white_bg_default.png?fileID=-7469057409206181842&amp;guid=833e01ea4d81a481eb2abe3f8b2defed&amp;type=3#tab_01_white_bg_default_0&quot;); -unity-slice-left: 25; -unity-slice-top: 25; -unity-slice-right: 25; -unity-slice-bottom: 25; -unity-slice-scale: 1px; -unity-slice-type: sliced; margin-top: 32px; margin-right: 32px; margin-bottom: 0; margin-left: 32px;">
+                    <ui:VisualElement name="profile-container" style="align-self: center; justify-content: flex-end; margin-bottom: 20px;">
+                        <ui:VisualElement style="flex-grow: 1; width: 100px; height: 100px; background-image: url(&quot;project://database/Assets/UnityNakamaCloudSave/HeroicUI/Avatar/avatar_square_icon_violet.png?fileID=1338707345385646130&amp;guid=9b99fb09f4efe4138b28ec26061e488e&amp;type=3#avatar_square_icon_violet_0&quot;); -unity-background-scale-mode: scale-to-fit;" />
+                        <ui:Label text="Username:" name="username" style="font-size: 32px; align-self: flex-start; height: 32px; -unity-font-definition: url(&quot;project://database/Assets/UnityNakamaCloudSave/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;); -unity-font-style: bold;" />
+                        <ui:Label text="Points:" name="points" style="-unity-text-align: middle-center; font-size: 32px; align-self: flex-start; -unity-font-style: bold; -unity-font-definition: url(&quot;project://database/Assets/UnityNakamaCloudSave/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="profile-buttons" style="flex-grow: 0; align-content: auto; align-items: stretch; align-self: center;">
+                        <ui:Button text="Link Facebook" name="link-facebook" class="heroic-button-dark" />
+                        <ui:Button text="Logout" name="logout" class="heroic-button-dark" style="margin-top: 8px;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="data-container" style="border-left-color: rgba(77, 72, 160, 0); border-right-color: rgba(77, 72, 160, 0); border-top-color: rgba(77, 72, 160, 0); border-bottom-color: rgba(77, 72, 160, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 50px; border-bottom-left-radius: 50px; align-self: flex-start; align-items: stretch; height: auto; display: flex; margin-top: 32px; margin-right: 32px; margin-bottom: 32px; margin-left: 32px; flex-direction: column;">
+                    <ui:Label text="Data Simulator" name="data-header" style="font-size: 32px; align-self: flex-start; height: auto; -unity-font-definition: url(&quot;project://database/Assets/UnityNakamaCloudSave/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;); -unity-font-style: bold;" />
+                    <ui:Label text="Enter a number and click Submit to bind the data to your account." name="data-description" style="font-size: 24px; align-self: flex-start; height: 32px; -unity-font-definition: url(&quot;project://database/Assets/UnityNakamaCloudSave/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;); -unity-font-style: normal;" />
+                    <ui:VisualElement name="VisualElement" style="flex-grow: 1; flex-direction: row; margin-top: 12px;">
+                        <ui:IntegerField label="Points" value="0" name="points-input" style="flex-direction: row; align-items: center;" />
+                        <ui:Button text="Submit" name="submit-data" class="heroic-button" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:Instance template="ErrorPopup" name="error-popup" style="position: absolute; top: 0; right: 0; left: 0; bottom: 0; display: none;" />
+</ui:UXML>
