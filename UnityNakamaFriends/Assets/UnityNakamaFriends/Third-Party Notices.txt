@@ -51,21 +51,13 @@ IMPORTANT NOTES FOR END USERS:
 1. The Nakama Unity SDK is free to use under Apache 2.0 license for both 
    commercial and non-commercial projects.
 
-2. The LayerLab UI assets are provided under Creative Commons BY-NC-ND 4.0, 
-   which means:
-   - They can be used for non-commercial projects only
-   - Attribution to LayerLab must be provided
-   - The assets cannot be modified or redistributed separately
-   - For commercial use, you must replace these assets with your own designs
+2. The LayerLab UI assets are provided under Creative Commons CC0 1.0 Universal, 
+   which means you can copy, modify, distribute, and perform the work, even for commercial purposes, all without asking permission.
 
-3. You will need to set up your own Nakama server to use this template in 
-   production. The demo server is provided for testing purposes only.
+3. You will need to set up your own Nakama server to use this template in production. 
+   The demo server is provided for testing purposes only.
 
-4. When using this template in your own projects, ensure you comply with all 
-   applicable licenses, especially regarding the UI assets if you intend 
-   commercial use.
-
-5. This package redistributes the Nakama Unity SDK under the terms of the 
+4. This package redistributes the Nakama Unity SDK under the terms of the 
    Apache License 2.0, which permits such distribution.
 
-Last Updated: January 2025
+Last Updated: September 2025
