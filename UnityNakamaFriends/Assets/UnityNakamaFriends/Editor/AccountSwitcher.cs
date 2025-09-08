@@ -1,26 +1,39 @@
+// Copyright 2025 The Nakama Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 using System;
 using System.Collections.Generic;
-using System.Net.WebSockets;
 using System.Text;
-using System.Threading.Tasks;
 using Nakama;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using UnityNakamaFriends.Scripts;
 
-namespace SampleProjects.NakamaFriends.Editor
+namespace UnityNakamaFriends.Editor
 {
     public class AccountSwitcherEditor : EditorWindow
     {
         [SerializeField] private VisualTreeAsset tree;
 
-        private DropdownField accountDropdown;
-        private Label usernamesLabel;
+        private DropdownField _accountDropdown;
+        private Label _usernamesLabel;
 
-        private readonly SortedDictionary<string, string> accountUsernames = new();
+        private readonly SortedDictionary<string, string> _accountUsernames = new();
 
-        private const string ACCOUNT_USERNAMES_KEY = "AccountSwitcher_Usernames";
+        private const string AccountUsernamesKey = "AccountSwitcher_Usernames";
 
         [MenuItem("Tools/Nakama/Account Switcher")]
         public static void ShowWindow()
@@ -30,18 +43,18 @@ namespace SampleProjects.NakamaFriends.Editor
 
             window.Focus();
         }
-        
+
         [MenuItem("Tools/Nakama/Clear Test Accounts")]
         public static void ClearSavedAccounts()
         {
-            EditorPrefs.DeleteKey(ACCOUNT_USERNAMES_KEY);
+            EditorPrefs.DeleteKey(AccountUsernamesKey);
             Debug.Log("Cleared all saved account usernames");
-    
+
             // Refresh any open Account Switcher windows
             var windows = Resources.FindObjectsOfTypeAll<AccountSwitcherEditor>();
             foreach (var window in windows)
             {
-                window.accountUsernames.Clear();
+                window._accountUsernames.Clear();
                 window.UpdateUsernameLabels();
             }
         }
@@ -50,11 +63,11 @@ namespace SampleProjects.NakamaFriends.Editor
         {
             tree.CloneTree(rootVisualElement);
 
-            accountDropdown = rootVisualElement.Q<DropdownField>("account-dropdown");
-            accountDropdown.RegisterValueChangedCallback(SwitchAccount);
+            _accountDropdown = rootVisualElement.Q<DropdownField>("account-dropdown");
+            _accountDropdown.RegisterValueChangedCallback(SwitchAccount);
 
-            usernamesLabel = rootVisualElement.Q<Label>("usernames");
-            
+            _usernamesLabel = rootVisualElement.Q<Label>("usernames");
+
             // Load saved usernames on startup
             LoadAccountUsernames();
             UpdateUsernameLabels();
@@ -66,9 +79,10 @@ namespace SampleProjects.NakamaFriends.Editor
             {
                 if (!rootGameObject.TryGetComponent<NakamaFriendsController>(out var friendsController)) continue;
 
-                if (friendsController.Session != null)
+                var session = NakamaSingleton.Instance.Session;
+                if (session != null)
                 {
-                    OnControllerInitialized(friendsController.Session);
+                    OnControllerInitialized(session);
                 }
                 else
                 {
@@ -79,7 +93,7 @@ namespace SampleProjects.NakamaFriends.Editor
 
         private void OnControllerInitialized(ISession session, NakamaFriendsController controller = null)
         {
-            accountUsernames[accountDropdown.choices[0]] = session.Username;
+            _accountUsernames[_accountDropdown.choices[0]] = session.Username;
             UpdateUsernameLabels();
 
             if (controller != null)
@@ -90,17 +104,17 @@ namespace SampleProjects.NakamaFriends.Editor
 
         private void LoadAccountUsernames()
         {
-            var savedUsernames = EditorPrefs.GetString(ACCOUNT_USERNAMES_KEY, "");
+            var savedUsernames = EditorPrefs.GetString(AccountUsernamesKey, "");
             if (string.IsNullOrEmpty(savedUsernames)) return;
 
             try
             {
                 var usernameData = JsonUtility.FromJson<SerializableStringDictionary>(savedUsernames);
-                accountUsernames.Clear();
-                
+                _accountUsernames.Clear();
+
                 foreach (var item in usernameData.items)
                 {
-                    accountUsernames[item.key] = item.value;
+                    _accountUsernames[item.key] = item.value;
                 }
             }
             catch (Exception ex)
@@ -114,13 +128,13 @@ namespace SampleProjects.NakamaFriends.Editor
             try
             {
                 var usernameData = new SerializableStringDictionary();
-                foreach (var kvp in accountUsernames)
+                foreach (var kvp in _accountUsernames)
                 {
                     usernameData.items.Add(new SerializableKeyValuePair { key = kvp.Key, value = kvp.Value });
                 }
 
                 var json = JsonUtility.ToJson(usernameData);
-                EditorPrefs.SetString(ACCOUNT_USERNAMES_KEY, json);
+                EditorPrefs.SetString(AccountUsernamesKey, json);
             }
             catch (Exception ex)
             {
@@ -140,6 +154,7 @@ namespace SampleProjects.NakamaFriends.Editor
             {
                 deviceId = Guid.NewGuid().ToString();
             }
+
             PlayerPrefs.SetString("deviceId", deviceId);
 
             var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
@@ -148,32 +163,34 @@ namespace SampleProjects.NakamaFriends.Editor
                 if (!rootGameObject.TryGetComponent<NakamaFriendsController>(out var friendsController)) continue;
 
                 // Save username before switching
-                if (!string.IsNullOrEmpty(previousValue) && friendsController.Session != null)
+                var session = NakamaSingleton.Instance.Session;
+                if (!string.IsNullOrEmpty(previousValue) && session != null)
                 {
-                    accountUsernames[previousValue] = friendsController.Session.Username;
+                    _accountUsernames[previousValue] = session.Username;
                 }
 
-                await friendsController.MainSocket.CloseAsync();
-                
-                if (friendsController.Session != null)
+                await NakamaSingleton.Instance.Socket.CloseAsync();
+
+                if (session != null)
                 {
-                    await friendsController.Client.SessionLogoutAsync(friendsController.Session);
+                    await NakamaSingleton.Instance.Client.SessionLogoutAsync(session);
                 }
 
                 try
                 {
-                    var newSession = await friendsController.Client.AuthenticateDeviceAsync($"{deviceId}_{accountDropdown.index}");
-                    accountUsernames[newValue] = newSession.Username;
-                    await friendsController.MainSocket.ConnectAsync(newSession, true);
+                    var newSession =
+                        await NakamaSingleton.Instance.Client.AuthenticateDeviceAsync($"{deviceId}_{_accountDropdown.index}");
+                    _accountUsernames[newValue] = newSession.Username;
+                    await NakamaSingleton.Instance.Socket.ConnectAsync(newSession, true);
                     friendsController.SwitchComplete(newSession);
-                    
+
                     // Save usernames after successful authentication
                     SaveAccountUsernames();
                     break;
                 }
-                catch (ApiResponseException ex)
+                catch (ApiResponseException e)
                 {
-                    Debug.LogWarning($"Error authenticating with Device ID: {ex.Message}");
+                    Debug.LogWarning($"Error authenticating with Device ID: {e.Message}");
                     return;
                 }
             }
@@ -185,8 +202,8 @@ namespace SampleProjects.NakamaFriends.Editor
         {
             var sb = new StringBuilder();
             var index = 1;
-    
-            foreach (var kvp in accountUsernames)
+
+            foreach (var kvp in _accountUsernames)
             {
                 sb.Append(index);
                 sb.Append(": ");
@@ -195,7 +212,7 @@ namespace SampleProjects.NakamaFriends.Editor
                 index++;
             }
 
-            usernamesLabel.text = sb.ToString();
+            _usernamesLabel.text = sb.ToString();
         }
 
         [Serializable]

@@ -1,3 +1,17 @@
+// Copyright 2025 The Nakama Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -5,102 +19,63 @@ using Nakama;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace SampleProjects.NakamaFriends
+namespace UnityNakamaFriends.Scripts
 {
     [RequireComponent(typeof(UIDocument))]
     public class NakamaFriendsController : MonoBehaviour
     {
         public enum FriendState
         {
-            FRIEND = 0,
-            INVITE_SENT = 1,
-            INVITE_RECEIVED = 2,
-            BLOCKED = 3
+            Friend = 0,
+            InviteSent = 1,
+            InviteReceived = 2,
+            Blocked = 3
         }
 
-        [Header("Nakama Settings")]
-        [SerializeField] private string scheme = "http";
-        [SerializeField] private string host = "127.0.0.1";
-        [SerializeField] private int port = 7350;
-        [SerializeField] private string serverKey = "defaultkey";
+        [Header("Friend List Settings")] [SerializeField]
+        private int friendRecordsLimit = 1000;
 
-        [Header("Friend List Settings")]
-        [SerializeField] private int friendRecordsLimit = 1000;
-
-        [Header("References")]
-        [SerializeField] private VisualTreeAsset listRecordTemplate;
+        [Header("References")] [SerializeField]
+        private VisualTreeAsset listRecordTemplate;
 
         public event Action<ISession, NakamaFriendsController> OnInitialized;
 
-        private Label tabTitle;
-        private Button friendsTab;
-        private Button sentTab;
-        private Button receivedTab;
-        private Button blockedTab;
-        private Button refreshButton;
-        private VisualElement friendsNotification;
-        private VisualElement receivedNotification;
-        private Button inviteFriendButton;
-        private TextField friendToInviteField;
-        private ListView recordsList;
-        private ScrollView scrollView;
+        private Label _tabTitle;
+        private Button _friendsTab;
+        private Button _sentTab;
+        private Button _receivedTab;
+        private Button _blockedTab;
+        private Button _refreshButton;
+        private VisualElement _friendsNotification;
+        private VisualElement _receivedNotification;
+        private Button _inviteFriendButton;
+        private TextField _friendToInviteField;
+        private ListView _recordsList;
+        private ScrollView _scrollView;
 
-        private VisualElement errorPopup;
-        private Button errorCloseButton;
-        private Label errorMessage;
+        private VisualElement _errorPopup;
+        private Button _errorCloseButton;
+        private Label _errorMessage;
 
-        public Client Client { get; private set; }
-        public ISession Session { get; private set; }
-        public ISocket MainSocket { get; private set; }
-
-        private FriendState selectedState = FriendState.FRIEND;
-        private readonly List<IApiFriend> friendRecords = new();
+        private FriendState _selectedState = FriendState.Friend;
+        private readonly List<IApiFriend> _friendRecords = new();
 
         #region Initialization
-        private async void Start()
+
+        private void Start()
         {
             InitializeUI();
-
-            await AuthenticateWithDevice();
-
-            OnInitialized?.Invoke(Session, this);
+            NakamaSingleton.Instance.ReceivedStartError += e =>
+            {
+                Debug.LogException(e);
+                _errorPopup.style.display = DisplayStyle.Flex;
+                _errorMessage.text = e.Message;
+            };
+            NakamaSingleton.Instance.Socket.ReceivedNotification += OnReceivedNotification;
+            NakamaSingleton.Instance.ReceivedStartSuccess += session => OnInitialized?.Invoke(session, this);
 
             // Load friends by default.
-            UpdateFriendsList(FriendState.FRIEND);
-        }
-
-        private async Task AuthenticateWithDevice()
-        {
-            Client = new Client(scheme, host, port, serverKey, UnityWebRequestAdapter.Instance);
-
-            // If the user's device ID is already stored, grab that - alternatively get the System's unique device identifier.
-            var deviceId = PlayerPrefs.GetString("deviceId", SystemInfo.deviceUniqueIdentifier);
-
-            // If the device identifier is invalid then let's generate a unique one.
-            if (deviceId == SystemInfo.unsupportedIdentifier)
-            {
-                deviceId = Guid.NewGuid().ToString();
-            }
-
-            // Save the user's device ID to PlayerPrefs, so it can be retrieved during a later play session for re-authenticating.
-            PlayerPrefs.SetString("deviceId", deviceId);
-
-            try
-            {
-                Session = await Client.AuthenticateDeviceAsync($"{deviceId}_0");
-                Debug.Log($"Authenticated {Session.Username} with Device ID");
-
-                // Sockets are not required to use the Nakama Friends feature.
-                // However, they can be useful to update UI in response to friend requests beging received/accepted.
-                MainSocket = Client.NewSocket(true);
-                await MainSocket.ConnectAsync(Session, true);
-                MainSocket.ReceivedNotification += OnReceivedNotification;
-            }
-            catch (ApiResponseException ex)
-            {
-                errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = ex.Message;
-            }
+            _ = UpdateFriendsList(FriendState.Friend);
         }
 
         private void OnReceivedNotification(IApiNotification notification)
@@ -108,18 +83,20 @@ namespace SampleProjects.NakamaFriends
             switch (notification.Code)
             {
                 case -2: // Incoming friend request received.
-                    if (selectedState == FriendState.INVITE_RECEIVED)
+                    if (_selectedState == FriendState.InviteReceived)
                     {
-                        UpdateFriendsList(selectedState);
-                        receivedNotification.style.display = DisplayStyle.Flex;
+                        _ = UpdateFriendsList(_selectedState);
+                        _receivedNotification.style.display = DisplayStyle.Flex;
                     }
+
                     break;
                 case -3: // Outgoing friend request accepted.
-                    if (selectedState == FriendState.FRIEND)
+                    if (_selectedState == FriendState.Friend)
                     {
-                        UpdateFriendsList(selectedState);
-                        friendsNotification.style.display = DisplayStyle.Flex;
+                        _ = UpdateFriendsList(_selectedState);
+                        _friendsNotification.style.display = DisplayStyle.Flex;
                     }
+
                     break;
             }
         }
@@ -127,95 +104,97 @@ namespace SampleProjects.NakamaFriends
         public void SwitchComplete(ISession newSession)
         {
             // For use with the account switcher editor tool.
-            Session = newSession;
-            UpdateFriendsList(selectedState);
-            friendsNotification.style.display = DisplayStyle.None;
-            receivedNotification.style.display = DisplayStyle.None;
+            (NakamaSingleton.Instance.Session as Session)?.Update(newSession.AuthToken, newSession.RefreshToken);
+            _ = UpdateFriendsList(_selectedState);
+            _friendsNotification.style.display = DisplayStyle.None;
+            _receivedNotification.style.display = DisplayStyle.None;
         }
+
         #endregion
 
         #region UI Binding
+
         private void InitializeUI()
         {
             var rootElement = GetComponent<UIDocument>().rootVisualElement;
 
-            tabTitle = rootElement.Q<Label>("tab-title");
+            _tabTitle = rootElement.Q<Label>("tab-title");
 
-            friendsTab = rootElement.Q<Button>("friends-tab");
-            friendsTab.RegisterCallback<ClickEvent>(_ =>
+            _friendsTab = rootElement.Q<Button>("friends-tab");
+            _friendsTab.RegisterCallback<ClickEvent>(ce =>
             {
-                if (selectedState == FriendState.FRIEND) return;
-                friendsTab.AddToClassList("selected");
-                sentTab.RemoveFromClassList("selected");
-                receivedTab.RemoveFromClassList("selected");
-                blockedTab.RemoveFromClassList("selected");
-                UpdateFriendsList(FriendState.FRIEND);
-                friendsNotification.style.display = DisplayStyle.None;
+                if (_selectedState == FriendState.Friend) return;
+                _friendsTab.AddToClassList("selected");
+                _sentTab.RemoveFromClassList("selected");
+                _receivedTab.RemoveFromClassList("selected");
+                _blockedTab.RemoveFromClassList("selected");
+                _ = UpdateFriendsList(FriendState.Friend);
+                _friendsNotification.style.display = DisplayStyle.None;
             });
-            friendsNotification = friendsTab.Q<VisualElement>("red-dot");
+            _friendsNotification = _friendsTab.Q<VisualElement>("red-dot");
 
-            sentTab = rootElement.Q<Button>("sent-tab");
-            sentTab.RegisterCallback<ClickEvent>(_ =>
+            _sentTab = rootElement.Q<Button>("sent-tab");
+            _sentTab.RegisterCallback<ClickEvent>(ce =>
             {
-                if (selectedState == FriendState.INVITE_SENT) return;
-                sentTab.AddToClassList("selected");
-                friendsTab.RemoveFromClassList("selected");
-                receivedTab.RemoveFromClassList("selected");
-                blockedTab.RemoveFromClassList("selected");
-                UpdateFriendsList(FriendState.INVITE_SENT);
-            });
-
-            receivedTab = rootElement.Q<Button>("received-tab");
-            receivedTab.RegisterCallback<ClickEvent>(_ =>
-            {
-                if (selectedState == FriendState.INVITE_RECEIVED) return;
-                receivedTab.AddToClassList("selected");
-                friendsTab.RemoveFromClassList("selected");
-                sentTab.RemoveFromClassList("selected");
-                blockedTab.RemoveFromClassList("selected");
-                UpdateFriendsList(FriendState.INVITE_RECEIVED);
-                receivedNotification.style.display = DisplayStyle.None;
-            });
-            receivedNotification = receivedTab.Q<VisualElement>("red-dot");
-
-            blockedTab = rootElement.Q<Button>("blocked-tab");
-            blockedTab.RegisterCallback<ClickEvent>(_ =>
-            {
-                if (selectedState == FriendState.BLOCKED) return;
-                blockedTab.AddToClassList("selected");
-                friendsTab.RemoveFromClassList("selected");
-                sentTab.RemoveFromClassList("selected");
-                receivedTab.RemoveFromClassList("selected");
-                UpdateFriendsList(FriendState.BLOCKED);
+                if (_selectedState == FriendState.InviteSent) return;
+                _sentTab.AddToClassList("selected");
+                _friendsTab.RemoveFromClassList("selected");
+                _receivedTab.RemoveFromClassList("selected");
+                _blockedTab.RemoveFromClassList("selected");
+                _ = UpdateFriendsList(FriendState.InviteSent);
             });
 
-            refreshButton = rootElement.Q<Button>("refresh");
-            refreshButton.RegisterCallback<ClickEvent>(_ => UpdateFriendsList(selectedState));
-
-            friendToInviteField = rootElement.Q<TextField>("friend-to-invite");
-
-            inviteFriendButton = rootElement.Q<Button>("invite-friend");
-            inviteFriendButton.RegisterCallback<ClickEvent>(_ =>
+            _receivedTab = rootElement.Q<Button>("received-tab");
+            _receivedTab.RegisterCallback<ClickEvent>(ce =>
             {
-                AddFriend(friendToInviteField.text);
-                friendToInviteField.value = string.Empty;
+                if (_selectedState == FriendState.InviteReceived) return;
+                _receivedTab.AddToClassList("selected");
+                _friendsTab.RemoveFromClassList("selected");
+                _sentTab.RemoveFromClassList("selected");
+                _blockedTab.RemoveFromClassList("selected");
+                _ = UpdateFriendsList(FriendState.InviteReceived);
+                _receivedNotification.style.display = DisplayStyle.None;
+            });
+            _receivedNotification = _receivedTab.Q<VisualElement>("red-dot");
+
+            _blockedTab = rootElement.Q<Button>("blocked-tab");
+            _blockedTab.RegisterCallback<ClickEvent>(ce =>
+            {
+                if (_selectedState == FriendState.Blocked) return;
+                _blockedTab.AddToClassList("selected");
+                _friendsTab.RemoveFromClassList("selected");
+                _sentTab.RemoveFromClassList("selected");
+                _receivedTab.RemoveFromClassList("selected");
+                _ = UpdateFriendsList(FriendState.Blocked);
             });
 
-            recordsList = rootElement.Q<ListView>("records-list");
-            recordsList.makeItem = CreateFriendRecord;
-            recordsList.bindItem = (item, index) =>
+            _refreshButton = rootElement.Q<Button>("refresh");
+            _refreshButton.RegisterCallback<ClickEvent>(ce => _ = UpdateFriendsList(_selectedState));
+
+            _friendToInviteField = rootElement.Q<TextField>("friend-to-invite");
+
+            _inviteFriendButton = rootElement.Q<Button>("invite-friend");
+            _inviteFriendButton.RegisterCallback<ClickEvent>(ce =>
             {
-                (item.userData as FriendsRecordView)?.SetFriend(friendRecords[index]);
+                _ = AddFriend(_friendToInviteField.text);
+                _friendToInviteField.value = string.Empty;
+            });
+
+            _recordsList = rootElement.Q<ListView>("records-list");
+            _recordsList.makeItem = CreateFriendRecord;
+            _recordsList.bindItem = (item, index) =>
+            {
+                (item.userData as FriendsRecordView)?.SetFriend(_friendRecords[index]);
             };
-            recordsList.itemsSource = friendRecords;
+            _recordsList.itemsSource = _friendRecords;
 
-            scrollView = recordsList.Q<ScrollView>();
-            scrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
+            _scrollView = _recordsList.Q<ScrollView>();
+            _scrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
 
-            errorPopup = rootElement.Q<VisualElement>("error-popup");
-            errorMessage = rootElement.Q<Label>("error-message");
-            errorCloseButton = rootElement.Q<Button>("error-close");
-            errorCloseButton.RegisterCallback<ClickEvent>(_ => errorPopup.style.display = DisplayStyle.None);
+            _errorPopup = rootElement.Q<VisualElement>("error-popup");
+            _errorMessage = rootElement.Q<Label>("error-message");
+            _errorCloseButton = rootElement.Q<Button>("error-close");
+            _errorCloseButton.RegisterCallback<ClickEvent>(_ => _errorPopup.style.display = DisplayStyle.None);
         }
 
         private VisualElement CreateFriendRecord()
@@ -226,128 +205,110 @@ namespace SampleProjects.NakamaFriends
             newListRecordLogic.SetVisualElement(newListRecord, this);
             return newListRecord;
         }
+
         #endregion
 
         #region Friends
-        private async void UpdateFriendsList(FriendState friendState)
-        {
-            if (Session == null) return;
 
+        private async Task UpdateFriendsList(FriendState friendState)
+        {
             // Store the current friend state, so we know which to fetch when refreshing.
-            selectedState = friendState;
+            _selectedState = friendState;
 
             try
             {
                 // Fetch the specified records based on the selected friend state.
-                var result = await Client.ListFriendsAsync(
-                    Session,
-                    (int)friendState,
-                    friendRecordsLimit,
-                    string.Empty
-                );
+                var session = NakamaSingleton.Instance.Session;
+                var result = await NakamaSingleton.Instance.Client.ListFriendsAsync(session, (int)friendState,
+                    friendRecordsLimit, string.Empty);
 
                 // After successfully fetching the desired records, replace the currently cached records with the new records.
-                friendRecords.Clear();
-                friendRecords.AddRange(result.Friends);
+                _friendRecords.Clear();
+                _friendRecords.AddRange(result.Friends);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = ex.Message;
+                _errorPopup.style.display = DisplayStyle.Flex;
+                _errorMessage.text = e.Message;
                 return;
             }
 
             // We then update the display of the Friends records list, and move the scroller back to the top.
-            recordsList.RefreshItems();
-            scrollView.scrollOffset = Vector2.zero;
+            _recordsList.RefreshItems();
+            _scrollView.scrollOffset = Vector2.zero;
 
-            tabTitle.text = friendState switch
+            _tabTitle.text = friendState switch
             {
-                FriendState.FRIEND => "My Friends",
-                FriendState.INVITE_SENT => "Pending Invites",
-                FriendState.INVITE_RECEIVED => "Friend Requests",
-                FriendState.BLOCKED => "Blocked Users",
-                _ => tabTitle.text
+                FriendState.Friend => "My Friends",
+                FriendState.InviteSent => "Pending Invites",
+                FriendState.InviteReceived => "Friend Requests",
+                FriendState.Blocked => "Blocked Users",
+                _ => _tabTitle.text
             };
         }
 
-        public async void AddFriend(string friendToAdd)
+        public async Task AddFriend(string friendToAdd)
         {
-            if (Session == null) return;
-
             var friendsToAdd = new[] { friendToAdd };
 
             try
             {
                 // Add the selected user. This will accept a friend request if the friendToAdd has already sent a request to the user.
-                await Client.AddFriendsAsync(
-                    Session,
-                    null,
-                    friendsToAdd
-                );
+                var session = NakamaSingleton.Instance.Session;
+                await NakamaSingleton.Instance.Client.AddFriendsAsync(session, null, friendsToAdd);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = ex.Message;
+                _errorPopup.style.display = DisplayStyle.Flex;
+                _errorMessage.text = e.Message;
                 return;
             }
 
             // After successfully adding the friend, update the friends list.
-            UpdateFriendsList(selectedState);
+            _ = UpdateFriendsList(_selectedState);
         }
 
-        public async void DeleteFriend(string targetFriend)
+        public async Task DeleteFriend(string targetFriend)
         {
-            if (Session == null) return;
-
             var friendToDelete = new[] { targetFriend };
 
             try
             {
                 // Remove the selected friend. This will also unblock the user, if they are blocked.
-                await Client.DeleteFriendsAsync(
-                    Session,
-                    null,
-                    friendToDelete
-                );
+                var session = NakamaSingleton.Instance.Session;
+                await NakamaSingleton.Instance.Client.DeleteFriendsAsync(session, null, friendToDelete);
             }
             catch (Exception ex)
             {
-                errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = ex.Message;
+                _errorPopup.style.display = DisplayStyle.Flex;
+                _errorMessage.text = ex.Message;
                 return;
             }
 
             // After successfully removing the friend, update the friends list.
-            UpdateFriendsList(selectedState);
+            _ = UpdateFriendsList(_selectedState);
         }
 
-        public async void BlockFriend(string targetFriend)
+        public async Task BlockFriend(string targetFriend)
         {
-            if (Session == null) return;
-
             var friendToBlock = new[] { targetFriend };
-
             try
             {
                 // Block the selected user.
-                await Client.BlockFriendsAsync(
-                    Session,
-                    null,
-                    friendToBlock
-                );
+                var session = NakamaSingleton.Instance.Session;
+                await NakamaSingleton.Instance.Client.BlockFriendsAsync(session, null, friendToBlock);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = ex.Message;
+                _errorPopup.style.display = DisplayStyle.Flex;
+                _errorMessage.text = e.Message;
                 return;
             }
 
             // After successfully blocking the user, update the friends list.
-            UpdateFriendsList(selectedState);
+            _ = UpdateFriendsList(_selectedState);
         }
+
         #endregion
     }
 }
