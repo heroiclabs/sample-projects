@@ -1,0 +1,82 @@
+
+THIRD-PARTY NOTICES
+==================
+
+This package contains third-party software components governed by the license(s) 
+listed below:
+
+Facebook SDK for Unity
+----------------------
+
+The following files are covered by the Facebook Platform License:
+
+- All files in the FacebookSDK folder and its subdirectories
+- Any Facebook SDK related scripts and components
+- Facebook SDK Unity package files (.unitypackage)
+
+Facebook Platform License:
+
+Copyright (c) 2014-present, Facebook, Inc. All rights reserved.
+
+You are hereby granted a non-exclusive, worldwide, royalty-free license to use,
+copy, modify, and distribute this software in source code or binary form for use
+in connection with the web services and APIs provided by Facebook.
+
+As with any software that integrates with the Facebook platform, your use of
+this software is subject to the Facebook Developer Principles and Policies
+[http://developers.facebook.com/policy/]. This copyright notice shall be
+included in all copies or substantial portions of the software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Additional Information:
+- Facebook Developer Principles and Policies: https://developers.facebook.com/policy/
+- Facebook SDK for Unity Documentation: https://developers.facebook.com/docs/unity/
+- Facebook SDK for Unity Source: https://github.com/facebook/facebook-sdk-for-unity
+
+LayerLab UI Assets
+------------------
+
+The following files are covered by Creative Commons CC0 1.0 Universal:
+- All PNG files in the HeroicUI folder and its subdirectories, which includes: UI design assets, icons, and backgrounds.
+
+Creative Commons CC0 1.0 Universal Public Domain Dedication:
+Original work created by LayerLab (2025)
+
+To the extent possible under law, LayerLab has dedicated this work to the public domain under Creative Commons CC0 1.0 Universal Public Domain Dedication.
+
+You can copy, modify, distribute, and perform the work, even for commercial purposes, all without asking permission.
+
+Additional Information:
+- Full Creative Commons CC0 1.0 License: https://creativecommons.org/publicdomain/zero/1.0/
+
+IMPORTANT NOTES FOR END USERS:
+==============================
+
+1. The Nakama Unity SDK is free to use under Apache 2.0 license for both 
+   commercial and non-commercial projects.
+
+2. The LayerLab UI assets are provided under Creative Commons CC0 1.0 Universal, 
+   which means you can copy, modify, distribute, and perform the work, even for commercial purposes, all without asking permission.
+
+3. You will need to set up your own Nakama server to use this template in production. 
+   The demo server is provided for testing purposes only.
+
+4. This package redistributes the Nakama Unity SDK under the terms of the 
+   Apache License 2.0, which permits such distribution.
+
+5. By using this package, you agree to comply with Facebook's Developer Principles 
+   and Policies in addition to the Facebook Platform License above.
+
+6. You will need to create a Meta developer account and obtain your own App ID and Client token to use 
+   Facebook features in your project.
+
+7. This package redistributes the Facebook SDK for Unity under the terms of 
+   the Facebook Platform License, which permits such distribution.
+
+Last Updated: September 2025
