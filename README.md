@@ -6,9 +6,10 @@ Ready-to-use templates for **Nakama** game development. Download, play, and copy
 
 **Nakama Templates**
 
-- [Leaderboards](./UnityNakamaLeaderboards/) - Weekly and global rankings with real-time record updates
+- [Leaderboards](./UnityNakamaLeaderboards/) - Weekly and global rankings with real-time record updates.
 - [Friends](./UnityNakamaFriends/) - Manage friend lists and requests, block and unblock players.
 - [Cloud Save](./UnityNakamaCloudSave/) - Save player data in the cloud that syncs between devices.
+- [Tournaments](./UnityNakamaTournaments/) - Run tournaments with rules around participation and scoring.
 
 ## Documentation
 
