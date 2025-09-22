@@ -1,0 +1,90 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="ErrorPopup" src="project://database/Assets/UnityNakamaGroups/HeroicUI/CustomComponents/ErrorPopup.uxml?fileID=9197481963319205126&amp;guid=0104c211a1dfc4d17b2607e880de676f&amp;type=3#ErrorPopup" />
+    <Style src="project://database/Assets/UnityNakamaGroups/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
+    <ui:VisualElement name="groups-top" class="heroic-top__background">
+        <ui:Label text="GROUPS" enable-rich-text="true" class="heroic-title" style="-unity-font-definition: url(&quot;project://database/Assets/UnityNakamaGroups/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;); -unity-font-style: bold;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="groups-main" class="heroic-main__background">
+        <ui:VisualElement name="main-left" style="width: 45%; padding-top: 30px; padding-right: 30px; padding-bottom: 30px; padding-left: 30px;">
+            <ui:VisualElement style="height: 15%; flex-direction: row; align-self: stretch; align-items: center;">
+                <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
+                    <ui:Button text="All" name="all-tab" class="heroic-horizontal-tab-button selected">
+                        <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
+                    </ui:Button>
+                    <ui:Button text="My Groups" name="my-groups-tab" class="heroic-horizontal-tab-button">
+                        <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
+                    </ui:Button>
+                </ui:VisualElement>
+                <ui:Button text="Create +" name="group-create" class="heroic-button" style="align-self: center; width: 200px; height: 80px;" />
+            </ui:VisualElement>
+            <ui:ListView fixed-item-height="150" name="groups-list" style="flex-grow: 1;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="main-right" style="width: 55%;">
+            <ui:VisualElement style="margin-top: 30px; margin-right: 30px; margin-bottom: 30px; flex-grow: 1;">
+                <ui:VisualElement name="selected-group-panel" class="heroic-main__panel" style="height: 30%; flex-grow: 1;">
+                    <ui:VisualElement style="height: 50%; background-color: rgb(132, 154, 255); border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                        <ui:VisualElement style="height: 200px; align-self: center; margin-top: 25px; width: 100%;">
+                            <ui:VisualElement name="selected-group-avatar-background" style="background-image: url(&quot;project://database/Assets/UnityNakamaGroups/HeroicUI/UI_etc/clan_in_red.png?fileID=2800000&amp;guid=9c64b8175de6b4d98a9096473f7d0e50&amp;type=3#clan_in_red&quot;); -unity-background-scale-mode: scale-to-fit; background-size: 175px 180px; height: 100%; min-height: 200px;">
+                                <ui:VisualElement name="avatar-frame" style="background-image: url(&quot;project://database/Assets/UnityNakamaGroups/HeroicUI/UI_etc/clan_frame.png?fileID=2800000&amp;guid=f09f98b081e934e4c82fd5d2f5cf93ca&amp;type=3#clan_frame&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; top: 0; left: 0; bottom: 0; right: 0;" />
+                                <ui:VisualElement name="selected-group-avatar-icon" style="background-image: url(&quot;project://database/Assets/UnityNakamaGroups/HeroicUI/IconMisc/icon_fist.png?fileID=2800000&amp;guid=8176dbc9a0f7145dcbb159234f38cfac&amp;type=3#icon_fist&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; top: 30%; left: 10%; bottom: 30%; right: 10%;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement style="height: 45%;">
+                            <ui:Label text="Group Name" name="selected-group-name" class="heroic-title" style="color: rgb(255, 255, 255); height: 30%; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: middle-center;" />
+                            <ui:Label text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit massa id ullamcorper efficitur. Donec luctus sed erat id elementum. Vestibulum sed neque tellus. Quisque placerat dolor eget sem iaculis facilisis." name="selected-group-description" class="heroic-title" style="font-size: 28px; color: rgb(255, 255, 255); overflow: hidden; text-overflow: ellipsis; white-space: normal; height: 70%; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 30px; padding-bottom: 10px; padding-left: 30px; -unity-font-style: bold; align-content: center; -unity-text-align: middle-center;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:ListView name="group-users-list" fixed-item-height="110" style="height: 35%;" />
+                    <ui:VisualElement style="height: 15%; flex-direction: row; align-self: center; align-items: center;">
+                        <ui:Button text="Join" name="group-join" class="heroic-button" />
+                        <ui:Button text="Leave" name="group-leave" class="heroic-button" />
+                        <ui:Button text="Delete" name="group-delete" class="heroic-button" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement template="ErrorPopup" name="create-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
+        <Style src="project://database/Assets/UnityNakamaGroups/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
+        <ui:VisualElement name="create-modal-background" class="heroic-error-popup__background" style="flex-grow: 0;">
+            <ui:VisualElement name="create-modal-panel" class="heroic-main__panel" style="height: 70%; width: 974px;">
+                <ui:VisualElement name="create-modal-top" style="height: 12%; background-color: rgb(132, 154, 255); border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                    <ui:Label text="CREATE GROUP" class="heroic-title" style="color: rgb(255, 255, 255); -unity-text-align: middle-center; flex-grow: 1;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="create-modal-bottom" style="height: 88%; align-self: center; align-items: center; width: 100%; padding-left: 30px; padding-right: 30px; padding-top: 30px; padding-bottom: 30px;">
+                    <ui:VisualElement style="flex-direction: row; width: 100%; height: 20%;">
+                        <ui:TextField label="Name" placeholder-text="Enter text..." name="create-modal-name" style="width: 75%; padding-right: 20px; margin-right: 0; margin-left: 0;" />
+                        <ui:IntegerField label="Max Count" value="20" name="create-modal-max-count" style="width: 25%; margin-right: 0; margin-left: 0;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement style="flex-direction: row; width: 100%; height: 50%; align-items: center; margin-top: 8px;">
+                        <ui:VisualElement style="width: 40%; align-items: center;">
+                            <ui:VisualElement name="create-modal-avatar-background" style="background-image: url(&quot;project://database/Assets/UnityNakamaGroups/HeroicUI/UI_etc/clan_in_red.png?fileID=2800000&amp;guid=9c64b8175de6b4d98a9096473f7d0e50&amp;type=3#clan_in_red&quot;); -unity-background-scale-mode: scale-to-fit; background-size: 116px 116px; min-height: 128px; min-width: 128px;">
+                                <ui:VisualElement name="avatar-frame" style="background-image: url(&quot;project://database/Assets/UnityNakamaGroups/HeroicUI/UI_etc/clan_frame.png?fileID=2800000&amp;guid=f09f98b081e934e4c82fd5d2f5cf93ca&amp;type=3#clan_frame&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; top: 0; left: 0; bottom: 0; right: 0;" />
+                                <ui:VisualElement name="create-modal-avatar-icon" style="background-image: url(&quot;project://database/Assets/UnityNakamaGroups/HeroicUI/IconMisc/icon_fist.png?fileID=2800000&amp;guid=8176dbc9a0f7145dcbb159234f38cfac&amp;type=3#icon_fist&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; top: 30%; left: 10%; bottom: 30%; right: 10%;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement style="flex-direction: row; justify-content: space-between; width: 85%;">
+                                <ui:VisualElement name="create-modal-previous-background" class="heroic-stepper" style="-unity-background-scale-mode: scale-to-fit; height: 50px; width: 50px; background-image: url(&quot;project://database/Assets/UnityNakamaGroups/HeroicUI/Stepper/stepper_button_prev_violet.png?fileID=2800000&amp;guid=85759fbcbfbf344eb9c45b075c98f4b6&amp;type=3#stepper_button_prev_violet&quot;);" />
+                                <ui:Label text="Background" class="heroic-list__title" />
+                                <ui:VisualElement name="create-modal-next-background" class="heroic-stepper" style="-unity-background-scale-mode: scale-to-fit; width: 50px; height: 50px;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="VisualElement" style="flex-direction: row; align-items: center; justify-content: space-between; width: 85%;">
+                                <ui:VisualElement name="create-modal-previous-icon" class="heroic-stepper" style="-unity-background-scale-mode: scale-to-fit; height: 50px; width: 50px; background-image: url(&quot;project://database/Assets/UnityNakamaGroups/HeroicUI/Stepper/stepper_button_prev_violet.png?fileID=2800000&amp;guid=85759fbcbfbf344eb9c45b075c98f4b6&amp;type=3#stepper_button_prev_violet&quot;);" />
+                                <ui:Label text="Icon" class="heroic-list__title" />
+                                <ui:VisualElement name="create-modal-next-icon" class="heroic-stepper" style="-unity-background-scale-mode: scale-to-fit; width: 50px; height: 50px;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:TextField label="Description" placeholder-text="Enter text..." name="create-modal-description" multiline="true" style="height: 100%; width: 60%; margin-right: 0; margin-left: 0; white-space: normal;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement style="height: 15%; justify-content: center; align-self: flex-start;">
+                        <ui:Toggle label="Public" name="create-modal-public" toggle-on-label-click="false" style="flex-direction: row; align-items: center; height: 45px;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement style="height: 15%;">
+                        <ui:Button text="Create" name="create-modal-create" class="heroic-button" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:Button name="create-modal-close" class="heroic-close-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:Instance template="ErrorPopup" name="error-popup" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: none;" />
+</ui:UXML>
