@@ -1,0 +1,64 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="ListControls" src="project://database/Assets/UnityNakamaTournaments/HeroicUI/CustomComponents/ListControls.uxml?fileID=9197481963319205126&amp;guid=b315b5c459a3944bd8a2a53e2c01e191&amp;type=3#ListControls" />
+    <ui:Template name="ErrorPopup" src="project://database/Assets/UnityNakamaTournaments/HeroicUI/CustomComponents/ErrorPopup.uxml?fileID=9197481963319205126&amp;guid=0104c211a1dfc4d17b2607e880de676f&amp;type=3#ErrorPopup" />
+    <Style src="project://database/Assets/UnityNakamaTournaments/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
+    <ui:VisualElement name="tournaments-top" class="heroic-top__background">
+        <ui:Label text="TOURNAMENTS" class="heroic-title" />
+    </ui:VisualElement>
+    <ui:VisualElement name="tournaments-main" class="heroic-main__background">
+        <ui:VisualElement name="main-left" style="width: 40%; padding-top: 20px; padding-right: 20px; padding-left: 20px; padding-bottom: 20px;">
+            <ui:ListView name="tournaments-list" fixed-item-height="150" style="flex-grow: 1;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="main-right" style="width: 60%;">
+            <ui:VisualElement name="selected-tournament-panel" style="flex-grow: 1;">
+                <ui:VisualElement class="heroic-main__panel" style="height: 80%; margin-top: 20px; margin-right: 20px; margin-bottom: 10px;">
+                    <ui:VisualElement name="VisualElement" style="height: 25%;">
+                        <ui:Label text="Title" name="tournament-title" class="heroic-title" style="-unity-text-align: upper-center;" />
+                        <ui:Label text="Description..." name="tournament-description" class="heroic-title" style="-unity-text-align: upper-center; text-overflow: ellipsis; white-space: normal; overflow: hidden; font-size: 32px;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement>
+                        <ui:VisualElement name="list-head" class="heroic-list__head" style="flex-grow: 1; border-top-color: rgb(155, 152, 253); border-top-width: 5px;">
+                            <ui:VisualElement name="headers" style="flex-grow: 1; flex-direction: row;">
+                                <ui:Label text="Rank" name="rank" class="heroic-table-head" style="width: 10%;" />
+                                <ui:Label text="Username" name="username" class="heroic-table-head" style="width: 60%; -unity-text-align: middle-left;" />
+                                <ui:Label text="Score" name="score" class="heroic-table-head" style="width: 14%;" />
+                                <ui:VisualElement name="gap" style="width: 2%;" />
+                                <ui:Label text="Subscore" name="sub-score" class="heroic-table-head" style="width: 14%;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="slider-gap" style="width: 24px;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:ListView name="tournament-records-list" fixed-item-height="75" style="flex-grow: 1;" />
+                    <ui:VisualElement name="owner-record" style="flex-direction: row; height: 75px; border-top-color: rgb(155, 152, 253); border-bottom-color: rgb(155, 152, 253); border-top-width: 5px; border-bottom-width: 5px;">
+                        <ui:VisualElement name="headers" style="flex-grow: 1; flex-direction: row;">
+                            <ui:Label text="1" name="rank" class="heroic-list-view__item-label" style="width: 10%; color: rgb(121, 99, 255); -unity-background-scale-mode: scale-to-fit;" />
+                            <ui:Label text="Username" name="username" class="heroic-list-view__item-label" style="width: 60%; -unity-text-align: middle-left;" />
+                            <ui:Label text="0" name="score" class="heroic-list-view__item-label" style="width: 14%;" />
+                            <ui:VisualElement name="gap" style="width: 2%;" />
+                            <ui:Label text="0" name="sub-score" class="heroic-list-view__item-label" style="width: 14%;" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="gap" style="width: 24px;" />
+                    </ui:VisualElement>
+                    <ui:Instance template="ListControls" />
+                </ui:VisualElement>
+                <ui:VisualElement style="height: 20%; flex-direction: row; align-items: stretch;">
+                    <ui:VisualElement name="not-joined-controls" style="flex-grow: 1; align-items: center; justify-content: center; flex-direction: row; display: none;">
+                        <ui:Button text="Join" name="tournament-join" class="heroic-button" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="joined-controls" style="flex-direction: row; align-items: flex-start; justify-content: flex-start; flex-grow: 1; padding-top: 10px; padding-bottom: 10px;">
+                        <ui:EnumField label="Operator" type="Nakama.ApiOperator, Nakama" name="operator-field" />
+                        <ui:LongField label="Score" value="999" name="score-field" />
+                        <ui:LongField label="Subscore" value="999" name="sub-score-field" />
+                        <ui:VisualElement name="VisualElement" style="align-items: center; flex-direction: row; align-self: stretch; padding-top: 0;">
+                            <ui:Button text="Submit" name="tournament-submit" class="heroic-button" style="width: 250px; height: 80px; margin-bottom: 2px; font-size: 28px;" />
+                            <ui:Button name="tournament-delete" class="heroic-button-gray" style="align-self: center; height: 80px; padding-left: 10px; padding-right: 10px; width: 80px; background-image: url(&quot;project://database/Assets/UnityNakamaTournaments/HeroicUI/Button/button_circle_h40_white_bg.png?fileID=7365054445096998582&amp;guid=808ef02200ded49148b54ec13181e6df&amp;type=3#button_circle_h40_white_bg_0&quot;); -unity-slice-left: 0; -unity-slice-right: 0; -unity-background-image-tint-color: rgb(85, 100, 153);">
+                                <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UnityNakamaTournaments/HeroicUI/IconPictogram/128/icon_delete.png?fileID=2800000&amp;guid=c2c09dc11c021439c9258379c352e9ba&amp;type=3#icon_delete&quot;); background-size: 110% 110%; -unity-background-image-tint-color: rgb(255, 255, 255);" />
+                            </ui:Button>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:Instance template="ErrorPopup" name="error-popup" style="top: 0; right: 0; left: 0; bottom: 0; position: absolute; display: none;" />
+</ui:UXML>
