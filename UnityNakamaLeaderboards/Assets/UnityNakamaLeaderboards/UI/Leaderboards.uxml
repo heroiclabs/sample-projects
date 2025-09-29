@@ -2,7 +2,7 @@
     <ui:Template name="ErrorPopup" src="project://database/Assets/UnityNakamaLeaderboards/HeroicUI/CustomComponents/ErrorPopup.uxml?fileID=9197481963319205126&amp;guid=0104c211a1dfc4d17b2607e880de676f&amp;type=3#ErrorPopup" />
     <Style src="project://database/Assets/UnityNakamaLeaderboards/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
     <ui:VisualElement name="leaderboards-top" class="heroic-top__background">
-        <ui:Label text="LEADERBOARD" class="heroic-title" />
+        <ui:Label text="LEADERBOARDS" class="heroic-title" />
     </ui:VisualElement>
     <ui:VisualElement name="leaderboards-main" class="heroic-main__background">
         <ui:VisualElement name="main-left" style="width: 25%; padding-left: 20px; padding-right: 20px; padding-top: 20px; padding-bottom: 20px;">
