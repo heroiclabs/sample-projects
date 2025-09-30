@@ -1,7 +1,7 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/UnityNakamaFriends/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
+    <Style src="project://database/Assets/UnityNakamaCloudSave/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
     <ui:Button text="Weekly" name="weekly-tab" class="heroic-vertical-tab-button selected">
-        <ui:VisualElement name="tab-icon" style="background-image: url(&quot;project://database/Assets/UnityNakamaFriends/HeroicUI/IconPictogram/128/icon_calendar.png?fileID=2800000&amp;guid=5b167526424f34055b82872ee12e32a3&amp;type=3#icon_calendar&quot;); -unity-background-scale-mode: scale-to-fit; width: 50px; height: 50px; -unity-background-image-tint-color: rgb(120, 99, 255); align-self: center; left: 10px; position: absolute;" />
+        <ui:VisualElement name="tab-icon" style="background-image: url(&quot;project://database/Assets/UnityNakamaCloudsave/HeroicUI/IconPictogram/128/icon_calendar.png?fileID=2800000&amp;guid=5b167526424f34055b82872ee12e32a3&amp;type=3#icon_calendar&quot;); -unity-background-scale-mode: scale-to-fit; width: 50px; height: 50px; -unity-background-image-tint-color: rgb(120, 99, 255); align-self: center; left: 10px; position: absolute;" />
         <ui:VisualElement name="arrow" class="heroic-vertical-tab-button__arrow" />
     </ui:Button>
 </ui:UXML>
