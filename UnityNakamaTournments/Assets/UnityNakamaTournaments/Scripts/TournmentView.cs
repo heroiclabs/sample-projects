@@ -2,7 +2,7 @@ using System;
 using Nakama;
 using UnityEngine.UIElements;
 
-namespace SampleProjects.NakamaTournaments
+namespace UnityNakamaTournaments
 {
     public class TournamentView
     {

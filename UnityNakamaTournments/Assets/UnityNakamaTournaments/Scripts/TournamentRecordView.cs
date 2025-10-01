@@ -1,7 +1,7 @@
 using Nakama;
 using UnityEngine.UIElements;
 
-namespace SampleProjects.NakamaTournaments
+namespace UnityNakamaTournaments
 {
     public class TournamentRecordView
     {

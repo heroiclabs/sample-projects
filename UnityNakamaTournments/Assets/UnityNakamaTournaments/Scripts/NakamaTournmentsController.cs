@@ -5,25 +5,22 @@ using Nakama;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace SampleProjects.NakamaTournaments
+namespace UnityNakamaTournaments
 {
     [RequireComponent(typeof(UIDocument))]
     public class NakamaTournamentsController : MonoBehaviour
     {
-        [Header("Nakama Settings")]
-        [SerializeField] private string scheme = "http";
-        [SerializeField] private string host = "127.0.0.1";
-        [SerializeField] private int port = 7350;
-        [SerializeField] private string serverKey = "defaultkey";
-
-        [Header("Tournament Settings")]
-        [SerializeField] private int tournamentEntriesLimit = 20;
-        [SerializeField] private int tournamentRecordEntriesLimit = 20;
+        [Header("Tournament Settings")] [SerializeField]
+        private int tournamentEntriesLimit = 20;
+        [SerializeField]
+        private int tournamentRecordEntriesLimit = 20;
         
-        [Header("References")]
-        [SerializeField] private VisualTreeAsset tournamentTemplate;
-        [SerializeField] private VisualTreeAsset tournamentRecordTemplate;
-        [field: SerializeField] public Texture2D[] RankMedals { get; private set; }
+        [Header("References")] [SerializeField]
+        private VisualTreeAsset tournamentTemplate;
+        [SerializeField]
+        private VisualTreeAsset tournamentRecordTemplate;
+        [field: SerializeField]
+        public Texture2D[] RankMedals { get; private set; }
 
         public event Action<ISession, NakamaTournamentsController> OnInitialized;
 
@@ -53,9 +50,6 @@ namespace SampleProjects.NakamaTournaments
         private VisualElement ownerRecordElement;
         private TournamentRecordView ownerRecordView;
 
-        public Client Client { get; private set; }
-        public ISession Session { get; private set; }
-
         private string prevCursor;
         private string nextCursor;
         private string selectedTournamentId;
@@ -64,54 +58,31 @@ namespace SampleProjects.NakamaTournaments
         private readonly List<IApiLeaderboardRecord> tournamentRecords = new();
 
         #region Initialization
-        private async void Start()
+        private void Start()
         {
             InitializeUI();
-
-            await AuthenticateWithDevice();
-
-            OnInitialized?.Invoke(Session, this);
-
-            UpdateTournamentsEntries();
-        }
-
-        private async Task AuthenticateWithDevice()
-        {
-            Client = new Client(scheme, host, port, serverKey, UnityWebRequestAdapter.Instance);
-
-            // If the user's device ID is already stored, grab that - alternatively get the System's unique device identifier.
-            var deviceId = PlayerPrefs.GetString("deviceId", SystemInfo.deviceUniqueIdentifier);
-
-            // If the device identifier is invalid then let's generate a unique one.
-            if (deviceId == SystemInfo.unsupportedIdentifier)
+            NakamaSingleton.Instance.ReceivedStartError += e =>
             {
-                deviceId = Guid.NewGuid().ToString();
-            }
-
-            // Save the user's device ID to PlayerPrefs, so it can be retrieved during a later play session for re-authenticating.
-            PlayerPrefs.SetString("deviceId", deviceId);
-
-            try
-            {
-                Session = await Client.AuthenticateDeviceAsync($"{deviceId}_0");
-                Debug.Log($"Authenticated {Session.Username} with Device ID");
-            }
-            catch(ApiResponseException ex)
-            {
+                Debug.LogException(e);
                 errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = ex.Message;
-            }
+                errorMessage.text = e.Message;
+            };
+            NakamaSingleton.Instance.ReceivedStartSuccess += session =>
+            {
+                OnInitialized?.Invoke(session, this);
+                _ = UpdateTournamentsEntries();
+            };
         }
 
         public void SwitchComplete(ISession newSession)
         {
             // For use with the account switcher editor tool.
-            Session = newSession;
-
+            (NakamaSingleton.Instance.Session as Session)?.Update(newSession.AuthToken, newSession.RefreshToken);
             selectedTournament = null;
             selectedTournamentId = string.Empty;
             selectedTournamentPanel.style.display = DisplayStyle.None;
             tournamentsList.ClearSelection();
+            _ = UpdateTournamentsEntries();
         }
         #endregion
 
@@ -124,13 +95,13 @@ namespace SampleProjects.NakamaTournaments
             notJoinedControls = rootElement.Q<VisualElement>("not-joined-controls");
     
             tournamentJoinButton = rootElement.Q<Button>("tournament-join");
-            tournamentJoinButton.RegisterCallback<ClickEvent>(TournamentJoin);
+            tournamentJoinButton.RegisterCallback<ClickEvent>(evt => _ = TournamentJoin());
 
             scoreSubmitButton = rootElement.Q<Button>("tournament-submit");
-            scoreSubmitButton.RegisterCallback<ClickEvent>(TournamentSubmit);
+            scoreSubmitButton.RegisterCallback<ClickEvent>(evt => _ = TournamentSubmit());
 
             scoreDeleteButton = rootElement.Q<Button>("tournament-delete");
-            scoreDeleteButton.RegisterCallback<ClickEvent>(TournamentDelete);
+            scoreDeleteButton.RegisterCallback<ClickEvent>(evt => _ = TournamentDelete());
 
             operatorField = rootElement.Q<EnumField>("operator-field");
             scoreField = rootElement.Q<LongField>("score-field");
@@ -139,13 +110,13 @@ namespace SampleProjects.NakamaTournaments
             selectedTournamentPanel = rootElement.Q<VisualElement>("selected-tournament-panel");
 
             refreshButton = rootElement.Q<Button>("refresh");
-            refreshButton.RegisterCallback<ClickEvent>(_ => OnTournamentSelected());
+            refreshButton.RegisterCallback<ClickEvent>(evt => _ = OnTournamentSelected());
 
             previousButton = rootElement.Q<Button>("previous-page");
-            previousButton.RegisterCallback<ClickEvent>(_ => OnTournamentSelected(prevCursor));
+            previousButton.RegisterCallback<ClickEvent>(evt => _ = OnTournamentSelected(prevCursor));
 
             nextButton = rootElement.Q<Button>("next-page");
-            nextButton.RegisterCallback<ClickEvent>(_ => OnTournamentSelected(nextCursor));
+            nextButton.RegisterCallback<ClickEvent>(evt => _ = OnTournamentSelected(nextCursor));
 
             tournamentRecordsList = rootElement.Q<ListView>("tournament-records-list");
             tournamentRecordsList.makeItem = () =>
@@ -179,7 +150,7 @@ namespace SampleProjects.NakamaTournaments
                 (item.userData as TournamentView)?.SetTournament(tournaments[index]);
             };
             tournamentsList.itemsSource = tournaments;
-            tournamentsList.selectionChanged += _ => OnTournamentSelected();
+            tournamentsList.selectionChanged += objects => _ = OnTournamentSelected();
 
             tournamentsScrollView = tournamentsList.Q<ScrollView>();
             tournamentsScrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
@@ -197,13 +168,11 @@ namespace SampleProjects.NakamaTournaments
             ownerRecordElement.userData = ownerRecordView;
             ownerRecordView.SetVisualElement(ownerRecordElement, this);
 
-            OnTournamentSelected();
+            _ = OnTournamentSelected();
         }
 
-        private async void OnTournamentSelected(string cursor = null)
+        private async Task OnTournamentSelected(string cursor = null)
         {
-            if (Session == null) return;
-
             // Store the current Tournament, so we know which to fetch when refreshing.
             selectedTournament = tournamentsList.selectedItem as IApiTournament;
 
@@ -219,13 +188,9 @@ namespace SampleProjects.NakamaTournaments
             try
             {
                 // Fetch the specified range of records, as well as the session user's record, if there is one.
-                var result = await Client.ListTournamentRecordsAsync(
-                    Session,
-                    selectedTournament.Id,
-                    new [] { Session.UserId },
-                    null,
-                    tournamentRecordEntriesLimit,
-                    cursor);
+                var session = NakamaSingleton.Instance.Session;
+                var result = await NakamaSingleton.Instance.Client.ListTournamentRecordsAsync(session,
+                    selectedTournament.Id, new[] { session.UserId }, null, tournamentRecordEntriesLimit, cursor);
 
                 // Store previous and next cursors to allow for pagination.
                 prevCursor = result.PrevCursor;
@@ -255,10 +220,10 @@ namespace SampleProjects.NakamaTournaments
                 tournamentRecords.Clear();
                 tournamentRecords.AddRange(result.Records);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
                 errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = ex.Message;
+                errorMessage.text = e.Message;
                 return;
             }
 
@@ -278,29 +243,24 @@ namespace SampleProjects.NakamaTournaments
         #endregion
 
         #region Tournaments
-        private async void UpdateTournamentsEntries()
+        private async Task UpdateTournamentsEntries()
         {
-            if (Session == null) return;
-
             try
             {
                 // Fetch the Tournaments that meet the specified requirements.
-                var result = await Client.ListTournamentsAsync(
-                    Session,
-                    1,
-                    1,
-                    null,
-                    null,
-                    tournamentEntriesLimit);
+                var session = NakamaSingleton.Instance.Session;
+                var result =
+                    await NakamaSingleton.Instance.Client.ListTournamentsAsync(session, 1, 1, null, null,
+                        tournamentEntriesLimit);
 
                 // After successfully fetching the desired Tournaments, replace the currently cached Tournaments with the new Tournaments.
                 tournaments.Clear();
                 tournaments.AddRange(result.Tournaments);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
                 errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = ex.Message;
+                errorMessage.text = e.Message;
                 return;
             }
 
@@ -318,7 +278,7 @@ namespace SampleProjects.NakamaTournaments
             }
             if (found)
             {
-                OnTournamentSelected();
+                _ = OnTournamentSelected();
                 return;
             }
 
@@ -326,74 +286,68 @@ namespace SampleProjects.NakamaTournaments
             tournamentsScrollView.scrollOffset = Vector2.zero;
         }
 
-        private async void TournamentJoin(ClickEvent _)
+        private async Task TournamentJoin()
         {
-            if (Session == null || selectedTournament is not { CanEnter: true }) return;
+            if (selectedTournament is not { CanEnter: true }) return;
 
             try
             {
                 // Attempt to join the selected Tournament.
-                await Client.JoinTournamentAsync(
-                    Session,
-                    selectedTournamentId);
+                var session = NakamaSingleton.Instance.Session;
+                await NakamaSingleton.Instance.Client.JoinTournamentAsync(session, selectedTournamentId);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
                 errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = ex.Message;
+                errorMessage.text = e.Message;
                 return;
             }
 
             // After successfully joining the Tournament, update the Tournaments list.
-            UpdateTournamentsEntries();
+            _ = UpdateTournamentsEntries();
         }
 
-        private async void TournamentSubmit(ClickEvent _)
+        private async Task TournamentSubmit()
         {
-            if (Session == null || selectedTournament == null) return;
+            if (selectedTournament == null) return;
 
             try
             {
                 // Write the inputted score and sub-score to the server, using the specified operator.
-                await Client.WriteTournamentRecordAsync(
-                    Session,
-                    selectedTournamentId,
-                    scoreField.value,
-                    subScoreField.value,
-                    null,
-                    (ApiOperator)operatorField.value);
+                var session = NakamaSingleton.Instance.Session;
+                await NakamaSingleton.Instance.Client.WriteTournamentRecordAsync(session, selectedTournamentId,
+                    scoreField.value, subScoreField.value, null, (ApiOperator)operatorField.value);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
                 errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = ex.Message;
+                errorMessage.text = e.Message;
                 return;
             }
 
             // After successfully writing the new scores, update the Tournaments list.
-            UpdateTournamentsEntries();
+            _ = UpdateTournamentsEntries();
         }
 
-        private async void TournamentDelete(ClickEvent evt)
+        private async Task TournamentDelete()
         {
-            if (Session == null || selectedTournament == null) return;
+            if (selectedTournament == null) return;
 
             try
             {
                 // Delete the session user's records.
-                await Client.DeleteTournamentRecordAsync(
-                    Session,
-                    selectedTournamentId);
+                var session = NakamaSingleton.Instance.Session;
+                await NakamaSingleton.Instance.Client.DeleteTournamentRecordAsync(session, selectedTournamentId);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
                 errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = ex.Message;
+                errorMessage.text = e.Message;
                 return;
             }
 
             // After successfully deleting the record, update the Tournaments list.
-            UpdateTournamentsEntries();
+            _ = UpdateTournamentsEntries();
         }
         #endregion
     }
