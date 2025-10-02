@@ -4,17 +4,16 @@ using System.Threading.Tasks;
 using Nakama;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Random = UnityEngine.Random;
 
-namespace SampleProjects.Groups
+namespace UnityNakamaGroups
 {
     public enum GroupUserState
     {
-        NONE = -1,
-        SUPERADMIN = 0,
-        ADMIN = 1,
-        MEMBER = 2,
-        JOINREQUEST = 3
+        None = -1,
+        SuperAdmin = 0,
+        Admin = 1,
+        Member = 2,
+        JoinRequest = 3
     }
 
     [Serializable]
@@ -27,16 +26,8 @@ namespace SampleProjects.Groups
     [RequireComponent(typeof(UIDocument))]
     public class NakamaGroupsController : MonoBehaviour
     {
-        [Header("Nakama Settings")] [SerializeField]
-        private string scheme = "http";
-
-        [SerializeField] private string host = "127.0.0.1";
-        [SerializeField] private int port = 7350;
-        [SerializeField] private string serverKey = "defaultkey";
-
         [Header("Group Settings")] [SerializeField]
         private int groupEntriesLimit = 100;
-
         [SerializeField]
         private int groupUserEntriesLimit = 100;
 
@@ -85,9 +76,6 @@ namespace SampleProjects.Groups
         private Button errorCloseButton;
         private Label errorMessage;
 
-        public Client Client { get; private set; }
-        public ISession Session { get; private set; }
-
         private int selectedTabIndex;
         private int selectedAvatarBackgroundIndex;
         private int selectedAvatarIconIndex;
@@ -98,51 +86,28 @@ namespace SampleProjects.Groups
 
         #region Initialization
 
-        private async void Start()
+        private void Start()
         {
             InitializeUI();
-
-            await AuthenticateWithDevice();
-
-            OnInitialized?.Invoke(Session, this);
-
-            // Load existing groups.
-            UpdateGroups();
-        }
-
-        private async Task AuthenticateWithDevice()
-        {
-            Client = new Client(scheme, host, port, serverKey, UnityWebRequestAdapter.Instance);
-
-            // If the user's device ID is already stored, grab that - alternatively get the System's unique device identifier.
-            var deviceId = PlayerPrefs.GetString("deviceId", SystemInfo.deviceUniqueIdentifier);
-
-            // If the device identifier is invalid then let's generate a unique one.
-            if (deviceId == SystemInfo.unsupportedIdentifier)
+            NakamaSingleton.Instance.ReceivedStartError += e =>
             {
-                deviceId = Guid.NewGuid().ToString();
-            }
-
-            // Save the user's device ID to PlayerPrefs, so it can be retrieved during a later play session for re-authenticating.
-            PlayerPrefs.SetString("deviceId", deviceId);
-
-            try
-            {
-                Session = await Client.AuthenticateDeviceAsync($"{deviceId}_0");
-                Debug.Log($"Authenticated {Session.Username} with Device ID");
-            }
-            catch (ApiResponseException e)
-            {
+                Debug.LogException(e);
                 errorPopup.style.display = DisplayStyle.Flex;
                 errorMessage.text = e.Message;
-            }
+            };
+            NakamaSingleton.Instance.ReceivedStartSuccess += session =>
+            {
+                OnInitialized?.Invoke(session, this);
+                // Load existing groups.
+                _ = UpdateGroups();
+            };
         }
 
         public void SwitchComplete(ISession newSession)
         {
             // For use with the account switcher editor tool.
-            Session = newSession;
-            UpdateGroups();
+            (NakamaSingleton.Instance.Session as Session)?.Update(newSession.AuthToken, newSession.RefreshToken);
+            _ = UpdateGroups();
         }
 
         #endregion
@@ -154,23 +119,23 @@ namespace SampleProjects.Groups
             var rootElement = GetComponent<UIDocument>().rootVisualElement;
 
             allTab = rootElement.Q<Button>("all-tab");
-            allTab.RegisterCallback<ClickEvent>(_ =>
+            allTab.RegisterCallback<ClickEvent>(evt =>
             {
                 if (selectedTabIndex == 0) return;
                 selectedTabIndex = 0;
                 allTab.AddToClassList("selected");
                 myGroupsTab.RemoveFromClassList("selected");
-                UpdateGroups();
+                _ = UpdateGroups();
             });
 
             myGroupsTab = rootElement.Q<Button>("my-groups-tab");
-            myGroupsTab.RegisterCallback<ClickEvent>(_ =>
+            myGroupsTab.RegisterCallback<ClickEvent>(evt =>
             {
                 if (selectedTabIndex == 1) return;
                 selectedTabIndex = 1;
                 myGroupsTab.AddToClassList("selected");
                 allTab.RemoveFromClassList("selected");
-                UpdateGroups();
+                _ = UpdateGroups();
             });
 
             createButton = rootElement.Q<Button>("group-create");
@@ -187,13 +152,13 @@ namespace SampleProjects.Groups
             });
 
             deleteButton = rootElement.Q<Button>("group-delete");
-            deleteButton.RegisterCallback<ClickEvent>(GroupDelete);
+            deleteButton.RegisterCallback<ClickEvent>(evt => _ = GroupDelete());
 
             joinButton = rootElement.Q<Button>("group-join");
-            joinButton.RegisterCallback<ClickEvent>(GroupJoin);
+            joinButton.RegisterCallback<ClickEvent>(evt => _ = GroupJoin());
 
             leaveButton = rootElement.Q<Button>("group-leave");
-            leaveButton.RegisterCallback<ClickEvent>(GroupLeave);
+            leaveButton.RegisterCallback<ClickEvent>(evt => _ = GroupLeave());
 
             selectedGroupPanel = rootElement.Q<VisualElement>("selected-group-panel");
             selectedGroupAvatarIcon = rootElement.Q<VisualElement>("selected-group-avatar-icon");
@@ -212,15 +177,16 @@ namespace SampleProjects.Groups
             };
             groupUsersList.bindItem = (item, index) =>
             {
+                var session = NakamaSingleton.Instance.Session;
                 var viewerUser = default(IGroupUserListGroupUser);
                 foreach (var user in selectedGroupUsers)
                 {
-                    if (user.User.Id != Session.UserId) continue;
+                    if (user.User.Id != session.UserId) continue;
                     viewerUser = user;
                     break;
                 }
             
-                var viewerState = GroupUserState.NONE;
+                var viewerState = GroupUserState.None;
                 if (viewerUser != null)
                 {
                     viewerState = (GroupUserState)viewerUser.State;
@@ -244,11 +210,11 @@ namespace SampleProjects.Groups
             };
             groupsList.bindItem = (item, index) => { (item.userData as GroupView)?.SetGroup(groups[index]); };
             groupsList.itemsSource = groups;
-            groupsList.selectionChanged += _ =>
+            groupsList.selectionChanged += objects =>
             {
                 if (groupsList.selectedItem is IApiGroup)
                 {
-                    OnGroupSelected(groupsList.selectedItem as IApiGroup);
+                    _ = OnGroupSelected(groupsList.selectedItem as IApiGroup);
                 }
             };
 
@@ -303,7 +269,7 @@ namespace SampleProjects.Groups
                 UpdateCreateModal();
             });
             modalCreateButton = rootElement.Q<Button>("create-modal-create");
-            modalCreateButton.RegisterCallback<ClickEvent>(GroupCreate);
+            modalCreateButton.RegisterCallback<ClickEvent>(evt => _ = GroupCreate());
             modalCloseButton = rootElement.Q<Button>("create-modal-close");
             modalCloseButton.RegisterCallback<ClickEvent>(_ => createModal.style.display = DisplayStyle.None);
 
@@ -312,10 +278,10 @@ namespace SampleProjects.Groups
             errorCloseButton = rootElement.Q<Button>("error-close");
             errorCloseButton.RegisterCallback<ClickEvent>(_ => errorPopup.style.display = DisplayStyle.None);
 
-            OnGroupSelected(null);
+            _ = OnGroupSelected(null);
         }
 
-        private async void OnGroupSelected(IApiGroup group)
+        private async Task OnGroupSelected(IApiGroup group)
         {
             if (group == null)
             {
@@ -339,15 +305,17 @@ namespace SampleProjects.Groups
 
             selectedGroupNameLabel.text = selectedGroup.Name;
             selectedGroupDescriptionLabel.text = selectedGroup.Description ?? "No description set.";
-            var groupUsers =
-                await Client.ListGroupUsersAsync(Session, selectedGroup.Id, null, groupUserEntriesLimit, string.Empty);
+
+            var session = NakamaSingleton.Instance.Session;
+            var groupUsers = await NakamaSingleton.Instance.Client.ListGroupUsersAsync(session, selectedGroup.Id, null,
+                groupUserEntriesLimit, string.Empty);
             selectedGroupUsers.Clear();
             selectedGroupUsers.AddRange(groupUsers.GroupUsers);
             groupUsersList.RefreshItems();
             var viewerUser = default(IGroupUserListGroupUser);
             foreach (var user in selectedGroupUsers)
             {
-                if (user.User.Id != Session.UserId) continue;
+                if (user.User.Id != session.UserId) continue;
                 viewerUser = user;
                 break;
             }
@@ -364,7 +332,7 @@ namespace SampleProjects.Groups
             if (viewerUser != null)
             {
                 leaveButton.style.display = DisplayStyle.Flex;
-                deleteButton.style.display = viewerUser.State == (int)GroupUserState.SUPERADMIN
+                deleteButton.style.display = viewerUser.State == (int)GroupUserState.SuperAdmin
                     ? DisplayStyle.Flex
                     : DisplayStyle.None;
             }
@@ -381,17 +349,19 @@ namespace SampleProjects.Groups
 
         #region Groups
 
-        private async void UpdateGroups()
+        private async Task UpdateGroups()
         {
             groups.Clear();
 
+            var session = NakamaSingleton.Instance.Session;
             switch (selectedTabIndex)
             {
                 case 0:
                     try
                     {
                         // List all Groups.
-                        var groupsResult = await Client.ListGroupsAsync(Session, null, groupEntriesLimit);
+                        var groupsResult =
+                            await NakamaSingleton.Instance.Client.ListGroupsAsync(session, null, groupEntriesLimit);
                         groups.AddRange(groupsResult.Groups);
                     }
                     catch (Exception e)
@@ -406,7 +376,8 @@ namespace SampleProjects.Groups
                     {
                         // List Groups that the user has created/joined.
                         var userGroupsResult =
-                            await Client.ListUserGroupsAsync(Session, null, groupEntriesLimit, string.Empty);
+                            await NakamaSingleton.Instance.Client.ListUserGroupsAsync(session, null, groupEntriesLimit,
+                                string.Empty);
                         foreach (var userGroup in userGroupsResult.UserGroups)
                         {
                             groups.Add(userGroup.Group);
@@ -432,7 +403,7 @@ namespace SampleProjects.Groups
             {
                 if (group.Id != selectedGroupId) continue;
                 
-                OnGroupSelected(group);
+                _ = OnGroupSelected(group);
                 groupsList.SetSelection(groups.IndexOf(group));
                 return;
             }
@@ -454,7 +425,7 @@ namespace SampleProjects.Groups
             }
         }
 
-        private async void GroupCreate(ClickEvent _)
+        private async Task GroupCreate()
         {
             try
             {
@@ -466,8 +437,10 @@ namespace SampleProjects.Groups
                 });
 
                 // Use the user defined parameters to create a new Group.
-                await Client.CreateGroupAsync(Session, modalNameField.value, modalDescriptionField.value,
-                    avatarDataJson, null, modalPublicToggle.value, modalMaxCountField.value);
+                var session = NakamaSingleton.Instance.Session;
+                await NakamaSingleton.Instance.Client.CreateGroupAsync(session, modalNameField.value,
+                    modalDescriptionField.value, avatarDataJson, null, modalPublicToggle.value,
+                    modalMaxCountField.value);
             }
             catch (ApiResponseException e)
             {
@@ -478,17 +451,18 @@ namespace SampleProjects.Groups
 
             // After successfully creating the Group, hide the create modal, and update the Groups list.
             createModal.style.display = DisplayStyle.None;
-            UpdateGroups();
+            _ = UpdateGroups();
         }
 
-        private async void GroupDelete(ClickEvent _)
+        private async Task GroupDelete()
         {
             if (selectedGroup == null) return;
 
             try
             {
                 // Attempt to delete the selected Group, only works if the user is a SUPERADMIN.
-                await Client.DeleteGroupAsync(Session, selectedGroup.Id);
+                var session = NakamaSingleton.Instance.Session;
+                await NakamaSingleton.Instance.Client.DeleteGroupAsync(session, selectedGroup.Id);
                 groupsList.ClearSelection();
             }
             catch (ApiResponseException e)
@@ -499,10 +473,10 @@ namespace SampleProjects.Groups
             }
 
             // After successfully deleting the Group, update the Groups list.
-            UpdateGroups();
+            _ = UpdateGroups();
         }
 
-        private async void GroupJoin(ClickEvent _)
+        private async Task GroupJoin()
         {
             if (selectedGroup == null) return;
 
@@ -510,7 +484,8 @@ namespace SampleProjects.Groups
             {
                 // Attempt to join the selected Group, if the Group is private, the user will need to be accepted before
                 // being able to access the Group.
-                await Client.JoinGroupAsync(Session, selectedGroup.Id);
+                var session = NakamaSingleton.Instance.Session;
+                await NakamaSingleton.Instance.Client.JoinGroupAsync(session, selectedGroup.Id);
             }
             catch (ApiResponseException e)
             {
@@ -520,17 +495,18 @@ namespace SampleProjects.Groups
             }
 
             // After successfully joining, or requesting to join the Group, update the Groups list.
-            UpdateGroups();
+            _ = UpdateGroups();
         }
 
-        private async void GroupLeave(ClickEvent _)
+        private async Task GroupLeave()
         {
             if (selectedGroup == null) return;
 
             try
             {
                 // Attempt to leave the selected Group.
-                await Client.LeaveGroupAsync(Session, selectedGroup.Id);
+                var session = NakamaSingleton.Instance.Session;
+                await NakamaSingleton.Instance.Client.LeaveGroupAsync(session, selectedGroup.Id);
                 groupsList.ClearSelection();
             }
             catch (ApiResponseException e)
@@ -541,17 +517,18 @@ namespace SampleProjects.Groups
             }
 
             // After successfully leaving, update the Groups list.
-            UpdateGroups();
+            _ = UpdateGroups();
         }
 
-        public async void GroupAccept(string userId)
+        public async Task GroupAccept(string userId)
         {
             if (selectedGroup == null) return;
 
             try
             {
                 // Attempt to accept the selected users join request.
-                await Client.AddGroupUsersAsync(Session, selectedGroup.Id, new[] { userId });
+                var session = NakamaSingleton.Instance.Session;
+                await NakamaSingleton.Instance.Client.AddGroupUsersAsync(session, selectedGroup.Id, new[] { userId });
             }
             catch (ApiResponseException e)
             {
@@ -561,17 +538,19 @@ namespace SampleProjects.Groups
             }
 
             // After successfully accepting the user, update the Groups list.
-            UpdateGroups();
+            _ = UpdateGroups();
         }
 
-        public async void GroupPromote(string userId)
+        public async Task GroupPromote(string userId)
         {
             if (selectedGroup == null) return;
 
             try
             {
                 // Attempt to promote the selected user up to the next rank with more privileges.
-                await Client.PromoteGroupUsersAsync(Session, selectedGroup.Id, new[] { userId });
+                var session = NakamaSingleton.Instance.Session;
+                await NakamaSingleton.Instance.Client.PromoteGroupUsersAsync(session, selectedGroup.Id,
+                    new[] { userId });
             }
             catch (ApiResponseException e)
             {
@@ -581,17 +560,19 @@ namespace SampleProjects.Groups
             }
 
             // After successfully promoting the user, update the Groups list.
-            UpdateGroups();
+            _ = UpdateGroups();
         }
 
-        public async void GroupDemote(string userId)
+        public async Task GroupDemote(string userId)
         {
             if (selectedGroup == null) return;
 
             try
             {
                 // Attempt to demote the selected user down to the previous rank with fewer privileges.
-                await Client.DemoteGroupUsersAsync(Session, selectedGroup.Id, new[] { userId });
+                var session = NakamaSingleton.Instance.Session;
+                await NakamaSingleton.Instance.Client.DemoteGroupUsersAsync(session, selectedGroup.Id,
+                    new[] { userId });
             }
             catch (ApiResponseException e)
             {
@@ -601,10 +582,10 @@ namespace SampleProjects.Groups
             }
 
             // After successfully demoting the user, update the Groups list.
-            UpdateGroups();
+            _ = UpdateGroups();
         }
 
-        public async void GroupKick(string userId)
+        public async Task GroupKick(string userId)
         {
             if (selectedGroup == null) return;
 
@@ -612,7 +593,8 @@ namespace SampleProjects.Groups
             {
                 // Attempt to kick the selected user from the Group, removing them, but still allowing them to rejoin.
                 // This is also used to decline a user's join request.
-                await Client.KickGroupUsersAsync(Session, selectedGroup.Id, new[] { userId });
+                var session = NakamaSingleton.Instance.Session;
+                await NakamaSingleton.Instance.Client.KickGroupUsersAsync(session, selectedGroup.Id, new[] { userId });
             }
             catch (ApiResponseException e)
             {
@@ -622,17 +604,18 @@ namespace SampleProjects.Groups
             }
 
             // After successfully kicking the user, update the Groups list.
-            UpdateGroups();
+            _ = UpdateGroups();
         }
 
-        public async void GroupBan(string userId)
+        public async Task GroupBan(string userId)
         {
             if (selectedGroup == null) return;
 
             try
             {
                 // Attempt to ban the selected user from the Group, removing them, and removing their ability to join again.
-                await Client.BanGroupUsersAsync(Session, selectedGroup.Id, new[] { userId });
+                var session = NakamaSingleton.Instance.Session;
+                await NakamaSingleton.Instance.Client.BanGroupUsersAsync(session, selectedGroup.Id, new[] { userId });
             }
             catch (ApiResponseException e)
             {
@@ -642,7 +625,7 @@ namespace SampleProjects.Groups
             }
 
             // After successfully banning the user, update the Groups list.
-            UpdateGroups();
+            _ = UpdateGroups();
         }
 
         #endregion
