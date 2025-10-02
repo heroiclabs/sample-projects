@@ -1,10 +1,10 @@
-# github.com/heroiclabs/nakama-common v1.38.0
-## explicit; go 1.24.5
+# github.com/heroiclabs/nakama-common v1.42.0
+## explicit; go 1.25.0
 github.com/heroiclabs/nakama-common/api
 github.com/heroiclabs/nakama-common/rtapi
 github.com/heroiclabs/nakama-common/runtime
-# google.golang.org/protobuf v1.36.6
-## explicit; go 1.22
+# google.golang.org/protobuf v1.36.8
+## explicit; go 1.23
 google.golang.org/protobuf/encoding/prototext
 google.golang.org/protobuf/encoding/protowire
 google.golang.org/protobuf/internal/descfmt

@@ -207,6 +207,10 @@ namespace UnityNakamaTournaments
                     // regardless of which "page" we are on.
                     ownerRecordView.SetTournamentRecord(enumerator.Current);
                     ownerRecordElement.style.display = DisplayStyle.Flex;
+
+                    // We have joined the Tournament.
+                    joinedControls.style.display = DisplayStyle.Flex;
+                    notJoinedControls.style.display = DisplayStyle.None;
                 }
                 else
                 {
@@ -214,6 +218,13 @@ namespace UnityNakamaTournaments
                     scoreSubmitButton.text = $"Submit (0/{selectedTournament.MaxNumScore})";
                     scoreSubmitButton.SetEnabled(true);
                     ownerRecordElement.style.display = DisplayStyle.None;
+
+                    // We have not joined the Tournament, if this Tournament requires joining,
+                    // only display the Join button.
+                    joinedControls.style.display =
+                        selectedTournament.JoinRequired ? DisplayStyle.None : DisplayStyle.Flex;
+                    notJoinedControls.style.display =
+                        !selectedTournament.JoinRequired ? DisplayStyle.None : DisplayStyle.Flex;
                 }
 
                 // After successfully fetching the desired records, replace the currently cached records with the new records.
@@ -235,8 +246,6 @@ namespace UnityNakamaTournaments
             nextButton.SetEnabled(nextCursor != null);
             tournamentTitle.text = selectedTournament.Title;
             tournamentDescription.text = selectedTournament.Description;
-            joinedControls.style.display = selectedTournament.CanEnter ? DisplayStyle.Flex : DisplayStyle.None; // TODO: Use new property
-            notJoinedControls.style.display = !selectedTournament.CanEnter ? DisplayStyle.Flex : DisplayStyle.None; // TODO: Use new property
             selectedTournamentPanel.style.display = DisplayStyle.Flex;
             recordsScrollView.scrollOffset = Vector2.zero;
         }
