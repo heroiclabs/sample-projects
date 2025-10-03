@@ -1,25 +1,39 @@
+// Copyright 2025 The Nakama Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Nakama;
-using SampleProjects.Groups;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-namespace SampleProjects.NakamaGroups.Editor
+namespace UnityNakamaGroups.Editor
 {
     public class AccountSwitcherEditor : EditorWindow
     {
-        [SerializeField] private VisualTreeAsset tree;
+        [SerializeField]
+        private VisualTreeAsset tree;
 
         private DropdownField accountDropdown;
         private Label usernamesLabel;
 
         private readonly SortedDictionary<string, string> accountUsernames = new();
 
-        private const string ACCOUNT_USERNAMES_KEY = "AccountSwitcher_Usernames";
+        private const string AccountUsernamesKey = "AccountSwitcher_Usernames";
 
         [MenuItem("Tools/Nakama/Account Switcher")]
         public static void ShowWindow()
@@ -29,11 +43,11 @@ namespace SampleProjects.NakamaGroups.Editor
 
             window.Focus();
         }
-        
+
         [MenuItem("Tools/Nakama/Clear Test Accounts")]
         public static void ClearSavedAccounts()
         {
-            EditorPrefs.DeleteKey(ACCOUNT_USERNAMES_KEY);
+            EditorPrefs.DeleteKey(AccountUsernamesKey);
             Debug.Log("Cleared all saved account usernames");
     
             // Refresh any open Account Switcher windows
@@ -65,9 +79,10 @@ namespace SampleProjects.NakamaGroups.Editor
             {
                 if (!rootGameObject.TryGetComponent<NakamaGroupsController>(out var GroupsController)) continue;
 
-                if (GroupsController.Session != null)
+                var session = NakamaSingleton.Instance.Session;
+                if (session != null)
                 {
-                    OnControllerInitialized(GroupsController.Session);
+                    OnControllerInitialized(session);
                 }
                 else
                 {
@@ -89,7 +104,7 @@ namespace SampleProjects.NakamaGroups.Editor
 
         private void LoadAccountUsernames()
         {
-            var savedUsernames = EditorPrefs.GetString(ACCOUNT_USERNAMES_KEY, "");
+            var savedUsernames = EditorPrefs.GetString(AccountUsernamesKey, "");
             if (string.IsNullOrEmpty(savedUsernames)) return;
 
             try
@@ -102,9 +117,9 @@ namespace SampleProjects.NakamaGroups.Editor
                     accountUsernames[item.key] = item.value;
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Debug.LogWarning($"Failed to load saved account usernames: {e.Message}");
+                Debug.LogWarning($"Failed to load saved account usernames: {ex.Message}");
             }
         }
 
@@ -119,11 +134,11 @@ namespace SampleProjects.NakamaGroups.Editor
                 }
 
                 var json = JsonUtility.ToJson(usernameData);
-                EditorPrefs.SetString(ACCOUNT_USERNAMES_KEY, json);
+                EditorPrefs.SetString(AccountUsernamesKey, json);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Debug.LogWarning($"Failed to save account usernames: {e.Message}");
+                Debug.LogWarning($"Failed to save account usernames: {ex.Message}");
             }
         }
 
@@ -139,6 +154,7 @@ namespace SampleProjects.NakamaGroups.Editor
             {
                 deviceId = Guid.NewGuid().ToString();
             }
+
             PlayerPrefs.SetString("deviceId", deviceId);
 
             var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
@@ -147,22 +163,24 @@ namespace SampleProjects.NakamaGroups.Editor
                 if (!rootGameObject.TryGetComponent<NakamaGroupsController>(out var GroupsController)) continue;
 
                 // Save username before switching
-                if (!string.IsNullOrEmpty(previousValue) && GroupsController.Session != null)
+                var session = NakamaSingleton.Instance.Session;
+                if (!string.IsNullOrEmpty(previousValue) && session != null)
                 {
-                    accountUsernames[previousValue] = GroupsController.Session.Username;
+                    accountUsernames[previousValue] = session.Username;
                 }
                 
-                if (GroupsController.Session != null)
+                if (session != null)
                 {
-                    await GroupsController.Client.SessionLogoutAsync(GroupsController.Session);
+                    await NakamaSingleton.Instance.Client.SessionLogoutAsync(session);
                 }
 
                 try
                 {
-                    var newSession = await GroupsController.Client.AuthenticateDeviceAsync($"{deviceId}_{accountDropdown.index}");
+                    var newSession =
+                        await NakamaSingleton.Instance.Client.AuthenticateDeviceAsync($"{deviceId}_{accountDropdown.index}");
                     accountUsernames[newValue] = newSession.Username;
                     GroupsController.SwitchComplete(newSession);
-                    
+
                     // Save usernames after successful authentication
                     SaveAccountUsernames();
                     break;
@@ -181,7 +199,7 @@ namespace SampleProjects.NakamaGroups.Editor
         {
             var sb = new StringBuilder();
             var index = 1;
-    
+
             foreach (var kvp in accountUsernames)
             {
                 sb.Append(index);

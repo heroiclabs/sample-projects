@@ -2,7 +2,7 @@ using Nakama;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace SampleProjects.Groups
+namespace UnityNakamaGroups
 {
     public class GroupView
     {

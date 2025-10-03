@@ -1,9 +1,12 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <ui:Label text="Nakama Account Switcher" style="-unity-text-align: upper-center; -unity-font-style: bold; font-size: 28px; margin-bottom: 4px; margin-top: 8px;" />
-    <ui:VisualElement style="margin-top: 8px;">
-        <ui:DropdownField label="Account:" name="account-dropdown" choices="ACCOUNT 1,ACCOUNT 2,ACCOUNT 3,ACCOUNT 4" index="0" />
-        <ui:VisualElement style="flex-grow: 1; height: 8px;" />
-        <ui:Label text="Account Usernames" style="-unity-text-align: upper-center; -unity-font-style: bold;" />
-        <ui:Label name="usernames" selectable="true" />
+    <ui:VisualElement style="flex-grow: 1; padding-top: 8px; padding-right: 8px; padding-bottom: 0; padding-left: 8px; align-items: stretch; justify-content: flex-start;">
+        <ui:Label text="Nakama Account Switcher" style="-unity-text-align: upper-center; -unity-font-style: normal; font-size: 24px; margin-bottom: 4px; margin-top: 8px; -unity-font-definition: url(&quot;project://database/Assets/UnityNakamaLeaderboards/HeroicUI/Fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-Bold.ttf?fileID=12800000&amp;guid=b0eab255566194e3c923ef0f1d4571da&amp;type=3#PlusJakartaSans-Bold&quot;); white-space: normal;" />
+        <ui:Label text="The Account Switcher lets you explore the project as different users without managing multiple builds.&#10;&#10;Use the dropdown to switch between up to four different test accounts. An account will be automatically created the first time you select it.&#10;&#10;Note: Account switching only works during play mode." style="white-space: normal; -unity-font-definition: url(&quot;project://database/Assets/UnityNakamaLeaderboards/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
+        <ui:VisualElement style="margin-top: 8px;" />
+        <ui:DropdownField label="Choose account:" name="account-dropdown" index="0" choices="ACCOUNT 1,ACCOUNT 2,ACCOUNT 3,ACCOUNT 4" style="-unity-font-definition: url(&quot;project://database/Assets/UnityNakamaLeaderboards/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
+        <ui:VisualElement name="VisualElement" style="flex-grow: 1; height: 8px; align-items: center; justify-content: flex-start; align-self: flex-start; align-content: flex-start; margin-top: 8px;">
+            <ui:Label text="Account Usernames" style="-unity-text-align: upper-center; -unity-font-style: bold; white-space: pre; -unity-font-definition: url(&quot;project://database/Assets/UnityNakamaLeaderboards/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
+            <ui:Label name="usernames" selectable="true" style="align-self: flex-start;" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

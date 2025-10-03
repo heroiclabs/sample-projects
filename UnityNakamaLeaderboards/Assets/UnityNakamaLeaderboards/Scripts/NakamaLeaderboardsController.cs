@@ -5,23 +5,20 @@ using Nakama;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace SampleProjects.Leaderboards
+namespace UnityNakamaLeaderboards
 {
     [RequireComponent(typeof(UIDocument))]
     public class NakamaLeaderboardsController : MonoBehaviour
     {
-        [Header("Nakama Settings")]
-        [SerializeField] private string scheme = "http";
-        [SerializeField] private string host = "127.0.0.1";
-        [SerializeField] private int port = 7350;
-        [SerializeField] private string serverKey = "defaultkey";
-
-        [Header("Leaderboard Settings")]
-        [SerializeField] private int recordsLimit = 20;
+        [Header("Leaderboard Settings")] [SerializeField]
+        private int recordsLimit = 20;
         
-        [Header("References")]
-        [SerializeField] private VisualTreeAsset listRecordTemplate;
-        [field: SerializeField] public Texture2D[] RankMedals { get; private set; }
+        [Header("References")] [SerializeField]
+        private VisualTreeAsset listRecordTemplate;
+        [field: SerializeField]
+        public Texture2D[] RankMedals { get; private set; }
+
+        public event Action<ISession, NakamaLeaderboardsController> OnInitialized;
 
         private Button weeklyTab;
         private Button globalTab;
@@ -43,9 +40,6 @@ namespace SampleProjects.Leaderboards
         private VisualElement ownerRecordElement;
         private LeaderboardRecordView ownerRecordView;
 
-        public Client Client { get; private set; }
-        public ISession Session { get; private set; }
-
         private string prevCursor;
         private string nextCursor;
         private string selectedLeaderboardId;
@@ -55,49 +49,28 @@ namespace SampleProjects.Leaderboards
         private const string GlobalLeaderboardId = "global_leaderboard";
         
         #region Initialization
-        private async void Start()
+        private void Start()
         {
             InitializeUI();
-            
-            await AuthenticateWithDevice();
-
-            // Load the Weekly Leaderboard by default.
-            UpdateLeaderboardRecords(WeeklyLeaderboardId);
-        }
-
-        private async Task AuthenticateWithDevice()
-        {
-            Client = new Client(scheme, host, port, serverKey, UnityWebRequestAdapter.Instance);
-
-            // If the user's device ID is already stored, grab that - alternatively get the System's unique device identifier.
-            var deviceId = PlayerPrefs.GetString("deviceId", SystemInfo.deviceUniqueIdentifier);
-
-            // If the device identifier is invalid, then let's generate a unique one.
-            if (deviceId == SystemInfo.unsupportedIdentifier)
+            NakamaSingleton.Instance.ReceivedStartError += e =>
             {
-                deviceId = Guid.NewGuid().ToString();
-            }
-
-            // Save the user's device ID to PlayerPrefs, so it can be retrieved during a later play session for re-authenticating.
-            PlayerPrefs.SetString("deviceId", deviceId);
-
-            try
-            {
-                Session = await Client.AuthenticateDeviceAsync($"{deviceId}_0");
-                Debug.Log($"Authenticated {Session.Username} with Device ID");
-            }
-            catch (Exception ex)
-            {
+                Debug.LogException(e);
                 errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = ex.Message;
-            }
+                errorMessage.text = e.Message;
+            };
+            NakamaSingleton.Instance.ReceivedStartSuccess += session =>
+            {
+                OnInitialized?.Invoke(session, this);
+                // Load the Weekly Leaderboard by default.
+                _ = UpdateLeaderboardRecords(WeeklyLeaderboardId);
+            };
         }
 
         public void SwitchComplete(ISession newSession)
         {
             // For use with the account switcher editor tool.
-            Session = newSession;
-            UpdateLeaderboardRecords(selectedLeaderboardId);
+            (NakamaSingleton.Instance.Session as Session)?.Update(newSession.AuthToken, newSession.RefreshToken);
+            _ = UpdateLeaderboardRecords(selectedLeaderboardId);
         }
         #endregion
 
@@ -107,37 +80,37 @@ namespace SampleProjects.Leaderboards
             var rootElement = GetComponent<UIDocument>().rootVisualElement;
 
             weeklyTab = rootElement.Q<Button>("weekly-tab");
-            weeklyTab.RegisterCallback<ClickEvent>(_ =>
+            weeklyTab.RegisterCallback<ClickEvent>(evt =>
             {
                 if (selectedLeaderboardId == WeeklyLeaderboardId) return;
                 weeklyTab.AddToClassList("selected");
                 globalTab.RemoveFromClassList("selected");
-                UpdateLeaderboardRecords(WeeklyLeaderboardId);
+                _ = UpdateLeaderboardRecords(WeeklyLeaderboardId);
             });
 
             globalTab = rootElement.Q<Button>("global-tab");
-            globalTab.RegisterCallback<ClickEvent>(_ =>
+            globalTab.RegisterCallback<ClickEvent>(evt =>
             {
                 if (selectedLeaderboardId == GlobalLeaderboardId) return;
                 globalTab.AddToClassList("selected");
                 weeklyTab.RemoveFromClassList("selected");
-                UpdateLeaderboardRecords(GlobalLeaderboardId);
+                _ = UpdateLeaderboardRecords(GlobalLeaderboardId);
             });
 
             submitButton = rootElement.Q<Button>("leaderboard-submit");
-            submitButton.RegisterCallback<ClickEvent>(LeaderboardSubmit);
+            submitButton.RegisterCallback<ClickEvent>(evt => _ = LeaderboardSubmit());
 
             deleteButton = rootElement.Q<Button>("leaderboard-delete");
-            deleteButton.RegisterCallback<ClickEvent>(LeaderboardDelete);
+            deleteButton.RegisterCallback<ClickEvent>(evt => _ = LeaderboardDelete());
 
             refreshButton = rootElement.Q<Button>("refresh");
-            refreshButton.RegisterCallback<ClickEvent>(_ => UpdateLeaderboardRecords(selectedLeaderboardId));
+            refreshButton.RegisterCallback<ClickEvent>(evt => _ = UpdateLeaderboardRecords(selectedLeaderboardId));
 
             previousButton = rootElement.Q<Button>("previous-page");
-            previousButton.RegisterCallback<ClickEvent>(_ => UpdateLeaderboardRecords(selectedLeaderboardId, prevCursor));
+            previousButton.RegisterCallback<ClickEvent>(evt => _ = UpdateLeaderboardRecords(selectedLeaderboardId, prevCursor));
 
             nextButton = rootElement.Q<Button>("next-page");
-            nextButton.RegisterCallback<ClickEvent>(_ => UpdateLeaderboardRecords(selectedLeaderboardId, nextCursor));
+            nextButton.RegisterCallback<ClickEvent>(evt => _ = UpdateLeaderboardRecords(selectedLeaderboardId, nextCursor));
 
             operatorField = rootElement.Q<EnumField>("operator-field");
             scoreField = rootElement.Q<LongField>("score-field");
@@ -177,23 +150,17 @@ namespace SampleProjects.Leaderboards
 
         #region Leaderboards
 
-        private async void UpdateLeaderboardRecords(string leaderboardId, string cursor = null)
+        private async Task UpdateLeaderboardRecords(string leaderboardId, string cursor = null)
         {
-            if (Session == null) return;
-
             // Store the current Leaderboard, so we know which to fetch when refreshing.
             selectedLeaderboardId = leaderboardId;
 
             try
             {
                 // Fetch the specified range of records, as well as the session user's record, if there is one.
-                var result = await Client.ListLeaderboardRecordsAsync(
-                    Session,
-                    leaderboardId,
-                    new [] { Session.UserId },
-                    null,
-                    recordsLimit,
-                    cursor);
+                var session = NakamaSingleton.Instance.Session;
+                var result = await NakamaSingleton.Instance.Client.ListLeaderboardRecordsAsync(
+                    session, leaderboardId, new [] { session.UserId }, null, recordsLimit, cursor);
 
                 // Store previous and next cursors to allow for pagination.
                 prevCursor = result.PrevCursor;
@@ -219,10 +186,10 @@ namespace SampleProjects.Leaderboards
                 leaderboardRecords.AddRange(result.Records);
                 
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
                 errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = ex.Message;
+                errorMessage.text = e.Message;
                 return;
             }
 
@@ -234,52 +201,50 @@ namespace SampleProjects.Leaderboards
             scrollView.scrollOffset = Vector2.zero;
         }
 
-        private async void LeaderboardSubmit(ClickEvent evt)
+        private async Task LeaderboardSubmit()
         {
-            if (Session == null) return;
-
             try
             {
                 // Write the inputted score and sub-score to the server, using the specified operator.
-                await Client.WriteLeaderboardRecordAsync(
-                    Session,
+                var session = NakamaSingleton.Instance.Session;
+                await NakamaSingleton.Instance.Client.WriteLeaderboardRecordAsync(
+                    session,
                     selectedLeaderboardId,
                     scoreField.value,
                     subScoreField.value,
                     null,
                     (ApiOperator)operatorField.value);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
                 errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = ex.Message;
+                errorMessage.text = e.Message;
                 return;
             }
 
             // After successfully writing the new scores, update the records list.
-            UpdateLeaderboardRecords(selectedLeaderboardId);
+            _ = UpdateLeaderboardRecords(selectedLeaderboardId);
         }
 
-        private async void LeaderboardDelete(ClickEvent evt)
+        private async Task LeaderboardDelete()
         {
-            if (Session == null) return;
-
             try
             {
                 // Delete the session user's record.
-                await Client.DeleteLeaderboardRecordAsync(
-                    Session,
+                var session = NakamaSingleton.Instance.Session;
+                await NakamaSingleton.Instance.Client.DeleteLeaderboardRecordAsync(
+                    session,
                     selectedLeaderboardId);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
                 errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = ex.Message;
+                errorMessage.text = e.Message;
                 return;
             }
 
             // After successfully deleting the record, update the records list.
-            UpdateLeaderboardRecords(selectedLeaderboardId);
+            _ = UpdateLeaderboardRecords(selectedLeaderboardId);
         }
         #endregion
     }

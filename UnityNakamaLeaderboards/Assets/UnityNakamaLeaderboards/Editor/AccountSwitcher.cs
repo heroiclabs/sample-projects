@@ -1,3 +1,17 @@
+// Copyright 2025 The Nakama Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,18 +21,19 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-namespace SampleProjects.Leaderboards.Editor
+namespace UnityNakamaLeaderboards.Editor
 {
-        public class AccountSwitcherEditor : EditorWindow
+    public class AccountSwitcherEditor : EditorWindow
     {
-        [SerializeField] private VisualTreeAsset tree;
+        [SerializeField]
+        private VisualTreeAsset tree;
 
         private DropdownField accountDropdown;
         private Label usernamesLabel;
 
         private readonly SortedDictionary<string, string> accountUsernames = new();
 
-        private const string FIRST_OPEN_KEY = "AccountSwitcher_FirstOpen";
+        private const string AccountUsernamesKey = "AccountSwitcher_Usernames";
 
         [MenuItem("Tools/Nakama/Account Switcher")]
         public static void ShowWindow()
@@ -29,13 +44,19 @@ namespace SampleProjects.Leaderboards.Editor
             window.Focus();
         }
 
-        [InitializeOnLoadMethod]
-        private static void OnProjectLoadedInEditor()
+        [MenuItem("Tools/Nakama/Clear Test Accounts")]
+        public static void ClearSavedAccounts()
         {
-            if (!EditorPrefs.GetBool(FIRST_OPEN_KEY, true)) return;
-
-            EditorPrefs.SetBool(FIRST_OPEN_KEY, false);
-            EditorApplication.delayCall += ShowWindow;
+            EditorPrefs.DeleteKey(AccountUsernamesKey);
+            Debug.Log("Cleared all saved account usernames");
+    
+            // Refresh any open Account Switcher windows
+            var windows = Resources.FindObjectsOfTypeAll<AccountSwitcherEditor>();
+            foreach (var window in windows)
+            {
+                window.accountUsernames.Clear();
+                window.UpdateUsernameLabels();
+            }
         }
 
         private void CreateGUI()
@@ -46,6 +67,79 @@ namespace SampleProjects.Leaderboards.Editor
             accountDropdown.RegisterValueChangedCallback(SwitchAccount);
 
             usernamesLabel = rootVisualElement.Q<Label>("usernames");
+            
+            // Load saved usernames on startup
+            LoadAccountUsernames();
+            UpdateUsernameLabels();
+
+            if (!EditorApplication.isPlaying) return;
+
+            var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
+            foreach (var rootGameObject in rootGameObjects)
+            {
+                if (!rootGameObject.TryGetComponent<NakamaLeaderboardsController>(out var leaderboardsController)) continue;
+
+                var session = NakamaSingleton.Instance.Session;
+                if (session != null)
+                {
+                    OnControllerInitialized(session);
+                }
+                else
+                {
+                    leaderboardsController.OnInitialized += OnControllerInitialized;
+                }
+            }
+        }
+
+        private void OnControllerInitialized(ISession session, NakamaLeaderboardsController controller = null)
+        {
+            accountUsernames[accountDropdown.choices[0]] = session.Username;
+            UpdateUsernameLabels();
+
+            if (controller != null)
+            {
+                controller.OnInitialized -= OnControllerInitialized;
+            }
+        }
+
+        private void LoadAccountUsernames()
+        {
+            var savedUsernames = EditorPrefs.GetString(AccountUsernamesKey, "");
+            if (string.IsNullOrEmpty(savedUsernames)) return;
+
+            try
+            {
+                var usernameData = JsonUtility.FromJson<SerializableStringDictionary>(savedUsernames);
+                accountUsernames.Clear();
+                
+                foreach (var item in usernameData.items)
+                {
+                    accountUsernames[item.key] = item.value;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"Failed to load saved account usernames: {ex.Message}");
+            }
+        }
+
+        private void SaveAccountUsernames()
+        {
+            try
+            {
+                var usernameData = new SerializableStringDictionary();
+                foreach (var kvp in accountUsernames)
+                {
+                    usernameData.items.Add(new SerializableKeyValuePair { key = kvp.Key, value = kvp.Value });
+                }
+
+                var json = JsonUtility.ToJson(usernameData);
+                EditorPrefs.SetString(AccountUsernamesKey, json);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"Failed to save account usernames: {ex.Message}");
+            }
         }
 
         private async void SwitchAccount(ChangeEvent<string> changeEvt)
@@ -60,6 +154,7 @@ namespace SampleProjects.Leaderboards.Editor
             {
                 deviceId = Guid.NewGuid().ToString();
             }
+
             PlayerPrefs.SetString("deviceId", deviceId);
 
             var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
@@ -67,20 +162,32 @@ namespace SampleProjects.Leaderboards.Editor
             {
                 if (!rootGameObject.TryGetComponent<NakamaLeaderboardsController>(out var leaderboardsController)) continue;
 
-                accountUsernames[previousValue] = leaderboardsController.Session.Username;
-                await leaderboardsController.Client.SessionLogoutAsync(leaderboardsController.Session);
+                // Save username before switching
+                var session = NakamaSingleton.Instance.Session;
+                if (!string.IsNullOrEmpty(previousValue) && session != null)
+                {
+                    accountUsernames[previousValue] = session.Username;
+                }
+                
+                if (session != null)
+                {
+                    await NakamaSingleton.Instance.Client.SessionLogoutAsync(session);
+                }
 
                 try
                 {
-                    var newSession = await leaderboardsController.Client.AuthenticateDeviceAsync($"{deviceId}_{accountDropdown.index}");
+                    var newSession =
+                        await NakamaSingleton.Instance.Client.AuthenticateDeviceAsync($"{deviceId}_{accountDropdown.index}");
                     accountUsernames[newValue] = newSession.Username;
-                    Debug.Log($"Authenticated {newSession.Username} with Device ID");
                     leaderboardsController.SwitchComplete(newSession);
+
+                    // Save usernames after successful authentication
+                    SaveAccountUsernames();
                     break;
                 }
-                catch (ApiResponseException ex)
+                catch (ApiResponseException e)
                 {
-                    Debug.LogFormat("Error authenticating with Device ID: {0}", ex.Message);
+                    Debug.LogWarning($"Error authenticating with Device ID: {e.Message}");
                     return;
                 }
             }
@@ -91,15 +198,31 @@ namespace SampleProjects.Leaderboards.Editor
         private void UpdateUsernameLabels()
         {
             var sb = new StringBuilder();
+            var index = 1;
+
             foreach (var kvp in accountUsernames)
             {
-                sb.Append(kvp.Key);
+                sb.Append(index);
                 sb.Append(": ");
                 sb.Append(kvp.Value);
                 sb.AppendLine();
+                index++;
             }
 
             usernamesLabel.text = sb.ToString();
+        }
+
+        [Serializable]
+        private class SerializableStringDictionary
+        {
+            public List<SerializableKeyValuePair> items = new();
+        }
+
+        [Serializable]
+        private class SerializableKeyValuePair
+        {
+            public string key;
+            public string value;
         }
     }
 }

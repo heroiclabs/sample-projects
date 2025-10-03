@@ -1,7 +1,8 @@
+using System.Threading.Tasks;
 using Nakama;
 using UnityEngine.UIElements;
 
-namespace SampleProjects.Groups
+namespace UnityNakamaGroups
 {
     public class GroupUserView
     {
@@ -25,22 +26,22 @@ namespace SampleProjects.Groups
             roleLabel = visualElement.Q<Label>("role");
 
             acceptButton = visualElement.Q<Button>("accept");
-            acceptButton.RegisterCallback<ClickEvent>(AcceptUser);
+            acceptButton.RegisterCallback<ClickEvent>(evt => _ = AcceptUser());
 
             declineButton = visualElement.Q<Button>("decline");
-            declineButton.RegisterCallback<ClickEvent>(KickUser); // Kicking is also used to decline invites.
+            declineButton.RegisterCallback<ClickEvent>(evt => _ = KickUser()); // Kicking is also used to decline invites.
 
             promoteButton = visualElement.Q<Button>("promote");
-            promoteButton.RegisterCallback<ClickEvent>(PromoteUser);
+            promoteButton.RegisterCallback<ClickEvent>(evt => _ = PromoteUser());
 
             demoteButton = visualElement.Q<Button>("demote");
-            demoteButton.RegisterCallback<ClickEvent>(DemoteUser);
+            demoteButton.RegisterCallback<ClickEvent>(evt => _ = DemoteUser());
 
             kickButton = visualElement.Q<Button>("kick");
-            kickButton.RegisterCallback<ClickEvent>(KickUser);
+            kickButton.RegisterCallback<ClickEvent>(evt => _ = KickUser());
 
             banButton = visualElement.Q<Button>("ban");
-            banButton.RegisterCallback<ClickEvent>(BanUser);
+            banButton.RegisterCallback<ClickEvent>(evt => _ = BanUser());
         }
 
         public void SetGroupUser(GroupUserState viewerState, IGroupUserListGroupUser groupUser)
@@ -52,7 +53,8 @@ namespace SampleProjects.Groups
             roleLabel.text = userState.ToString();
 
             // Hide if user is self.
-            if (groupsController.Session.UserId == groupUser.User.Id)
+            var session = NakamaSingleton.Instance.Session;
+            if (session.UserId == groupUser.User.Id)
             {
                 acceptButton.style.display = DisplayStyle.None;
                 declineButton.style.display = DisplayStyle.None;
@@ -66,9 +68,9 @@ namespace SampleProjects.Groups
             switch (viewerState)
             {
                 // We don't have permissions to manage the group.
-                case GroupUserState.NONE:
-                case GroupUserState.JOINREQUEST:
-                case GroupUserState.MEMBER:
+                case GroupUserState.None:
+                case GroupUserState.JoinRequest:
+                case GroupUserState.Member:
                     acceptButton.style.display = DisplayStyle.None;
                     declineButton.style.display = DisplayStyle.None;
                     promoteButton.style.display = DisplayStyle.None;
@@ -77,69 +79,50 @@ namespace SampleProjects.Groups
                     banButton.style.display = DisplayStyle.None;
                     break;
                 // We can manage non-ADMIN or non-SUPERADMIN users, including accepting join requests.
-                case GroupUserState.ADMIN:
+                case GroupUserState.Admin:
                     acceptButton.style.display =
-                        userState == GroupUserState.JOINREQUEST ? DisplayStyle.Flex : DisplayStyle.None;
+                        userState == GroupUserState.JoinRequest ? DisplayStyle.Flex : DisplayStyle.None;
                     declineButton.style.display =
-                        userState == GroupUserState.JOINREQUEST ? DisplayStyle.Flex : DisplayStyle.None;
+                        userState == GroupUserState.JoinRequest ? DisplayStyle.Flex : DisplayStyle.None;
                     promoteButton.style.display =
-                        userState == GroupUserState.MEMBER ? DisplayStyle.Flex : DisplayStyle.None;
+                        userState == GroupUserState.Member ? DisplayStyle.Flex : DisplayStyle.None;
                     demoteButton.style.display =
-                        userState == GroupUserState.ADMIN ? DisplayStyle.Flex : DisplayStyle.None;
+                        userState == GroupUserState.Admin ? DisplayStyle.Flex : DisplayStyle.None;
                     kickButton.style.display =
-                        userState == GroupUserState.MEMBER ? DisplayStyle.Flex : DisplayStyle.None;
-                    banButton.style.display = userState is GroupUserState.JOINREQUEST or GroupUserState.MEMBER
+                        userState == GroupUserState.Member ? DisplayStyle.Flex : DisplayStyle.None;
+                    banButton.style.display = userState is GroupUserState.JoinRequest or GroupUserState.Member
                         ? DisplayStyle.Flex
                         : DisplayStyle.None;
                     break;
                 // We have all possible privileges.
-                case GroupUserState.SUPERADMIN:
+                case GroupUserState.SuperAdmin:
                     acceptButton.style.display =
-                        userState == GroupUserState.JOINREQUEST ? DisplayStyle.Flex : DisplayStyle.None;
+                        userState == GroupUserState.JoinRequest ? DisplayStyle.Flex : DisplayStyle.None;
                     declineButton.style.display =
-                        userState == GroupUserState.JOINREQUEST ? DisplayStyle.Flex : DisplayStyle.None;
-                    promoteButton.style.display = userState is GroupUserState.MEMBER or GroupUserState.ADMIN
+                        userState == GroupUserState.JoinRequest ? DisplayStyle.Flex : DisplayStyle.None;
+                    promoteButton.style.display = userState is GroupUserState.Member or GroupUserState.Admin
                         ? DisplayStyle.Flex
                         : DisplayStyle.None;
-                    demoteButton.style.display = userState is GroupUserState.SUPERADMIN or GroupUserState.ADMIN
+                    demoteButton.style.display = userState is GroupUserState.SuperAdmin or GroupUserState.Admin
                         ? DisplayStyle.Flex
                         : DisplayStyle.None;
                     kickButton.style.display =
-                        userState is GroupUserState.MEMBER or GroupUserState.ADMIN or GroupUserState.SUPERADMIN
+                        userState is GroupUserState.Member or GroupUserState.Admin or GroupUserState.SuperAdmin
                             ? DisplayStyle.Flex
                             : DisplayStyle.None;
                     banButton.style.display =
-                        userState is GroupUserState.JOINREQUEST or GroupUserState.MEMBER or GroupUserState.ADMIN
-                            or GroupUserState.SUPERADMIN
+                        userState is GroupUserState.JoinRequest or GroupUserState.Member or GroupUserState.Admin
+                            or GroupUserState.SuperAdmin
                             ? DisplayStyle.Flex
                             : DisplayStyle.None;
                     break;
             }
         }
 
-        private void AcceptUser(ClickEvent _)
-        {
-            groupsController.GroupAccept(userId);
-        }
-
-        private void PromoteUser(ClickEvent _)
-        {
-            groupsController.GroupPromote(userId);
-        }
-
-        private void DemoteUser(ClickEvent _)
-        {
-            groupsController.GroupDemote(userId);
-        }
-
-        private void KickUser(ClickEvent _)
-        {
-            groupsController.GroupKick(userId);
-        }
-
-        private void BanUser(ClickEvent _)
-        {
-            groupsController.GroupBan(userId);
-        }
+        private Task AcceptUser() => groupsController.GroupAccept(userId);
+        private Task PromoteUser() => groupsController.GroupPromote(userId);
+        private Task DemoteUser() => groupsController.GroupDemote(userId);
+        private Task KickUser() => groupsController.GroupKick(userId);
+        private Task BanUser() => groupsController.GroupBan(userId);
     }
 }
