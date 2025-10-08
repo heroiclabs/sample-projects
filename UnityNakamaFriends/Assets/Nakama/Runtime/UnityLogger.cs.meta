@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 7286bc6ea2d7f4437bc18f2e5063e1b5
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 81338
+  packageName: Nakama
+  packageVersion: 3.17.0
+  assetPath: Assets/Nakama/Runtime/UnityLogger.cs
+  uploadId: 798650

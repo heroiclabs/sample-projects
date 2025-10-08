@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 956b69bdb3f44a97a23ab3d8804f7353
+timeCreated: 1559900024
+AssetOrigin:
+  serializedVersion: 1
+  productId: 81338
+  packageName: Nakama
+  packageVersion: 3.17.0
+  assetPath: Assets/Nakama/Editor/Snippets/DeviceAuthentication.cs
+  uploadId: 798650

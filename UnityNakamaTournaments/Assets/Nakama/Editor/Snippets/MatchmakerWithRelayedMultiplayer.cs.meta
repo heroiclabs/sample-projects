@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: e04008b99192461ab81d22ad0af6841b
+timeCreated: 1559904046
+AssetOrigin:
+  serializedVersion: 1
+  productId: 81338
+  packageName: Nakama
+  packageVersion: 3.17.0
+  assetPath: Assets/Nakama/Editor/Snippets/MatchmakerWithRelayedMultiplayer.cs
+  uploadId: 798650

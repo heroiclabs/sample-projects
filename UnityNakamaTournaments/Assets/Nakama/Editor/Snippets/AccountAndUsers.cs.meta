@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 8c3a71dc6ff64337a47cffda0682814c
+timeCreated: 1559895277
+AssetOrigin:
+  serializedVersion: 1
+  productId: 81338
+  packageName: Nakama
+  packageVersion: 3.17.0
+  assetPath: Assets/Nakama/Editor/Snippets/AccountAndUsers.cs
+  uploadId: 798650

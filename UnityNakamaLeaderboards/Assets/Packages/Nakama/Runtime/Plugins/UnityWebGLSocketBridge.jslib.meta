@@ -39,6 +39,6 @@ AssetOrigin:
   serializedVersion: 1
   productId: 81338
   packageName: Nakama
-  packageVersion: 3.15.0
+  packageVersion: 3.17.0
   assetPath: Assets/Packages/Nakama/Runtime/Plugins/UnityWebGLSocketBridge.jslib
-  uploadId: 773062
+  uploadId: 798650

@@ -13,6 +13,6 @@ AssetOrigin:
   serializedVersion: 1
   productId: 81338
   packageName: Nakama
-  packageVersion: 3.15.0
-  assetPath: Assets/Packages/Nakama/Runtime/Satori/UnityWebRequestAdapter.cs
-  uploadId: 773062
+  packageVersion: 3.17.0
+  assetPath: Assets/Plugins/Nakama/Runtime/Satori/UnityWebRequestAdapter.cs
+  uploadId: 798650

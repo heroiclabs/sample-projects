@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 0005fa3038e840b3afa093735c5d46cb
+timeCreated: 1560335143
+AssetOrigin:
+  serializedVersion: 1
+  productId: 81338
+  packageName: Nakama
+  packageVersion: 3.17.0
+  assetPath: Assets/Nakama/Editor/Snippets/RejoinChatAfterDisconnect.cs
+  uploadId: 798650

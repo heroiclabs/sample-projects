@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 5cceb5b82cf7b4b56a7687f3b28b0a82
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 81338
+  packageName: Nakama
+  packageVersion: 3.17.0
+  assetPath: Assets/Nakama/Documentation/Nakama 2 + Unity Engine.md
+  uploadId: 798650

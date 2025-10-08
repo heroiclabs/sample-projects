@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: f3a776f6712cb47c28dd3d0802f283f8
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 81338
+  packageName: Nakama
+  packageVersion: 3.17.0
+  assetPath: Assets/Nakama/Runtime/UnitySocket.cs
+  uploadId: 798650

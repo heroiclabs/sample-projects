@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: bdf4b7cccedb9480f97755cc4dec1147
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 81338
+  packageName: Nakama
+  packageVersion: 3.17.0
+  assetPath: Assets/Nakama/CHANGELOG.md
+  uploadId: 798650

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: d6fc326d328214623ace85dbd2078846
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 81338
+  packageName: Nakama
+  packageVersion: 3.17.0
+  assetPath: Assets/Nakama/Documentation/Nakama 2 + Unity Engine.pdf
+  uploadId: 798650

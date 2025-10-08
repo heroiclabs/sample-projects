@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 8889c9d7b72c345f38a6eef6423bf0ef
+PackageManifestImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 81338
+  packageName: Nakama
+  packageVersion: 3.17.0
+  assetPath: Assets/Nakama/package.json
+  uploadId: 798650

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 88d9c783afddc4d9f83d4e1ea3c1b009
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 81338
+  packageName: Nakama
+  packageVersion: 3.17.0
+  assetPath: Assets/Nakama/Editor/link.xml
+  uploadId: 798650

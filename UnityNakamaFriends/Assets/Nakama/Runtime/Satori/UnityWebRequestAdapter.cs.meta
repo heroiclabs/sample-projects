@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 7328a9c3e42f84294ac53e8712835c35
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 81338
+  packageName: Nakama
+  packageVersion: 3.17.0
+  assetPath: Assets/Nakama/Runtime/Satori/UnityWebRequestAdapter.cs
+  uploadId: 798650
