@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace SampleProjects.NakamaGroups.Editor
+namespace SampleProjects.NakamaFriends.Editor
 {
     public class Readme : ScriptableObject
     {

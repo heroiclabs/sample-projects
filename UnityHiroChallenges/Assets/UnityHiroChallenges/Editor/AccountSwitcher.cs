@@ -1,14 +1,16 @@
-/*using System;
+using System;
 using System.Collections.Generic;
+using System.Net.WebSockets;
 using System.Text;
+using System.Threading.Tasks;
 using Nakama;
-using SampleProjects.Challenges;
+using Hiro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-namespace SampleProjects.Challenges
+namespace SampleProjects.Challenges.Editor
 {
     public class AccountSwitcherEditor : EditorWindow
     {
@@ -63,20 +65,20 @@ namespace SampleProjects.Challenges
             var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
             foreach (var rootGameObject in rootGameObjects)
             {
-                if (!rootGameObject.TryGetComponent<NakamaChallengesController>(out var GroupsController)) continue;
+                if (!rootGameObject.TryGetComponent<HiroChallengesController>(out var friendsController)) continue;
 
-                if (GroupsController.Session != null)
+                if (friendsController.Session != null)
                 {
-                    OnControllerInitialized(GroupsController.Session);
+                    OnControllerInitialized(friendsController.Session);
                 }
                 else
                 {
-                    GroupsController.OnInitialized += OnControllerInitialized;
+                    friendsController.OnInitialized += OnControllerInitialized;
                 }
             }
         }
 
-        private void OnControllerInitialized(ISession session, NakamaGroupsController controller = null)
+        private void OnControllerInitialized(ISession session, HiroChallengesController controller = null)
         {
             accountUsernames[accountDropdown.choices[0]] = session.Username;
             UpdateUsernameLabels();
@@ -102,9 +104,9 @@ namespace SampleProjects.Challenges
                     accountUsernames[item.key] = item.value;
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Debug.LogWarning($"Failed to load saved account usernames: {e.Message}");
+                Debug.LogWarning($"Failed to load saved account usernames: {ex.Message}");
             }
         }
 
@@ -121,9 +123,9 @@ namespace SampleProjects.Challenges
                 var json = JsonUtility.ToJson(usernameData);
                 EditorPrefs.SetString(ACCOUNT_USERNAMES_KEY, json);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Debug.LogWarning($"Failed to save account usernames: {e.Message}");
+                Debug.LogWarning($"Failed to save account usernames: {ex.Message}");
             }
         }
 
@@ -140,36 +142,39 @@ namespace SampleProjects.Challenges
                 deviceId = Guid.NewGuid().ToString();
             }
             PlayerPrefs.SetString("deviceId", deviceId);
-
-            var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
+            Debug.Log("Switching Accounts");
+            var rootGameObjects = new [] { GameObject.FindFirstObjectByType<HiroChallengesController>() };
             foreach (var rootGameObject in rootGameObjects)
             {
-                if (!rootGameObject.TryGetComponent<NakamaGroupsController>(out var GroupsController)) continue;
+                Debug.LogFormat("rootObject name: {0}", rootGameObject.name);
+                if (!rootGameObject.TryGetComponent<HiroChallengesController>(out var friendsController)) continue;
 
                 // Save username before switching
-                if (!string.IsNullOrEmpty(previousValue) && GroupsController.Session != null)
+                if (!string.IsNullOrEmpty(previousValue) && friendsController.Session != null)
                 {
-                    accountUsernames[previousValue] = GroupsController.Session.Username;
+                    accountUsernames[previousValue] = friendsController.Session.Username;
                 }
-                
-                if (GroupsController.Session != null)
+
+                if (friendsController.getSession() != null)
                 {
-                    await GroupsController.Client.SessionLogoutAsync(GroupsController.Session);
+                    await friendsController.Client.SessionLogoutAsync((ISession)friendsController.getSession());
                 }
 
                 try
                 {
-                    var newSession = await GroupsController.Client.AuthenticateDeviceAsync($"{deviceId}_{accountDropdown.index}");
-                    accountUsernames[newValue] = newSession.Username;
-                    GroupsController.SwitchComplete(newSession);
+                    Debug.Log("Switching Accounts In");
+                    var newDeviceID = $"{deviceId}_{accountDropdown.index}";
+                    var switchResult = await friendsController.SwitchAccounts(newDeviceID, accountDropdown.index);
                     
-                    // Save usernames after successful authentication
+                    await friendsController.SwitchComplete(switchResult.GetSystem<NakamaSystem>().Session);
+                    await friendsController.Systems.InitializeAsync();
+
                     SaveAccountUsernames();
                     break;
                 }
-                catch (ApiResponseException e)
+                catch (ApiResponseException ex)
                 {
-                    Debug.LogWarning($"Error authenticating with Device ID: {e.Message}");
+                    Debug.LogWarning($"Error authenticating with Device ID: {ex.Message}");
                     return;
                 }
             }
@@ -207,4 +212,4 @@ namespace SampleProjects.Challenges
             public string value;
         }
     }
-}*/
+}

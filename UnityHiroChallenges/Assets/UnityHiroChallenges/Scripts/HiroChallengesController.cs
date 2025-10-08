@@ -76,7 +76,7 @@ namespace SampleProjects.Challenges
         private Button errorCloseButton;
         private Label errorMessage;
 
-        public Client Client { get; private set; }
+        public IClient Client { get; private set; }
         public ISession Session { get; private set; }
         private IChallengesSystem challengesSystem;
 
@@ -88,12 +88,16 @@ namespace SampleProjects.Challenges
 
         #region Initialization
 
-        public void SwitchComplete(ISession newSession)
+        public async Task SwitchComplete(ISession newSession)
         {
-            // For use with the account switcher editor tool.
-            Session = newSession;
+            Session = this.GetSystem<NakamaSystem>().Session;
+            
             UpdateChallenges();
+            OnInitialized?.Invoke(Session, this);
+            
+            //Debug.LogFormat("Account switch complete. New user: {0}", newSession.Username);
         }
+
 
         #endregion
 
@@ -516,12 +520,6 @@ namespace SampleProjects.Challenges
 
         protected override Task<Systems> CreateSystemsAsync()
         {
-            // Nakama server address.
-            const string scheme = "http";
-            const string host = "127.0.0.1";
-            const int port = 7350;
-            const string serverKey = "defaultkey";
-
             var logger = new Hiro.Unity.Logger();
 
             // Set up network connectivity probes.
@@ -540,6 +538,9 @@ namespace SampleProjects.Challenges
                 PlayerPrefs.SetString(PlayerPrefsRefreshToken, session.RefreshToken);
             };
 
+            // Store references for account switcher
+            Client = nakamaSystem.Client;
+
             // Create our systems container
             var systems = new Systems("HiroSystemsContainer", monitor, logger);
             systems.Add(nakamaSystem);
@@ -549,7 +550,39 @@ namespace SampleProjects.Challenges
             return Task.FromResult(systems);
         }
 
-        private NakamaSystem.AuthorizerFunc NakamaAuthorizerFunc(INetworkMonitor monitor)
+        public Task<Systems> SwitchAccounts(String newDeviceID, int index)
+        {
+            var logger = new Hiro.Unity.Logger();
+
+            // Set up network connectivity probes.
+            var nakamaProbe = new NakamaClientNetworkProbe(TimeSpan.FromSeconds(60));
+            var monitor = new NetworkMonitor(InternetReachabilityNetworkProbe.Default, nakamaProbe);
+            monitor.ConnectivityChanged += (_, args) =>
+            {
+                Instance.Logger.InfoFormat($"Network is online: {args.Online}");
+            };
+
+            var nakamaSystem = new NakamaSystem(logger, scheme, host, port, serverKey, NakamaAuthorizerFunc(monitor, newDeviceID, index), nakamaProbe);
+
+            nakamaSystem.Client.ReceivedSessionUpdated += session =>
+            {
+                PlayerPrefs.SetString(PlayerPrefsAuthToken, session.AuthToken);
+                PlayerPrefs.SetString(PlayerPrefsRefreshToken, session.RefreshToken);
+            };
+
+            // Store references for account switcher
+            Client = nakamaSystem.Client;
+
+            // Create our systems container
+            var systems = new Systems("HiroSystemsContainer", monitor, logger);
+            systems.Add(nakamaSystem);
+            challengesSystem = new ChallengesSystem(logger, nakamaSystem);
+            systems.Add(challengesSystem);
+
+            return Task.FromResult(systems);
+        }
+
+        private NakamaSystem.AuthorizerFunc NakamaAuthorizerFunc(INetworkMonitor monitor, string newDeviceID = null, int index = 0)
         {
             const string playerPrefsAuthToken = "nakama.AuthToken";
             const string playerPrefsRefreshToken = "nakama.RefreshToken";
@@ -559,37 +592,52 @@ namespace SampleProjects.Challenges
             {
                 client.ReceivedSessionUpdated += session =>
                 {
-                    PlayerPrefs.SetString(playerPrefsAuthToken, session.AuthToken);
-                    PlayerPrefs.SetString(playerPrefsRefreshToken, session.RefreshToken);
+                    PlayerPrefs.SetString(playerPrefsAuthToken + index.ToString(), session.AuthToken);
+                    PlayerPrefs.SetString(playerPrefsRefreshToken + index.ToString(), session.RefreshToken);
                 };
 
-                var authToken = PlayerPrefs.GetString(playerPrefsAuthToken);
-                var refreshToken = PlayerPrefs.GetString(playerPrefsRefreshToken);
+                var authToken = PlayerPrefs.GetString(playerPrefsAuthToken + index.ToString());
+                var refreshToken = PlayerPrefs.GetString(playerPrefsRefreshToken + index.ToString());
                 var session = Nakama.Session.Restore(authToken, refreshToken);
+                Debug.Log("Session:" + session);
 
                 // Add an hour, so we check whether the token is within an hour of expiration to refresh it.
                 var expiredDate = DateTime.UtcNow.AddHours(1);
 
-                //var deviceId = PlayerPrefs.GetString(playerPrefsDeviceId, SystemInfo.deviceUniqueIdentifier);
-                var deviceId = "f52b9d57-254e-45f9-bf21-ba60e703c8d4";
+                if (session != null && (!monitor.Online || !session.HasRefreshExpired(expiredDate)))
+                {
+                    return session;
+                }
+
+                // Get device ID from PlayerPrefs (set by AccountSwitcher)
+                var deviceId = string.IsNullOrEmpty(newDeviceID) ? PlayerPrefs.GetString(playerPrefsDeviceId + index.ToString(), SystemInfo.deviceUniqueIdentifier) : newDeviceID;
+                if (deviceId == SystemInfo.unsupportedIdentifier)
+                {
+                    deviceId = Guid.NewGuid().ToString();
+                    PlayerPrefs.SetString(playerPrefsDeviceId + index.ToString(), deviceId);
+                }
+
                 Debug.LogFormat("Logged in with device ID: '{0}'", deviceId);
 
                 session = await client.AuthenticateDeviceAsync(deviceId);
 
-                PlayerPrefs.SetString(playerPrefsDeviceId, deviceId);
-                PlayerPrefs.SetString(playerPrefsAuthToken, session.AuthToken);
-                PlayerPrefs.SetString(playerPrefsRefreshToken, session.RefreshToken);
+                PlayerPrefs.SetString(playerPrefsDeviceId + index.ToString(), newDeviceID);
+                PlayerPrefs.SetString(playerPrefsAuthToken + index.ToString(), session.AuthToken);
+                PlayerPrefs.SetString(playerPrefsRefreshToken + index.ToString(), session.RefreshToken);
 
                 if (session.Created)
                 {
                     Debug.LogFormat("New user account '{0}' created.", session.UserId);
                 }
 
+                // Store session and socket for account switcher
+                Session = session;
+
                 return session;
             };
         }
 
-        protected override void SystemsInitializeCompleted()
+        protected override async void SystemsInitializeCompleted()
         {
             Debug.Log("The challenges system is initialized!");
             var nakamaSystem = this.GetSystem<NakamaSystem>();
@@ -607,6 +655,11 @@ namespace SampleProjects.Challenges
             Debug.LogException(e);
         }
 
-        #endregion
+    public object getSession()
+    {
+        return this.GetSystem<NakamaSystem>().Session;
     }
+
+    #endregion
+  }
 }
