@@ -169,8 +169,6 @@ namespace UnityNakamaFriends.Editor
                     accountUsernames[previousValue] = session.Username;
                 }
 
-                await NakamaSingleton.Instance.Socket.CloseAsync();
-                
                 if (session != null)
                 {
                     await NakamaSingleton.Instance.Client.SessionLogoutAsync(session);
