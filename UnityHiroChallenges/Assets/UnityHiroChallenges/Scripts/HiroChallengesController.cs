@@ -490,7 +490,8 @@ namespace SampleProjects.Challenges
                     selectedChallenge.Id,
                     scoreField.value,
                     subscoreField.value,
-                    scoreMetadataField.value
+                    scoreMetadataField.value,
+                    true
                 );
             }
             catch (Exception e)

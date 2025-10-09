@@ -1,4 +1,4 @@
-ARG NAKAMA_VERSION=3.30.0
+ARG NAKAMA_VERSION=3.32.0
 
 FROM docker.io/heroiclabs/nakama-pluginbuilder:${NAKAMA_VERSION} AS builder
 

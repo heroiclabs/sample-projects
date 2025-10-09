@@ -140,6 +140,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /rpc/RPC_ID_INVENTORY_DELETE?unwrap:
+    post:
+      summary: INVENTORY_DELETE
+      description: "Delete Items by instance id."
+      operationId: INVENTORY_DELETE
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InventoryDeleteItemsRequest'
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InventoryUpdateAck'
+        'default':
+          description: An error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /rpc/RPC_ID_ECONOMY_DONATION_CLAIM?unwrap:
     post:
       summary: ECONOMY_DONATION_CLAIM
@@ -741,7 +765,7 @@ paths:
   /rpc/RPC_ID_TEAMS_SEARCH?unwrap:
     post:
       summary: TEAMS_SEARCH
-      description: "Search for a team by name or optional short code."
+      description: "Search for teams by name or an optional short code."
       operationId: TEAMS_SEARCH
       requestBody:
         required: true
@@ -756,6 +780,54 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TeamList'
+        'default':
+          description: An error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /rpc/RPC_ID_TEAMS_GET?unwrap:
+    post:
+      summary: TEAMS_GET
+      description: "Retrieves a team by its TeamID."
+      operationId: TEAMS_GET
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamGetRequest'
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        'default':
+          description: An error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /rpc/RPC_ID_TEAMS_USER_TEAMS_LIST?unwrap:
+    post:
+      summary: TEAMS_USER_TEAMS_LIST
+      description: "Retrieve a list of teams associated with a given set of users."
+      operationId: TEAMS_USER_TEAMS_LIST
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserTeamsListRequest'
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserTeamsList'
         'default':
           description: An error response
           content:
@@ -4260,6 +4332,13 @@ components:
       properties:
         inventory:
           $ref: '#/components/schemas/Inventory'
+    InventoryDeleteItemsRequest:
+      type: object
+      properties:
+        instance_ids:
+          type: array
+          items:
+            type: string
     InventoryUpdateAck:
       type: object
       properties:
@@ -4983,6 +5062,72 @@ components:
         min_activity:
           type: integer
           format: int64
+    TeamGetRequest:
+      type: object
+      properties:
+        team_id:
+          type: string
+    UserTeamsListRequest:
+      type: object
+      properties:
+        user_ids:
+          type: array
+          items:
+            type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        display_name:
+          type: string
+        avatar_url:
+          type: string
+        lang_tag:
+          type: string
+        location:
+          type: string
+        timezone:
+          type: string
+        metadata:
+          type: string
+        facebook_id:
+          type: string
+        google_id:
+          type: string
+        gamecenter_id:
+          type: string
+        steam_id:
+          type: string
+        online:
+          type: boolean
+        edge_count:
+          type: integer
+          format: int32
+        create_time_sec:
+          type: integer
+          format: int64
+        update_time:
+          type: integer
+          format: int64
+        facebook_instant_game_id:
+          type: string
+        apple_id:
+          type: string
+    UserTeams:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        teams:
+          type: array
+          items:
+            $ref: '#/components/schemas/Team'
+    UserTeamsList:
+      type: object
+      properties:
     TeamWriteChatMessageRequest:
       type: object
       properties:
@@ -6078,6 +6223,8 @@ components:
         update_time_sec:
           type: integer
           format: int64
+        metadata:
+          type: string
     SyncEventLeaderboards:
       type: object
       properties:
@@ -6240,6 +6387,7 @@ components:
         - RPC_ID_INVENTORY_CONSUME
         - RPC_ID_INVENTORY_GRANT
         - RPC_ID_INVENTORY_UPDATE
+        - RPC_ID_INVENTORY_DELETE
         - RPC_ID_ECONOMY_DONATION_CLAIM
         - RPC_ID_ECONOMY_DONATION_GIVE
         - RPC_ID_ECONOMY_DONATION_GET
@@ -6267,6 +6415,8 @@ components:
         - RPC_ID_TEAMS_UPDATE
         - RPC_ID_TEAMS_LIST
         - RPC_ID_TEAMS_SEARCH
+        - RPC_ID_TEAMS_GET
+        - RPC_ID_TEAMS_USER_TEAMS_LIST
         - RPC_ID_TEAMS_WRITE_CHAT_MESSAGE
         - RPC_ID_TEAMS_STORE_GET
         - RPC_ID_TEAMS_STORE_PURCHASE
