@@ -1,0 +1,7 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="list-controls" style="padding-bottom: 8px; padding-right: 4px; flex-direction: row; justify-content: flex-end; height: 98px; align-items: flex-end; flex-shrink: 0; padding-left: 4px; padding-top: 0;">
+        <ui:Button text="Refresh" name="refresh" class="heroic-button-square" style="margin-right: auto;" />
+        <ui:Button name="previous-page" enabled="false" class="heroic-stepper" style="background-image: url(&quot;project://database/Assets/UnityNakamaTournaments/HeroicUI/Stepper/stepper_button_prev_violet.png?fileID=2800000&amp;guid=85759fbcbfbf344eb9c45b075c98f4b6&amp;type=3#stepper_button_prev_violet&quot;);" />
+        <ui:Button name="next-page" enabled="false" class="heroic-stepper" />
+    </ui:VisualElement>
+</ui:UXML>

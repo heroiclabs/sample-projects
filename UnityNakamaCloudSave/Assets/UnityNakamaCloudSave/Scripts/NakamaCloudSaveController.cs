@@ -5,7 +5,7 @@ using Nakama.TinyJson;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace SampleProjects.CloudSave
+namespace UnityNakamaCloudSave
 {
     [RequireComponent(typeof(UIDocument))]
     public class NakamaCloudSaveController : MonoBehaviour
@@ -16,11 +16,14 @@ namespace SampleProjects.CloudSave
             public string timestamp;
         }
 
-        [Header("Nakama Settings")]
-        [SerializeField] private string scheme = "http";
-        [SerializeField] private string host = "127.0.0.1";
-        [SerializeField] private int port = 7350;
-        [SerializeField] private string serverKey = "defaultkey";
+        [Header("Nakama Settings")] [SerializeField]
+        private string scheme = "http";
+        [SerializeField]
+        private string host = "127.0.0.1";
+        [SerializeField]
+        private int port = 7350;
+        [SerializeField]
+        private string serverKey = "defaultkey";
 
         private VisualElement authenticatedContainer;
         private VisualElement unauthenticatedContainer;
@@ -73,9 +76,9 @@ namespace SampleProjects.CloudSave
 
             linkFacebookButton.RegisterCallback<ClickEvent>(OnFacebookAuth);
             loginFacebookButton.RegisterCallback<ClickEvent>(OnFacebookAuth);
-            loginGuestButton.RegisterCallback<ClickEvent>(OnGuestLogin);
-            logoutButton.RegisterCallback<ClickEvent>(OnLogout);
-            submitPointsButton.RegisterCallback<ClickEvent>(OnSubmitScore);
+            loginGuestButton.RegisterCallback<ClickEvent>(evt => _ = OnGuestLogin());
+            logoutButton.RegisterCallback<ClickEvent>(evt => _ = OnLogout());
+            submitPointsButton.RegisterCallback<ClickEvent>(evt => _ = OnSubmitScore());
 
             // Set initial button visibility.
             _ = UpdateUIVisibility();
@@ -118,26 +121,24 @@ namespace SampleProjects.CloudSave
             }
         }
 
-        private async void OnGuestLogin(ClickEvent _)
+        private async Task OnGuestLogin()
         {
             await AuthenticateWithDevice();
             await LoadLatestData();
         }
 
-        private async void OnSubmitScore(ClickEvent _)
+        private async Task OnSubmitScore()
         {
-            if (session == null) return;
-
             try
             {
                 await HandleSubmitData(pointsField.value);
                 pointsLabel.text = $"Points: {pointsField.value}";
                 pointsField.value = 0;
             }
-            catch (ApiResponseException ex)
+            catch (ApiResponseException e)
             {
                 errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = ex.Message;
+                errorMessage.text = e.Message;
             }
         }
         #endregion
@@ -159,10 +160,10 @@ namespace SampleProjects.CloudSave
                 session = await client.AuthenticateDeviceAsync(deviceId);
                 await UpdateUIVisibility();
             }
-            catch (ApiResponseException ex)
+            catch (ApiResponseException e)
             {
                 errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = ex.Message;
+                errorMessage.text = e.Message;
             }
         }
 
@@ -203,15 +204,15 @@ namespace SampleProjects.CloudSave
                     await UpdateUIVisibility();
                     await LoadLatestData();
                 }
-                catch (ApiResponseException ex)
+                catch (ApiResponseException e)
                 {
                     errorPopup.style.display = DisplayStyle.Flex;
-                    errorMessage.text = ex.Message;
+                    errorMessage.text = e.Message;
                 }
             }
         }
 
-        private async void OnLogout(ClickEvent _)
+        private async Task OnLogout()
         {
             await client.SessionLogoutAsync(session);
             session = null;
@@ -270,10 +271,10 @@ namespace SampleProjects.CloudSave
                     pointsLabel.text = "Points: 0";
                 }
             }
-            catch (ApiResponseException ex)
+            catch (ApiResponseException e)
             {
                 errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = ex.Message;
+                errorMessage.text = e.Message;
             }
         }
         #endregion
