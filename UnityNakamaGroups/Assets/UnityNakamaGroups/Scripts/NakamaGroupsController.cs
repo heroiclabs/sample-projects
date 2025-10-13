@@ -5,7 +5,7 @@ using Nakama;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace UnityNakamaGroups
+namespace NakamaGroups
 {
     public enum GroupUserState
     {

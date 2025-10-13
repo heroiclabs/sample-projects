@@ -21,7 +21,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-namespace UnityNakamaTournaments.Editor
+namespace NakamaTournaments.Editor
 {
     public class AccountSwitcherEditor : EditorWindow
     {

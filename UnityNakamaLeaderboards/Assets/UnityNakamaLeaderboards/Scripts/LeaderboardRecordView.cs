@@ -1,7 +1,7 @@
 using Nakama;
 using UnityEngine.UIElements;
 
-namespace UnityNakamaLeaderboards
+namespace NakamaLeaderboards
 {
     public class LeaderboardRecordView
     {

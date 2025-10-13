@@ -21,7 +21,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-namespace UnityNakamaFriends.Editor
+namespace NakamaFriends.Editor
 {
     public class AccountSwitcherEditor : EditorWindow
     {

@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Nakama;
 using UnityEngine.UIElements;
 
-namespace UnityNakamaGroups
+namespace NakamaGroups
 {
     public class GroupUserView
     {

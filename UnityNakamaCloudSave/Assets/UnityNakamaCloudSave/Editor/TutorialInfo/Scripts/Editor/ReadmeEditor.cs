@@ -3,7 +3,7 @@ using UnityEditor;
 using System.IO;
 using System.Reflection;
 
-namespace UnityNakamaCloudSave.Editor
+namespace NakamaCloudSave.Editor
 {
     [CustomEditor(typeof(Readme))]
     [InitializeOnLoad]

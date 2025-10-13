@@ -16,7 +16,7 @@ using System;
 using Nakama;
 using UnityEngine;
 
-namespace UnityNakamaGroups
+namespace NakamaGroups
 {
     /// <summary>
     /// Sets up and manages the Nakama Client.

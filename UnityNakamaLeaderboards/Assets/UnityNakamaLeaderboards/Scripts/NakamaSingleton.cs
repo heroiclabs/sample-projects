@@ -16,7 +16,7 @@ using System;
 using Nakama;
 using UnityEngine;
 
-namespace UnityNakamaLeaderboards
+namespace NakamaLeaderboards
 {
     /// <summary>
     /// Sets up and manages the Nakama Client.

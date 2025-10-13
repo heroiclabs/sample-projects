@@ -5,7 +5,7 @@ using Nakama.TinyJson;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace UnityNakamaCloudSave
+namespace NakamaCloudSave
 {
     [RequireComponent(typeof(UIDocument))]
     public class NakamaCloudSaveController : MonoBehaviour
