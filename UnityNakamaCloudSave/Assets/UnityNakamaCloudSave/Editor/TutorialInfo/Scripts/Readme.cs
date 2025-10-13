@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace UnityNakamaCloudSave.Editor
+namespace NakamaCloudSave.Editor
 {
     public class Readme : ScriptableObject
     {

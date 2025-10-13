@@ -5,7 +5,7 @@ using Nakama;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace UnityNakamaLeaderboards
+namespace NakamaLeaderboards
 {
     [RequireComponent(typeof(UIDocument))]
     public class NakamaLeaderboardsController : MonoBehaviour
