@@ -70,6 +70,7 @@ func InitModule(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runti
 	logger.Info("binPath set as %q", binPath)
 
 	systems, err := hiro.Init(ctx, logger, nk, initializer, binPath, hiroLicense,
+		hiro.WithBaseSystem(fmt.Sprintf("definitions/%s/base-system.json", env), true),
 		hiro.WithChallengesSystem(fmt.Sprintf("definitions/%s/base-challenges.json", env), true))
 	if err != nil {
 		return err
