@@ -3,7 +3,7 @@ using UnityEditor;
 using System.IO;
 using System.Reflection;
 
-namespace SampleProjects.NakamaFriends.Editor
+namespace HiroChallenges.Editor
 {
     [CustomEditor(typeof(Readme))]
     [InitializeOnLoad]

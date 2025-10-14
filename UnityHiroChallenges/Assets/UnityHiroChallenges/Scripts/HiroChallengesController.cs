@@ -1,34 +1,19 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Nakama;
 using Hiro;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Hiro.Unity;
-using Hiro.System;
 using System.Linq;
+using Nakama;
 
-namespace SampleProjects.Challenges
+namespace HiroChallenges
 {
     [RequireComponent(typeof(UIDocument))]
-    public class HiroChallengesController : HiroCoordinator
+    public class HiroChallengesController : MonoBehaviour
     {
-        [Header("Nakama Settings")] [SerializeField]
-        private string scheme = "http";
-
-        [SerializeField] private string host = "127.0.0.1";
-        [SerializeField] private int port = 7350;
-        [SerializeField] private string serverKey = "defaultkey";
-
-        [Header("Hiro Settings")] [SerializeField]
-        private const string PlayerPrefsAuthToken = "hiro.AuthToken";
-        private const string PlayerPrefsRefreshToken = "hiro.RefreshToken";
-        private const string PlayerPrefsDeviceId = "hiro.DeviceId";
-
         [Header("Challenge Settings")] [SerializeField]
         private int challengeEntriesLimit = 100;
-
         [SerializeField]
         private int challengeParticipantsLimit = 100;
 
@@ -67,7 +52,7 @@ namespace SampleProjects.Challenges
 
         private VisualElement submitScoreModal;
         private IntegerField scoreField;
-        private IntegerField subscoreField;
+        private IntegerField subScoreField;
         private TextField scoreMetadataField;
         private Button submitScoreModalButton;
         private Button submitScoreModalCloseButton;
@@ -76,30 +61,35 @@ namespace SampleProjects.Challenges
         private Button errorCloseButton;
         private Label errorMessage;
 
-        public IClient Client { get; private set; }
-        public ISession Session { get; private set; }
-        private IChallengesSystem challengesSystem;
-
         private int selectedTabIndex;
         private string selectedChallengeId;
         private IChallenge selectedChallenge;
         private readonly List<IChallenge> challenges = new();
         private readonly List<IChallengeScore> selectedChallengeParticipants = new();
 
-        #region Initialization
-
-        public async Task SwitchComplete(ISession newSession)
+        private void Start()
         {
-            Session = this.GetSystem<NakamaSystem>().Session;
-            
-            UpdateChallenges();
-            OnInitialized?.Invoke(Session, this);
-            
-            //Debug.LogFormat("Account switch complete. New user: {0}", newSession.Username);
+            InitializeUI();
+            var challengesCoordinator = HiroCoordinator.Instance as HiroChallengesCoordinator;
+            if (challengesCoordinator == null) return;
+
+            challengesCoordinator.ReceivedStartError += e =>
+            {
+                Debug.LogException(e);
+                errorPopup.style.display = DisplayStyle.Flex;
+                errorMessage.text = e.Message;
+            };
+            challengesCoordinator.ReceivedStartSuccess += session =>
+            {
+                OnInitialized?.Invoke(session, this);
+                UpdateChallenges();
+            };
         }
 
-
-        #endregion
+        public void SwitchComplete()
+        {
+            UpdateChallenges();
+        }
 
         #region UI Binding
 
@@ -151,7 +141,7 @@ namespace SampleProjects.Challenges
             submitScoreButton.RegisterCallback<ClickEvent>(_ =>
             {
                 scoreField.value = 0;
-                subscoreField.value = 0;
+                subScoreField.value = 0;
                 scoreMetadataField.value = string.Empty;
                 submitScoreModal.style.display = DisplayStyle.Flex;
             });
@@ -168,7 +158,7 @@ namespace SampleProjects.Challenges
                 var newListEntry = challengeParticipantTemplate.Instantiate();
                 var newListEntryLogic = new ChallengeParticipantView();
                 newListEntry.userData = newListEntryLogic;
-                newListEntryLogic.SetVisualElement(newListEntry, this);
+                newListEntryLogic.SetVisualElement(newListEntry);
                 return newListEntry;
             };
             challengeParticipantsList.bindItem = (item, index) =>
@@ -186,7 +176,7 @@ namespace SampleProjects.Challenges
                 var newListEntry = challengeEntryTemplate.Instantiate();
                 var newListEntryLogic = new ChallengeView();
                 newListEntry.userData = newListEntryLogic;
-                newListEntryLogic.SetVisualElement(this, newListEntry);
+                newListEntryLogic.SetVisualElement(newListEntry);
                 return newListEntry;
             };
             challengesList.bindItem = (item, index) => { (item.userData as ChallengeView)?.SetChallenge(challenges[index]); };
@@ -219,7 +209,7 @@ namespace SampleProjects.Challenges
             // Submit Score Modal
             submitScoreModal = rootElement.Q<VisualElement>("submit-score-modal");
             scoreField = rootElement.Q<IntegerField>("submit-score-score");
-            subscoreField = rootElement.Q<IntegerField>("submit-score-subscore");
+            subScoreField = rootElement.Q<IntegerField>("submit-score-subscore");
             scoreMetadataField = rootElement.Q<TextField>("submit-score-metadata");
             submitScoreModalButton = rootElement.Q<Button>("submit-score-modal-submit");
             submitScoreModalButton.RegisterCallback<ClickEvent>(ChallengeSubmitScore);
@@ -247,18 +237,19 @@ namespace SampleProjects.Challenges
             selectedChallengeId = selectedChallenge.Id;
 
             selectedChallengeNameLabel.text = selectedChallenge.Name;
-            selectedChallengeDescriptionLabel.text = selectedChallenge.Description ?? "No description set.";
-            selectedChallengeStatusLabel.text = GetStatusString(selectedChallenge.IsActive);
+            selectedChallengeDescriptionLabel.text = string.IsNullOrEmpty(selectedChallenge.Description) ? "No description set." : selectedChallenge.Description;
+            selectedChallengeStatusLabel.text = selectedChallenge.IsActive ? "Active" : "Ended";
             
-            var endTime = UnixTimeToDateTime(selectedChallenge.EndTimeSec);
+            var endTime = DateTimeOffset.FromUnixTimeSeconds(selectedChallenge.EndTimeSec).DateTime;
             selectedChallengeEndTimeLabel.text = endTime.ToString("MMM dd, yyyy HH:mm");
 
             // Get detailed challenge info with scores
             try
             {
+                var challengesSystem = HiroCoordinator.Instance.Systems.GetSystem<ChallengesSystem>();
                 var detailedChallenge = await challengesSystem.GetChallengeAsync(selectedChallenge.Id, true);
                 selectedChallengeParticipants.Clear();
-                if (detailedChallenge.Scores != null)
+                if (detailedChallenge.Scores.Count != 0)
                 {
                     selectedChallengeParticipants.AddRange(detailedChallenge.Scores);
                 }
@@ -315,6 +306,7 @@ namespace SampleProjects.Challenges
         {
             challenges.Clear();
 
+            var challengesSystem = HiroCoordinator.Instance.Systems.GetSystem<ChallengesSystem>();
             switch (selectedTabIndex)
             {
                 case 0:
@@ -345,16 +337,11 @@ namespace SampleProjects.Challenges
                             // Check if user is participant
                             var detailedChallenge = await challengesSystem.GetChallengeAsync(challenge.Id, true);
                             await challengesSystem.GetTemplatesAsync();
-                            if (detailedChallenge.Scores != null)
+                            foreach (var score in detailedChallenge.Scores)
                             {
-                                foreach (var score in detailedChallenge.Scores)
-                                {
-                                    if (score.Id == nakamaSystem.UserId)
-                                    {
-                                        challenges.Add(challenge);
-                                        break;
-                                    }
-                                }
+                                if (score.Id != nakamaSystem.UserId) continue;
+                                challenges.Add(challenge);
+                                break;
                             }
                         }
                     }
@@ -389,6 +376,7 @@ namespace SampleProjects.Challenges
 
         private async void ChallengeCreate(ClickEvent _)
         {
+            var challengesSystem = HiroCoordinator.Instance.Systems.GetSystem<ChallengesSystem>();
             try
             {
                 var templateId = "speed_runner";
@@ -431,6 +419,7 @@ namespace SampleProjects.Challenges
 
             try
             {
+                var challengesSystem = HiroCoordinator.Instance.Systems.GetSystem<ChallengesSystem>();
                 await challengesSystem.JoinChallengeAsync(selectedChallenge.Id);
             }
             catch (Exception e)
@@ -449,6 +438,7 @@ namespace SampleProjects.Challenges
 
             try
             {
+                var challengesSystem = HiroCoordinator.Instance.Systems.GetSystem<ChallengesSystem>();
                 await challengesSystem.LeaveChallengeAsync(selectedChallenge.Id);
                 challengesList.ClearSelection();
             }
@@ -468,6 +458,7 @@ namespace SampleProjects.Challenges
 
             try
             {
+                var challengesSystem = HiroCoordinator.Instance.Systems.GetSystem<ChallengesSystem>();
                 await challengesSystem.ClaimChallengeAsync(selectedChallenge.Id);
             }
             catch (Exception e)
@@ -486,10 +477,11 @@ namespace SampleProjects.Challenges
 
             try
             {
+                var challengesSystem = HiroCoordinator.Instance.Systems.GetSystem<ChallengesSystem>();
                 await challengesSystem.SubmitChallengeScoreAsync(
                     selectedChallenge.Id,
                     scoreField.value,
-                    subscoreField.value,
+                    subScoreField.value,
                     scoreMetadataField.value,
                     true
                 );
@@ -505,162 +497,6 @@ namespace SampleProjects.Challenges
             UpdateChallenges();
         }
 
-        private string GetStatusString(bool isActive)
-        {
-                return isActive ? "Active" : "Ended";
-        }
-
-        private System.DateTime UnixTimeToDateTime(long unixTime)
-        {
-            return System.DateTimeOffset.FromUnixTimeSeconds(unixTime).DateTime;
-        }
-
         #endregion
-
-        #region Hiro System Setup
-
-        protected override Task<Systems> CreateSystemsAsync()
-        {
-            var logger = new Hiro.Unity.Logger();
-
-            // Set up network connectivity probes.
-            var nakamaProbe = new NakamaClientNetworkProbe(TimeSpan.FromSeconds(60));
-            var monitor = new NetworkMonitor(InternetReachabilityNetworkProbe.Default, nakamaProbe);
-            monitor.ConnectivityChanged += (_, args) =>
-            {
-                Instance.Logger.InfoFormat($"Network is online: {args.Online}");
-            };
-
-            var nakamaSystem = new NakamaSystem(logger, scheme, host, port, serverKey, NakamaAuthorizerFunc(monitor), nakamaProbe);
-
-            nakamaSystem.Client.ReceivedSessionUpdated += session =>
-            {
-                PlayerPrefs.SetString(PlayerPrefsAuthToken, session.AuthToken);
-                PlayerPrefs.SetString(PlayerPrefsRefreshToken, session.RefreshToken);
-            };
-
-            // Store references for account switcher
-            Client = nakamaSystem.Client;
-
-            // Create our systems container
-            var systems = new Systems("HiroSystemsContainer", monitor, logger);
-            systems.Add(nakamaSystem);
-            challengesSystem = new ChallengesSystem(logger, nakamaSystem);
-            systems.Add(challengesSystem);
-
-            return Task.FromResult(systems);
-        }
-
-        public Task<Systems> SwitchAccounts(String newDeviceID, int index)
-        {
-            var logger = new Hiro.Unity.Logger();
-
-            // Set up network connectivity probes.
-            var nakamaProbe = new NakamaClientNetworkProbe(TimeSpan.FromSeconds(60));
-            var monitor = new NetworkMonitor(InternetReachabilityNetworkProbe.Default, nakamaProbe);
-            monitor.ConnectivityChanged += (_, args) =>
-            {
-                Instance.Logger.InfoFormat($"Network is online: {args.Online}");
-            };
-
-            var nakamaSystem = new NakamaSystem(logger, scheme, host, port, serverKey, NakamaAuthorizerFunc(monitor, newDeviceID, index), nakamaProbe);
-
-            nakamaSystem.Client.ReceivedSessionUpdated += session =>
-            {
-                PlayerPrefs.SetString(PlayerPrefsAuthToken, session.AuthToken);
-                PlayerPrefs.SetString(PlayerPrefsRefreshToken, session.RefreshToken);
-            };
-
-            // Store references for account switcher
-            Client = nakamaSystem.Client;
-
-            // Create our systems container
-            var systems = new Systems("HiroSystemsContainer", monitor, logger);
-            systems.Add(nakamaSystem);
-            challengesSystem = new ChallengesSystem(logger, nakamaSystem);
-            systems.Add(challengesSystem);
-
-            return Task.FromResult(systems);
-        }
-
-        private NakamaSystem.AuthorizerFunc NakamaAuthorizerFunc(INetworkMonitor monitor, string newDeviceID = null, int index = 0)
-        {
-            const string playerPrefsAuthToken = "nakama.AuthToken";
-            const string playerPrefsRefreshToken = "nakama.RefreshToken";
-            const string playerPrefsDeviceId = "nakama.DeviceId";
-
-            return async client =>
-            {
-                client.ReceivedSessionUpdated += session =>
-                {
-                    PlayerPrefs.SetString(playerPrefsAuthToken + index.ToString(), session.AuthToken);
-                    PlayerPrefs.SetString(playerPrefsRefreshToken + index.ToString(), session.RefreshToken);
-                };
-
-                var authToken = PlayerPrefs.GetString(playerPrefsAuthToken + index.ToString());
-                var refreshToken = PlayerPrefs.GetString(playerPrefsRefreshToken + index.ToString());
-                var session = Nakama.Session.Restore(authToken, refreshToken);
-                Debug.Log("Session:" + session);
-
-                // Add an hour, so we check whether the token is within an hour of expiration to refresh it.
-                var expiredDate = DateTime.UtcNow.AddHours(1);
-
-                if (session != null && (!monitor.Online || !session.HasRefreshExpired(expiredDate)))
-                {
-                    return session;
-                }
-
-                // Get device ID from PlayerPrefs (set by AccountSwitcher)
-                var deviceId = string.IsNullOrEmpty(newDeviceID) ? PlayerPrefs.GetString(playerPrefsDeviceId + index.ToString(), SystemInfo.deviceUniqueIdentifier) : newDeviceID;
-                if (deviceId == SystemInfo.unsupportedIdentifier)
-                {
-                    deviceId = Guid.NewGuid().ToString();
-                    PlayerPrefs.SetString(playerPrefsDeviceId + index.ToString(), deviceId);
-                }
-
-                Debug.LogFormat("Logged in with device ID: '{0}'", deviceId);
-
-                session = await client.AuthenticateDeviceAsync(deviceId);
-
-                PlayerPrefs.SetString(playerPrefsDeviceId + index.ToString(), newDeviceID);
-                PlayerPrefs.SetString(playerPrefsAuthToken + index.ToString(), session.AuthToken);
-                PlayerPrefs.SetString(playerPrefsRefreshToken + index.ToString(), session.RefreshToken);
-
-                if (session.Created)
-                {
-                    Debug.LogFormat("New user account '{0}' created.", session.UserId);
-                }
-
-                // Store session and socket for account switcher
-                Session = session;
-
-                return session;
-            };
-        }
-
-        protected override async void SystemsInitializeCompleted()
-        {
-            Debug.Log("The challenges system is initialized!");
-            var nakamaSystem = this.GetSystem<NakamaSystem>();
-
-            InitializeUI();
-
-            OnInitialized?.Invoke(Session, this);
-
-            // Load existing challenges.
-            UpdateChallenges();
-        }
-
-        protected override void SystemsInitializeFailed(Exception e)
-        {
-            Debug.LogException(e);
-        }
-
-    public object getSession()
-    {
-        return this.GetSystem<NakamaSystem>().Session;
     }
-
-    #endregion
-  }
 }

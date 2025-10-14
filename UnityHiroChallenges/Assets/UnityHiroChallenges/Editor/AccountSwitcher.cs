@@ -1,16 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Net.WebSockets;
 using System.Text;
-using System.Threading.Tasks;
 using Nakama;
 using Hiro;
+using Hiro.Unity;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-namespace SampleProjects.Challenges.Editor
+namespace HiroChallenges.Editor
 {
     public class AccountSwitcherEditor : EditorWindow
     {
@@ -21,7 +20,7 @@ namespace SampleProjects.Challenges.Editor
 
         private readonly SortedDictionary<string, string> accountUsernames = new();
 
-        private const string ACCOUNT_USERNAMES_KEY = "AccountSwitcher_Usernames";
+        private const string AccountUsernamesKey = "AccountSwitcher_Usernames";
 
         [MenuItem("Tools/Nakama/Account Switcher")]
         public static void ShowWindow()
@@ -35,7 +34,7 @@ namespace SampleProjects.Challenges.Editor
         [MenuItem("Tools/Nakama/Clear Test Accounts")]
         public static void ClearSavedAccounts()
         {
-            EditorPrefs.DeleteKey(ACCOUNT_USERNAMES_KEY);
+            EditorPrefs.DeleteKey(AccountUsernamesKey);
             Debug.Log("Cleared all saved account usernames");
     
             // Refresh any open Account Switcher windows
@@ -65,33 +64,33 @@ namespace SampleProjects.Challenges.Editor
             var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
             foreach (var rootGameObject in rootGameObjects)
             {
-                if (!rootGameObject.TryGetComponent<HiroChallengesController>(out var friendsController)) continue;
+                if (!rootGameObject.TryGetComponent<HiroChallengesController>(out var challengesController)) continue;
 
-                if (friendsController.Session != null)
+                if (HiroCoordinator.Instance.GetSystem<NakamaSystem>().Session is Session session)
                 {
-                    OnControllerInitialized(friendsController.Session);
+                    OnControllerInitialized(session);
                 }
                 else
                 {
-                    friendsController.OnInitialized += OnControllerInitialized;
+                    challengesController.OnInitialized += OnControllerInitialized;
                 }
             }
         }
 
-        private void OnControllerInitialized(ISession session, HiroChallengesController controller = null)
+        private void OnControllerInitialized(ISession session, HiroChallengesController challengesController = null)
         {
             accountUsernames[accountDropdown.choices[0]] = session.Username;
             UpdateUsernameLabels();
 
-            if (controller != null)
+            if (challengesController != null)
             {
-                controller.OnInitialized -= OnControllerInitialized;
+                challengesController.OnInitialized -= OnControllerInitialized;
             }
         }
 
         private void LoadAccountUsernames()
         {
-            var savedUsernames = EditorPrefs.GetString(ACCOUNT_USERNAMES_KEY, "");
+            var savedUsernames = EditorPrefs.GetString(AccountUsernamesKey, "");
             if (string.IsNullOrEmpty(savedUsernames)) return;
 
             try
@@ -121,7 +120,7 @@ namespace SampleProjects.Challenges.Editor
                 }
 
                 var json = JsonUtility.ToJson(usernameData);
-                EditorPrefs.SetString(ACCOUNT_USERNAMES_KEY, json);
+                EditorPrefs.SetString(AccountUsernamesKey, json);
             }
             catch (Exception ex)
             {
@@ -136,45 +135,35 @@ namespace SampleProjects.Challenges.Editor
             var previousValue = changeEvt.previousValue;
             var newValue = changeEvt.newValue;
 
-            var deviceId = PlayerPrefs.GetString("deviceId", SystemInfo.deviceUniqueIdentifier);
-            if (deviceId == SystemInfo.unsupportedIdentifier)
-            {
-                deviceId = Guid.NewGuid().ToString();
-            }
-            PlayerPrefs.SetString("deviceId", deviceId);
-            Debug.Log("Switching Accounts");
-            var rootGameObjects = new [] { GameObject.FindFirstObjectByType<HiroChallengesController>() };
+            var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
             foreach (var rootGameObject in rootGameObjects)
             {
-                Debug.LogFormat("rootObject name: {0}", rootGameObject.name);
-                if (!rootGameObject.TryGetComponent<HiroChallengesController>(out var friendsController)) continue;
+                if (!rootGameObject.TryGetComponent<HiroChallengesController>(out var challengesController)) continue;
+
+                var coordinator = HiroCoordinator.Instance as HiroChallengesCoordinator;
+                if (coordinator == null) return;
+                var nakamaSystem = coordinator.GetSystem<NakamaSystem>();
 
                 // Save username before switching
-                if (!string.IsNullOrEmpty(previousValue) && friendsController.Session != null)
+                if (!string.IsNullOrEmpty(previousValue))
                 {
-                    accountUsernames[previousValue] = friendsController.Session.Username;
-                }
-
-                if (friendsController.getSession() != null)
-                {
-                    await friendsController.Client.SessionLogoutAsync((ISession)friendsController.getSession());
+                    accountUsernames[previousValue] = nakamaSystem.Session.Username;
                 }
 
                 try
                 {
-                    Debug.Log("Switching Accounts In");
-                    var newDeviceID = $"{deviceId}_{accountDropdown.index}";
-                    var switchResult = await friendsController.SwitchAccounts(newDeviceID, accountDropdown.index);
-                    
-                    await friendsController.SwitchComplete(switchResult.GetSystem<NakamaSystem>().Session);
-                    await friendsController.Systems.InitializeAsync();
+                    var newSession = await coordinator.NakamaAuthorizerFunc(accountDropdown.index).Invoke(nakamaSystem.Client);
+                    (nakamaSystem.Session as Session)?.Update(newSession.AuthToken, newSession.RefreshToken);
+                    await nakamaSystem.RefreshAsync();
+                    accountUsernames[newValue] = newSession.Username;
+                    challengesController.SwitchComplete();
 
                     SaveAccountUsernames();
                     break;
                 }
-                catch (ApiResponseException ex)
+                catch (ApiResponseException e)
                 {
-                    Debug.LogWarning($"Error authenticating with Device ID: {ex.Message}");
+                    Debug.LogWarning($"Error authenticating with Device ID: {e.Message}");
                     return;
                 }
             }

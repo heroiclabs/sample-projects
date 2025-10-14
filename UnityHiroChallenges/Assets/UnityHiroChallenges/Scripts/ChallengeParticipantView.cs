@@ -1,8 +1,7 @@
 using Hiro;
-using Nakama;
 using UnityEngine.UIElements;
 
-namespace SampleProjects.Challenges
+namespace HiroChallenges
 {
     public class ChallengeParticipantView
     {
@@ -10,13 +9,8 @@ namespace SampleProjects.Challenges
         private Label scoreLabel;
         private Label rankLabel;
 
-        private string userId;
-        private HiroChallengesController challengesController;
-
-        public void SetVisualElement(VisualElement visualElement, HiroChallengesController controller)
+        public void SetVisualElement(VisualElement visualElement)
         {
-            challengesController = controller;
-
             usernameLabel = visualElement.Q<Label>("username");
             scoreLabel = visualElement.Q<Label>("score");
             rankLabel = visualElement.Q<Label>("rank");
@@ -24,8 +18,7 @@ namespace SampleProjects.Challenges
 
         public void SetChallengeParticipant(IChallengeScore participantScore)
         {
-            userId = participantScore.Id;
-            usernameLabel.text = participantScore.Username ?? "Unknown User";
+            usernameLabel.text = participantScore.Username;
             scoreLabel.text = participantScore.Score.ToString();
             rankLabel.text = $"#{participantScore.Rank}";
         }

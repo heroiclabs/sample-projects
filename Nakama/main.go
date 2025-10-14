@@ -5,20 +5,13 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"math/rand"
 	"path/filepath"
-	"sync"
 	"time"
 
 	osruntime "runtime"
 
 	"github.com/heroiclabs/hiro"
 	"github.com/heroiclabs/nakama-common/runtime"
-)
-
-var (
-	usernameOverrideMutex  = &sync.Mutex{}
-	usernameOverrideRandom = rand.New(rand.NewSource(time.Now().UTC().UnixNano()))
 )
 
 func InitModule(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runtime.NakamaModule, initializer runtime.Initializer) error {
