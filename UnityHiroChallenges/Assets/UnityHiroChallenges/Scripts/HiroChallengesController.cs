@@ -276,7 +276,7 @@ namespace HiroChallenges
             var canClaim = selectedChallenge.CanClaim;
 
             // Join button: show if challenge is active/pending, open, and user is not a participant
-            joinButton.style.display = isActive && selectedChallenge.Open && !isParticipant ? DisplayStyle.Flex : DisplayStyle.None;
+            joinButton.style.display = isActive && !isParticipant ? DisplayStyle.Flex : DisplayStyle.None;
 
             // Leave button: show if user is participant and challenge is not ended
             leaveButton.style.display = isParticipant && !isActive && !canClaim ? DisplayStyle.Flex : DisplayStyle.None;
@@ -293,7 +293,7 @@ namespace HiroChallenges
             var nakamaSystem = this.GetSystem<NakamaSystem>();
             foreach (var participant in selectedChallengeParticipants)
             {
-                if (participant.Id == nakamaSystem.UserId) return true;
+                if (participant.Id == nakamaSystem.UserId && participant.State == ChallengeState.Joined) return true;
             }
             return false;
         }
