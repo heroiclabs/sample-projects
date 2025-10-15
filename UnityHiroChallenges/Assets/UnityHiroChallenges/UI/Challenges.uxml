@@ -5,21 +5,21 @@
         <ui:Label text="CHALLENGES" enable-rich-text="true" class="heroic-title" style="-unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;); -unity-font-style: bold;" />
     </ui:VisualElement>
     <ui:VisualElement name="challenges-main" class="heroic-main__background">
-        <ui:VisualElement name="main-left" style="width: 45%; padding-top: 30px; padding-right: 30px; padding-bottom: 30px; padding-left: 30px;">
-            <ui:VisualElement style="height: 15%; flex-direction: row; align-self: stretch; align-items: center;">
+        <ui:VisualElement name="main-left" style="width: 1111px; padding-top: 30px; padding-right: 30px; padding-bottom: 30px; padding-left: 30px;">
+            <ui:VisualElement style="height: 15%; flex-direction: row; align-self: stretch; align-items: center; width: 986px;">
                 <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
-                    <ui:Button text="All" name="all-tab" class="heroic-horizontal-tab-button selected" style="width: 120px;">
+                    <ui:Button text="Open Challenges" name="all-tab" class="heroic-horizontal-tab-button selected" style="width: 341px;">
                         <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
                     </ui:Button>
-                    <ui:Button text="My Challenges" name="my-challenges-tab" class="heroic-horizontal-tab-button" style="width: 290px;">
+                    <ui:Button text="My Challenges" name="my-challenges-tab" class="heroic-horizontal-tab-button" style="width: 284px;">
                         <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
                     </ui:Button>
                 </ui:VisualElement>
-                <ui:Button text="Create Challenge" name="challenge-create" class="heroic-button" style="align-self: center; width: 334px; height: 80px;" />
+                <ui:Button text="Create Challenge" name="challenge-create" class="heroic-button" style="align-self: center; width: 339px; height: 80px;" />
             </ui:VisualElement>
             <ui:ListView fixed-item-height="150" name="challenges-list" style="flex-grow: 1;" />
         </ui:VisualElement>
-        <ui:VisualElement name="main-right" style="width: 55%;">
+        <ui:VisualElement name="main-right" style="width: 952px; align-self: stretch; align-items: stretch; flex-direction: column;">
             <ui:VisualElement style="margin-top: 30px; margin-right: 30px; margin-bottom: 30px; flex-grow: 1;">
                 <ui:VisualElement name="selected-challenge-panel" class="heroic-main__panel" style="height: 30%; flex-grow: 1;">
                     <ui:VisualElement style="height: 30%; background-color: rgb(132, 154, 255); border-top-left-radius: 15px; border-top-right-radius: 15px; padding-top: 20px; padding-bottom: 20px;">
@@ -30,13 +30,13 @@
                             <ui:Label text="Ends: Dec 31, 2024" name="selected-challenge-end-time" class="heroic-title" style="font-size: 24px; color: rgb(255, 255, 255);" />
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:ListView name="challenge-participants-list" fixed-item-height="110" style="height: 55%;" />
                     <ui:VisualElement style="height: 15%; flex-direction: row; align-self: center; align-items: center; justify-content: center; flex-wrap: wrap;">
                         <ui:Button text="Join" name="challenge-join" class="heroic-button" />
                         <ui:Button text="Leave" name="challenge-leave" class="heroic-button" />
                         <ui:Button text="Submit Score" name="challenge-submit-score" class="heroic-button" />
                         <ui:Button text="Claim Rewards" name="challenge-claim" class="heroic-button" />
                     </ui:VisualElement>
+                    <ui:ListView name="challenge-participants-list" fixed-item-height="110" style="height: 55%;" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>

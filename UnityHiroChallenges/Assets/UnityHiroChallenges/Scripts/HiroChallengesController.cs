@@ -315,7 +315,7 @@ namespace HiroChallenges
                         challengesSystem = this.GetSystem<ChallengesSystem>();
 
                         // List all Challenges.
-                        var challengesResult = await challengesSystem.ListChallengesAsync(null);
+                        var challengesResult = await challengesSystem.SearchChallengesAsync(null, null, 10);
                         challenges.AddRange(challengesResult.Challenges);
                     }
                     catch (Exception e)
