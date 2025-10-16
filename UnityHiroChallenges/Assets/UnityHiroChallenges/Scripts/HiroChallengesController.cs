@@ -383,15 +383,48 @@ namespace HiroChallenges
                 var metadata = new Dictionary<string, string>();
                 var nakamaSystem = this.GetSystem<NakamaSystem>();
                 Debug.LogFormat("UserID: '{0}'", nakamaSystem.UserId);
-                var invitee = await nakamaSystem.Client.GetUsersAsync(session: nakamaSystem.Session, usernames: new List<string> { modalInvitees.value }, ids: null);
-                var inviteeID = invitee.Users.ElementAt(0).Id;
-                Debug.LogFormat("Invitee: '{0}'", inviteeID);
-
+                
+                if (string.IsNullOrEmpty(modalInvitees.value))
+                {
+                    throw new Exception("Invitees field cannot be empty. Please enter at least one username.");
+                }
+                
+                // Split the input by comma and trim whitespace
+                var inviteeUsernames = modalInvitees.value
+                    .Split(',')
+                    .Select(username => username.Trim())
+                    .Where(username => !string.IsNullOrEmpty(username))
+                    .ToList();
+                
+                if (inviteeUsernames.Count == 0)
+                {
+                    throw new Exception("No valid usernames found. Please enter at least one username.");
+                }
+                
+                var invitees = await nakamaSystem.Client.GetUsersAsync(
+                    session: nakamaSystem.Session, 
+                    usernames: inviteeUsernames, 
+                    ids: null
+                );
+                
+                var inviteeIDs = invitees.Users.Select(user => user.Id).ToArray();
+                
+                Debug.LogFormat("Found {0} invitees: {1}", 
+                    inviteeIDs.Length, 
+                    string.Join(", ", inviteeIDs)
+                );
+                
+                // Validate that we found all requested users
+                if (inviteeIDs.Length != inviteeUsernames.Count)
+                {
+                    throw new Exception($"Could not find all users. Requested: {inviteeUsernames.Count}, Found: {inviteeIDs.Length}");
+                }
+                
                 await challengesSystem.CreateChallengeAsync(
                     templateId,
                     modalNameField.value,
                     modalDescriptionField.value,
-                    new[] { inviteeID },
+                    inviteeIDs,
                     modalOpenToggle.value,
                     10, // max score submissions
                     0, // challenge delay
