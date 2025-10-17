@@ -59,7 +59,7 @@
                         <ui:IntegerField label="Max Participants" value="100" name="create-modal-max-participants" style="width: 905px; padding-left: 10px; margin-right: 0; margin-left: 0;" />
                     </ui:VisualElement>
                     <ui:VisualElement style="flex-direction: row; width: 100%; height: 15%; margin-top: 8px;">
-                        <ui:TextField label="Invitees" value="Player1, Player2" name="create-modal-invitees" style="width: 905px; padding-left: 10px; margin-right: 0; margin-left: 0;" />
+                        <ui:TextField label="Invitees" name="create-modal-invitees" placeholder-text="Player1, Player2" style="width: 905px; padding-left: 10px; margin-right: 0; margin-left: 0;" />
                     </ui:VisualElement>
                     <ui:VisualElement style="height: 10%; justify-content: center; align-self: flex-start; margin-top: 8px;">
                         <ui:Toggle label="Open to All" name="create-modal-open" toggle-on-label-click="false" value="true" style="flex-direction: row; align-items: center; height: 45px;" />

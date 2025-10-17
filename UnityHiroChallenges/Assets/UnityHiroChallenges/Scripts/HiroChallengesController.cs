@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Hiro.Unity;
 using System.Linq;
+using System.Threading.Tasks;
 using Nakama;
 
 namespace HiroChallenges
@@ -14,8 +15,6 @@ namespace HiroChallenges
     {
         [Header("Challenge Settings")] [SerializeField]
         private int challengeEntriesLimit = 100;
-        [SerializeField]
-        private int challengeParticipantsLimit = 100;
 
         [Header("References")] [SerializeField]
         private VisualTreeAsset challengeEntryTemplate;
@@ -64,6 +63,8 @@ namespace HiroChallenges
         private int selectedTabIndex;
         private string selectedChallengeId;
         private IChallenge selectedChallenge;
+        private NakamaSystem nakamaSystem;
+        private ChallengesSystem challengesSystem;
         private readonly List<IChallenge> challenges = new();
         private readonly List<IChallengeScore> selectedChallengeParticipants = new();
 
@@ -82,13 +83,15 @@ namespace HiroChallenges
             challengesCoordinator.ReceivedStartSuccess += session =>
             {
                 OnInitialized?.Invoke(session, this);
-                UpdateChallenges();
+                nakamaSystem = this.GetSystem<NakamaSystem>();
+                challengesSystem = this.GetSystem<ChallengesSystem>();
+                _ = UpdateChallenges();
             };
         }
 
         public void SwitchComplete()
         {
-            UpdateChallenges();
+            _ = UpdateChallenges();
         }
 
         #region UI Binding
@@ -98,23 +101,23 @@ namespace HiroChallenges
             var rootElement = GetComponent<UIDocument>().rootVisualElement;
 
             allTab = rootElement.Q<Button>("all-tab");
-            allTab.RegisterCallback<ClickEvent>(_ =>
+            allTab.RegisterCallback<ClickEvent>(evt =>
             {
                 if (selectedTabIndex == 0) return;
                 selectedTabIndex = 0;
                 allTab.AddToClassList("selected");
                 myChallengesTab.RemoveFromClassList("selected");
-                UpdateChallenges();
+                _ = UpdateChallenges();
             });
 
             myChallengesTab = rootElement.Q<Button>("my-challenges-tab");
-            myChallengesTab.RegisterCallback<ClickEvent>(_ =>
+            myChallengesTab.RegisterCallback<ClickEvent>(evt =>
             {
                 if (selectedTabIndex == 1) return;
                 selectedTabIndex = 1;
                 myChallengesTab.AddToClassList("selected");
                 allTab.RemoveFromClassList("selected");
-                UpdateChallenges();
+                _ = UpdateChallenges();
             });
 
             createButton = rootElement.Q<Button>("challenge-create");
@@ -129,13 +132,13 @@ namespace HiroChallenges
             });
 
             joinButton = rootElement.Q<Button>("challenge-join");
-            joinButton.RegisterCallback<ClickEvent>(ChallengeJoin);
+            joinButton.RegisterCallback<ClickEvent>(evt => _ = ChallengeJoin());
 
             leaveButton = rootElement.Q<Button>("challenge-leave");
-            leaveButton.RegisterCallback<ClickEvent>(ChallengeLeave);
+            leaveButton.RegisterCallback<ClickEvent>(evt => _ = ChallengeLeave());
 
             claimRewardsButton = rootElement.Q<Button>("challenge-claim");
-            claimRewardsButton.RegisterCallback<ClickEvent>(ChallengeClaim);
+            claimRewardsButton.RegisterCallback<ClickEvent>(evt => _ = ChallengeClaim());
 
             submitScoreButton = rootElement.Q<Button>("challenge-submit-score");
             submitScoreButton.RegisterCallback<ClickEvent>(_ =>
@@ -181,13 +184,11 @@ namespace HiroChallenges
             };
             challengesList.bindItem = (item, index) => { (item.userData as ChallengeView)?.SetChallenge(challenges[index]); };
             challengesList.itemsSource = challenges;
-            challengesList.selectionChanged += _ =>
+            challengesList.selectionChanged += objects =>
             {
-                Debug.LogFormat("Challenge Selected");
                 if (challengesList.selectedItem is IChallenge)
                 {
-                    Debug.LogFormat("Challenge Selected is IChallenge");
-                    OnChallengeSelected(challengesList.selectedItem as IChallenge);
+                    _ = OnChallengeSelected(challengesList.selectedItem as IChallenge);
                 }
             };
 
@@ -202,7 +203,7 @@ namespace HiroChallenges
             modalInvitees = rootElement.Q<TextField>("create-modal-invitees");
             modalOpenToggle = rootElement.Q<Toggle>("create-modal-open");
             modalCreateButton = rootElement.Q<Button>("create-modal-create");
-            modalCreateButton.RegisterCallback<ClickEvent>(ChallengeCreate);
+            modalCreateButton.RegisterCallback<ClickEvent>(evt => _ = ChallengeCreate());
             modalCloseButton = rootElement.Q<Button>("create-modal-close");
             modalCloseButton.RegisterCallback<ClickEvent>(_ => createModal.style.display = DisplayStyle.None);
 
@@ -212,7 +213,7 @@ namespace HiroChallenges
             subScoreField = rootElement.Q<IntegerField>("submit-score-subscore");
             scoreMetadataField = rootElement.Q<TextField>("submit-score-metadata");
             submitScoreModalButton = rootElement.Q<Button>("submit-score-modal-submit");
-            submitScoreModalButton.RegisterCallback<ClickEvent>(ChallengeSubmitScore);
+            submitScoreModalButton.RegisterCallback<ClickEvent>(evt => _ = ChallengeSubmitScore());
             submitScoreModalCloseButton = rootElement.Q<Button>("submit-score-modal-close");
             submitScoreModalCloseButton.RegisterCallback<ClickEvent>(_ => submitScoreModal.style.display = DisplayStyle.None);
 
@@ -221,10 +222,10 @@ namespace HiroChallenges
             errorCloseButton = rootElement.Q<Button>("error-close");
             errorCloseButton.RegisterCallback<ClickEvent>(_ => errorPopup.style.display = DisplayStyle.None);
 
-            OnChallengeSelected(null);
+            _ = OnChallengeSelected(null);
         }
 
-        private async void OnChallengeSelected(IChallenge challenge)
+        private async Task OnChallengeSelected(IChallenge challenge)
         {
             if (challenge == null)
             {
@@ -246,13 +247,9 @@ namespace HiroChallenges
             // Get detailed challenge info with scores
             try
             {
-                var challengesSystem = HiroCoordinator.Instance.Systems.GetSystem<ChallengesSystem>();
                 var detailedChallenge = await challengesSystem.GetChallengeAsync(selectedChallenge.Id, true);
                 selectedChallengeParticipants.Clear();
-                if (detailedChallenge.Scores.Count != 0)
-                {
-                    selectedChallengeParticipants.AddRange(detailedChallenge.Scores);
-                }
+                selectedChallengeParticipants.AddRange(detailedChallenge.Scores);
                 challengeParticipantsList.RefreshItems();
             }
             catch (Exception e)
@@ -290,7 +287,6 @@ namespace HiroChallenges
 
         private bool IsUserParticipant()
         {
-            var nakamaSystem = this.GetSystem<NakamaSystem>();
             foreach (var participant in selectedChallengeParticipants)
             {
                 if (participant.Id == nakamaSystem.UserId && participant.State == ChallengeState.Joined) return true;
@@ -302,25 +298,23 @@ namespace HiroChallenges
 
         #region Challenges
 
-        private async void UpdateChallenges()
+        private async Task UpdateChallenges()
         {
             challenges.Clear();
 
-            var challengesSystem = HiroCoordinator.Instance.Systems.GetSystem<ChallengesSystem>();
             switch (selectedTabIndex)
             {
                 case 0:
                     try
                     {
-                        challengesSystem = this.GetSystem<ChallengesSystem>();
-
                         // List all Challenges.
-                        var challengesResult = await challengesSystem.SearchChallengesAsync(null, null, 10);
+                        var challengesResult =
+                            await challengesSystem.SearchChallengesAsync(string.Empty, string.Empty,
+                                challengeEntriesLimit);
                         challenges.AddRange(challengesResult.Challenges);
                     }
                     catch (Exception e)
                     {
-                        Debug.LogFormat("ERROR: '{0}'", e);
                         errorPopup.style.display = DisplayStyle.Flex;
                         errorMessage.text = e.Message;
                         return;
@@ -330,20 +324,8 @@ namespace HiroChallenges
                     try
                     {
                         // List Challenges that the user has joined (we'll need to filter from all challenges)
-                        var allChallengesResult = await challengesSystem.ListChallengesAsync(null);
-                        var nakamaSystem = this.GetSystem<NakamaSystem>();
-                        foreach (var challenge in allChallengesResult.Challenges)
-                        {
-                            // Check if user is participant
-                            var detailedChallenge = await challengesSystem.GetChallengeAsync(challenge.Id, true);
-                            await challengesSystem.GetTemplatesAsync();
-                            foreach (var score in detailedChallenge.Scores)
-                            {
-                                if (score.Id != nakamaSystem.UserId) continue;
-                                challenges.Add(challenge);
-                                break;
-                            }
-                        }
+                        var userChallengesResult = await challengesSystem.ListChallengesAsync(null);
+                        challenges.AddRange(userChallengesResult.Challenges);
                     }
                     catch (Exception e)
                     {
@@ -365,7 +347,7 @@ namespace HiroChallenges
             {
                 if (challenge.Id != selectedChallengeId) continue;
                 
-                OnChallengeSelected(challenge);
+                _ = OnChallengeSelected(challenge);
                 challengesList.SetSelection(challenges.IndexOf(challenge));
                 return;
             }
@@ -374,14 +356,12 @@ namespace HiroChallenges
             selectedChallengePanel.style.display = DisplayStyle.None;
         }
 
-        private async void ChallengeCreate(ClickEvent _)
+        private async Task ChallengeCreate()
         {
-            var challengesSystem = HiroCoordinator.Instance.Systems.GetSystem<ChallengesSystem>();
             try
             {
                 var templateId = "speed_runner";
                 var metadata = new Dictionary<string, string>();
-                var nakamaSystem = this.GetSystem<NakamaSystem>();
                 Debug.LogFormat("UserID: '{0}'", nakamaSystem.UserId);
                 
                 if (string.IsNullOrEmpty(modalInvitees.value))
@@ -438,21 +418,19 @@ namespace HiroChallenges
             {
                 errorPopup.style.display = DisplayStyle.Flex;
                 errorMessage.text = e.Message;
-                Debug.LogFormat("ERROR: '{0}'", e);
                 return;
             }
 
             createModal.style.display = DisplayStyle.None;
-            UpdateChallenges();
+            _ = UpdateChallenges();
         }
 
-        private async void ChallengeJoin(ClickEvent _)
+        private async Task ChallengeJoin()
         {
             if (selectedChallenge == null) return;
 
             try
             {
-                var challengesSystem = HiroCoordinator.Instance.Systems.GetSystem<ChallengesSystem>();
                 await challengesSystem.JoinChallengeAsync(selectedChallenge.Id);
             }
             catch (Exception e)
@@ -462,16 +440,15 @@ namespace HiroChallenges
                 return;
             }
 
-            UpdateChallenges();
+            _ = UpdateChallenges();
         }
 
-        private async void ChallengeLeave(ClickEvent _)
+        private async Task ChallengeLeave()
         {
             if (selectedChallenge == null) return;
 
             try
             {
-                var challengesSystem = HiroCoordinator.Instance.Systems.GetSystem<ChallengesSystem>();
                 await challengesSystem.LeaveChallengeAsync(selectedChallenge.Id);
                 challengesList.ClearSelection();
             }
@@ -482,16 +459,15 @@ namespace HiroChallenges
                 return;
             }
 
-            UpdateChallenges();
+            _ = UpdateChallenges();
         }
 
-        private async void ChallengeClaim(ClickEvent _)
+        private async Task ChallengeClaim()
         {
             if (selectedChallenge == null) return;
 
             try
             {
-                var challengesSystem = HiroCoordinator.Instance.Systems.GetSystem<ChallengesSystem>();
                 await challengesSystem.ClaimChallengeAsync(selectedChallenge.Id);
             }
             catch (Exception e)
@@ -501,16 +477,15 @@ namespace HiroChallenges
                 return;
             }
 
-            UpdateChallenges();
+            _ = UpdateChallenges();
         }
 
-        private async void ChallengeSubmitScore(ClickEvent _)
+        private async Task ChallengeSubmitScore()
         {
             if (selectedChallenge == null) return;
 
             try
             {
-                var challengesSystem = HiroCoordinator.Instance.Systems.GetSystem<ChallengesSystem>();
                 await challengesSystem.SubmitChallengeScoreAsync(
                     selectedChallenge.Id,
                     scoreField.value,
@@ -527,7 +502,7 @@ namespace HiroChallenges
             }
 
             submitScoreModal.style.display = DisplayStyle.None;
-            UpdateChallenges();
+            _ = UpdateChallenges();
         }
 
         #endregion

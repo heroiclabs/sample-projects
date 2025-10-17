@@ -50,7 +50,7 @@ namespace HiroChallenges
             {
                 var authToken = PlayerPrefs.GetString($"{playerPrefsAuthToken}_{index}");
                 var refreshToken = PlayerPrefs.GetString($"{playerPrefsRefreshToken}_{index}");
-                var session = Nakama.Session.Restore(authToken, refreshToken);
+                var session = Session.Restore(authToken, refreshToken);
                 Debug.Log("Session:" + session);
 
                 // Add an hour, so we check whether the token is within an hour of expiration to refresh it.
@@ -66,7 +66,7 @@ namespace HiroChallenges
                     deviceId = Guid.NewGuid().ToString();
                 }
 
-                if (session != null)
+                if (session is { Created: true })
                 {
                     await client.SessionLogoutAsync(session);
                 }
@@ -88,7 +88,7 @@ namespace HiroChallenges
 
         protected override void SystemsInitializeCompleted()
         {
-            ReceivedStartSuccess?.Invoke(Systems.GetSystem<NakamaSystem>().Session);
+            ReceivedStartSuccess?.Invoke(this.GetSystem<NakamaSystem>().Session);
         }
 
         protected override void SystemsInitializeFailed(Exception e)
