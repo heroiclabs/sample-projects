@@ -41,6 +41,7 @@ namespace HiroChallenges
         private ScrollView challengeParticipantsScrollView;
 
         private VisualElement createModal;
+        private DropdownField modalTemplateDropdown;
         private TextField modalNameField;
         private TextField modalDescriptionField;
         private IntegerField modalMaxParticipantsField;
@@ -67,6 +68,7 @@ namespace HiroChallenges
         private ChallengesSystem challengesSystem;
         private readonly List<IChallenge> challenges = new();
         private readonly List<IChallengeScore> selectedChallengeParticipants = new();
+        private readonly List<String> challengeTemplates = new();
 
         private void Start()
         {
@@ -86,6 +88,7 @@ namespace HiroChallenges
                 nakamaSystem = this.GetSystem<NakamaSystem>();
                 challengesSystem = this.GetSystem<ChallengesSystem>();
                 _ = UpdateChallenges();
+                _ = LoadChallengeTemplates();
             };
         }
 
@@ -128,6 +131,13 @@ namespace HiroChallenges
                 modalMaxParticipantsField.value = 100;
                 modalInvitees.value = string.Empty;
                 modalOpenToggle.value = true;
+                
+                // Reset template dropdown to first item if available
+                if (modalTemplateDropdown.choices.Count > 0)
+                {
+                    modalTemplateDropdown.index = 0;
+                }
+                
                 createModal.style.display = DisplayStyle.Flex;
             });
 
@@ -197,6 +207,7 @@ namespace HiroChallenges
 
             // Create Modal
             createModal = rootElement.Q<VisualElement>("create-modal");
+            modalTemplateDropdown = rootElement.Q<DropdownField>("create-modal-template");
             modalNameField = rootElement.Q<TextField>("create-modal-name");
             modalDescriptionField = rootElement.Q<TextField>("create-modal-description");
             modalMaxParticipantsField = rootElement.Q<IntegerField>("create-modal-max-participants");
@@ -223,6 +234,33 @@ namespace HiroChallenges
             errorCloseButton.RegisterCallback<ClickEvent>(_ => errorPopup.style.display = DisplayStyle.None);
 
             _ = OnChallengeSelected(null);
+        }
+
+        private async Task LoadChallengeTemplates()
+        {
+            try
+            {
+                var templates = await challengesSystem.GetTemplatesAsync();
+                
+                challengeTemplates.Clear();
+                challengeTemplates.AddRange(templates.Templates.Keys.ToList());
+                
+                // Populate dropdown with template names
+                modalTemplateDropdown.choices = challengeTemplates;
+                
+                if (challengeTemplates.Count > 0)
+                {
+                    modalTemplateDropdown.index = 0;
+                }
+                
+                Debug.LogFormat("Loaded {0} challenge templates", challengeTemplates.Count);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Failed to load challenge templates: {e.Message}");
+                errorPopup.style.display = DisplayStyle.Flex;
+                errorMessage.text = $"Failed to load challenge templates: {e.Message}";
+            }
         }
 
         private async Task OnChallengeSelected(IChallenge challenge)
@@ -360,7 +398,15 @@ namespace HiroChallenges
         {
             try
             {
-                var templateId = "speed_runner";
+                // Get the selected template ID
+                if (modalTemplateDropdown.index < 0 || modalTemplateDropdown.index >= challengeTemplates.Count)
+                {
+                    throw new Exception("Please select a valid challenge template.");
+                }
+                
+                var selectedTemplate = challengeTemplates[modalTemplateDropdown.index];
+                var templateId = selectedTemplate;
+                
                 var metadata = new Dictionary<string, string>();
                 Debug.LogFormat("UserID: '{0}'", nakamaSystem.UserId);
                 
