@@ -91,6 +91,7 @@ namespace HiroChallenges
 
         public void SwitchComplete()
         {
+            InitializeUI();
             UpdateChallenges();
         }
 
