@@ -42,6 +42,7 @@ namespace HiroChallenges
         private ScrollView challengeParticipantsScrollView;
 
         private VisualElement createModal;
+        private DropdownField modalTemplateDropdown;
         private TextField modalNameField;
         private TextField modalDescriptionField;
         private IntegerField modalMaxParticipantsField;
@@ -66,6 +67,7 @@ namespace HiroChallenges
         private IChallenge selectedChallenge;
         private readonly List<IChallenge> challenges = new();
         private readonly List<IChallengeScore> selectedChallengeParticipants = new();
+        private readonly List<String> challengeTemplates = new();
 
         private void Start()
         {
@@ -83,6 +85,7 @@ namespace HiroChallenges
             {
                 OnInitialized?.Invoke(session, this);
                 UpdateChallenges();
+                LoadChallengeTemplates();
             };
         }
 
@@ -125,6 +128,13 @@ namespace HiroChallenges
                 modalMaxParticipantsField.value = 100;
                 modalInvitees.value = string.Empty;
                 modalOpenToggle.value = true;
+                
+                // Reset template dropdown to first item if available
+                if (modalTemplateDropdown.choices.Count > 0)
+                {
+                    modalTemplateDropdown.index = 0;
+                }
+                
                 createModal.style.display = DisplayStyle.Flex;
             });
 
@@ -196,6 +206,7 @@ namespace HiroChallenges
 
             // Create Modal
             createModal = rootElement.Q<VisualElement>("create-modal");
+            modalTemplateDropdown = rootElement.Q<DropdownField>("create-modal-template");
             modalNameField = rootElement.Q<TextField>("create-modal-name");
             modalDescriptionField = rootElement.Q<TextField>("create-modal-description");
             modalMaxParticipantsField = rootElement.Q<IntegerField>("create-modal-max-participants");
@@ -222,6 +233,34 @@ namespace HiroChallenges
             errorCloseButton.RegisterCallback<ClickEvent>(_ => errorPopup.style.display = DisplayStyle.None);
 
             OnChallengeSelected(null);
+        }
+
+        private async void LoadChallengeTemplates()
+        {
+            try
+            {
+                var challengesSystem = HiroCoordinator.Instance.Systems.GetSystem<ChallengesSystem>();
+                var templates = await challengesSystem.GetTemplatesAsync();
+                
+                challengeTemplates.Clear();
+                challengeTemplates.AddRange(templates.Templates.Keys.ToList());
+                
+                // Populate dropdown with template names
+                modalTemplateDropdown.choices = challengeTemplates;
+                
+                if (challengeTemplates.Count > 0)
+                {
+                    modalTemplateDropdown.index = 0;
+                }
+                
+                Debug.LogFormat("Loaded {0} challenge templates", challengeTemplates.Count);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Failed to load challenge templates: {e.Message}");
+                errorPopup.style.display = DisplayStyle.Flex;
+                errorMessage.text = $"Failed to load challenge templates: {e.Message}";
+            }
         }
 
         private async void OnChallengeSelected(IChallenge challenge)
@@ -379,7 +418,15 @@ namespace HiroChallenges
             var challengesSystem = HiroCoordinator.Instance.Systems.GetSystem<ChallengesSystem>();
             try
             {
-                var templateId = "speed_runner";
+                // Get the selected template ID
+                if (modalTemplateDropdown.index < 0 || modalTemplateDropdown.index >= challengeTemplates.Count)
+                {
+                    throw new Exception("Please select a valid challenge template.");
+                }
+                
+                var selectedTemplate = challengeTemplates[modalTemplateDropdown.index];
+                var templateId = selectedTemplate;
+                
                 var metadata = new Dictionary<string, string>();
                 var nakamaSystem = this.GetSystem<NakamaSystem>();
                 Debug.LogFormat("UserID: '{0}'", nakamaSystem.UserId);
