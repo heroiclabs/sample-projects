@@ -20,7 +20,7 @@ namespace HiroChallenges
         {
             usernameLabel.text = participantScore.Username;
             scoreLabel.text = participantScore.Score.ToString();
-            rankLabel.text = $"#{participantScore.Rank}";
+            rankLabel.text = participantScore.Rank > 0 ? $"#{participantScore.Rank}" : "-";
         }
     }
 }
