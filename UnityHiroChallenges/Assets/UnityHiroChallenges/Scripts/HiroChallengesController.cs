@@ -43,9 +43,14 @@ namespace HiroChallenges
         private VisualElement createModal;
         private DropdownField modalTemplateDropdown;
         private TextField modalNameField;
-        private TextField modalDescriptionField;
         private IntegerField modalMaxParticipantsField;
         private TextField modalInvitees;
+        private TextField modalCategory;
+        private SliderInt modalChallengeDelay;
+        private Label modalChallengeDelayLabel;
+        private SliderInt modalChallengeDuration;
+        private Label modalChallengeDurationLabel;
+        private IntegerField modalMaxScoreSubmissions;
         private Toggle modalOpenToggle;
         private Button modalCreateButton;
         private Button modalCloseButton;
@@ -127,9 +132,12 @@ namespace HiroChallenges
             createButton.RegisterCallback<ClickEvent>(_ =>
             {
                 modalNameField.value = string.Empty;
-                modalDescriptionField.value = string.Empty;
                 modalMaxParticipantsField.value = 100;
                 modalInvitees.value = string.Empty;
+                modalCategory.value = "race";
+                modalChallengeDelay.value = 0;
+                modalChallengeDuration.value = 2000;
+                modalMaxScoreSubmissions.value = 10;
                 modalOpenToggle.value = true;
                 
                 // Reset template dropdown to first item if available
@@ -209,10 +217,30 @@ namespace HiroChallenges
             createModal = rootElement.Q<VisualElement>("create-modal");
             modalTemplateDropdown = rootElement.Q<DropdownField>("create-modal-template");
             modalNameField = rootElement.Q<TextField>("create-modal-name");
-            modalDescriptionField = rootElement.Q<TextField>("create-modal-description");
             modalMaxParticipantsField = rootElement.Q<IntegerField>("create-modal-max-participants");
             modalInvitees = rootElement.Q<TextField>("create-modal-invitees");
+            modalCategory = rootElement.Q<TextField>("create-modal-category");
+            modalMaxScoreSubmissions = rootElement.Q<IntegerField>("create-modal-max-submissions");
             modalOpenToggle = rootElement.Q<Toggle>("create-modal-open");
+            
+            // Challenge Delay Slider
+            modalChallengeDelay = rootElement.Q<SliderInt>("create-modal-delay");
+            modalChallengeDelayLabel = rootElement.Q<Label>("create-modal-delay-value");
+            modalChallengeDelay.RegisterValueChangedCallback(evt =>
+            {
+                modalChallengeDelayLabel.text = $"{evt.newValue}s";
+            });
+            modalChallengeDelayLabel.text = $"{modalChallengeDelay.value}s";
+            
+            // Challenge Duration Slider
+            modalChallengeDuration = rootElement.Q<SliderInt>("create-modal-duration");
+            modalChallengeDurationLabel = rootElement.Q<Label>("create-modal-duration-value");
+            modalChallengeDuration.RegisterValueChangedCallback(evt =>
+            {
+                modalChallengeDurationLabel.text = $"{evt.newValue}s";
+            });
+            modalChallengeDurationLabel.text = $"{modalChallengeDuration.value}s";
+            
             modalCreateButton = rootElement.Q<Button>("create-modal-create");
             modalCreateButton.RegisterCallback<ClickEvent>(evt => _ = ChallengeCreate());
             modalCloseButton = rootElement.Q<Button>("create-modal-close");
@@ -449,14 +477,14 @@ namespace HiroChallenges
                 await challengesSystem.CreateChallengeAsync(
                     templateId,
                     modalNameField.value,
-                    modalDescriptionField.value,
+                    "Challenge created via UI", // Hardcoded description, need to get description via additional properties later.
                     inviteeIDs,
                     modalOpenToggle.value,
-                    10, // max score submissions
-                    0, // challenge delay
-                    2000, // challenge duration
+                    modalMaxScoreSubmissions.value,
+                    modalChallengeDelay.value,
+                    modalChallengeDuration.value,
                     modalMaxParticipantsField.value,
-                    "race", // challenge category
+                    modalCategory.value,
                     metadata
                 );
             }
