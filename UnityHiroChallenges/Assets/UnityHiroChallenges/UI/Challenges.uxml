@@ -52,45 +52,43 @@
                     <!-- Left Column -->
                     <ui:VisualElement style="flex-grow: 1; width: 50%; padding-right: 15px;">
                         <ui:VisualElement style="width: 100%; margin-bottom: 15px;">
-                            <ui:DropdownField label="Template" name="create-modal-template" style="width: 100%; -unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
+                            <ui:DropdownField label="Template" name="create-modal-template" style="width: 100%;" />
                         </ui:VisualElement>
                         <ui:VisualElement style="width: 100%; margin-bottom: 15px;">
-                            <ui:TextField label="Name" placeholder-text="Enter challenge name..." name="create-modal-name" style="width: 100%; -unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
+                            <ui:TextField label="Name" placeholder-text="Enter challenge name..." name="create-modal-name" style="width: 100%;" />
                         </ui:VisualElement>
                         <ui:VisualElement style="width: 100%; margin-bottom: 15px;">
-                            <ui:TextField label="Invitees" placeholder-text="Player1, Player2" name="create-modal-invitees" style="width: 100%; -unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
+                            <ui:TextField label="Invitees" placeholder-text="Player1, Player2" name="create-modal-invitees" style="width: 100%;" />
                         </ui:VisualElement>
                         <ui:VisualElement style="width: 100%; margin-bottom: 15px;">
-                            <ui:TextField label="Category" placeholder-text="race" name="create-modal-category" style="width: 100%; -unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
+                            <ui:TextField label="Category" placeholder-text="race" name="create-modal-category" style="width: 100%;" />
                         </ui:VisualElement>
                         <ui:VisualElement style="width: 100%; margin-bottom: 15px;">
-                            <ui:IntegerField label="Max Participants" value="100" name="create-modal-max-participants" style="width: 100%; -unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
+                            <ui:IntegerField label="Max Participants" value="100" name="create-modal-max-participants" style="width: 100%;" />
                         </ui:VisualElement>
                         <ui:VisualElement style="width: 100%; margin-bottom: 15px;">
-                            <ui:IntegerField label="Max Score Submissions" value="10" name="create-modal-max-submissions" style="width: 100%; -unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
+                            <ui:IntegerField label="Max Score Submissions" value="10" name="create-modal-max-submissions" style="width: 100%;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                     
                     <!-- Right Column -->
                     <ui:VisualElement style="flex-grow: 1; width: 50%; padding-left: 15px;">
-                        <ui:VisualElement style="width: 100%; margin-bottom: 15px;">
-                            <ui:VisualElement style="flex-direction: row; align-items: center; background-color: rgb(255, 255, 255); border-width: 2px; border-color: rgb(200, 200, 200); border-radius: 10px; padding: 10px; min-height: 60px;">
-                                <ui:Label text="Challenge Delay (seconds)" style="flex-grow: 0; min-width: 200px; font-size: 18px; color: rgb(71, 71, 71); -unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
-                                <ui:SliderInt picking-mode="Ignore" value="0" high-value="3600" name="create-modal-delay" low-value="0" style="flex-grow: 1; margin-left: 10px; margin-right: 10px;" />
-                                <ui:Label text="0s" name="create-modal-delay-value" style="min-width: 60px; -unity-text-align: middle-right; font-size: 18px; color: rgb(71, 71, 71); -unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
+                        <ui:VisualElement style="width: 100%; margin-bottom: 20px;">
+                            <ui:Label text="Challenge Delay (seconds)" style="margin-bottom: 5px; font-size: 14px;" />
+                            <ui:VisualElement style="flex-direction: row; align-items: center;">
+                                <ui:SliderInt picking-mode="Ignore" value="0" high-value="3600" name="create-modal-delay" low-value="0" style="flex-grow: 1; margin-right: 10px;" />
+                                <ui:Label text="0s" name="create-modal-delay-value" style="min-width: 60px; -unity-text-align: middle-right;" />
                             </ui:VisualElement>
                         </ui:VisualElement>
-                        <ui:VisualElement style="width: 100%; margin-bottom: 15px;">
-                            <ui:VisualElement style="flex-direction: row; align-items: center; background-color: rgb(255, 255, 255); border-width: 2px; border-color: rgb(200, 200, 200); border-radius: 10px; padding: 10px; min-height: 60px;">
-                                <ui:Label text="Challenge Duration (seconds)" style="flex-grow: 0; min-width: 200px; font-size: 18px; color: rgb(71, 71, 71); -unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
-                                <ui:SliderInt picking-mode="Ignore" value="2000" high-value="86400" name="create-modal-duration" low-value="60" style="flex-grow: 1; margin-left: 10px; margin-right: 10px;" />
-                                <ui:Label text="2000s" name="create-modal-duration-value" style="min-width: 60px; -unity-text-align: middle-right; font-size: 18px; color: rgb(71, 71, 71); -unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
+                        <ui:VisualElement style="width: 100%; margin-bottom: 20px;">
+                            <ui:Label text="Challenge Duration (seconds)" style="margin-bottom: 5px; font-size: 14px;" />
+                            <ui:VisualElement style="flex-direction: row; align-items: center;">
+                                <ui:SliderInt picking-mode="Ignore" value="2000" high-value="86400" name="create-modal-duration" low-value="60" style="flex-grow: 1; margin-right: 10px;" />
+                                <ui:Label text="2000s" name="create-modal-duration-value" style="min-width: 60px; -unity-text-align: middle-right;" />
                             </ui:VisualElement>
                         </ui:VisualElement>
-                        <ui:VisualElement style="width: 100%; margin-bottom: 15px;">
-                            <ui:VisualElement style="flex-direction: row; align-items: center; background-color: rgb(255, 255, 255); border-width: 2px; border-color: rgb(200, 200, 200); border-radius: 10px; padding: 15px; min-height: 60px;">
-                                <ui:Toggle label="Open to All" name="create-modal-open" toggle-on-label-click="false" value="true" style="flex-direction: row; align-items: center; font-size: 18px; -unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
-                            </ui:VisualElement>
+                        <ui:VisualElement style="margin-bottom: 20px; margin-top: 10px;">
+                            <ui:Toggle label="Open to All" name="create-modal-open" toggle-on-label-click="false" value="true" style="flex-direction: row; align-items: center;" />
                         </ui:VisualElement>
                         <ui:VisualElement style="margin-top: 30px; align-items: center;">
                             <ui:Button text="Create Challenge" name="create-modal-create" class="heroic-button" style="width: 100%;" />
@@ -109,9 +107,9 @@
                     <ui:Label text="SUBMIT SCORE" class="heroic-title" style="color: rgb(255, 255, 255); -unity-text-align: middle-center; flex-grow: 1;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="submit-score-modal-bottom" style="height: 85%; align-self: center; align-items: center; width: 100%; padding-left: 30px; padding-right: 30px; padding-top: 30px; padding-bottom: 30px;">
-                    <ui:IntegerField label="Score" value="0" name="submit-score-score" style="width: 100%; margin-bottom: 15px; -unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
-                    <ui:IntegerField label="Subscore" value="0" name="submit-score-subscore" style="width: 100%; margin-bottom: 15px; -unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
-                    <ui:TextField label="Metadata (optional)" placeholder-text="Enter metadata..." name="submit-score-metadata" style="width: 100%; margin-bottom: 15px; -unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
+                    <ui:IntegerField label="Score" value="0" name="submit-score-score" style="width: 100%; margin-bottom: 15px;" />
+                    <ui:IntegerField label="Subscore" value="0" name="submit-score-subscore" style="width: 100%; margin-bottom: 15px;" />
+                    <ui:TextField label="Metadata (optional)" placeholder-text="Enter metadata..." name="submit-score-metadata" style="width: 100%; margin-bottom: 15px;" />
                     <ui:Button text="Submit" name="submit-score-modal-submit" class="heroic-button" style="margin-top: 20px;" />
                 </ui:VisualElement>
                 <ui:Button name="submit-score-modal-close" class="heroic-close-button" />

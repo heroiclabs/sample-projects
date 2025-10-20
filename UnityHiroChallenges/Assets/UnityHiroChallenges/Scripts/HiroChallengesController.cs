@@ -139,13 +139,13 @@ namespace HiroChallenges
                 modalChallengeDuration.value = 2000;
                 modalMaxScoreSubmissions.value = 10;
                 modalOpenToggle.value = true;
-                
+
                 // Reset template dropdown to first item if available
                 if (modalTemplateDropdown.choices.Count > 0)
                 {
                     modalTemplateDropdown.index = 0;
                 }
-                
+
                 createModal.style.display = DisplayStyle.Flex;
             });
 
@@ -216,13 +216,17 @@ namespace HiroChallenges
             // Create Modal
             createModal = rootElement.Q<VisualElement>("create-modal");
             modalTemplateDropdown = rootElement.Q<DropdownField>("create-modal-template");
+            modalTemplateDropdown.RegisterValueChangedCallback(evt =>
+            {
+                UpdateSliderLimitsFromTemplateAsync(evt.newValue);
+            });
             modalNameField = rootElement.Q<TextField>("create-modal-name");
             modalMaxParticipantsField = rootElement.Q<IntegerField>("create-modal-max-participants");
             modalInvitees = rootElement.Q<TextField>("create-modal-invitees");
             modalCategory = rootElement.Q<TextField>("create-modal-category");
             modalMaxScoreSubmissions = rootElement.Q<IntegerField>("create-modal-max-submissions");
             modalOpenToggle = rootElement.Q<Toggle>("create-modal-open");
-            
+
             // Challenge Delay Slider
             modalChallengeDelay = rootElement.Q<SliderInt>("create-modal-delay");
             modalChallengeDelayLabel = rootElement.Q<Label>("create-modal-delay-value");
@@ -231,7 +235,7 @@ namespace HiroChallenges
                 modalChallengeDelayLabel.text = $"{evt.newValue}s";
             });
             modalChallengeDelayLabel.text = $"{modalChallengeDelay.value}s";
-            
+
             // Challenge Duration Slider
             modalChallengeDuration = rootElement.Q<SliderInt>("create-modal-duration");
             modalChallengeDurationLabel = rootElement.Q<Label>("create-modal-duration-value");
@@ -240,7 +244,7 @@ namespace HiroChallenges
                 modalChallengeDurationLabel.text = $"{evt.newValue}s";
             });
             modalChallengeDurationLabel.text = $"{modalChallengeDuration.value}s";
-            
+
             modalCreateButton = rootElement.Q<Button>("create-modal-create");
             modalCreateButton.RegisterCallback<ClickEvent>(evt => _ = ChallengeCreate());
             modalCloseButton = rootElement.Q<Button>("create-modal-close");
@@ -263,6 +267,27 @@ namespace HiroChallenges
 
             _ = OnChallengeSelected(null);
         }
+        
+        private async Task UpdateSliderLimitsFromTemplateAsync(string templateName)
+        {
+            var templates = await challengesSystem.GetTemplatesAsync();
+            IChallengeTemplate template = null;
+            templates.Templates.TryGetValue(templateName, out template);
+            long maxDelay = template.StartDelayMax;
+
+            modalChallengeDelay.highValue = (int)maxDelay;
+            
+            modalChallengeDelay.value = (int)Mathf.Clamp(modalChallengeDelay.value, 0, maxDelay);
+            modalChallengeDelayLabel.text = $"{modalChallengeDelay.value}s";
+
+            var minDuration = template.Duration.MinSec;
+            var maxDuration = template.Duration.MaxSec;
+
+            modalChallengeDuration.lowValue = (int)minDuration;
+            modalChallengeDuration.highValue = (int)maxDuration;
+            modalChallengeDuration.value = (int)Mathf.Clamp(modalChallengeDuration.value, minDuration, maxDuration);
+            modalChallengeDurationLabel.text = $"{modalChallengeDuration.value}s";
+        }
 
         private async Task LoadChallengeTemplates()
         {
@@ -279,6 +304,7 @@ namespace HiroChallenges
                 if (challengeTemplates.Count > 0)
                 {
                     modalTemplateDropdown.index = 0;
+                    UpdateSliderLimitsFromTemplateAsync(modalTemplateDropdown.value);
                 }
                 
                 Debug.LogFormat("Loaded {0} challenge templates", challengeTemplates.Count);
