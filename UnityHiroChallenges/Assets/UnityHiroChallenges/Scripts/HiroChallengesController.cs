@@ -216,9 +216,9 @@ namespace HiroChallenges
             // Create Modal
             createModal = rootElement.Q<VisualElement>("create-modal");
             modalTemplateDropdown = rootElement.Q<DropdownField>("create-modal-template");
-            modalTemplateDropdown.RegisterValueChangedCallback(evt =>
+            modalTemplateDropdown.RegisterValueChangedCallback(async evt =>
             {
-                UpdateSliderLimitsFromTemplateAsync(evt.newValue);
+                await UpdateSliderLimitsFromTemplateAsync(evt.newValue);
             });
             modalNameField = rootElement.Q<TextField>("create-modal-name");
             modalMaxParticipantsField = rootElement.Q<IntegerField>("create-modal-max-participants");
@@ -267,16 +267,14 @@ namespace HiroChallenges
 
             _ = OnChallengeSelected(null);
         }
-        
+
         private async Task UpdateSliderLimitsFromTemplateAsync(string templateName)
         {
-            var templates = await challengesSystem.GetTemplatesAsync();
-            IChallengeTemplate template = null;
-            templates.Templates.TryGetValue(templateName, out template);
+            var template = await GetTemplate(templateName);
             long maxDelay = template.StartDelayMax;
 
             modalChallengeDelay.highValue = (int)maxDelay;
-            
+
             modalChallengeDelay.value = (int)Mathf.Clamp(modalChallengeDelay.value, 0, maxDelay);
             modalChallengeDelayLabel.text = $"{modalChallengeDelay.value}s";
 
@@ -287,6 +285,15 @@ namespace HiroChallenges
             modalChallengeDuration.highValue = (int)maxDuration;
             modalChallengeDuration.value = (int)Mathf.Clamp(modalChallengeDuration.value, minDuration, maxDuration);
             modalChallengeDurationLabel.text = $"{modalChallengeDuration.value}s";
+        }
+        
+        private async Task<IChallengeTemplate> GetTemplate(string templateName)
+        {
+            var templates = await challengesSystem.GetTemplatesAsync();
+            IChallengeTemplate template = null;
+            templates.Templates.TryGetValue(templateName, out template);
+
+            return template;
         }
 
         private async Task LoadChallengeTemplates()
@@ -493,17 +500,20 @@ namespace HiroChallenges
                     inviteeIDs.Length, 
                     string.Join(", ", inviteeIDs)
                 );
-                
+
                 // Validate that we found all requested users
                 if (inviteeIDs.Length != inviteeUsernames.Count)
                 {
                     throw new Exception($"Could not find all users. Requested: {inviteeUsernames.Count}, Found: {inviteeIDs.Length}");
                 }
+
+                var template = await GetTemplate(templateId);
+                template.AdditionalProperties.TryGetValue("description", out var description);
                 
                 await challengesSystem.CreateChallengeAsync(
                     templateId,
                     modalNameField.value,
-                    "Challenge created via UI", // Hardcoded description, need to get description via additional properties later.
+                    description,
                     inviteeIDs,
                     modalOpenToggle.value,
                     modalMaxScoreSubmissions.value,
