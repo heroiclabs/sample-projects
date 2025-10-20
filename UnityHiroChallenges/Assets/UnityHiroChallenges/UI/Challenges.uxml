@@ -85,12 +85,12 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement template="ErrorPopup" name="create-modal" style="position: absolute; top: -92px; left: 0; bottom: -88px; right: 0; display: none;">
+    <ui:VisualElement template="ErrorPopup" name="create-modal" style="position: absolute; top: -92px; left: 0; bottom: -88px; right: 0; display: flex;">
         <Style src="project://database/Assets/UnityHiroChallenges/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
         <ui:VisualElement name="create-modal-background" class="heroic-error-popup__background" style="flex-grow: 0; bottom: 0; right: 0;">
             <ui:VisualElement name="create-modal-panel" class="heroic-main__panel" style="height: 85%; width: 1400px;">
                 <ui:VisualElement name="create-modal-top" style="height: 10%; background-color: rgb(132, 154, 255); border-top-left-radius: 15px; border-top-right-radius: 15px;">
-                    <ui:Label text="CREATE CHALLENGE" class="heroic-title" style="color: rgb(255, 255, 255); -unity-text-align: middle-center; flex-grow: 1;" />
+                    <ui:Label text="ADVANCED OPTIONS" class="heroic-title" style="color: rgb(255, 255, 255); -unity-text-align: middle-center; flex-grow: 1;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="create-modal-bottom" style="height: 90%; align-self: center; align-items: stretch; width: 100%; padding-left: 30px; padding-right: 30px; padding-top: 20px; padding-bottom: 20px; flex-direction: row;">
                     <ui:VisualElement style="flex-grow: 1; width: 50%; padding-right: 15px;">
@@ -132,7 +132,7 @@
                             <ui:Toggle label="Open to All" name="create-modal-open" toggle-on-label-click="false" value="false" style="flex-direction: row; align-items: center; font-size: 18px; -unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
                         </ui:VisualElement>
                         <ui:VisualElement style="margin-top: 30px; align-items: center;">
-                            <ui:Button text="Create Challenge" name="create-modal-create" class="heroic-button" style="width: 100%;" />
+                            <ui:Button text="Start Challenge" name="create-modal-create" emoji-fallback-support="false" class="heroic-button" style="width: 100%;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>

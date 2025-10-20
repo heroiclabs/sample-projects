@@ -300,6 +300,16 @@ namespace HiroChallenges
                 modalMaxScoreSubmissions.value = 10;
                 modalOpenToggle.value = true;
 
+                // Set the template dropdown to the currently selected template
+                if (!string.IsNullOrEmpty(selectedTemplateId) && modalTemplateDropdown.choices != null)
+                {
+                    var templateIndex = modalTemplateDropdown.choices.IndexOf(selectedTemplateId);
+                    if (templateIndex >= 0)
+                    {
+                        modalTemplateDropdown.index = templateIndex;
+                    }
+                }
+
                 createModal.style.display = DisplayStyle.Flex;
             });
 
