@@ -18,6 +18,9 @@ namespace HiroChallenges
         private int port = 7350;
         [SerializeField]
         private string serverKey = "defaultkey";
+        [SerializeField]
+        private bool local = false;
+        
 
         public event Action<Exception> ReceivedStartError;
         public event Action<ISession> ReceivedStartSuccess;
@@ -27,7 +30,7 @@ namespace HiroChallenges
             var logger = new Hiro.Unity.Logger();
             var monitor = NetworkMonitor.Default;
 
-            var client = new Client(scheme, host, port, serverKey);
+            var client = local ? new Client("http", "127.0.0.1", 7350, "defaultkey") : new Client(scheme, host, port, serverKey);
 
             var nakamaSystem = new NakamaSystem(logger, client, NakamaAuthorizerFunc());
 
