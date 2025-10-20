@@ -20,10 +20,12 @@ namespace HiroChallenges
         private VisualTreeAsset challengeEntryTemplate;
         [SerializeField]
         private VisualTreeAsset challengeParticipantTemplate;
+        [SerializeField]
+        private VisualTreeAsset gameModeTemplate;
 
         public event Action<ISession, HiroChallengesController> OnInitialized;
 
-        private Button allTab;
+        private Button gameModesTab;
         private Button myChallengesTab;
         private Button createButton;
         private Button joinButton;
@@ -39,6 +41,18 @@ namespace HiroChallenges
         private ListView challengesList;
         private ScrollView challengesScrollView;
         private ScrollView challengeParticipantsScrollView;
+
+        private VisualElement gameModeDetailPanel;
+        private Label gameModeDetailName;
+        private Label gameModeDetailDescription;
+        private Label gameModeDetailDifficulty;
+        private Label gameModeDetailCategory;
+        private Label gameModeDetailPlayers;
+        private Label gameModeDetailDuration;
+        private IntegerField gameModeMaxParticipants;
+        private IntegerField gameModeMaxScores;
+        private TextField gameModeInvitees;
+        private Button gameModeStartChallengeButton;
 
         private VisualElement createModal;
         private DropdownField modalTemplateDropdown;
@@ -73,7 +87,10 @@ namespace HiroChallenges
         private ChallengesSystem challengesSystem;
         private readonly List<IChallenge> challenges = new();
         private readonly List<IChallengeScore> selectedChallengeParticipants = new();
-        private readonly List<String> challengeTemplates = new();
+        private readonly List<KeyValuePair<string, IChallengeTemplate>> gameModes = new();
+        private IChallengeTemplates challengeTemplates;
+        private string selectedGameModeId;
+        private IChallengeTemplate selectedGameMode;
 
         private void Start()
         {
@@ -92,14 +109,14 @@ namespace HiroChallenges
                 OnInitialized?.Invoke(session, this);
                 nakamaSystem = this.GetSystem<NakamaSystem>();
                 challengesSystem = this.GetSystem<ChallengesSystem>();
-                _ = UpdateChallenges();
+                _ = UpdateGameModesOrChallenges();
                 _ = LoadChallengeTemplates();
             };
         }
 
         public void SwitchComplete()
         {
-            _ = UpdateChallenges();
+            _ = UpdateGameModesOrChallenges();
         }
 
         #region UI Binding
@@ -108,14 +125,14 @@ namespace HiroChallenges
         {
             var rootElement = GetComponent<UIDocument>().rootVisualElement;
 
-            allTab = rootElement.Q<Button>("all-tab");
-            allTab.RegisterCallback<ClickEvent>(evt =>
+            gameModesTab = rootElement.Q<Button>("game-modes-tab");
+            gameModesTab.RegisterCallback<ClickEvent>(evt =>
             {
                 if (selectedTabIndex == 0) return;
                 selectedTabIndex = 0;
-                allTab.AddToClassList("selected");
+                gameModesTab.AddToClassList("selected");
                 myChallengesTab.RemoveFromClassList("selected");
-                _ = UpdateChallenges();
+                _ = UpdateGameModesOrChallenges();
             });
 
             myChallengesTab = rootElement.Q<Button>("my-challenges-tab");
@@ -124,8 +141,8 @@ namespace HiroChallenges
                 if (selectedTabIndex == 1) return;
                 selectedTabIndex = 1;
                 myChallengesTab.AddToClassList("selected");
-                allTab.RemoveFromClassList("selected");
-                _ = UpdateChallenges();
+                gameModesTab.RemoveFromClassList("selected");
+                _ = UpdateGameModesOrChallenges();
             });
 
             createButton = rootElement.Q<Button>("challenge-create");
@@ -192,21 +209,34 @@ namespace HiroChallenges
             challengeParticipantsScrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
 
             challengesList = rootElement.Q<ListView>("challenges-list");
-            challengesList.makeItem = () =>
-            {
-                var newListEntry = challengeEntryTemplate.Instantiate();
-                var newListEntryLogic = new ChallengeView();
-                newListEntry.userData = newListEntryLogic;
-                newListEntryLogic.SetVisualElement(newListEntry);
-                return newListEntry;
-            };
-            challengesList.bindItem = (item, index) => { (item.userData as ChallengeView)?.SetChallenge(challenges[index]); };
-            challengesList.itemsSource = challenges;
+            // makeItem and bindItem will be set dynamically in SetupListViewForCurrentTab
             challengesList.selectionChanged += objects =>
             {
-                if (challengesList.selectedItem is IChallenge)
+                Debug.LogFormat("challengesList.selectionChanged fired. selectedTabIndex={0}, selectedItem type={1}",
+                    selectedTabIndex,
+                    challengesList.selectedItem?.GetType().Name ?? "null");
+
+                if (selectedTabIndex == 0)
                 {
-                    _ = OnChallengeSelected(challengesList.selectedItem as IChallenge);
+                    // Game Modes tab - handle template selection
+                    if (challengesList.selectedItem is KeyValuePair<string, IChallengeTemplate> selectedMode)
+                    {
+                        Debug.LogFormat("Calling OnGameModeSelected for {0}", selectedMode.Key);
+                        OnGameModeSelected(selectedMode.Key, selectedMode.Value);
+                    }
+                }
+                else if (selectedTabIndex == 1)
+                {
+                    // My Challenges tab
+                    if (challengesList.selectedItem is IChallenge challenge)
+                    {
+                        Debug.LogFormat("Calling OnChallengeSelected for challenge {0}", challenge.Id);
+                        _ = OnChallengeSelected(challenge);
+                    }
+                    else
+                    {
+                        Debug.LogWarning("selectedItem is not IChallenge!");
+                    }
                 }
             };
 
@@ -261,6 +291,20 @@ namespace HiroChallenges
             errorCloseButton = rootElement.Q<Button>("error-close");
             errorCloseButton.RegisterCallback<ClickEvent>(_ => errorPopup.style.display = DisplayStyle.None);
 
+            // Game Mode Detail Panel
+            gameModeDetailPanel = rootElement.Q<VisualElement>("game-mode-detail-panel");
+            gameModeDetailName = rootElement.Q<Label>("game-mode-detail-name");
+            gameModeDetailDescription = rootElement.Q<Label>("game-mode-detail-description");
+            gameModeDetailDifficulty = rootElement.Q<Label>("game-mode-detail-difficulty");
+            gameModeDetailCategory = rootElement.Q<Label>("game-mode-detail-category");
+            gameModeDetailPlayers = rootElement.Q<Label>("game-mode-detail-players");
+            gameModeDetailDuration = rootElement.Q<Label>("game-mode-detail-duration");
+            gameModeMaxParticipants = rootElement.Q<IntegerField>("game-mode-max-participants");
+            gameModeMaxScores = rootElement.Q<IntegerField>("game-mode-max-scores");
+            gameModeInvitees = rootElement.Q<TextField>("game-mode-invitees");
+            gameModeStartChallengeButton = rootElement.Q<Button>("game-mode-start-challenge");
+            gameModeStartChallengeButton.RegisterCallback<ClickEvent>(evt => _ = StartChallengeFromGameMode());
+
             _ = OnChallengeSelected(null);
         }
 
@@ -268,20 +312,19 @@ namespace HiroChallenges
         {
             try
             {
-                var templates = await challengesSystem.GetTemplatesAsync();
-                
-                challengeTemplates.Clear();
-                challengeTemplates.AddRange(templates.Templates.Keys.ToList());
-                
+                challengeTemplates = await challengesSystem.GetTemplatesAsync();
+
+                var templateNames = challengeTemplates.Templates.Keys.ToList();
+
                 // Populate dropdown with template names
-                modalTemplateDropdown.choices = challengeTemplates;
-                
-                if (challengeTemplates.Count > 0)
+                modalTemplateDropdown.choices = templateNames;
+
+                if (templateNames.Count > 0)
                 {
                     modalTemplateDropdown.index = 0;
                 }
-                
-                Debug.LogFormat("Loaded {0} challenge templates", challengeTemplates.Count);
+
+                Debug.LogFormat("Loaded {0} challenge templates", templateNames.Count);
             }
             catch (Exception e)
             {
@@ -297,16 +340,21 @@ namespace HiroChallenges
             {
                 selectedChallengeId = string.Empty;
                 selectedChallengePanel.style.display = DisplayStyle.None;
+                gameModeDetailPanel.style.display = DisplayStyle.None;
                 return;
             }
 
             selectedChallenge = challenge;
             selectedChallengeId = selectedChallenge.Id;
 
+            // Hide game mode panel, show challenge panel
+            gameModeDetailPanel.style.display = DisplayStyle.None;
+            selectedChallengePanel.style.display = DisplayStyle.Flex;
+
             selectedChallengeNameLabel.text = selectedChallenge.Name;
             selectedChallengeDescriptionLabel.text = string.IsNullOrEmpty(selectedChallenge.Description) ? "No description set." : selectedChallenge.Description;
             selectedChallengeStatusLabel.text = selectedChallenge.IsActive ? "Active" : "Ended";
-            
+
             var endTime = DateTimeOffset.FromUnixTimeSeconds(selectedChallenge.EndTimeSec).DateTime;
             selectedChallengeEndTimeLabel.text = endTime.ToString("MMM dd, yyyy HH:mm");
 
@@ -326,8 +374,6 @@ namespace HiroChallenges
 
             // Update button visibility based on challenge status and user participation
             UpdateChallengeButtons();
-
-            selectedChallengePanel.style.display = DisplayStyle.Flex;
         }
 
         private void UpdateChallengeButtons()
@@ -364,62 +410,374 @@ namespace HiroChallenges
 
         #region Challenges
 
-        private async Task UpdateChallenges()
+        private async Task UpdateGameModesOrChallenges()
         {
-            challenges.Clear();
-
             switch (selectedTabIndex)
             {
                 case 0:
-                    try
-                    {
-                        // List all Challenges.
-                        var challengesResult =
-                            await challengesSystem.SearchChallengesAsync(string.Empty, string.Empty,
-                                challengeEntriesLimit);
-                        challenges.AddRange(challengesResult.Challenges);
-                    }
-                    catch (Exception e)
-                    {
-                        errorPopup.style.display = DisplayStyle.Flex;
-                        errorMessage.text = e.Message;
-                        return;
-                    }
+                    // Game Modes tab - fetch templates
+                    await UpdateGameModes();
                     break;
                 case 1:
-                    try
-                    {
-                        // List Challenges that the user has joined (we'll need to filter from all challenges)
-                        var userChallengesResult = await challengesSystem.ListChallengesAsync(null);
-                        challenges.AddRange(userChallengesResult.Challenges);
-                    }
-                    catch (Exception e)
-                    {
-                        errorPopup.style.display = DisplayStyle.Flex;
-                        errorMessage.text = e.Message;
-                        return;
-                    }
+                    // My Challenges tab - fetch user's challenges
+                    await UpdateChallenges();
                     break;
                 default:
                     Debug.LogError("Unhandled Tab Index");
                     return;
             }
+        }
+
+        private async Task UpdateGameModes()
+        {
+            gameModes.Clear();
+
+            try
+            {
+                // Fetch challenge templates
+                challengeTemplates = await challengesSystem.GetTemplatesAsync();
+
+                Debug.LogFormat("Fetched {0} templates from server", challengeTemplates.Templates.Count);
+
+                // Convert to list for binding
+                foreach (var template in challengeTemplates.Templates)
+                {
+                    Debug.LogFormat("Adding game mode: {0}", template.Key);
+                    gameModes.Add(new KeyValuePair<string, IChallengeTemplate>(template.Key, template.Value));
+                }
+
+                Debug.LogFormat("Total game modes added: {0}", gameModes.Count);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Error fetching game modes: {e.Message}");
+                errorPopup.style.display = DisplayStyle.Flex;
+                errorMessage.text = e.Message;
+                return;
+            }
+
+            // Check if template is assigned
+            if (gameModeTemplate == null)
+            {
+                Debug.LogError("Game Mode Template is not assigned in the Inspector!");
+                errorPopup.style.display = DisplayStyle.Flex;
+                errorMessage.text = "Game Mode Template is not assigned. Please assign GameMode.uxml in the Inspector.";
+                return;
+            }
+
+            // Setup ListView for game modes
+            SetupListViewForGameModes();
 
             challengesList.RefreshItems();
             challengesList.ClearSelection();
 
-            // If we have a Challenge selected, then update Challenges, try to select that Challenge, if it still exists.
+            Debug.LogFormat("Game modes list refreshed. Item source count: {0}", gameModes.Count);
+
+            // Hide challenge detail panel when viewing game modes
+            selectedChallengePanel.style.display = DisplayStyle.None;
+        }
+
+        private async Task UpdateChallenges()
+        {
+            challenges.Clear();
+
+            try
+            {
+                // List Challenges that the user has joined
+                var userChallengesResult = await challengesSystem.ListChallengesAsync(null);
+                challenges.AddRange(userChallengesResult.Challenges);
+            }
+            catch (Exception e)
+            {
+                errorPopup.style.display = DisplayStyle.Flex;
+                errorMessage.text = e.Message;
+                return;
+            }
+
+            // Setup ListView for challenges
+            SetupListViewForChallenges();
+
+            challengesList.RefreshItems();
+            challengesList.ClearSelection();
+
+            // If we have a Challenge selected, try to select it if it still exists
             foreach (var challenge in challenges)
             {
                 if (challenge.Id != selectedChallengeId) continue;
-                
+
                 _ = OnChallengeSelected(challenge);
                 challengesList.SetSelection(challenges.IndexOf(challenge));
                 return;
             }
 
-            // If we don't find the previously selected Challenge, hide the selected Challenge panel.
+            // If we don't find the previously selected Challenge, hide the selected Challenge panel
             selectedChallengePanel.style.display = DisplayStyle.None;
+        }
+
+        private void SetupListViewForGameModes()
+        {
+            Debug.Log("Setting up ListView for Game Modes");
+
+            challengesList.itemsSource = null; // Clear first
+            challengesList.Rebuild(); // Force rebuild
+
+            challengesList.makeItem = () =>
+            {
+                Debug.Log("makeItem called for game mode");
+                var newListEntry = gameModeTemplate.Instantiate();
+                var newListEntryLogic = new GameModeView();
+                newListEntry.userData = newListEntryLogic;
+                newListEntryLogic.SetVisualElement(newListEntry);
+                return newListEntry;
+            };
+            challengesList.bindItem = (item, index) =>
+            {
+                Debug.LogFormat("bindItem called for game mode index {0}", index);
+                var view = item.userData as GameModeView;
+                var gameMode = gameModes[index];
+                Debug.LogFormat("Binding game mode: {0}", gameMode.Key);
+                view?.SetGameMode(gameMode.Key, gameMode.Value);
+            };
+            challengesList.itemsSource = gameModes;
+            challengesList.Rebuild(); // Rebuild with new setup
+            Debug.LogFormat("ListView itemsSource set to gameModes with {0} items", gameModes.Count);
+        }
+
+        private void SetupListViewForChallenges()
+        {
+            Debug.Log("Setting up ListView for Challenges");
+
+            challengesList.itemsSource = null; // Clear first
+            challengesList.Rebuild(); // Force rebuild
+
+            challengesList.makeItem = () =>
+            {
+                Debug.Log("makeItem called for challenge");
+                var newListEntry = challengeEntryTemplate.Instantiate();
+                var newListEntryLogic = new ChallengeView();
+                newListEntry.userData = newListEntryLogic;
+                newListEntryLogic.SetVisualElement(newListEntry);
+                return newListEntry;
+            };
+            challengesList.bindItem = (item, index) =>
+            {
+                Debug.LogFormat("bindItem called for challenge index {0}", index);
+                (item.userData as ChallengeView)?.SetChallenge(challenges[index]);
+            };
+            challengesList.itemsSource = challenges;
+            challengesList.Rebuild(); // Rebuild with new setup
+            Debug.LogFormat("ListView itemsSource set to challenges with {0} items", challenges.Count);
+        }
+
+        private void OnGameModeSelected(string templateId, IChallengeTemplate template)
+        {
+            Debug.LogFormat("Game Mode Selected: {0}", templateId);
+
+            // Store selected game mode
+            selectedGameModeId = templateId;
+            selectedGameMode = template;
+
+            // Hide challenge panel, show game mode panel
+            selectedChallengePanel.style.display = DisplayStyle.None;
+            gameModeDetailPanel.style.display = DisplayStyle.Flex;
+
+            // Populate game mode details
+            gameModeDetailName.text = FormatTemplateName(templateId);
+
+            // Get description from additional properties
+            if (template.AdditionalProperties != null && template.AdditionalProperties.TryGetValue("description", out var description))
+            {
+                gameModeDetailDescription.text = description;
+            }
+            else
+            {
+                gameModeDetailDescription.text = "No description available.";
+            }
+
+            // Get difficulty
+            if (template.AdditionalProperties != null && template.AdditionalProperties.TryGetValue("difficulty", out var difficulty))
+            {
+                gameModeDetailDifficulty.text = char.ToUpper(difficulty[0]) + difficulty.Substring(1);
+            }
+            else
+            {
+                gameModeDetailDifficulty.text = "Medium";
+            }
+
+            // Get category
+            if (template.AdditionalProperties != null && template.AdditionalProperties.TryGetValue("category", out var category))
+            {
+                gameModeDetailCategory.text = FormatCategoryName(category);
+            }
+            else
+            {
+                gameModeDetailCategory.text = "General";
+            }
+
+            // Player range
+            if (template.Players != null)
+            {
+                gameModeDetailPlayers.text = $"{template.Players.Min}-{template.Players.Max}";
+            }
+            else
+            {
+                gameModeDetailPlayers.text = "Unknown";
+            }
+
+            // Duration range
+            if (template.Duration != null)
+            {
+                gameModeDetailDuration.text = FormatDuration(template.Duration.MinSec, template.Duration.MaxSec);
+            }
+            else
+            {
+                gameModeDetailDuration.text = "Unknown";
+            }
+
+            // Set default values for customizable fields
+            if (template.Players != null)
+            {
+                gameModeMaxParticipants.value = (int)template.Players.Max;
+            }
+            else
+            {
+                gameModeMaxParticipants.value = 10;
+            }
+
+            gameModeMaxScores.value = (int)template.MaxNumScore;
+
+            // Clear invitees field
+            gameModeInvitees.value = "";
+        }
+
+        private string FormatTemplateName(string templateId)
+        {
+            // Convert snake_case to Title Case (speed_runner -> Speed Runner)
+            var words = templateId.Split('_');
+            for (int i = 0; i < words.Length; i++)
+            {
+                if (words[i].Length > 0)
+                {
+                    words[i] = char.ToUpper(words[i][0]) + words[i].Substring(1);
+                }
+            }
+            return string.Join(" ", words);
+        }
+
+        private string FormatCategoryName(string category)
+        {
+            return category.Replace("_", " ")
+                .Replace("pvp", "PvP")
+                .Replace("pve", "PvE");
+        }
+
+        private string FormatDuration(long minSec, long maxSec)
+        {
+            string minStr = minSec < 60 ? $"{minSec}s" : $"{minSec / 60}m";
+            string maxStr = maxSec < 60 ? $"{maxSec}s" : $"{maxSec / 60}m";
+            return $"{minStr} - {maxStr}";
+        }
+
+        private async Task StartChallengeFromGameMode()
+        {
+            if (selectedGameMode == null || string.IsNullOrEmpty(selectedGameModeId))
+            {
+                errorPopup.style.display = DisplayStyle.Flex;
+                errorMessage.text = "No game mode selected.";
+                return;
+            }
+
+            try
+            {
+                // Validate invitees
+                if (string.IsNullOrEmpty(gameModeInvitees.value))
+                {
+                    throw new Exception("Please invite at least one player by entering their username.");
+                }
+
+                // Split the input by comma and trim whitespace
+                var inviteeUsernames = gameModeInvitees.value
+                    .Split(',')
+                    .Select(username => username.Trim())
+                    .Where(username => !string.IsNullOrEmpty(username))
+                    .ToList();
+
+                if (inviteeUsernames.Count == 0)
+                {
+                    throw new Exception("No valid usernames found. Please enter at least one username.");
+                }
+
+                // Get user IDs from usernames
+                var invitees = await nakamaSystem.Client.GetUsersAsync(
+                    session: nakamaSystem.Session,
+                    usernames: inviteeUsernames,
+                    ids: null
+                );
+
+                var inviteeIDs = invitees.Users.Select(user => user.Id).ToArray();
+
+                // Validate that we found all requested users
+                if (inviteeIDs.Length != inviteeUsernames.Count)
+                {
+                    throw new Exception($"Could not find all users. Requested: {inviteeUsernames.Count}, Found: {inviteeIDs.Length}");
+                }
+
+                // Validate max participants
+                if (inviteeIDs.Length + 1 > gameModeMaxParticipants.value)
+                {
+                    throw new Exception($"Too many invitees. Max participants is {gameModeMaxParticipants.value} (including you).");
+                }
+
+                // Get default duration (use middle of the range)
+                long durationSec = 3600; // Default to 1 hour
+                if (selectedGameMode.Duration != null)
+                {
+                    durationSec = (selectedGameMode.Duration.MinSec + selectedGameMode.Duration.MaxSec) / 2;
+                }
+
+                // Get category
+                string category = "general";
+                if (selectedGameMode.AdditionalProperties != null &&
+                    selectedGameMode.AdditionalProperties.TryGetValue("category", out var cat))
+                {
+                    category = cat;
+                }
+
+                // Create the challenge
+                var challenge = await challengesSystem.CreateChallengeAsync(
+                    selectedGameModeId,                  // templateId
+                    $"{FormatTemplateName(selectedGameModeId)} Challenge", // name
+                    gameModeDetailDescription.text,      // description
+                    inviteeIDs,                         // invitees
+                    false,                              // open (false = invite-only)
+                    gameModeMaxScores.value,            // maxScores
+                    0,                                  // startDelaySec
+                    durationSec,                        // durationSec
+                    gameModeMaxParticipants.value,      // maxParticipants
+                    category,                           // category
+                    new Dictionary<string, string>()    // metadata
+                );
+
+                Debug.LogFormat("Challenge created successfully: {0}", challenge.Id);
+
+                // Switch to My Challenges tab and show the new challenge
+                selectedTabIndex = 1;
+                gameModesTab.RemoveFromClassList("selected");
+                myChallengesTab.AddToClassList("selected");
+
+                // Refresh challenges and select the new one
+                await UpdateGameModesOrChallenges();
+
+                // Show success message
+                errorPopup.style.display = DisplayStyle.Flex;
+                errorMessage.text = $"Challenge '{challenge.Name}' created successfully!";
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Error creating challenge: {e.Message}");
+                errorPopup.style.display = DisplayStyle.Flex;
+                errorMessage.text = $"Failed to create challenge: {e.Message}";
+            }
         }
 
         private async Task ChallengeCreate()
@@ -427,13 +785,12 @@ namespace HiroChallenges
             try
             {
                 // Get the selected template ID
-                if (modalTemplateDropdown.index < 0 || modalTemplateDropdown.index >= challengeTemplates.Count)
+                if (modalTemplateDropdown.index < 0 || modalTemplateDropdown.index >= modalTemplateDropdown.choices.Count)
                 {
                     throw new Exception("Please select a valid challenge template.");
                 }
-                
-                var selectedTemplate = challengeTemplates[modalTemplateDropdown.index];
-                var templateId = selectedTemplate;
+
+                var templateId = modalTemplateDropdown.choices[modalTemplateDropdown.index];
                 
                 var metadata = new Dictionary<string, string>();
                 Debug.LogFormat("UserID: '{0}'", nakamaSystem.UserId);
@@ -496,7 +853,7 @@ namespace HiroChallenges
             }
 
             createModal.style.display = DisplayStyle.None;
-            _ = UpdateChallenges();
+            _ = UpdateGameModesOrChallenges();
         }
 
         private async Task ChallengeJoin()
@@ -514,7 +871,7 @@ namespace HiroChallenges
                 return;
             }
 
-            _ = UpdateChallenges();
+            _ = UpdateGameModesOrChallenges();
         }
 
         private async Task ChallengeLeave()
@@ -533,7 +890,7 @@ namespace HiroChallenges
                 return;
             }
 
-            _ = UpdateChallenges();
+            _ = UpdateGameModesOrChallenges();
         }
 
         private async Task ChallengeClaim()
@@ -551,7 +908,7 @@ namespace HiroChallenges
                 return;
             }
 
-            _ = UpdateChallenges();
+            _ = UpdateGameModesOrChallenges();
         }
 
         private async Task ChallengeSubmitScore()
@@ -576,7 +933,7 @@ namespace HiroChallenges
             }
 
             submitScoreModal.style.display = DisplayStyle.None;
-            _ = UpdateChallenges();
+            _ = UpdateGameModesOrChallenges();
         }
 
         #endregion
