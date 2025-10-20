@@ -1,0 +1,30 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UnityHiroChallenges/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
+    <ui:VisualElement style="flex-grow: 1; flex-direction: row; padding-left: 20px; padding-right: 20px; height: 120px; margin-bottom: 20px; margin-right: 20px; background-image: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Background/bg_rounded_white_bg.png?fileID=2800000&amp;guid=98ba2fcee9bd34a079fb250f7777ea69&amp;type=3#bg_rounded_white_bg&quot;); -unity-slice-left: 25; -unity-slice-top: 25; -unity-slice-right: 25; -unity-slice-bottom: 25; align-items: center;">
+        <!-- Icon Section -->
+        <ui:VisualElement name="mode-icon" style="width: 80px; height: 80px; margin-right: 20px; background-image: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/IconPictogram/128/icon_trophy.png?fileID=2800000&amp;guid=c8e83f63e3a604a33927e0b04e86c11e&amp;type=3#icon_trophy&quot;); -unity-background-scale-mode: scale-to-fit; -unity-background-image-tint-color: rgb(132, 154, 255);" />
+
+        <!-- Content Section -->
+        <ui:VisualElement style="flex-grow: 1; justify-content: center; padding-right: 10px;">
+            <!-- Title and Difficulty Row -->
+            <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <ui:Label text="Speed Runner" name="mode-name" class="heroic-list-view__item-label" style="font-size: 36px; -unity-text-align: middle-left; -unity-font-style: bold; flex-grow: 1; color: rgb(71, 71, 71);" />
+                <ui:VisualElement name="difficulty-badge" style="padding-left: 12px; padding-right: 12px; padding-top: 6px; padding-bottom: 6px; background-color: rgb(255, 152, 0); border-radius: 12px; margin-left: 10px;">
+                    <ui:Label text="MEDIUM" name="mode-difficulty" class="heroic-list-view__item-label" style="font-size: 18px; -unity-text-align: middle-center; -unity-font-style: bold; color: rgb(255, 255, 255);" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- Description -->
+            <ui:Label text="Race through levels collecting points and defeating enemies!" name="mode-description" class="heroic-list-view__item-label" style="font-size: 22px; -unity-text-align: upper-left; color: rgb(120, 120, 120); white-space: normal; overflow: hidden; text-overflow: ellipsis; max-height: 50px;" />
+
+            <!-- Details Row -->
+            <ui:VisualElement style="flex-direction: row; margin-top: 8px; align-items: center;">
+                <ui:VisualElement style="flex-direction: row; align-items: center; margin-right: 20px;">
+                    <ui:VisualElement style="width: 24px; height: 24px; background-image: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Avatar/avatar_circle_icon_white.png?fileID=2800000&amp;guid=93641a1dc56fe4e12aeae7744e5bee4e&amp;type=3#avatar_circle_icon_white&quot;); -unity-background-image-tint-color: rgb(183, 183, 183); -unity-background-scale-mode: scale-to-fit; margin-right: 6px;" />
+                    <ui:Label text="1-100 Players" name="mode-players" class="heroic-list-view__item-label" style="font-size: 20px; color: rgb(150, 150, 150);" />
+                </ui:VisualElement>
+                <ui:Label text="Category: Arcade" name="mode-category" class="heroic-list-view__item-label" style="font-size: 20px; color: rgb(150, 150, 150);" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
