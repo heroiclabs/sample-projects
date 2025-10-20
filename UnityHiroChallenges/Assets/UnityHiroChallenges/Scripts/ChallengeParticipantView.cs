@@ -7,12 +7,14 @@ namespace HiroChallenges
     {
         private Label usernameLabel;
         private Label scoreLabel;
+        private Label subScoreLabel;
         private Label rankLabel;
 
         public void SetVisualElement(VisualElement visualElement)
         {
             usernameLabel = visualElement.Q<Label>("username");
             scoreLabel = visualElement.Q<Label>("score");
+            subScoreLabel = visualElement.Q<Label>("subscore");
             rankLabel = visualElement.Q<Label>("rank");
         }
 
@@ -20,6 +22,7 @@ namespace HiroChallenges
         {
             usernameLabel.text = participantScore.Username;
             scoreLabel.text = participantScore.Score.ToString();
+            subScoreLabel.text = participantScore.Subscore.ToString();
             rankLabel.text = participantScore.Rank > 0 ? $"#{participantScore.Rank}" : "-";
         }
     }

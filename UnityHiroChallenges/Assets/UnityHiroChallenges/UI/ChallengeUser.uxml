@@ -7,9 +7,15 @@
         <ui:VisualElement style="flex-grow: 1; justify-content: center;">
             <ui:Label text="Username" name="username" class="heroic-list-view__item-label" style="-unity-text-align: middle-left; font-size: 32px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; -unity-font-style: bold;" />
         </ui:VisualElement>
-        <ui:VisualElement style="justify-content: center; align-items: flex-end; min-width: 120px;">
-            <ui:Label text="Score" class="heroic-list-view__item-label" style="-unity-text-align: middle-right; font-size: 20px; color: rgb(150, 150, 150);" />
-            <ui:Label text="0" name="score" class="heroic-list-view__item-label" style="-unity-text-align: middle-right; font-size: 36px; -unity-font-style: bold; color: rgb(76, 175, 80);" />
+        <ui:VisualElement style="justify-content: center; align-items: flex-end; min-width: 120px; flex-direction: row; width: 262px;">
+            <ui:VisualElement style="flex-direction: column; align-items: center; height: 73px; width: 115px;">
+                <ui:Label text="Score" class="heroic-list-view__item-label" style="-unity-text-align: lower-right; font-size: 20px; color: rgb(150, 150, 150);" />
+                <ui:Label text="21321321321" name="score" class="heroic-list-view__item-label" style="-unity-text-align: lower-center; font-size: 36px; -unity-font-style: bold; color: rgb(76, 175, 80); width: 115px; white-space: nowrap; text-overflow: clip;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="flex-direction: column; align-items: center; margin-bottom: 2px; height: 69px; width: 120px;">
+                <ui:Label text="Subscore" class="heroic-list-view__item-label" style="-unity-text-align: lower-center; font-size: 16px; color: rgb(150, 150, 150); margin-left: 8px; height: 22px;" />
+                <ui:Label text="0" name="subscore" class="heroic-list-view__item-label" style="-unity-text-align: lower-center; font-size: 24px; color: rgb(150, 150, 150); margin-left: 8px; height: 39px; text-overflow: ellipsis; width: 107px; white-space: nowrap;" />
+            </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
