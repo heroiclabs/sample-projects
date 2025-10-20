@@ -27,6 +27,7 @@ namespace HiroChallenges
 
         private Button gameModesTab;
         private Button myChallengesTab;
+        private Button openChallengesTab;
         private Button createButton;
         private Button joinButton;
         private Button leaveButton;
@@ -51,6 +52,7 @@ namespace HiroChallenges
         private Label gameModeDetailDuration;
         private IntegerField gameModeMaxParticipants;
         private IntegerField gameModeMaxScores;
+        private Toggle gameModeOpenToggle;
         private TextField gameModeInvitees;
         private Button gameModeStartChallengeButton;
 
@@ -132,6 +134,7 @@ namespace HiroChallenges
                 selectedTabIndex = 0;
                 gameModesTab.AddToClassList("selected");
                 myChallengesTab.RemoveFromClassList("selected");
+                openChallengesTab.RemoveFromClassList("selected");
                 _ = UpdateGameModesOrChallenges();
             });
 
@@ -142,6 +145,18 @@ namespace HiroChallenges
                 selectedTabIndex = 1;
                 myChallengesTab.AddToClassList("selected");
                 gameModesTab.RemoveFromClassList("selected");
+                openChallengesTab.RemoveFromClassList("selected");
+                _ = UpdateGameModesOrChallenges();
+            });
+
+            openChallengesTab = rootElement.Q<Button>("open-challenges-tab");
+            openChallengesTab.RegisterCallback<ClickEvent>(evt =>
+            {
+                if (selectedTabIndex == 2) return;
+                selectedTabIndex = 2;
+                openChallengesTab.AddToClassList("selected");
+                gameModesTab.RemoveFromClassList("selected");
+                myChallengesTab.RemoveFromClassList("selected");
                 _ = UpdateGameModesOrChallenges();
             });
 
@@ -212,30 +227,20 @@ namespace HiroChallenges
             // makeItem and bindItem will be set dynamically in SetupListViewForCurrentTab
             challengesList.selectionChanged += objects =>
             {
-                Debug.LogFormat("challengesList.selectionChanged fired. selectedTabIndex={0}, selectedItem type={1}",
-                    selectedTabIndex,
-                    challengesList.selectedItem?.GetType().Name ?? "null");
-
                 if (selectedTabIndex == 0)
                 {
                     // Game Modes tab - handle template selection
                     if (challengesList.selectedItem is KeyValuePair<string, IChallengeTemplate> selectedMode)
                     {
-                        Debug.LogFormat("Calling OnGameModeSelected for {0}", selectedMode.Key);
                         OnGameModeSelected(selectedMode.Key, selectedMode.Value);
                     }
                 }
-                else if (selectedTabIndex == 1)
+                else if (selectedTabIndex == 1 || selectedTabIndex == 2)
                 {
-                    // My Challenges tab
+                    // My Challenges tab or Open Challenges tab
                     if (challengesList.selectedItem is IChallenge challenge)
                     {
-                        Debug.LogFormat("Calling OnChallengeSelected for challenge {0}", challenge.Id);
                         _ = OnChallengeSelected(challenge);
-                    }
-                    else
-                    {
-                        Debug.LogWarning("selectedItem is not IChallenge!");
                     }
                 }
             };
@@ -301,6 +306,7 @@ namespace HiroChallenges
             gameModeDetailDuration = rootElement.Q<Label>("game-mode-detail-duration");
             gameModeMaxParticipants = rootElement.Q<IntegerField>("game-mode-max-participants");
             gameModeMaxScores = rootElement.Q<IntegerField>("game-mode-max-scores");
+            gameModeOpenToggle = rootElement.Q<Toggle>("game-mode-open-toggle");
             gameModeInvitees = rootElement.Q<TextField>("game-mode-invitees");
             gameModeStartChallengeButton = rootElement.Q<Button>("game-mode-start-challenge");
             gameModeStartChallengeButton.RegisterCallback<ClickEvent>(evt => _ = StartChallengeFromGameMode());
@@ -422,6 +428,10 @@ namespace HiroChallenges
                     // My Challenges tab - fetch user's challenges
                     await UpdateChallenges();
                     break;
+                case 2:
+                    // Open Challenges tab - fetch open challenges
+                    await UpdateOpenChallenges();
+                    break;
                 default:
                     Debug.LogError("Unhandled Tab Index");
                     return;
@@ -437,16 +447,11 @@ namespace HiroChallenges
                 // Fetch challenge templates
                 challengeTemplates = await challengesSystem.GetTemplatesAsync();
 
-                Debug.LogFormat("Fetched {0} templates from server", challengeTemplates.Templates.Count);
-
                 // Convert to list for binding
                 foreach (var template in challengeTemplates.Templates)
                 {
-                    Debug.LogFormat("Adding game mode: {0}", template.Key);
                     gameModes.Add(new KeyValuePair<string, IChallengeTemplate>(template.Key, template.Value));
                 }
-
-                Debug.LogFormat("Total game modes added: {0}", gameModes.Count);
             }
             catch (Exception e)
             {
@@ -470,8 +475,6 @@ namespace HiroChallenges
 
             challengesList.RefreshItems();
             challengesList.ClearSelection();
-
-            Debug.LogFormat("Game modes list refreshed. Item source count: {0}", gameModes.Count);
 
             // Hide challenge detail panel when viewing game modes
             selectedChallengePanel.style.display = DisplayStyle.None;
@@ -514,6 +517,59 @@ namespace HiroChallenges
             selectedChallengePanel.style.display = DisplayStyle.None;
         }
 
+        private async Task UpdateOpenChallenges()
+        {
+            challenges.Clear();
+
+            try
+            {
+                // Get all active challenges via search
+                var searchResult = await challengesSystem.SearchChallengesAsync(
+                    null,   // name - no filter
+                    null,   // category - no filter
+                    100     // limit
+                );
+
+                // Get user's challenges to filter out
+                var userChallenges = await challengesSystem.ListChallengesAsync(null);
+                var userChallengeIds = new HashSet<string>(
+                    userChallenges.Challenges.Select(c => c.Id)
+                );
+
+                // Filter to public challenges not joined
+                var openChallenges = searchResult.Challenges
+                    .Where(c => c.Open && !userChallengeIds.Contains(c.Id))
+                    .ToList();
+
+                challenges.AddRange(openChallenges);
+            }
+            catch (Exception e)
+            {
+                errorPopup.style.display = DisplayStyle.Flex;
+                errorMessage.text = e.Message;
+                return;
+            }
+
+            // Setup ListView for challenges
+            SetupListViewForChallenges();
+
+            challengesList.RefreshItems();
+            challengesList.ClearSelection();
+
+            // If we have a Challenge selected, try to select it if it still exists
+            foreach (var challenge in challenges)
+            {
+                if (challenge.Id != selectedChallengeId) continue;
+
+                _ = OnChallengeSelected(challenge);
+                challengesList.SetSelection(challenges.IndexOf(challenge));
+                return;
+            }
+
+            // If we don't find the previously selected Challenge, hide the selected Challenge panel
+            selectedChallengePanel.style.display = DisplayStyle.None;
+        }
+
         private void SetupListViewForGameModes()
         {
             Debug.Log("Setting up ListView for Game Modes");
@@ -523,7 +579,6 @@ namespace HiroChallenges
 
             challengesList.makeItem = () =>
             {
-                Debug.Log("makeItem called for game mode");
                 var newListEntry = gameModeTemplate.Instantiate();
                 var newListEntryLogic = new GameModeView();
                 newListEntry.userData = newListEntryLogic;
@@ -532,27 +587,21 @@ namespace HiroChallenges
             };
             challengesList.bindItem = (item, index) =>
             {
-                Debug.LogFormat("bindItem called for game mode index {0}", index);
                 var view = item.userData as GameModeView;
                 var gameMode = gameModes[index];
-                Debug.LogFormat("Binding game mode: {0}", gameMode.Key);
                 view?.SetGameMode(gameMode.Key, gameMode.Value);
             };
             challengesList.itemsSource = gameModes;
             challengesList.Rebuild(); // Rebuild with new setup
-            Debug.LogFormat("ListView itemsSource set to gameModes with {0} items", gameModes.Count);
         }
 
         private void SetupListViewForChallenges()
         {
-            Debug.Log("Setting up ListView for Challenges");
-
             challengesList.itemsSource = null; // Clear first
             challengesList.Rebuild(); // Force rebuild
 
             challengesList.makeItem = () =>
             {
-                Debug.Log("makeItem called for challenge");
                 var newListEntry = challengeEntryTemplate.Instantiate();
                 var newListEntryLogic = new ChallengeView();
                 newListEntry.userData = newListEntryLogic;
@@ -561,17 +610,14 @@ namespace HiroChallenges
             };
             challengesList.bindItem = (item, index) =>
             {
-                Debug.LogFormat("bindItem called for challenge index {0}", index);
                 (item.userData as ChallengeView)?.SetChallenge(challenges[index]);
             };
             challengesList.itemsSource = challenges;
             challengesList.Rebuild(); // Rebuild with new setup
-            Debug.LogFormat("ListView itemsSource set to challenges with {0} items", challenges.Count);
         }
 
         private void OnGameModeSelected(string templateId, IChallengeTemplate template)
         {
-            Debug.LogFormat("Game Mode Selected: {0}", templateId);
 
             // Store selected game mode
             selectedGameModeId = templateId;
@@ -689,43 +735,49 @@ namespace HiroChallenges
 
             try
             {
-                // Validate invitees
-                if (string.IsNullOrEmpty(gameModeInvitees.value))
+                // Get the open challenge setting
+                bool isOpen = gameModeOpenToggle.value;
+
+                // Parse invitees (optional if challenge is open)
+                string[] inviteeIDs = Array.Empty<string>();
+
+                if (!string.IsNullOrEmpty(gameModeInvitees.value))
                 {
-                    throw new Exception("Please invite at least one player by entering their username.");
+                    // Split the input by comma and trim whitespace
+                    var inviteeUsernames = gameModeInvitees.value
+                        .Split(',')
+                        .Select(username => username.Trim())
+                        .Where(username => !string.IsNullOrEmpty(username))
+                        .ToList();
+
+                    if (inviteeUsernames.Count > 0)
+                    {
+                        // Get user IDs from usernames
+                        var invitees = await nakamaSystem.Client.GetUsersAsync(
+                            session: nakamaSystem.Session,
+                            usernames: inviteeUsernames,
+                            ids: null
+                        );
+
+                        inviteeIDs = invitees.Users.Select(user => user.Id).ToArray();
+
+                        // Validate that we found all requested users
+                        if (inviteeIDs.Length != inviteeUsernames.Count)
+                        {
+                            throw new Exception($"Could not find all users. Requested: {inviteeUsernames.Count}, Found: {inviteeIDs.Length}");
+                        }
+
+                        // Validate max participants
+                        if (inviteeIDs.Length + 1 > gameModeMaxParticipants.value)
+                        {
+                            throw new Exception($"Too many invitees. Max participants is {gameModeMaxParticipants.value} (including you).");
+                        }
+                    }
                 }
-
-                // Split the input by comma and trim whitespace
-                var inviteeUsernames = gameModeInvitees.value
-                    .Split(',')
-                    .Select(username => username.Trim())
-                    .Where(username => !string.IsNullOrEmpty(username))
-                    .ToList();
-
-                if (inviteeUsernames.Count == 0)
+                else if (!isOpen)
                 {
-                    throw new Exception("No valid usernames found. Please enter at least one username.");
-                }
-
-                // Get user IDs from usernames
-                var invitees = await nakamaSystem.Client.GetUsersAsync(
-                    session: nakamaSystem.Session,
-                    usernames: inviteeUsernames,
-                    ids: null
-                );
-
-                var inviteeIDs = invitees.Users.Select(user => user.Id).ToArray();
-
-                // Validate that we found all requested users
-                if (inviteeIDs.Length != inviteeUsernames.Count)
-                {
-                    throw new Exception($"Could not find all users. Requested: {inviteeUsernames.Count}, Found: {inviteeIDs.Length}");
-                }
-
-                // Validate max participants
-                if (inviteeIDs.Length + 1 > gameModeMaxParticipants.value)
-                {
-                    throw new Exception($"Too many invitees. Max participants is {gameModeMaxParticipants.value} (including you).");
+                    // If challenge is invite-only, require at least one invitee
+                    throw new Exception("Invite-only challenges require at least one invitee. Either add invitees or enable 'Open Challenge'.");
                 }
 
                 // Get default duration (use middle of the range)
@@ -749,7 +801,7 @@ namespace HiroChallenges
                     $"{FormatTemplateName(selectedGameModeId)} Challenge", // name
                     gameModeDetailDescription.text,      // description
                     inviteeIDs,                         // invitees
-                    false,                              // open (false = invite-only)
+                    isOpen,                             // open
                     gameModeMaxScores.value,            // maxScores
                     0,                                  // startDelaySec
                     durationSec,                        // durationSec

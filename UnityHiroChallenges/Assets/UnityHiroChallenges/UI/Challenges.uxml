@@ -8,14 +8,17 @@
         <ui:VisualElement name="main-left" style="width: 1111px; padding-top: 30px; padding-right: 30px; padding-bottom: 30px; padding-left: 30px;">
             <ui:VisualElement style="height: 15%; flex-direction: row; align-self: stretch; align-items: center; width: 986px;">
                 <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
-                    <ui:Button text="Game Modes" name="game-modes-tab" class="heroic-horizontal-tab-button selected" style="width: 341px;">
+                    <ui:Button text="Game Modes" name="game-modes-tab" class="heroic-horizontal-tab-button selected" style="width: 300px;">
                         <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
                     </ui:Button>
-                    <ui:Button text="My Challenges" name="my-challenges-tab" class="heroic-horizontal-tab-button" style="width: 284px;">
+                    <ui:Button text="My Challenges" name="my-challenges-tab" class="heroic-horizontal-tab-button" style="width: 300px;">
+                        <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
+                    </ui:Button>
+                    <ui:Button text="Open Challenges" name="open-challenges-tab" class="heroic-horizontal-tab-button" style="width: 300px;">
                         <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
                     </ui:Button>
                 </ui:VisualElement>
-                <ui:Button text="Create +" name="challenge-create" enable-rich-text="false" class="heroic-button" style="align-self: center; width: 200px; height: 80px;" />
+                <ui:Button text="Create +" name="challenge-create" enable-rich-text="false" class="heroic-button" style="align-self: center; width: 200px; height: 80px; display: none;" />
             </ui:VisualElement>
             <ui:ListView fixed-item-height="150" name="challenges-list" style="flex-grow: 1;" />
         </ui:VisualElement>
@@ -38,7 +41,7 @@
                     </ui:VisualElement>
                     <ui:ListView name="challenge-participants-list" fixed-item-height="110" style="height: 55%;" />
                 </ui:VisualElement>
-                <ui:VisualElement name="game-mode-detail-panel" class="heroic-main__panel" style="flex-grow: 1; display: none;">
+                <ui:VisualElement name="game-mode-detail-panel" class="heroic-main__panel" style="flex-grow: 1; display: flex;">
                     <ui:VisualElement style="background-color: rgb(132, 154, 255); border-top-left-radius: 15px; border-top-right-radius: 15px; padding: 30px;">
                         <ui:Label text="Speed Runner" name="game-mode-detail-name" class="heroic-title" style="color: rgb(255, 255, 255); font-size: 48px; -unity-text-align: middle-center; margin-bottom: 10px;" />
                         <ui:Label text="Score the most points by collecting crystals!" name="game-mode-detail-description" class="heroic-title" style="font-size: 24px; color: rgb(255, 255, 255); -unity-text-align: middle-center; white-space: normal;" />
@@ -68,6 +71,11 @@
                                 <ui:Label text="CHALLENGE SETTINGS" class="heroic-title" style="font-size: 20px; color: rgb(100, 100, 100); margin-bottom: 15px; -unity-font-style: bold;" />
                                 <ui:IntegerField label="Max Participants" value="10" name="game-mode-max-participants" style="margin-bottom: 15px; -unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
                                 <ui:IntegerField label="Max Score Attempts" value="3" name="game-mode-max-scores" style="margin-bottom: 15px; -unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
+                                <ui:VisualElement style="width: 100%; margin-bottom: 15px;">
+                                    <ui:VisualElement style="flex-direction: row; align-items: center; background-color: rgb(255, 255, 255); border-width: 2px; border-color: rgb(200, 200, 200); border-radius: 10px; padding: 15px; min-height: 60px;">
+                                        <ui:Toggle label="Open Challenge (Anyone Can Join)" name="game-mode-open-toggle" toggle-on-label-click="false" value="false" style="flex-direction: row; align-items: center; font-size: 18px; -unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
+                                    </ui:VisualElement>
+                                </ui:VisualElement>
                                 <ui:TextField label="Invite Players" placeholder-text="Enter usernames separated by commas (e.g., Player1, Player2)" name="game-mode-invitees" multiline="true" style="margin-bottom: 15px; -unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
                             </ui:VisualElement>
                             <ui:Button text="Start Challenge" name="game-mode-start-challenge" class="heroic-button" style="width: 100%; height: 80px; font-size: 28px; margin-top: 20px;" />
