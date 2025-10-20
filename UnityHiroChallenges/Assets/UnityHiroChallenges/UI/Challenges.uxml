@@ -8,7 +8,7 @@
         <ui:VisualElement name="main-left" style="width: 1111px; padding-top: 30px; padding-right: 30px; padding-bottom: 30px; padding-left: 30px;">
             <ui:VisualElement style="height: 15%; flex-direction: row; align-self: stretch; align-items: center; width: 986px;">
                 <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
-                    <ui:Button text="Open Challenges" name="all-tab" class="heroic-horizontal-tab-button selected" style="width: 341px;">
+                    <ui:Button text="Open Challenges" name="all-tab" class="heroic-horizontal-tab-button selected" style="width: 341px; display: none;">
                         <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
                     </ui:Button>
                     <ui:Button text="My Challenges" name="my-challenges-tab" class="heroic-horizontal-tab-button" style="width: 284px;">
@@ -49,11 +49,11 @@
                     <ui:Label text="CREATE CHALLENGE" class="heroic-title" style="color: rgb(255, 255, 255); -unity-text-align: middle-center; flex-grow: 1;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="create-modal-bottom" style="height: 90%; align-self: center; align-items: stretch; width: 100%; padding-left: 30px; padding-right: 30px; padding-top: 20px; padding-bottom: 20px; flex-direction: row;">
-                    <!-- Left Column -->
                     <ui:VisualElement style="flex-grow: 1; width: 50%; padding-right: 15px;">
                         <ui:VisualElement style="width: 100%; margin-bottom: 15px;">
                             <ui:DropdownField label="Template" name="create-modal-template" style="width: 100%;" />
                         </ui:VisualElement>
+                        <ui:EnumField label="Enum" value="Center" type="UnityEngine.TextAlignment, UnityEngine.TextRenderingModule" />
                         <ui:VisualElement style="width: 100%; margin-bottom: 15px;">
                             <ui:TextField label="Name" placeholder-text="Enter challenge name..." name="create-modal-name" style="width: 100%;" />
                         </ui:VisualElement>
@@ -70,21 +70,17 @@
                             <ui:IntegerField label="Max Score Submissions" value="10" name="create-modal-max-submissions" style="width: 100%;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    
-                    <!-- Right Column -->
                     <ui:VisualElement style="flex-grow: 1; width: 50%; padding-left: 15px;">
                         <ui:VisualElement style="width: 100%; margin-bottom: 20px;">
-                            <ui:Label text="Challenge Delay (seconds)" style="margin-bottom: 5px; font-size: 14px;" />
                             <ui:VisualElement style="flex-direction: row; align-items: center;">
-                                <ui:SliderInt picking-mode="Ignore" value="0" high-value="3600" name="create-modal-delay" low-value="0" style="flex-grow: 1; margin-right: 10px;" />
-                                <ui:Label text="0s" name="create-modal-delay-value" style="min-width: 60px; -unity-text-align: middle-right;" />
+                                <ui:SliderInt picking-mode="Ignore" value="0" high-value="3600" name="create-modal-delay" low-value="0" label="Challenge Delay (seconds)" style="flex-grow: 1; margin-right: 10px;" />
+                                <ui:Label text="0s" name="create-modal-delay-value" style="min-width: 60px; -unity-text-align: middle-right; font-size: 20px; justify-content: center; align-items: center;" />
                             </ui:VisualElement>
                         </ui:VisualElement>
                         <ui:VisualElement style="width: 100%; margin-bottom: 20px;">
-                            <ui:Label text="Challenge Duration (seconds)" style="margin-bottom: 5px; font-size: 14px;" />
                             <ui:VisualElement style="flex-direction: row; align-items: center;">
-                                <ui:SliderInt picking-mode="Ignore" value="2000" high-value="86400" name="create-modal-duration" low-value="60" style="flex-grow: 1; margin-right: 10px;" />
-                                <ui:Label text="2000s" name="create-modal-duration-value" style="min-width: 60px; -unity-text-align: middle-right;" />
+                                <ui:SliderInt picking-mode="Ignore" value="2000" high-value="86400" name="create-modal-duration" low-value="60" label="Challenge Duration (seconds)" style="flex-grow: 1; margin-right: 10px;" />
+                                <ui:Label text="2000s" name="create-modal-duration-value" style="min-width: 60px; -unity-text-align: middle-right; font-size: 20px;" />
                             </ui:VisualElement>
                         </ui:VisualElement>
                         <ui:VisualElement style="margin-bottom: 20px; margin-top: 10px;">
