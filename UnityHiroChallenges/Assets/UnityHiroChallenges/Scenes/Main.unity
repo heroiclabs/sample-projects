@@ -366,7 +366,7 @@ MonoBehaviour:
   challengeEntriesLimit: 100
   challengeEntryTemplate: {fileID: 9197481963319205126, guid: 8dd3c785e50de45048715a68169a3967, type: 3}
   challengeParticipantTemplate: {fileID: 9197481963319205126, guid: 1b43f002f8c6f4d02973ddbd956d1939, type: 3}
-  gameModeTemplate: {fileID: 9197481963319205126, guid: a026d9a49cac9474391e6254a38d8cff, type: 3}
+  templateTemplate: {fileID: 9197481963319205126, guid: a026d9a49cac9474391e6254a38d8cff, type: 3}
 --- !u!1 &2121322951
 GameObject:
   m_ObjectHideFlags: 0

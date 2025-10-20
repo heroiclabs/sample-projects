@@ -5,9 +5,8 @@ using UnityEngine.UIElements;
 
 namespace HiroChallenges
 {
-    public class GameModeView
+    public class TemplateView
     {
-        private VisualElement root;
         private VisualElement iconElement;
         private Label nameLabel;
         private Label difficultyLabel;
@@ -37,8 +36,6 @@ namespace HiroChallenges
 
         public void SetVisualElement(VisualElement visualElement)
         {
-            Debug.Log("GameModeView.SetVisualElement called");
-            root = visualElement;
             iconElement = visualElement.Q<VisualElement>("mode-icon");
             nameLabel = visualElement.Q<Label>("mode-name");
             difficultyLabel = visualElement.Q<Label>("mode-difficulty");
@@ -46,16 +43,10 @@ namespace HiroChallenges
             descriptionLabel = visualElement.Q<Label>("mode-description");
             playersLabel = visualElement.Q<Label>("mode-players");
             categoryLabel = visualElement.Q<Label>("mode-category");
-
-            // Verify all elements were found
-            if (nameLabel == null) Debug.LogError("mode-name not found!");
-            if (difficultyLabel == null) Debug.LogError("mode-difficulty not found!");
-            if (descriptionLabel == null) Debug.LogError("mode-description not found!");
         }
 
-        public void SetGameMode(string templateId, IChallengeTemplate template)
+        public void SetTemplate(string templateId, IChallengeTemplate template)
         {
-            Debug.LogFormat("GameModeView.SetGameMode called for template: {0}", templateId);
 
             // Set name - convert template ID to display name (speed_runner -> Speed Runner)
             nameLabel.text = FormatTemplateName(templateId);
