@@ -17,13 +17,13 @@
                     <ui:Button text="Public" name="open-challenges-tab" class="heroic-horizontal-tab-button" style="width: 250px;">
                         <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
                     </ui:Button>
+                    <ui:Button text="Create +" name="challenge-create" enable-rich-text="false" class="heroic-button" style="align-self: center; width: 200px; height: 80px; display: none;" />
                 </ui:VisualElement>
-                <ui:Button text="Create +" name="challenge-create" enable-rich-text="false" class="heroic-button" style="align-self: center; width: 200px; height: 80px; display: none;" />
             </ui:VisualElement>
             <ui:ListView fixed-item-height="150" name="challenges-list" style="flex-grow: 1;" />
         </ui:VisualElement>
         <ui:VisualElement name="main-right" style="width: 952px; align-self: stretch; align-items: stretch; flex-direction: column;">
-            <ui:VisualElement style="margin-top: 30px; margin-right: 30px; margin-bottom: 30px; flex-grow: 1;">
+            <ui:VisualElement style="margin-top: 30px; margin-right: 30px; margin-bottom: 30px; flex-grow: 1; display: flex;">
                 <ui:VisualElement name="selected-challenge-panel" class="heroic-main__panel" style="height: 30%; flex-grow: 1; display: none;">
                     <ui:VisualElement style="height: 30%; background-color: rgb(132, 154, 255); border-top-left-radius: 15px; border-top-right-radius: 15px; padding-top: 20px; padding-bottom: 20px;">
                         <ui:Label text="Challenge Name" name="selected-challenge-name" class="heroic-title" style="color: rgb(255, 255, 255); height: 40%; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: middle-center;" />

@@ -111,14 +111,14 @@ namespace HiroChallenges
                 OnInitialized?.Invoke(session, this);
                 nakamaSystem = this.GetSystem<NakamaSystem>();
                 challengesSystem = this.GetSystem<ChallengesSystem>();
-                _ = UpdateGameModesOrChallenges();
+                _ = RefreshCurrentTab();
                 _ = LoadChallengeTemplates();
             };
         }
 
         public void SwitchComplete()
         {
-            _ = UpdateGameModesOrChallenges();
+            _ = RefreshCurrentTab();
         }
 
         #region UI Binding
@@ -135,7 +135,7 @@ namespace HiroChallenges
                 gameModesTab.AddToClassList("selected");
                 myChallengesTab.RemoveFromClassList("selected");
                 openChallengesTab.RemoveFromClassList("selected");
-                _ = UpdateGameModesOrChallenges();
+                _ = UpdateGameModes();
             });
 
             myChallengesTab = rootElement.Q<Button>("my-challenges-tab");
@@ -146,7 +146,7 @@ namespace HiroChallenges
                 myChallengesTab.AddToClassList("selected");
                 gameModesTab.RemoveFromClassList("selected");
                 openChallengesTab.RemoveFromClassList("selected");
-                _ = UpdateGameModesOrChallenges();
+                _ = UpdateChallenges();
             });
 
             openChallengesTab = rootElement.Q<Button>("open-challenges-tab");
@@ -157,7 +157,7 @@ namespace HiroChallenges
                 openChallengesTab.AddToClassList("selected");
                 gameModesTab.RemoveFromClassList("selected");
                 myChallengesTab.RemoveFromClassList("selected");
-                _ = UpdateGameModesOrChallenges();
+                _ = UpdateOpenChallenges();
             });
 
             createButton = rootElement.Q<Button>("challenge-create");
@@ -329,8 +329,6 @@ namespace HiroChallenges
                 {
                     modalTemplateDropdown.index = 0;
                 }
-
-                Debug.LogFormat("Loaded {0} challenge templates", templateNames.Count);
             }
             catch (Exception e)
             {
@@ -423,24 +421,22 @@ namespace HiroChallenges
 
         #region Challenges
 
-        private async Task UpdateGameModesOrChallenges()
+        private async Task RefreshCurrentTab()
         {
+            // Helper method to refresh whichever tab is currently selected
             switch (selectedTabIndex)
             {
                 case 0:
-                    // Game Modes tab - fetch templates
                     await UpdateGameModes();
                     break;
                 case 1:
-                    // My Challenges tab - fetch user's challenges
                     await UpdateChallenges();
                     break;
                 case 2:
-                    // Open Challenges tab - fetch open challenges
                     await UpdateOpenChallenges();
                     break;
                 default:
-                    Debug.LogError("Unhandled Tab Index");
+                    Debug.LogError($"Invalid tab index: {selectedTabIndex}");
                     return;
             }
         }
@@ -530,25 +526,14 @@ namespace HiroChallenges
 
             try
             {
-                // Get all active challenges via search
+                // Get all active challenges (both open and invite-only)
                 var searchResult = await challengesSystem.SearchChallengesAsync(
                     null,   // name - no filter
                     null,   // category - no filter
-                    100     // limit
+                    challengeEntriesLimit
                 );
 
-                // Get user's challenges to filter out
-                var userChallenges = await challengesSystem.ListChallengesAsync(null);
-                var userChallengeIds = new HashSet<string>(
-                    userChallenges.Challenges.Select(c => c.Id)
-                );
-
-                // Filter to public challenges not joined
-                var openChallenges = searchResult.Challenges
-                    .Where(c => c.Open && !userChallengeIds.Contains(c.Id))
-                    .ToList();
-
-                challenges.AddRange(openChallenges);
+                challenges.AddRange(searchResult.Challenges);
             }
             catch (Exception e)
             {
@@ -577,12 +562,28 @@ namespace HiroChallenges
             selectedChallengePanel.style.display = DisplayStyle.None;
         }
 
+        // ListView Dynamic Switching Pattern
+        //
+        // Why we need to rebuild the ListView when switching tabs:
+        // Unity's ListView caches makeItem/bindItem callbacks and visual elements.
+        // When we switch between Game Modes (GameModeView) and Challenges (ChallengeView),
+        // we're displaying completely different data types with different UXML templates.
+        //
+        // Without clearing and rebuilding, the ListView would try to reuse old visual
+        // elements (e.g., GameModeView items) for new data (e.g., IChallenge objects),
+        // causing binding errors and visual glitches.
+        //
+        // The pattern is:
+        // 1. Clear itemsSource (prevents binding during rebuild)
+        // 2. Rebuild() (clears cached visual elements)
+        // 3. Set new makeItem/bindItem (defines how to create/bind items)
+        // 4. Set new itemsSource (provides the data)
+        // 5. Rebuild() (regenerates visual elements with new callbacks)
+
         private void SetupListViewForGameModes()
         {
-            Debug.Log("Setting up ListView for Game Modes");
-
-            challengesList.itemsSource = null; // Clear first
-            challengesList.Rebuild(); // Force rebuild
+            challengesList.itemsSource = null;
+            challengesList.Rebuild();
 
             challengesList.makeItem = () =>
             {
@@ -598,14 +599,15 @@ namespace HiroChallenges
                 var gameMode = gameModes[index];
                 view?.SetGameMode(gameMode.Key, gameMode.Value);
             };
+
             challengesList.itemsSource = gameModes;
-            challengesList.Rebuild(); // Rebuild with new setup
+            challengesList.Rebuild();
         }
 
         private void SetupListViewForChallenges()
         {
-            challengesList.itemsSource = null; // Clear first
-            challengesList.Rebuild(); // Force rebuild
+            challengesList.itemsSource = null;
+            challengesList.Rebuild();
 
             challengesList.makeItem = () =>
             {
@@ -619,8 +621,9 @@ namespace HiroChallenges
             {
                 (item.userData as ChallengeView)?.SetChallenge(challenges[index]);
             };
+
             challengesList.itemsSource = challenges;
-            challengesList.Rebuild(); // Rebuild with new setup
+            challengesList.Rebuild();
         }
 
         private void OnGameModeSelected(string templateId, IChallengeTemplate template)
@@ -817,15 +820,13 @@ namespace HiroChallenges
                     new Dictionary<string, string>()    // metadata
                 );
 
-                Debug.LogFormat("Challenge created successfully: {0}", challenge.Id);
-
                 // Switch to My Challenges tab and show the new challenge
                 selectedTabIndex = 1;
                 gameModesTab.RemoveFromClassList("selected");
                 myChallengesTab.AddToClassList("selected");
 
                 // Refresh challenges and select the new one
-                await UpdateGameModesOrChallenges();
+                await RefreshCurrentTab();
 
                 // Show success message
                 errorPopup.style.display = DisplayStyle.Flex;
@@ -850,10 +851,8 @@ namespace HiroChallenges
                 }
 
                 var templateId = modalTemplateDropdown.choices[modalTemplateDropdown.index];
-                
                 var metadata = new Dictionary<string, string>();
-                Debug.LogFormat("UserID: '{0}'", nakamaSystem.UserId);
-                
+
                 if (string.IsNullOrEmpty(modalInvitees.value))
                 {
                     throw new Exception("Invitees field cannot be empty. Please enter at least one username.");
@@ -878,12 +877,7 @@ namespace HiroChallenges
                 );
                 
                 var inviteeIDs = invitees.Users.Select(user => user.Id).ToArray();
-                
-                Debug.LogFormat("Found {0} invitees: {1}", 
-                    inviteeIDs.Length, 
-                    string.Join(", ", inviteeIDs)
-                );
-                
+
                 // Validate that we found all requested users
                 if (inviteeIDs.Length != inviteeUsernames.Count)
                 {
@@ -912,7 +906,7 @@ namespace HiroChallenges
             }
 
             createModal.style.display = DisplayStyle.None;
-            _ = UpdateGameModesOrChallenges();
+            _ = RefreshCurrentTab();
         }
 
         private async Task ChallengeJoin()
@@ -930,7 +924,7 @@ namespace HiroChallenges
                 return;
             }
 
-            _ = UpdateGameModesOrChallenges();
+            _ = RefreshCurrentTab();
         }
 
         private async Task ChallengeLeave()
@@ -949,7 +943,7 @@ namespace HiroChallenges
                 return;
             }
 
-            _ = UpdateGameModesOrChallenges();
+            _ = RefreshCurrentTab();
         }
 
         private async Task ChallengeClaim()
@@ -967,7 +961,7 @@ namespace HiroChallenges
                 return;
             }
 
-            _ = UpdateGameModesOrChallenges();
+            _ = RefreshCurrentTab();
         }
 
         private async Task ChallengeSubmitScore()
@@ -992,7 +986,7 @@ namespace HiroChallenges
             }
 
             submitScoreModal.style.display = DisplayStyle.None;
-            _ = UpdateGameModesOrChallenges();
+            _ = RefreshCurrentTab();
         }
 
         #endregion
