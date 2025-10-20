@@ -6,16 +6,32 @@
           "rank_min": 1,
           "rank_max": 3,
           "reward": {
-            "coins": 300,
-            "gems": 15
+            "guaranteed": {
+              "currencies": {
+                "coins": {
+                  "min": 300
+                },
+                "gems": {
+                  "min": 15
+                }
+              }
+            }
           }
         },
         {
           "rank_min": 4,
           "rank_max": 10,
           "reward": {
-            "coins": 150,
-            "gems": 8
+            "guaranteed": {
+              "currencies": {
+                "coins": {
+                  "min": 150
+                },
+                "gems": {
+                  "min": 8
+                }
+              }
+            }
           }
         }
       ],
@@ -25,7 +41,7 @@
         "difficulty": "expert",
         "dungeon_id": "crystal_caverns"
       },
-      "max_num_score": 3600,
+      "max_num_score": 3,
       "start_delay_max_sec": 60,
       "ascending": false,
       "operator": "best",
@@ -34,102 +50,150 @@
         "max_sec": 3600
       },
       "players": {
-        "min": 1,
+        "min": 2,
         "max": 100
       }
     },
-    "collectors_hoard": {
-      "reward_tiers": [
-        {
-          "rank_min": 1,
-          "rank_max": 5,
-          "reward": {
-            "coins": 500,
-            "gems": 20
-          }
-        },
-        {
-          "rank_min": 6,
-          "rank_max": 20,
-          "reward": {
-            "coins": 250,
-            "gems": 10
-          }
-        },
-        {
-          "rank_min": 21,
-          "rank_max": 50,
-          "reward": {
-            "coins": 100,
-            "gems": 5,
-            "items": []
-          }
-        }
-      ],
-      "additional_properties": {
-        "description": "Collect the highest total value of resources (wood, stone, metal) within the time limit!",
-        "category": "gathering",
-        "difficulty": "medium",
-        "dungeon_id": "foragers_forest"
-      },
-      "max_num_score": 10000,
-      "start_delay_max_sec": 120,
-      "ascending": true,
-      "operator": "incr",
-      "duration": {
-        "min_sec": 3600,
-        "max_sec": 7200
-      },
-      "players": {
-        "min": 1,
-        "max": 500
-      }
-    },
-    "guardian_gauntlet": {
+    "team_conquest": {
       "reward_tiers": [
         {
           "rank_min": 1,
           "rank_max": 1,
           "reward": {
-            "coins": 1000,
-            "gems": 50
+            "guaranteed": {
+              "currencies": {
+                "coins": {
+                  "min": 500
+                },
+                "gems": {
+                  "min": 25
+                }
+              }
+            }
           }
         },
         {
           "rank_min": 2,
           "rank_max": 5,
           "reward": {
-            "coins": 400,
-            "gems": 20
+            "reward": {
+              "guaranteed": {
+                "currencies": {
+                  "coins": {
+                    "min": 250
+                  },
+                  "gems": {
+                    "min": 12
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "rank_min": 6,
+          "rank_max": 20,
+          "reward": {
+            "guaranteed": {
+              "currencies": {
+                "coins": {
+                  "min": 100
+                },
+                "gems": {
+                  "min": 5
+                }
+              }
+            }
+          }
+        }
+      ],
+      "additional_properties": {
+        "description": "Capture and hold the most strategic points with your team!",
+        "category": "team_pvp",
+        "difficulty": "hard",
+        "map_id": "fortress_battleground"
+      },
+      "max_num_score": 10,
+      "start_delay_max_sec": 120,
+      "ascending": false,
+      "operator": "best",
+      "duration": {
+        "min_sec": 3600,
+        "max_sec": 7200
+      },
+      "players": {
+        "min": 4,
+        "max": 50
+      }
+    },
+    "survival_gauntlet": {
+      "reward_tiers": [
+        {
+          "rank_min": 1,
+          "rank_max": 5,
+          "reward": {
+            "guaranteed": {
+              "currencies": {
+                "coins": {
+                  "min": 400
+                },
+                "gems": {
+                  "min": 20
+                }
+              }
+            }
           }
         },
         {
           "rank_min": 6,
           "rank_max": 15,
           "reward": {
-            "coins": 150,
-            "gems": 8,
-            "items": []
+            "guaranteed": {
+              "currencies": {
+                "coins": {
+                  "min": 200
+                },
+                "gems": {
+                  "min": 10
+                }
+              }
+            }
+          }
+        },
+        {
+          "rank_min": 16,
+          "rank_max": 50,
+          "reward": {
+            "guaranteed": {
+              "currencies": {
+                "coins": {
+                  "min": 75
+                },
+                "gems": {
+                  "min": 3
+                }
+              }
+            }
           }
         }
       ],
       "additional_properties": {
-        "description": "Be the first to defeat the final boss, 'The Iron Golem,' with the lowest total damage taken.",
-        "category": "combat",
-        "difficulty": "hard",
-        "dungeon_id": "volcanic_forge"
+        "description": "Survive endless waves of enemies for as long as possible!",
+        "category": "survival",
+        "difficulty": "medium",
+        "arena_id": "shadow_arena"
       },
-      "max_num_score": 500,
-      "start_delay_max_sec": 300,
+      "max_num_score": 3,
+      "start_delay_max_sec": 30,
       "ascending": false,
       "operator": "best",
       "duration": {
         "min_sec": 900,
-        "max_sec": 3600
+        "max_sec": 1800
       },
       "players": {
-        "min": 1,
-        "max": 4
+        "min": 2,
+        "max": 200
       }
     }
   }

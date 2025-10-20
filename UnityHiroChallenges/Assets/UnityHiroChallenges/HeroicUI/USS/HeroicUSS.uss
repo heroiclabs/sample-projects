@@ -515,6 +515,28 @@
     width: 375px;
 }
 
+.unity-popup-field {
+    font-size: 30px;
+    -unity-font-style: bold;
+    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&guid=fbe3b99011ddc4d419b127c34c0e03ab&type=3#PlusJakartaSans-VariableFont_wght");
+}
+
+.unity-base-popup-field__arrow {
+    background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Dropdown/dropdown_button_tail_default.png?fileID=2800000&guid=5929a856508804b18b7d6452a985c34a&type=3#dropdown_button_tail_default");
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    -unity-background-scale-mode: scale-to-fit;
+    width: 20px;
+    height: 20px;
+}
+
+.unity-base-popup-field__input{
+    width: 100%;
+}
+
+.unity-popup-field__input {
+    width: 100%;
+}
+
 .unity-list-view__empty-label {
     display: none;
 }

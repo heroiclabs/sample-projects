@@ -1,5 +1,6 @@
 using System;
 using Hiro;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace HiroChallenges
@@ -28,11 +29,12 @@ namespace HiroChallenges
             
             // Convert status enum to readable string
             statusLabel.text = challenge.IsActive ? "Active" : "Ended";
+            statusLabel.style.color = challenge.IsActive ? new StyleColor(Color.green) : new StyleColor(Color.red);
             
             participantsLabel.text = $"{challenge.Size}/{challenge.MaxSize}";
             
             // Format end time (assuming UnixTime conversion)
-            var endTime = DateTimeOffset.FromUnixTimeSeconds(challenge.EndTimeSec).DateTime;
+            var endTime = DateTimeOffset.FromUnixTimeSeconds(challenge.EndTimeSec).LocalDateTime;
             endTimeLabel.text = endTime.ToString("MMM dd, HH:mm");
         }
     }

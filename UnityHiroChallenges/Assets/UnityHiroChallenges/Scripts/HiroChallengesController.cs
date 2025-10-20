@@ -71,9 +71,9 @@ namespace HiroChallenges
         private IChallenge selectedChallenge;
         private NakamaSystem nakamaSystem;
         private ChallengesSystem challengesSystem;
+        private readonly Dictionary<string, IChallengeTemplate> challengeTemplates = new();
         private readonly List<IChallenge> challenges = new();
         private readonly List<IChallengeScore> selectedChallengeParticipants = new();
-        private readonly List<String> challengeTemplates = new();
 
         private void Start()
         {
@@ -99,6 +99,8 @@ namespace HiroChallenges
 
         public void SwitchComplete()
         {
+            createModal.style.display = DisplayStyle.None;
+            submitScoreModal.style.display = DisplayStyle.None;
             _ = UpdateChallenges();
         }
 
@@ -216,9 +218,9 @@ namespace HiroChallenges
             // Create Modal
             createModal = rootElement.Q<VisualElement>("create-modal");
             modalTemplateDropdown = rootElement.Q<DropdownField>("create-modal-template");
-            modalTemplateDropdown.RegisterValueChangedCallback(async evt =>
+            modalTemplateDropdown.RegisterValueChangedCallback(_ =>
             {
-                await UpdateSliderLimitsFromTemplateAsync(evt.newValue);
+                UpdateSliderLimitsFromTemplateAsync();
             });
             modalNameField = rootElement.Q<TextField>("create-modal-name");
             modalMaxParticipantsField = rootElement.Q<IntegerField>("create-modal-max-participants");
@@ -268,10 +270,10 @@ namespace HiroChallenges
             _ = OnChallengeSelected(null);
         }
 
-        private async Task UpdateSliderLimitsFromTemplateAsync(string templateName)
+        private void UpdateSliderLimitsFromTemplateAsync()
         {
-            var template = await GetTemplate(templateName);
-            long maxDelay = template.StartDelayMax;
+            var template = challengeTemplates.ElementAt(modalTemplateDropdown.index).Value;
+            var maxDelay = template.StartDelayMax;
 
             modalChallengeDelay.highValue = (int)maxDelay;
 
@@ -286,32 +288,25 @@ namespace HiroChallenges
             modalChallengeDuration.value = (int)Mathf.Clamp(modalChallengeDuration.value, minDuration, maxDuration);
             modalChallengeDurationLabel.text = $"{modalChallengeDuration.value}s";
         }
-        
-        private async Task<IChallengeTemplate> GetTemplate(string templateName)
-        {
-            var templates = await challengesSystem.GetTemplatesAsync();
-            IChallengeTemplate template = null;
-            templates.Templates.TryGetValue(templateName, out template);
-
-            return template;
-        }
 
         private async Task LoadChallengeTemplates()
         {
             try
             {
-                var templates = await challengesSystem.GetTemplatesAsync();
-                
                 challengeTemplates.Clear();
-                challengeTemplates.AddRange(templates.Templates.Keys.ToList());
+                var loadedTemplates = (await challengesSystem.GetTemplatesAsync()).Templates;
+                foreach (var template in loadedTemplates)
+                {
+                    challengeTemplates[template.Key] = template.Value;
+                }
                 
                 // Populate dropdown with template names
-                modalTemplateDropdown.choices = challengeTemplates;
+                modalTemplateDropdown.choices = challengeTemplates.Keys.ToList();
                 
                 if (challengeTemplates.Count > 0)
                 {
                     modalTemplateDropdown.index = 0;
-                    UpdateSliderLimitsFromTemplateAsync(modalTemplateDropdown.value);
+                    UpdateSliderLimitsFromTemplateAsync();
                 }
                 
                 Debug.LogFormat("Loaded {0} challenge templates", challengeTemplates.Count);
@@ -339,8 +334,9 @@ namespace HiroChallenges
             selectedChallengeNameLabel.text = selectedChallenge.Name;
             selectedChallengeDescriptionLabel.text = string.IsNullOrEmpty(selectedChallenge.Description) ? "No description set." : selectedChallenge.Description;
             selectedChallengeStatusLabel.text = selectedChallenge.IsActive ? "Active" : "Ended";
+            selectedChallengeStatusLabel.style.color = challenge.IsActive ? new StyleColor(Color.green) : new StyleColor(Color.red);
             
-            var endTime = DateTimeOffset.FromUnixTimeSeconds(selectedChallenge.EndTimeSec).DateTime;
+            var endTime = DateTimeOffset.FromUnixTimeSeconds(selectedChallenge.EndTimeSec).LocalDateTime;
             selectedChallengeEndTimeLabel.text = endTime.ToString("MMM dd, yyyy HH:mm");
 
             // Get detailed challenge info with scores
@@ -401,8 +397,9 @@ namespace HiroChallenges
         {
             challenges.Clear();
 
-            switch (selectedTabIndex)
+            switch (1)
             {
+                // TODO: Public Challenges search WIP
                 case 0:
                     try
                     {
@@ -464,9 +461,8 @@ namespace HiroChallenges
                 {
                     throw new Exception("Please select a valid challenge template.");
                 }
-                
-                var selectedTemplate = challengeTemplates[modalTemplateDropdown.index];
-                var templateId = selectedTemplate;
+
+                var selectedTemplate = challengeTemplates.ElementAt(modalTemplateDropdown.index);
                 
                 var metadata = new Dictionary<string, string>();
                 Debug.LogFormat("UserID: '{0}'", nakamaSystem.UserId);
@@ -507,13 +503,12 @@ namespace HiroChallenges
                     throw new Exception($"Could not find all users. Requested: {inviteeUsernames.Count}, Found: {inviteeIDs.Length}");
                 }
 
-                var template = await GetTemplate(templateId);
-                template.AdditionalProperties.TryGetValue("description", out var description);
+                selectedTemplate.Value.AdditionalProperties.TryGetValue("description", out var description);
                 
                 await challengesSystem.CreateChallengeAsync(
-                    templateId,
+                    selectedTemplate.Key,
                     modalNameField.value,
-                    description,
+                    description ?? "Missing description.",
                     inviteeIDs,
                     modalOpenToggle.value,
                     modalMaxScoreSubmissions.value,
