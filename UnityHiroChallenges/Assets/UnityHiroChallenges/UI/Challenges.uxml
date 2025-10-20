@@ -17,7 +17,6 @@
                     <ui:Button text="Public" name="open-challenges-tab" class="heroic-horizontal-tab-button" style="width: 250px;">
                         <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
                     </ui:Button>
-                    <ui:Button text="Create +" name="challenge-create" enable-rich-text="false" class="heroic-button" style="align-self: center; width: 200px; height: 80px; display: none;" />
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:ListView fixed-item-height="150" name="challenges-list" style="flex-grow: 1;" />
@@ -76,7 +75,10 @@
                                 </ui:VisualElement>
                                 <ui:TextField label="Invite Players" placeholder-text="Enter usernames separated by commas (e.g., Player1, Player2)" name="game-mode-invitees" multiline="true" style="margin-bottom: 15px; -unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
                             </ui:VisualElement>
-                            <ui:Button text="Start Challenge" name="game-mode-start-challenge" class="heroic-button" style="width: 100%; height: 80px; font-size: 28px; margin-top: 20px;" />
+                            <ui:VisualElement style="flex-direction: row; margin-top: 20px; justify-content: space-between;">
+                                <ui:Button text="Advanced Options" name="advanced-options" class="heroic-button" style="width: 48%; height: 80px; font-size: 24px; -unity-background-image-tint-color: rgb(255, 255, 255); color: rgb(70, 70, 70); background-image: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Button/button_rounded_h84_white_shadow.png?fileID=-1247119682716566457&amp;guid=4f539c64ecb59456bab590ecc5a4be5a&amp;type=3#button_rounded_h84_white_shadow_0&quot;);" />
+                                <ui:Button text="Start Challenge" name="game-mode-start-challenge" class="heroic-button" style="width: 48%; height: 80px; font-size: 28px;" />
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:ScrollView>
                 </ui:VisualElement>
