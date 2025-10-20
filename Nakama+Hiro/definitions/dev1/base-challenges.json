@@ -39,6 +39,104 @@
         "min": 1,
         "max": 100
       }
+    },
+    "collectors_hoard": {
+      "reward_tiers": [
+        {
+          "rank_min": 1,
+          "rank_max": 5,
+          "reward": {
+            "coins": 500,
+            "gems": 20,
+            "items": ["treasure_chest_key", "rare_material_bundle"]
+          }
+        },
+        {
+          "rank_min": 6,
+          "rank_max": 20,
+          "reward": {
+            "coins": 250,
+            "gems": 10,
+            "items": ["treasure_chest_key"]
+          }
+        },
+        {
+          "rank_min": 21,
+          "rank_max": 50,
+          "reward": {
+            "coins": 100,
+            "gems": 5,
+            "items": []
+          }
+        }
+      ],
+      "additional_properties": {
+        "description": "Collect the highest total value of resources (wood, stone, metal) within the time limit!",
+        "category": "gathering",
+        "difficulty": "medium",
+        "dungeon_id": "foragers_forest"
+      },
+      "max_num_score": 10000,
+      "start_delay_max_sec": 120,
+      "ascending": true,
+      "operator": "incr",
+      "duration": {
+        "min_sec": 3600,
+        "max_sec": 7200
+      },
+      "players": {
+        "min": 1,
+        "max": 500
+      }
+    },
+    "guardian_gauntlet": {
+      "reward_tiers": [
+        {
+          "rank_min": 1,
+          "rank_max": 1,
+          "reward": {
+            "coins": 1000,
+            "gems": 50,
+            "items": ["mythic_armor_fragment", "legendary_weapon_blueprint"]
+          }
+        },
+        {
+          "rank_min": 2,
+          "rank_max": 5,
+          "reward": {
+            "coins": 400,
+            "gems": 20,
+            "items": ["epic_potion_pack"]
+          }
+        },
+        {
+          "rank_min": 6,
+          "rank_max": 15,
+          "reward": {
+            "coins": 150,
+            "gems": 8,
+            "items": []
+          }
+        }
+      ],
+      "additional_properties": {
+        "description": "Be the first to defeat the final boss, 'The Iron Golem,' with the lowest total damage taken.",
+        "category": "combat",
+        "difficulty": "hard",
+        "dungeon_id": "volcanic_forge"
+      },
+      "max_num_score": 500,
+      "start_delay_max_sec": 300,
+      "ascending": false,
+      "operator": "best",
+      "duration": {
+        "min_sec": 900,
+        "max_sec": 3600
+      },
+      "players": {
+        "min": 1,
+        "max": 4
+      }
     }
   }
 }
