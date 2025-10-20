@@ -14,7 +14,7 @@
                     <ui:Button text="My Challenges" name="my-challenges-tab" class="heroic-horizontal-tab-button" style="width: 300px;">
                         <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
                     </ui:Button>
-                    <ui:Button text="Open Challenges" name="open-challenges-tab" class="heroic-horizontal-tab-button" style="width: 300px;">
+                    <ui:Button text="Public" name="open-challenges-tab" class="heroic-horizontal-tab-button" style="width: 250px;">
                         <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
                     </ui:Button>
                 </ui:VisualElement>
@@ -72,9 +72,7 @@
                                 <ui:IntegerField label="Max Participants" value="10" name="game-mode-max-participants" style="margin-bottom: 15px; -unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
                                 <ui:IntegerField label="Max Score Attempts" value="3" name="game-mode-max-scores" style="margin-bottom: 15px; -unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
                                 <ui:VisualElement style="width: 100%; margin-bottom: 15px;">
-                                    <ui:VisualElement style="flex-direction: row; align-items: center; background-color: rgb(255, 255, 255); border-width: 2px; border-color: rgb(200, 200, 200); border-radius: 10px; padding: 15px; min-height: 60px;">
-                                        <ui:Toggle label="Open Challenge (Anyone Can Join)" name="game-mode-open-toggle" toggle-on-label-click="false" value="false" style="flex-direction: row; align-items: center; font-size: 18px; -unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
-                                    </ui:VisualElement>
+                                    <ui:Toggle label="Open Challenge (Anyone Can Join)" name="game-mode-open-toggle" toggle-on-label-click="false" value="false" style="flex-direction: row; align-items: center; font-size: 18px; -unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
                                 </ui:VisualElement>
                                 <ui:TextField label="Invite Players" placeholder-text="Enter usernames separated by commas (e.g., Player1, Player2)" name="game-mode-invitees" multiline="true" style="margin-bottom: 15px; -unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
                             </ui:VisualElement>
@@ -129,9 +127,7 @@
                             </ui:VisualElement>
                         </ui:VisualElement>
                         <ui:VisualElement style="width: 100%; margin-bottom: 15px;">
-                            <ui:VisualElement style="flex-direction: row; align-items: center; background-color: rgb(255, 255, 255); border-width: 2px; border-color: rgb(200, 200, 200); border-radius: 10px; padding: 15px; min-height: 60px;">
-                                <ui:Toggle label="Open to All" name="create-modal-open" toggle-on-label-click="false" value="true" style="flex-direction: row; align-items: center; font-size: 18px; -unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
-                            </ui:VisualElement>
+                            <ui:Toggle label="Open to All" name="create-modal-open" toggle-on-label-click="false" value="false" style="flex-direction: row; align-items: center; font-size: 18px; -unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;);" />
                         </ui:VisualElement>
                         <ui:VisualElement style="margin-top: 30px; align-items: center;">
                             <ui:Button text="Create Challenge" name="create-modal-create" class="heroic-button" style="width: 100%;" />

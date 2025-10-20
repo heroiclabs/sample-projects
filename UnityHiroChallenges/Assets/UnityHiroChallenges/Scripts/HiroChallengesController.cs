@@ -365,6 +365,8 @@ namespace HiroChallenges
             selectedChallengeEndTimeLabel.text = endTime.ToString("MMM dd, yyyy HH:mm");
 
             // Get detailed challenge info with scores
+            // Note: This only works if the user has a relationship with the challenge
+            // (joined, invited, created). For open challenges not yet joined, this will fail.
             try
             {
                 var detailedChallenge = await challengesSystem.GetChallengeAsync(selectedChallenge.Id, true);
@@ -374,8 +376,13 @@ namespace HiroChallenges
             }
             catch (Exception e)
             {
-                errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = e.Message;
+                // For open challenges the user hasn't joined, GetChallengeAsync will fail
+                // because they don't have a challenge pointer record.
+                // Clear participants list and continue.
+                selectedChallengeParticipants.Clear();
+                challengeParticipantsList.RefreshItems();
+
+                Debug.LogWarning($"Could not fetch detailed challenge info: {e.Message}. This is expected for open challenges not yet joined.");
             }
 
             // Update button visibility based on challenge status and user participation
