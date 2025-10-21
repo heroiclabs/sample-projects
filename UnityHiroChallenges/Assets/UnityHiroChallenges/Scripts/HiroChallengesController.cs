@@ -48,7 +48,6 @@ namespace HiroChallenges
         private TextField modalNameField;
         private IntegerField modalMaxParticipantsField;
         private TextField modalInvitees;
-        private TextField modalCategory;
         private SliderInt modalChallengeDelay;
         private Label modalChallengeDelayLabel;
         private SliderInt modalChallengeDuration;
@@ -144,7 +143,6 @@ namespace HiroChallenges
                 modalNameField.value = string.Empty;
                 modalMaxParticipantsField.value = 100;
                 modalInvitees.value = string.Empty;
-                modalCategory.value = "race";
                 modalChallengeDelay.value = 0;
                 modalChallengeDuration.value = 2000;
                 modalMaxScoreSubmissions.value = 10;
@@ -233,7 +231,6 @@ namespace HiroChallenges
             modalNameField = rootElement.Q<TextField>("create-modal-name");
             modalMaxParticipantsField = rootElement.Q<IntegerField>("create-modal-max-participants");
             modalInvitees = rootElement.Q<TextField>("create-modal-invitees");
-            modalCategory = rootElement.Q<TextField>("create-modal-category");
             modalMaxScoreSubmissions = rootElement.Q<IntegerField>("create-modal-max-submissions");
             modalOpenToggle = rootElement.Q<Toggle>("create-modal-open");
 
@@ -505,6 +502,7 @@ namespace HiroChallenges
                 }
 
                 selectedTemplate.Value.AdditionalProperties.TryGetValue("description", out var description);
+                selectedTemplate.Value.AdditionalProperties.TryGetValue("category", out var category);
                 
                 await challengesSystem.CreateChallengeAsync(
                     selectedTemplate.Key,
@@ -516,7 +514,7 @@ namespace HiroChallenges
                     modalChallengeDelay.value,
                     modalChallengeDuration.value,
                     modalMaxParticipantsField.value,
-                    modalCategory.value,
+                    category ?? "Missing category",
                     metadata
                 );
             }

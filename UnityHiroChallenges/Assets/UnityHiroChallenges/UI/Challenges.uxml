@@ -43,7 +43,7 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement template="ErrorPopup" name="create-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
+    <ui:VisualElement template="ErrorPopup" name="create-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: flex;">
         <Style src="project://database/Assets/UnityHiroChallenges/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
         <ui:VisualElement name="create-modal-background" class="heroic-error-popup__background">
             <ui:VisualElement name="create-modal-panel" class="heroic-main__panel" style="height: auto; width: 60%;">
@@ -60,9 +60,6 @@
                         </ui:VisualElement>
                         <ui:VisualElement style="width: 100%; margin-bottom: 15px;">
                             <ui:TextField label="Invitees" placeholder-text="Player1, Player2" name="create-modal-invitees" style="width: 100%;" />
-                        </ui:VisualElement>
-                        <ui:VisualElement style="width: 100%; margin-bottom: 15px;">
-                            <ui:TextField label="Category" placeholder-text="race" name="create-modal-category" style="width: 100%;" />
                         </ui:VisualElement>
                         <ui:VisualElement style="width: 100%; margin-bottom: 15px;">
                             <ui:IntegerField label="Max Participants" value="100" name="create-modal-max-participants" style="width: 100%;" />
