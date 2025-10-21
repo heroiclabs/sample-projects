@@ -276,11 +276,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ee968291b9ba4af6b816e987267b47d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HiroChallenges.HiroChallengesCoordinator
+  localHost: 1
   scheme: https
   host: sample-prjcts.eu-west1-a.nakamacloud.io
   port: 443
   serverKey: uNezOE3FOprj6nPs
-  local: 1
 --- !u!4 &634194746
 Transform:
   m_ObjectHideFlags: 0

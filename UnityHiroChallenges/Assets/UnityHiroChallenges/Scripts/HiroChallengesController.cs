@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 using Hiro.Unity;
 using System.Linq;
 using System.Threading.Tasks;
+using HeroicUI;
 using Nakama;
 
 namespace HiroChallenges
@@ -22,6 +23,8 @@ namespace HiroChallenges
         private VisualTreeAsset challengeParticipantTemplate;
 
         public event Action<ISession, HiroChallengesController> OnInitialized;
+
+        private WalletDisplay walletDisplay;
 
         private Button allTab;
         private Button myChallengesTab;
@@ -70,7 +73,8 @@ namespace HiroChallenges
         private string selectedChallengeId;
         private IChallenge selectedChallenge;
         private NakamaSystem nakamaSystem;
-        private ChallengesSystem challengesSystem;
+        private IChallengesSystem challengesSystem;
+        private IEconomySystem economySystem;
         private readonly Dictionary<string, IChallengeTemplate> challengeTemplates = new();
         private readonly List<IChallenge> challenges = new();
         private readonly List<IChallengeScore> selectedChallengeParticipants = new();
@@ -92,6 +96,8 @@ namespace HiroChallenges
                 OnInitialized?.Invoke(session, this);
                 nakamaSystem = this.GetSystem<NakamaSystem>();
                 challengesSystem = this.GetSystem<ChallengesSystem>();
+                economySystem = this.GetSystem<EconomySystem>();
+                walletDisplay.StartObserving();
                 _ = UpdateChallenges();
                 _ = LoadChallengeTemplates();
             };
@@ -109,6 +115,8 @@ namespace HiroChallenges
         private void InitializeUI()
         {
             var rootElement = GetComponent<UIDocument>().rootVisualElement;
+
+            walletDisplay = new WalletDisplay(rootElement.Q<VisualElement>("wallet-display"));
 
             allTab = rootElement.Q<Button>("all-tab");
             allTab.RegisterCallback<ClickEvent>(evt =>
@@ -220,7 +228,7 @@ namespace HiroChallenges
             modalTemplateDropdown = rootElement.Q<DropdownField>("create-modal-template");
             modalTemplateDropdown.RegisterValueChangedCallback(_ =>
             {
-                UpdateSliderLimitsFromTemplateAsync();
+                UpdateCreateModalLimits();
             });
             modalNameField = rootElement.Q<TextField>("create-modal-name");
             modalMaxParticipantsField = rootElement.Q<IntegerField>("create-modal-max-participants");
@@ -270,7 +278,7 @@ namespace HiroChallenges
             _ = OnChallengeSelected(null);
         }
 
-        private void UpdateSliderLimitsFromTemplateAsync()
+        private void UpdateCreateModalLimits()
         {
             var template = challengeTemplates.ElementAt(modalTemplateDropdown.index).Value;
             var maxDelay = template.StartDelayMax;
@@ -302,12 +310,6 @@ namespace HiroChallenges
                 
                 // Populate dropdown with template names
                 modalTemplateDropdown.choices = challengeTemplates.Keys.ToList();
-                
-                if (challengeTemplates.Count > 0)
-                {
-                    modalTemplateDropdown.index = 0;
-                    UpdateSliderLimitsFromTemplateAsync();
-                }
                 
                 Debug.LogFormat("Loaded {0} challenge templates", challengeTemplates.Count);
             }
@@ -364,30 +366,28 @@ namespace HiroChallenges
             if (selectedChallenge == null) return;
 
             var isActive = selectedChallenge.IsActive;
-            var participant = GetParticipent();
+            IChallengeScore foundParticipant = null;
+            foreach (var participant in selectedChallengeParticipants)
+            {
+                if (participant.Id != nakamaSystem.UserId || participant.State != ChallengeState.Joined) continue;
+                foundParticipant = participant;
+                break;
+            }
+
             var canClaim = selectedChallenge.CanClaim;
 
             // Join button: show if challenge is active/pending, open, and user is not a participant
-            joinButton.style.display = isActive && participant == null ? DisplayStyle.Flex : DisplayStyle.None;
+            joinButton.style.display = isActive && foundParticipant == null ? DisplayStyle.Flex : DisplayStyle.None;
 
             // Leave button: show if user is participant and challenge is not ended
-            leaveButton.style.display = participant != null && !isActive && !canClaim ? DisplayStyle.Flex : DisplayStyle.None;
+            leaveButton.style.display = foundParticipant != null && !isActive && !canClaim ? DisplayStyle.Flex : DisplayStyle.None;
 
             // Submit score button: show if user is participant and challenge is active
-            submitScoreButton.style.display = participant != null && isActive && participant.NumScores < selectedChallenge.MaxNumScore ? DisplayStyle.Flex : DisplayStyle.None;
-            submitScoreButton.text = $"Submit Score ({participant?.NumScores}/{selectedChallenge.MaxNumScore})";
+            submitScoreButton.style.display = foundParticipant != null && isActive && foundParticipant.NumScores < selectedChallenge.MaxNumScore ? DisplayStyle.Flex : DisplayStyle.None;
+            submitScoreButton.text = $"Submit Score ({foundParticipant?.NumScores}/{selectedChallenge.MaxNumScore})";
             
             // Claim rewards button: show if challenge is ended and user can claim
-            claimRewardsButton.style.display = !isActive && participant != null && canClaim ? DisplayStyle.Flex : DisplayStyle.None;
-        }
-
-        private IChallengeScore GetParticipent()
-        {
-            foreach (var participant in selectedChallengeParticipants)
-            {
-                if (participant.Id == nakamaSystem.UserId && participant.State == ChallengeState.Joined) return participant;
-            }
-            return null;
+            claimRewardsButton.style.display = !isActive && foundParticipant != null && canClaim ? DisplayStyle.Flex : DisplayStyle.None;
         }
 
         #endregion
@@ -575,6 +575,7 @@ namespace HiroChallenges
             try
             {
                 await challengesSystem.ClaimChallengeAsync(selectedChallenge.Id);
+                await economySystem.RefreshAsync();
             }
             catch (Exception e)
             {

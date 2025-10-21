@@ -22,8 +22,6 @@ namespace HiroChallenges
         [SerializeField]
         private string serverKey = "defaultkey";
 
-        
-
         public event Action<Exception> ReceivedStartError;
         public event Action<ISession> ReceivedStartSuccess;
 
@@ -41,6 +39,8 @@ namespace HiroChallenges
             systems.Add(nakamaSystem);
             var challengesSystem = new ChallengesSystem(logger, nakamaSystem);
             systems.Add(challengesSystem);
+            var economySystem = new EconomySystem(logger, nakamaSystem, EconomyStoreType.Unspecified);
+            systems.Add(economySystem);
 
             return Task.FromResult(systems);
         }

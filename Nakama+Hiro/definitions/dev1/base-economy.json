@@ -1,0 +1,8 @@
+{
+  "initialize_user": {
+    "currencies": {
+      "coins": 999,
+      "gems": 50
+    }
+  }
+}

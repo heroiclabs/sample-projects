@@ -71,7 +71,8 @@ func InitModule(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runti
 
 	systems, err := hiro.Init(ctx, logger, nk, initializer, binPath, hiroLicense,
 		hiro.WithBaseSystem(fmt.Sprintf("definitions/%s/base-system.json", env), true),
-		hiro.WithChallengesSystem(fmt.Sprintf("definitions/%s/base-challenges.json", env), true))
+		hiro.WithChallengesSystem(fmt.Sprintf("definitions/%s/base-challenges.json", env), true),
+		hiro.WithEconomySystem(fmt.Sprintf("definitions/%s/base-economy.json", env), true))
 	if err != nil {
 		return err
 	}
