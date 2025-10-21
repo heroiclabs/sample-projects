@@ -18,9 +18,9 @@ namespace HiroChallenges
             rankLabel = visualElement.Q<Label>("rank");
         }
 
-        public void SetChallengeParticipant(IChallengeScore participantScore)
+        public void SetChallengeParticipant(IChallenge challenge, IChallengeScore participantScore)
         {
-            usernameLabel.text = participantScore.Username;
+            usernameLabel.text = $"<color=blue>({participantScore.NumScores}/{challenge.MaxNumScore})</color> {participantScore.Username} ";
             scoreLabel.text = participantScore.Score.ToString();
             subScoreLabel.text = participantScore.Subscore.ToString();
             rankLabel.text = participantScore.Rank > 0 ? $"#{participantScore.Rank}" : "-";

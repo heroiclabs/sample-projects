@@ -33,7 +33,7 @@ namespace HiroChallenges
             
             participantsLabel.text = $"{challenge.Size}/{challenge.MaxSize}";
             
-            // Format end time (assuming UnixTime conversion)
+            // Format end time to display for local time.
             var endTime = DateTimeOffset.FromUnixTimeSeconds(challenge.EndTimeSec).LocalDateTime;
             endTimeLabel.text = endTime.ToString("MMM dd, HH:mm");
         }

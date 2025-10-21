@@ -44,12 +44,12 @@
     <ui:VisualElement template="ErrorPopup" name="create-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
         <Style src="project://database/Assets/UnityHiroChallenges/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
         <ui:VisualElement name="create-modal-background" class="heroic-error-popup__background">
-            <ui:VisualElement name="create-modal-panel" class="heroic-main__panel" style="height: auto; width: auto;">
+            <ui:VisualElement name="create-modal-panel" class="heroic-main__panel" style="height: auto; width: 60%;">
                 <ui:VisualElement name="create-modal-top" style="height: 10%; background-color: rgb(132, 154, 255); border-top-left-radius: 15px; border-top-right-radius: 15px;">
                     <ui:Label text="START CHALLENGE" class="heroic-title" style="color: rgb(255, 255, 255); -unity-text-align: middle-center; flex-grow: 1;" />
                 </ui:VisualElement>
-                <ui:VisualElement name="create-modal-bottom" style="height: 90%; align-self: center; align-items: stretch; width: 100%; padding-left: 30px; padding-right: 30px; padding-top: 20px; padding-bottom: 20px; flex-direction: row;">
-                    <ui:VisualElement style="flex-grow: 1; width: 50%; padding-right: 15px;">
+                <ui:VisualElement name="create-modal-bottom" style="height: 90%; align-self: center; align-items: stretch; width: 100%; padding-left: 30px; padding-right: 30px; padding-top: 30px; padding-bottom: 30px; flex-direction: row;">
+                    <ui:VisualElement style="width: 50%; padding-right: 15px;">
                         <ui:VisualElement style="width: 100%; margin-bottom: 15px;">
                             <ui:DropdownField label="Template" name="create-modal-template" style="width: 100%; overflow: visible; padding-right: 0;" />
                         </ui:VisualElement>
@@ -69,7 +69,7 @@
                             <ui:IntegerField label="Max Score Submissions" value="10" name="create-modal-max-submissions" style="width: 100%;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement style="flex-grow: 1; width: 50%; padding-left: 15px;">
+                    <ui:VisualElement style="width: 50%; padding-left: 15px;">
                         <ui:VisualElement style="width: 100%; margin-bottom: 20px;">
                             <ui:VisualElement style="flex-direction: row; align-items: center;">
                                 <ui:SliderInt picking-mode="Ignore" value="0" high-value="3600" name="create-modal-delay" low-value="0" label="Challenge Delay (seconds)" style="margin-right: 10px; width: 85%;" />

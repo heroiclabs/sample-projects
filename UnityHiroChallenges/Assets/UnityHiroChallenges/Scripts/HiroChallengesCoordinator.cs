@@ -10,6 +10,9 @@ namespace HiroChallenges
 {
     public class HiroChallengesCoordinator : HiroCoordinator
     {
+        [Header("Overrides Nakama Settings")][SerializeField]
+        private bool localHost;
+
         [Header("Nakama Settings")] [SerializeField]
         private string scheme = "http";
         [SerializeField]
@@ -18,8 +21,7 @@ namespace HiroChallenges
         private int port = 7350;
         [SerializeField]
         private string serverKey = "defaultkey";
-        [SerializeField]
-        private bool local = false;
+
         
 
         public event Action<Exception> ReceivedStartError;
@@ -30,7 +32,7 @@ namespace HiroChallenges
             var logger = new Hiro.Unity.Logger();
             var monitor = NetworkMonitor.Default;
 
-            var client = local ? new Client("http", "127.0.0.1", 7350, "defaultkey") : new Client(scheme, host, port, serverKey);
+            var client = localHost ? new Client("http", "127.0.0.1", 7350, "defaultkey") : new Client(scheme, host, port, serverKey);
 
             var nakamaSystem = new NakamaSystem(logger, client, NakamaAuthorizerFunc());
 

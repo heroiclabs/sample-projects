@@ -529,7 +529,7 @@
     height: 20px;
 }
 
-.unity-base-popup-field__input{
+.unity-base-popup-field__input {
     width: 100%;
 }
 
@@ -614,4 +614,8 @@
 
 .unity-toggle:checked .unity-toggle__checkmark {
     background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Checkbox/checkbox_checked.png?fileID=2800000&guid=98e436c782ea7448e90590045e5658f2&type=3#checkbox_checked");
+}
+
+.unity-base-text-field__input--placeholder {
+    color: rgba(156, 156, 156, 0.52);
 }

@@ -25,12 +25,12 @@ func InitModule(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runti
 		// Handle error.
 	}
 
-	err := createTournament(ctx, logger, nk, "daily-dash", "Daily Dash", "Dash past your opponents for high scores and big rewards!", false)
+	err := createTournament(ctx, logger, nk, "daily-dash", "0 12 * * *", "Daily Dash", "Dash past your opponents for high scores and big rewards!", 86400, 0, 1, false)
 	if err != nil {
 		// Handle error.
 	}
 
-	err = createTournament(ctx, logger, nk, "limited-dash", "Limited Dash", "Limited spaces available, join now!", true)
+	err = createTournament(ctx, logger, nk, "limited-dash", "0 * * * *", "Limited Dash", "Limited spaces available, join now!", 3600, 10000, 3, true)
 	if err != nil {
 		// Handle error.
 	}
@@ -82,19 +82,15 @@ func InitModule(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runti
 	return nil
 }
 
-func createTournament(ctx context.Context, logger runtime.Logger, nk runtime.NakamaModule, id, title, description string, joinRequired bool) error {
-	authoritative := false        // true by default
-	sortOrder := "desc"           // one of: "desc", "asc"
-	operator := "best"            // one of: "best", "set", "incr"
-	resetSchedule := "0 12 * * *" // noon UTC each day
+func createTournament(ctx context.Context, logger runtime.Logger, nk runtime.NakamaModule, id, resetSchedule, title, description string, duration, maxSize, maxNumScore int, joinRequired bool) error {
+	authoritative := false // true by default
+	sortOrder := "desc"    // one of: "desc", "asc"
+	operator := "best"     // one of: "best", "set", "incr"
 	metadata := map[string]interface{}{}
 	category := 1
 	startTime := int(time.Now().UTC().Unix()) // start now
-	endTime := 0                              // never end, repeat the tournament each day forever
-	duration := 86400                         // in seconds
-	maxSize := 10000                          // first 10,000 players who join
-	maxNumScore := 3                          // each player can have 3 attempts to score
-	enableRanks := false                      // ranks are disabled
+	endTime := 0                              // never end, repeat the tournament forever
+	enableRanks := true                       // ranks are enabled
 	err := nk.TournamentCreate(ctx, id, authoritative, sortOrder, operator, resetSchedule, metadata, title, description, category, startTime, endTime, duration, maxSize, maxNumScore, joinRequired, enableRanks)
 	if err != nil {
 		logger.Debug("unable to create tournament: %q", err.Error())

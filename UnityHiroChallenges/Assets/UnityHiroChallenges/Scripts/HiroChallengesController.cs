@@ -186,7 +186,7 @@ namespace HiroChallenges
             };
             challengeParticipantsList.bindItem = (item, index) =>
             {
-                (item.userData as ChallengeParticipantView)?.SetChallengeParticipant(selectedChallengeParticipants[index]);
+                (item.userData as ChallengeParticipantView)?.SetChallengeParticipant(selectedChallenge, selectedChallengeParticipants[index]);
             };
             challengeParticipantsList.itemsSource = selectedChallengeParticipants;
 
@@ -364,29 +364,30 @@ namespace HiroChallenges
             if (selectedChallenge == null) return;
 
             var isActive = selectedChallenge.IsActive;
-            var isParticipant = IsUserParticipant();
+            var participant = GetParticipent();
             var canClaim = selectedChallenge.CanClaim;
 
             // Join button: show if challenge is active/pending, open, and user is not a participant
-            joinButton.style.display = isActive && !isParticipant ? DisplayStyle.Flex : DisplayStyle.None;
+            joinButton.style.display = isActive && participant == null ? DisplayStyle.Flex : DisplayStyle.None;
 
             // Leave button: show if user is participant and challenge is not ended
-            leaveButton.style.display = isParticipant && !isActive && !canClaim ? DisplayStyle.Flex : DisplayStyle.None;
+            leaveButton.style.display = participant != null && !isActive && !canClaim ? DisplayStyle.Flex : DisplayStyle.None;
 
             // Submit score button: show if user is participant and challenge is active
-            submitScoreButton.style.display = isParticipant && isActive ? DisplayStyle.Flex : DisplayStyle.None;
-
+            submitScoreButton.style.display = participant != null && isActive && participant.NumScores < selectedChallenge.MaxNumScore ? DisplayStyle.Flex : DisplayStyle.None;
+            submitScoreButton.text = $"Submit Score ({participant?.NumScores}/{selectedChallenge.MaxNumScore})";
+            
             // Claim rewards button: show if challenge is ended and user can claim
-            claimRewardsButton.style.display = !isActive && isParticipant && canClaim ? DisplayStyle.Flex : DisplayStyle.None;
+            claimRewardsButton.style.display = !isActive && participant != null && canClaim ? DisplayStyle.Flex : DisplayStyle.None;
         }
 
-        private bool IsUserParticipant()
+        private IChallengeScore GetParticipent()
         {
             foreach (var participant in selectedChallengeParticipants)
             {
-                if (participant.Id == nakamaSystem.UserId && participant.State == ChallengeState.Joined) return true;
+                if (participant.Id == nakamaSystem.UserId && participant.State == ChallengeState.Joined) return participant;
             }
-            return false;
+            return null;
         }
 
         #endregion
