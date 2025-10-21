@@ -230,8 +230,18 @@ namespace HiroChallenges
             });
             modalNameField = rootElement.Q<TextField>("create-modal-name");
             modalMaxParticipantsField = rootElement.Q<IntegerField>("create-modal-max-participants");
+            modalMaxParticipantsField.RegisterCallback<FocusOutEvent>(evt =>
+            {
+                var template = challengeTemplates.ElementAt(modalTemplateDropdown.index);
+                modalMaxParticipantsField.value = (int)Mathf.Clamp(modalMaxParticipantsField.value, template.Value.Players.Min, template.Value.Players.Max);
+            });
             modalInvitees = rootElement.Q<TextField>("create-modal-invitees");
             modalMaxScoreSubmissions = rootElement.Q<IntegerField>("create-modal-max-submissions");
+            modalMaxScoreSubmissions.RegisterCallback<FocusOutEvent>(evt =>
+            {
+                var template = challengeTemplates.ElementAt(modalTemplateDropdown.index);
+                modalMaxScoreSubmissions.value = (int)Mathf.Clamp(modalMaxScoreSubmissions.value, 1, template.Value.MaxNumScore);
+            });
             modalOpenToggle = rootElement.Q<Toggle>("create-modal-open");
 
             // Challenge Delay Slider
@@ -292,6 +302,8 @@ namespace HiroChallenges
             modalChallengeDuration.highValue = (int)maxDuration;
             modalChallengeDuration.value = (int)Mathf.Clamp(modalChallengeDuration.value, minDuration, maxDuration);
             modalChallengeDurationLabel.text = $"{modalChallengeDuration.value}s";
+            modalMaxScoreSubmissions.value = (int)template.MaxNumScore;
+            modalMaxParticipantsField.value = (int)Mathf.Clamp(modalMaxParticipantsField.value, template.Players.Min, template.Players.Max);
         }
 
         private async Task LoadChallengeTemplates()
