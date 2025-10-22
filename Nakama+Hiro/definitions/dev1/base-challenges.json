@@ -36,6 +36,7 @@
         }
       ],
       "additional_properties": {
+        "display_name": "Speed Runner",
         "description": "Score the most points by collecting crystals!",
         "category": "arcade",
         "difficulty": "expert",
@@ -108,6 +109,7 @@
         }
       ],
       "additional_properties": {
+        "display_name": "Team Conquest",
         "description": "Capture and hold the most strategic points with your team!",
         "category": "team_pvp",
         "difficulty": "hard",
@@ -178,6 +180,7 @@
         }
       ],
       "additional_properties": {
+        "display_name": "Survival Gauntlet",
         "description": "Survive endless waves of enemies for as long as possible!",
         "category": "survival",
         "difficulty": "medium",

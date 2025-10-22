@@ -14,15 +14,18 @@ namespace HiroChallenges
         {
             usernameLabel = visualElement.Q<Label>("username");
             scoreLabel = visualElement.Q<Label>("score");
-            subScoreLabel = visualElement.Q<Label>("subscore");
+            subScoreLabel = visualElement.Q<Label>("sub-score");
             rankLabel = visualElement.Q<Label>("rank");
         }
 
         public void SetChallengeParticipant(IChallenge challenge, IChallengeScore participantScore)
         {
-            usernameLabel.text = $"<color=blue>({participantScore.NumScores}/{challenge.MaxNumScore})</color> {participantScore.Username} ";
+            // Display username along with remaining score submissions.
+            usernameLabel.text =
+                $"<color=blue>({participantScore.NumScores}/{challenge.MaxNumScore})</color> {participantScore.Username} ";
             scoreLabel.text = participantScore.Score.ToString();
             subScoreLabel.text = participantScore.Subscore.ToString();
+            // A rank of 0 would mean that you are yet to submit your first score.
             rankLabel.text = participantScore.Rank > 0 ? $"#{participantScore.Rank}" : "-";
         }
     }

@@ -26,7 +26,6 @@ namespace HiroChallenges
 
         private WalletDisplay walletDisplay;
 
-        private Button allTab;
         private Button myChallengesTab;
         private Button createButton;
         private Button joinButton;
@@ -52,7 +51,6 @@ namespace HiroChallenges
         private Label modalChallengeDelayLabel;
         private SliderInt modalChallengeDuration;
         private Label modalChallengeDurationLabel;
-        private IntegerField modalMaxScoreSubmissions;
         private Toggle modalOpenToggle;
         private Button modalCreateButton;
         private Button modalCloseButton;
@@ -78,6 +76,7 @@ namespace HiroChallenges
         private readonly List<IChallenge> challenges = new();
         private readonly List<IChallengeScore> selectedChallengeParticipants = new();
 
+        #region Initialization
         private void Start()
         {
             InitializeUI();
@@ -93,10 +92,16 @@ namespace HiroChallenges
             challengesCoordinator.ReceivedStartSuccess += session =>
             {
                 OnInitialized?.Invoke(session, this);
+
+                // Cache Hiro systems since we'll be accessing them often.
                 nakamaSystem = this.GetSystem<NakamaSystem>();
                 challengesSystem = this.GetSystem<ChallengesSystem>();
                 economySystem = this.GetSystem<EconomySystem>();
+
+                // Let our wallet display know that Hiro has been initialized successfully.
                 walletDisplay.StartObserving();
+
+                // Load your challenges, and all challenge templates, ready for starting new challenges.
                 _ = UpdateChallenges();
                 _ = LoadChallengeTemplates();
             };
@@ -108,32 +113,21 @@ namespace HiroChallenges
             submitScoreModal.style.display = DisplayStyle.None;
             _ = UpdateChallenges();
         }
+        #endregion
 
         #region UI Binding
-
         private void InitializeUI()
         {
             var rootElement = GetComponent<UIDocument>().rootVisualElement;
 
             walletDisplay = new WalletDisplay(rootElement.Q<VisualElement>("wallet-display"));
 
-            allTab = rootElement.Q<Button>("all-tab");
-            allTab.RegisterCallback<ClickEvent>(evt =>
-            {
-                if (selectedTabIndex == 0) return;
-                selectedTabIndex = 0;
-                allTab.AddToClassList("selected");
-                myChallengesTab.RemoveFromClassList("selected");
-                _ = UpdateChallenges();
-            });
-
             myChallengesTab = rootElement.Q<Button>("my-challenges-tab");
             myChallengesTab.RegisterCallback<ClickEvent>(evt =>
             {
-                if (selectedTabIndex == 1) return;
-                selectedTabIndex = 1;
+                if (selectedTabIndex == 0) return;
+                selectedTabIndex = 0;
                 myChallengesTab.AddToClassList("selected");
-                allTab.RemoveFromClassList("selected");
                 _ = UpdateChallenges();
             });
 
@@ -145,10 +139,9 @@ namespace HiroChallenges
                 modalInvitees.value = string.Empty;
                 modalChallengeDelay.value = 0;
                 modalChallengeDuration.value = 2000;
-                modalMaxScoreSubmissions.value = 10;
                 modalOpenToggle.value = true;
 
-                // Reset template dropdown to first item if available
+                // Reset template dropdown to the first item if available.
                 if (modalTemplateDropdown.choices.Count > 0)
                 {
                     modalTemplateDropdown.index = 0;
@@ -230,18 +223,12 @@ namespace HiroChallenges
             });
             modalNameField = rootElement.Q<TextField>("create-modal-name");
             modalMaxParticipantsField = rootElement.Q<IntegerField>("create-modal-max-participants");
-            modalMaxParticipantsField.RegisterCallback<FocusOutEvent>(evt =>
+            modalMaxParticipantsField.RegisterCallback<FocusOutEvent>(_ =>
             {
                 var template = challengeTemplates.ElementAt(modalTemplateDropdown.index);
                 modalMaxParticipantsField.value = (int)Mathf.Clamp(modalMaxParticipantsField.value, template.Value.Players.Min, template.Value.Players.Max);
             });
             modalInvitees = rootElement.Q<TextField>("create-modal-invitees");
-            modalMaxScoreSubmissions = rootElement.Q<IntegerField>("create-modal-max-submissions");
-            modalMaxScoreSubmissions.RegisterCallback<FocusOutEvent>(evt =>
-            {
-                var template = challengeTemplates.ElementAt(modalTemplateDropdown.index);
-                modalMaxScoreSubmissions.value = (int)Mathf.Clamp(modalMaxScoreSubmissions.value, 1, template.Value.MaxNumScore);
-            });
             modalOpenToggle = rootElement.Q<Toggle>("create-modal-open");
 
             // Challenge Delay Slider
@@ -302,7 +289,6 @@ namespace HiroChallenges
             modalChallengeDuration.highValue = (int)maxDuration;
             modalChallengeDuration.value = (int)Mathf.Clamp(modalChallengeDuration.value, minDuration, maxDuration);
             modalChallengeDurationLabel.text = $"{modalChallengeDuration.value}s";
-            modalMaxScoreSubmissions.value = (int)template.MaxNumScore;
             modalMaxParticipantsField.value = (int)Mathf.Clamp(modalMaxParticipantsField.value, template.Players.Min, template.Players.Max);
         }
 
@@ -312,19 +298,21 @@ namespace HiroChallenges
             {
                 challengeTemplates.Clear();
                 var loadedTemplates = (await challengesSystem.GetTemplatesAsync()).Templates;
+                var challengeTemplateNames = new List<string>();
                 foreach (var template in loadedTemplates)
                 {
                     challengeTemplates[template.Key] = template.Value;
+                    challengeTemplateNames.Add(
+                        template.Value.AdditionalProperties.TryGetValue("display_name", out var displayName)
+                            ? displayName
+                            : template.Key);
                 }
-                
+
                 // Populate dropdown with template names
-                modalTemplateDropdown.choices = challengeTemplates.Keys.ToList();
-                
-                Debug.LogFormat("Loaded {0} challenge templates", challengeTemplates.Count);
+                modalTemplateDropdown.choices = challengeTemplateNames;
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to load challenge templates: {e.Message}");
                 errorPopup.style.display = DisplayStyle.Flex;
                 errorMessage.text = $"Failed to load challenge templates: {e.Message}";
             }
@@ -407,42 +395,17 @@ namespace HiroChallenges
         {
             challenges.Clear();
 
-            switch (1)
+            try
             {
-                // TODO: Public Challenges search WIP
-                case 0:
-                    try
-                    {
-                        // List all Challenges.
-                        var challengesResult =
-                            await challengesSystem.SearchChallengesAsync(string.Empty, string.Empty,
-                                challengeEntriesLimit);
-                        challenges.AddRange(challengesResult.Challenges);
-                    }
-                    catch (Exception e)
-                    {
-                        errorPopup.style.display = DisplayStyle.Flex;
-                        errorMessage.text = e.Message;
-                        return;
-                    }
-                    break;
-                case 1:
-                    try
-                    {
-                        // List Challenges that the user has joined (we'll need to filter from all challenges)
-                        var userChallengesResult = await challengesSystem.ListChallengesAsync(null);
-                        challenges.AddRange(userChallengesResult.Challenges);
-                    }
-                    catch (Exception e)
-                    {
-                        errorPopup.style.display = DisplayStyle.Flex;
-                        errorMessage.text = e.Message;
-                        return;
-                    }
-                    break;
-                default:
-                    Debug.LogError("Unhandled Tab Index");
-                    return;
+                // List Challenges that the user has joined (we'll need to filter from all challenges)
+                var userChallengesResult = await challengesSystem.ListChallengesAsync(null);
+                challenges.AddRange(userChallengesResult.Challenges);
+            }
+            catch (Exception e)
+            {
+                errorPopup.style.display = DisplayStyle.Flex;
+                errorMessage.text = e.Message;
+                return;
             }
 
             challengesList.RefreshItems();
@@ -475,7 +438,6 @@ namespace HiroChallenges
                 var selectedTemplate = challengeTemplates.ElementAt(modalTemplateDropdown.index);
                 
                 var metadata = new Dictionary<string, string>();
-                Debug.LogFormat("UserID: '{0}'", nakamaSystem.UserId);
                 
                 if (string.IsNullOrEmpty(modalInvitees.value))
                 {
@@ -501,11 +463,6 @@ namespace HiroChallenges
                 );
                 
                 var inviteeIDs = invitees.Users.Select(user => user.Id).ToArray();
-                
-                Debug.LogFormat("Found {0} invitees: {1}", 
-                    inviteeIDs.Length, 
-                    string.Join(", ", inviteeIDs)
-                );
 
                 // Validate that we found all requested users
                 if (inviteeIDs.Length != inviteeUsernames.Count)
@@ -522,7 +479,7 @@ namespace HiroChallenges
                     description ?? "Missing description.",
                     inviteeIDs,
                     modalOpenToggle.value,
-                    modalMaxScoreSubmissions.value,
+                    selectedTemplate.Value.MaxNumScore,
                     modalChallengeDelay.value,
                     modalChallengeDuration.value,
                     modalMaxParticipantsField.value,

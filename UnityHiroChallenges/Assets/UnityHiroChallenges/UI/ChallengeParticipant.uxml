@@ -13,8 +13,8 @@
                 <ui:Label text="21321321321" name="score" class="heroic-list-view__item-label" style="-unity-text-align: lower-center; font-size: 36px; -unity-font-style: bold; color: rgb(76, 175, 80); white-space: nowrap; text-overflow: clip;" />
             </ui:VisualElement>
             <ui:VisualElement style="flex-direction: column; align-items: center; margin-bottom: 2px; width: 50%;">
-                <ui:Label text="Subscore" class="heroic-list-view__item-label" style="font-size: 20px; color: rgb(150, 150, 150);" />
-                <ui:Label text="0" name="subscore" class="heroic-list-view__item-label" style="-unity-text-align: lower-center; font-size: 36px; color: rgb(150, 150, 150); margin-left: 8px; text-overflow: ellipsis; white-space: nowrap;" />
+                <ui:Label text="Sub Score" class="heroic-list-view__item-label" style="font-size: 20px; color: rgb(150, 150, 150);" />
+                <ui:Label text="0" name="sub-score" class="heroic-list-view__item-label" style="-unity-text-align: lower-center; font-size: 36px; color: rgb(150, 150, 150); margin-left: 8px; text-overflow: ellipsis; white-space: nowrap;" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

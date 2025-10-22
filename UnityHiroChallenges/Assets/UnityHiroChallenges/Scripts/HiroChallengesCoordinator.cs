@@ -35,6 +35,8 @@ namespace HiroChallenges
             var nakamaSystem = new NakamaSystem(logger, client, NakamaAuthorizerFunc());
 
             var storage = MemoryStorage.Default;
+
+            // Register necessary Hiro Systems
             var systems = new Systems(nameof(HiroChallengesCoordinator), monitor, storage, logger);
             systems.Add(nakamaSystem);
             var challengesSystem = new ChallengesSystem(logger, nakamaSystem);
@@ -53,6 +55,7 @@ namespace HiroChallenges
 
             return async client =>
             {
+                // Attempt to load a previous session if it is still valid.
                 var authToken = PlayerPrefs.GetString($"{playerPrefsAuthToken}_{index}");
                 var refreshToken = PlayerPrefs.GetString($"{playerPrefsRefreshToken}_{index}");
                 var session = Session.Restore(authToken, refreshToken);
@@ -65,12 +68,14 @@ namespace HiroChallenges
                     return session;
                 }
 
+                // Attempt to read the device ID to use for Authentication.
                 var deviceId = PlayerPrefs.GetString(playerPrefsDeviceId, SystemInfo.deviceUniqueIdentifier);
                 if (deviceId == SystemInfo.unsupportedIdentifier)
                 {
                     deviceId = Guid.NewGuid().ToString();
                 }
 
+                // Due to the Account Switcher tool, we might need to logout before re-authenticating.
                 if (session is { Created: true })
                 {
                     await client.SessionLogoutAsync(session);
@@ -78,6 +83,7 @@ namespace HiroChallenges
 
                 session = await client.AuthenticateDeviceAsync($"{deviceId}_{index}");
 
+                // Store tokens to avoid needing to re-authenticate next time.
                 PlayerPrefs.SetString(playerPrefsDeviceId, deviceId);
                 PlayerPrefs.SetString($"{playerPrefsAuthToken}_{index}", session.AuthToken);
                 PlayerPrefs.SetString($"{playerPrefsRefreshToken}_{index}", session.RefreshToken);

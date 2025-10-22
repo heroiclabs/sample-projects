@@ -27,7 +27,7 @@ namespace HiroChallenges
             nameLabel.text = challenge.Name;
             categoryLabel.text = challenge.Category;
             
-            // Convert status enum to readable string
+            // Convert status enum to readable string.
             statusLabel.text = challenge.IsActive ? "Active" : "Ended";
             statusLabel.style.color = challenge.IsActive ? new StyleColor(Color.green) : new StyleColor(Color.red);
             
