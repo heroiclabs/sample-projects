@@ -146,7 +146,7 @@ namespace HiroChallenges
                 modalInvitees.value = string.Empty;
                 modalChallengeDelay.value = 0;
                 modalChallengeDuration.value = 2000;
-                modalOpenToggle.value = true;
+                modalOpenToggle.value = false;
 
                 // Reset template dropdown to the first item if available.
                 if (modalTemplateDropdown.choices.Count > 0)
