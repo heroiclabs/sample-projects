@@ -32,6 +32,7 @@ namespace HiroChallenges
         private Button leaveButton;
         private Button claimRewardsButton;
         private Button submitScoreButton;
+        private Button inviteButton;
         private VisualElement selectedChallengePanel;
         private Label selectedChallengeNameLabel;
         private Label selectedChallengeDescriptionLabel;
@@ -61,6 +62,11 @@ namespace HiroChallenges
         private TextField scoreMetadataField;
         private Button submitScoreModalButton;
         private Button submitScoreModalCloseButton;
+
+        private VisualElement inviteModal;
+        private TextField inviteModalInvitees;
+        private Button inviteModalButton;
+        private Button inviteModalCloseButton;
 
         private VisualElement errorPopup;
         private Button errorCloseButton;
@@ -111,6 +117,7 @@ namespace HiroChallenges
         {
             createModal.style.display = DisplayStyle.None;
             submitScoreModal.style.display = DisplayStyle.None;
+            inviteModal.style.display = DisplayStyle.None;
             _ = UpdateChallenges();
         }
         #endregion
@@ -166,6 +173,13 @@ namespace HiroChallenges
                 subScoreField.value = 0;
                 scoreMetadataField.value = string.Empty;
                 submitScoreModal.style.display = DisplayStyle.Flex;
+            });
+
+            inviteButton = rootElement.Q<Button>("challenge-invite");
+            inviteButton.RegisterCallback<ClickEvent>(_ =>
+            {
+                inviteModalInvitees.value = string.Empty;
+                inviteModal.style.display = DisplayStyle.Flex;
             });
 
             selectedChallengePanel = rootElement.Q<VisualElement>("selected-challenge-panel");
@@ -263,6 +277,14 @@ namespace HiroChallenges
             submitScoreModalButton.RegisterCallback<ClickEvent>(evt => _ = ChallengeSubmitScore());
             submitScoreModalCloseButton = rootElement.Q<Button>("submit-score-modal-close");
             submitScoreModalCloseButton.RegisterCallback<ClickEvent>(_ => submitScoreModal.style.display = DisplayStyle.None);
+
+            // Invite Modal
+            inviteModal = rootElement.Q<VisualElement>("invite-modal");
+            inviteModalInvitees = rootElement.Q<TextField>("invite-modal-invitees");
+            inviteModalButton = rootElement.Q<Button>("invite-modal-invite");
+            inviteModalButton.RegisterCallback<ClickEvent>(evt => _ = ChallengeInvite());
+            inviteModalCloseButton = rootElement.Q<Button>("invite-modal-close");
+            inviteModalCloseButton.RegisterCallback<ClickEvent>(_ => inviteModal.style.display = DisplayStyle.None);
 
             errorPopup = rootElement.Q<VisualElement>("error-popup");
             errorMessage = rootElement.Q<Label>("error-message");
@@ -382,6 +404,9 @@ namespace HiroChallenges
             // Submit score button: show if user is participant and challenge is active
             submitScoreButton.style.display = foundParticipant != null && isActive && foundParticipant.NumScores < selectedChallenge.MaxNumScore ? DisplayStyle.Flex : DisplayStyle.None;
             submitScoreButton.text = $"Submit Score ({foundParticipant?.NumScores}/{selectedChallenge.MaxNumScore})";
+            
+            // Invite button: show if user is participant and challenge is active
+            inviteButton.style.display = foundParticipant != null && isActive ? DisplayStyle.Flex : DisplayStyle.None;
             
             // Claim rewards button: show if challenge is ended and user can claim
             claimRewardsButton.style.display = !isActive && foundParticipant != null && canClaim ? DisplayStyle.Flex : DisplayStyle.None;
@@ -576,6 +601,65 @@ namespace HiroChallenges
             }
 
             submitScoreModal.style.display = DisplayStyle.None;
+            _ = UpdateChallenges();
+        }
+
+        private async Task ChallengeInvite()
+        {
+            if (selectedChallenge == null) return;
+
+            try
+            {
+                if (string.IsNullOrEmpty(inviteModalInvitees.value))
+                {
+                    throw new Exception("Invitees field cannot be empty. Please enter at least one username.");
+                }
+                
+                // Split the input by comma and trim whitespace
+                var inviteeUsernames = inviteModalInvitees.value
+                    .Split(',')
+                    .Select(username => username.Trim())
+                    .Where(username => !string.IsNullOrEmpty(username))
+                    .ToList();
+                
+                if (inviteeUsernames.Count == 0)
+                {
+                    throw new Exception("No valid usernames found. Please enter at least one username.");
+                }
+                
+                var invitees = await nakamaSystem.Client.GetUsersAsync(
+                    session: nakamaSystem.Session, 
+                    usernames: inviteeUsernames, 
+                    ids: null
+                );
+                
+                var inviteeIDs = invitees.Users.Select(user => user.Id).ToArray();
+                
+                Debug.LogFormat("Inviting {0} players to challenge {1}: {2}", 
+                    inviteeIDs.Length,
+                    selectedChallenge.Id,
+                    string.Join(", ", inviteeIDs)
+                );
+
+                // Validate that we found all requested users
+                if (inviteeIDs.Length != inviteeUsernames.Count)
+                {
+                    throw new Exception($"Could not find all users. Requested: {inviteeUsernames.Count}, Found: {inviteeIDs.Length}");
+                }
+
+                await challengesSystem.InviteChallengeAsync(
+                    challengeId: selectedChallenge.Id,
+                    userIds: inviteeIDs
+                );
+            }
+            catch (Exception e)
+            {
+                errorPopup.style.display = DisplayStyle.Flex;
+                errorMessage.text = e.Message;
+                return;
+            }
+
+            inviteModal.style.display = DisplayStyle.None;
             _ = UpdateChallenges();
         }
 

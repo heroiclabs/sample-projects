@@ -37,6 +37,7 @@
                         <ui:Button text="Join" name="challenge-join" class="heroic-button" />
                         <ui:Button text="Leave" name="challenge-leave" class="heroic-button" />
                         <ui:Button text="Submit Score" name="challenge-submit-score" class="heroic-button" />
+                        <ui:Button text="Invite Players" name="challenge-invite" class="heroic-button" />
                         <ui:Button text="Claim Rewards" name="challenge-claim" class="heroic-button" />
                     </ui:VisualElement>
                 </ui:VisualElement>
@@ -107,6 +108,22 @@
                     <ui:Button text="Submit" name="submit-score-modal-submit" class="heroic-button" style="margin-top: 20px;" />
                 </ui:VisualElement>
                 <ui:Button name="submit-score-modal-close" class="heroic-close-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement template="ErrorPopup" name="invite-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
+        <Style src="project://database/Assets/UnityHiroChallenges/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
+        <ui:VisualElement name="invite-modal-background" class="heroic-error-popup__background">
+            <ui:VisualElement name="invite-modal-panel" class="heroic-main__panel" style="height: auto; width: 700px;">
+                <ui:VisualElement name="invite-modal-top" style="height: 15%; background-color: rgb(132, 154, 255); border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                    <ui:Label text="INVITE PLAYERS" class="heroic-title" style="color: rgb(255, 255, 255); -unity-text-align: middle-center; flex-grow: 1;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="invite-modal-bottom" style="height: 85%; align-self: center; align-items: center; width: 100%; padding-left: 30px; padding-right: 30px; padding-top: 30px; padding-bottom: 30px; margin-bottom: 30px;">
+                    <ui:TextField label="Invitees" placeholder-text="Player1, Player2, Player3..." name="invite-modal-invitees" style="width: 100%; margin-bottom: 15px;" />
+                    <ui:Label text="Enter usernames separated by commas" style="font-size: 18px; color: rgb(150, 150, 150); margin-bottom: 20px;" />
+                    <ui:Button text="Send Invites" name="invite-modal-invite" class="heroic-button" style="margin-top: 20px;" />
+                </ui:VisualElement>
+                <ui:Button name="invite-modal-close" class="heroic-close-button" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
