@@ -3,7 +3,7 @@
     <ui:Template name="ErrorPopup" src="project://database/Assets/UnityHiroChallenges/HeroicUI/CustomComponents/ErrorPopup.uxml?fileID=9197481963319205126&amp;guid=0104c211a1dfc4d17b2607e880de676f&amp;type=3#ErrorPopup" />
     <Style src="project://database/Assets/UnityHiroChallenges/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
     <ui:VisualElement name="challenges-top" class="heroic-top__background">
-        <ui:Label text="CHALLENGES" enable-rich-text="true" class="heroic-title" style="-unity-font-definition: url(&quot;project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&amp;guid=fbe3b99011ddc4d419b127c34c0e03ab&amp;type=3#PlusJakartaSans-VariableFont_wght&quot;); -unity-font-style: bold;" />
+        <ui:Label text="CHALLENGES" enable-rich-text="true" class="heroic-title" />
         <ui:Instance template="WalletDisplay" name="wallet-display" style="position: absolute; right: 0; height: 100%; top: 0;" />
     </ui:VisualElement>
     <ui:VisualElement name="challenges-main" class="heroic-main__background">
@@ -17,7 +17,7 @@
                         <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
                     </ui:Button>
                 </ui:VisualElement>
-                <ui:Button text="Start Challenge" name="challenge-create" class="heroic-button" style="align-self: center; width: 339px; height: 80px;" />
+                <ui:Button name="challenge-create" text="Start Challenge" class="heroic-button" style="align-self: center; width: 339px; height: 80px;" />
             </ui:VisualElement>
             <ui:ListView fixed-item-height="150" name="challenges-list" style="flex-grow: 1;" />
         </ui:VisualElement>
@@ -83,7 +83,7 @@
                             </ui:VisualElement>
                         </ui:VisualElement>
                         <ui:VisualElement style="margin-bottom: 20px; margin-top: 10px;">
-                            <ui:Toggle label="Open to All" name="create-modal-open" toggle-on-label-click="false" value="false" style="flex-direction: row; align-items: center;" />
+                            <ui:Toggle label="Public" name="create-modal-open" toggle-on-label-click="false" value="false" style="flex-direction: row; align-items: center;" />
                         </ui:VisualElement>
                         <ui:VisualElement style="margin-top: auto;">
                             <ui:Button text="Start Challenge" name="create-modal-create" class="heroic-button" style="width: 100%;" />

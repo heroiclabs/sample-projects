@@ -145,6 +145,7 @@ namespace HiroChallenges
             createButton = rootElement.Q<Button>("challenge-create");
             createButton.RegisterCallback<ClickEvent>(_ =>
             {
+                // Reset Challenge create inputs.
                 modalNameField.value = string.Empty;
                 modalMaxParticipantsField.value = 100;
                 modalInvitees.value = string.Empty;
@@ -173,6 +174,7 @@ namespace HiroChallenges
             submitScoreButton = rootElement.Q<Button>("challenge-submit-score");
             submitScoreButton.RegisterCallback<ClickEvent>(_ =>
             {
+                // Reset score inputs.
                 scoreField.value = 0;
                 subScoreField.value = 0;
                 scoreMetadataField.value = string.Empty;
@@ -192,6 +194,7 @@ namespace HiroChallenges
             selectedChallengeStatusLabel = rootElement.Q<Label>("selected-challenge-status");
             selectedChallengeEndTimeLabel = rootElement.Q<Label>("selected-challenge-end-time");
 
+            // Challenge participants list.
             challengeParticipantsList = rootElement.Q<ListView>("challenge-participants-list");
             challengeParticipantsList.makeItem = () =>
             {
@@ -211,6 +214,7 @@ namespace HiroChallenges
             challengeParticipantsScrollView = challengeParticipantsList.Q<ScrollView>();
             challengeParticipantsScrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
 
+            // Challenges list.
             challengesList = rootElement.Q<ListView>("challenges-list");
             challengesList.makeItem = () =>
             {
@@ -236,7 +240,7 @@ namespace HiroChallenges
             challengesScrollView = challengesList.Q<ScrollView>();
             challengesScrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
 
-            // Create Modal
+            // Create modal.
             createModal = rootElement.Q<VisualElement>("create-modal");
             modalTemplateDropdown = rootElement.Q<DropdownField>("create-modal-template");
             modalTemplateDropdown.RegisterValueChangedCallback(_ => { UpdateCreateModalLimits(); });
@@ -251,7 +255,7 @@ namespace HiroChallenges
             modalInvitees = rootElement.Q<TextField>("create-modal-invitees");
             modalOpenToggle = rootElement.Q<Toggle>("create-modal-open");
 
-            // Challenge Delay Slider
+            // Challenge delay slider.
             modalChallengeDelay = rootElement.Q<SliderInt>("create-modal-delay");
             modalChallengeDelayLabel = rootElement.Q<Label>("create-modal-delay-value");
             modalChallengeDelay.RegisterValueChangedCallback(evt =>
@@ -260,7 +264,7 @@ namespace HiroChallenges
             });
             modalChallengeDelayLabel.text = $"{modalChallengeDelay.value}s";
 
-            // Challenge Duration Slider
+            // Challenge duration slider.
             modalChallengeDuration = rootElement.Q<SliderInt>("create-modal-duration");
             modalChallengeDurationLabel = rootElement.Q<Label>("create-modal-duration-value");
             modalChallengeDuration.RegisterValueChangedCallback(evt =>
@@ -274,7 +278,7 @@ namespace HiroChallenges
             modalCloseButton = rootElement.Q<Button>("create-modal-close");
             modalCloseButton.RegisterCallback<ClickEvent>(_ => createModal.style.display = DisplayStyle.None);
 
-            // Submit Score Modal
+            // Submit Score modal.
             submitScoreModal = rootElement.Q<VisualElement>("submit-score-modal");
             scoreField = rootElement.Q<IntegerField>("submit-score-score");
             subScoreField = rootElement.Q<IntegerField>("submit-score-subscore");
@@ -285,7 +289,7 @@ namespace HiroChallenges
             submitScoreModalCloseButton.RegisterCallback<ClickEvent>(_ =>
                 submitScoreModal.style.display = DisplayStyle.None);
 
-            // Invite Modal
+            // Invite modal.
             inviteModal = rootElement.Q<VisualElement>("invite-modal");
             inviteModalInvitees = rootElement.Q<TextField>("invite-modal-invitees");
             inviteModalButton = rootElement.Q<Button>("invite-modal-invite");
@@ -293,6 +297,7 @@ namespace HiroChallenges
             inviteModalCloseButton = rootElement.Q<Button>("invite-modal-close");
             inviteModalCloseButton.RegisterCallback<ClickEvent>(_ => inviteModal.style.display = DisplayStyle.None);
 
+            // Error popup.
             errorPopup = rootElement.Q<VisualElement>("error-popup");
             errorMessage = rootElement.Q<Label>("error-message");
             errorCloseButton = rootElement.Q<Button>("error-close");
@@ -364,12 +369,21 @@ namespace HiroChallenges
             selectedChallengeDescriptionLabel.text = string.IsNullOrEmpty(selectedChallenge.Description)
                 ? "No description set."
                 : selectedChallenge.Description;
-            selectedChallengeStatusLabel.text = selectedChallenge.IsActive ? "Active" : "Ended";
-            selectedChallengeStatusLabel.style.color =
-                challenge.IsActive ? new StyleColor(Color.green) : new StyleColor(Color.red);
-
-            var endTime = DateTimeOffset.FromUnixTimeSeconds(selectedChallenge.EndTimeSec).LocalDateTime;
-            selectedChallengeEndTimeLabel.text = endTime.ToString("MMM dd, yyyy HH:mm");
+            var now = DateTimeOffset.Now;
+            var startTime = DateTimeOffset.FromUnixTimeSeconds(challenge.StartTimeSec);
+            var endTime = DateTimeOffset.FromUnixTimeSeconds(selectedChallenge.EndTimeSec);
+            var difference = startTime - now;
+            if (difference.Seconds > 0)
+            {
+                selectedChallengeStatusLabel.text = $"Starting in {difference.Days}d, {difference.Hours}h, {difference.Minutes}m";
+                selectedChallengeStatusLabel.style.color = new StyleColor(Color.orange);
+            }
+            else
+            {
+                selectedChallengeStatusLabel.text = challenge.IsActive ? "Active" : "Ended";
+                selectedChallengeStatusLabel.style.color = challenge.IsActive ? new StyleColor(Color.green) : new StyleColor(Color.red);
+            }
+            selectedChallengeEndTimeLabel.text = endTime.LocalDateTime.ToString("MMM dd, yyyy HH:mm");
 
             // Get detailed challenge info with scores
             try
@@ -423,7 +437,8 @@ namespace HiroChallenges
 
             // Invite button: show if user is participant and challenge is active
             inviteButton.style.display =
-                isActive && foundParticipant != null && foundParticipant.Id == selectedChallenge.OwnerId
+                isActive && foundParticipant != null && foundParticipant.Id == selectedChallenge.OwnerId &&
+                selectedChallenge.Size < selectedChallenge.MaxSize
                     ? DisplayStyle.Flex
                     : DisplayStyle.None;
 
@@ -443,7 +458,7 @@ namespace HiroChallenges
 
             try
             {
-                // List Challenges that the user has joined (we'll need to filter from all challenges)
+                // List all Challenges that the user has either joined, or is invited to.
                 var userChallengesResult = await challengesSystem.ListChallengesAsync(null);
                 challenges.AddRange(userChallengesResult.Challenges);
             }
@@ -520,7 +535,7 @@ namespace HiroChallenges
                 selectedTemplate.Value.AdditionalProperties.TryGetValue("description", out var description);
                 selectedTemplate.Value.AdditionalProperties.TryGetValue("category", out var category);
 
-                await challengesSystem.CreateChallengeAsync(
+                var newChallenge = await challengesSystem.CreateChallengeAsync(
                     selectedTemplate.Key,
                     modalNameField.value,
                     description ?? "Missing description.",
@@ -533,6 +548,9 @@ namespace HiroChallenges
                     category ?? "Missing category",
                     metadata
                 );
+
+                selectedChallengeId = newChallenge.Id;
+                selectedChallenge = newChallenge;
             }
             catch (Exception e)
             {

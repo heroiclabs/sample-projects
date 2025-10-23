@@ -3,7 +3,7 @@
     background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Button/button_rounded_h84_white.png?fileID=-5596177910589249262&guid=31bbd3f34dbe14a9b83b0893fe342659&type=3#button_rounded_h84_white_0");
     font-size: 30px;
     color: rgb(255, 255, 255);
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&guid=fbe3b99011ddc4d419b127c34c0e03ab&type=3#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     padding-left: 64px;
     padding-right: 64px;
@@ -32,7 +32,7 @@
     background-color: rgba(0, 0, 0, 0);
     font-size: 32px;
     color: rgb(255, 255, 255);
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&guid=fbe3b99011ddc4d419b127c34c0e03ab&type=3#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     padding-left: 64px;
     padding-right: 64px;
@@ -62,7 +62,7 @@
     background-color: rgba(0, 0, 0, 0);
     font-size: 32px;
     color: rgb(100, 100, 100);
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&guid=fbe3b99011ddc4d419b127c34c0e03ab&type=3#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     padding-left: 64px;
     padding-right: 64px;
@@ -92,7 +92,7 @@
     background-color: rgba(0, 0, 0, 0);
     font-size: 32px;
     color: rgb(255, 255, 255);
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&guid=fbe3b99011ddc4d419b127c34c0e03ab&type=3#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     padding-left: 64px;
     padding-right: 64px;
@@ -122,7 +122,7 @@
     background-color: rgba(0, 0, 0, 0);
     color: rgb(255, 255, 255);
     font-size: 30px;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&guid=fbe3b99011ddc4d419b127c34c0e03ab&type=3#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     height: 70px;
     padding-right: 30px;
@@ -174,7 +174,7 @@
 .heroic-table-head {
     font-size: 26px;
     -unity-text-align: middle-center;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&guid=fbe3b99011ddc4d419b127c34c0e03ab&type=3#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     color: rgb(129, 129, 129);
     margin: 0;
@@ -183,7 +183,7 @@
 
 .heroic-vertical-tab-button {
     font-size: 32px;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&guid=fbe3b99011ddc4d419b127c34c0e03ab&type=3#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     background-color: rgba(0, 0, 0, 0);
     color: rgb(31, 49, 81);
@@ -211,7 +211,7 @@
 
 .heroic-vertical-tab-button:hover:enabled {
     font-size: 32px;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&guid=fbe3b99011ddc4d419b127c34c0e03ab&type=3#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     overflow: visible;
     scale: 1.05 1.05;
@@ -224,7 +224,7 @@
 
 .heroic-vertical-tab-button.selected {
     font-size: 32px;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&guid=fbe3b99011ddc4d419b127c34c0e03ab&type=3#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Tab/tab_01_violet_focus_bg.png?fileID=-138532423673759688&guid=7220fe2d7b94943c1b0b447d81765648&type=3#tab_01_violet_focus_bg_0");
     background-color: rgb(255, 255, 255);
@@ -252,7 +252,7 @@
 
 .heroic-horizontal-tab-button {
     font-size: 32px;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&guid=fbe3b99011ddc4d419b127c34c0e03ab&type=3#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     background-color: rgba(0, 0, 0, 0);
     color: rgb(31, 49, 81);
@@ -280,7 +280,7 @@
 
 .heroic-horizontal-tab-button:hover:enabled {
     font-size: 32px;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&guid=fbe3b99011ddc4d419b127c34c0e03ab&type=3#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     overflow: visible;
     scale: 1.05 1.05;
@@ -293,7 +293,7 @@
 
 .heroic-horizontal-tab-button.selected {
     font-size: 32px;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&guid=fbe3b99011ddc4d419b127c34c0e03ab&type=3#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Tab/tab_01_violet_focus_bg.png?fileID=-138532423673759688&guid=7220fe2d7b94943c1b0b447d81765648&type=3#tab_01_violet_focus_bg_0");
     background-color: rgb(255, 255, 255);
@@ -346,7 +346,7 @@
 }
 
 .heroic-title {
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&guid=fbe3b99011ddc4d419b127c34c0e03ab&type=3#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     font-size: 46px;
     -unity-font-style: bold;
     -unity-text-align: upper-center;
@@ -409,7 +409,7 @@
     flex-grow: 1;
     -unity-text-align: middle-center;
     font-size: 32px;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&guid=fbe3b99011ddc4d419b127c34c0e03ab&type=3#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     position: absolute;
     left: 0;
@@ -439,14 +439,14 @@
 .heroic-list__title {
     -unity-font-style: bold;
     font-size: 26px;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&guid=fbe3b99011ddc4d419b127c34c0e03ab&type=3#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     color: rgb(31, 49, 81);
 }
 
 .heroic-list-view__item-label {
     -unity-text-align: middle-center;
     font-size: 32px;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&guid=fbe3b99011ddc4d419b127c34c0e03ab&type=3#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     margin: 0;
     padding: 0;
@@ -484,7 +484,7 @@
 }
 
 .unity-base-field__label {
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&guid=fbe3b99011ddc4d419b127c34c0e03ab&type=3#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     min-width: 0;
     font-size: 26px;
@@ -493,14 +493,14 @@
 
 .unity-base-text-field {
     font-size: 30px;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&guid=fbe3b99011ddc4d419b127c34c0e03ab&type=3#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
 }
 
 .unity-enum-field {
     font-size: 30px;
     -unity-font-style: bold;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&guid=fbe3b99011ddc4d419b127c34c0e03ab&type=3#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
 }
 
 .unity-enum-field__arrow {
@@ -518,7 +518,7 @@
 .unity-popup-field {
     font-size: 30px;
     -unity-font-style: bold;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&guid=fbe3b99011ddc4d419b127c34c0e03ab&type=3#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
 }
 
 .unity-base-popup-field__arrow {

@@ -27,9 +27,20 @@ namespace HiroChallenges
             nameLabel.text = challenge.Name;
             categoryLabel.text = challenge.Category;
 
-            // Convert status enum to readable string.
-            statusLabel.text = challenge.IsActive ? "Active" : "Ended";
-            statusLabel.style.color = challenge.IsActive ? new StyleColor(Color.green) : new StyleColor(Color.red);
+            // Convert status to readable string.
+            var now = DateTimeOffset.Now;
+            var startTime = DateTimeOffset.FromUnixTimeSeconds(challenge.StartTimeSec);
+            var difference = startTime - now;
+            if (difference.Seconds > 0)
+            {
+                statusLabel.text = $"Starting in {difference.Days}d, {difference.Hours}h, {difference.Minutes}m";
+                statusLabel.style.color = new StyleColor(Color.orange);
+            }
+            else
+            {
+                statusLabel.text = challenge.IsActive ? "Active" : "Ended";
+                statusLabel.style.color = challenge.IsActive ? new StyleColor(Color.green) : new StyleColor(Color.red);
+            }
 
             participantsLabel.text = $"{challenge.Size}/{challenge.MaxSize}";
 

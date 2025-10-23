@@ -25,6 +25,7 @@ namespace HiroChallenges
                 $"<color=blue>({participantScore.NumScores}/{challenge.MaxNumScore})</color> {participantScore.Username} ";
             scoreLabel.text = participantScore.Score.ToString();
             subScoreLabel.text = participantScore.Subscore.ToString();
+
             // A rank of 0 would mean that you are yet to submit your first score.
             rankLabel.text = participantScore.Rank > 0 ? $"#{participantScore.Rank}" : "-";
         }
