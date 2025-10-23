@@ -30,13 +30,13 @@ namespace HiroChallenges.Editor
 
             window.Focus();
         }
-        
+
         [MenuItem("Tools/Nakama/Clear Test Accounts")]
         public static void ClearSavedAccounts()
         {
             EditorPrefs.DeleteKey(AccountUsernamesKey);
             Debug.Log("Cleared all saved account usernames");
-    
+
             // Refresh any open Account Switcher windows
             var windows = Resources.FindObjectsOfTypeAll<AccountSwitcherEditor>();
             foreach (var window in windows)
@@ -54,7 +54,7 @@ namespace HiroChallenges.Editor
             accountDropdown.RegisterValueChangedCallback(SwitchAccount);
 
             usernamesLabel = rootVisualElement.Q<Label>("usernames");
-            
+
             // Load saved usernames on startup
             LoadAccountUsernames();
             UpdateUsernameLabels();
@@ -97,7 +97,7 @@ namespace HiroChallenges.Editor
             {
                 var usernameData = JsonUtility.FromJson<SerializableStringDictionary>(savedUsernames);
                 accountUsernames.Clear();
-                
+
                 foreach (var item in usernameData.items)
                 {
                     accountUsernames[item.key] = item.value;
@@ -152,7 +152,8 @@ namespace HiroChallenges.Editor
 
                 try
                 {
-                    var newSession = await coordinator.NakamaAuthorizerFunc(accountDropdown.index).Invoke(nakamaSystem.Client);
+                    var newSession = await HiroChallengesCoordinator.NakamaAuthorizerFunc(accountDropdown.index)
+                        .Invoke(nakamaSystem.Client);
                     (nakamaSystem.Session as Session)?.Update(newSession.AuthToken, newSession.RefreshToken);
                     await nakamaSystem.RefreshAsync();
                     accountUsernames[newValue] = newSession.Username;
@@ -175,7 +176,7 @@ namespace HiroChallenges.Editor
         {
             var sb = new StringBuilder();
             var index = 1;
-    
+
             foreach (var kvp in accountUsernames)
             {
                 sb.Append(index);

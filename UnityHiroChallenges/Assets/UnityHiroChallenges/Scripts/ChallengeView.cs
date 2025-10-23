@@ -26,13 +26,13 @@ namespace HiroChallenges
         {
             nameLabel.text = challenge.Name;
             categoryLabel.text = challenge.Category;
-            
+
             // Convert status enum to readable string.
             statusLabel.text = challenge.IsActive ? "Active" : "Ended";
             statusLabel.style.color = challenge.IsActive ? new StyleColor(Color.green) : new StyleColor(Color.red);
-            
+
             participantsLabel.text = $"{challenge.Size}/{challenge.MaxSize}";
-            
+
             // Format end time to display for local time.
             var endTime = DateTimeOffset.FromUnixTimeSeconds(challenge.EndTimeSec).LocalDateTime;
             endTimeLabel.text = endTime.ToString("MMM dd, HH:mm");

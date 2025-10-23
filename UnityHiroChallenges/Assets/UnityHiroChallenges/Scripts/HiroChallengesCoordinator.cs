@@ -10,7 +10,7 @@ namespace HiroChallenges
 {
     public class HiroChallengesCoordinator : HiroCoordinator
     {
-        [Header("Overrides Nakama Settings")][SerializeField]
+        [Header("Overrides Nakama Settings")] [SerializeField]
         private bool localHost;
 
         [Header("Nakama Settings")] [SerializeField]
@@ -30,7 +30,9 @@ namespace HiroChallenges
             var logger = new Hiro.Unity.Logger();
             var monitor = NetworkMonitor.Default;
 
-            var client = localHost ? new Client("http", "127.0.0.1", 7350, "defaultkey") : new Client(scheme, host, port, serverKey);
+            var client = localHost
+                ? new Client("http", "127.0.0.1", 7350, "defaultkey")
+                : new Client(scheme, host, port, serverKey);
 
             var nakamaSystem = new NakamaSystem(logger, client, NakamaAuthorizerFunc());
 
@@ -47,7 +49,7 @@ namespace HiroChallenges
             return Task.FromResult(systems);
         }
 
-        public NakamaSystem.AuthorizerFunc NakamaAuthorizerFunc(int index = 0)
+        public static NakamaSystem.AuthorizerFunc NakamaAuthorizerFunc(int index = 0)
         {
             const string playerPrefsAuthToken = "nakama.AuthToken";
             const string playerPrefsRefreshToken = "nakama.RefreshToken";

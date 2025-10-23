@@ -83,6 +83,7 @@ namespace HiroChallenges
         private readonly List<IChallengeScore> selectedChallengeParticipants = new();
 
         #region Initialization
+
         private void Start()
         {
             InitializeUI();
@@ -119,10 +120,13 @@ namespace HiroChallenges
             submitScoreModal.style.display = DisplayStyle.None;
             inviteModal.style.display = DisplayStyle.None;
             _ = UpdateChallenges();
+            economySystem.RefreshAsync();
         }
+
         #endregion
 
         #region UI Binding
+
         private void InitializeUI()
         {
             var rootElement = GetComponent<UIDocument>().rootVisualElement;
@@ -199,7 +203,8 @@ namespace HiroChallenges
             };
             challengeParticipantsList.bindItem = (item, index) =>
             {
-                (item.userData as ChallengeParticipantView)?.SetChallengeParticipant(selectedChallenge, selectedChallengeParticipants[index]);
+                (item.userData as ChallengeParticipantView)?.SetChallengeParticipant(selectedChallenge,
+                    selectedChallengeParticipants[index]);
             };
             challengeParticipantsList.itemsSource = selectedChallengeParticipants;
 
@@ -215,7 +220,10 @@ namespace HiroChallenges
                 newListEntryLogic.SetVisualElement(newListEntry);
                 return newListEntry;
             };
-            challengesList.bindItem = (item, index) => { (item.userData as ChallengeView)?.SetChallenge(challenges[index]); };
+            challengesList.bindItem = (item, index) =>
+            {
+                (item.userData as ChallengeView)?.SetChallenge(challenges[index]);
+            };
             challengesList.itemsSource = challenges;
             challengesList.selectionChanged += objects =>
             {
@@ -231,16 +239,14 @@ namespace HiroChallenges
             // Create Modal
             createModal = rootElement.Q<VisualElement>("create-modal");
             modalTemplateDropdown = rootElement.Q<DropdownField>("create-modal-template");
-            modalTemplateDropdown.RegisterValueChangedCallback(_ =>
-            {
-                UpdateCreateModalLimits();
-            });
+            modalTemplateDropdown.RegisterValueChangedCallback(_ => { UpdateCreateModalLimits(); });
             modalNameField = rootElement.Q<TextField>("create-modal-name");
             modalMaxParticipantsField = rootElement.Q<IntegerField>("create-modal-max-participants");
             modalMaxParticipantsField.RegisterCallback<FocusOutEvent>(_ =>
             {
                 var template = challengeTemplates.ElementAt(modalTemplateDropdown.index);
-                modalMaxParticipantsField.value = (int)Mathf.Clamp(modalMaxParticipantsField.value, template.Value.Players.Min, template.Value.Players.Max);
+                modalMaxParticipantsField.value = (int)Mathf.Clamp(modalMaxParticipantsField.value,
+                    template.Value.Players.Min, template.Value.Players.Max);
             });
             modalInvitees = rootElement.Q<TextField>("create-modal-invitees");
             modalOpenToggle = rootElement.Q<Toggle>("create-modal-open");
@@ -276,7 +282,8 @@ namespace HiroChallenges
             submitScoreModalButton = rootElement.Q<Button>("submit-score-modal-submit");
             submitScoreModalButton.RegisterCallback<ClickEvent>(evt => _ = ChallengeSubmitScore());
             submitScoreModalCloseButton = rootElement.Q<Button>("submit-score-modal-close");
-            submitScoreModalCloseButton.RegisterCallback<ClickEvent>(_ => submitScoreModal.style.display = DisplayStyle.None);
+            submitScoreModalCloseButton.RegisterCallback<ClickEvent>(_ =>
+                submitScoreModal.style.display = DisplayStyle.None);
 
             // Invite Modal
             inviteModal = rootElement.Q<VisualElement>("invite-modal");
@@ -311,7 +318,8 @@ namespace HiroChallenges
             modalChallengeDuration.highValue = (int)maxDuration;
             modalChallengeDuration.value = (int)Mathf.Clamp(modalChallengeDuration.value, minDuration, maxDuration);
             modalChallengeDurationLabel.text = $"{modalChallengeDuration.value}s";
-            modalMaxParticipantsField.value = (int)Mathf.Clamp(modalMaxParticipantsField.value, template.Players.Min, template.Players.Max);
+            modalMaxParticipantsField.value = (int)Mathf.Clamp(modalMaxParticipantsField.value, template.Players.Min,
+                template.Players.Max);
         }
 
         private async Task LoadChallengeTemplates()
@@ -353,10 +361,13 @@ namespace HiroChallenges
             selectedChallengeId = selectedChallenge.Id;
 
             selectedChallengeNameLabel.text = selectedChallenge.Name;
-            selectedChallengeDescriptionLabel.text = string.IsNullOrEmpty(selectedChallenge.Description) ? "No description set." : selectedChallenge.Description;
+            selectedChallengeDescriptionLabel.text = string.IsNullOrEmpty(selectedChallenge.Description)
+                ? "No description set."
+                : selectedChallenge.Description;
             selectedChallengeStatusLabel.text = selectedChallenge.IsActive ? "Active" : "Ended";
-            selectedChallengeStatusLabel.style.color = challenge.IsActive ? new StyleColor(Color.green) : new StyleColor(Color.red);
-            
+            selectedChallengeStatusLabel.style.color =
+                challenge.IsActive ? new StyleColor(Color.green) : new StyleColor(Color.red);
+
             var endTime = DateTimeOffset.FromUnixTimeSeconds(selectedChallenge.EndTimeSec).LocalDateTime;
             selectedChallengeEndTimeLabel.text = endTime.ToString("MMM dd, yyyy HH:mm");
 
@@ -399,17 +410,27 @@ namespace HiroChallenges
             joinButton.style.display = isActive && foundParticipant == null ? DisplayStyle.Flex : DisplayStyle.None;
 
             // Leave button: show if user is participant and challenge is not ended
-            leaveButton.style.display = foundParticipant != null && !isActive && !canClaim ? DisplayStyle.Flex : DisplayStyle.None;
+            leaveButton.style.display = !isActive && foundParticipant != null && !canClaim
+                ? DisplayStyle.Flex
+                : DisplayStyle.None;
 
             // Submit score button: show if user is participant and challenge is active
-            submitScoreButton.style.display = foundParticipant != null && isActive && foundParticipant.NumScores < selectedChallenge.MaxNumScore ? DisplayStyle.Flex : DisplayStyle.None;
+            submitScoreButton.style.display =
+                isActive && foundParticipant != null && foundParticipant.NumScores < selectedChallenge.MaxNumScore
+                    ? DisplayStyle.Flex
+                    : DisplayStyle.None;
             submitScoreButton.text = $"Submit Score ({foundParticipant?.NumScores}/{selectedChallenge.MaxNumScore})";
-            
+
             // Invite button: show if user is participant and challenge is active
-            inviteButton.style.display = foundParticipant != null && isActive ? DisplayStyle.Flex : DisplayStyle.None;
-            
+            inviteButton.style.display =
+                isActive && foundParticipant != null && foundParticipant.Id == selectedChallenge.OwnerId
+                    ? DisplayStyle.Flex
+                    : DisplayStyle.None;
+
             // Claim rewards button: show if challenge is ended and user can claim
-            claimRewardsButton.style.display = !isActive && foundParticipant != null && canClaim ? DisplayStyle.Flex : DisplayStyle.None;
+            claimRewardsButton.style.display = !isActive && foundParticipant != null && canClaim
+                ? DisplayStyle.Flex
+                : DisplayStyle.None;
         }
 
         #endregion
@@ -440,7 +461,7 @@ namespace HiroChallenges
             foreach (var challenge in challenges)
             {
                 if (challenge.Id != selectedChallengeId) continue;
-                
+
                 _ = OnChallengeSelected(challenge);
                 challengesList.SetSelection(challenges.IndexOf(challenge));
                 return;
@@ -461,43 +482,44 @@ namespace HiroChallenges
                 }
 
                 var selectedTemplate = challengeTemplates.ElementAt(modalTemplateDropdown.index);
-                
+
                 var metadata = new Dictionary<string, string>();
-                
+
                 if (string.IsNullOrEmpty(modalInvitees.value))
                 {
                     throw new Exception("Invitees field cannot be empty. Please enter at least one username.");
                 }
-                
+
                 // Split the input by comma and trim whitespace
                 var inviteeUsernames = modalInvitees.value
                     .Split(',')
                     .Select(username => username.Trim())
                     .Where(username => !string.IsNullOrEmpty(username))
                     .ToList();
-                
+
                 if (inviteeUsernames.Count == 0)
                 {
                     throw new Exception("No valid usernames found. Please enter at least one username.");
                 }
-                
+
                 var invitees = await nakamaSystem.Client.GetUsersAsync(
-                    session: nakamaSystem.Session, 
-                    usernames: inviteeUsernames, 
+                    session: nakamaSystem.Session,
+                    usernames: inviteeUsernames,
                     ids: null
                 );
-                
+
                 var inviteeIDs = invitees.Users.Select(user => user.Id).ToArray();
 
                 // Validate that we found all requested users
                 if (inviteeIDs.Length != inviteeUsernames.Count)
                 {
-                    throw new Exception($"Could not find all users. Requested: {inviteeUsernames.Count}, Found: {inviteeIDs.Length}");
+                    throw new Exception(
+                        $"Could not find all users. Requested: {inviteeUsernames.Count}, Found: {inviteeIDs.Length}");
                 }
 
                 selectedTemplate.Value.AdditionalProperties.TryGetValue("description", out var description);
                 selectedTemplate.Value.AdditionalProperties.TryGetValue("category", out var category);
-                
+
                 await challengesSystem.CreateChallengeAsync(
                     selectedTemplate.Key,
                     modalNameField.value,
@@ -614,28 +636,28 @@ namespace HiroChallenges
                 {
                     throw new Exception("Invitees field cannot be empty. Please enter at least one username.");
                 }
-                
+
                 // Split the input by comma and trim whitespace
                 var inviteeUsernames = inviteModalInvitees.value
                     .Split(',')
                     .Select(username => username.Trim())
                     .Where(username => !string.IsNullOrEmpty(username))
                     .ToList();
-                
+
                 if (inviteeUsernames.Count == 0)
                 {
                     throw new Exception("No valid usernames found. Please enter at least one username.");
                 }
-                
+
                 var invitees = await nakamaSystem.Client.GetUsersAsync(
-                    session: nakamaSystem.Session, 
-                    usernames: inviteeUsernames, 
+                    session: nakamaSystem.Session,
+                    usernames: inviteeUsernames,
                     ids: null
                 );
-                
+
                 var inviteeIDs = invitees.Users.Select(user => user.Id).ToArray();
-                
-                Debug.LogFormat("Inviting {0} players to challenge {1}: {2}", 
+
+                Debug.LogFormat("Inviting {0} players to challenge {1}: {2}",
                     inviteeIDs.Length,
                     selectedChallenge.Id,
                     string.Join(", ", inviteeIDs)
@@ -644,7 +666,8 @@ namespace HiroChallenges
                 // Validate that we found all requested users
                 if (inviteeIDs.Length != inviteeUsernames.Count)
                 {
-                    throw new Exception($"Could not find all users. Requested: {inviteeUsernames.Count}, Found: {inviteeIDs.Length}");
+                    throw new Exception(
+                        $"Could not find all users. Requested: {inviteeUsernames.Count}, Found: {inviteeIDs.Length}");
                 }
 
                 await challengesSystem.InviteChallengeAsync(
