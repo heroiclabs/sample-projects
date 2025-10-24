@@ -14,9 +14,6 @@ namespace HiroChallenges
     [RequireComponent(typeof(UIDocument))]
     public class HiroChallengesController : MonoBehaviour
     {
-        [Header("Challenge Settings")] [SerializeField]
-        private int challengeEntriesLimit = 100;
-
         [Header("References")] [SerializeField]
         private VisualTreeAsset challengeEntryTemplate;
         [SerializeField]
@@ -42,6 +39,7 @@ namespace HiroChallenges
         private ListView challengesList;
         private ScrollView challengesScrollView;
         private ScrollView challengeParticipantsScrollView;
+        private Button refreshButton;
 
         private VisualElement createModal;
         private DropdownField modalTemplateDropdown;
@@ -116,9 +114,12 @@ namespace HiroChallenges
 
         public void SwitchComplete()
         {
+            // Hide all modals when switching account.
             createModal.style.display = DisplayStyle.None;
             submitScoreModal.style.display = DisplayStyle.None;
             inviteModal.style.display = DisplayStyle.None;
+
+            // Refresh UI for the new user.
             _ = UpdateChallenges();
             economySystem.RefreshAsync();
         }
@@ -239,6 +240,9 @@ namespace HiroChallenges
 
             challengesScrollView = challengesList.Q<ScrollView>();
             challengesScrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
+
+            refreshButton = rootElement.Q<Button>("challenges-refresh");
+            refreshButton.RegisterCallback<ClickEvent>(evt => _ = UpdateChallenges());
 
             // Create modal.
             createModal = rootElement.Q<VisualElement>("create-modal");
@@ -472,7 +476,7 @@ namespace HiroChallenges
             challengesList.RefreshItems();
             challengesList.ClearSelection();
 
-            // If we have a Challenge selected, then update Challenges, try to select that Challenge, if it still exists.
+            // If we have a Challenge selected, update Challenges, then try to select that Challenge, if it still exists.
             foreach (var challenge in challenges)
             {
                 if (challenge.Id != selectedChallengeId) continue;
@@ -490,22 +494,20 @@ namespace HiroChallenges
         {
             try
             {
-                // Get the selected template ID
+                // Get the selected template ID.
                 if (modalTemplateDropdown.index < 0 || modalTemplateDropdown.index >= challengeTemplates.Count)
                 {
-                    throw new Exception("Please select a valid challenge template.");
+                    throw new Exception("Please select a valid Challenge template.");
                 }
 
                 var selectedTemplate = challengeTemplates.ElementAt(modalTemplateDropdown.index);
-
-                var metadata = new Dictionary<string, string>();
 
                 if (string.IsNullOrEmpty(modalInvitees.value))
                 {
                     throw new Exception("Invitees field cannot be empty. Please enter at least one username.");
                 }
 
-                // Split the input by comma and trim whitespace
+                // Split the input by comma and trim whitespace.
                 var inviteeUsernames = modalInvitees.value
                     .Split(',')
                     .Select(username => username.Trim())
@@ -532,6 +534,7 @@ namespace HiroChallenges
                         $"Could not find all users. Requested: {inviteeUsernames.Count}, Found: {inviteeIDs.Length}");
                 }
 
+                // Read from additional properties.
                 selectedTemplate.Value.AdditionalProperties.TryGetValue("description", out var description);
                 selectedTemplate.Value.AdditionalProperties.TryGetValue("category", out var category);
 
@@ -546,7 +549,7 @@ namespace HiroChallenges
                     modalChallengeDuration.value,
                     modalMaxParticipantsField.value,
                     category ?? "Missing category",
-                    metadata
+                    new Dictionary<string, string>()
                 );
 
                 selectedChallengeId = newChallenge.Id;
@@ -569,6 +572,7 @@ namespace HiroChallenges
 
             try
             {
+                // Attempt to join the selected Challenge.
                 await challengesSystem.JoinChallengeAsync(selectedChallenge.Id);
             }
             catch (Exception e)
@@ -578,6 +582,7 @@ namespace HiroChallenges
                 return;
             }
 
+            // After successfully joining the Challenge, update the Challenges list.
             _ = UpdateChallenges();
         }
 
@@ -587,6 +592,7 @@ namespace HiroChallenges
 
             try
             {
+                // Attempt to leave the selected Challenge.
                 await challengesSystem.LeaveChallengeAsync(selectedChallenge.Id);
                 challengesList.ClearSelection();
             }
@@ -597,6 +603,7 @@ namespace HiroChallenges
                 return;
             }
 
+            // After successfully leaving the Challenge, update the Challenges list.
             _ = UpdateChallenges();
         }
 
@@ -606,7 +613,9 @@ namespace HiroChallenges
 
             try
             {
+                // Attempt to claim rewards from the selected Challenge.
                 await challengesSystem.ClaimChallengeAsync(selectedChallenge.Id);
+                // Currency may have been rewarded, so notify UI.
                 await economySystem.RefreshAsync();
             }
             catch (Exception e)
@@ -616,6 +625,7 @@ namespace HiroChallenges
                 return;
             }
 
+            // After successfully claiming the Challenge rewards, update the Challenges list.
             _ = UpdateChallenges();
         }
 
@@ -625,6 +635,7 @@ namespace HiroChallenges
 
             try
             {
+                // Attempt to submit a score to the selected Challenge.
                 await challengesSystem.SubmitChallengeScoreAsync(
                     selectedChallenge.Id,
                     scoreField.value,
@@ -641,6 +652,8 @@ namespace HiroChallenges
             }
 
             submitScoreModal.style.display = DisplayStyle.None;
+
+            // After successfully submitting a score, update the Challenges list.
             _ = UpdateChallenges();
         }
 
@@ -667,6 +680,7 @@ namespace HiroChallenges
                     throw new Exception("No valid usernames found. Please enter at least one username.");
                 }
 
+                // Convert from usernames to user IDs.
                 var invitees = await nakamaSystem.Client.GetUsersAsync(
                     session: nakamaSystem.Session,
                     usernames: inviteeUsernames,
@@ -675,12 +689,6 @@ namespace HiroChallenges
 
                 var inviteeIDs = invitees.Users.Select(user => user.Id).ToArray();
 
-                Debug.LogFormat("Inviting {0} players to challenge {1}: {2}",
-                    inviteeIDs.Length,
-                    selectedChallenge.Id,
-                    string.Join(", ", inviteeIDs)
-                );
-
                 // Validate that we found all requested users
                 if (inviteeIDs.Length != inviteeUsernames.Count)
                 {
@@ -688,6 +696,7 @@ namespace HiroChallenges
                         $"Could not find all users. Requested: {inviteeUsernames.Count}, Found: {inviteeIDs.Length}");
                 }
 
+                // Attempt to invite all listed users to the selected Challenge.
                 await challengesSystem.InviteChallengeAsync(
                     challengeId: selectedChallenge.Id,
                     userIds: inviteeIDs
@@ -701,6 +710,8 @@ namespace HiroChallenges
             }
 
             inviteModal.style.display = DisplayStyle.None;
+
+            // After successfully inviting the requested users, update the Challenges list.
             _ = UpdateChallenges();
         }
 
