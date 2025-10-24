@@ -1,0 +1,90 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="WalletDisplay" src="project://database/Assets/UnityHiroInventory/HeroicUI/CustomComponents/WalletDisplay.uxml?fileID=9197481963319205126&amp;guid=77e1a552d086b48229afe31d3c5002aa&amp;type=3#WalletDisplay" />
+    <ui:Template name="ErrorPopup" src="project://database/Assets/UnityHiroInventory/HeroicUI/CustomComponents/ErrorPopup.uxml?fileID=9197481963319205126&amp;guid=0104c211a1dfc4d17b2607e880de676f&amp;type=3#ErrorPopup" />
+    <Style src="project://database/Assets/UnityHiroInventory/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
+    <ui:VisualElement name="inventory-top" class="heroic-top__background">
+        <ui:Label text="INVENTORY" enable-rich-text="true" class="heroic-title" />
+        <ui:Instance template="WalletDisplay" name="wallet-display" style="position: absolute; right: 0; height: 100%; top: 0;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="inventory-main" class="heroic-main__background" style="padding: 30px; align-items: center; justify-content: center;">
+        <ui:VisualElement name="VisualElement" style="width: 100%; max-width: none; height: 100%;">
+            <ui:VisualElement name="inventory-container" class="heroic-main__panel" style="flex-grow: 1; padding: 20px; min-height: auto; border-radius: 15px; background-color: rgba(255, 255, 255, 0.05);">
+                <ui:ScrollView horizontal-scroller-visibility="Hidden" style="flex-grow: 1; align-items: stretch; align-content: center; align-self: stretch; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px;">
+                    <ui:VisualElement name="inventory-grid" style="flex-direction: row; flex-wrap: wrap; justify-content: flex-start; align-content: flex-start; padding: 10px;" />
+                </ui:ScrollView>
+            </ui:VisualElement>
+            <ui:VisualElement name="action-buttons" style="flex-direction: row; justify-content: space-between; margin-bottom: 20px; height: auto; padding: 20px; background-color: rgba(132, 154, 255, 0.05); border-radius: 15px; flex-grow: 0; flex-shrink: 0;">
+                <ui:VisualElement style="flex-direction: column; width: 40%;">
+                    <ui:Button text="Consume Item" name="item-consume" class="heroic-button" style="margin-bottom: 10px; flex-grow: 1;" />
+                    <ui:Button text="Remove Item" name="item-remove" class="heroic-button" style="flex-grow: 1;" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-direction: column; width: 40%; align-items: center; align-self: center; align-content: center;">
+                    <ui:Button text="Refresh" name="inventory-refresh" class="heroic-button-square" style="align-self: center; margin-top: 10px;" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-direction: column; width: 40%;">
+                    <ui:DropdownField name="grant-item-dropdown" style="margin-bottom: 10px; flex-grow: 1; border-color: rgb(132, 154, 255); border-width: 2px; border-radius: 10px; padding: 10px; font-size: 50%; min-height: 50px; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
+                    <ui:Button text="Grant Item" name="item-grant" class="heroic-button" style="flex-grow: 1;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="item-tooltip" style="position: absolute; width: 30%; display: none; background-color: rgb(255, 255, 255); border-radius: 15px; border-width: 2px; border-color: rgb(132, 154, 255); padding: 25px; font-size: 26px;">
+        <ui:Label name="tooltip-name" text="Item Name" style="margin-bottom: 12px; -unity-font-style: bold; color: rgb(0, 0, 0);" />
+        <ui:Label name="tooltip-category" text="Category: Equipment" style="margin-bottom: 10px; color: rgb(132, 154, 255);" />
+        <ui:Label name="tooltip-quantity" text="Quantity: 5" style="margin-bottom: 14px; -unity-font-style: bold; color: rgb(0, 0, 0);" />
+        <ui:VisualElement style="height: 2px; background-color: rgba(132, 154, 255, 0.3); margin-bottom: 14px;" />
+        <ui:Label name="tooltip-description" text="Item description goes here..." style="white-space: normal; margin-bottom: 14px; color: rgb(50, 50, 50);" />
+        <ui:VisualElement style="height: 1px; background-color: rgba(132, 154, 255, 0.2); margin-bottom: 12px;" />
+        <ui:Label name="tooltip-properties" text="No custom properties." style="white-space: normal; color: rgb(100, 100, 100);" />
+    </ui:VisualElement>
+    <ui:VisualElement template="ErrorPopup" name="grant-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
+        <Style src="project://database/Assets/UnityHiroInventory/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
+        <ui:VisualElement name="grant-modal-background" class="heroic-error-popup__background">
+            <ui:VisualElement name="grant-modal-panel" class="heroic-main__panel" style="height: auto; width: 600px;">
+                <ui:VisualElement name="grant-modal-top" style="height: 100px; background-color: rgb(132, 154, 255); border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                    <ui:Label text="GRANT ITEM" class="heroic-title" style="color: rgb(255, 255, 255); -unity-text-align: middle-center; flex-grow: 1;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="grant-modal-bottom" style="align-self: center; align-items: center; width: 100%; padding: 30px;">
+                    <ui:IntegerField label="Quantity" value="1" name="grant-modal-quantity" style="width: 100%; margin-bottom: 20px;" />
+                    <ui:Label text="The item is selected from the dropdown above (a).&#10;Enter positive number to grant, negative to remove." style="font-size: 18px; color: rgb(150, 150, 150); margin-bottom: 20px; white-space: normal; -unity-text-align: upper-center;" />
+                    <ui:Button text="Grant Item" name="grant-modal-grant" class="heroic-button" style="margin-top: 10px;" />
+                </ui:VisualElement>
+                <ui:Button name="grant-modal-close" class="heroic-close-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement template="ErrorPopup" name="consume-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
+        <Style src="project://database/Assets/UnityHiroInventory/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
+        <ui:VisualElement name="consume-modal-background" class="heroic-error-popup__background">
+            <ui:VisualElement name="consume-modal-panel" class="heroic-main__panel" style="height: auto; width: 600px;">
+                <ui:VisualElement name="consume-modal-top" style="height: 100px; background-color: rgb(132, 154, 255); border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                    <ui:Label text="CONSUME ITEM" class="heroic-title" style="color: rgb(255, 255, 255); -unity-text-align: middle-center; flex-grow: 1;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="consume-modal-bottom" style="align-self: center; align-items: center; width: 100%; padding: 30px;">
+                    <ui:IntegerField label="Quantity" value="1" name="consume-modal-quantity" style="width: 100%; margin-bottom: 15px;" />
+                    <ui:Toggle label="Allow Overconsume" name="consume-modal-overconsume" value="false" style="width: 100%; margin-bottom: 15px;" />
+                    <ui:Label text="Applies to selected item (b) in your inventory.&#10;Overconsume allows consuming more than available." style="font-size: 18px; color: rgb(150, 150, 150); margin-bottom: 20px; white-space: normal; -unity-text-align: upper-center;" />
+                    <ui:Button text="Consume" name="consume-modal-consume" class="heroic-button" style="margin-top: 10px;" />
+                </ui:VisualElement>
+                <ui:Button name="consume-modal-close" class="heroic-close-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement template="ErrorPopup" name="remove-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
+        <Style src="project://database/Assets/UnityHiroInventory/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
+        <ui:VisualElement name="remove-modal-background" class="heroic-error-popup__background">
+            <ui:VisualElement name="remove-modal-panel" class="heroic-main__panel" style="height: auto; width: 600px;">
+                <ui:VisualElement name="remove-modal-top" style="height: 100px; background-color: rgb(132, 154, 255); border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                    <ui:Label text="REMOVE ITEM" class="heroic-title" style="color: rgb(255, 255, 255); -unity-text-align: middle-center; flex-grow: 1;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="remove-modal-bottom" style="align-self: center; align-items: center; width: 100%; padding: 30px;">
+                    <ui:IntegerField label="Quantity" value="1" name="remove-modal-quantity" style="width: 100%; margin-bottom: 20px;" />
+                    <ui:Label text="Applies to selected item (b) in your inventory.&#10;This will permanently remove the item." style="font-size: 18px; color: rgb(150, 150, 150); margin-bottom: 20px; white-space: normal; -unity-text-align: upper-center;" />
+                    <ui:Button text="Remove Item" name="remove-modal-remove" class="heroic-button" style="margin-top: 10px;" />
+                </ui:VisualElement>
+                <ui:Button name="remove-modal-close" class="heroic-close-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:Instance template="ErrorPopup" name="error-popup" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: none;" />
+</ui:UXML>

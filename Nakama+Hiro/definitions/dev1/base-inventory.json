@@ -1,0 +1,106 @@
+{
+  "items": {
+    "iron_sword": {
+      "name": "Iron Sword",
+      "description": "A sharp sword made of iron.",
+      "category": "weapons",
+      "item_sets": ["common_weapons"],
+      "max_count": 99,
+      "stackable": false,
+      "consumable": false,
+      "string_properties": {
+        "equipment_slot": "right_hand",
+        "rarity": "legendary"
+      },
+      "numeric_properties": {
+        "rank": 1
+      },
+      "disabled": false
+    },
+    "gold_stack": {
+      "name": "Gold Stack",
+      "description": "A stack of golden coins. So shiny!",
+      "category": "currency",
+      "max_count": 99,
+      "stackable": true,
+      "consumable": true,
+      "string_properties": {
+        "rarity": "uncommon"
+      },
+      "keep_zero": true,
+      "consume_reward": {
+        "guaranteed": {
+          "currencies": {
+            "coins": {
+              "min": 100
+            }
+          }
+        }
+      }
+    },
+    "bomb": {
+      "name": "Bomb",
+      "description": "Goes BOOM!",
+      "category": "weapons",
+      "max_count": 99,
+      "stackable": true,
+      "consumable": true,
+      "string_properties": {
+        "rarity": "epic"
+      },
+      "keep_zero": true,
+      "consume_reward": {
+        "guaranteed": {
+          "currencies": {
+            "coins": {
+              "min": 100
+            }
+          }
+        }
+      }
+    },
+    "small_crafting_bag": {
+      "name": "Small Crafting Bag",
+      "description": "A small bag of miscellaneous crafting materials.",
+      "category": "loot_bags",
+      "max_count": 99,
+      "stackable": false,
+      "consumable": true,
+      "string_properties": {
+        "rarity": "common"
+      },
+      "consume_reward": {
+        "max_rolls": 2,
+        "weighted": [
+          {
+            "items": {
+              "leather_scraps": {
+                "min": 1,
+                "max": 5
+              }
+            },
+            "weight": 50
+          },
+          {
+            "items": {
+              "bronze_nails": {
+                "min": 5,
+                "max": 100,
+                "multiple": 5
+              }
+            },
+            "weight": 50
+          }
+        ]
+      }
+    }
+  },
+  "limits": {
+    "categories": {
+      "armor": 10
+    },
+    "item_sets": {
+      "shield": 5
+    }
+  }
+}

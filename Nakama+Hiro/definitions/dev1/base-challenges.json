@@ -1,0 +1,203 @@
+{
+  "challenges": {
+    "speed_runner": {
+      "reward_tiers": [
+        {
+          "rank_min": 1,
+          "rank_max": 3,
+          "reward": {
+            "guaranteed": {
+              "currencies": {
+                "coins": {
+                  "min": 300
+                },
+                "gems": {
+                  "min": 15
+                }
+              }
+            }
+          }
+        },
+        {
+          "rank_min": 4,
+          "rank_max": 10,
+          "reward": {
+            "guaranteed": {
+              "currencies": {
+                "coins": {
+                  "min": 150
+                },
+                "gems": {
+                  "min": 8
+                }
+              }
+            }
+          }
+        }
+      ],
+      "additional_properties": {
+        "display_name": "Speed Runner",
+        "description": "Score the most points by collecting crystals!",
+        "category": "arcade",
+        "difficulty": "expert",
+        "dungeon_id": "crystal_caverns"
+      },
+      "max_num_score": 3,
+      "start_delay_max_sec": 60,
+      "ascending": false,
+      "operator": "best",
+      "duration": {
+        "min_sec": 1800,
+        "max_sec": 3600
+      },
+      "players": {
+        "min": 2,
+        "max": 100
+      }
+    },
+    "team_conquest": {
+      "reward_tiers": [
+        {
+          "rank_min": 1,
+          "rank_max": 1,
+          "reward": {
+            "guaranteed": {
+              "currencies": {
+                "coins": {
+                  "min": 500
+                },
+                "gems": {
+                  "min": 25
+                }
+              }
+            }
+          }
+        },
+        {
+          "rank_min": 2,
+          "rank_max": 5,
+          "reward": {
+            "reward": {
+              "guaranteed": {
+                "currencies": {
+                  "coins": {
+                    "min": 250
+                  },
+                  "gems": {
+                    "min": 12
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "rank_min": 6,
+          "rank_max": 20,
+          "reward": {
+            "guaranteed": {
+              "currencies": {
+                "coins": {
+                  "min": 100
+                },
+                "gems": {
+                  "min": 5
+                }
+              }
+            }
+          }
+        }
+      ],
+      "additional_properties": {
+        "display_name": "Team Conquest",
+        "description": "Capture and hold the most strategic points with your team!",
+        "category": "team_pvp",
+        "difficulty": "hard",
+        "map_id": "fortress_battleground"
+      },
+      "max_num_score": 10,
+      "start_delay_max_sec": 120,
+      "ascending": false,
+      "operator": "best",
+      "duration": {
+        "min_sec": 3600,
+        "max_sec": 7200
+      },
+      "players": {
+        "min": 4,
+        "max": 50
+      }
+    },
+    "survival_gauntlet": {
+      "reward_tiers": [
+        {
+          "rank_min": 1,
+          "rank_max": 5,
+          "reward": {
+            "guaranteed": {
+              "currencies": {
+                "coins": {
+                  "min": 400
+                },
+                "gems": {
+                  "min": 20
+                }
+              }
+            }
+          }
+        },
+        {
+          "rank_min": 6,
+          "rank_max": 15,
+          "reward": {
+            "guaranteed": {
+              "currencies": {
+                "coins": {
+                  "min": 200
+                },
+                "gems": {
+                  "min": 10
+                }
+              }
+            }
+          }
+        },
+        {
+          "rank_min": 16,
+          "rank_max": 50,
+          "reward": {
+            "guaranteed": {
+              "currencies": {
+                "coins": {
+                  "min": 75
+                },
+                "gems": {
+                  "min": 3
+                }
+              }
+            }
+          }
+        }
+      ],
+      "additional_properties": {
+        "display_name": "Survival Gauntlet",
+        "description": "Survive endless waves of enemies for as long as possible!",
+        "category": "survival",
+        "difficulty": "medium",
+        "arena_id": "shadow_arena"
+      },
+      "max_num_score": 3,
+      "start_delay_max_sec": 30,
+      "ascending": false,
+      "operator": "best",
+      "duration": {
+        "min_sec": 900,
+        "max_sec": 1800
+      },
+      "players": {
+        "min": 2,
+        "max": 200
+      }
+    }
+  }
+}
