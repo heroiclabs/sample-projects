@@ -57,6 +57,13 @@ namespace HiroChallenges
 
             return async client =>
             {
+                // Due to the Account Switcher tool, we might need to log out before re-authenticating.
+                var nakamaSystem = Instance.GetSystem<NakamaSystem>();
+                if (nakamaSystem.Session != null)
+                {
+                    await client.SessionLogoutAsync(nakamaSystem.Session);
+                }
+
                 // Attempt to load a previous session if it is still valid.
                 var authToken = PlayerPrefs.GetString($"{playerPrefsAuthToken}_{index}");
                 var refreshToken = PlayerPrefs.GetString($"{playerPrefsRefreshToken}_{index}");
@@ -75,12 +82,6 @@ namespace HiroChallenges
                 if (deviceId == SystemInfo.unsupportedIdentifier)
                 {
                     deviceId = Guid.NewGuid().ToString();
-                }
-
-                // Due to the Account Switcher tool, we might need to logout before re-authenticating.
-                if (session is { Created: true })
-                {
-                    await client.SessionLogoutAsync(session);
                 }
 
                 session = await client.AuthenticateDeviceAsync($"{deviceId}_{index}");
