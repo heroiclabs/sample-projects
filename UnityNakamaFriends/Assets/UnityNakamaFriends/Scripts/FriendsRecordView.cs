@@ -2,7 +2,7 @@ using Nakama;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace SampleProjects.NakamaFriends
+namespace UnityNakamaFriends
 {
     public class FriendsRecordView
     {
@@ -21,17 +21,17 @@ namespace SampleProjects.NakamaFriends
             usernameLabel = visualElement.Q<Label>("username");
 
             addButton = visualElement.Q<Button>("add");
-            addButton.RegisterCallback<ClickEvent>(AddFriend);
+            addButton.RegisterCallback<ClickEvent>(evt => _ = friendsController.AddFriend(usernameLabel.text));
 
             removeButton = visualElement.Q<Button>("remove");
-            removeButton.RegisterCallback<ClickEvent>(DeleteFriend);
+            removeButton.RegisterCallback<ClickEvent>(evt => _ = friendsController.DeleteFriend(usernameLabel.text));
 
             blockButton = visualElement.Q<Button>("block");
-            blockButton.RegisterCallback<ClickEvent>(BlockFriend);
+            blockButton.RegisterCallback<ClickEvent>(eve => _ = friendsController.BlockFriend(usernameLabel.text));
 
             // To unblock a user, we just need to reset their friend state, so we can just unfriend them, which will remove the block.
             unblockButton = visualElement.Q<Button>("unblock");
-            unblockButton.RegisterCallback<ClickEvent>(DeleteFriend);
+            unblockButton.RegisterCallback<ClickEvent>(evt => _ = friendsController.DeleteFriend(usernameLabel.text));
         }
 
         public void SetFriend(IApiFriend record)
@@ -41,25 +41,25 @@ namespace SampleProjects.NakamaFriends
 
             switch (state)
             {
-                case NakamaFriendsController.FriendState.FRIEND:
+                case NakamaFriendsController.FriendState.Friend:
                     addButton.style.display = DisplayStyle.None;
                     removeButton.style.display = DisplayStyle.Flex;
                     blockButton.style.display = DisplayStyle.Flex;
                     unblockButton.style.display = DisplayStyle.None;
                     break;
-                case NakamaFriendsController.FriendState.INVITE_SENT:
+                case NakamaFriendsController.FriendState.InviteSent:
                     addButton.style.display = DisplayStyle.None;
                     removeButton.style.display = DisplayStyle.Flex;
                     blockButton.style.display = DisplayStyle.None;
                     unblockButton.style.display = DisplayStyle.None;
                     break;
-                case NakamaFriendsController.FriendState.INVITE_RECEIVED:
+                case NakamaFriendsController.FriendState.InviteReceived:
                     addButton.style.display = DisplayStyle.Flex;
                     removeButton.style.display = DisplayStyle.Flex;
                     blockButton.style.display = DisplayStyle.Flex;
                     unblockButton.style.display = DisplayStyle.None;
                     break;
-                case NakamaFriendsController.FriendState.BLOCKED:
+                case NakamaFriendsController.FriendState.Blocked:
                     addButton.style.display = DisplayStyle.None;
                     removeButton.style.display = DisplayStyle.None;
                     blockButton.style.display = DisplayStyle.None;
@@ -69,21 +69,6 @@ namespace SampleProjects.NakamaFriends
                     Debug.LogError("Invalid friend state!");
                     break;
             }
-        }
-
-        private void AddFriend(ClickEvent _)
-        {
-            friendsController.AddFriend(usernameLabel.text);
-        }
-
-        private void DeleteFriend(ClickEvent _)
-        {
-            friendsController.DeleteFriend(usernameLabel.text);
-        }
-
-        private void BlockFriend(ClickEvent _)
-        {
-            friendsController.BlockFriend(usernameLabel.text);
         }
     }
 }

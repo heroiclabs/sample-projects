@@ -1,0 +1,17 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UnityNakamaTournaments/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
+    <ui:VisualElement name="VisualElement" style="flex-grow: 1; flex-direction: row; padding-left: 10px; padding-right: 10px; height: 120px; margin-right: 20px; background-image: url(&quot;project://database/Assets/UnityNakamaTournaments/HeroicUI/Background/bg_rounded_white_bg.png?fileID=2800000&amp;guid=98ba2fcee9bd34a079fb250f7777ea69&amp;type=3#bg_rounded_white_bg&quot;); -unity-slice-left: 25; -unity-slice-top: 25; -unity-slice-right: 25; -unity-slice-bottom: 25; margin-bottom: 20px;">
+        <ui:VisualElement name="icon" style="width: 10%; background-image: url(&quot;project://database/Assets/UnityNakamaTournaments/HeroicUI/IconItem/128/icon_trophy.png?fileID=2800000&amp;guid=cd2345d73510644e29320ccc7c034028&amp;type=3#icon_trophy&quot;); -unity-background-scale-mode: scale-to-fit;" />
+        <ui:VisualElement name="details" style="justify-content: space-evenly; padding-top: 10px; padding-right: 5px; padding-bottom: 10px; padding-left: 10px; width: 60%; align-items: stretch;">
+            <ui:Label text="Title" name="title" class="heroic-list-view__item-label" style="-unity-text-align: middle-left; font-size: 28px;" />
+            <ui:VisualElement style="flex-direction: row;">
+                <ui:VisualElement style="-unity-background-scale-mode: scale-to-fit; background-image: url(&quot;project://database/Assets/UnityNakamaTournaments/HeroicUI/Avatar/avatar_circle_icon_white.png?fileID=2800000&amp;guid=93641a1dc56fe4e12aeae7744e5bee4e&amp;type=3#avatar_circle_icon_white&quot;); width: 36px; -unity-background-image-tint-color: rgb(183, 183, 183); margin-right: 4px;" />
+                <ui:Label text="Size" name="size" class="heroic-list-view__item-label" style="-unity-text-align: middle-left; font-size: 28px; width: 20%; flex-grow: 1;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="timer" style="width: 35%; padding-top: 10px; padding-right: 10px; padding-bottom: 22px; padding-left: 5px; flex-grow: 0; align-items: flex-end; justify-content: space-around; align-self: auto; flex-direction: row;">
+            <ui:VisualElement name="VisualElement" style="flex-grow: 0; width: 34px; background-image: url(&quot;project://database/Assets/UnityNakamaTournaments/HeroicUI/IconPictogram/128/icon_timer.png?fileID=8790000615215789760&amp;guid=6e2698a2461b043f483c3c1eda1770ea&amp;type=3#icon_timer_0&quot;); height: 40px; flex-shrink: 0; -unity-background-image-tint-color: rgb(146, 146, 146); margin-right: 8px; padding-right: 0;" />
+            <ui:Label text="remaining." name="remaining-time" class="heroic-list-view__item-label" style="-unity-text-align: middle-center; flex-grow: 1; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 8px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; white-space: normal; font-size: 24px; justify-content: flex-end; align-items: stretch; align-self: auto; align-content: flex-end;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
