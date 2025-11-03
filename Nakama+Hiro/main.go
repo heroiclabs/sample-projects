@@ -15,16 +15,6 @@ import (
 )
 
 func InitModule(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runtime.NakamaModule, initializer runtime.Initializer) error {
-	if err := nk.LeaderboardCreate(ctx, "weekly_leaderboard", false, "desc", "best",
-		"0 0 * * 1", map[string]interface{}{}, true); err != nil {
-		// Handle error.
-	}
-
-	if err := nk.LeaderboardCreate(ctx, "global_leaderboard", false, "desc", "best",
-		"", map[string]interface{}{}, true); err != nil {
-		// Handle error.
-	}
-
 	err := createTournament(ctx, logger, nk, "daily-dash", "0 12 * * *", "Daily Dash", "Dash past your opponents for high scores and big rewards!", 86400, 0, 1, false)
 	if err != nil {
 		// Handle error.
@@ -71,6 +61,7 @@ func InitModule(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runti
 
 	systems, err := hiro.Init(ctx, logger, nk, initializer, binPath, hiroLicense,
 		hiro.WithBaseSystem(fmt.Sprintf("definitions/%s/base-system.json", env), true),
+		hiro.WithLeaderboardsSystem(fmt.Sprintf("definitions/%s/base-leaderboards.json", env), true),
 		hiro.WithChallengesSystem(fmt.Sprintf("definitions/%s/base-challenges.json", env), true),
 		hiro.WithEconomySystem(fmt.Sprintf("definitions/%s/base-economy.json", env), true))
 	if err != nil {

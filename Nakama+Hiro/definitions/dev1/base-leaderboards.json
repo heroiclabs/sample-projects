@@ -1,0 +1,20 @@
+{
+    "leaderboards": [
+        {
+            "authoritative": false,
+            "id": "global_leaderboard",
+            "operator": "best",
+            "//reset_schedule": "No reset schedule.",
+            "reset_schedule": "",
+            "sort_order": "desc"
+        },
+        {
+            "authoritative": false,
+            "id": "weekly_leaderboard",
+            "operator": "best",
+            "//reset_schedule": "At 00:00 UTC+0 on Monday.",
+            "reset_schedule": "0 0 * * 1",
+            "sort_order": "desc"
+        }
+    ]
+}
