@@ -364,7 +364,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d09862c4a7ec4898bc057b8378ab100c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HiroChallenges.HiroChallengesController
-  challengeEntriesLimit: 100
   challengeEntryTemplate: {fileID: 9197481963319205126, guid: 8dd3c785e50de45048715a68169a3967, type: 3}
   challengeParticipantTemplate: {fileID: 9197481963319205126, guid: 1b43f002f8c6f4d02973ddbd956d1939, type: 3}
 --- !u!1 &2121322951
