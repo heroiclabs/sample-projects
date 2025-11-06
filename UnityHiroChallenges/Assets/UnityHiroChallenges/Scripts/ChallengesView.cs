@@ -25,6 +25,7 @@ namespace HiroChallenges
     {
         private readonly VisualTreeAsset _challengeEntryTemplate;
         private readonly VisualTreeAsset _challengeParticipantTemplate;
+        private ChallengesController _controller;
 
         private WalletDisplay _walletDisplay;
         private Button _myChallengesTab;
@@ -76,25 +77,19 @@ namespace HiroChallenges
 
         private readonly List<IChallenge> _challenges = new();
         private readonly List<IChallengeScore> _selectedChallengeParticipants = new();
+        private IChallenge _currentChallenge;
 
-        // Events for controller to subscribe to
-        public event Action OnMyChallengesTabClicked;
-        public event Action OnCreateButtonClicked;
-        public event Action OnJoinButtonClicked;
-        public event Action OnLeaveButtonClicked;
-        public event Action OnClaimRewardsButtonClicked;
-        public event Action OnSubmitScoreButtonClicked;
-        public event Action OnInviteButtonClicked;
-        public event Action OnRefreshButtonClicked;
-        public event Action<IChallenge> OnChallengeSelected;
-        public event Action OnCreateModalCreateClicked;
-        public event Action OnSubmitScoreModalSubmitClicked;
-        public event Action OnInviteModalInviteClicked;
+        #region Initialization
 
         public ChallengesView(VisualTreeAsset challengeEntryTemplate, VisualTreeAsset challengeParticipantTemplate)
         {
             _challengeEntryTemplate = challengeEntryTemplate;
             _challengeParticipantTemplate = challengeParticipantTemplate;
+        }
+
+        public void SetController(ChallengesController controller)
+        {
+            _controller = controller;
         }
 
         public void Initialize(VisualElement rootElement)
@@ -112,31 +107,31 @@ namespace HiroChallenges
         private void InitializeTabs(VisualElement rootElement)
         {
             _myChallengesTab = rootElement.Q<Button>("my-challenges-tab");
-            _myChallengesTab.RegisterCallback<ClickEvent>(evt => OnMyChallengesTabClicked?.Invoke());
+            _myChallengesTab.RegisterCallback<ClickEvent>(evt => _controller?.SwitchToMyChallengesTab());
         }
 
         private void InitializeButtons(VisualElement rootElement)
         {
             _createButton = rootElement.Q<Button>("challenge-create");
-            _createButton.RegisterCallback<ClickEvent>(_ => OnCreateButtonClicked?.Invoke());
+            _createButton.RegisterCallback<ClickEvent>(_ => ShowCreateModal());
 
             _joinButton = rootElement.Q<Button>("challenge-join");
-            _joinButton.RegisterCallback<ClickEvent>(_ => OnJoinButtonClicked?.Invoke());
+            _joinButton.RegisterCallback<ClickEvent>(_ => _controller?.JoinChallenge());
 
             _leaveButton = rootElement.Q<Button>("challenge-leave");
-            _leaveButton.RegisterCallback<ClickEvent>(_ => OnLeaveButtonClicked?.Invoke());
+            _leaveButton.RegisterCallback<ClickEvent>(_ => _controller?.LeaveChallenge());
 
             _claimRewardsButton = rootElement.Q<Button>("challenge-claim");
-            _claimRewardsButton.RegisterCallback<ClickEvent>(_ => OnClaimRewardsButtonClicked?.Invoke());
+            _claimRewardsButton.RegisterCallback<ClickEvent>(_ => _controller?.ClaimChallenge());
 
             _submitScoreButton = rootElement.Q<Button>("challenge-submit-score");
-            _submitScoreButton.RegisterCallback<ClickEvent>(_ => OnSubmitScoreButtonClicked?.Invoke());
+            _submitScoreButton.RegisterCallback<ClickEvent>(_ => ShowSubmitScoreModal());
 
             _inviteButton = rootElement.Q<Button>("challenge-invite");
-            _inviteButton.RegisterCallback<ClickEvent>(_ => OnInviteButtonClicked?.Invoke());
+            _inviteButton.RegisterCallback<ClickEvent>(_ => ShowInviteModal());
 
             _refreshButton = rootElement.Q<Button>("challenges-refresh");
-            _refreshButton.RegisterCallback<ClickEvent>(_ => OnRefreshButtonClicked?.Invoke());
+            _refreshButton.RegisterCallback<ClickEvent>(_ => _controller?.RefreshChallenges());
         }
 
         private void InitializeSelectedChallengePanel(VisualElement rootElement)
@@ -189,7 +184,7 @@ namespace HiroChallenges
             {
                 if (_challengesList.selectedItem is IChallenge challenge)
                 {
-                    OnChallengeSelected?.Invoke(challenge);
+                    _controller?.OnChallengeSelected(challenge);
                 }
             };
 
@@ -208,8 +203,12 @@ namespace HiroChallenges
         {
             _createModal = rootElement.Q<VisualElement>("create-modal");
             _modalTemplateDropdown = rootElement.Q<DropdownField>("create-modal-template");
+            _modalTemplateDropdown.RegisterValueChangedCallback(_ => _controller?.OnTemplateChanged(_modalTemplateDropdown.index));
+            
             _modalNameField = rootElement.Q<TextField>("create-modal-name");
             _modalMaxParticipantsField = rootElement.Q<IntegerField>("create-modal-max-participants");
+            _modalMaxParticipantsField.RegisterCallback<FocusOutEvent>(_ => _controller?.OnMaxParticipantsChanged(_modalTemplateDropdown.index));
+            
             _modalInvitees = rootElement.Q<TextField>("create-modal-invitees");
             _modalOpenToggle = rootElement.Q<Toggle>("create-modal-open");
 
@@ -230,7 +229,18 @@ namespace HiroChallenges
             _modalChallengeDurationLabel.text = $"{_modalChallengeDuration.value}s";
 
             _modalCreateButton = rootElement.Q<Button>("create-modal-create");
-            _modalCreateButton.RegisterCallback<ClickEvent>(_ => OnCreateModalCreateClicked?.Invoke());
+            _modalCreateButton.RegisterCallback<ClickEvent>(_ => 
+            {
+                _controller?.CreateChallenge(
+                    _modalTemplateDropdown.index,
+                    _modalNameField.value,
+                    _modalMaxParticipantsField.value,
+                    _modalInvitees.value,
+                    _modalChallengeDelay.value,
+                    _modalChallengeDuration.value,
+                    _modalOpenToggle.value
+                );
+            });
             
             _modalCloseButton = rootElement.Q<Button>("create-modal-close");
             _modalCloseButton.RegisterCallback<ClickEvent>(_ => HideCreateModal());
@@ -244,7 +254,14 @@ namespace HiroChallenges
             _scoreMetadataField = rootElement.Q<TextField>("submit-score-metadata");
             
             _submitScoreModalButton = rootElement.Q<Button>("submit-score-modal-submit");
-            _submitScoreModalButton.RegisterCallback<ClickEvent>(_ => OnSubmitScoreModalSubmitClicked?.Invoke());
+            _submitScoreModalButton.RegisterCallback<ClickEvent>(_ => 
+            {
+                _controller?.SubmitScore(
+                    _scoreField.value,
+                    _subScoreField.value,
+                    _scoreMetadataField.value
+                );
+            });
             
             _submitScoreModalCloseButton = rootElement.Q<Button>("submit-score-modal-close");
             _submitScoreModalCloseButton.RegisterCallback<ClickEvent>(_ => HideSubmitScoreModal());
@@ -256,7 +273,10 @@ namespace HiroChallenges
             _inviteModalInvitees = rootElement.Q<TextField>("invite-modal-invitees");
             
             _inviteModalButton = rootElement.Q<Button>("invite-modal-invite");
-            _inviteModalButton.RegisterCallback<ClickEvent>(_ => OnInviteModalInviteClicked?.Invoke());
+            _inviteModalButton.RegisterCallback<ClickEvent>(_ => 
+            {
+                _controller?.InviteToChallenge(_inviteModalInvitees.value);
+            });
             
             _inviteModalCloseButton = rootElement.Q<Button>("invite-modal-close");
             _inviteModalCloseButton.RegisterCallback<ClickEvent>(_ => HideInviteModal());
@@ -270,23 +290,9 @@ namespace HiroChallenges
             _errorCloseButton.RegisterCallback<ClickEvent>(_ => HideErrorPopup());
         }
 
-        // Public methods for controller to manipulate the view
-        public void StartObservingWallet()
-        {
-            _walletDisplay.StartObserving();
-        }
+        #endregion
 
-        public void SetMyChallengesTabSelected(bool selected)
-        {
-            if (selected)
-            {
-                _myChallengesTab.AddToClassList("selected");
-            }
-            else
-            {
-                _myChallengesTab.RemoveFromClassList("selected");
-            }
-        }
+        #region Challenge List Management
 
         public void SetChallenges(IEnumerable<IChallenge> challenges)
         {
@@ -305,7 +311,9 @@ namespace HiroChallenges
             _challengesList.SetSelection(index);
         }
 
-        private IChallenge _currentChallenge;
+        #endregion
+
+        #region Selected Challenge Panel
 
         public void SetSelectedChallengeParticipants(IChallenge challenge, IEnumerable<IChallengeScore> participants)
         {
@@ -358,6 +366,10 @@ namespace HiroChallenges
             _claimRewardsButton.style.display = showClaimRewards ? DisplayStyle.Flex : DisplayStyle.None;
         }
 
+        #endregion
+
+        #region Modals
+
         // Create Modal
         public void ShowCreateModal()
         {
@@ -408,32 +420,6 @@ namespace HiroChallenges
                 template.Players.Min, template.Players.Max);
         }
 
-        public void RegisterTemplateDropdownCallback(Action callback)
-        {
-            _modalTemplateDropdown.RegisterValueChangedCallback(_ => callback?.Invoke());
-        }
-
-        public void RegisterMaxParticipantsCallback(Action<IChallengeTemplate> callback)
-        {
-            _modalMaxParticipantsField.RegisterCallback<FocusOutEvent>(_ => callback?.Invoke(GetSelectedTemplate()));
-        }
-
-        public int GetSelectedTemplateIndex() => _modalTemplateDropdown.index;
-
-        public string GetModalName() => _modalNameField.value;
-        public int GetModalMaxParticipants() => _modalMaxParticipantsField.value;
-        public string GetModalInvitees() => _modalInvitees.value;
-        public int GetModalChallengeDelay() => _modalChallengeDelay.value;
-        public int GetModalChallengeDuration() => _modalChallengeDuration.value;
-        public bool GetModalOpenToggle() => _modalOpenToggle.value;
-
-        // This will be set by the controller
-        private Func<IChallengeTemplate> GetSelectedTemplate;
-        public void SetGetSelectedTemplateFunc(Func<IChallengeTemplate> func)
-        {
-            GetSelectedTemplate = func;
-        }
-
         // Submit Score Modal
         public void ShowSubmitScoreModal()
         {
@@ -448,10 +434,6 @@ namespace HiroChallenges
             _submitScoreModal.style.display = DisplayStyle.None;
         }
 
-        public int GetScoreValue() => _scoreField.value;
-        public int GetSubScoreValue() => _subScoreField.value;
-        public string GetScoreMetadata() => _scoreMetadataField.value;
-
         // Invite Modal
         public void ShowInviteModal()
         {
@@ -463,8 +445,6 @@ namespace HiroChallenges
         {
             _inviteModal.style.display = DisplayStyle.None;
         }
-
-        public string GetInviteModalInvitees() => _inviteModalInvitees.value;
 
         // Error Popup
         public void ShowError(string message)
@@ -484,5 +464,28 @@ namespace HiroChallenges
             HideSubmitScoreModal();
             HideInviteModal();
         }
+
+        #endregion
+
+        #region Wallet & Tabs
+
+        public void StartObservingWallet()
+        {
+            _walletDisplay.StartObserving();
+        }
+
+        public void SetMyChallengesTabSelected(bool selected)
+        {
+            if (selected)
+            {
+                _myChallengesTab.AddToClassList("selected");
+            }
+            else
+            {
+                _myChallengesTab.RemoveFromClassList("selected");
+            }
+        }
+
+        #endregion
     }
 }

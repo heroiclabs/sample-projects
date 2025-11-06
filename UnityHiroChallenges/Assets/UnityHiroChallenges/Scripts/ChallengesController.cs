@@ -60,35 +60,8 @@ namespace HiroChallenges
         {
             var rootElement = GetComponent<UIDocument>().rootVisualElement;
             _view = new ChallengesView(challengeEntryTemplate, challengeParticipantTemplate);
+            _view.SetController(this);
             _view.Initialize(rootElement);
-
-            // Subscribe to view events
-            _view.OnMyChallengesTabClicked += HandleMyChallengesTabClicked;
-            _view.OnCreateButtonClicked += HandleCreateButtonClicked;
-            _view.OnJoinButtonClicked += () => _ = ChallengeJoin();
-            _view.OnLeaveButtonClicked += () => _ = ChallengeLeave();
-            _view.OnClaimRewardsButtonClicked += () => _ = ChallengeClaim();
-            _view.OnSubmitScoreButtonClicked += HandleSubmitScoreButtonClicked;
-            _view.OnInviteButtonClicked += HandleInviteButtonClicked;
-            _view.OnRefreshButtonClicked += () => _ = UpdateChallenges();
-            _view.OnChallengeSelected += challenge => _ = OnChallengeSelected(challenge);
-            _view.OnCreateModalCreateClicked += () => _ = ChallengeCreate();
-            _view.OnSubmitScoreModalSubmitClicked += () => _ = ChallengeSubmitScore();
-            _view.OnInviteModalInviteClicked += () => _ = ChallengeInvite();
-
-            // Setup template dropdown and max participants callbacks
-            _view.RegisterTemplateDropdownCallback(() => UpdateCreateModalLimits());
-            _view.RegisterMaxParticipantsCallback(template => 
-            {
-                if (template != null)
-                {
-                    _view.UpdateCreateModalLimits(template);
-                }
-            });
-
-            // Provide function to get selected template
-            _view.SetGetSelectedTemplateFunc(() => GetSelectedTemplate());
-
             _view.HideSelectedChallengePanel();
         }
 
@@ -109,42 +82,46 @@ namespace HiroChallenges
 
             _view.StartObservingWallet();
 
-            _ = UpdateChallenges();
+            _ = RefreshChallenges();
             _ = LoadChallengeTemplates();
         }
 
         public void SwitchComplete()
         {
             _view.HideAllModals();
-            _ = UpdateChallenges();
+            _ = RefreshChallenges();
             _economySystem.RefreshAsync();
         }
 
         #endregion
 
-        #region View Event Handlers
+        #region Public Methods
 
-        private void HandleMyChallengesTabClicked()
+        public void SwitchToMyChallengesTab()
         {
             if (_selectedTabIndex == 0) return;
             _selectedTabIndex = 0;
             _view.SetMyChallengesTabSelected(true);
-            _ = UpdateChallenges();
+            _ = RefreshChallenges();
         }
 
-        private void HandleCreateButtonClicked()
+        public void OnTemplateChanged(int templateIndex)
         {
-            _view.ShowCreateModal();
+            UpdateCreateModalLimits(templateIndex);
         }
 
-        private void HandleSubmitScoreButtonClicked()
+        public void OnChallengeSelected(IChallenge challenge)
         {
-            _view.ShowSubmitScoreModal();
+            _ = SelectChallenge(challenge);
         }
 
-        private void HandleInviteButtonClicked()
+        public void OnMaxParticipantsChanged(int templateIndex)
         {
-            _view.ShowInviteModal();
+            var template = GetSelectedTemplate(templateIndex);
+            if (template != null)
+            {
+                _view.UpdateCreateModalLimits(template);
+            }
         }
 
         #endregion
@@ -176,19 +153,18 @@ namespace HiroChallenges
             }
         }
 
-        private IChallengeTemplate GetSelectedTemplate()
+        public IChallengeTemplate GetSelectedTemplate(int templateIndex)
         {
-            var index = _view.GetSelectedTemplateIndex();
-            if (index < 0 || index >= _challengeTemplates.Count)
+            if (templateIndex < 0 || templateIndex >= _challengeTemplates.Count)
             {
                 return null;
             }
-            return _challengeTemplates.ElementAt(index).Value;
+            return _challengeTemplates.ElementAt(templateIndex).Value;
         }
 
-        private void UpdateCreateModalLimits()
+        public void UpdateCreateModalLimits(int templateIndex)
         {
-            var template = GetSelectedTemplate();
+            var template = GetSelectedTemplate(templateIndex);
             if (template != null)
             {
                 _view.UpdateCreateModalLimits(template);
@@ -199,7 +175,7 @@ namespace HiroChallenges
 
         #region Challenge Selection
 
-        private async Task OnChallengeSelected(IChallenge challenge)
+        public async Task SelectChallenge(IChallenge challenge)
         {
             if (challenge == null)
             {
@@ -226,7 +202,7 @@ namespace HiroChallenges
             }
         }
 
-        private void UpdateChallengeButtons(List<IChallengeScore> participants)
+        public void UpdateChallengeButtons(List<IChallengeScore> participants)
         {
             if (_selectedChallenge == null) return;
 
@@ -261,7 +237,7 @@ namespace HiroChallenges
 
         #region Challenge Operations
 
-        private async Task UpdateChallenges()
+        public async Task RefreshChallenges()
         {
             _challenges.Clear();
 
@@ -284,7 +260,7 @@ namespace HiroChallenges
             {
                 if (challenge.Id != _selectedChallengeId) continue;
 
-                _ = OnChallengeSelected(challenge);
+                _ = SelectChallenge(challenge);
                 _view.SelectChallenge(_challenges.IndexOf(challenge));
                 return;
             }
@@ -292,19 +268,18 @@ namespace HiroChallenges
             _view.HideSelectedChallengePanel();
         }
 
-        private async Task ChallengeCreate()
+        public async Task CreateChallenge(int templateIndex, string name, int maxParticipants, string inviteesInput,
+            int delay, int duration, bool isOpen)
         {
             try
             {
-                var selectedTemplateIndex = _view.GetSelectedTemplateIndex();
-                if (selectedTemplateIndex < 0 || selectedTemplateIndex >= _challengeTemplates.Count)
+                if (templateIndex < 0 || templateIndex >= _challengeTemplates.Count)
                 {
                     throw new Exception("Please select a valid Challenge template.");
                 }
 
-                var selectedTemplate = _challengeTemplates.ElementAt(selectedTemplateIndex);
+                var selectedTemplate = _challengeTemplates.ElementAt(templateIndex);
 
-                var inviteesInput = _view.GetModalInvitees();
                 if (string.IsNullOrEmpty(inviteesInput))
                 {
                     throw new Exception("Invitees field cannot be empty. Please enter at least one username.");
@@ -340,14 +315,14 @@ namespace HiroChallenges
 
                 var newChallenge = await _challengesSystem.CreateChallengeAsync(
                     selectedTemplate.Key,
-                    _view.GetModalName(),
+                    name,
                     description ?? "Missing description.",
                     inviteeIDs,
-                    _view.GetModalOpenToggle(),
+                    isOpen,
                     selectedTemplate.Value.MaxNumScore,
-                    _view.GetModalChallengeDelay(),
-                    _view.GetModalChallengeDuration(),
-                    _view.GetModalMaxParticipants(),
+                    delay,
+                    duration,
+                    maxParticipants,
                     category ?? "Missing category",
                     new Dictionary<string, string>()
                 );
@@ -362,10 +337,10 @@ namespace HiroChallenges
             }
 
             _view.HideCreateModal();
-            _ = UpdateChallenges();
+            _ = RefreshChallenges();
         }
 
-        private async Task ChallengeJoin()
+        public async Task JoinChallenge()
         {
             if (_selectedChallenge == null) return;
 
@@ -379,10 +354,10 @@ namespace HiroChallenges
                 return;
             }
 
-            _ = UpdateChallenges();
+            _ = RefreshChallenges();
         }
 
-        private async Task ChallengeLeave()
+        public async Task LeaveChallenge()
         {
             if (_selectedChallenge == null) return;
 
@@ -397,10 +372,10 @@ namespace HiroChallenges
                 return;
             }
 
-            _ = UpdateChallenges();
+            _ = RefreshChallenges();
         }
 
-        private async Task ChallengeClaim()
+        public async Task ClaimChallenge()
         {
             if (_selectedChallenge == null) return;
 
@@ -415,10 +390,10 @@ namespace HiroChallenges
                 return;
             }
 
-            _ = UpdateChallenges();
+            _ = RefreshChallenges();
         }
 
-        private async Task ChallengeSubmitScore()
+        public async Task SubmitScore(int score, int subScore, string metadata)
         {
             if (_selectedChallenge == null) return;
 
@@ -426,9 +401,9 @@ namespace HiroChallenges
             {
                 await _challengesSystem.SubmitChallengeScoreAsync(
                     _selectedChallenge.Id,
-                    _view.GetScoreValue(),
-                    _view.GetSubScoreValue(),
-                    _view.GetScoreMetadata(),
+                    score,
+                    subScore,
+                    metadata,
                     true
                 );
             }
@@ -439,16 +414,15 @@ namespace HiroChallenges
             }
 
             _view.HideSubmitScoreModal();
-            _ = UpdateChallenges();
+            _ = RefreshChallenges();
         }
 
-        private async Task ChallengeInvite()
+        public async Task InviteToChallenge(string inviteesInput)
         {
             if (_selectedChallenge == null) return;
 
             try
             {
-                var inviteesInput = _view.GetInviteModalInvitees();
                 if (string.IsNullOrEmpty(inviteesInput))
                 {
                     throw new Exception("Invitees field cannot be empty. Please enter at least one username.");
@@ -491,7 +465,7 @@ namespace HiroChallenges
             }
 
             _view.HideInviteModal();
-            _ = UpdateChallenges();
+            _ = RefreshChallenges();
         }
 
         #endregion
