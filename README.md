@@ -6,17 +6,21 @@ Ready-to-use templates for **Nakama** game development. Download, play, and copy
 
 **Nakama Templates**
 
-- [Cloud Save](./UnityNakamaCloudSave/) - Save player data in the cloud that syncs between devices.
-- [Friends](./UnityNakamaFriends/) - Manage friend lists and requests, block and unblock players.
-- [Groups](./UnityNakamaGroups/) - Create in-game communities for players to band together.
-- [Leaderboards](./UnityNakamaLeaderboards/) - Weekly and global rankings with real-time record updates.
-- [Tournaments](./UnityNakamaTournaments/) - Run tournaments with rules around participation and scoring.
+-   [Cloud Save](./UnityNakamaCloudSave/) - Save player data in the cloud that syncs between devices.
+-   [Friends](./UnityNakamaFriends/) - Manage friend lists and requests, block and unblock players.
+-   [Groups](./UnityNakamaGroups/) - Create in-game communities for players to band together.
+-   [Leaderboards](./UnityNakamaLeaderboards/) - Weekly and global rankings with real-time record updates.
+-   [Tournaments](./UnityNakamaTournaments/) - Run tournaments with rules around participation and scoring.
+
+**Hiro Templates**
+
+-   [Challenges](./UnityHiroChallenges/) - Compete against friends in different game modes.
 
 ## Documentation
 
-- 📚 **[Sample Project Guides](https://heroiclabs.com/docs/sample-projects)** - Overviews and guides for each project
-- 🎮 **[Nakama Docs](https://heroiclabs.com/docs/nakama/)** - Complete Nakama documentation
-- 🚀 **[Hiro Docs](https://heroiclabs.com/docs/hiro/)** - Complete Hiro documentation
+-   📚 **[Sample Project Guides](https://heroiclabs.com/docs/sample-projects)** - Overviews and guides for each project
+-   🎮 **[Nakama Docs](https://heroiclabs.com/docs/nakama/)** - Complete Nakama documentation
+-   🚀 **[Hiro Docs](https://heroiclabs.com/docs/hiro/)** - Complete Hiro documentation
 
 ## About Nakama & Hiro
 
@@ -30,8 +34,8 @@ See `Third-Party Notices.txt` in each project for licensing details.
 
 ## Support
 
-- 💬 **[Community Forum](https://forum.heroiclabs.com/)** - Get help from the community
-- 🐛 **[Issues](https://github.com/heroiclabs/sample-projects/issues)** - Report bugs or request features
+-   💬 **[Community Forum](https://forum.heroiclabs.com/)** - Get help from the community
+-   🐛 **[Issues](https://github.com/heroiclabs/sample-projects/issues)** - Report bugs or request features
 
 ## Contributing
 
