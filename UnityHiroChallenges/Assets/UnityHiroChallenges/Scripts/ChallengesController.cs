@@ -112,27 +112,7 @@ namespace HiroChallenges
 
         #endregion
 
-        #region Challenge Selection
-
-        public async Task<List<IChallengeScore>> SelectChallenge(IChallenge challenge)
-        {
-            if (challenge == null)
-            {
-                _selectedChallengeId = string.Empty;
-                return null;
-            }
-
-            _selectedChallenge = challenge;
-            _selectedChallengeId = _selectedChallenge.Id;
-
-            // Get detailed challenge info with scores
-            var detailedChallenge = await _challengesSystem.GetChallengeAsync(_selectedChallenge.Id, true);
-            return detailedChallenge.Scores.ToList();
-        }
-
-        #endregion
-
-        #region Challenge Operations
+        #region Challenge List Operations
 
         public async Task<Tuple<int, List<IChallengeScore>>> RefreshChallenges()
         {
@@ -152,6 +132,26 @@ namespace HiroChallenges
 
             return null;
         }
+
+        public async Task<List<IChallengeScore>> SelectChallenge(IChallenge challenge)
+        {
+            if (challenge == null)
+            {
+                _selectedChallengeId = string.Empty;
+                return null;
+            }
+
+            _selectedChallenge = challenge;
+            _selectedChallengeId = _selectedChallenge.Id;
+
+            // Get detailed challenge info with scores
+            var detailedChallenge = await _challengesSystem.GetChallengeAsync(_selectedChallenge.Id, true);
+            return detailedChallenge.Scores.ToList();
+        }
+
+        #endregion
+
+        #region Challenge Lifecycle Operations
 
         public async Task CreateChallenge(int templateIndex, string challengeName, int maxParticipants,
             string inviteesInput,
@@ -229,6 +229,10 @@ namespace HiroChallenges
             await _economySystem.RefreshAsync();
         }
 
+        #endregion
+
+        #region Challenge Participation Operations
+
         public async Task SubmitScore(int score, int subScore, string metadata)
         {
             if (_selectedChallenge == null) return;
@@ -275,7 +279,7 @@ namespace HiroChallenges
                 inviteeIDs
             );
         }
-    }
 
-    #endregion
+        #endregion
+    }
 }

@@ -99,26 +99,6 @@ namespace HiroChallenges
             HideSelectedChallengePanel();
         }
 
-        private async void HandleInitialized(ISession session, ChallengesController controller)
-        {
-            try
-            {
-                var choices = await controller.LoadChallengeTemplates();
-                _modalTemplateDropdown.choices = choices;
-            }
-            catch (Exception e)
-            {
-                ShowError($"Failed to load challenge templates: {e.Message}");
-            }
-
-            _walletDisplay.StartObserving();
-        }
-
-        private void HandleStartError(Exception e)
-        {
-            ShowError(e.Message);
-        }
-
         private void Initialize(VisualElement rootElement)
         {
             _walletDisplay = new WalletDisplay(rootElement.Q<VisualElement>("wallet-display"));
@@ -165,79 +145,6 @@ namespace HiroChallenges
 
             _refreshButton = rootElement.Q<Button>("challenges-refresh");
             _refreshButton.RegisterCallback<ClickEvent>(evt => _ = RefreshChallenges());
-        }
-
-        private async void JoinChallenge(ClickEvent evt)
-        {
-            try
-            {
-                await _controller.JoinChallenge();
-            }
-            catch (Exception e)
-            {
-                ShowError(e.Message);
-            }
-
-            await RefreshChallenges();
-        }
-
-        private async void LeaveChallenge(ClickEvent evt)
-        {
-            try
-            {
-                await _controller.LeaveChallenge();
-                _challengesList.ClearSelection();
-            }
-            catch (Exception e)
-            {
-                ShowError(e.Message);
-            }
-
-            await RefreshChallenges();
-        }
-
-        private async void ClaimChallenge(ClickEvent evt)
-        {
-            try
-            {
-                await _controller.ClaimChallenge();
-            }
-            catch (Exception e)
-            {
-                ShowError(e.Message);
-            }
-
-            await RefreshChallenges();
-        }
-
-        private async void SubmitScore(ClickEvent evt)
-        {
-            try
-            {
-                await _controller.SubmitScore(_scoreField.value, _subScoreField.value, _scoreMetadataField.value);
-                HideSubmitScoreModal();
-            }
-            catch (Exception e)
-            {
-                ShowError(e.Message);
-            }
-
-            await RefreshChallenges();
-        }
-
-        public async Task RefreshChallenges()
-        {
-            HideAllModals();
-
-            var refreshData = await _controller.RefreshChallenges();
-
-            _challengesList.RefreshItems();
-            _challengesList.ClearSelection();
-
-            if (refreshData == null)
-                HideSelectedChallengePanel();
-            else
-                _challengesList.SetSelection(refreshData.Item1);
         }
 
         private void InitializeSelectedChallengePanel(VisualElement rootElement)
@@ -377,7 +284,44 @@ namespace HiroChallenges
             _errorCloseButton.RegisterCallback<ClickEvent>(_ => HideErrorPopup());
         }
 
+        private async void HandleInitialized(ISession session, ChallengesController controller)
+        {
+            try
+            {
+                var choices = await controller.LoadChallengeTemplates();
+                _modalTemplateDropdown.choices = choices;
+            }
+            catch (Exception e)
+            {
+                ShowError($"Failed to load challenge templates: {e.Message}");
+            }
+
+            _walletDisplay.StartObserving();
+        }
+
+        private void HandleStartError(Exception e)
+        {
+            ShowError(e.Message);
+        }
+
         #endregion
+
+        #region Challenge List Management
+
+        public async Task RefreshChallenges()
+        {
+            HideAllModals();
+
+            var refreshData = await _controller.RefreshChallenges();
+
+            _challengesList.RefreshItems();
+            _challengesList.ClearSelection();
+
+            if (refreshData == null)
+                HideSelectedChallengePanel();
+            else
+                _challengesList.SetSelection(refreshData.Item1);
+        }
 
         private async Task SelectChallenge()
         {
@@ -401,7 +345,9 @@ namespace HiroChallenges
             }
         }
 
-        #region Selected Challenge Panel
+        #endregion
+
+        #region Challenge Detail Panel
 
         private void ShowSelectedChallengePanel(IChallenge challenge)
         {
@@ -472,9 +418,55 @@ namespace HiroChallenges
 
         #endregion
 
-        #region Modals
+        #region Challenge Action Handlers
 
-        // Create Modal
+        private async void JoinChallenge(ClickEvent evt)
+        {
+            try
+            {
+                await _controller.JoinChallenge();
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+            }
+
+            await RefreshChallenges();
+        }
+
+        private async void LeaveChallenge(ClickEvent evt)
+        {
+            try
+            {
+                await _controller.LeaveChallenge();
+                _challengesList.ClearSelection();
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+            }
+
+            await RefreshChallenges();
+        }
+
+        private async void ClaimChallenge(ClickEvent evt)
+        {
+            try
+            {
+                await _controller.ClaimChallenge();
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+            }
+
+            await RefreshChallenges();
+        }
+
+        #endregion
+
+        #region Create Challenge Modal
+
         private void ShowCreateModal()
         {
             ResetCreateModalInputs();
@@ -538,7 +530,10 @@ namespace HiroChallenges
                 template.Players.Min, template.Players.Max);
         }
 
-        // Submit Score Modal
+        #endregion
+
+        #region Submit Score Modal
+
         private void ShowSubmitScoreModal()
         {
             _scoreField.value = 0;
@@ -552,11 +547,34 @@ namespace HiroChallenges
             _submitScoreModal.style.display = DisplayStyle.None;
         }
 
-        // Invite Modal
+        private async void SubmitScore(ClickEvent evt)
+        {
+            try
+            {
+                await _controller.SubmitScore(_scoreField.value, _subScoreField.value, _scoreMetadataField.value);
+                HideSubmitScoreModal();
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+            }
+
+            await RefreshChallenges();
+        }
+
+        #endregion
+
+        #region Invite Modal
+
         private void ShowInviteModal()
         {
             _inviteModalInvitees.value = string.Empty;
             _inviteModal.style.display = DisplayStyle.Flex;
+        }
+
+        private void HideInviteModal()
+        {
+            _inviteModal.style.display = DisplayStyle.None;
         }
 
         private async Task InviteUsers()
@@ -573,12 +591,10 @@ namespace HiroChallenges
             }
         }
 
-        private void HideInviteModal()
-        {
-            _inviteModal.style.display = DisplayStyle.None;
-        }
+        #endregion
 
-        // Error Popup
+        #region Error Handling
+
         private void ShowError(string message)
         {
             _errorMessage.text = message;
