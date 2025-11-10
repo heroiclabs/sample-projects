@@ -14,18 +14,20 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Hiro;
 using UnityEngine;
 using UnityEngine.UIElements;
 using HeroicUI;
+using Nakama;
 
 namespace HiroChallenges
 {
     public sealed class ChallengesView
     {
+        private readonly ChallengesController _controller;
         private readonly VisualTreeAsset _challengeEntryTemplate;
         private readonly VisualTreeAsset _challengeParticipantTemplate;
-        private ChallengesController _controller;
 
         private WalletDisplay _walletDisplay;
         private Button _myChallengesTab;
@@ -75,24 +77,49 @@ namespace HiroChallenges
         private Button _errorCloseButton;
         private Label _errorMessage;
 
-        private readonly List<IChallenge> _challenges = new();
         private readonly List<IChallengeScore> _selectedChallengeParticipants = new();
         private IChallenge _currentChallenge;
+        private int _selectedTabIndex;
 
         #region Initialization
 
-        public ChallengesView(VisualTreeAsset challengeEntryTemplate, VisualTreeAsset challengeParticipantTemplate)
-        {
-            _challengeEntryTemplate = challengeEntryTemplate;
-            _challengeParticipantTemplate = challengeParticipantTemplate;
-        }
-
-        public void SetController(ChallengesController controller)
+        public ChallengesView(ChallengesController controller, HiroChallengesCoordinator coordinator,
+            VisualTreeAsset challengeEntryTemplate,
+            VisualTreeAsset challengeParticipantTemplate)
         {
             _controller = controller;
+            _challengeEntryTemplate = challengeEntryTemplate;
+            _challengeParticipantTemplate = challengeParticipantTemplate;
+
+            controller.OnInitialized += HandleInitialized;
+            coordinator.ReceivedStartError += HandleStartError;
+
+            Initialize(controller.GetComponent<UIDocument>().rootVisualElement);
+
+            HideSelectedChallengePanel();
         }
 
-        public void Initialize(VisualElement rootElement)
+        private async void HandleInitialized(ISession session, ChallengesController controller)
+        {
+            try
+            {
+                var choices = await controller.LoadChallengeTemplates();
+                _modalTemplateDropdown.choices = choices;
+            }
+            catch (Exception e)
+            {
+                ShowError($"Failed to load challenge templates: {e.Message}");
+            }
+
+            _walletDisplay.StartObserving();
+        }
+
+        private void HandleStartError(Exception e)
+        {
+            ShowError(e.Message);
+        }
+
+        private void Initialize(VisualElement rootElement)
         {
             _walletDisplay = new WalletDisplay(rootElement.Q<VisualElement>("wallet-display"));
 
@@ -107,7 +134,13 @@ namespace HiroChallenges
         private void InitializeTabs(VisualElement rootElement)
         {
             _myChallengesTab = rootElement.Q<Button>("my-challenges-tab");
-            _myChallengesTab.RegisterCallback<ClickEvent>(evt => _controller?.SwitchToMyChallengesTab());
+            _myChallengesTab.RegisterCallback<ClickEvent>(evt =>
+            {
+                if (_selectedTabIndex == 0) return;
+                _selectedTabIndex = 0;
+                _myChallengesTab.AddToClassList("selected");
+                _ = RefreshChallenges();
+            });
         }
 
         private void InitializeButtons(VisualElement rootElement)
@@ -116,13 +149,13 @@ namespace HiroChallenges
             _createButton.RegisterCallback<ClickEvent>(_ => ShowCreateModal());
 
             _joinButton = rootElement.Q<Button>("challenge-join");
-            _joinButton.RegisterCallback<ClickEvent>(_ => _controller?.JoinChallenge());
+            _joinButton.RegisterCallback<ClickEvent>(JoinChallenge);
 
             _leaveButton = rootElement.Q<Button>("challenge-leave");
-            _leaveButton.RegisterCallback<ClickEvent>(_ => _controller?.LeaveChallenge());
+            _leaveButton.RegisterCallback<ClickEvent>(LeaveChallenge);
 
             _claimRewardsButton = rootElement.Q<Button>("challenge-claim");
-            _claimRewardsButton.RegisterCallback<ClickEvent>(_ => _controller?.ClaimChallenge());
+            _claimRewardsButton.RegisterCallback<ClickEvent>(ClaimChallenge);
 
             _submitScoreButton = rootElement.Q<Button>("challenge-submit-score");
             _submitScoreButton.RegisterCallback<ClickEvent>(_ => ShowSubmitScoreModal());
@@ -131,7 +164,80 @@ namespace HiroChallenges
             _inviteButton.RegisterCallback<ClickEvent>(_ => ShowInviteModal());
 
             _refreshButton = rootElement.Q<Button>("challenges-refresh");
-            _refreshButton.RegisterCallback<ClickEvent>(_ => _controller?.RefreshChallenges());
+            _refreshButton.RegisterCallback<ClickEvent>(evt => _ = RefreshChallenges());
+        }
+
+        private async void JoinChallenge(ClickEvent evt)
+        {
+            try
+            {
+                await _controller.JoinChallenge();
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+            }
+
+            await RefreshChallenges();
+        }
+
+        private async void LeaveChallenge(ClickEvent evt)
+        {
+            try
+            {
+                await _controller.LeaveChallenge();
+                _challengesList.ClearSelection();
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+            }
+
+            await RefreshChallenges();
+        }
+
+        private async void ClaimChallenge(ClickEvent evt)
+        {
+            try
+            {
+                await _controller.ClaimChallenge();
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+            }
+
+            await RefreshChallenges();
+        }
+
+        private async void SubmitScore(ClickEvent evt)
+        {
+            try
+            {
+                await _controller.SubmitScore(_scoreField.value, _subScoreField.value, _scoreMetadataField.value);
+                HideSubmitScoreModal();
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+            }
+
+            await RefreshChallenges();
+        }
+
+        public async Task RefreshChallenges()
+        {
+            HideAllModals();
+
+            var refreshData = await _controller.RefreshChallenges();
+
+            _challengesList.RefreshItems();
+            _challengesList.ClearSelection();
+
+            if (refreshData == null)
+                HideSelectedChallengePanel();
+            else
+                _challengesList.SetSelection(refreshData.Item1);
         }
 
         private void InitializeSelectedChallengePanel(VisualElement rootElement)
@@ -177,16 +283,10 @@ namespace HiroChallenges
             };
             _challengesList.bindItem = (item, index) =>
             {
-                (item.userData as ChallengeView)?.SetChallenge(_challenges[index]);
+                (item.userData as ChallengeView)?.SetChallenge(_controller.Challenges[index]);
             };
-            _challengesList.itemsSource = _challenges;
-            _challengesList.selectionChanged += objects =>
-            {
-                if (_challengesList.selectedItem is IChallenge challenge)
-                {
-                    _controller?.OnChallengeSelected(challenge);
-                }
-            };
+            _challengesList.itemsSource = _controller.Challenges;
+            _challengesList.selectionChanged += objects => _ = SelectChallenge();
 
             _challengesScrollView = _challengesList.Q<ScrollView>();
             _challengesScrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
@@ -203,12 +303,20 @@ namespace HiroChallenges
         {
             _createModal = rootElement.Q<VisualElement>("create-modal");
             _modalTemplateDropdown = rootElement.Q<DropdownField>("create-modal-template");
-            _modalTemplateDropdown.RegisterValueChangedCallback(_ => _controller?.OnTemplateChanged(_modalTemplateDropdown.index));
-            
+            _modalTemplateDropdown.RegisterValueChangedCallback(_ =>
+            {
+                var template = _controller.GetTemplate(_modalTemplateDropdown.index);
+                UpdateCreateModalLimits(template);
+            });
+
             _modalNameField = rootElement.Q<TextField>("create-modal-name");
             _modalMaxParticipantsField = rootElement.Q<IntegerField>("create-modal-max-participants");
-            _modalMaxParticipantsField.RegisterCallback<FocusOutEvent>(_ => _controller?.OnMaxParticipantsChanged(_modalTemplateDropdown.index));
-            
+            _modalMaxParticipantsField.RegisterCallback<FocusOutEvent>(_ =>
+            {
+                var template = _controller.GetTemplate(_modalTemplateDropdown.index);
+                UpdateCreateModalLimits(template);
+            });
+
             _modalInvitees = rootElement.Q<TextField>("create-modal-invitees");
             _modalOpenToggle = rootElement.Q<Toggle>("create-modal-open");
 
@@ -229,19 +337,8 @@ namespace HiroChallenges
             _modalChallengeDurationLabel.text = $"{_modalChallengeDuration.value}s";
 
             _modalCreateButton = rootElement.Q<Button>("create-modal-create");
-            _modalCreateButton.RegisterCallback<ClickEvent>(_ => 
-            {
-                _controller?.CreateChallenge(
-                    _modalTemplateDropdown.index,
-                    _modalNameField.value,
-                    _modalMaxParticipantsField.value,
-                    _modalInvitees.value,
-                    _modalChallengeDelay.value,
-                    _modalChallengeDuration.value,
-                    _modalOpenToggle.value
-                );
-            });
-            
+            _modalCreateButton.RegisterCallback<ClickEvent>(evt => _ = CreateChallenge());
+
             _modalCloseButton = rootElement.Q<Button>("create-modal-close");
             _modalCloseButton.RegisterCallback<ClickEvent>(_ => HideCreateModal());
         }
@@ -252,17 +349,10 @@ namespace HiroChallenges
             _scoreField = rootElement.Q<IntegerField>("submit-score-score");
             _subScoreField = rootElement.Q<IntegerField>("submit-score-subscore");
             _scoreMetadataField = rootElement.Q<TextField>("submit-score-metadata");
-            
+
             _submitScoreModalButton = rootElement.Q<Button>("submit-score-modal-submit");
-            _submitScoreModalButton.RegisterCallback<ClickEvent>(_ => 
-            {
-                _controller?.SubmitScore(
-                    _scoreField.value,
-                    _subScoreField.value,
-                    _scoreMetadataField.value
-                );
-            });
-            
+            _submitScoreModalButton.RegisterCallback<ClickEvent>(SubmitScore);
+
             _submitScoreModalCloseButton = rootElement.Q<Button>("submit-score-modal-close");
             _submitScoreModalCloseButton.RegisterCallback<ClickEvent>(_ => HideSubmitScoreModal());
         }
@@ -271,13 +361,10 @@ namespace HiroChallenges
         {
             _inviteModal = rootElement.Q<VisualElement>("invite-modal");
             _inviteModalInvitees = rootElement.Q<TextField>("invite-modal-invitees");
-            
+
             _inviteModalButton = rootElement.Q<Button>("invite-modal-invite");
-            _inviteModalButton.RegisterCallback<ClickEvent>(_ => 
-            {
-                _controller?.InviteToChallenge(_inviteModalInvitees.value);
-            });
-            
+            _inviteModalButton.RegisterCallback<ClickEvent>(evt => _ = InviteUsers());
+
             _inviteModalCloseButton = rootElement.Q<Button>("invite-modal-close");
             _inviteModalCloseButton.RegisterCallback<ClickEvent>(_ => HideInviteModal());
         }
@@ -292,38 +379,31 @@ namespace HiroChallenges
 
         #endregion
 
-        #region Challenge List Management
-
-        public void SetChallenges(IEnumerable<IChallenge> challenges)
+        private async Task SelectChallenge()
         {
-            _challenges.Clear();
-            _challenges.AddRange(challenges);
-            _challengesList.RefreshItems();
-        }
+            if (_challengesList.selectedItem is not IChallenge challenge) return;
 
-        public void ClearChallengeSelection()
-        {
-            _challengesList.ClearSelection();
-        }
+            try
+            {
+                var participants = await _controller.SelectChallenge(challenge);
 
-        public void SelectChallenge(int index)
-        {
-            _challengesList.SetSelection(index);
-        }
+                _currentChallenge = challenge;
+                _selectedChallengeParticipants.Clear();
+                _selectedChallengeParticipants.AddRange(participants);
+                _challengeParticipantsList.RefreshItems();
 
-        #endregion
+                UpdateChallengeButtons(participants);
+                ShowSelectedChallengePanel(challenge);
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+            }
+        }
 
         #region Selected Challenge Panel
 
-        public void SetSelectedChallengeParticipants(IChallenge challenge, IEnumerable<IChallengeScore> participants)
-        {
-            _currentChallenge = challenge;
-            _selectedChallengeParticipants.Clear();
-            _selectedChallengeParticipants.AddRange(participants);
-            _challengeParticipantsList.RefreshItems();
-        }
-
-        public void ShowSelectedChallengePanel(IChallenge challenge)
+        private void ShowSelectedChallengePanel(IChallenge challenge)
         {
             _selectedChallengeNameLabel.text = challenge.Name;
             _selectedChallengeDescriptionLabel.text = string.IsNullOrEmpty(challenge.Description)
@@ -334,30 +414,54 @@ namespace HiroChallenges
             var startTime = DateTimeOffset.FromUnixTimeSeconds(challenge.StartTimeSec);
             var endTime = DateTimeOffset.FromUnixTimeSeconds(challenge.EndTimeSec);
             var difference = startTime - now;
-            
+
             if (difference.Seconds > 0)
             {
-                _selectedChallengeStatusLabel.text = $"Starting in {difference.Days}d, {difference.Hours}h, {difference.Minutes}m";
+                _selectedChallengeStatusLabel.text =
+                    $"Starting in {difference.Days}d, {difference.Hours}h, {difference.Minutes}m";
                 _selectedChallengeStatusLabel.style.color = new StyleColor(Color.orange);
             }
             else
             {
                 _selectedChallengeStatusLabel.text = challenge.IsActive ? "Active" : "Ended";
-                _selectedChallengeStatusLabel.style.color = challenge.IsActive ? new StyleColor(Color.green) : new StyleColor(Color.red);
+                _selectedChallengeStatusLabel.style.color =
+                    challenge.IsActive ? new StyleColor(Color.green) : new StyleColor(Color.red);
             }
-            
+
             _selectedChallengeEndTimeLabel.text = endTime.LocalDateTime.ToString("MMM dd, yyyy HH:mm");
             _selectedChallengePanel.style.display = DisplayStyle.Flex;
         }
 
-        public void HideSelectedChallengePanel()
+        private void HideSelectedChallengePanel()
         {
             _selectedChallengePanel.style.display = DisplayStyle.None;
         }
 
-        public void UpdateChallengeButtons(bool showJoin, bool showLeave, bool showSubmitScore, 
-            string submitScoreText, bool showInvite, bool showClaimRewards)
+        private void UpdateChallengeButtons(List<IChallengeScore> participants)
         {
+            var isActive = _currentChallenge.IsActive;
+            IChallengeScore foundParticipant = null;
+
+            foreach (var participant in participants)
+            {
+                if (participant.Id != _controller.CurrentUserId || participant.State != ChallengeState.Joined) continue;
+                foundParticipant = participant;
+                break;
+            }
+
+            var canClaim = _currentChallenge.CanClaim;
+
+            // Determine button visibility
+            var showJoin = isActive && foundParticipant == null;
+            var showLeave = !isActive && foundParticipant != null && !canClaim;
+            var showSubmitScore = isActive && foundParticipant != null &&
+                                  foundParticipant.NumScores < _currentChallenge.MaxNumScore;
+            var submitScoreText = $"Submit Score ({foundParticipant?.NumScores}/{_currentChallenge.MaxNumScore})";
+            var showInvite = isActive && foundParticipant != null &&
+                             foundParticipant.Id == _currentChallenge.OwnerId &&
+                             _currentChallenge.Size < _currentChallenge.MaxSize;
+            var showClaimRewards = !isActive && foundParticipant != null && canClaim;
+
             _joinButton.style.display = showJoin ? DisplayStyle.Flex : DisplayStyle.None;
             _leaveButton.style.display = showLeave ? DisplayStyle.Flex : DisplayStyle.None;
             _submitScoreButton.style.display = showSubmitScore ? DisplayStyle.Flex : DisplayStyle.None;
@@ -371,15 +475,37 @@ namespace HiroChallenges
         #region Modals
 
         // Create Modal
-        public void ShowCreateModal()
+        private void ShowCreateModal()
         {
             ResetCreateModalInputs();
             _createModal.style.display = DisplayStyle.Flex;
         }
 
-        public void HideCreateModal()
+        private void HideCreateModal()
         {
             _createModal.style.display = DisplayStyle.None;
+        }
+
+        private async Task CreateChallenge()
+        {
+            try
+            {
+                await _controller.CreateChallenge(
+                    _modalTemplateDropdown.index,
+                    _modalNameField.value,
+                    _modalMaxParticipantsField.value,
+                    _modalInvitees.value,
+                    _modalChallengeDelay.value,
+                    _modalChallengeDuration.value,
+                    _modalOpenToggle.value
+                );
+                HideCreateModal();
+                await RefreshChallenges();
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+            }
         }
 
         private void ResetCreateModalInputs()
@@ -391,18 +517,10 @@ namespace HiroChallenges
             _modalChallengeDuration.value = 2000;
             _modalOpenToggle.value = false;
 
-            if (_modalTemplateDropdown.choices.Count > 0)
-            {
-                _modalTemplateDropdown.index = 0;
-            }
+            if (_modalTemplateDropdown.choices.Count > 0) _modalTemplateDropdown.index = 0;
         }
 
-        public void SetTemplateChoices(List<string> choices)
-        {
-            _modalTemplateDropdown.choices = choices;
-        }
-
-        public void UpdateCreateModalLimits(IChallengeTemplate template)
+        private void UpdateCreateModalLimits(IChallengeTemplate template)
         {
             var maxDelay = template.StartDelayMax;
             _modalChallengeDelay.highValue = (int)maxDelay;
@@ -415,13 +533,13 @@ namespace HiroChallenges
             _modalChallengeDuration.highValue = (int)maxDuration;
             _modalChallengeDuration.value = (int)Mathf.Clamp(_modalChallengeDuration.value, minDuration, maxDuration);
             _modalChallengeDurationLabel.text = $"{_modalChallengeDuration.value}s";
-            
-            _modalMaxParticipantsField.value = (int)Mathf.Clamp(_modalMaxParticipantsField.value, 
+
+            _modalMaxParticipantsField.value = (int)Mathf.Clamp(_modalMaxParticipantsField.value,
                 template.Players.Min, template.Players.Max);
         }
 
         // Submit Score Modal
-        public void ShowSubmitScoreModal()
+        private void ShowSubmitScoreModal()
         {
             _scoreField.value = 0;
             _subScoreField.value = 0;
@@ -429,61 +547,54 @@ namespace HiroChallenges
             _submitScoreModal.style.display = DisplayStyle.Flex;
         }
 
-        public void HideSubmitScoreModal()
+        private void HideSubmitScoreModal()
         {
             _submitScoreModal.style.display = DisplayStyle.None;
         }
 
         // Invite Modal
-        public void ShowInviteModal()
+        private void ShowInviteModal()
         {
             _inviteModalInvitees.value = string.Empty;
             _inviteModal.style.display = DisplayStyle.Flex;
         }
 
-        public void HideInviteModal()
+        private async Task InviteUsers()
+        {
+            try
+            {
+                await _controller.InviteToChallenge(_inviteModalInvitees.value);
+                HideInviteModal();
+                await RefreshChallenges();
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+            }
+        }
+
+        private void HideInviteModal()
         {
             _inviteModal.style.display = DisplayStyle.None;
         }
 
         // Error Popup
-        public void ShowError(string message)
+        private void ShowError(string message)
         {
             _errorMessage.text = message;
             _errorPopup.style.display = DisplayStyle.Flex;
         }
 
-        public void HideErrorPopup()
+        private void HideErrorPopup()
         {
             _errorPopup.style.display = DisplayStyle.None;
         }
 
-        public void HideAllModals()
+        private void HideAllModals()
         {
             HideCreateModal();
             HideSubmitScoreModal();
             HideInviteModal();
-        }
-
-        #endregion
-
-        #region Wallet & Tabs
-
-        public void StartObservingWallet()
-        {
-            _walletDisplay.StartObserving();
-        }
-
-        public void SetMyChallengesTabSelected(bool selected)
-        {
-            if (selected)
-            {
-                _myChallengesTab.AddToClassList("selected");
-            }
-            else
-            {
-                _myChallengesTab.RemoveFromClassList("selected");
-            }
         }
 
         #endregion

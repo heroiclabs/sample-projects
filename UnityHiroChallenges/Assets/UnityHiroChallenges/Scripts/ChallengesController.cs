@@ -27,447 +27,255 @@ namespace HiroChallenges
     [RequireComponent(typeof(UIDocument))]
     public class ChallengesController : MonoBehaviour
     {
-        [Header("References")] 
+        [Header("References")]
         [SerializeField] private VisualTreeAsset challengeEntryTemplate;
         [SerializeField] private VisualTreeAsset challengeParticipantTemplate;
 
-        public event Action<ISession, ChallengesController> OnInitialized;
-
-        private ChallengesView _view;
-        private int _selectedTabIndex;
-        private string _selectedChallengeId;
-        private IChallenge _selectedChallenge;
-        private NakamaSystem _nakamaSystem;
+        private readonly Dictionary<string, IChallengeTemplate> _challengeTemplates = new();
         private IChallengesSystem _challengesSystem;
         private IEconomySystem _economySystem;
-        private readonly Dictionary<string, IChallengeTemplate> _challengeTemplates = new();
-        private readonly List<IChallenge> _challenges = new();
+        private NakamaSystem _nakamaSystem;
+        private IChallenge _selectedChallenge;
+        private string _selectedChallengeId;
+
+        private ChallengesView _view;
+
+        public string CurrentUserId => _nakamaSystem.UserId;
+        public List<IChallenge> Challenges { get; } = new();
+
+        public event Action<ISession, ChallengesController> OnInitialized;
 
         #region Initialization
 
         private void Start()
         {
-            InitializeView();
-            
             var challengesCoordinator = HiroCoordinator.Instance as HiroChallengesCoordinator;
             if (challengesCoordinator == null) return;
 
             challengesCoordinator.ReceivedStartError += HandleStartError;
             challengesCoordinator.ReceivedStartSuccess += HandleStartSuccess;
+
+            _view = new ChallengesView(this, challengesCoordinator, challengeEntryTemplate,
+                challengeParticipantTemplate);
         }
 
-        private void InitializeView()
-        {
-            var rootElement = GetComponent<UIDocument>().rootVisualElement;
-            _view = new ChallengesView(challengeEntryTemplate, challengeParticipantTemplate);
-            _view.SetController(this);
-            _view.Initialize(rootElement);
-            _view.HideSelectedChallengePanel();
-        }
-
-        private void HandleStartError(Exception e)
+        private static void HandleStartError(Exception e)
         {
             Debug.LogException(e);
-            _view.ShowError(e.Message);
         }
 
-        private void HandleStartSuccess(ISession session)
+        private async void HandleStartSuccess(ISession session)
         {
-            OnInitialized?.Invoke(session, this);
-
-            // Cache Hiro systems
+            // Cache Hiro systems.
             _nakamaSystem = this.GetSystem<NakamaSystem>();
             _challengesSystem = this.GetSystem<ChallengesSystem>();
             _economySystem = this.GetSystem<EconomySystem>();
 
-            _view.StartObservingWallet();
+            await _view.RefreshChallenges();
 
-            _ = RefreshChallenges();
-            _ = LoadChallengeTemplates();
+            OnInitialized?.Invoke(session, this);
         }
 
         public void SwitchComplete()
         {
-            _view.HideAllModals();
-            _ = RefreshChallenges();
-            _economySystem.RefreshAsync();
-        }
-
-        #endregion
-
-        #region Public Methods
-
-        public void SwitchToMyChallengesTab()
-        {
-            if (_selectedTabIndex == 0) return;
-            _selectedTabIndex = 0;
-            _view.SetMyChallengesTabSelected(true);
-            _ = RefreshChallenges();
-        }
-
-        public void OnTemplateChanged(int templateIndex)
-        {
-            UpdateCreateModalLimits(templateIndex);
-        }
-
-        public void OnChallengeSelected(IChallenge challenge)
-        {
-            _ = SelectChallenge(challenge);
-        }
-
-        public void OnMaxParticipantsChanged(int templateIndex)
-        {
-            var template = GetSelectedTemplate(templateIndex);
-            if (template != null)
-            {
-                _view.UpdateCreateModalLimits(template);
-            }
+            _ = _view.RefreshChallenges();
+            _ = _economySystem.RefreshAsync();
         }
 
         #endregion
 
         #region Challenge Templates
 
-        private async Task LoadChallengeTemplates()
+        public async Task<List<string>> LoadChallengeTemplates()
         {
-            try
-            {
-                _challengeTemplates.Clear();
-                var loadedTemplates = (await _challengesSystem.GetTemplatesAsync()).Templates;
-                var challengeTemplateNames = new List<string>();
-                
-                foreach (var template in loadedTemplates)
-                {
-                    _challengeTemplates[template.Key] = template.Value;
-                    challengeTemplateNames.Add(
-                        template.Value.AdditionalProperties.TryGetValue("display_name", out var displayName)
-                            ? displayName
-                            : template.Key);
-                }
+            _challengeTemplates.Clear();
+            var loadedTemplates = (await _challengesSystem.GetTemplatesAsync()).Templates;
+            var challengeTemplateNames = new List<string>();
 
-                _view.SetTemplateChoices(challengeTemplateNames);
-            }
-            catch (Exception e)
+            foreach (var template in loadedTemplates)
             {
-                _view.ShowError($"Failed to load challenge templates: {e.Message}");
+                _challengeTemplates[template.Key] = template.Value;
+                challengeTemplateNames.Add(
+                    template.Value.AdditionalProperties.TryGetValue("display_name", out var displayName)
+                        ? displayName
+                        : template.Key);
             }
+
+            return challengeTemplateNames;
         }
 
-        public IChallengeTemplate GetSelectedTemplate(int templateIndex)
+        public IChallengeTemplate GetTemplate(int templateIndex)
         {
-            if (templateIndex < 0 || templateIndex >= _challengeTemplates.Count)
-            {
-                return null;
-            }
+            if (templateIndex < 0 || templateIndex >= _challengeTemplates.Count) return null;
             return _challengeTemplates.ElementAt(templateIndex).Value;
-        }
-
-        public void UpdateCreateModalLimits(int templateIndex)
-        {
-            var template = GetSelectedTemplate(templateIndex);
-            if (template != null)
-            {
-                _view.UpdateCreateModalLimits(template);
-            }
         }
 
         #endregion
 
         #region Challenge Selection
 
-        public async Task SelectChallenge(IChallenge challenge)
+        public async Task<List<IChallengeScore>> SelectChallenge(IChallenge challenge)
         {
             if (challenge == null)
             {
                 _selectedChallengeId = string.Empty;
-                _view.HideSelectedChallengePanel();
-                return;
+                return null;
             }
 
             _selectedChallenge = challenge;
             _selectedChallengeId = _selectedChallenge.Id;
 
-            _view.ShowSelectedChallengePanel(_selectedChallenge);
-
             // Get detailed challenge info with scores
-            try
-            {
-                var detailedChallenge = await _challengesSystem.GetChallengeAsync(_selectedChallenge.Id, true);
-                _view.SetSelectedChallengeParticipants(_selectedChallenge, detailedChallenge.Scores);
-                UpdateChallengeButtons(detailedChallenge.Scores.ToList());
-            }
-            catch (Exception e)
-            {
-                _view.ShowError(e.Message);
-            }
-        }
-
-        public void UpdateChallengeButtons(List<IChallengeScore> participants)
-        {
-            if (_selectedChallenge == null) return;
-
-            var isActive = _selectedChallenge.IsActive;
-            IChallengeScore foundParticipant = null;
-            
-            foreach (var participant in participants)
-            {
-                if (participant.Id != _nakamaSystem.UserId || participant.State != ChallengeState.Joined) continue;
-                foundParticipant = participant;
-                break;
-            }
-
-            var canClaim = _selectedChallenge.CanClaim;
-
-            // Determine button visibility
-            var showJoin = isActive && foundParticipant == null;
-            var showLeave = !isActive && foundParticipant != null && !canClaim;
-            var showSubmitScore = isActive && foundParticipant != null && 
-                                  foundParticipant.NumScores < _selectedChallenge.MaxNumScore;
-            var submitScoreText = $"Submit Score ({foundParticipant?.NumScores}/{_selectedChallenge.MaxNumScore})";
-            var showInvite = isActive && foundParticipant != null && 
-                             foundParticipant.Id == _selectedChallenge.OwnerId &&
-                             _selectedChallenge.Size < _selectedChallenge.MaxSize;
-            var showClaimRewards = !isActive && foundParticipant != null && canClaim;
-
-            _view.UpdateChallengeButtons(showJoin, showLeave, showSubmitScore, submitScoreText, 
-                showInvite, showClaimRewards);
+            var detailedChallenge = await _challengesSystem.GetChallengeAsync(_selectedChallenge.Id, true);
+            return detailedChallenge.Scores.ToList();
         }
 
         #endregion
 
         #region Challenge Operations
 
-        public async Task RefreshChallenges()
+        public async Task<Tuple<int, List<IChallengeScore>>> RefreshChallenges()
         {
-            _challenges.Clear();
+            Challenges.Clear();
 
-            try
-            {
-                var userChallengesResult = await _challengesSystem.ListChallengesAsync(null);
-                _challenges.AddRange(userChallengesResult.Challenges);
-            }
-            catch (Exception e)
-            {
-                _view.ShowError(e.Message);
-                return;
-            }
-
-            _view.SetChallenges(_challenges);
-            _view.ClearChallengeSelection();
+            var userChallengesResult = await _challengesSystem.ListChallengesAsync(null);
+            Challenges.AddRange(userChallengesResult.Challenges);
 
             // If we have a challenge selected, try to reselect it
-            foreach (var challenge in _challenges)
+            foreach (var challenge in Challenges)
             {
                 if (challenge.Id != _selectedChallengeId) continue;
 
-                _ = SelectChallenge(challenge);
-                _view.SelectChallenge(_challenges.IndexOf(challenge));
-                return;
+                var participants = await SelectChallenge(challenge);
+                return new Tuple<int, List<IChallengeScore>>(Challenges.IndexOf(challenge), participants);
             }
 
-            _view.HideSelectedChallengePanel();
+            return null;
         }
 
-        public async Task CreateChallenge(int templateIndex, string name, int maxParticipants, string inviteesInput,
+        public async Task CreateChallenge(int templateIndex, string challengeName, int maxParticipants,
+            string inviteesInput,
             int delay, int duration, bool isOpen)
         {
-            try
-            {
-                if (templateIndex < 0 || templateIndex >= _challengeTemplates.Count)
-                {
-                    throw new Exception("Please select a valid Challenge template.");
-                }
+            if (templateIndex < 0 || templateIndex >= _challengeTemplates.Count)
+                throw new Exception("Please select a valid Challenge template.");
 
-                var selectedTemplate = _challengeTemplates.ElementAt(templateIndex);
+            var selectedTemplate = _challengeTemplates.ElementAt(templateIndex);
 
-                if (string.IsNullOrEmpty(inviteesInput))
-                {
-                    throw new Exception("Invitees field cannot be empty. Please enter at least one username.");
-                }
+            if (string.IsNullOrEmpty(inviteesInput))
+                throw new Exception("Invitees field cannot be empty. Please enter at least one username.");
 
-                var inviteeUsernames = inviteesInput
-                    .Split(',')
-                    .Select(username => username.Trim())
-                    .Where(username => !string.IsNullOrEmpty(username))
-                    .ToList();
+            var inviteeUsernames = inviteesInput
+                .Split(',')
+                .Select(username => username.Trim())
+                .Where(username => !string.IsNullOrEmpty(username))
+                .ToList();
 
-                if (inviteeUsernames.Count == 0)
-                {
-                    throw new Exception("No valid usernames found. Please enter at least one username.");
-                }
+            if (inviteeUsernames.Count == 0)
+                throw new Exception("No valid usernames found. Please enter at least one username.");
 
-                var invitees = await _nakamaSystem.Client.GetUsersAsync(
-                    session: _nakamaSystem.Session,
-                    usernames: inviteeUsernames,
-                    ids: null
-                );
+            var invitees = await _nakamaSystem.Client.GetUsersAsync(
+                _nakamaSystem.Session,
+                usernames: inviteeUsernames,
+                ids: null
+            );
 
-                var inviteeIDs = invitees.Users.Select(user => user.Id).ToArray();
+            var inviteeIDs = invitees.Users.Select(user => user.Id).ToArray();
 
-                if (inviteeIDs.Length != inviteeUsernames.Count)
-                {
-                    throw new Exception(
-                        $"Could not find all users. Requested: {inviteeUsernames.Count}, Found: {inviteeIDs.Length}");
-                }
+            if (inviteeIDs.Length != inviteeUsernames.Count)
+                throw new Exception(
+                    $"Could not find all users. Requested: {inviteeUsernames.Count}, Found: {inviteeIDs.Length}");
 
-                selectedTemplate.Value.AdditionalProperties.TryGetValue("description", out var description);
-                selectedTemplate.Value.AdditionalProperties.TryGetValue("category", out var category);
+            selectedTemplate.Value.AdditionalProperties.TryGetValue("description", out var description);
+            selectedTemplate.Value.AdditionalProperties.TryGetValue("category", out var category);
 
-                var newChallenge = await _challengesSystem.CreateChallengeAsync(
-                    selectedTemplate.Key,
-                    name,
-                    description ?? "Missing description.",
-                    inviteeIDs,
-                    isOpen,
-                    selectedTemplate.Value.MaxNumScore,
-                    delay,
-                    duration,
-                    maxParticipants,
-                    category ?? "Missing category",
-                    new Dictionary<string, string>()
-                );
+            var newChallenge = await _challengesSystem.CreateChallengeAsync(
+                selectedTemplate.Key,
+                challengeName,
+                description ?? "Missing description.",
+                inviteeIDs,
+                isOpen,
+                selectedTemplate.Value.MaxNumScore,
+                delay,
+                duration,
+                maxParticipants,
+                category ?? "Missing category",
+                new Dictionary<string, string>()
+            );
 
-                _selectedChallengeId = newChallenge.Id;
-                _selectedChallenge = newChallenge;
-            }
-            catch (Exception e)
-            {
-                _view.ShowError(e.Message);
-                return;
-            }
-
-            _view.HideCreateModal();
-            _ = RefreshChallenges();
+            _selectedChallengeId = newChallenge.Id;
+            _selectedChallenge = newChallenge;
         }
 
         public async Task JoinChallenge()
         {
             if (_selectedChallenge == null) return;
 
-            try
-            {
-                await _challengesSystem.JoinChallengeAsync(_selectedChallenge.Id);
-            }
-            catch (Exception e)
-            {
-                _view.ShowError(e.Message);
-                return;
-            }
-
-            _ = RefreshChallenges();
+            await _challengesSystem.JoinChallengeAsync(_selectedChallenge.Id);
         }
 
         public async Task LeaveChallenge()
         {
             if (_selectedChallenge == null) return;
 
-            try
-            {
-                await _challengesSystem.LeaveChallengeAsync(_selectedChallenge.Id);
-                _view.ClearChallengeSelection();
-            }
-            catch (Exception e)
-            {
-                _view.ShowError(e.Message);
-                return;
-            }
-
-            _ = RefreshChallenges();
+            await _challengesSystem.LeaveChallengeAsync(_selectedChallenge.Id);
         }
 
         public async Task ClaimChallenge()
         {
             if (_selectedChallenge == null) return;
 
-            try
-            {
-                await _challengesSystem.ClaimChallengeAsync(_selectedChallenge.Id);
-                await _economySystem.RefreshAsync();
-            }
-            catch (Exception e)
-            {
-                _view.ShowError(e.Message);
-                return;
-            }
-
-            _ = RefreshChallenges();
+            await _challengesSystem.ClaimChallengeAsync(_selectedChallenge.Id);
+            await _economySystem.RefreshAsync();
         }
 
         public async Task SubmitScore(int score, int subScore, string metadata)
         {
             if (_selectedChallenge == null) return;
 
-            try
-            {
-                await _challengesSystem.SubmitChallengeScoreAsync(
-                    _selectedChallenge.Id,
-                    score,
-                    subScore,
-                    metadata,
-                    true
-                );
-            }
-            catch (Exception e)
-            {
-                _view.ShowError(e.Message);
-                return;
-            }
-
-            _view.HideSubmitScoreModal();
-            _ = RefreshChallenges();
+            await _challengesSystem.SubmitChallengeScoreAsync(
+                _selectedChallenge.Id,
+                score,
+                subScore,
+                metadata,
+                true
+            );
         }
 
         public async Task InviteToChallenge(string inviteesInput)
         {
             if (_selectedChallenge == null) return;
 
-            try
-            {
-                if (string.IsNullOrEmpty(inviteesInput))
-                {
-                    throw new Exception("Invitees field cannot be empty. Please enter at least one username.");
-                }
+            if (string.IsNullOrEmpty(inviteesInput))
+                throw new Exception("Invitees field cannot be empty. Please enter at least one username.");
 
-                var inviteeUsernames = inviteesInput
-                    .Split(',')
-                    .Select(username => username.Trim())
-                    .Where(username => !string.IsNullOrEmpty(username))
-                    .ToList();
+            var inviteeUsernames = inviteesInput
+                .Split(',')
+                .Select(username => username.Trim())
+                .Where(username => !string.IsNullOrEmpty(username))
+                .ToList();
 
-                if (inviteeUsernames.Count == 0)
-                {
-                    throw new Exception("No valid usernames found. Please enter at least one username.");
-                }
+            if (inviteeUsernames.Count == 0)
+                throw new Exception("No valid usernames found. Please enter at least one username.");
 
-                var invitees = await _nakamaSystem.Client.GetUsersAsync(
-                    session: _nakamaSystem.Session,
-                    usernames: inviteeUsernames,
-                    ids: null
-                );
+            var invitees = await _nakamaSystem.Client.GetUsersAsync(
+                _nakamaSystem.Session,
+                usernames: inviteeUsernames,
+                ids: null
+            );
 
-                var inviteeIDs = invitees.Users.Select(user => user.Id).ToArray();
+            var inviteeIDs = invitees.Users.Select(user => user.Id).ToArray();
 
-                if (inviteeIDs.Length != inviteeUsernames.Count)
-                {
-                    throw new Exception(
-                        $"Could not find all users. Requested: {inviteeUsernames.Count}, Found: {inviteeIDs.Length}");
-                }
+            if (inviteeIDs.Length != inviteeUsernames.Count)
+                throw new Exception(
+                    $"Could not find all users. Requested: {inviteeUsernames.Count}, Found: {inviteeIDs.Length}");
 
-                await _challengesSystem.InviteChallengeAsync(
-                    challengeId: _selectedChallenge.Id,
-                    userIds: inviteeIDs
-                );
-            }
-            catch (Exception e)
-            {
-                _view.ShowError(e.Message);
-                return;
-            }
-
-            _view.HideInviteModal();
-            _ = RefreshChallenges();
+            await _challengesSystem.InviteChallengeAsync(
+                _selectedChallenge.Id,
+                inviteeIDs
+            );
         }
-
-        #endregion
     }
+
+    #endregion
 }
