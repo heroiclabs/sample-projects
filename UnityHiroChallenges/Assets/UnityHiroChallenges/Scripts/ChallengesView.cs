@@ -606,13 +606,13 @@ namespace HiroChallenges
             _errorPopup.style.display = DisplayStyle.None;
         }
 
+        #endregion
+
         private void HideAllModals()
         {
             HideCreateModal();
             HideSubmitScoreModal();
             HideInviteModal();
         }
-
-        #endregion
     }
 }
