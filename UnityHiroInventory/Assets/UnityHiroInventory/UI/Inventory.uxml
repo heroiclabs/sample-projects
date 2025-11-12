@@ -12,18 +12,18 @@
                 <ui:ScrollView horizontal-scroller-visibility="Hidden" style="flex-grow: 1; align-items: stretch; align-content: center; align-self: stretch; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px;">
                     <ui:VisualElement name="inventory-grid" style="flex-direction: row; flex-wrap: wrap; justify-content: flex-start; align-content: flex-start; padding: 10px;" />
                 </ui:ScrollView>
-            </ui:VisualElement>
-            <ui:VisualElement name="action-buttons" style="flex-direction: row; justify-content: space-between; margin-bottom: 20px; height: auto; padding: 20px; background-color: rgba(132, 154, 255, 0.05); border-radius: 15px; flex-grow: 0; flex-shrink: 0;">
-                <ui:VisualElement style="flex-direction: column; width: 40%;">
-                    <ui:Button text="Consume Item" name="item-consume" class="heroic-button" style="margin-bottom: 10px; flex-grow: 1;" />
-                    <ui:Button text="Remove Item" name="item-remove" class="heroic-button" style="flex-grow: 1;" />
-                </ui:VisualElement>
-                <ui:VisualElement style="flex-direction: column; width: 40%; align-items: center; align-self: center; align-content: center;">
+                <ui:VisualElement style="flex-direction: row; width: 100%; align-items: center; align-self: center; align-content: center; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 10px;">
                     <ui:Button text="Refresh" name="inventory-refresh" class="heroic-button-square" style="align-self: center; margin-top: 10px;" />
                 </ui:VisualElement>
-                <ui:VisualElement style="flex-direction: column; width: 40%;">
-                    <ui:DropdownField name="grant-item-dropdown" style="margin-bottom: 10px; flex-grow: 1; border-color: rgb(132, 154, 255); border-width: 2px; border-radius: 10px; padding: 10px; font-size: 50%; min-height: 50px; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
-                    <ui:Button text="Grant Item" name="item-grant" class="heroic-button" style="flex-grow: 1;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="action-buttons" style="flex-direction: row; justify-content: space-between; margin-bottom: 20px; height: auto; padding: 20px; background-color: rgba(132, 154, 255, 0.05); border-radius: 15px; flex-grow: 0; flex-shrink: 0; width: 100%; align-items: center; padding-top: 20px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px;">
+                <ui:VisualElement style="flex-direction: row; width: 40%; align-items: flex-start;">
+                    <ui:DropdownField name="grant-item-dropdown" style="margin-bottom: 10px; flex-grow: 1; border-color: rgb(132, 154, 255); border-width: 2px; border-radius: 10px; padding: 10px; font-size: 50%; min-height: 50px; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; flex-direction: row; width: 100px;" />
+                    <ui:Button text="Grant Item" name="item-grant" class="heroic-button" style="flex-grow: 1; flex-direction: row; width: 40px; padding-right: 10px; padding-left: 10px;" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-direction: row; width: 40%; align-items: flex-start;">
+                    <ui:Button text="Remove Item" name="item-remove" class="heroic-button" style="flex-grow: 1; width: 40px; -unity-background-image-tint-color: rgb(85, 100, 153); padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px;" />
+                    <ui:Button text="Consume Item" name="item-consume" class="heroic-button" style="margin-bottom: 10px; flex-grow: 1; width: 40px; flex-direction: row; padding-right: 10px; padding-left: 10px; margin-left: 10px;" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
