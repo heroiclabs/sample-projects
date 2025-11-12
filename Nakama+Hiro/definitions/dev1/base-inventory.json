@@ -10,7 +10,7 @@
       "consumable": false,
       "string_properties": {
         "equipment_slot": "right_hand",
-        "rarity": "legendary"
+        "rarity": "common"
       },
       "numeric_properties": {
         "rank": 1
@@ -25,7 +25,7 @@
       "stackable": true,
       "consumable": true,
       "string_properties": {
-        "rarity": "uncommon"
+        "rarity": "common"
       },
       "keep_zero": true,
       "consume_reward": {
@@ -46,7 +46,7 @@
       "stackable": true,
       "consumable": true,
       "string_properties": {
-        "rarity": "epic"
+        "rarity": "uncommon"
       },
       "keep_zero": true,
       "consume_reward": {
@@ -62,30 +62,146 @@
     "small_crafting_bag": {
       "name": "Small Crafting Bag",
       "description": "A small bag of miscellaneous crafting materials.",
-      "category": "loot_bags",
+      "category": "crafting_materials",
       "max_count": 99,
       "stackable": false,
       "consumable": true,
       "string_properties": {
-        "rarity": "common"
+        "rarity": "uncommon"
       },
       "consume_reward": {
         "max_rolls": 2,
         "weighted": [
           {
             "items": {
-              "leather_scraps": {
+              "ruby_gem": {
                 "min": 1,
-                "max": 5
+                "max": 3
+              }
+            },
+            "weight": 40
+          },
+          {
+            "currencies": {
+              "coins": {
+                "min": 50,
+                "max": 200,
+                "multiple": 10
+              }
+            },
+            "weight": 60
+          }
+        ]
+      }
+    },
+    "wooden_shield": {
+      "name": "Wooden Shield",
+      "description": "A basic shield made from reinforced wood.",
+      "category": "armor",
+      "item_sets": ["shield", "common_armor"],
+      "max_count": 99,
+      "stackable": false,
+      "consumable": false,
+      "string_properties": {
+        "equipment_slot": "left_hand",
+        "rarity": "common"
+      },
+      "numeric_properties": {
+        "defense": 15,
+        "block_chance": 10
+      },
+      "disabled": false
+    },
+    "mana_potion": {
+      "name": "Mana Potion",
+      "description": "A vial of blue liquid that restores magical energy.",
+      "category": "potions",
+      "item_sets": ["consumables"],
+      "max_count": 99,
+      "stackable": true,
+      "consumable": true,
+      "string_properties": {
+        "rarity": "uncommon"
+      },
+      "keep_zero": true,
+      "consume_reward": {
+        "guaranteed": {
+          "energies": {
+            "mana": {
+              "min": 30,
+              "max": 60
+            }
+          }
+        }
+      }
+    },
+    "iron_shield": {
+      "name": "Iron Shield",
+      "description": "A sturdy shield forged from iron. Provides solid protection.",
+      "category": "armor",
+      "item_sets": ["shield", "common_armor"],
+      "max_count": 99,
+      "stackable": false,
+      "consumable": false,
+      "string_properties": {
+        "rarity": "rare"
+      },
+      "numeric_properties": {
+        "defense": 25,
+        "rank": 1
+      },
+      "disabled": false
+    },
+    "magic_gem": {
+      "name": "Magic Gem",
+      "description": "A precious gemstone that radiates magical energy.",
+      "category": "crafting_materials",
+      "item_sets": ["materials", "gems"],
+      "max_count": 5,
+      "stackable": true,
+      "consumable": true,
+      "string_properties": {
+        "rarity": "epic"
+      }
+    },
+    "golden_key": {
+      "name": "Golden Key",
+      "description": "An ornate golden key that opens special treasure chests.",
+      "category": "keys",
+      "item_sets": ["special_items"],
+      "max_count": 9,
+      "stackable": false,
+      "consumable": true,
+      "string_properties": {
+        "rarity": "rare",
+      },
+      "keep_zero": true,
+      "consume_reward": {
+        "guaranteed": {
+          "currencies": {
+            "coins": {
+              "min": 500,
+              "max": 1000,
+              "multiple": 100
+            }
+          }
+        },
+        "max_rolls": 1,
+        "weighted": [
+          {
+            "items": {
+              "ruby_gem": {
+                "min": 1,
+                "max": 3
               }
             },
             "weight": 50
           },
           {
-            "items": {
-              "bronze_nails": {
-                "min": 5,
-                "max": 100,
+            "currencies": {
+              "gems": {
+                "min": 10,
+                "max": 25,
                 "multiple": 5
               }
             },
@@ -93,7 +209,43 @@
           }
         ]
       }
-    }
+    },
+    "lucky_charm": {
+      "name": "Lucky Charm",
+      "description": "A four-leaf clover that brings good fortune when used.",
+      "category": "artifacts",
+      "item_sets": ["consumables", "buffs"],
+      "max_count": 5,
+      "stackable": true,
+      "consumable": true,
+      "string_properties": {
+        "rarity": "epic"
+      },
+      "keep_zero": false,
+      "consume_reward": {
+        "guaranteed": {
+          "currencies": {
+            "coins": {
+              "min": 50,
+              "max": 150
+            }
+          }
+        }
+      }
+    },
+    "evil_eye": {
+        "name": "Eye of Sauron",
+        "description": "It is said to have the power to control the minds of others.",
+        "category": "artifacts",
+        "item_sets": ["special_items"],
+        "max_count": 1,
+        "stackable": false,
+        "consumable": false,
+        "string_properties": {
+          "rarity": "legendary"
+        },
+        "keep_zero": false
+      }
   },
   "limits": {
     "categories": {
