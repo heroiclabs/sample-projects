@@ -292,7 +292,7 @@ namespace HiroInventory
                 {
                     if (selectedItem != item)
                     {
-                        Color hoverColor = new Color(rarityColor.r, rarityColor.g, rarityColor.b, 0.5f);
+                        Color hoverColor = new Color(rarityColor.r, rarityColor.g, rarityColor.b, 0.8f);
                         slotRoot.style.backgroundColor = new StyleColor(hoverColor);
                         slotRoot.style.borderTopColor = new StyleColor(Color.white);
                         slotRoot.style.borderBottomColor = new StyleColor(Color.white);
@@ -323,11 +323,12 @@ namespace HiroInventory
         {
             return rarity switch
             {
-                "common" => new Color(0.6f, 0.6f, 0.6f, 0.3f),      // Gray
-                "uncommon" => new Color(0.2f, 0.8f, 0.2f, 0.3f),    // Green
-                "epic" => new Color(0.6f, 0.3f, 0.9f, 0.3f),        // Purple
-                "legendary" => new Color(1f, 0.6f, 0f, 0.3f),       // Orange/Gold
-                _ => new Color(0.52f, 0.6f, 1f, 0.1f)               // Default blue
+                "common" => new Color(0.541f, 0.714f, 0.965f, 1.0f),  
+                "uncommon" => new Color(0.784f, 0.875f, 0.478f, 1.0f),
+                "rare" => new Color(0.647f, 0.533f, 0.965f, 1.0f),
+                "epic" => new Color(0.992f, 0.878f, 0.373f, 1.0f),
+                "legendary" => new Color(1f, 0.584f, 0.573f, 1.0f),
+                _ => new Color(0.745f, 0.722f, 0.855f, 1.0f) // Default color
             };
         }
         
@@ -376,11 +377,11 @@ namespace HiroInventory
             selectedItem = item;
             selectedSlot = slot;
             
-            // Highlight selected slot with gold border (keeping the rarity background)
-            slot.style.borderTopColor = new StyleColor(new Color(1f, 0.84f, 0f));
-            slot.style.borderBottomColor = new StyleColor(new Color(1f, 0.84f, 0f));
-            slot.style.borderLeftColor = new StyleColor(new Color(1f, 0.84f, 0f));
-            slot.style.borderRightColor = new StyleColor(new Color(1f, 0.84f, 0f));
+            // Highlight selected slot with turquoise border (keeping the rarity background)
+            slot.style.borderTopColor = new StyleColor(new Color(0.467f, 0.984f, 0.937f));
+            slot.style.borderBottomColor = new StyleColor(new Color(0.467f, 0.984f, 0.937f));
+            slot.style.borderLeftColor = new StyleColor(new Color(0.467f, 0.984f, 0.937f));
+            slot.style.borderRightColor = new StyleColor(new Color(0.467f, 0.984f, 0.937f));
             
             UpdateActionButtons();
             
