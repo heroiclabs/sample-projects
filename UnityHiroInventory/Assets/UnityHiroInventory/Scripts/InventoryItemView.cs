@@ -23,7 +23,7 @@ namespace HiroInventory
         public void SetInventoryItem(IInventoryItem item)
         {
             nameLabel.text = item.Name;
-            quantityLabel.text = item.Count > 0 ? $"x{item.Count}" : "x0";
+            quantityLabel.text = item.Count > 0 ? $"{item.Count}" : "0";
             categoryLabel.text = item.Category ?? "Uncategorized";
 
             // Add visual indicator for consumable items

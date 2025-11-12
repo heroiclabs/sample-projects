@@ -170,6 +170,7 @@ namespace HiroInventory
 
             // Item tooltip
             itemTooltip = rootElement.Q<VisualElement>("item-tooltip");
+            itemTooltip.pickingMode = PickingMode.Ignore; // Prevent tooltip from intercepting mouse events
             tooltipNameLabel = rootElement.Q<Label>("tooltip-name");
             tooltipDescriptionLabel = rootElement.Q<Label>("tooltip-description");
             tooltipCategoryLabel = rootElement.Q<Label>("tooltip-category");
@@ -269,7 +270,7 @@ namespace HiroInventory
 
                 // Update quantity label
                 var quantityLabel = slotRoot.Q<Label>("item-quantity");
-                quantityLabel.text = $"x{item.Count}";
+                quantityLabel.text = $"{item.Count}";
 
                 // Get rarity and set background color
                 var rarity = item.StringProperties.ContainsKey("rarity") 
@@ -397,28 +398,35 @@ namespace HiroInventory
             tooltipCategoryLabel.text = $"Category: {item.Category ?? "Uncategorized"}";
             tooltipQuantityLabel.text = $"Quantity: {item.Count}";
 
-            // Display properties if any
+            // Build comprehensive properties text
             var propertiesText = "";
+
+            // Item Attributes
+            propertiesText += "Item Attributes:\n";
+            propertiesText += $"  • Stackable: {(item.Stackable ? "Yes" : "No")}\n";
+            propertiesText += $"  • Consumable: {(item.Consumable ? "Yes" : "No")}\n";
+            propertiesText += $"  • Max Stack: {item.MaxCount}\n";
+
+            // String Properties
             if (item.StringProperties != null && item.StringProperties.Count > 0)
             {
-                propertiesText += "String Properties:\n";
+                propertiesText += "\nString Properties:\n";
                 foreach (var prop in item.StringProperties)
                 {
                     propertiesText += $"  • {prop.Key}: {prop.Value}\n";
                 }
             }
+
+            // Numeric Properties
             if (item.NumericProperties != null && item.NumericProperties.Count > 0)
             {
-                if (propertiesText.Length > 0) propertiesText += "\n";
-                propertiesText += "Numeric Properties:\n";
+                propertiesText += "\nNumeric Properties:\n";
                 foreach (var prop in item.NumericProperties)
                 {
                     propertiesText += $"  • {prop.Key}: {prop.Value}\n";
                 }
             }
-            tooltipPropertiesLabel.text = string.IsNullOrEmpty(propertiesText) 
-                ? "No custom properties." 
-                : propertiesText;
+            tooltipPropertiesLabel.text = propertiesText;
 
             // Position tooltip near the mouse cursor, offset to the right
             var offsetX = 20f;
