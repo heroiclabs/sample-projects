@@ -53,7 +53,7 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement template="ErrorPopup" name="consume-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
+    <ui:VisualElement template="ErrorPopup" name="consume-modal" style="position: absolute; top: 2px; left: -1px; bottom: -1px; right: 2px; display: none;">
         <Style src="project://database/Assets/UnityHiroInventory/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
         <ui:VisualElement name="consume-modal-background" class="heroic-error-popup__background">
             <ui:VisualElement name="consume-modal-panel" class="heroic-main__panel" style="height: auto; width: 600px;">
@@ -62,7 +62,7 @@
                 </ui:VisualElement>
                 <ui:VisualElement name="consume-modal-bottom" style="align-self: center; align-items: center; width: 100%; padding: 30px;">
                     <ui:IntegerField label="Quantity" value="1" name="consume-modal-quantity" style="width: 100%; margin-bottom: 15px;" />
-                    <ui:Toggle label="Allow Overconsume" name="consume-modal-overconsume" value="false" style="width: 100%; margin-bottom: 15px;" />
+                    <ui:Toggle label="Allow Overconsume" name="consume-modal-overconsume" value="false" enabled="true" style="width: 100%; margin-bottom: 15px; height: 39px; flex-direction: row; align-self: auto; align-items: auto; justify-content: center; align-content: auto; -unity-text-align: lower-center;" />
                     <ui:Label text="Applies to selected item (b) in your inventory.&#10;Overconsume allows consuming more than available." style="font-size: 18px; color: rgb(150, 150, 150); margin-bottom: 20px; white-space: normal; -unity-text-align: upper-center;" />
                     <ui:Button text="Consume" name="consume-modal-consume" class="heroic-button" style="margin-top: 10px;" />
                 </ui:VisualElement>
