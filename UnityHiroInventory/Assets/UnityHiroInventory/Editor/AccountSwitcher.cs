@@ -64,7 +64,7 @@ namespace HiroInventory.Editor
             var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
             foreach (var rootGameObject in rootGameObjects)
             {
-                if (!rootGameObject.TryGetComponent<HiroInventoryController>(out var challengesController)) continue;
+                if (!rootGameObject.TryGetComponent<InventoryController>(out var challengesController)) continue;
 
                 if (HiroCoordinator.Instance.GetSystem<NakamaSystem>().Session is Session session)
                 {
@@ -77,7 +77,7 @@ namespace HiroInventory.Editor
             }
         }
 
-        private void OnControllerInitialized(ISession session, HiroInventoryController challengesController = null)
+        private void OnControllerInitialized(ISession session, InventoryController challengesController = null)
         {
             accountUsernames[accountDropdown.choices[0]] = session.Username;
             UpdateUsernameLabels();
@@ -138,7 +138,7 @@ namespace HiroInventory.Editor
             var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
             foreach (var rootGameObject in rootGameObjects)
             {
-                if (!rootGameObject.TryGetComponent<HiroInventoryController>(out var challengesController)) continue;
+                if (!rootGameObject.TryGetComponent<InventoryController>(out var challengesController)) continue;
 
                 var coordinator = HiroCoordinator.Instance as HiroInventoryCoordinator;
                 if (coordinator == null) return;
