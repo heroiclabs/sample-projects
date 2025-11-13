@@ -1,0 +1,17 @@
+console:
+    max_message_size_bytes: 409600
+leaderboard:
+    blacklist_rank_cache:
+    - "*"
+logger:
+    level: "DEBUG"
+runtime:
+    env:
+    - "ENV=dev1"
+    - "HIRO_LICENSE="
+session:
+    token_expiry_sec: 86400 # 24 hours
+    refresh_token_expiry_sec: 604800 # 7 days
+socket:
+    max_message_size_bytes: 4096 # reserved buffer
+    max_request_size_bytes: 131072

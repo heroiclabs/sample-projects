@@ -64,7 +64,7 @@ namespace HiroChallenges.Editor
             var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
             foreach (var rootGameObject in rootGameObjects)
             {
-                if (!rootGameObject.TryGetComponent<HiroChallengesController>(out var challengesController)) continue;
+                if (!rootGameObject.TryGetComponent<ChallengesController>(out var challengesController)) continue;
 
                 if (HiroCoordinator.Instance.GetSystem<NakamaSystem>().Session is Session session)
                 {
@@ -77,7 +77,7 @@ namespace HiroChallenges.Editor
             }
         }
 
-        private void OnControllerInitialized(ISession session, HiroChallengesController challengesController = null)
+        private void OnControllerInitialized(ISession session, ChallengesController challengesController = null)
         {
             accountUsernames[accountDropdown.choices[0]] = session.Username;
             UpdateUsernameLabels();
@@ -138,7 +138,7 @@ namespace HiroChallenges.Editor
             var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
             foreach (var rootGameObject in rootGameObjects)
             {
-                if (!rootGameObject.TryGetComponent<HiroChallengesController>(out var challengesController)) continue;
+                if (!rootGameObject.TryGetComponent<ChallengesController>(out var challengesController)) continue;
 
                 var coordinator = HiroCoordinator.Instance as HiroChallengesCoordinator;
                 if (coordinator == null) return;
