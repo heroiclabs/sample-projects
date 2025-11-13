@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Readme
   m_EditorClassIdentifier: 
   icon: {fileID: 2800000, guid: 2287ceace33d64348b1c2701d0b0bd2e, type: 3}
-  title: Groups, powered by Nakama
+  title: Challenges, powered by Hiro
   sections:
-  - heading: Groups
-    text: The official sample project for the Nakama Groups system. Built with minimal
+  - heading: Challenges
+    text: The official sample project for the Hiro Challenges system. Built with minimal
       boilerplate so you can easily copy the code into your project and adapt the
       scripts and UI to suit your game.
     linkText: 
@@ -39,10 +39,10 @@ MonoBehaviour:
     url: https://github.com/heroiclabs/sample-projects
   - heading: 
     text: 
-    linkText: Nakama Unity Client SDK Guide
-    url: https://heroiclabs.com/docs/nakama/client-libraries/unity/index.html#friends
+    linkText: Hiro Unity Client SDK Guide
+    url: https://heroiclabs.com/docs/hiro/unity/challenges/
   - heading: 
     text: 
-    linkText: Learn about Nakama
-    url: https://heroiclabs.com/docs/nakama/getting-started/
+    linkText: Learn about Hiro
+    url: https://heroiclabs.com/docs/hiro/concepts/introduction/
   loadedLayout: 1

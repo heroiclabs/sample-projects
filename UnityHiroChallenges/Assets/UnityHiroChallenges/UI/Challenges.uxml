@@ -35,11 +35,11 @@
                     </ui:VisualElement>
                     <ui:ListView name="challenge-participants-list" fixed-item-height="110" style="height: 55%;" />
                     <ui:VisualElement style="height: 15%; flex-direction: row; align-self: center; align-items: center; justify-content: center; flex-wrap: wrap;">
-                        <ui:Button text="Join" name="challenge-join" class="heroic-button" />
-                        <ui:Button text="Leave" name="challenge-leave" class="heroic-button" />
-                        <ui:Button text="Submit Score" name="challenge-submit-score" class="heroic-button" />
-                        <ui:Button text="Invite Players" name="challenge-invite" class="heroic-button" />
-                        <ui:Button text="Claim Rewards" name="challenge-claim" class="heroic-button" />
+                        <ui:Button text="Join" name="challenge-join" class="heroic-button" style="display: none;" />
+                        <ui:Button text="Leave" name="challenge-leave" class="heroic-button" style="display: none;" />
+                        <ui:Button text="Submit Score" name="challenge-submit-score" class="heroic-button" style="display: none;" />
+                        <ui:Button text="Invite Players" name="challenge-invite" class="heroic-button" style="display: none;" />
+                        <ui:Button text="Claim Rewards" name="challenge-claim" class="heroic-button" style="display: none;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
