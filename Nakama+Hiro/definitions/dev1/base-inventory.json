@@ -173,7 +173,7 @@
       "stackable": false,
       "consumable": true,
       "string_properties": {
-        "rarity": "rare",
+        "rarity": "rare"
       },
       "keep_zero": true,
       "consume_reward": {
