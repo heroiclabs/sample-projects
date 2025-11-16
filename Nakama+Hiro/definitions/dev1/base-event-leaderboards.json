@@ -1,0 +1,311 @@
+{
+    "event_leaderboards": {
+        "chef_tournament": {
+            "name": "Chef Tournament",
+            "description": "Play a tournament against other chefs for great rewards!",
+            "category": "Challenges",
+            "ascending": false,
+            "operator": "best",
+            "reset_schedule": "",
+            "cohort_size": 100,
+            "additional_properties": {
+                "key": "value"
+            },
+            "max_num_score": 0,
+            "reward_tiers": {
+                "0": [
+                    {
+                        "name": "Tier 1",
+                        "rank_max": 10,
+                        "rank_min": 1,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "coins": {
+                                        "min": 1000,
+                                        "max": 2000
+                                    }
+                                }
+                            }
+                        },
+                        "tier_change": 1
+                    },
+                    {
+                        "name": "Tier 2",
+                        "rank_max": 90,
+                        "rank_min": 11,
+                        "reward": {},
+                        "tier_change": 0
+                    },
+                    {
+                        "name": "Tier 0",
+                        "rank_max": 100,
+                        "rank_min": 91,
+                        "reward": {},
+                        "tier_change": -1
+                    }
+                ]
+            },
+            "change_zones": {
+                "0": {
+                    "promotion": 0.5,
+                    "demotion": 0,
+                    "demote_idle": false
+                },
+                "1": {
+                    "promotion": 0.2,
+                    "demotion": 0.3,
+                    "demote_idle": true
+                }
+            },
+            "tiers": 5,
+            "max_idle_tier_drop": 1,
+            "start_time_sec": 1763355600,
+            "end_time_sec": 2078888400,
+            "duration": 2592000
+        },
+        "weekly_puzzle_championship": {
+            "name": "Weekly Puzzle Championship",
+            "description": "Compete in a 5-day tournament to rack up the highest total score across all your puzzle attempts!",
+            "category": "Weekly Events",
+            "ascending": false,
+            "operator": "incr",
+            "reset_schedule": "0 0 * * 1",
+            "cohort_size": 50,
+            "additional_properties": {
+                "event_type": "time_limited",
+                "theme": "puzzle_championship"
+            },
+            "max_num_score": 0,
+            "reward_tiers": {
+                "0": [
+                    {
+                        "name": "Champion",
+                        "rank_max": 5,
+                        "rank_min": 1,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "gems": {
+                                        "min": 500,
+                                        "max": 500
+                                    },
+                                    "coins": {
+                                        "min": 5000,
+                                        "max": 5000
+                                    }
+                                }
+                            }
+                        },
+                        "tier_change": 1
+                    },
+                    {
+                        "name": "Top Performer",
+                        "rank_max": 15,
+                        "rank_min": 6,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "gems": {
+                                        "min": 250,
+                                        "max": 250
+                                    },
+                                    "coins": {
+                                        "min": 2500,
+                                        "max": 2500
+                                    }
+                                }
+                            }
+                        },
+                        "tier_change": 1
+                    },
+                    {
+                        "name": "Participant",
+                        "rank_max": 40,
+                        "rank_min": 16,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "coins": {
+                                        "min": 1000,
+                                        "max": 1000
+                                    }
+                                }
+                            }
+                        },
+                        "tier_change": 0
+                    },
+                    {
+                        "name": "Needs Practice",
+                        "rank_max": 50,
+                        "rank_min": 41,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "coins": {
+                                        "min": 250,
+                                        "max": 250
+                                    }
+                                }
+                            }
+                        },
+                        "tier_change": -1
+                    }
+                ]
+            },
+            "change_zones": {
+                "0": {
+                    "promotion": 0.3,
+                    "demotion": 0,
+                    "demote_idle": false
+                },
+                "1": {
+                    "promotion": 0.2,
+                    "demotion": 0.2,
+                    "demote_idle": true
+                },
+                "2": {
+                    "promotion": 0.15,
+                    "demotion": 0.25,
+                    "demote_idle": true
+                }
+            },
+            "tiers": 4,
+            "max_idle_tier_drop": 1,
+            "start_time_sec": 0,
+            "end_time_sec": 0,
+            "duration": 432000
+        },
+        "dungeon_speedrun_trial": {
+            "name": "Dungeon Speedrun Trial",
+            "description": "Race against time! Clear the featured dungeon as fast as possible to beat your opponents!",
+            "category": "Speedrun Challenges",
+            "ascending": true,
+            "operator": "best",
+            "reset_schedule": "0 */6 * * *",
+            "cohort_size": 30,
+            "additional_properties": {
+                "event_type": "target_score",
+                "target_time_seconds": "300",
+                "dungeon_id": "trial_dungeon_1"
+            },
+            "max_num_score": 5,
+            "reward_tiers": {
+                "0": [
+                    {
+                        "name": "Speed Demon",
+                        "rank_max": 3,
+                        "rank_min": 1,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "gems": {
+                                        "min": 300,
+                                        "max": 300
+                                    },
+                                    "coins": {
+                                        "min": 3000,
+                                        "max": 3000
+                                    }
+                                },
+                                "items": {
+                                    "legendary_chest": {
+                                        "min": 1,
+                                        "max": 1
+                                    }
+                                }
+                            }
+                        },
+                        "tier_change": 1
+                    },
+                    {
+                        "name": "Fast Runner",
+                        "rank_max": 10,
+                        "rank_min": 4,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "gems": {
+                                        "min": 150,
+                                        "max": 150
+                                    },
+                                    "coins": {
+                                        "min": 1500,
+                                        "max": 1500
+                                    }
+                                },
+                                "items": {
+                                    "epic_chest": {
+                                        "min": 1,
+                                        "max": 1
+                                    }
+                                }
+                            }
+                        },
+                        "tier_change": 1
+                    },
+                    {
+                        "name": "Dungeon Explorer",
+                        "rank_max": 20,
+                        "rank_min": 11,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "coins": {
+                                        "min": 750,
+                                        "max": 750
+                                    }
+                                },
+                                "items": {
+                                    "rare_chest": {
+                                        "min": 1,
+                                        "max": 1
+                                    }
+                                }
+                            }
+                        },
+                        "tier_change": 0
+                    },
+                    {
+                        "name": "Slow and Steady",
+                        "rank_max": 30,
+                        "rank_min": 21,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "coins": {
+                                        "min": 250,
+                                        "max": 250
+                                    }
+                                }
+                            }
+                        },
+                        "tier_change": -1
+                    }
+                ]
+            },
+            "change_zones": {
+                "0": {
+                    "promotion": 0.33,
+                    "demotion": 0,
+                    "demote_idle": false
+                },
+                "1": {
+                    "promotion": 0.25,
+                    "demotion": 0.25,
+                    "demote_idle": true
+                },
+                "2": {
+                    "promotion": 0.2,
+                    "demotion": 0.3,
+                    "demote_idle": true
+                }
+            },
+            "tiers": 3,
+            "max_idle_tier_drop": 1,
+            "start_time_sec": 0,
+            "end_time_sec": 0,
+            "duration": 21600
+        }
+    }
+}
