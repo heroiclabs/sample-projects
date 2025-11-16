@@ -34,12 +34,33 @@ namespace HiroEventLeaderboards
 
         public void SetEventLeaderboardRecord(IEventLeaderboardScore record)
         {
-            _usernameLabel.text = record.Username;
+            _usernameLabel.text = FormatUsername(record.Username);
             _scoreLabel.text = record.Score.ToString();
             _subScoreLabel.text = record.Subscore.ToString();
 
             // A rank of 0 would mean that you are yet to submit your first score.
             _rankLabel.text = record.Rank > 0 ? $"#{record.Rank}" : "-";
+        }
+
+        /// Formats debug usernames (UUIDs) to be more readable.
+        /// Converts long UUID strings to "DebugPlayerX" format.
+        private static string FormatUsername(string username)
+        {
+            if (string.IsNullOrEmpty(username))
+            {
+                return username;
+            }
+
+            // Check if username looks like a UUID (contains hyphens and is long enough)
+            // UUIDs are in format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx (36 chars)
+            if (username.Length >= 36 && username.IndexOf('-') > 0)
+            {
+                // Extract first 3 characters for the ID
+                var shortId = username.Substring(0, 3);
+                return $"DebugPlayer{shortId}";
+            }
+
+            return username;
         }
     }
 }
