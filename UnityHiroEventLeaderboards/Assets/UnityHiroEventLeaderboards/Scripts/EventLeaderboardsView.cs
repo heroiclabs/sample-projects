@@ -352,8 +352,6 @@ namespace HiroEventLeaderboards
         private void HideSelectedEventLeaderboardPanel()
         {
             _selectedEventLeaderboardPanel.style.display = DisplayStyle.None;
-            if (_devToolsPanel != null)
-                _devToolsPanel.style.display = DisplayStyle.None;
         }
 
         private void UpdateEventLeaderboardButtons(List<IEventLeaderboardScore> records)
@@ -364,16 +362,35 @@ namespace HiroEventLeaderboards
             var canClaim = _currentEventLeaderboard.CanClaim;
             var canRoll = _currentEventLeaderboard.CanRoll;
 
-            // Submit score is available if the event is active
-            _submitScoreButton.style.display = isActive ? DisplayStyle.Flex : DisplayStyle.None;
+            // Check if the user has joined the event (has a record in the leaderboard)
+            var userHasJoined = false;
+            foreach (var record in records)
+            {
+                if (record.Username == _controller.CurrentUsername)
+                {
+                    userHasJoined = true;
+                    break;
+                }
+            }
+
+            // Submit score is only available if the event is active and user has joined
+            _submitScoreButton.style.display = (isActive && userHasJoined) ? DisplayStyle.Flex : DisplayStyle.None;
 
             // Claim rewards is available if the event has ended and rewards can be claimed
             _claimRewardsButton.style.display = canClaim ? DisplayStyle.Flex : DisplayStyle.None;
 
-            // Roll is available if the event can be rolled (typically after claiming)
-            _rollButton.style.display = canRoll ? DisplayStyle.Flex : DisplayStyle.None;
+            // Roll/Join button shows when:
+            // 1. Event is active and user hasn't joined (to join initially)
+            // 2. Event can be rolled after claiming rewards (to re-join)
+            _rollButton.style.display = ((isActive && !userHasJoined) || canRoll) ? DisplayStyle.Flex : DisplayStyle.None;
 
-            // Show dev tools panel when an event is selected
+            // Debug buttons are always shown when event is active (developer tools)
+            if (_debugFillButton != null)
+                _debugFillButton.style.display = isActive ? DisplayStyle.Flex : DisplayStyle.None;
+            if (_debugRandomScoresButton != null)
+                _debugRandomScoresButton.style.display = isActive ? DisplayStyle.Flex : DisplayStyle.None;
+
+            // Show dev tools section when an event is selected
             if (_devToolsPanel != null)
                 _devToolsPanel.style.display = DisplayStyle.Flex;
         }

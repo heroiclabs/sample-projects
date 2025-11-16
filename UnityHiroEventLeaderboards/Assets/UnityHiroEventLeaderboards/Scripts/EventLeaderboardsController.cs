@@ -40,6 +40,7 @@ namespace HiroEventLeaderboards
         private EventLeaderboardsView _view;
 
         public string CurrentUserId => _nakamaSystem.UserId;
+        public string CurrentUsername => _nakamaSystem.Session?.Username;
         public List<IEventLeaderboard> EventLeaderboards { get; } = new();
         public List<IEventLeaderboardScore> SelectedEventLeaderboardRecords { get; } = new();
 

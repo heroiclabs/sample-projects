@@ -10,7 +10,7 @@
         <ui:VisualElement name="main-left" style="width: 50%; padding-top: 30px; padding-right: 30px; padding-bottom: 30px; padding-left: 30px;">
             <ui:VisualElement style="height: 15%; flex-direction: row; justify-content: space-evenly; align-items: center;">
                 <ui:VisualElement style="flex-direction: row; justify-content: space-around;">
-                    <ui:Button text="My Event Leaderboards" name="my-event-leaderboards-tab" class="heroic-horizontal-tab-button selected" style="width: 450px;">
+                    <ui:Button text="Events" name="my-event-leaderboards-tab" class="heroic-horizontal-tab-button selected" style="width: 450px;">
                         <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
                     </ui:Button>
                 </ui:VisualElement>
@@ -20,8 +20,8 @@
         </ui:VisualElement>
         <ui:VisualElement name="main-right" style="width: 50%; align-self: stretch; align-items: stretch; flex-direction: column;">
             <ui:VisualElement style="margin-top: 30px; margin-right: 30px; margin-bottom: 30px; flex-grow: 1;">
-                <ui:VisualElement name="selected-event-leaderboard-panel" class="heroic-main__panel" style="height: 30%; flex-grow: 1;">
-                    <ui:VisualElement style="height: 30%; background-color: rgb(132, 154, 255); border-top-left-radius: 15px; border-top-right-radius: 15px; padding-top: 20px; padding-bottom: 20px;">
+                <ui:VisualElement name="selected-event-leaderboard-panel" class="heroic-main__panel" style="height: 30%; flex-grow: 1; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
+                    <ui:VisualElement name="event-leaderboard-header" style="height: 30%; background-color: rgb(132, 154, 255); border-top-left-radius: 15px; border-top-right-radius: 15px; padding-top: 20px; padding-bottom: 20px;">
                         <ui:Label text="Event Leaderboard Name" name="selected-event-leaderboard-name" class="heroic-title" style="color: rgb(255, 255, 255); height: 30%; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: middle-center;" />
                         <ui:Label text="Event leaderboard description goes here." name="selected-event-leaderboard-description" class="heroic-title" style="font-size: 28px; color: rgb(255, 255, 255); overflow: hidden; text-overflow: ellipsis; white-space: normal; height: 30%; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 30px; padding-bottom: 0; padding-left: 30px; -unity-font-style: bold; align-content: center; -unity-text-align: middle-center;" />
                         <ui:VisualElement style="height: 40%; flex-direction: row; justify-content: space-around; align-items: center;">
@@ -30,21 +30,19 @@
                             <ui:Label text="Ends: Dec 31, 2024" name="selected-event-leaderboard-end-time" class="heroic-title" style="font-size: 24px; color: rgb(255, 255, 255);" />
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:ListView name="event-leaderboard-records-list" fixed-item-height="110" style="height: 55%;" />
-                    <ui:VisualElement style="height: 15%; flex-direction: row; align-self: center; align-items: center; justify-content: center; flex-wrap: wrap;">
-                        <ui:Button text="Submit Score" name="event-leaderboard-submit-score" class="heroic-button" style="display: none;" />
-                        <ui:Button text="Claim Rewards" name="event-leaderboard-claim" class="heroic-button" style="display: none;" />
-                        <ui:Button text="Re-Roll" name="event-leaderboard-roll" class="heroic-button" style="display: none;" />
+                    <ui:ListView name="event-leaderboard-records-list" fixed-item-height="110" style="height: 55%; flex-grow: 1; flex-shrink: 0;" />
+                    <ui:VisualElement name="dev-tools" style="background-color: rgb(196, 198, 209); padding-top: 15px; padding-right: 20px; padding-bottom: 15px; padding-left: 20px; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; display: flex; align-items: center; justify-content: flex-start; height: 225px;">
+                        <ui:Label text="DEV TOOLS" class="heroic-title" style="font-size: 24px; color: rgb(32, 49, 82); margin-bottom: 10px;" />
+                        <ui:VisualElement name="VisualElement" style="flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; display: flex; width: 100%;">
+                            <ui:Button text="Submit Score" name="event-leaderboard-submit-score" class="heroic-button" style="display: none; height: 80px; padding-right: 32px; padding-left: 32px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px;" />
+                            <ui:Button text="Claim Rewards" name="event-leaderboard-claim" class="heroic-button" style="display: none; height: 80px; padding-right: 32px; padding-left: 32px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px;" />
+                            <ui:Button text="Join event" name="event-leaderboard-roll" class="heroic-button" style="display: none; height: 80px; padding-right: 32px; padding-left: 32px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px;" />
+                            <ui:Button text="Debug fill" name="event-leaderboard-debug-fill" class="heroic-button" style="margin-right: 10px; display: none; height: 80px; padding-right: 32px; padding-left: 32px; margin-top: 10px; margin-bottom: 10px; margin-left: 10px;" />
+                            <ui:Button text="Debug scores" name="event-leaderboard-debug-random-scores" class="heroic-button" style="height: 80px; padding-right: 32px; padding-left: 32px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px; display: none;" />
+                        </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
-        </ui:VisualElement>
-    </ui:VisualElement>
-    <ui:VisualElement name="dev-tools" style="background-color: rgb(40, 40, 40); padding-top: 20px; padding-right: 30px; padding-bottom: 20px; padding-left: 30px; display: none;">
-        <ui:Label text="DEV TOOLS" class="heroic-title" style="font-size: 32px; color: rgb(200, 200, 200); margin-bottom: 15px;" />
-        <ui:VisualElement style="flex-direction: row; align-items: center; justify-content: flex-start; flex-wrap: wrap;">
-            <ui:Button text="Debug Fill" name="event-leaderboard-debug-fill" class="heroic-button" style="margin-right: 15px;" />
-            <ui:Button text="Debug Random Scores" name="event-leaderboard-debug-random-scores" class="heroic-button" />
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement template="ErrorPopup" name="submit-score-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
