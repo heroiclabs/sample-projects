@@ -24,25 +24,20 @@ namespace HiroEventLeaderboards
         private Label _nameLabel;
         private Label _categoryLabel;
         private Label _statusLabel;
-        private Label _tierLabel;
-        private Label _endTimeLabel;
+        private Label _timeRemainingLabel;
 
         public void SetVisualElement(VisualElement visualElement)
         {
             _nameLabel = visualElement.Q<Label>("name");
             _categoryLabel = visualElement.Q<Label>("category");
             _statusLabel = visualElement.Q<Label>("status");
-            _tierLabel = visualElement.Q<Label>("tier");
-            _endTimeLabel = visualElement.Q<Label>("end-time");
+            _timeRemainingLabel = visualElement.Q<Label>("time-remaining");
         }
 
         public void SetEventLeaderboard(IEventLeaderboard eventLeaderboard)
         {
             _nameLabel.text = eventLeaderboard.Name;
             _categoryLabel.text = eventLeaderboard.Category;
-
-            // Display the user's current tier
-            _tierLabel.text = $"Tier {eventLeaderboard.Tier}";
 
             // Convert status to readable string based on timing
             var currentTime = DateTimeOffset.FromUnixTimeSeconds(eventLeaderboard.CurrentTimeSec);
@@ -54,23 +49,61 @@ namespace HiroEventLeaderboards
                 if (currentTime >= startTime)
                 {
                     _statusLabel.text = "Active";
-                    _statusLabel.style.color = new StyleColor(Color.green);
+                    _statusLabel.style.color = new StyleColor(Color.white);
+                    // Use mint/green background for active
+                    _statusLabel.style.unityBackgroundImageTintColor = new StyleColor(new Color(1f, 1f, 1f, 1f));
                 }
                 else
                 {
                     var difference = startTime - currentTime;
-                    _statusLabel.text = $"Starts in {difference.Days}d, {difference.Hours}h, {difference.Minutes}m";
-                    _statusLabel.style.color = new StyleColor(Color.yellow);
+                    _statusLabel.text = $"Starts in {FormatTimeDuration(difference)}";
+                    _statusLabel.style.color = new StyleColor(Color.white);
+                    // Use yellow/orange tint for upcoming
+                    _statusLabel.style.unityBackgroundImageTintColor = new StyleColor(new Color(1f, 0.8f, 0.3f, 1f));
                 }
             }
             else
             {
                 _statusLabel.text = "Ended";
-                _statusLabel.style.color = new StyleColor(Color.red);
+                _statusLabel.style.color = new StyleColor(Color.white);
+                // Use gray/red tint for ended
+                _statusLabel.style.unityBackgroundImageTintColor = new StyleColor(new Color(0.7f, 0.7f, 0.7f, 1f));
             }
 
-            // Format end time to display for local time.
-            _endTimeLabel.text = endTime.LocalDateTime.ToString("MMM dd, HH:mm");
+            // Display time remaining with conditional formatting
+            if (eventLeaderboard.IsActive)
+            {
+                var timeRemaining = endTime - currentTime;
+                _timeRemainingLabel.text = FormatTimeDuration(timeRemaining);
+            }
+            else
+            {
+                _timeRemainingLabel.text = "Ended";
+            }
+        }
+
+        /// <summary>
+        /// Formats a time duration conditionally showing only relevant units.
+        /// Examples: "3h 25m", "2d 5h", "45m"
+        /// </summary>
+        private static string FormatTimeDuration(TimeSpan duration)
+        {
+            if (duration.TotalMinutes < 1)
+            {
+                return "< 1m";
+            }
+
+            if (duration.Days > 0)
+            {
+                return $"{duration.Days}d {duration.Hours}h";
+            }
+
+            if (duration.Hours > 0)
+            {
+                return $"{duration.Hours}h {duration.Minutes}m";
+            }
+
+            return $"{duration.Minutes}m";
         }
     }
 }

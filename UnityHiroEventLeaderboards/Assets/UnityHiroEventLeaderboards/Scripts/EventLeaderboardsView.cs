@@ -42,8 +42,11 @@ namespace HiroEventLeaderboards
         private Label _selectedEventLeaderboardDescriptionLabel;
         private Label _selectedEventLeaderboardStatusLabel;
         private Label _selectedEventLeaderboardTierLabel;
-        private Label _selectedEventLeaderboardEndTimeLabel;
+        private Label _selectedEventLeaderboardTimeRemainingLabel;
+        private Button _eventInfoButton;
         private ListView _eventLeaderboardRecordsList;
+        private VisualElement _emptyStateContainer;
+        private Label _emptyStateMessage;
         private ListView _eventLeaderboardsList;
         private ScrollView _eventLeaderboardsScrollView;
         private ScrollView _eventLeaderboardRecordsScrollView;
@@ -72,6 +75,17 @@ namespace HiroEventLeaderboards
         private VisualElement _errorPopup;
         private Button _errorCloseButton;
         private Label _errorMessage;
+
+        private VisualElement _eventInfoModal;
+        private Button _eventInfoModalCloseButton;
+        private Label _infoIdLabel;
+        private Label _infoOperatorLabel;
+        private Label _infoResetScheduleLabel;
+        private Label _infoCohortSizeLabel;
+        private Label _infoAscendingLabel;
+        private Label _infoMaxIdleTierDropLabel;
+        private Label _infoChangeZonesLabel;
+        private Label _infoRewardTiersLabel;
 
         private IEventLeaderboard _currentEventLeaderboard;
         private int _selectedTabIndex;
@@ -152,7 +166,10 @@ namespace HiroEventLeaderboards
             _selectedEventLeaderboardDescriptionLabel = rootElement.Q<Label>("selected-event-leaderboard-description");
             _selectedEventLeaderboardStatusLabel = rootElement.Q<Label>("selected-event-leaderboard-status");
             _selectedEventLeaderboardTierLabel = rootElement.Q<Label>("selected-event-leaderboard-tier");
-            _selectedEventLeaderboardEndTimeLabel = rootElement.Q<Label>("selected-event-leaderboard-end-time");
+            _selectedEventLeaderboardTimeRemainingLabel = rootElement.Q<Label>("selected-event-leaderboard-time-remaining");
+
+            _eventInfoButton = rootElement.Q<Button>("event-info-button");
+            _eventInfoButton.RegisterCallback<ClickEvent>(_ => ShowEventInfoModal());
         }
 
         private void InitializeLists(VisualElement rootElement)
@@ -169,12 +186,18 @@ namespace HiroEventLeaderboards
             };
             _eventLeaderboardRecordsList.bindItem = (item, index) =>
             {
-                (item.userData as EventLeaderboardRecordView)?.SetEventLeaderboardRecord(_controller.SelectedEventLeaderboardRecords[index]);
+                var view = item.userData as EventLeaderboardRecordView;
+                var record = _controller.SelectedEventLeaderboardRecords[index];
+                view?.SetEventLeaderboardRecord(record, _currentEventLeaderboard, _controller.CurrentUsername);
             };
             _eventLeaderboardRecordsList.itemsSource = _controller.SelectedEventLeaderboardRecords;
 
             _eventLeaderboardRecordsScrollView = _eventLeaderboardRecordsList.Q<ScrollView>();
             _eventLeaderboardRecordsScrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
+
+            // Empty state elements
+            _emptyStateContainer = rootElement.Q<VisualElement>("empty-state-container");
+            _emptyStateMessage = rootElement.Q<Label>("empty-state-message");
 
             // Event leaderboards list
             _eventLeaderboardsList = rootElement.Q<ListView>("event-leaderboards-list");
@@ -255,6 +278,20 @@ namespace HiroEventLeaderboards
             _errorMessage = rootElement.Q<Label>("error-message");
             _errorCloseButton = rootElement.Q<Button>("error-close");
             _errorCloseButton.RegisterCallback<ClickEvent>(_ => HideErrorPopup());
+
+            // Initialize event info modal
+            _eventInfoModal = rootElement.Q<VisualElement>("event-info-modal");
+            _eventInfoModalCloseButton = rootElement.Q<Button>("event-info-modal-close");
+            _eventInfoModalCloseButton?.RegisterCallback<ClickEvent>(_ => HideEventInfoModal());
+
+            _infoIdLabel = rootElement.Q<Label>("info-id");
+            _infoOperatorLabel = rootElement.Q<Label>("info-operator");
+            _infoResetScheduleLabel = rootElement.Q<Label>("info-reset-schedule");
+            _infoCohortSizeLabel = rootElement.Q<Label>("info-cohort-size");
+            _infoAscendingLabel = rootElement.Q<Label>("info-ascending");
+            _infoMaxIdleTierDropLabel = rootElement.Q<Label>("info-max-idle-tier-drop");
+            _infoChangeZonesLabel = rootElement.Q<Label>("info-change-zones");
+            _infoRewardTiersLabel = rootElement.Q<Label>("info-reward-tiers");
         }
 
         private void HandleInitialized(ISession session, EventLeaderboardsController controller)
@@ -301,10 +338,57 @@ namespace HiroEventLeaderboards
 
                 UpdateEventLeaderboardButtons(records);
                 ShowSelectedEventLeaderboardPanel(eventLeaderboard);
+                UpdateEmptyState(eventLeaderboard, records);
             }
             catch (Exception e)
             {
                 ShowError(e.Message);
+            }
+        }
+
+        private void UpdateEmptyState(IEventLeaderboard eventLeaderboard, List<IEventLeaderboardScore> records)
+        {
+            if (_emptyStateContainer == null || _emptyStateMessage == null)
+                return;
+
+            var currentTime = DateTimeOffset.FromUnixTimeSeconds(eventLeaderboard.CurrentTimeSec);
+            var startTime = DateTimeOffset.FromUnixTimeSeconds(eventLeaderboard.StartTimeSec);
+            var isActive = eventLeaderboard.IsActive && currentTime >= startTime;
+
+            // Check if the user has joined the event
+            var userHasJoined = false;
+            foreach (var record in records)
+            {
+                if (record.Username == _controller.CurrentUsername)
+                {
+                    userHasJoined = true;
+                    break;
+                }
+            }
+
+            // Show empty state if there are no records
+            if (records.Count == 0)
+            {
+                if (isActive && !userHasJoined)
+                {
+                    _emptyStateMessage.text = "Join this event to see player scores";
+                }
+                else if (!isActive && !userHasJoined)
+                {
+                    _emptyStateMessage.text = "You did not participate in this event";
+                }
+                else
+                {
+                    _emptyStateMessage.text = "No records to display";
+                }
+                _emptyStateContainer.style.display = DisplayStyle.Flex;
+                _eventLeaderboardRecordsList.style.display = DisplayStyle.None;
+            }
+            else
+            {
+                // Show the list
+                _emptyStateContainer.style.display = DisplayStyle.None;
+                _eventLeaderboardRecordsList.style.display = DisplayStyle.Flex;
             }
         }
 
@@ -319,7 +403,10 @@ namespace HiroEventLeaderboards
                 ? "No description set."
                 : eventLeaderboard.Description;
 
-            _selectedEventLeaderboardTierLabel.text = $"Tier {eventLeaderboard.Tier}";
+            // Map tier to Bronze/Silver/Gold
+            var (tierName, tierColor) = GetTierNameAndColor(eventLeaderboard.Tier);
+            _selectedEventLeaderboardTierLabel.text = tierName;
+            _selectedEventLeaderboardTierLabel.style.color = new StyleColor(tierColor);
 
             var currentTime = DateTimeOffset.FromUnixTimeSeconds(eventLeaderboard.CurrentTimeSec);
             var startTime = DateTimeOffset.FromUnixTimeSeconds(eventLeaderboard.StartTimeSec);
@@ -335,18 +422,61 @@ namespace HiroEventLeaderboards
                 else
                 {
                     var difference = startTime - currentTime;
-                    _selectedEventLeaderboardStatusLabel.text = $"Starts in {difference.Days}d, {difference.Hours}h, {difference.Minutes}m";
+                    _selectedEventLeaderboardStatusLabel.text = $"Starts in {FormatTimeDuration(difference)}";
                     _selectedEventLeaderboardStatusLabel.style.color = new StyleColor(Color.yellow);
                 }
+
+                // Display time remaining
+                var timeRemaining = endTime - currentTime;
+                _selectedEventLeaderboardTimeRemainingLabel.text = FormatTimeDuration(timeRemaining);
             }
             else
             {
                 _selectedEventLeaderboardStatusLabel.text = "Ended";
                 _selectedEventLeaderboardStatusLabel.style.color = new StyleColor(Color.red);
+                _selectedEventLeaderboardTimeRemainingLabel.text = "Ended";
             }
 
-            _selectedEventLeaderboardEndTimeLabel.text = endTime.LocalDateTime.ToString("MMM dd, yyyy HH:mm");
             _selectedEventLeaderboardPanel.style.display = DisplayStyle.Flex;
+        }
+
+        /// <summary>
+        /// Maps tier numbers to tier names and colors.
+        /// Tier 0 = Bronze, Tier 1 = Silver, Tier 2 = Gold
+        /// </summary>
+        private static (string name, Color color) GetTierNameAndColor(int tier)
+        {
+            return tier switch
+            {
+                0 => ("Bronze", new Color(0.8f, 0.5f, 0.2f)), // Bronze color
+                1 => ("Silver", new Color(0.75f, 0.75f, 0.75f)), // Silver color
+                2 => ("Gold", new Color(1f, 0.84f, 0f)), // Gold color
+                _ => ($"Tier {tier}", Color.white)
+            };
+        }
+
+        /// <summary>
+        /// Formats a time duration conditionally showing only relevant units.
+        /// Examples: "3h 25m", "2d 5h", "45m"
+        /// </summary>
+        private static string FormatTimeDuration(TimeSpan duration)
+        {
+            if (duration.TotalMinutes < 1)
+            {
+                return "< 1m";
+            }
+
+            if (duration.Days > 0)
+            {
+                return $"{duration.Days}d {duration.Hours}h";
+            }
+
+            if (duration.Hours > 0)
+            {
+                return $"{duration.Hours}h {duration.Minutes}m";
+            }
+
+            return $"{duration.Minutes}m";
         }
 
         private void HideSelectedEventLeaderboardPanel()
@@ -539,11 +669,99 @@ namespace HiroEventLeaderboards
 
         #endregion
 
+        #region Event Info Modal
+
+        private void ShowEventInfoModal()
+        {
+            if (_currentEventLeaderboard == null || _eventInfoModal == null)
+                return;
+
+            var leaderboard = _currentEventLeaderboard;
+
+            // Populate basic info
+            _infoIdLabel.text = $"Event ID: {leaderboard.Id}";
+            _infoOperatorLabel.text = $"Operator: {leaderboard.Operator}";
+            _infoCohortSizeLabel.text = $"Cohort Size: {leaderboard.MaxCount}";
+            _infoAscendingLabel.text = $"Ascending: {leaderboard.Ascending} (Lower scores are better: {leaderboard.Ascending})";
+
+            // Format reset schedule (if available from additional properties)
+            var resetSchedule = "N/A";
+            if (leaderboard.AdditionalProperties != null && leaderboard.AdditionalProperties.ContainsKey("reset_schedule"))
+            {
+                resetSchedule = leaderboard.AdditionalProperties["reset_schedule"];
+            }
+            _infoResetScheduleLabel.text = $"Reset Schedule: {resetSchedule}";
+
+            // Max idle tier drop (if available from additional properties)
+            var maxIdleTierDrop = "N/A";
+            if (leaderboard.AdditionalProperties != null && leaderboard.AdditionalProperties.ContainsKey("max_idle_tier_drop"))
+            {
+                maxIdleTierDrop = leaderboard.AdditionalProperties["max_idle_tier_drop"];
+            }
+            _infoMaxIdleTierDropLabel.text = $"Max Idle Tier Drop: {maxIdleTierDrop}";
+
+            // Format change zones
+            if (leaderboard.ChangeZones != null && leaderboard.ChangeZones.Count > 0)
+            {
+                var changeZonesText = "";
+                foreach (var kvp in leaderboard.ChangeZones)
+                {
+                    var tier = kvp.Key;
+                    var zone = kvp.Value;
+                    changeZonesText += $"Tier {tier}: Promotion {zone.Promotion * 100:F0}%, Demotion {zone.Demotion * 100:F0}%, Demote Idle: {zone.DemoteIdle}\n";
+                }
+                _infoChangeZonesLabel.text = changeZonesText.TrimEnd('\n');
+            }
+            else
+            {
+                _infoChangeZonesLabel.text = "No change zones configured";
+            }
+
+            // Format reward tiers
+            if (leaderboard.RewardTiers != null && leaderboard.RewardTiers.Count > 0)
+            {
+                var rewardTiersText = "";
+                foreach (var kvp in leaderboard.RewardTiers)
+                {
+                    var tier = kvp.Key;
+                    var tierRewards = kvp.Value;
+                    foreach (var rewardTier in tierRewards.RewardTiers)
+                    {
+                        var tierChangeName = rewardTier.TierChange switch
+                        {
+                            > 0 => $"+{rewardTier.TierChange} tier",
+                            < 0 => $"{rewardTier.TierChange} tier",
+                            _ => "no change"
+                        };
+                        rewardTiersText += $"Tier {tier}, Rank {rewardTier.RankMin}-{rewardTier.RankMax}: {rewardTier.Name} ({tierChangeName})\n";
+                    }
+                }
+                _infoRewardTiersLabel.text = rewardTiersText.TrimEnd('\n');
+            }
+            else
+            {
+                _infoRewardTiersLabel.text = "No reward tiers configured";
+            }
+
+            _eventInfoModal.style.display = DisplayStyle.Flex;
+        }
+
+        private void HideEventInfoModal()
+        {
+            if (_eventInfoModal != null)
+            {
+                _eventInfoModal.style.display = DisplayStyle.None;
+            }
+        }
+
+        #endregion
+
         private void HideAllModals()
         {
             HideSubmitScoreModal();
             if (_debugFillModal != null) HideDebugFillModal();
             if (_debugRandomScoresModal != null) HideDebugRandomScoresModal();
+            HideEventInfoModal();
         }
     }
 }
