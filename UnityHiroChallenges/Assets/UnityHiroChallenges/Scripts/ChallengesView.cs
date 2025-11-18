@@ -23,12 +23,15 @@ using Nakama;
 
 namespace HiroChallenges
 {
+    // Manages the UI presentation and user interactions for the challenges system.
+    // Handles all UI elements including lists, modals, and button states.
     public sealed class ChallengesView
     {
         private readonly ChallengesController _controller;
         private readonly VisualTreeAsset _challengeEntryTemplate;
         private readonly VisualTreeAsset _challengeParticipantTemplate;
 
+        // Main UI elements
         private WalletDisplay _walletDisplay;
         private Button _myChallengesTab;
         private Button _createButton;
@@ -48,6 +51,7 @@ namespace HiroChallenges
         private ScrollView _challengeParticipantsScrollView;
         private Button _refreshButton;
 
+        // Create Challenge modal elements
         private VisualElement _createModal;
         private DropdownField _modalTemplateDropdown;
         private TextField _modalNameField;
@@ -61,6 +65,7 @@ namespace HiroChallenges
         private Button _modalCreateButton;
         private Button _modalCloseButton;
 
+        // Submit Score modal elements
         private VisualElement _submitScoreModal;
         private IntegerField _scoreField;
         private IntegerField _subScoreField;
@@ -68,11 +73,13 @@ namespace HiroChallenges
         private Button _submitScoreModalButton;
         private Button _submitScoreModalCloseButton;
 
+        // Invite modal elements
         private VisualElement _inviteModal;
         private TextField _inviteModalInvitees;
         private Button _inviteModalButton;
         private Button _inviteModalCloseButton;
 
+        // Error popup elements
         private VisualElement _errorPopup;
         private Button _errorCloseButton;
         private Label _errorMessage;
@@ -158,7 +165,7 @@ namespace HiroChallenges
 
         private void InitializeLists(VisualElement rootElement)
         {
-            // Challenge participants list
+            // Set up and bind participants list
             _challengeParticipantsList = rootElement.Q<ListView>("challenge-participants-list");
             _challengeParticipantsList.makeItem = () =>
             {
@@ -178,7 +185,7 @@ namespace HiroChallenges
             _challengeParticipantsScrollView = _challengeParticipantsList.Q<ScrollView>();
             _challengeParticipantsScrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
 
-            // Challenges list
+            // Set up and bind challenges list
             _challengesList = rootElement.Q<ListView>("challenges-list");
             _challengesList.makeItem = () =>
             {
@@ -227,6 +234,7 @@ namespace HiroChallenges
             _modalInvitees = rootElement.Q<TextField>("create-modal-invitees");
             _modalOpenToggle = rootElement.Q<Toggle>("create-modal-open");
 
+            // Set up delay slider with live label updates
             _modalChallengeDelay = rootElement.Q<SliderInt>("create-modal-delay");
             _modalChallengeDelayLabel = rootElement.Q<Label>("create-modal-delay-value");
             _modalChallengeDelay.RegisterValueChangedCallback(evt =>
@@ -235,6 +243,7 @@ namespace HiroChallenges
             });
             _modalChallengeDelayLabel.text = $"{_modalChallengeDelay.value}s";
 
+            // Set up duration slider with live label updates
             _modalChallengeDuration = rootElement.Q<SliderInt>("create-modal-duration");
             _modalChallengeDurationLabel = rootElement.Q<Label>("create-modal-duration-value");
             _modalChallengeDuration.RegisterValueChangedCallback(evt =>
@@ -317,6 +326,7 @@ namespace HiroChallenges
             _challengesList.RefreshItems();
             _challengesList.ClearSelection();
 
+            // Restore selection if a challenge was previously selected
             if (refreshData == null)
                 HideSelectedChallengePanel();
             else
@@ -356,6 +366,7 @@ namespace HiroChallenges
                 ? "No description set."
                 : challenge.Description;
 
+            // Calculate and display challenge status (starting soon, active, or ended)
             var now = DateTimeOffset.Now;
             var startTime = DateTimeOffset.FromUnixTimeSeconds(challenge.StartTimeSec);
             var endTime = DateTimeOffset.FromUnixTimeSeconds(challenge.EndTimeSec);
@@ -383,11 +394,13 @@ namespace HiroChallenges
             _selectedChallengePanel.style.display = DisplayStyle.None;
         }
 
+        // Updates button visibility based on challenge state and user participation status
         private void UpdateChallengeButtons(List<IChallengeScore> participants)
         {
             var isActive = _currentChallenge.IsActive;
             IChallengeScore foundParticipant = null;
 
+            // Find current user in participants list
             foreach (var participant in participants)
             {
                 if (participant.Id != _controller.CurrentUserId || participant.State != ChallengeState.Joined) continue;
@@ -397,7 +410,7 @@ namespace HiroChallenges
 
             var canClaim = _currentChallenge.CanClaim;
 
-            // Determine button visibility
+            // Determine which buttons should be visible
             var showJoin = isActive && foundParticipant == null;
             var showLeave = !isActive && foundParticipant != null && !canClaim;
             var showSubmitScore = isActive && foundParticipant != null &&
@@ -512,6 +525,7 @@ namespace HiroChallenges
             if (_modalTemplateDropdown.choices.Count > 0) _modalTemplateDropdown.index = 0;
         }
 
+        // Updates slider and field constraints based on selected challenge template limits
         private void UpdateCreateModalLimits(IChallengeTemplate template)
         {
             var maxDelay = template.StartDelayMax;
