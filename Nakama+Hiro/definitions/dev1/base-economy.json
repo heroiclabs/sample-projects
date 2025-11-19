@@ -1,8 +1,287 @@
 {
-    "initialize_user": {
-        "currencies": {
-            "coins": 999,
-            "gems": 50
-        }
+  "initialize_user": {
+    "currencies": {
+      "coins": 1000000,
+      "gems": 100000
     }
+  },
+  "store_items": {
+    "starter_pack": {
+      "name": "Starter Pack",
+      "description": "Amazing starter bundle with 6000 gems!",
+      "category": "featured",
+      "cost": {
+        "currencies": {
+          "gems": 500
+        }
+      },
+      "reward": {
+        "guaranteed": {
+          "currencies": {
+            "gems": {
+              "min": 6000,
+              "max": 6000
+            }
+          }
+        }
+      },
+      "additional_properties": {
+        "badge": "x5 VALUE"
+      }
+    },
+    "gems_20": {
+      "name": "gems",
+      "description": "Small gem bundle",
+      "category": "currency",
+      "cost": {
+        "currencies": {
+          "gems": 500
+        }
+      },
+      "reward": {
+        "guaranteed": {
+          "currencies": {
+            "gems": {
+              "min": 20,
+              "max": 20
+            }
+          }
+        }
+      },
+      "additional_properties": {
+        "badge": "FREE"
+      }
+    },
+    "gems_400": {
+      "name": "gems",
+      "description": "Medium gem bundle",
+      "category": "currency",
+      "cost": {
+        "currencies": {
+          "gems": 500
+        }
+      },
+      "reward": {
+        "guaranteed": {
+          "currencies": {
+            "gems": {
+              "min": 400,
+              "max": 400
+            }
+          }
+        }
+      },
+      "additional_properties": {
+        "badge": "1st Purchase x2",
+        "bonus": "+300 BONUS"
+      }
+    },
+    "gems_2000": {
+      "name": "gems",
+      "description": "Large gem bundle",
+      "category": "currency",
+      "cost": {
+        "currencies": {
+          "gems": 500
+        }
+      },
+      "reward": {
+        "guaranteed": {
+          "currencies": {
+            "gems": {
+              "min": 2000,
+              "max": 2000
+            }
+          }
+        }
+      },
+      "additional_properties": {
+        "badge": "1st Purchase x2"
+      }
+    },
+    "coins_1000": {
+      "name": "coins",
+      "description": "Small coin bundle",
+      "category": "currency",
+      "cost": {
+        "currencies": {
+          "gems": 500
+        }
+      },
+      "reward": {
+        "guaranteed": {
+          "currencies": {
+            "coins": {
+              "min": 1000,
+              "max": 1000
+            }
+          }
+        }
+      },
+      "additional_properties": {
+        "badge": "FREE"
+      }
+    },
+    "coins_5000": {
+      "name": "coins",
+      "description": "Medium coin bundle",
+      "category": "currency",
+      "cost": {
+        "currencies": {
+          "gems": 350
+        }
+      },
+      "reward": {
+        "guaranteed": {
+          "currencies": {
+            "coins": {
+              "min": 5000,
+              "max": 5000
+            }
+          }
+        }
+      }
+    },
+    "coins_10000": {
+      "name": "coins",
+      "description": "Large coin bundle",
+      "category": "currency",
+      "cost": {
+        "currencies": {
+          "gems": 500
+        }
+      },
+      "reward": {
+        "guaranteed": {
+          "currencies": {
+            "coins": {
+              "min": 10000,
+              "max": 10000
+            }
+          }
+        }
+      }
+    },
+    "bonus_defense": {
+      "name": "Bonus Defense",
+      "description": "Increase your defense!",
+      "category": "resources",
+      "cost": {
+        "currencies": {
+          "coins": 100
+        }
+      },
+      "reward": {
+        "guaranteed": {
+          "items": {
+            "bonus_defense": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        }
+      }
+    },
+    "bomb": {
+      "name": "Bomb",
+      "description": "Explosive power!",
+      "category": "resources",
+      "cost": {
+        "currencies": {
+          "coins": 200
+        }
+      },
+      "reward": {
+        "guaranteed": {
+          "items": {
+            "bomb": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        }
+      }
+    },
+    "potion": {
+      "name": "Potion",
+      "description": "Restore your health!",
+      "category": "resources",
+      "cost": {
+        "currencies": {
+          "coins": 250
+        }
+      },
+      "reward": {
+        "guaranteed": {
+          "items": {
+            "potion": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        }
+      }
+    },
+    "bonus_attack": {
+      "name": "Bonus Attack",
+      "description": "Increase your attack power!",
+      "category": "resources",
+      "cost": {
+        "currencies": {
+          "coins": 400
+        }
+      },
+      "reward": {
+        "guaranteed": {
+          "items": {
+            "bonus_attack": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        }
+      }
+    },
+    "star": {
+      "name": "Star",
+      "description": "Rare collectible star!",
+      "category": "resources",
+      "cost": {
+        "currencies": {
+          "coins": 600
+        }
+      },
+      "reward": {
+        "guaranteed": {
+          "items": {
+            "star": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        }
+      }
+    },
+    "key": {
+      "name": "Key",
+      "description": "Unlock special content!",
+      "category": "resources",
+      "cost": {
+        "currencies": {
+          "coins": 800
+        }
+      },
+      "reward": {
+        "guaranteed": {
+          "items": {
+            "key": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        }
+      }
+    }
+  },
+  "allow_fake_receipts": true
 }
