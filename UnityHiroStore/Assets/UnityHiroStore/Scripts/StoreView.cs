@@ -1,0 +1,564 @@
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Hiro;
+using HeroicUI;
+using UnityEngine;
+using UnityEngine.UIElements;
+
+namespace HiroInventory
+{
+    public sealed class StoreView
+    {
+        private readonly StoreController _controller;
+        private readonly HiroInventoryCoordinator _coordinator;
+        private readonly VisualTreeAsset _storeItemTemplate;
+        private readonly Sprite _defaultIcon;
+
+        private WalletDisplay _walletDisplay;
+        private UIDocument _uiDocument;
+
+        // UI Elements
+        private Button _backButton;
+        private Button _refreshButton;
+        private Button _tabDeals;
+        private Button _tabFeatured;
+        private Button _tabResources;
+        
+        private VisualElement _featuredContainer;
+        private VisualElement _featuredItem;
+        private VisualElement _storeGrid;
+
+        // Featured Item Elements
+        private VisualElement _featuredIcon;
+        private Label _featuredName;
+        private Label _featuredBadge;
+        private Button _featuredPurchaseButton;
+        private Label _featuredPrice;
+
+        // Modals
+        private VisualElement _purchaseModal;
+        private VisualElement _modalItemIcon;
+        private Label _modalItemName;
+        private Label _modalItemDescription;
+        private VisualElement _modalCostIcon;
+        private Label _modalCostAmount;
+        private Button _purchaseModalConfirm;
+        private Button _purchaseModalCancel;
+        private Button _purchaseModalClose;
+
+        private VisualElement _rewardModal;
+        private ScrollView _rewardList;
+        private Button _rewardModalCloseButton;
+
+        private VisualElement _errorPopup;
+        private Label _errorMessage;
+        private Button _errorCloseButton;
+
+        private IEconomyListStoreItem _pendingPurchaseItem;
+
+        public StoreView(StoreController controller, HiroInventoryCoordinator coordinator,
+            VisualTreeAsset storeItemTemplate, Sprite defaultIcon)
+        {
+            _controller = controller;
+            _coordinator = coordinator;
+            _storeItemTemplate = storeItemTemplate;
+            _defaultIcon = defaultIcon;
+
+            InitializeUI();
+        }
+
+        #region UI Initialization
+
+        private void InitializeUI()
+        {
+            _uiDocument = _controller.GetComponent<UIDocument>();
+            var root = _uiDocument.rootVisualElement;
+
+            // Wallet
+            _walletDisplay = new WalletDisplay(root.Q<VisualElement>("wallet-display"));
+
+            // Navigation
+            _backButton = root.Q<Button>("back-button");
+            _backButton.RegisterCallback<ClickEvent>(_ => HandleBackButton());
+
+            _refreshButton = root.Q<Button>("refresh-button");
+            _refreshButton.RegisterCallback<ClickEvent>(async evt => await _controller.RefreshStore());
+
+            // Tabs
+            _tabDeals = root.Q<Button>("tab-deals");
+            _tabDeals.RegisterCallback<ClickEvent>(_ => SwitchTab(StoreController.StoreTab.Deals));
+
+            _tabFeatured = root.Q<Button>("tab-featured");
+            _tabFeatured.RegisterCallback<ClickEvent>(_ => SwitchTab(StoreController.StoreTab.Featured));
+
+            _tabResources = root.Q<Button>("tab-resources");
+            _tabResources.RegisterCallback<ClickEvent>(_ => SwitchTab(StoreController.StoreTab.Resources));
+
+            // Store Grid
+            _storeGrid = root.Q<VisualElement>("store-grid");
+            
+            // Featured Item
+            _featuredContainer = root.Q<VisualElement>("featured-container");
+            _featuredItem = root.Q<VisualElement>("featured-item");
+            _featuredIcon = root.Q<VisualElement>("featured-icon");
+            _featuredName = root.Q<Label>("featured-name");
+            _featuredBadge = root.Q<Label>("featured-badge");
+            _featuredPurchaseButton = root.Q<Button>("featured-purchase-button");
+            _featuredPrice = root.Q<Label>("featured-price");
+
+            _featuredPurchaseButton.RegisterCallback<ClickEvent>(_ => 
+            {
+                var featured = _controller.GetFeaturedItem();
+                if (featured != null) ShowPurchaseModal(featured);
+            });
+
+            // Purchase Modal
+            _purchaseModal = root.Q<VisualElement>("purchase-modal");
+            _modalItemIcon = root.Q<VisualElement>("modal-item-icon");
+            _modalItemName = root.Q<Label>("modal-item-name");
+            _modalItemDescription = root.Q<Label>("modal-item-description");
+            _modalCostIcon = root.Q<VisualElement>("modal-cost-icon");
+            _modalCostAmount = root.Q<Label>("modal-cost-amount");
+            _purchaseModalConfirm = root.Q<Button>("purchase-modal-confirm");
+            _purchaseModalCancel = root.Q<Button>("purchase-modal-cancel");
+            _purchaseModalClose = root.Q<Button>("purchase-modal-close");
+
+            _purchaseModalConfirm.RegisterCallback<ClickEvent>(async evt => await HandlePurchaseConfirm());
+            _purchaseModalCancel.RegisterCallback<ClickEvent>(_ => HidePurchaseModal());
+            _purchaseModalClose.RegisterCallback<ClickEvent>(_ => HidePurchaseModal());
+
+            // Reward Modal
+            _rewardModal = root.Q<VisualElement>("reward-modal");
+            _rewardList = root.Q<ScrollView>("reward-list");
+            _rewardModalCloseButton = root.Q<Button>("reward-modal-close-button");
+            _rewardModalCloseButton.RegisterCallback<ClickEvent>(_ => HideRewardModal());
+
+            // Error Popup
+            _errorPopup = root.Q<VisualElement>("error-popup");
+            _errorMessage = root.Q<Label>("error-message");
+            _errorCloseButton = root.Q<Button>("error-close");
+            _errorCloseButton.RegisterCallback<ClickEvent>(_ => _errorPopup.style.display = DisplayStyle.None);
+
+            UpdateTabButtons();
+        }
+
+        public void StartObservingWallet()
+        {
+            _walletDisplay.StartObserving();
+        }
+
+        private void HandleBackButton()
+        {
+            // Navigate back to previous scene or menu
+            Debug.Log("Back button pressed");
+        }
+
+        #endregion
+
+        #region Store Display
+
+        public async Task RefreshStoreDisplay()
+        {
+            PopulateFeaturedItem();
+            PopulateStoreGrid();
+            UpdateTabButtons();
+        }
+
+        private void PopulateFeaturedItem()
+        {
+            var featured = _controller.GetFeaturedItem();
+            
+            if (featured == null)
+            {
+                _featuredContainer.style.display = DisplayStyle.None;
+                return;
+            }
+
+            _featuredContainer.style.display = DisplayStyle.Flex;
+
+            // Set icon
+            var featuredIcon = _controller.GetItemIcon(featured.Id);
+            if (featuredIcon != null)
+            {
+                _featuredIcon.style.backgroundImage = new StyleBackground(featuredIcon);
+            }
+
+            // Set name
+            _featuredName.text = featured.Name;
+
+            // Set price
+            if (!string.IsNullOrEmpty(featured.Cost.Sku))
+            {
+                _featuredPrice.text = featured.Cost.Sku;
+            }
+            else
+            {
+                var primaryCurrency = _controller.GetPrimaryCurrency(featured);
+                var amount = _controller.GetPrimaryCurrencyAmount(featured);
+                _featuredPrice.text = $"{amount} {primaryCurrency}";
+            }
+
+            // Update badge if applicable
+            if (featured.AdditionalProperties != null && featured.AdditionalProperties.ContainsKey("badge"))
+            {
+                _featuredBadge.text = featured.AdditionalProperties["badge"];
+                _featuredBadge.style.display = DisplayStyle.Flex;
+            }
+            else
+            {
+                _featuredBadge.style.display = DisplayStyle.None;
+            }
+        }
+
+        private void PopulateStoreGrid()
+        {
+            _storeGrid.Clear();
+
+            var items = _controller.GetItemsForCurrentTab();
+
+            foreach (var item in items)
+            {
+                // Skip the featured item in the grid
+                if (item == _controller.GetFeaturedItem())
+                    continue;
+
+                CreateStoreItemSlot(item);
+            }
+        }
+
+        private void CreateStoreItemSlot(IEconomyListStoreItem item)
+        {
+            var itemSlot = _storeItemTemplate.Instantiate();
+            var slotRoot = itemSlot.Q<VisualElement>("store-item-slot");
+
+            // Store item reference
+            slotRoot.userData = item;
+
+            // Set icon
+            var iconContainer = slotRoot.Q<VisualElement>("item-icon");
+            var icon = _controller.GetItemIcon(item.Id);
+            if (icon != null)
+            {
+                iconContainer.style.backgroundImage = new StyleBackground(icon);
+            }
+
+            // Set amount - show currency amount or item name
+            var amountLabel = slotRoot.Q<Label>("item-amount");
+            if (item.Category == "currency")
+            {
+                // For currency, show the amount
+                if (item.AvailableRewards?.Guaranteed?.Currencies != null &&
+                    item.AvailableRewards.Guaranteed.Currencies.TryGetValue(item.Name, out var currencyReward))
+                {
+                    amountLabel.text = currencyReward.Count.ToString();
+                }
+                else
+                {
+                    amountLabel.text = "0";
+                }
+            }
+            else
+            {
+                // For items, show the item name
+                amountLabel.text = item.Name;
+            }
+
+            // Set badges
+            SetupItemBadges(slotRoot, item);
+
+            // Setup purchase buttons
+            SetupPurchaseButtons(slotRoot, item);
+
+            // Register click event
+            var purchaseButtons = new[]
+            {
+                slotRoot.Q<Button>("currency-purchase-button"),
+                slotRoot.Q<Button>("money-purchase-button"),
+                slotRoot.Q<Button>("free-button")
+            };
+
+            foreach (var button in purchaseButtons.Where(b => b != null))
+            {
+                button.RegisterCallback<ClickEvent>(_ => ShowPurchaseModal(item));
+            }
+
+            _storeGrid.Add(slotRoot);
+        }
+
+        private void SetupItemBadges(VisualElement slotRoot, IEconomyListStoreItem item)
+        {
+            var itemBadge = slotRoot.Q<Label>("item-badge");
+            var bonusBadge = slotRoot.Q<Label>("bonus-badge");
+
+            // Check for special properties
+            if (item.AdditionalProperties != null)
+            {
+                if (item.AdditionalProperties.ContainsKey("badge"))
+                {
+                    itemBadge.text = item.AdditionalProperties["badge"];
+                    itemBadge.style.display = DisplayStyle.Flex;
+                }
+
+                if (item.AdditionalProperties.ContainsKey("bonus"))
+                {
+                    bonusBadge.text = item.AdditionalProperties["bonus"];
+                    bonusBadge.style.display = DisplayStyle.Flex;
+                }
+            }
+
+            // Check if it's free
+            if (item.Cost.Currencies.Count == 0 && string.IsNullOrEmpty(item.Cost.Sku))
+            {
+                itemBadge.text = "FREE";
+                itemBadge.style.display = DisplayStyle.Flex;
+            }
+        }
+
+        private void SetupPurchaseButtons(VisualElement slotRoot, IEconomyListStoreItem item)
+        {
+            var currencyButton = slotRoot.Q<Button>("currency-purchase-button");
+            var moneyButton = slotRoot.Q<Button>("money-purchase-button");
+            var freeButton = slotRoot.Q<Button>("free-button");
+
+            // Hide all first
+            currencyButton.style.display = DisplayStyle.None;
+            moneyButton.style.display = DisplayStyle.None;
+            freeButton.style.display = DisplayStyle.None;
+
+            // Check if free
+            if (item.Cost.Currencies.Count == 0 && string.IsNullOrEmpty(item.Cost.Sku))
+            {
+                freeButton.style.display = DisplayStyle.Flex;
+                return;
+            }
+
+            // Check if real money
+            if (!string.IsNullOrEmpty(item.Cost.Sku))
+            {
+                moneyButton.style.display = DisplayStyle.Flex;
+                var priceLabel = slotRoot.Q<Label>("price-label");
+                priceLabel.text = item.Cost.Sku;
+                return;
+            }
+
+            // Soft currency
+            currencyButton.style.display = DisplayStyle.Flex;
+            var primaryCurrency = item.Cost.Currencies.FirstOrDefault();
+            var amount = _controller.GetPrimaryCurrencyAmount(item);
+
+            var currencyIcon = slotRoot.Q<VisualElement>("currency-icon");
+            var currencyAmountLabel = slotRoot.Q<Label>("currency-amount");
+
+            var icon = _controller.GetCurrencyIcon(primaryCurrency.Value);
+            if (icon != null)
+            {
+                currencyIcon.style.backgroundImage = new StyleBackground(icon);
+            }
+
+            currencyAmountLabel.text = amount.ToString();
+
+            // Disable if can't afford
+            if (!_controller.CanAffordItem(item))
+            {
+                currencyButton.SetEnabled(false);
+                currencyButton.style.backgroundColor = new StyleColor(new Color(0.5f, 0.5f, 0.5f, 1f));
+            }
+        }
+
+        #endregion
+
+        #region Tab Management
+
+        private void SwitchTab(StoreController.StoreTab tab)
+        {
+            _controller.SwitchTab(tab);
+            UpdateTabButtons();
+        }
+
+        private void UpdateTabButtons()
+        {
+            var currentTab = _controller.GetCurrentTab();
+            var activeColor = new Color(132f / 255f, 154f / 255f, 255f / 255f, 1f);
+            var inactiveColor = new Color(132f / 255f, 154f / 255f, 255f / 255f, 0.2f);
+
+            _tabDeals.style.backgroundColor = currentTab == StoreController.StoreTab.Deals 
+                ? new StyleColor(activeColor) : new StyleColor(inactiveColor);
+            _tabFeatured.style.backgroundColor = currentTab == StoreController.StoreTab.Featured 
+                ? new StyleColor(activeColor) : new StyleColor(inactiveColor);
+            _tabResources.style.backgroundColor = currentTab == StoreController.StoreTab.Resources 
+                ? new StyleColor(activeColor) : new StyleColor(inactiveColor);
+        }
+
+        #endregion
+
+        #region Purchase Modal
+
+        private void ShowPurchaseModal(IEconomyListStoreItem item)
+        {
+            _pendingPurchaseItem = item;
+
+            // Set item info
+            _modalItemName.text = item.Name;
+            _modalItemDescription.text = item.Description ?? "No description available.";
+
+            // Set icon
+            var icon = _controller.GetItemIcon(item.Id);
+            if (icon != null)
+            {
+                _modalItemIcon.style.backgroundImage = new StyleBackground(icon);
+            }
+
+            // Set cost
+            if (!string.IsNullOrEmpty(item.Cost.Sku))
+            {
+                _modalCostAmount.text = item.Cost.Sku;
+                _modalCostIcon.style.display = DisplayStyle.None;
+            }
+            else if (item.Cost.Currencies.Count > 0)
+            {
+                var primaryCurrency = item.Cost.Currencies.FirstOrDefault();
+                var amount = _controller.GetPrimaryCurrencyAmount(item);
+                
+                _modalCostAmount.text = amount.ToString();
+                
+                var currencyIcon = _controller.GetCurrencyIcon(primaryCurrency.Value);
+                if (currencyIcon != null)
+                {
+                    _modalCostIcon.style.backgroundImage = new StyleBackground(currencyIcon);
+                    _modalCostIcon.style.display = DisplayStyle.Flex;
+                }
+            }
+            else
+            {
+                _modalCostAmount.text = "FREE";
+                _modalCostIcon.style.display = DisplayStyle.None;
+            }
+
+            // Enable/disable purchase button
+            _purchaseModalConfirm.SetEnabled(_controller.CanAffordItem(item));
+
+            _purchaseModal.style.display = DisplayStyle.Flex;
+        }
+
+        private void HidePurchaseModal()
+        {
+            _purchaseModal.style.display = DisplayStyle.None;
+            _pendingPurchaseItem = null;
+        }
+
+        private async Task HandlePurchaseConfirm()
+        {
+            if (_pendingPurchaseItem == null) return;
+
+            try
+            {
+                var result = await _controller.PurchaseItem(_pendingPurchaseItem);
+                
+                HidePurchaseModal();
+                
+                if (result != null)
+                {
+                    ShowRewardModal(result.Reward);
+                }
+
+                await RefreshStoreDisplay();
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+            }
+        }
+
+        #endregion
+
+        #region Reward Modal
+
+        private void ShowRewardModal(IReward reward)
+        {
+            _rewardList.Clear();
+
+            if (reward == null)
+            {
+                _rewardModal.style.display = DisplayStyle.Flex;
+                return;
+            }
+
+            // Display currency rewards
+            if (reward.Currencies != null)
+            {
+                foreach (var currency in reward.Currencies)
+                {
+                    var rewardElement = CreateRewardElement(
+                        _controller.GetCurrencyIcon(currency.Key),
+                        $"{currency.Key}: {currency.Value}"
+                    );
+                    _rewardList.Add(rewardElement);
+                }
+            }
+
+            // Display item rewards
+            if (reward.Items != null)
+            {
+                foreach (var item in reward.Items)
+                {
+                    var rewardElement = CreateRewardElement(
+                        _controller.GetItemIcon(item.Key),
+                        $"{item.Key} x{item.Value}"
+                    );
+                    _rewardList.Add(rewardElement);
+                }
+            }
+
+            _rewardModal.style.display = DisplayStyle.Flex;
+        }
+
+        private VisualElement CreateRewardElement(Sprite icon, string text)
+        {
+            var rewardElement = new VisualElement();
+            rewardElement.style.flexDirection = FlexDirection.Row;
+            rewardElement.style.alignItems = Align.Center;
+            rewardElement.style.marginBottom = 10;
+            rewardElement.style.paddingTop = 10;
+            rewardElement.style.backgroundColor = new Color(0.9f, 0.9f, 0.9f, 1f);
+            rewardElement.style.borderTopLeftRadius = 10;
+
+            var iconElement = new VisualElement();
+            iconElement.style.width = 50;
+            iconElement.style.height = 50;
+            iconElement.style.marginRight = 15;
+            iconElement.style.borderTopLeftRadius = 10;
+            
+            if (icon != null)
+            {
+                iconElement.style.backgroundImage = new StyleBackground(icon);
+            }
+
+            var label = new Label(text);
+            label.style.fontSize = 20;
+            label.style.color = new Color(0.2f, 0.2f, 0.2f, 1f);
+
+            rewardElement.Add(iconElement);
+            rewardElement.Add(label);
+            
+            return rewardElement;
+        }
+
+        private void HideRewardModal()
+        {
+            _rewardModal.style.display = DisplayStyle.None;
+        }
+
+        #endregion
+
+        #region Error Handling
+
+        public void ShowError(string message)
+        {
+            _errorPopup.style.display = DisplayStyle.Flex;
+            _errorMessage.text = message;
+        }
+
+        #endregion
+    }
+}
