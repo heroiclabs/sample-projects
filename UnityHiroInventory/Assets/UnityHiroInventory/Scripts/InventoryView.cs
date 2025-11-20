@@ -224,8 +224,8 @@ namespace HiroInventory
                 // Click to select
                 slotRoot.RegisterCallback<ClickEvent>(evt => { SelectItemSlot(item, slotRoot); });
 
-                // Hover effects
-                slotRoot.RegisterCallback<MouseEnterEvent>(evt =>
+                // Hover effects // ENRIQUE'S EDIT disabling for now to allow for only selection-based tooltip display
+                /*slotRoot.RegisterCallback<MouseEnterEvent>(evt =>
                 {
                     if (_controller.GetSelectedItem() != item)
                     {
@@ -236,7 +236,6 @@ namespace HiroInventory
 
                     ShowTooltip(item, evt.mousePosition);
                 });
-
                 slotRoot.RegisterCallback<MouseLeaveEvent>(evt =>
                 {
                     if (_controller.GetSelectedItem() != item)
@@ -247,6 +246,7 @@ namespace HiroInventory
 
                     HideTooltip();
                 });
+*/
 
                 _inventoryGrid.Add(slotRoot);
             }
@@ -272,7 +272,7 @@ namespace HiroInventory
 
             _controller.SelectItem(item);
             _selectedSlot = slot;
-
+            ShowTooltip(item, Vector2.zero);
             // Highlight selected slot with turquoise border
             SetBorderColor(slot, new Color(0.467f, 0.984f, 0.937f));
 
@@ -380,8 +380,8 @@ namespace HiroInventory
             var offsetX = 20f;
             var offsetY = -20f;
 
-            _itemTooltip.style.left = mousePosition.x + offsetX;
-            _itemTooltip.style.top = mousePosition.y + offsetY;
+            //_itemTooltip.style.left = mousePosition.x + offsetX;
+            //_itemTooltip.style.top = mousePosition.y + offsetY;
 
             // Ensure tooltip stays within screen bounds
             var rootElement = _uiDocument.rootVisualElement;
@@ -390,12 +390,12 @@ namespace HiroInventory
 
             if (mousePosition.x + offsetX + tooltipWidth > rootElement.resolvedStyle.width)
             {
-                _itemTooltip.style.left = mousePosition.x - tooltipWidth - 20f;
+                //_itemTooltip.style.left = mousePosition.x - tooltipWidth - 20f;
             }
 
             if (mousePosition.y + offsetY + tooltipHeight > rootElement.resolvedStyle.height)
             {
-                _itemTooltip.style.top = rootElement.resolvedStyle.height - tooltipHeight - 20f;
+                //_itemTooltip.style.top = rootElement.resolvedStyle.height - tooltipHeight - 20f;
             }
 
             _itemTooltip.style.display = DisplayStyle.Flex;
