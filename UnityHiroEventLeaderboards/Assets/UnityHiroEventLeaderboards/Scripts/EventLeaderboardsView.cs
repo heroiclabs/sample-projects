@@ -40,7 +40,6 @@ namespace HiroEventLeaderboards
         private VisualElement _selectedEventLeaderboardPanel;
         private Label _selectedEventLeaderboardNameLabel;
         private Label _selectedEventLeaderboardDescriptionLabel;
-        private Label _selectedEventLeaderboardStatusLabel;
         private Label _selectedEventLeaderboardTierLabel;
         private Label _selectedEventLeaderboardTimeRemainingLabel;
         private Button _eventInfoButton;
@@ -164,7 +163,6 @@ namespace HiroEventLeaderboards
             _selectedEventLeaderboardPanel = rootElement.Q<VisualElement>("selected-event-leaderboard-panel");
             _selectedEventLeaderboardNameLabel = rootElement.Q<Label>("selected-event-leaderboard-name");
             _selectedEventLeaderboardDescriptionLabel = rootElement.Q<Label>("selected-event-leaderboard-description");
-            _selectedEventLeaderboardStatusLabel = rootElement.Q<Label>("selected-event-leaderboard-status");
             _selectedEventLeaderboardTierLabel = rootElement.Q<Label>("selected-event-leaderboard-tier");
             _selectedEventLeaderboardTimeRemainingLabel = rootElement.Q<Label>("selected-event-leaderboard-time-remaining");
 
@@ -406,34 +404,20 @@ namespace HiroEventLeaderboards
             // Map tier to Bronze/Silver/Gold
             var (tierName, tierColor) = GetTierNameAndColor(eventLeaderboard.Tier);
             _selectedEventLeaderboardTierLabel.text = tierName;
-            _selectedEventLeaderboardTierLabel.style.color = new StyleColor(tierColor);
+            _selectedEventLeaderboardTierLabel.style.color = new StyleColor(Color.white);
 
             var currentTime = DateTimeOffset.FromUnixTimeSeconds(eventLeaderboard.CurrentTimeSec);
             var startTime = DateTimeOffset.FromUnixTimeSeconds(eventLeaderboard.StartTimeSec);
             var endTime = DateTimeOffset.FromUnixTimeSeconds(eventLeaderboard.EndTimeSec);
 
+            // Display time remaining
             if (eventLeaderboard.IsActive)
             {
-                if (currentTime >= startTime)
-                {
-                    _selectedEventLeaderboardStatusLabel.text = "Active";
-                    _selectedEventLeaderboardStatusLabel.style.color = new StyleColor(Color.green);
-                }
-                else
-                {
-                    var difference = startTime - currentTime;
-                    _selectedEventLeaderboardStatusLabel.text = $"Starts in {FormatTimeDuration(difference)}";
-                    _selectedEventLeaderboardStatusLabel.style.color = new StyleColor(Color.yellow);
-                }
-
-                // Display time remaining
                 var timeRemaining = endTime - currentTime;
                 _selectedEventLeaderboardTimeRemainingLabel.text = FormatTimeDuration(timeRemaining);
             }
             else
             {
-                _selectedEventLeaderboardStatusLabel.text = "Ended";
-                _selectedEventLeaderboardStatusLabel.style.color = new StyleColor(Color.red);
                 _selectedEventLeaderboardTimeRemainingLabel.text = "Ended";
             }
 

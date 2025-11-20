@@ -24,6 +24,7 @@ namespace HiroEventLeaderboards
         private Label _nameLabel;
         private Label _categoryLabel;
         private Label _statusLabel;
+        private VisualElement _timeRemainingContainer;
         private Label _timeRemainingLabel;
 
         public void SetVisualElement(VisualElement visualElement)
@@ -31,6 +32,7 @@ namespace HiroEventLeaderboards
             _nameLabel = visualElement.Q<Label>("name");
             _categoryLabel = visualElement.Q<Label>("category");
             _statusLabel = visualElement.Q<Label>("status");
+            _timeRemainingContainer = visualElement.Q<VisualElement>("time-remaining-container");
             _timeRemainingLabel = visualElement.Q<Label>("time-remaining");
         }
 
@@ -50,8 +52,8 @@ namespace HiroEventLeaderboards
                 {
                     _statusLabel.text = "Active";
                     _statusLabel.style.color = new StyleColor(Color.white);
-                    // Use mint/green background for active
-                    _statusLabel.style.unityBackgroundImageTintColor = new StyleColor(new Color(1f, 1f, 1f, 1f));
+                    // Use #14D3C2 (teal/green) background for active
+                    _statusLabel.style.unityBackgroundImageTintColor = new StyleColor(new Color(0.078f, 0.827f, 0.761f, 1f));
                 }
                 else
                 {
@@ -66,19 +68,27 @@ namespace HiroEventLeaderboards
             {
                 _statusLabel.text = "Ended";
                 _statusLabel.style.color = new StyleColor(Color.white);
-                // Use gray/red tint for ended
-                _statusLabel.style.unityBackgroundImageTintColor = new StyleColor(new Color(0.7f, 0.7f, 0.7f, 1f));
+                // Use #E13233 (red) tint for ended
+                _statusLabel.style.unityBackgroundImageTintColor = new StyleColor(new Color(0.882f, 0.196f, 0.2f, 1f));
             }
 
-            // Display time remaining with conditional formatting
+            // Display time remaining with conditional formatting, hide when ended
             if (eventLeaderboard.IsActive)
             {
                 var timeRemaining = endTime - currentTime;
                 _timeRemainingLabel.text = FormatTimeDuration(timeRemaining);
+                if (_timeRemainingContainer != null)
+                {
+                    _timeRemainingContainer.style.display = DisplayStyle.Flex;
+                }
             }
             else
             {
-                _timeRemainingLabel.text = "Ended";
+                // Hide the time remaining container when event has ended
+                if (_timeRemainingContainer != null)
+                {
+                    _timeRemainingContainer.style.display = DisplayStyle.None;
+                }
             }
         }
 
