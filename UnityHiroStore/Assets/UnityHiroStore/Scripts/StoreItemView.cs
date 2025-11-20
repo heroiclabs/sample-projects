@@ -24,7 +24,14 @@ namespace HiroInventory
         private Label _currencyAmount;
         private Label _priceLabel;
 
+        private StoreController _controller;
+
         public IEconomyListStoreItem Item { get; private set; }
+
+        public StoreItemView(StoreController controller)
+        {
+            _controller = controller;
+        }
 
         public void SetVisualElement(VisualElement visualElement)
         {
@@ -43,16 +50,27 @@ namespace HiroInventory
             _priceLabel = visualElement.Q<Label>("price-label");
         }
 
-        public void SetStoreItem(IEconomyListStoreItem item, Sprite itemIcon, Sprite currencyIcon, bool canAfford)
+        public void SetStoreItem(IEconomyListStoreItem item)
         {
             Item = item;
 
-            // Set item icon
+            SetItemIcon(item);
+            SetItemAmount(item);
+            SetupBadges(item);
+            SetupPurchaseButton(item);
+        }
+
+        private void SetItemIcon(IEconomyListStoreItem item)
+        {
+            var itemIcon = _controller.GetItemIcon(item.Id);
             if (itemIcon != null)
             {
                 _icon.style.backgroundImage = new StyleBackground(itemIcon);
             }
+        }
 
+        private void SetItemAmount(IEconomyListStoreItem item)
+        {
             // Set amount - show currency amount or item name
             if (item.Category == "currency")
             {
@@ -60,7 +78,7 @@ namespace HiroInventory
                 if (item.AvailableRewards?.Guaranteed?.Currencies != null &&
                     item.AvailableRewards.Guaranteed.Currencies.TryGetValue(item.Name, out var currencyReward))
                 {
-                    _amount.text = currencyReward.Count.ToString();
+                    _amount.text = currencyReward.Count.Min.ToString();
                 }
                 else
                 {
@@ -72,12 +90,6 @@ namespace HiroInventory
                 // For items, show the item name
                 _amount.text = item.Name;
             }
-
-            // Setup badges
-            SetupBadges(item);
-
-            // Setup purchase button
-            SetupPurchaseButton(item, currencyIcon, canAfford);
         }
 
         private void SetupBadges(IEconomyListStoreItem item)
@@ -85,37 +97,37 @@ namespace HiroInventory
             _itemBadge.style.display = DisplayStyle.None;
             _bonusBadge.style.display = DisplayStyle.None;
 
-            if (item.AdditionalProperties != null)
-            {
-                if (item.AdditionalProperties.ContainsKey("badge"))
-                {
-                    _itemBadge.text = item.AdditionalProperties["badge"];
-                    _itemBadge.style.display = DisplayStyle.Flex;
-                }
-
-                if (item.AdditionalProperties.ContainsKey("bonus"))
-                {
-                    _bonusBadge.text = item.AdditionalProperties["bonus"];
-                    _bonusBadge.style.display = DisplayStyle.Flex;
-                }
-            }
-
-            // Check if free
+            // Check if free first (highest priority)
             if (IsFreeItem(item))
             {
                 _itemBadge.text = "FREE";
                 _itemBadge.style.display = DisplayStyle.Flex;
             }
-
-            // Check for first purchase multiplier
-            if (item.AdditionalProperties != null && item.AdditionalProperties.Count > 0)
+            // Otherwise check for custom badge
+            else if (item.AdditionalProperties != null && item.AdditionalProperties.ContainsKey("badge"))
             {
-                _bonusBadge.text = "1st Purchase x2";
-                _bonusBadge.style.display = DisplayStyle.Flex;
+                _itemBadge.text = item.AdditionalProperties["badge"];
+                _itemBadge.style.display = DisplayStyle.Flex;
+            }
+
+            // Check for bonus badge
+            if (item.AdditionalProperties != null)
+            {
+                if (item.AdditionalProperties.ContainsKey("bonus"))
+                {
+                    _bonusBadge.text = item.AdditionalProperties["bonus"];
+                    _bonusBadge.style.display = DisplayStyle.Flex;
+                }
+                // Check for first purchase multiplier
+                else if (item.AdditionalProperties.Count > 0)
+                {
+                    _bonusBadge.text = "1st Purchase x2";
+                    _bonusBadge.style.display = DisplayStyle.Flex;
+                }
             }
         }
 
-        private void SetupPurchaseButton(IEconomyListStoreItem item, Sprite currencyIcon, bool canAfford)
+        private void SetupPurchaseButton(IEconomyListStoreItem item)
         {
             // Hide all buttons first
             _currencyPurchaseButton.style.display = DisplayStyle.None;
@@ -130,26 +142,39 @@ namespace HiroInventory
 
             if (IsRealMoneyItem(item))
             {
-                _moneyPurchaseButton.style.display = DisplayStyle.Flex;
-                _priceLabel.text = item.Cost.Sku;
+                SetupRealMoneyButton(item);
                 return;
             }
 
             // Soft currency purchase
+            SetupSoftCurrencyButton(item);
+        }
+
+        private void SetupRealMoneyButton(IEconomyListStoreItem item)
+        {
+            _moneyPurchaseButton.style.display = DisplayStyle.Flex;
+            _priceLabel.text = item.Cost.Sku;
+        }
+
+        private void SetupSoftCurrencyButton(IEconomyListStoreItem item)
+        {
             _currencyPurchaseButton.style.display = DisplayStyle.Flex;
             
+            var primaryCurrency = _controller.GetPrimaryCurrency((EconomyListStoreItem)item);
+            var amount = _controller.GetPrimaryCurrencyAmount(item);
+            
+            // Set currency icon
+            var currencyIcon = _controller.GetCurrencyIcon(primaryCurrency);
             if (currencyIcon != null)
             {
                 _currencyIcon.style.backgroundImage = new StyleBackground(currencyIcon);
             }
 
-            var firstCost = item.Cost.Currencies.GetEnumerator();
-            if (firstCost.MoveNext())
-            {
-                _currencyAmount.text = firstCost.Current.Value.ToString();
-            }
+            // Set currency amount
+            _currencyAmount.text = amount.ToString();
 
             // Visual feedback for affordability
+            bool canAfford = _controller.CanAffordItem(item);
             if (!canAfford)
             {
                 _currencyPurchaseButton.SetEnabled(false);

@@ -35,6 +35,7 @@ namespace HiroInventory
         private Label _featuredBadge;
         private Button _featuredPurchaseButton;
         private Label _featuredPrice;
+        private VisualElement _featuredCurrencyIcon;
 
         // Modals
         private VisualElement _purchaseModal;
@@ -106,6 +107,7 @@ namespace HiroInventory
             _featuredBadge = root.Q<Label>("featured-badge");
             _featuredPurchaseButton = root.Q<Button>("featured-purchase-button");
             _featuredPrice = root.Q<Label>("featured-price");
+            _featuredCurrencyIcon = root.Q<VisualElement>("featured-currency-icon");
 
             _featuredPurchaseButton.RegisterCallback<ClickEvent>(_ => 
             {
@@ -187,19 +189,10 @@ namespace HiroInventory
             // Set name
             _featuredName.text = featured.Name;
 
-            // Set price
-            if (!string.IsNullOrEmpty(featured.Cost.Sku))
-            {
-                _featuredPrice.text = featured.Cost.Sku;
-            }
-            else
-            {
-                var primaryCurrency = _controller.GetPrimaryCurrency(featured);
-                var amount = _controller.GetPrimaryCurrencyAmount(featured);
-                _featuredPrice.text = $"{amount} {primaryCurrency}";
-            }
+            // Set price based on cost type
+            SetFeaturedPrice(featured);
 
-            // Update badge if applicable
+            // Set badge if applicable
             if (featured.AdditionalProperties != null && featured.AdditionalProperties.ContainsKey("badge"))
             {
                 _featuredBadge.text = featured.AdditionalProperties["badge"];
@@ -208,6 +201,45 @@ namespace HiroInventory
             else
             {
                 _featuredBadge.style.display = DisplayStyle.None;
+            }
+        }
+
+        private void SetFeaturedPrice(EconomyListStoreItem featured)
+        {
+            // Hide currency icon by default
+            if (_featuredCurrencyIcon != null)
+            {
+                _featuredCurrencyIcon.style.display = DisplayStyle.None;
+            }
+
+            // Real money purchase
+            if (!string.IsNullOrEmpty(featured.Cost.Sku))
+            {
+                _featuredPrice.text = featured.Cost.Sku;
+            }
+            // Soft currency purchase
+            else if (featured.Cost.Currencies.Count > 0)
+            {
+                var primaryCurrency = _controller.GetPrimaryCurrency(featured);
+                var amount = _controller.GetPrimaryCurrencyAmount(featured);
+                
+                // Set currency icon if available
+                if (_featuredCurrencyIcon != null)
+                {
+                    var currencyIcon = _controller.GetCurrencyIcon(primaryCurrency);
+                    if (currencyIcon != null)
+                    {
+                        _featuredCurrencyIcon.style.backgroundImage = new StyleBackground(currencyIcon);
+                        _featuredCurrencyIcon.style.display = DisplayStyle.Flex;
+                    }
+                }
+                
+                _featuredPrice.text = amount.ToString();
+            }
+            // Free
+            else
+            {
+                _featuredPrice.text = "FREE";
             }
         }
 
@@ -235,135 +267,15 @@ namespace HiroInventory
             // Store item reference
             slotRoot.userData = item;
 
-            // Set icon
-            var iconContainer = slotRoot.Q<VisualElement>("item-icon");
-            var icon = _controller.GetItemIcon(item.Id);
-            if (icon != null)
-            {
-                iconContainer.style.backgroundImage = new StyleBackground(icon);
-            }
+            // Create StoreItemView and let it handle all the setup
+            var itemView = new StoreItemView(_controller);
+            itemView.SetVisualElement(slotRoot);
+            itemView.SetStoreItem(item);
 
-            // Set amount - show currency amount or item name
-            var amountLabel = slotRoot.Q<Label>("item-amount");
-            if (item.Category == "currency")
-            {
-                // For currency, show the amount
-                if (item.AvailableRewards?.Guaranteed?.Currencies != null &&
-                    item.AvailableRewards.Guaranteed.Currencies.TryGetValue(item.Name, out var currencyReward))
-                {
-                    amountLabel.text = currencyReward.Count.ToString();
-                }
-                else
-                {
-                    amountLabel.text = "0";
-                }
-            }
-            else
-            {
-                // For items, show the item name
-                amountLabel.text = item.Name;
-            }
-
-            // Set badges
-            SetupItemBadges(slotRoot, item);
-
-            // Setup purchase buttons
-            SetupPurchaseButtons(slotRoot, item);
-
-            // Register click event
-            var purchaseButtons = new[]
-            {
-                slotRoot.Q<Button>("currency-purchase-button"),
-                slotRoot.Q<Button>("money-purchase-button"),
-                slotRoot.Q<Button>("free-button")
-            };
-
-            foreach (var button in purchaseButtons.Where(b => b != null))
-            {
-                button.RegisterCallback<ClickEvent>(_ => ShowPurchaseModal(item));
-            }
+            // Register click event for purchase
+            itemView.RegisterPurchaseCallback(_ => ShowPurchaseModal(item));
 
             _storeGrid.Add(slotRoot);
-        }
-
-        private void SetupItemBadges(VisualElement slotRoot, IEconomyListStoreItem item)
-        {
-            var itemBadge = slotRoot.Q<Label>("item-badge");
-            var bonusBadge = slotRoot.Q<Label>("bonus-badge");
-
-            // Check for special properties
-            if (item.AdditionalProperties != null)
-            {
-                if (item.AdditionalProperties.ContainsKey("badge"))
-                {
-                    itemBadge.text = item.AdditionalProperties["badge"];
-                    itemBadge.style.display = DisplayStyle.Flex;
-                }
-
-                if (item.AdditionalProperties.ContainsKey("bonus"))
-                {
-                    bonusBadge.text = item.AdditionalProperties["bonus"];
-                    bonusBadge.style.display = DisplayStyle.Flex;
-                }
-            }
-
-            // Check if it's free
-            if (item.Cost.Currencies.Count == 0 && string.IsNullOrEmpty(item.Cost.Sku))
-            {
-                itemBadge.text = "FREE";
-                itemBadge.style.display = DisplayStyle.Flex;
-            }
-        }
-
-        private void SetupPurchaseButtons(VisualElement slotRoot, IEconomyListStoreItem item)
-        {
-            var currencyButton = slotRoot.Q<Button>("currency-purchase-button");
-            var moneyButton = slotRoot.Q<Button>("money-purchase-button");
-            var freeButton = slotRoot.Q<Button>("free-button");
-
-            // Hide all first
-            currencyButton.style.display = DisplayStyle.None;
-            moneyButton.style.display = DisplayStyle.None;
-            freeButton.style.display = DisplayStyle.None;
-
-            // Check if free
-            if (item.Cost.Currencies.Count == 0 && string.IsNullOrEmpty(item.Cost.Sku))
-            {
-                freeButton.style.display = DisplayStyle.Flex;
-                return;
-            }
-
-            // Check if real money
-            if (!string.IsNullOrEmpty(item.Cost.Sku))
-            {
-                moneyButton.style.display = DisplayStyle.Flex;
-                var priceLabel = slotRoot.Q<Label>("price-label");
-                priceLabel.text = item.Cost.Sku;
-                return;
-            }
-
-            // Soft currency
-            currencyButton.style.display = DisplayStyle.Flex;
-            var primaryCurrency = item.Cost.Currencies.FirstOrDefault();
-            var amount = _controller.GetPrimaryCurrencyAmount(item);
-
-            var currencyIcon = slotRoot.Q<VisualElement>("currency-icon");
-            var currencyAmountLabel = slotRoot.Q<Label>("currency-amount");
-
-            var icon = _controller.GetCurrencyIcon(primaryCurrency.Value);
-            if (icon != null)
-            {
-                currencyIcon.style.backgroundImage = new StyleBackground(icon);
-            }
-
-            currencyAmountLabel.text = amount.ToString();
-
-            // Disable if can't afford
-            if (!_controller.CanAffordItem(item))
-            {
-                currencyButton.SetEnabled(false);
-                currencyButton.style.backgroundColor = new StyleColor(new Color(0.5f, 0.5f, 0.5f, 1f));
-            }
         }
 
         #endregion
@@ -410,11 +322,23 @@ namespace HiroInventory
             }
 
             // Set cost
+            SetModalCost(item);
+
+            // Enable/disable purchase button
+            _purchaseModalConfirm.SetEnabled(_controller.CanAffordItem(item));
+
+            _purchaseModal.style.display = DisplayStyle.Flex;
+        }
+
+        private void SetModalCost(IEconomyListStoreItem item)
+        {
+            // Real money purchase
             if (!string.IsNullOrEmpty(item.Cost.Sku))
             {
                 _modalCostAmount.text = item.Cost.Sku;
                 _modalCostIcon.style.display = DisplayStyle.None;
             }
+            // Soft currency purchase
             else if (item.Cost.Currencies.Count > 0)
             {
                 var primaryCurrency = item.Cost.Currencies.FirstOrDefault();
@@ -422,23 +346,23 @@ namespace HiroInventory
                 
                 _modalCostAmount.text = amount.ToString();
                 
-                var currencyIcon = _controller.GetCurrencyIcon(primaryCurrency.Value);
+                var currencyIcon = _controller.GetCurrencyIcon(primaryCurrency.Key);
                 if (currencyIcon != null)
                 {
                     _modalCostIcon.style.backgroundImage = new StyleBackground(currencyIcon);
                     _modalCostIcon.style.display = DisplayStyle.Flex;
                 }
+                else
+                {
+                    _modalCostIcon.style.display = DisplayStyle.None;
+                }
             }
+            // Free
             else
             {
                 _modalCostAmount.text = "FREE";
                 _modalCostIcon.style.display = DisplayStyle.None;
             }
-
-            // Enable/disable purchase button
-            _purchaseModalConfirm.SetEnabled(_controller.CanAffordItem(item));
-
-            _purchaseModal.style.display = DisplayStyle.Flex;
         }
 
         private void HidePurchaseModal()
