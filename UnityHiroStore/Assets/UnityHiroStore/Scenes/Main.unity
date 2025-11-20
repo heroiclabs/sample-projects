@@ -380,7 +380,7 @@ MonoBehaviour:
     icon: {fileID: 8263917951045151403, guid: 33e1aae2b5d1d4774ab0a7bcc6cfc6a3, type: 3}
   - itemId: coins_1000
     icon: {fileID: -5783113326861504038, guid: 5f8f5ad33c70a437b8a0dd6326b1b229, type: 3}
-  - itemId: coins_5000_key
+  - itemId: coins_5000
     icon: {fileID: 5323416431931247887, guid: 17e0aeaeab52448c89f2ef8f55f429fd, type: 3}
   - itemId: coins_10000
     icon: {fileID: -8169955672604759640, guid: a1a3f2bec2a764a659f0c82cf099da61, type: 3}

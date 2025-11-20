@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-namespace HiroInventory.Editor
+namespace HiroStore.Editor
 {
     public class AccountSwitcherEditor : EditorWindow
     {
@@ -140,7 +140,7 @@ namespace HiroInventory.Editor
             {
                 if (!rootGameObject.TryGetComponent<StoreController>(out var challengesController)) continue;
 
-                var coordinator = HiroCoordinator.Instance as HiroInventoryCoordinator;
+                var coordinator = HiroCoordinator.Instance as HiroStoreCoordinator;
                 if (coordinator == null) return;
                 var nakamaSystem = coordinator.GetSystem<NakamaSystem>();
 
@@ -152,7 +152,7 @@ namespace HiroInventory.Editor
 
                 try
                 {
-                    var newSession = await HiroInventoryCoordinator.NakamaAuthorizerFunc(accountDropdown.index)
+                    var newSession = await HiroStoreCoordinator.NakamaAuthorizerFunc(accountDropdown.index)
                         .Invoke(nakamaSystem.Client);
                     (nakamaSystem.Session as Session)?.Update(newSession.AuthToken, newSession.RefreshToken);
                     await nakamaSystem.RefreshAsync();

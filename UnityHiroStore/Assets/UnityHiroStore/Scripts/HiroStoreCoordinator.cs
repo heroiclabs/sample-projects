@@ -6,9 +6,9 @@ using UnityEngine;
 using Hiro.Unity;
 using Hiro.System;
 
-namespace HiroInventory
+namespace HiroStore
 {
-    public class HiroInventoryCoordinator : HiroCoordinator
+    public class HiroStoreCoordinator : HiroCoordinator
     {
         [Header("Overrides Nakama Settings")] 
         [SerializeField] private bool localHost;
@@ -36,10 +36,8 @@ namespace HiroInventory
             var storage = MemoryStorage.Default;
 
             // Register necessary Hiro Systems
-            var systems = new Systems(nameof(HiroInventoryCoordinator), monitor, storage, logger);
+            var systems = new Systems(nameof(HiroStoreCoordinator), monitor, storage, logger);
             systems.Add(nakamaSystem);
-            var inventorySystem = new InventorySystem(logger, nakamaSystem);
-            systems.Add(inventorySystem);
             var economySystem = new EconomySystem(logger, nakamaSystem, EconomyStoreType.Unspecified);
             systems.Add(economySystem);
 

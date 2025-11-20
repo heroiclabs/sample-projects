@@ -6,12 +6,12 @@ using HeroicUI;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace HiroInventory
+namespace HiroStore
 {
     public sealed class StoreView
     {
         private readonly StoreController _controller;
-        private readonly HiroInventoryCoordinator _coordinator;
+        private readonly HiroStoreCoordinator _coordinator;
         private readonly VisualTreeAsset _storeItemTemplate;
         private readonly Sprite _defaultIcon;
 
@@ -58,7 +58,7 @@ namespace HiroInventory
 
         private IEconomyListStoreItem _pendingPurchaseItem;
 
-        public StoreView(StoreController controller, HiroInventoryCoordinator coordinator,
+        public StoreView(StoreController controller, HiroStoreCoordinator coordinator,
             VisualTreeAsset storeItemTemplate, Sprite defaultIcon)
         {
             _controller = controller;
@@ -211,12 +211,7 @@ namespace HiroInventory
             {
                 _featuredCurrencyIcon.style.display = DisplayStyle.None;
             }
-
-            // Real money purchase
-            if (!string.IsNullOrEmpty(featured.Cost.Sku))
-            {
-                _featuredPrice.text = featured.Cost.Sku;
-            }
+            
             // Soft currency purchase
             else if (featured.Cost.Currencies.Count > 0)
             {
@@ -332,14 +327,8 @@ namespace HiroInventory
 
         private void SetModalCost(IEconomyListStoreItem item)
         {
-            // Real money purchase
-            if (!string.IsNullOrEmpty(item.Cost.Sku))
-            {
-                _modalCostAmount.text = item.Cost.Sku;
-                _modalCostIcon.style.display = DisplayStyle.None;
-            }
             // Soft currency purchase
-            else if (item.Cost.Currencies.Count > 0)
+            if (item.Cost.Currencies.Count > 0)
             {
                 var primaryCurrency = item.Cost.Currencies.FirstOrDefault();
                 var amount = _controller.GetPrimaryCurrencyAmount(item);

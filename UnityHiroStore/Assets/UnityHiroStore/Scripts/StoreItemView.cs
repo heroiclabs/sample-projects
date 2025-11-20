@@ -2,7 +2,7 @@ using Hiro;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace HiroInventory
+namespace HiroStore
 {
     /// <summary>
     /// View class for individual store items in the grid
@@ -97,33 +97,28 @@ namespace HiroInventory
             _itemBadge.style.display = DisplayStyle.None;
             _bonusBadge.style.display = DisplayStyle.None;
 
-            // Check if free first (highest priority)
-            if (IsFreeItem(item))
-            {
-                _itemBadge.text = "FREE";
-                _itemBadge.style.display = DisplayStyle.Flex;
-            }
-            // Otherwise check for custom badge
-            else if (item.AdditionalProperties != null && item.AdditionalProperties.ContainsKey("badge"))
-            {
-                _itemBadge.text = item.AdditionalProperties["badge"];
-                _itemBadge.style.display = DisplayStyle.Flex;
-            }
-
-            // Check for bonus badge
             if (item.AdditionalProperties != null)
             {
+                // Check for custom badge
+                if (item.AdditionalProperties.ContainsKey("badge"))
+                {
+                    _itemBadge.text = item.AdditionalProperties["badge"];
+                    _itemBadge.style.display = DisplayStyle.Flex;
+                }
+
+                // Check for bonus badge
                 if (item.AdditionalProperties.ContainsKey("bonus"))
                 {
                     _bonusBadge.text = item.AdditionalProperties["bonus"];
                     _bonusBadge.style.display = DisplayStyle.Flex;
                 }
-                // Check for first purchase multiplier
-                else if (item.AdditionalProperties.Count > 0)
-                {
-                    _bonusBadge.text = "1st Purchase x2";
-                    _bonusBadge.style.display = DisplayStyle.Flex;
-                }
+            }
+
+            // Check if free (will override badge if present)
+            if (IsFreeItem(item))
+            {
+                _itemBadge.text = "FREE";
+                _itemBadge.style.display = DisplayStyle.Flex;
             }
         }
 

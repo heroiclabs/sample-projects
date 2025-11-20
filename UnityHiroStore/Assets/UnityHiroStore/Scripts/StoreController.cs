@@ -8,7 +8,7 @@ using Nakama;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace HiroInventory
+namespace HiroStore
 {
     [System.Serializable]
     public class StoreItemIconMapping
@@ -35,7 +35,6 @@ namespace HiroInventory
 
         private NakamaSystem _nakamaSystem;
         private IEconomySystem _economySystem;
-        private IInventorySystem _inventorySystem;
 
         private StoreView _view;
 
@@ -64,13 +63,13 @@ namespace HiroInventory
         {
             BuildIconDictionaries();
 
-            var inventoryCoordinator = HiroCoordinator.Instance as HiroInventoryCoordinator;
-            if (inventoryCoordinator == null) return;
+            var storeCoordinator = HiroCoordinator.Instance as HiroStoreCoordinator;
+            if (storeCoordinator == null) return;
 
-            inventoryCoordinator.ReceivedStartError += HandleStartError;
-            inventoryCoordinator.ReceivedStartSuccess += HandleStartSuccess;
+            storeCoordinator.ReceivedStartError += HandleStartError;
+            storeCoordinator.ReceivedStartSuccess += HandleStartSuccess;
 
-            _view = new StoreView(this, inventoryCoordinator, storeItemTemplate, defaultItemIcon);
+            _view = new StoreView(this, storeCoordinator, storeItemTemplate, defaultItemIcon);
         }
 
         public void SwitchComplete()
@@ -115,7 +114,6 @@ namespace HiroInventory
         {
             _nakamaSystem = this.GetSystem<NakamaSystem>();
             _economySystem = this.GetSystem<EconomySystem>();
-            _inventorySystem = this.GetSystem<InventorySystem>();
 
             _view.StartObservingWallet();
 
@@ -158,11 +156,11 @@ namespace HiroInventory
             return _currentTab switch
             {
                 StoreTab.Deals => StoreItems.Where(item => 
-                    item.Category == "deals" || item.Cost.Currencies.Count == 0 && string.IsNullOrEmpty(item.Cost.Sku)).ToList(),
+                    item.Category == "deals").ToList(),
                 StoreTab.Featured => StoreItems.Where(item => 
-                    item.Category == "featured" || item != _featuredItem).ToList(),
+                    item.Category == "currency" && item != _featuredItem).ToList(),
                 StoreTab.Resources => StoreItems.Where(item => 
-                    item.Category == "resources" || item.Category == "currency").ToList(),
+                    item.Category == "resources").ToList(),
                 _ => StoreItems.ToList()
             };
         }
@@ -198,27 +196,10 @@ namespace HiroInventory
             try
             {
                 IEconomyPurchaseAck result;
+                result = await _economySystem.PurchaseStoreItemAsync(item.Id);
+                Debug.Log($"Purchased {item.Name} successfully");
 
-                // Check if this is a real money purchase (has SKU)
-                if (!string.IsNullOrEmpty(item.Cost.Sku))
-                {
-                    // This would integrate with Unity IAP or your payment system
-                    // For now, we'll make a purchase intent
-                    await _economySystem.PurchaseIntentAsync(item);
-                    Debug.Log($"Purchase intent created for {item.Name} with SKU: {item.Cost.Sku}");
-                    
-                    // In a real implementation, you'd handle the IAP flow here
-                    // and then call PurchaseStoreItemAsync with the receipt
-                    throw new Exception("Real money purchases require IAP integration");
-                }
-                else
-                {
-                    // Soft currency purchase
-                    result = await _economySystem.PurchaseStoreItemAsync(item.Id);
-                    Debug.Log($"Purchased {item.Name} successfully");
-                }
-
-                // Refresh economy and inventory
+                // Refresh economy
                 await _economySystem.RefreshAsync();
 
                 return result;
@@ -233,12 +214,6 @@ namespace HiroInventory
         public bool CanAffordItem(IEconomyListStoreItem item)
         {
             if (item == null) return false;
-
-            // Check if it's a real money purchase
-            if (!string.IsNullOrEmpty(item.Cost.Sku))
-            {
-                return true; // Can always attempt real money purchase
-            }
 
             // Check if user has enough of each required currency
             foreach (var cost in item.Cost.Currencies)
@@ -269,18 +244,11 @@ namespace HiroInventory
 
         public string GetPrimaryCurrency(EconomyListStoreItem item)
         {
-            // Return the first currency code or "USD" for SKU items
-            if (!string.IsNullOrEmpty(item.Cost.Sku))
-                return "USD";
-
             return item.Cost.Currencies.FirstOrDefault().Key ?? "";
         }
 
         public long GetPrimaryCurrencyAmount(IEconomyListStoreItem item)
         {
-            if (!string.IsNullOrEmpty(item.Cost.Sku))
-                return 0; // Price is in the SKU
-
             var firstCurrency = item.Cost.Currencies.FirstOrDefault();
             if (string.IsNullOrEmpty(firstCurrency.Value))
                 return 0;
