@@ -160,40 +160,87 @@ namespace HiroInventory
             if (quantity == 0)
                 throw new Exception("Quantity cannot be 0.");
 
-            var selectedCodexItem = CodexItems[codexIndex];
+            var selectedItem = CodexItems[codexIndex];
 
-            // Check if granting would exceed inventory limit 
+            // Only validate limits when adding items (positive quantity)
             if (quantity > 0)
             {
-                var existingItem = InventoryItems.FirstOrDefault(i => i.Id == selectedCodexItem.Id);
-
-                // For non-stackable items: Each item creates a new instance
-                // For stackable items: Grant increases the count on a single instance
-                if (!selectedCodexItem.Stackable)
-                {
-                    // Non-stackable: Each quantity = new slot
-                    int newSlotsNeeded = (int)quantity;
-                    if (InventoryItems.Count + newSlotsNeeded > MaxInventorySize)
-                    {
-                        throw new InvalidOperationException("INVENTORY_FULL");
-                    }
-                }
-                else
-                {
-                    // Stackable: Only need new slot if item doesn't exist
-                    if (existingItem == null && InventoryItems.Count >= MaxInventorySize)
-                    {
-                        throw new InvalidOperationException("INVENTORY_FULL");
-                    }
-                }
+                ValidateItemMaxCount(selectedItem, quantity);
+                ValidateInventorySlots(selectedItem, quantity);
             }
 
             var items = new Dictionary<string, long>
             {
-                { selectedCodexItem.Id, quantity }
+                { selectedItem.Id, quantity }
             };
 
             await _inventorySystem.GrantItemsAsync(items);
+        }
+
+        /// <summary>
+        /// Validates that granting items won't exceed the item's MaxCount limit.
+        /// Throws InvalidOperationException with "MAX_COUNT_REACHED" if limit would be exceeded.
+        /// </summary>
+        private void ValidateItemMaxCount(IInventoryItem item, long quantityToAdd)
+        {
+            // Items with MaxCount of 0 have unlimited capacity
+            if (item.MaxCount == 0)
+                return;
+
+            if (item.Stackable)
+            {
+                // For stackable items, check if adding to existing stack exceeds max
+                var existingStack = InventoryItems.FirstOrDefault(i => i.Id == item.Id);
+                if (existingStack != null)
+                {
+                    var newTotal = existingStack.Count + quantityToAdd;
+                    if (newTotal > item.MaxCount)
+                    {
+                        throw new InvalidOperationException($"MAX_COUNT_REACHED:{item.Name}:{item.MaxCount}");
+                    }
+                }
+            }
+            else
+            {
+                // For non-stackable items, count total instances
+                var currentInstanceCount = InventoryItems.Count(i => i.Id == item.Id);
+                var newInstanceCount = currentInstanceCount + quantityToAdd;
+
+                if (newInstanceCount > item.MaxCount)
+                {
+                    throw new InvalidOperationException($"MAX_COUNT_REACHED");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Validates that granting items won't exceed the inventory's max limit.
+        /// Throws InvalidOperationException with "INVENTORY_FULL" if inventory is full.
+        /// </summary>
+        private void ValidateInventorySlots(IInventoryItem item, long quantityToAdd)
+        {
+            var existingItem = InventoryItems.FirstOrDefault(i => i.Id == item.Id);
+
+            if (item.Stackable)
+            {
+                // Stackable items only need a slot if this is a new item type
+                var needsNewSlot = existingItem == null;
+                if (needsNewSlot && InventoryItems.Count >= MaxInventorySize)
+                {
+                    throw new InvalidOperationException("INVENTORY_FULL");
+                }
+            }
+            else
+            {
+                // Non-stackable items: each item needs its own slot
+                var slotsNeeded = (int)quantityToAdd;
+                var slotsAvailable = MaxInventorySize - InventoryItems.Count;
+
+                if (slotsNeeded > slotsAvailable)
+                {
+                    throw new InvalidOperationException("INVENTORY_FULL");
+                }
+            }
         }
 
         public async Task ConsumeItem(int quantity, bool overconsume)

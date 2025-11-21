@@ -62,6 +62,11 @@ namespace HiroInventory
         private Button _inventoryFullModalOkButton;
         private Button _inventoryFullModalCloseButton;
 
+        private VisualElement _maxCountModal;
+        private Label _maxCountMessage;
+        private Button _maxCountModalOkButton;
+        private Button _maxCountModalCloseButton;
+
         private VisualElement _selectedSlot;
         private UIDocument _uiDocument;
 
@@ -172,6 +177,14 @@ namespace HiroInventory
             _inventoryFullModalCloseButton = rootElement.Q<Button>("inventory-full-modal-close");
             _inventoryFullModalCloseButton.RegisterCallback<ClickEvent>(_ => _inventoryFullModal.style.display = DisplayStyle.None);
 
+            // Max count modal
+            _maxCountModal = rootElement.Q<VisualElement>("max-count-modal");
+            _maxCountMessage = rootElement.Q<Label>("max-count-message");
+            _maxCountModalOkButton = rootElement.Q<Button>("max-count-modal-ok");
+            _maxCountModalOkButton.RegisterCallback<ClickEvent>(_ => _maxCountModal.style.display = DisplayStyle.None);
+            _maxCountModalCloseButton = rootElement.Q<Button>("max-count-modal-close");
+            _maxCountModalCloseButton.RegisterCallback<ClickEvent>(_ => _maxCountModal.style.display = DisplayStyle.None);
+
             UpdateActionButtons();
         }
 
@@ -186,6 +199,7 @@ namespace HiroInventory
             _consumeModal.style.display = DisplayStyle.None;
             _removeModal.style.display = DisplayStyle.None;
             _inventoryFullModal.style.display = DisplayStyle.None;
+            _maxCountModal.style.display = DisplayStyle.None;
             ShowEmptyState();
         }
 
@@ -221,7 +235,12 @@ namespace HiroInventory
         {
             _inventoryGrid.Clear();
 
-            foreach (var item in _controller.InventoryItems)
+            // Sort items by owned time descending (newest items first)
+            var sortedItems = _controller.InventoryItems
+                .OrderByDescending(item => item.OwnedTimeSec)
+                .ToList();
+
+            foreach (var item in sortedItems)
             {
                 // Instantiate the template
                 var itemSlot = _inventoryItemTemplate.Instantiate();
@@ -380,7 +399,7 @@ namespace HiroInventory
             _numericPropertiesList.Clear();
 
             // String Properties
-            if (item.StringProperties != null && item.StringProperties.Count > 0)
+            if (item.StringProperties.Count > 0)
             {
                 _stringPropertiesTitle.style.display = DisplayStyle.Flex;
                 foreach (var prop in item.StringProperties)
@@ -397,7 +416,7 @@ namespace HiroInventory
             }
 
             // Numeric Properties
-            if (item.NumericProperties != null && item.NumericProperties.Count > 0)
+            if (item.NumericProperties.Count > 0)
             {
                 _numericPropertiesTitle.style.display = DisplayStyle.Flex;
                 foreach (var prop in item.NumericProperties)
@@ -457,10 +476,24 @@ namespace HiroInventory
                 _grantModal.style.display = DisplayStyle.None;
                 _inventoryFullModal.style.display = DisplayStyle.Flex;
             }
+            catch (InvalidOperationException e) when (e.Message == "MAX_COUNT_REACHED")
+            {
+                _grantModal.style.display = DisplayStyle.None;
+                ShowMaxCountReachedModal(e.Message);
+            }
             catch (Exception e)
             {
                 ShowError(e.Message);
             }
+        }
+
+        /// <summary>
+        /// Displays the max count modal with details from the exception message.
+        /// </summary>
+        private void ShowMaxCountReachedModal(string exceptionMessage)
+        {
+            _maxCountMessage.text = $"You've reached the maximum limit for this item.";
+            _maxCountModal.style.display = DisplayStyle.Flex;
         }
 
         private async Task HandleConsumeItem()
