@@ -25,14 +25,14 @@ namespace HiroInventory
 
         private VisualElement _inventoryGrid;
         private Color _itemBorderDefaultColor;
-        private VisualElement _itemTooltip;
-        private Label _tooltipNameLabel;
-        private Label _tooltipDescriptionLabel;
-        private Label _tooltipCategoryLabel;
-        private Label _tooltipQuantityLabel;
-        private Label _tooltipStackableLabel;
-        private Label _tooltipConsumableLabel;
-        private Label _tooltipMaxCountLabel;
+        private VisualElement _itemDetailsPanel;
+        private Label _detailsNameLabel;
+        private Label _detailsDescriptionLabel;
+        private Label _detailsCategoryLabel;
+        private Label _detailsQuantityLabel;
+        private Label _detailsStackableLabel;
+        private Label _detailsConsumableLabel;
+        private Label _detailsMaxCountLabel;
         private Label _stringPropertiesTitle;
         private VisualElement _stringPropertiesList;
         private Label _numericPropertiesTitle;
@@ -117,16 +117,16 @@ namespace HiroInventory
             _inventoryGrid = rootElement.Q<VisualElement>("inventory-grid");
             _itemBorderDefaultColor = new Color(1f, 0.84f, 0f, 0f);
 
-            // Item tooltip
-            _itemTooltip = rootElement.Q<VisualElement>("item-details");
-            _itemTooltip.pickingMode = PickingMode.Ignore;
-            _tooltipNameLabel = rootElement.Q<Label>("tooltip-name");
-            _tooltipDescriptionLabel = rootElement.Q<Label>("tooltip-description");
-            _tooltipCategoryLabel = rootElement.Q<Label>("tooltip-category");
-            _tooltipQuantityLabel = rootElement.Q<Label>("tooltip-quantity");
-            _tooltipStackableLabel = rootElement.Q<Label>("tooltip-stackable");
-            _tooltipConsumableLabel = rootElement.Q<Label>("tooltip-consumable");
-            _tooltipMaxCountLabel = rootElement.Q<Label>("tooltip-maxcount");
+            // Item details panel
+            _itemDetailsPanel = rootElement.Q<VisualElement>("item-details");
+            _itemDetailsPanel.pickingMode = PickingMode.Ignore;
+            _detailsNameLabel = rootElement.Q<Label>("tooltip-name");
+            _detailsDescriptionLabel = rootElement.Q<Label>("tooltip-description");
+            _detailsCategoryLabel = rootElement.Q<Label>("tooltip-category");
+            _detailsQuantityLabel = rootElement.Q<Label>("tooltip-quantity");
+            _detailsStackableLabel = rootElement.Q<Label>("tooltip-stackable");
+            _detailsConsumableLabel = rootElement.Q<Label>("tooltip-consumable");
+            _detailsMaxCountLabel = rootElement.Q<Label>("tooltip-maxcount");
             _stringPropertiesTitle = rootElement.Q<Label>("string-properties-title");
             _stringPropertiesList = rootElement.Q<VisualElement>("string-properties-list");
             _numericPropertiesTitle = rootElement.Q<Label>("numeric-properties-title");
@@ -268,7 +268,7 @@ namespace HiroInventory
                 // Click to select
                 slotRoot.RegisterCallback<ClickEvent>(evt => { SelectItemSlot(item, slotRoot); });
 
-                // Hover effects // ENRIQUE'S EDIT disabling for now to allow for only selection-based tooltip display
+                // Hover effects // ENRIQUE'S EDIT disabling for now to allow for only selection-based display
                 /*slotRoot.RegisterCallback<MouseEnterEvent>(evt =>
                 {
                     if (_controller.GetSelectedItem() != item)
@@ -278,7 +278,7 @@ namespace HiroInventory
                         SetBorderColor(slotRoot, Color.white);
                     }
 
-                    ShowTooltip(item, evt.mousePosition);
+                    ShowItemDetails(item, evt.mousePosition);
                 });
                 slotRoot.RegisterCallback<MouseLeaveEvent>(evt =>
                 {
@@ -288,7 +288,7 @@ namespace HiroInventory
                         SetBorderColor(slotRoot, _itemBorderDefaultColor);
                     }
 
-                    HideTooltip();
+                    HideItemDetails();
                 });
 */
 
@@ -316,7 +316,7 @@ namespace HiroInventory
 
             _controller.SelectItem(item);
             _selectedSlot = slot;
-            ShowTooltip(item, Vector2.zero);
+            ShowItemDetails(item, Vector2.zero);
             // Highlight selected slot with turquoise border
             SetBorderColor(slot, new Color(0.467f, 0.984f, 0.937f));
 
@@ -378,21 +378,21 @@ namespace HiroInventory
 
         #endregion
 
-        #region Tooltip
+        #region Item Details
 
-        private void ShowTooltip(IInventoryItem item, Vector2 mousePosition)
+        private void ShowItemDetails(IInventoryItem item, Vector2 mousePosition)
         {
-            _tooltipNameLabel.text = item.Name;
-            _tooltipDescriptionLabel.text = string.IsNullOrEmpty(item.Description)
+            _detailsNameLabel.text = item.Name;
+            _detailsDescriptionLabel.text = string.IsNullOrEmpty(item.Description)
                 ? "No description available."
                 : item.Description;
-            _tooltipCategoryLabel.text = item.Category ?? "Uncategorized";
-            _tooltipQuantityLabel.text = $"Quantity: {item.Count}";
+            _detailsCategoryLabel.text = item.Category ?? "Uncategorized";
+            _detailsQuantityLabel.text = $"Quantity: {item.Count}";
 
             // Item Attributes (always present)
-            _tooltipStackableLabel.text = $"Stackable: {(item.Stackable ? "Yes" : "No")}";
-            _tooltipConsumableLabel.text = $"Consumable: {(item.Consumable ? "Yes" : "No")}";
-            _tooltipMaxCountLabel.text = $"Max Stack: {item.MaxCount}";
+            _detailsStackableLabel.text = $"Stackable: {(item.Stackable ? "Yes" : "No")}";
+            _detailsConsumableLabel.text = $"Consumable: {(item.Consumable ? "Yes" : "No")}";
+            _detailsMaxCountLabel.text = $"Max Stack: {item.MaxCount}";
 
             // Clear previous properties
             _stringPropertiesList.Clear();
@@ -432,23 +432,23 @@ namespace HiroInventory
                 _numericPropertiesTitle.style.display = DisplayStyle.None;
             }
 
-            _itemTooltip.style.display = DisplayStyle.Flex;
+            _itemDetailsPanel.style.display = DisplayStyle.Flex;
         }
 
-        private void HideTooltip()
+        private void HideItemDetails()
         {
             ShowEmptyState();
         }
 
         private void ShowEmptyState()
         {
-            _tooltipNameLabel.text = "No Item Selected";
-            _tooltipDescriptionLabel.text = "Select an item from the inventory to view details.";
-            _tooltipCategoryLabel.text = "";
-            _tooltipQuantityLabel.text = "";
-            _tooltipStackableLabel.text = "";
-            _tooltipConsumableLabel.text = "";
-            _tooltipMaxCountLabel.text = "";
+            _detailsNameLabel.text = "No Item Selected";
+            _detailsDescriptionLabel.text = "Select an item from the inventory to view details.";
+            _detailsCategoryLabel.text = "";
+            _detailsQuantityLabel.text = "";
+            _detailsStackableLabel.text = "";
+            _detailsConsumableLabel.text = "";
+            _detailsMaxCountLabel.text = "";
 
             // Clear and hide optional properties
             _stringPropertiesList.Clear();
@@ -456,7 +456,7 @@ namespace HiroInventory
             _stringPropertiesTitle.style.display = DisplayStyle.None;
             _numericPropertiesTitle.style.display = DisplayStyle.None;
 
-            _itemTooltip.style.display = DisplayStyle.Flex;
+            _itemDetailsPanel.style.display = DisplayStyle.Flex;
         }
 
         #endregion
