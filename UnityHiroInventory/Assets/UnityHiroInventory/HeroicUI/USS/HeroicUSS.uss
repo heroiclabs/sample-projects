@@ -623,16 +623,13 @@
 /* Inventory item grid centering */
 #item-list > .unity-scroll-view__content-viewport {
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 #item-list > .unity-scroll-view__content-viewport > .unity-content-container {
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     flex-grow: 1;
 }
 
-#inventory-grid {
-    justify-content: center;
-    align-content: center;
-}
+
