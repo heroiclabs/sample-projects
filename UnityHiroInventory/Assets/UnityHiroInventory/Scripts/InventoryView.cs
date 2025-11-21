@@ -103,7 +103,7 @@ namespace HiroInventory
             _itemBorderDefaultColor = new Color(1f, 0.84f, 0f, 0f);
 
             // Item tooltip
-            _itemTooltip = rootElement.Q<VisualElement>("item-tooltip");
+            _itemTooltip = rootElement.Q<VisualElement>("item-details");
             _itemTooltip.pickingMode = PickingMode.Ignore;
             _tooltipNameLabel = rootElement.Q<Label>("tooltip-name");
             _tooltipDescriptionLabel = rootElement.Q<Label>("tooltip-description");
