@@ -619,3 +619,20 @@
 .unity-base-text-field__input--placeholder {
     color: rgba(156, 156, 156, 0.52);
 }
+
+/* Inventory item grid centering */
+#item-list > .unity-scroll-view__content-viewport {
+    align-items: center;
+    justify-content: center;
+}
+
+#item-list > .unity-scroll-view__content-viewport > .unity-content-container {
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+#inventory-grid {
+    justify-content: center;
+    align-content: center;
+}
