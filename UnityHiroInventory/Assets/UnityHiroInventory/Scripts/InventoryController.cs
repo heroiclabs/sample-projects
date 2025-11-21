@@ -20,6 +20,7 @@ namespace HiroInventory
     [RequireComponent(typeof(UIDocument))]
     public class InventoryController : MonoBehaviour
     {
+
         [Header("References")]
         [SerializeField] private VisualTreeAsset inventoryItemTemplate;
         [SerializeField] private ItemIconMapping[] itemIconMappings;
@@ -37,6 +38,7 @@ namespace HiroInventory
         public List<IInventoryItem> CodexItems { get; } = new();
         public Dictionary<string, IInventoryItem> CodexLookup { get; } = new();
         public Dictionary<string, Sprite> IconDictionary { get; private set; }
+        private const int MaxInventorySize = 12;
 
         public event Action<ISession, InventoryController> OnInitialized;
 
@@ -159,6 +161,32 @@ namespace HiroInventory
                 throw new Exception("Quantity cannot be 0.");
 
             var selectedCodexItem = CodexItems[codexIndex];
+
+            // Check if granting would exceed inventory limit 
+            if (quantity > 0)
+            {
+                var existingItem = InventoryItems.FirstOrDefault(i => i.Id == selectedCodexItem.Id);
+
+                // For non-stackable items: Each item creates a new instance
+                // For stackable items: Grant increases the count on a single instance
+                if (!selectedCodexItem.Stackable)
+                {
+                    // Non-stackable: Each quantity = new slot
+                    int newSlotsNeeded = (int)quantity;
+                    if (InventoryItems.Count + newSlotsNeeded > MaxInventorySize)
+                    {
+                        throw new InvalidOperationException("INVENTORY_FULL");
+                    }
+                }
+                else
+                {
+                    // Stackable: Only need new slot if item doesn't exist
+                    if (existingItem == null && InventoryItems.Count >= MaxInventorySize)
+                    {
+                        throw new InvalidOperationException("INVENTORY_FULL");
+                    }
+                }
+            }
 
             var items = new Dictionary<string, long>
             {

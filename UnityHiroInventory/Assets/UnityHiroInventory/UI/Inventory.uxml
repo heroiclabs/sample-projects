@@ -9,32 +9,48 @@
     <ui:VisualElement name="inventory-main" class="heroic-main__background" style="padding: 30px; align-items: center; justify-content: center;">
         <ui:VisualElement name="VisualElement" style="width: 100%; max-width: none; height: 100%;">
             <ui:VisualElement name="inventory-container" class="heroic-main__panel" style="flex-grow: 1; padding: 20px; min-height: auto; border-radius: 15px; background-image: none;">
-                <ui:VisualElement style="flex-grow: 1; width: 1821px; flex-direction: row;">
-                    <ui:ScrollView horizontal-scroller-visibility="Hidden" name="item-list" style="align-items: stretch; align-content: center; align-self: stretch; margin-top: 10px; margin-right: 20px; margin-bottom: 10px; margin-left: 10px; width: 55%; background-image: url(&quot;project://database/Assets/UnityHiroInventory/HeroicUI/Tab/tab_01_white_bg_default.png?fileID=-7469057409206181842&amp;guid=833e01ea4d81a481eb2abe3f8b2defed&amp;type=3#tab_01_white_bg_default_0&quot;); -unity-slice-left: 20; -unity-slice-top: 20; -unity-slice-right: 20; -unity-slice-bottom: 20; flex-shrink: 0;">
+                <ui:VisualElement style="flex-grow: 1; width: 1821px; flex-direction: row; justify-content: space-around;">
+                    <ui:ScrollView horizontal-scroller-visibility="Hidden" name="item-list" style="align-items: stretch; align-content: center; align-self: stretch; margin-top: 10px; margin-right: 20px; margin-bottom: 10px; margin-left: 10px; width: 50%; background-image: url(&quot;project://database/Assets/UnityHiroInventory/HeroicUI/Tab/tab_01_white_bg_default.png?fileID=-7469057409206181842&amp;guid=833e01ea4d81a481eb2abe3f8b2defed&amp;type=3#tab_01_white_bg_default_0&quot;); -unity-slice-left: 20; -unity-slice-top: 20; -unity-slice-right: 20; -unity-slice-bottom: 20; flex-shrink: 0;">
                         <ui:VisualElement name="inventory-grid" style="flex-direction: row; flex-wrap: wrap; justify-content: flex-start; align-content: flex-start; padding: 10px;" />
                     </ui:ScrollView>
-                    <ui:VisualElement name="item-details" style="width: 45%; display: flex; border-radius: 15px; border-width: 2px; border-color: rgb(132, 154, 255); padding: 25px; font-size: 26px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 0; background-image: url(&quot;project://database/Assets/UnityHiroInventory/HeroicUI/Tab/tab_01_white_bg_default.png?fileID=-7469057409206181842&amp;guid=833e01ea4d81a481eb2abe3f8b2defed&amp;type=3#tab_01_white_bg_default_0&quot;); -unity-slice-left: 20; -unity-slice-top: 20; -unity-slice-right: 20; -unity-slice-bottom: 20; flex-shrink: 0; border-left-color: rgb(198, 195, 228); border-right-color: rgb(198, 195, 228); border-top-color: rgb(198, 195, 228); border-bottom-color: rgb(198, 195, 228); border-top-width: 4px; border-right-width: 4px; border-bottom-width: 4px; border-left-width: 4px;">
-                        <ui:Label name="tooltip-name" text="Item Name" style="margin-bottom: 12px; -unity-font-style: bold; color: rgb(0, 0, 0);" />
-                        <ui:Label name="tooltip-category" text="Category: Equipment" style="margin-bottom: 10px; color: rgb(132, 154, 255);" />
-                        <ui:Label name="tooltip-quantity" text="Quantity: 5" style="margin-bottom: 14px; -unity-font-style: bold; color: rgb(0, 0, 0);" />
+                    <ui:VisualElement name="item-details" style="width: 45%; display: flex; border-radius: 15px; border-width: 2px; border-color: rgb(132, 154, 255); padding: 25px; font-size: 26px; margin-top: 10px; margin-right: 20px; margin-bottom: 10px; margin-left: 10px; background-image: url(&quot;project://database/Assets/UnityHiroInventory/HeroicUI/Tab/tab_01_white_bg_default.png?fileID=-7469057409206181842&amp;guid=833e01ea4d81a481eb2abe3f8b2defed&amp;type=3#tab_01_white_bg_default_0&quot;); -unity-slice-left: 20; -unity-slice-top: 20; -unity-slice-right: 20; -unity-slice-bottom: 20; flex-shrink: 0; border-left-color: rgb(198, 195, 228); border-right-color: rgb(198, 195, 228); border-top-color: rgb(198, 195, 228); border-bottom-color: rgb(198, 195, 228); border-top-width: 4px; border-right-width: 4px; border-bottom-width: 4px; border-left-width: 4px;">
+                        <ui:VisualElement style="flex-direction: row; justify-content: space-between; margin-bottom: 8px;">
+                            <ui:Label name="tooltip-name" text="Item Name" style="-unity-font-style: bold; color: rgb(0, 0, 0); font-size: 28px;" />
+                            <ui:Label name="tooltip-category" text="Equipment" style="color: rgb(132, 154, 255);" />
+                        </ui:VisualElement>
+                        <ui:Label name="tooltip-quantity" text="Quantity: 5" style="margin-bottom: 14px; color: rgb(0, 0, 0); font-size: 20px;" />
                         <ui:VisualElement style="height: 2px; background-color: rgba(132, 154, 255, 0.3); margin-bottom: 14px;" />
                         <ui:Label name="tooltip-description" text="Item description goes here..." style="white-space: normal; margin-bottom: 14px; color: rgb(50, 50, 50);" />
                         <ui:VisualElement style="height: 1px; background-color: rgba(132, 154, 255, 0.2); margin-bottom: 12px;" />
-                        <ui:Label name="tooltip-properties" text="No custom properties." style="white-space: normal; color: rgb(100, 100, 100);" />
+                        <ui:VisualElement name="item-attributes-container" style="margin-bottom: 12px;">
+                            <ui:Label name="tooltip-stackable" text="Stackable: Yes" style="margin-bottom: 4px; color: rgb(80, 80, 80);" />
+                            <ui:Label name="tooltip-consumable" text="Consumable: Yes" style="margin-bottom: 4px; color: rgb(80, 80, 80);" />
+                            <ui:Label name="tooltip-maxcount" text="Max count: 99" style="margin-bottom: 4px; color: rgb(80, 80, 80);" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="optional-properties-container" style="flex-direction: row; flex-grow: 1; margin-bottom: 12px;">
+                            <ui:VisualElement name="string-properties-container" style="flex-grow: 1; margin-right: 10px;">
+                                <ui:Label name="string-properties-title" text="String Properties" style="margin-bottom: 6px; -unity-font-style: bold; color: rgb(0, 0, 0); font-size: 22px; display: none;" />
+                                <ui:VisualElement name="string-properties-list" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="numeric-properties-container" style="flex-grow: 1; margin-left: 10px;">
+                                <ui:Label name="numeric-properties-title" text="Numeric Properties" style="margin-bottom: 6px; -unity-font-style: bold; color: rgb(0, 0, 0); font-size: 22px; display: none;" />
+                                <ui:VisualElement name="numeric-properties-list" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement style="flex-direction: row; margin-top: auto; justify-content: space-between;">
+                            <ui:Button text="Remove Item" name="item-remove" class="heroic-button" style="flex-grow: 1; margin-right: 5px; -unity-background-image-tint-color: rgb(85, 100, 153); padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px;" />
+                            <ui:Button text="Consume Item" name="item-consume" class="heroic-button" style="flex-grow: 1; margin-left: 5px; padding-right: 10px; padding-left: 10px;" />
+                        </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement name="Refresh-container" style="flex-direction: row; width: 100%; align-items: center; align-self: center; align-content: center; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 10px;">
-                    <ui:Button text="Refresh" name="inventory-refresh" class="heroic-button-square" style="align-self: center; margin-top: 10px;" />
-                </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="action-buttons" style="flex-direction: row; justify-content: space-between; margin-bottom: 20px; height: auto; padding: 20px; background-color: rgba(132, 154, 255, 0.05); border-radius: 15px; flex-grow: 0; flex-shrink: 0; width: 100%; align-items: center; padding-top: 20px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px;">
-                <ui:VisualElement style="flex-direction: row; width: 40%; align-items: flex-start;">
+            <ui:VisualElement name="action-buttons" style="flex-direction: row; justify-content: space-between; margin-bottom: 0; height: initial; padding: 20px; background-color: rgba(132, 154, 255, 0.05); border-radius: 15px; flex-grow: 0; flex-shrink: 1; width: 100%; align-items: flex-start; padding-top: 20px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; margin-top: 0; margin-right: 0; margin-left: 0;">
+                <ui:VisualElement style="flex-direction: row; width: 50%; align-items: flex-start; margin-left: 0;">
                     <ui:DropdownField name="grant-item-dropdown" style="margin-bottom: 10px; flex-grow: 1; border-color: rgb(132, 154, 255); border-width: 2px; border-radius: 10px; padding: 10px; font-size: 50%; min-height: 50px; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; flex-direction: row; width: 100px;" />
                     <ui:Button text="Grant Item" name="item-grant" class="heroic-button" style="flex-grow: 1; flex-direction: row; width: 40px; padding-right: 10px; padding-left: 10px;" />
                 </ui:VisualElement>
-                <ui:VisualElement style="flex-direction: row; width: 40%; align-items: flex-start;">
-                    <ui:Button text="Remove Item" name="item-remove" class="heroic-button" style="flex-grow: 1; width: 40px; -unity-background-image-tint-color: rgb(85, 100, 153); padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px;" />
-                    <ui:Button text="Consume Item" name="item-consume" class="heroic-button" style="margin-bottom: 10px; flex-grow: 1; width: 40px; flex-direction: row; padding-right: 10px; padding-left: 10px; margin-left: 10px;" />
+                <ui:VisualElement style="flex-direction: row; align-items: flex-end; justify-content: flex-end;">
+                    <ui:Button text="Refresh" name="inventory-refresh" class="heroic-button" style="margin-right: 25px; -unity-background-image-tint-color: rgb(239, 241, 243); color: rgb(42, 48, 89); background-image: url(&quot;project://database/Assets/UnityHiroInventory/HeroicUI/Button/button_rounded_h84_white_shadow.png?fileID=-1247119682716566457&amp;guid=4f539c64ecb59456bab590ecc5a4be5a&amp;type=3#button_rounded_h84_white_shadow_0&quot;);" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
@@ -85,6 +101,21 @@
                     <ui:Button text="Remove Item" name="remove-modal-remove" class="heroic-button" style="margin-top: 10px;" />
                 </ui:VisualElement>
                 <ui:Button name="remove-modal-close" class="heroic-close-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement template="ErrorPopup" name="inventory-full-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
+        <Style src="project://database/Assets/UnityHiroInventory/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
+        <ui:VisualElement name="inventory-full-modal-background" class="heroic-error-popup__background">
+            <ui:VisualElement name="inventory-full-modal-panel" class="heroic-main__panel" style="height: auto; width: 600px;">
+                <ui:VisualElement name="inventory-full-modal-top" style="height: 100px; background-color: rgb(255, 153, 102); border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                    <ui:Label text="INVENTORY FULL" class="heroic-title" style="color: rgb(255, 255, 255); -unity-text-align: middle-center; flex-grow: 1;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="inventory-full-modal-bottom" style="align-self: center; align-items: center; width: 100%; padding: 30px;">
+                    <ui:Label text="Your inventory is full! You can only hold 12 items.&#10;Remove or consume items to make space." style="font-size: 22px; color: rgb(100, 100, 100); margin-bottom: 20px; white-space: normal; -unity-text-align: upper-center;" />
+                    <ui:Button text="OK" name="inventory-full-modal-ok" class="heroic-button" style="margin-top: 10px;" />
+                </ui:VisualElement>
+                <ui:Button name="inventory-full-modal-close" class="heroic-close-button" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
