@@ -94,7 +94,22 @@ namespace HiroEventLeaderboards
             EventLeaderboards.Clear();
 
             var eventLeaderboards = await _eventLeaderboardsSystem.ListEventLeaderboardsAsync(null, true);
-            EventLeaderboards.AddRange(eventLeaderboards.Leaderboards);
+
+            // Sort by time remaining (soonest ending first), then by ID alphabetically
+            var sortedLeaderboards = eventLeaderboards.Leaderboards
+                .OrderBy(lb =>
+                {
+                    var timeRemaining = EventLeaderboardTimeUtility.GetTimeRemaining(lb);
+                    // If event has ended (timeRemaining is zero), sort to bottom
+                    if (timeRemaining == TimeSpan.Zero)
+                    {
+                        return long.MaxValue;
+                    }
+                    return (long)timeRemaining.TotalSeconds;
+                })
+                .ThenBy(lb => lb.Id); // Secondary sort by ID alphabetically
+
+            EventLeaderboards.AddRange(sortedLeaderboards);
 
             // If we have an event leaderboard selected, try to reselect it
             foreach (var eventLeaderboard in EventLeaderboards)

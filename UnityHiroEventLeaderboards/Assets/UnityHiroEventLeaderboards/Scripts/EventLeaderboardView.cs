@@ -26,6 +26,7 @@ namespace HiroEventLeaderboards
         private Label _statusLabel;
         private VisualElement _timeRemainingContainer;
         private Label _timeRemainingLabel;
+        private VisualElement _iconElement;
 
         public void SetVisualElement(VisualElement visualElement)
         {
@@ -34,6 +35,7 @@ namespace HiroEventLeaderboards
             _statusLabel = visualElement.Q<Label>("status");
             _timeRemainingContainer = visualElement.Q<VisualElement>("time-remaining-container");
             _timeRemainingLabel = visualElement.Q<Label>("time-remaining");
+            _iconElement = visualElement.Q<VisualElement>("event-icon");
         }
 
         public void SetEventLeaderboard(IEventLeaderboard eventLeaderboard)
@@ -41,14 +43,29 @@ namespace HiroEventLeaderboards
             _nameLabel.text = eventLeaderboard.Name;
             _categoryLabel.text = eventLeaderboard.Category;
 
+            // Set icon dynamically from Resources based on config
+            if (_iconElement != null)
+            {
+                string iconName = "icon_trophy"; // default fallback
+                if (eventLeaderboard.AdditionalProperties.TryGetValue("icon", out var iconValue))
+                {
+                    iconName = iconValue;
+                }
+
+                var iconTexture = Resources.Load<Texture2D>($"EventIcons/{iconName}");
+                if (iconTexture != null)
+                {
+                    _iconElement.style.backgroundImage = new StyleBackground(iconTexture);
+                }
+            }
+
             // Convert status to readable string based on timing
-            var currentTime = DateTimeOffset.FromUnixTimeSeconds(eventLeaderboard.CurrentTimeSec);
-            var startTime = DateTimeOffset.FromUnixTimeSeconds(eventLeaderboard.StartTimeSec);
-            var endTime = DateTimeOffset.FromUnixTimeSeconds(eventLeaderboard.EndTimeSec);
+            var currentTime = EventLeaderboardTimeUtility.GetCurrentTime(eventLeaderboard);
+            var startTime = EventLeaderboardTimeUtility.GetStartTime(eventLeaderboard);
 
             if (eventLeaderboard.IsActive)
             {
-                if (currentTime >= startTime)
+                if (EventLeaderboardTimeUtility.HasStarted(eventLeaderboard))
                 {
                     _statusLabel.text = "Active";
                     _statusLabel.style.color = new StyleColor(Color.white);
@@ -58,7 +75,7 @@ namespace HiroEventLeaderboards
                 else
                 {
                     var difference = startTime - currentTime;
-                    _statusLabel.text = $"Starts in {FormatTimeDuration(difference)}";
+                    _statusLabel.text = $"Starts in {EventLeaderboardTimeUtility.FormatTimeDuration(difference)}";
                     _statusLabel.style.color = new StyleColor(Color.white);
                     // Use yellow/orange tint for upcoming
                     _statusLabel.style.unityBackgroundImageTintColor = new StyleColor(new Color(1f, 0.8f, 0.3f, 1f));
@@ -75,8 +92,8 @@ namespace HiroEventLeaderboards
             // Display time remaining with conditional formatting, hide when ended
             if (eventLeaderboard.IsActive)
             {
-                var timeRemaining = endTime - currentTime;
-                _timeRemainingLabel.text = FormatTimeDuration(timeRemaining);
+                var timeRemaining = EventLeaderboardTimeUtility.GetTimeRemaining(eventLeaderboard);
+                _timeRemainingLabel.text = EventLeaderboardTimeUtility.FormatTimeDuration(timeRemaining);
                 if (_timeRemainingContainer != null)
                 {
                     _timeRemainingContainer.style.display = DisplayStyle.Flex;
@@ -90,30 +107,6 @@ namespace HiroEventLeaderboards
                     _timeRemainingContainer.style.display = DisplayStyle.None;
                 }
             }
-        }
-
-        /// <summary>
-        /// Formats a time duration conditionally showing only relevant units.
-        /// Examples: "3h 25m", "2d 5h", "45m"
-        /// </summary>
-        private static string FormatTimeDuration(TimeSpan duration)
-        {
-            if (duration.TotalMinutes < 1)
-            {
-                return "< 1m";
-            }
-
-            if (duration.Days > 0)
-            {
-                return $"{duration.Days}d {duration.Hours}h";
-            }
-
-            if (duration.Hours > 0)
-            {
-                return $"{duration.Hours}h {duration.Minutes}m";
-            }
-
-            return $"{duration.Minutes}m";
         }
     }
 }

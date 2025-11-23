@@ -369,9 +369,7 @@ namespace HiroEventLeaderboards
             if (_emptyStateContainer == null || _emptyStateMessage == null)
                 return;
 
-            var currentTime = DateTimeOffset.FromUnixTimeSeconds(eventLeaderboard.CurrentTimeSec);
-            var startTime = DateTimeOffset.FromUnixTimeSeconds(eventLeaderboard.StartTimeSec);
-            var isActive = eventLeaderboard.IsActive && currentTime >= startTime;
+            var isActive = eventLeaderboard.IsActive && EventLeaderboardTimeUtility.HasStarted(eventLeaderboard);
 
             // Check if the user has joined the event
             var userHasJoined = false;
@@ -426,15 +424,11 @@ namespace HiroEventLeaderboards
             _selectedEventLeaderboardTierLabel.text = $"Cohort: {tierName} (Tier {eventLeaderboard.Tier})";
             _selectedEventLeaderboardTierLabel.style.color = new StyleColor(Color.white);
 
-            var currentTime = DateTimeOffset.FromUnixTimeSeconds(eventLeaderboard.CurrentTimeSec);
-            var startTime = DateTimeOffset.FromUnixTimeSeconds(eventLeaderboard.StartTimeSec);
-            var endTime = DateTimeOffset.FromUnixTimeSeconds(eventLeaderboard.EndTimeSec);
-
             // Display time remaining
             if (eventLeaderboard.IsActive)
             {
-                var timeRemaining = endTime - currentTime;
-                _selectedEventLeaderboardTimeRemainingLabel.text = FormatTimeDuration(timeRemaining);
+                var timeRemaining = EventLeaderboardTimeUtility.GetTimeRemaining(eventLeaderboard);
+                _selectedEventLeaderboardTimeRemainingLabel.text = EventLeaderboardTimeUtility.FormatTimeDuration(timeRemaining);
             }
             else
             {
@@ -459,30 +453,6 @@ namespace HiroEventLeaderboards
             };
         }
 
-        /// <summary>
-        /// Formats a time duration conditionally showing only relevant units.
-        /// Examples: "3h 25m", "2d 5h", "45m"
-        /// </summary>
-        private static string FormatTimeDuration(TimeSpan duration)
-        {
-            if (duration.TotalMinutes < 1)
-            {
-                return "< 1m";
-            }
-
-            if (duration.Days > 0)
-            {
-                return $"{duration.Days}d {duration.Hours}h";
-            }
-
-            if (duration.Hours > 0)
-            {
-                return $"{duration.Hours}h {duration.Minutes}m";
-            }
-
-            return $"{duration.Minutes}m";
-        }
-
         private void HideSelectedEventLeaderboardPanel()
         {
             _selectedEventLeaderboardPanel.style.display = DisplayStyle.None;
@@ -490,9 +460,7 @@ namespace HiroEventLeaderboards
 
         private void UpdateEventLeaderboardButtons(List<IEventLeaderboardScore> records)
         {
-            var currentTime = DateTimeOffset.FromUnixTimeSeconds(_currentEventLeaderboard.CurrentTimeSec);
-            var startTime = DateTimeOffset.FromUnixTimeSeconds(_currentEventLeaderboard.StartTimeSec);
-            var isActive = _currentEventLeaderboard.IsActive && currentTime >= startTime;
+            var isActive = _currentEventLeaderboard.IsActive && EventLeaderboardTimeUtility.HasStarted(_currentEventLeaderboard);
             var canClaim = _currentEventLeaderboard.CanClaim;
             var canRoll = _currentEventLeaderboard.CanRoll;
 

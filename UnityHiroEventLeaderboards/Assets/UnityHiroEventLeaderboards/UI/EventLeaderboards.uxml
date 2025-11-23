@@ -33,7 +33,7 @@
                                 <ui:Label text="Bronze" name="selected-event-leaderboard-tier" class="heroic-title" style="font-size: 24px; color: rgb(255, 255, 255); -unity-font-style: bold;" />
                             </ui:VisualElement>
                             <ui:VisualElement style="flex-direction: row; align-items: center; justify-content: flex-start;">
-                                <ui:VisualElement style="width: 42px; height: 42px; background-image: url(&quot;project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/IconPictogram/128/icon_timer.png?fileID=2800000&amp;guid=6e2698a2461b043f483c3c1eda1770ea&amp;type=3#icon_timer&quot;); margin-right: 8px;" />
+                                <ui:VisualElement style="width: 42px; height: 42px; background-image: url(&quot;project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/IconPictogram/128/icon_timer.png?fileID=2800000&amp;guid=6e2698a2461b043f483c3c1eda1770ea&amp;type=3#icon_timer&quot;); margin-right: 5px;" />
                                 <ui:Label text="5d 12h" name="selected-event-leaderboard-time-remaining" class="heroic-title" style="font-size: 24px; color: rgb(255, 255, 255);" />
                             </ui:VisualElement>
                         </ui:VisualElement>
