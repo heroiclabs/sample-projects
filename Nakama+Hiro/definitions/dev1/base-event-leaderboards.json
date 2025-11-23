@@ -10,7 +10,8 @@
             "cohort_size": 100,
             "additional_properties": {
                 "description": "Hourly tournament using reward tiers for promotion/demotion. Top 5 players (1-5) promote to next tier, bottom players (16+) in tier 1+ demote.",
-                "reset_schedule_desc": "every hour"
+                "reset_schedule_desc": "every hour",
+                "icon": "icon_trophy"
             },
             "max_num_score": 0,
             "tiers": 3,
@@ -187,7 +188,8 @@
             "cohort_size": 50,
             "additional_properties": {
                 "description": "2-hour event using change zones with percentage-based promotion/demotion. Scores increment (accumulate) across multiple attempts.",
-                "reset_schedule_desc": "every 2 hours"
+                "reset_schedule_desc": "every 2 hours",
+                "icon": "icon_skull"
             },
             "max_num_score": 0,
             "tiers": 3,
@@ -405,7 +407,8 @@
             "cohort_size": 30,
             "additional_properties": {
                 "description": "30-minute speedrun trial using change zones. Ascending (lower is better) with best score operator. Up to 5 attempts per player.",
-                "reset_schedule_desc": "every 30 minutes"
+                "reset_schedule_desc": "every 30 minutes",
+                "icon": "icon_energy_green"
             },
             "max_num_score": 5,
             "tiers": 3,
