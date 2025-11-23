@@ -44,15 +44,12 @@
                             <ui:Label name="empty-state-message" text="No records to display" style="font-size: 28px; color: rgb(150, 150, 150); -unity-text-align: middle-center; white-space: normal;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="dev-tools" style="background-color: rgb(196, 198, 209); padding-top: 15px; padding-right: 20px; padding-bottom: 15px; padding-left: 20px; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; display: flex; align-items: center; justify-content: flex-start; height: 225px;">
-                        <ui:Label text="DEV TOOLS" class="heroic-title" style="font-size: 24px; color: rgb(32, 49, 82); margin-bottom: 10px;" />
-                        <ui:VisualElement name="VisualElement" style="flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; display: flex; width: 100%;">
-                            <ui:Button text="Submit Score" name="event-leaderboard-submit-score" class="heroic-button" style="display: none; height: 80px; padding-right: 32px; padding-left: 32px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px;" />
-                            <ui:Button text="Claim Rewards" name="event-leaderboard-claim" class="heroic-button" style="display: none; height: 80px; padding-right: 32px; padding-left: 32px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px;" />
-                            <ui:Button text="Join event" name="event-leaderboard-roll" class="heroic-button" style="display: none; height: 80px; padding-right: 32px; padding-left: 32px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px;" />
-                            <ui:Button text="Debug fill" name="event-leaderboard-debug-fill" class="heroic-button" style="margin-right: 10px; display: none; height: 80px; padding-right: 32px; padding-left: 32px; margin-top: 10px; margin-bottom: 10px; margin-left: 10px;" />
-                            <ui:Button text="Debug scores" name="event-leaderboard-debug-random-scores" class="heroic-button" style="height: 80px; padding-right: 32px; padding-left: 32px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px; display: none;" />
-                        </ui:VisualElement>
+                    <ui:VisualElement name="event-leaderboard-actions" style="padding-top: 15px; padding-right: 20px; padding-bottom: 15px; padding-left: 20px; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; display: flex; align-items: center; justify-content: space-between; height: 190px; flex-direction: row;">
+                        <ui:Button text="Submit score" name="event-leaderboard-submit-score" class="heroic-button" style="display: none; height: 80px; padding-right: 32px; padding-left: 32px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px;" />
+                        <ui:Button text="Claim rewards" name="event-leaderboard-claim" class="heroic-button" style="display: none; height: 80px; padding-right: 32px; padding-left: 32px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px;" />
+                        <ui:Button text="Join event" name="event-leaderboard-roll" class="heroic-button" style="display: none; height: 80px; padding-right: 32px; padding-left: 32px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px;" />
+                        <ui:Button text="Debug fill" name="event-leaderboard-debug-fill" class="heroic-button" style="margin-right: 10px; display: none; height: 80px; padding-right: 32px; padding-left: 32px; margin-top: 10px; margin-bottom: 10px; margin-left: 10px; background-image: url(&quot;project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Button/button_rounded_h84_white_shadow.png?fileID=-1247119682716566457&amp;guid=4f539c64ecb59456bab590ecc5a4be5a&amp;type=3#button_rounded_h84_white_shadow_0&quot;); -unity-background-image-tint-color: rgb(255, 255, 255); color: rgb(32, 49, 82);" />
+                        <ui:Button text="Debug scores" name="event-leaderboard-debug-random-scores" class="heroic-button" style="height: 80px; padding-right: 32px; padding-left: 32px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px; display: none; color: rgb(32, 49, 82); background-image: url(&quot;project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Button/button_rounded_h84_white_shadow.png?fileID=-1247119682716566457&amp;guid=4f539c64ecb59456bab590ecc5a4be5a&amp;type=3#button_rounded_h84_white_shadow_0&quot;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
@@ -114,22 +111,20 @@
     <ui:VisualElement template="ErrorPopup" name="event-info-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
         <Style src="project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
         <ui:VisualElement name="event-info-modal-background" class="heroic-error-popup__background">
-            <ui:VisualElement name="event-info-modal-panel" class="heroic-main__panel" style="height: auto; width: 900px; max-height: 80%;">
+            <ui:VisualElement name="event-info-modal-panel" class="heroic-main__panel" style="height: auto; width: 900px; max-height: 85%;">
                 <ui:VisualElement name="event-info-modal-top" style="height: auto; background-color: rgb(132, 154, 255); border-top-left-radius: 15px; border-top-right-radius: 15px; padding: 20px;">
                     <ui:Label text="EVENT DETAILS (DEBUG)" class="heroic-title" style="color: rgb(255, 255, 255); -unity-text-align: middle-center;" />
                 </ui:VisualElement>
-                <ui:ScrollView name="event-info-modal-scroll" style="flex-grow: 1; max-height: 600px; padding: 20px;">
+                <ui:ScrollView name="event-info-modal-scroll" style="flex-grow: 1; max-height: 650px; padding: 20px;">
                     <ui:VisualElement name="event-info-content" style="padding: 10px;">
-                        <ui:Label text="Event ID: weekly_puzzle_championship" name="info-id" style="font-size: 24px; margin-bottom: 10px; white-space: normal;" />
-                        <ui:Label text="Operator: best" name="info-operator" style="font-size: 24px; margin-bottom: 10px; white-space: normal;" />
-                        <ui:Label text="Reset Schedule: 0 0 * * 1 (Every Monday)" name="info-reset-schedule" style="font-size: 24px; margin-bottom: 10px; white-space: normal;" />
-                        <ui:Label text="Cohort Size: 50" name="info-cohort-size" style="font-size: 24px; margin-bottom: 10px; white-space: normal;" />
-                        <ui:Label text="Ascending: false" name="info-ascending" style="font-size: 24px; margin-bottom: 10px; white-space: normal;" />
-                        <ui:Label text="Max Idle Tier Drop: 1" name="info-max-idle-tier-drop" style="font-size: 24px; margin-bottom: 20px; white-space: normal;" />
-                        <ui:Label text="Change Zones:" style="font-size: 28px; margin-bottom: 10px; -unity-font-style: bold;" />
-                        <ui:Label text="Tier 0: Promotion 30%, Demotion 0%, Demote Idle: false" name="info-change-zones" style="font-size: 22px; margin-bottom: 15px; margin-left: 20px; white-space: normal;" />
-                        <ui:Label text="Reward Tiers:" style="font-size: 28px; margin-bottom: 10px; -unity-font-style: bold;" />
-                        <ui:Label text="Tier 0, Rank 1-5: Champion (+1 tier)" name="info-reward-tiers" style="font-size: 22px; margin-bottom: 5px; margin-left: 20px; white-space: normal;" />
+                        <ui:Label text="&lt;b&gt;Event ID:&lt;/b&gt; puzzle_championship" name="info-id" enable-rich-text="true" style="font-size: 24px; margin-bottom: 10px; white-space: normal;" />
+                        <ui:Label text="&lt;b&gt;Operator:&lt;/b&gt; best" name="info-operator" enable-rich-text="true" style="font-size: 24px; margin-bottom: 10px; white-space: normal;" />
+                        <ui:Label text="&lt;b&gt;Reset schedule:&lt;/b&gt; 0 */2 * * * (every 2 hours)" name="info-reset-schedule" enable-rich-text="true" style="font-size: 24px; margin-bottom: 10px; white-space: normal;" />
+                        <ui:Label text="&lt;b&gt;Cohort size:&lt;/b&gt; 50" name="info-cohort-size" enable-rich-text="true" style="font-size: 24px; margin-bottom: 10px; white-space: normal;" />
+                        <ui:Label text="&lt;b&gt;Ascending:&lt;/b&gt; false (lower scores are better)" name="info-ascending" enable-rich-text="true" style="font-size: 24px; margin-bottom: 10px; white-space: normal;" />
+                        <ui:Label text="&lt;b&gt;Duration:&lt;/b&gt; 110 minutes" name="info-max-idle-tier-drop" enable-rich-text="true" style="font-size: 24px; margin-bottom: 10px; white-space: normal;" />
+                        <ui:Label text="&lt;b&gt;Change zones:&lt;/b&gt;\nTier 0: Promotion 30%, Demotion 0%, Demote idle: false" name="info-change-zones" enable-rich-text="true" style="font-size: 24px; margin-bottom: 10px; white-space: normal;" />
+                        <ui:Label text="&lt;b&gt;Reward tiers:&lt;/b&gt;\n&lt;b&gt;Tier 0&lt;/b&gt;\nRank 1-5: +1 tier" name="info-reward-tiers" enable-rich-text="true" style="font-size: 24px; margin-bottom: 10px; white-space: normal;" />
                     </ui:VisualElement>
                 </ui:ScrollView>
                 <ui:Button name="event-info-modal-close" class="heroic-close-button" />

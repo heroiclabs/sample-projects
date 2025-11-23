@@ -682,72 +682,106 @@ namespace HiroEventLeaderboards
 
             var leaderboard = _currentEventLeaderboard;
 
-            // Populate basic info
-            _infoIdLabel.text = $"Event ID: {leaderboard.Id}";
-            _infoOperatorLabel.text = $"Operator: {leaderboard.Operator}";
-            _infoCohortSizeLabel.text = $"Cohort Size: {leaderboard.MaxCount}";
-            _infoAscendingLabel.text = $"Ascending: {leaderboard.Ascending} (Lower scores are better: {leaderboard.Ascending})";
-
-            // Format reset schedule (if available from additional properties)
-            var resetSchedule = "N/A";
-            if (leaderboard.AdditionalProperties != null && leaderboard.AdditionalProperties.ContainsKey("reset_schedule"))
+            // Get description from additional properties
+            var description = "";
+            if (leaderboard.AdditionalProperties.TryGetValue("description", out var additionalProperty))
             {
-                resetSchedule = leaderboard.AdditionalProperties["reset_schedule"];
+                description = additionalProperty;
             }
-            _infoResetScheduleLabel.text = $"Reset Schedule: {resetSchedule}";
 
-            // Max idle tier drop (if available from additional properties)
-            var maxIdleTierDrop = "N/A";
-            if (leaderboard.AdditionalProperties != null && leaderboard.AdditionalProperties.ContainsKey("max_idle_tier_drop"))
+            _infoIdLabel.text = string.IsNullOrEmpty(description)
+                ? $"<b>Event ID:</b> {leaderboard.Id}"
+                : $"<b>Event ID:</b> {leaderboard.Id}\n\n{description}";
+            _infoOperatorLabel.text = $"<b>Operator:</b> {leaderboard.Operator}";
+            _infoCohortSizeLabel.text = $"<b>Cohort size:</b> {leaderboard.MaxCount}";
+            _infoAscendingLabel.text = $"<b>Ascending:</b> {leaderboard.Ascending} (lower scores are better)";
+
+            var resetScheduleDesc = "";
+       
+            if (leaderboard.AdditionalProperties.TryGetValue("reset_schedule_desc", out var property))
             {
-                maxIdleTierDrop = leaderboard.AdditionalProperties["max_idle_tier_drop"];
+                resetScheduleDesc = property;
             }
-            _infoMaxIdleTierDropLabel.text = $"Max Idle Tier Drop: {maxIdleTierDrop}";
+            
+            _infoResetScheduleLabel.text = string.IsNullOrEmpty(resetScheduleDesc)
+                ? $"<b>Reset schedule:</b> N/A"
+                : $"<b>Reset schedule:</b> ({resetScheduleDesc})";
 
-            // Format change zones
-            if (leaderboard.ChangeZones != null && leaderboard.ChangeZones.Count > 0)
+            // Calculate duration in human-readable format
+            var durationSeconds = (leaderboard.EndTimeSec - leaderboard.StartTimeSec);
+            var durationText = FormatDurationInSeconds(durationSeconds);
+            _infoMaxIdleTierDropLabel.text = $"<b>Duration:</b> {durationText}";
+
+            // Determine which promotion mechanic is being used
+            var tierKey = leaderboard.Tier.ToString();
+            var usingChangeZones = leaderboard.ChangeZones.TryGetValue(tierKey, out var changeZone) &&
+                                   (changeZone.Promotion > 0 || changeZone.Demotion > 0);
+
+            if (usingChangeZones)
             {
-                var changeZonesText = "";
+                // Show change zones
+                var changeZonesText = "<b>Change zones:</b>\n";
                 foreach (var kvp in leaderboard.ChangeZones)
                 {
                     var tier = kvp.Key;
                     var zone = kvp.Value;
-                    changeZonesText += $"Tier {tier}: Promotion {zone.Promotion * 100:F0}%, Demotion {zone.Demotion * 100:F0}%, Demote Idle: {zone.DemoteIdle}\n";
-                }
-                _infoChangeZonesLabel.text = changeZonesText.TrimEnd('\n');
-            }
-            else
-            {
-                _infoChangeZonesLabel.text = "No change zones configured";
-            }
-
-            // Format reward tiers
-            if (leaderboard.RewardTiers != null && leaderboard.RewardTiers.Count > 0)
-            {
-                var rewardTiersText = "";
-                foreach (var kvp in leaderboard.RewardTiers)
-                {
-                    var tier = kvp.Key;
-                    var tierRewards = kvp.Value;
-                    foreach (var rewardTier in tierRewards.RewardTiers)
+                    if (zone.Promotion > 0 || zone.Demotion > 0)
                     {
-                        var tierChangeName = rewardTier.TierChange switch
-                        {
-                            > 0 => $"+{rewardTier.TierChange} tier",
-                            < 0 => $"{rewardTier.TierChange} tier",
-                            _ => "no change"
-                        };
-                        rewardTiersText += $"Tier {tier}, Rank {rewardTier.RankMin}-{rewardTier.RankMax}: {rewardTier.Name} ({tierChangeName})\n";
+                        changeZonesText += $"Tier {tier}: Promotion {zone.Promotion * 100:F0}%, Demotion {zone.Demotion * 100:F0}%, Demote idle: {zone.DemoteIdle}\n";
                     }
                 }
-                _infoRewardTiersLabel.text = rewardTiersText.TrimEnd('\n');
+                _infoChangeZonesLabel.text = changeZonesText.TrimEnd('\n');
+                _infoRewardTiersLabel.text = ""; // Hide reward tiers
             }
             else
             {
-                _infoRewardTiersLabel.text = "No reward tiers configured";
+                // Show reward tiers grouped by tier
+                if (leaderboard.RewardTiers.Count > 0)
+                {
+                    var rewardTiersText = "<b>Reward tiers:</b>\n";
+                    foreach (var kvp in leaderboard.RewardTiers)
+                    {
+                        var tier = kvp.Key;
+                        var tierRewards = kvp.Value;
+                        rewardTiersText += $"<b>Tier {tier}</b>\n";
+                        foreach (var rewardTier in tierRewards.RewardTiers)
+                        {
+                            var tierChangeName = rewardTier.TierChange switch
+                            {
+                                > 0 => $"+{rewardTier.TierChange} tier",
+                                < 0 => $"{rewardTier.TierChange} tier",
+                                _ => "No change"
+                            };
+                            rewardTiersText += $"Rank {rewardTier.RankMin}-{rewardTier.RankMax}: {tierChangeName}\n";
+                        }
+                    }
+                    _infoRewardTiersLabel.text = rewardTiersText.TrimEnd('\n');
+                }
+                else
+                {
+                    _infoRewardTiersLabel.text = "";
+                }
+                _infoChangeZonesLabel.text = ""; // Hide change zones
             }
 
             _eventInfoModal.style.display = DisplayStyle.Flex;
+        }
+
+        private static string FormatDurationInSeconds(long seconds)
+        {
+            if (seconds < 60)
+                return $"{seconds} seconds";
+
+            var minutes = seconds / 60;
+            if (minutes < 60)
+                return $"{minutes} minutes";
+
+            var hours = minutes / 60;
+            var remainingMinutes = minutes % 60;
+            if (remainingMinutes > 0)
+                return $"{hours} hours {remainingMinutes} minutes";
+
+            return $"{hours} hours";
         }
 
         private void HideEventInfoModal()
