@@ -308,7 +308,7 @@ GameObject:
   - component: {fileID: 1350379567}
   - component: {fileID: 1350379568}
   m_Layer: 0
-  m_Name: HiroChallenges
+  m_Name: HiroEventLeaderboards
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -366,6 +366,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HiroChallenges.HiroChallengesController
   eventLeaderboardEntryTemplate: {fileID: 9197481963319205126, guid: 7f2d3bbe277224287bcb00ffc778b404, type: 3}
   eventLeaderboardRecordTemplate: {fileID: 9197481963319205126, guid: 3b1430e8390154d66bcf08444c83fa76, type: 3}
+  eventLeaderboardZoneTemplate: {fileID: 9197481963319205126, guid: f665d0c9be32f422789af3de8b2f8f5e, type: 3}
 --- !u!1 &2121322951
 GameObject:
   m_ObjectHideFlags: 0
