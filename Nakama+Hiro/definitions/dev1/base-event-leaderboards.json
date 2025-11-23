@@ -1,15 +1,16 @@
 {
     "event_leaderboards": {
-        "chef_tournament": {
-            "name": "Chef Tournament",
-            "description": "Play a tournament against other chefs for great rewards!",
-            "category": "Challenges",
+        "food_battles": {
+            "name": "Food Battles!",
+            "description": "Face off against other chefs to see who can cook up the best dishes.",
+            "category": "PvP",
             "ascending": false,
             "operator": "best",
             "reset_schedule": "0 * * * *",
             "cohort_size": 100,
             "additional_properties": {
-                "key": "value"
+                "description": "Hourly tournament using reward tiers for promotion/demotion. Top 5 players (1-5) promote to next tier, bottom players (16+) in tier 1+ demote.",
+                "reset_schedule_desc": "every hour"
             },
             "max_num_score": 0,
             "tiers": 3,
@@ -176,17 +177,17 @@
             "end_time_sec": 0,
             "duration": 3000
         },
-        "puzzle_championship": {
-            "name": "Puzzle Championship",
-            "description": "Compete to rack up the highest total score across all your puzzle attempts!",
-            "category": "Puzzle Challenges",
+        "puzzle_and_monsters": {
+            "name": "Puzzle and Monsters",
+            "description": "Compete to rack up the highest total score across all your puzzle attempts.",
+            "category": "Puzzle",
             "ascending": false,
             "operator": "incr",
             "reset_schedule": "0 */2 * * *",
             "cohort_size": 50,
             "additional_properties": {
-                "event_type": "time_limited",
-                "theme": "puzzle"
+                "description": "2-hour event using change zones with percentage-based promotion/demotion. Scores increment (accumulate) across multiple attempts.",
+                "reset_schedule_desc": "every 2 hours"
             },
             "max_num_score": 0,
             "tiers": 3,
@@ -394,18 +395,17 @@
             "end_time_sec": 0,
             "duration": 6600
         },
-        "dungeon_speedrun_trial": {
-            "name": "Dungeon Speedrun Trial",
-            "description": "Race against time! Clear the featured dungeon as fast as possible to beat your opponents!",
-            "category": "Speedrun Challenges",
+        "desire_for_speed": {
+            "name": "Desire for Speed",
+            "description": "Race against time! Clear the featured track as fast as possible to beat your opponents.",
+            "category": "Speedrun",
             "ascending": true,
             "operator": "best",
             "reset_schedule": "*/30 * * * *",
             "cohort_size": 30,
             "additional_properties": {
-                "event_type": "target_score",
-                "target_time_seconds": "300",
-                "dungeon_id": "trial_dungeon_1"
+                "description": "30-minute speedrun trial using change zones. Ascending (lower is better) with best score operator. Up to 5 attempts per player.",
+                "reset_schedule_desc": "every 30 minutes"
             },
             "max_num_score": 5,
             "tiers": 3,
