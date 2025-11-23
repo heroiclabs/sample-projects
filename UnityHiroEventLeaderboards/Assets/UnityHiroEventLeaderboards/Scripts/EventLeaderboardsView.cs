@@ -28,6 +28,7 @@ namespace HiroEventLeaderboards
         private readonly EventLeaderboardsController _controller;
         private readonly VisualTreeAsset _eventLeaderboardEntryTemplate;
         private readonly VisualTreeAsset _eventLeaderboardRecordTemplate;
+        private readonly VisualTreeAsset _eventLeaderboardZoneTemplate;
 
         private WalletDisplay _walletDisplay;
         private Button _myEventLeaderboardsTab;
@@ -93,11 +94,13 @@ namespace HiroEventLeaderboards
 
         public EventLeaderboardsView(EventLeaderboardsController controller, HiroEventLeaderboardsCoordinator coordinator,
             VisualTreeAsset eventLeaderboardEntryTemplate,
-            VisualTreeAsset eventLeaderboardRecordTemplate)
+            VisualTreeAsset eventLeaderboardRecordTemplate,
+            VisualTreeAsset eventLeaderboardZoneTemplate)
         {
             _controller = controller;
             _eventLeaderboardEntryTemplate = eventLeaderboardEntryTemplate;
             _eventLeaderboardRecordTemplate = eventLeaderboardRecordTemplate;
+            _eventLeaderboardZoneTemplate = eventLeaderboardZoneTemplate;
 
             controller.OnInitialized += HandleInitialized;
             coordinator.ReceivedStartError += HandleStartError;
@@ -176,19 +179,36 @@ namespace HiroEventLeaderboards
             _eventLeaderboardRecordsList = rootElement.Q<ListView>("event-leaderboard-records-list");
             _eventLeaderboardRecordsList.makeItem = () =>
             {
-                var newListEntry = _eventLeaderboardRecordTemplate.Instantiate();
-                var newListEntryLogic = new EventLeaderboardRecordView();
-                newListEntry.userData = newListEntryLogic;
-                newListEntryLogic.SetVisualElement(newListEntry);
-                return newListEntry;
+                // Create a container that can hold either a record or a zone indicator
+                var container = new VisualElement();
+                container.style.flexGrow = 1;
+                return container;
             };
             _eventLeaderboardRecordsList.bindItem = (item, index) =>
             {
-                var view = item.userData as EventLeaderboardRecordView;
-                var record = _controller.SelectedEventLeaderboardRecords[index];
-                view?.SetEventLeaderboardRecord(record, _currentEventLeaderboard, _controller.CurrentUsername);
+                item.Clear();
+                var displayItem = _controller.DisplayItems[index];
+
+                if (displayItem.Type == LeaderboardDisplayItem.ItemType.PlayerRecord)
+                {
+                    // Create and bind a player record
+                    var recordElement = _eventLeaderboardRecordTemplate.Instantiate();
+                    var recordView = new EventLeaderboardRecordView();
+                    recordView.SetVisualElement(recordElement);
+                    recordView.SetEventLeaderboardRecord(displayItem.PlayerRecord, _currentEventLeaderboard, _controller.CurrentUsername);
+                    item.Add(recordElement);
+                }
+                else if (displayItem.Type == LeaderboardDisplayItem.ItemType.ZoneIndicator)
+                {
+                    // Create and bind a zone indicator
+                    var zoneElement = _eventLeaderboardZoneTemplate.Instantiate();
+                    var zoneView = new EventLeaderboardZoneView();
+                    zoneView.SetVisualElement(zoneElement);
+                    zoneView.SetZone(displayItem.ZoneType);
+                    item.Add(zoneElement);
+                }
             };
-            _eventLeaderboardRecordsList.itemsSource = _controller.SelectedEventLeaderboardRecords;
+            _eventLeaderboardRecordsList.itemsSource = _controller.DisplayItems;
 
             _eventLeaderboardRecordsScrollView = _eventLeaderboardRecordsList.Q<ScrollView>();
             _eventLeaderboardRecordsScrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
@@ -401,9 +421,9 @@ namespace HiroEventLeaderboards
                 ? "No description set."
                 : eventLeaderboard.Description;
 
-            // Map tier to Bronze/Silver/Gold
+            // Map tier to Bronze/Silver/Gold with tier number
             var (tierName, tierColor) = GetTierNameAndColor(eventLeaderboard.Tier);
-            _selectedEventLeaderboardTierLabel.text = tierName;
+            _selectedEventLeaderboardTierLabel.text = $"Cohort: {tierName} (Tier {eventLeaderboard.Tier})";
             _selectedEventLeaderboardTierLabel.style.color = new StyleColor(Color.white);
 
             var currentTime = DateTimeOffset.FromUnixTimeSeconds(eventLeaderboard.CurrentTimeSec);

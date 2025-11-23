@@ -30,6 +30,7 @@ namespace HiroEventLeaderboards
         [Header("References")]
         [SerializeField] private VisualTreeAsset eventLeaderboardEntryTemplate;
         [SerializeField] private VisualTreeAsset eventLeaderboardRecordTemplate;
+        [SerializeField] private VisualTreeAsset eventLeaderboardZoneTemplate;
 
         private IEventLeaderboardsSystem _eventLeaderboardsSystem;
         private IEconomySystem _economySystem;
@@ -43,6 +44,7 @@ namespace HiroEventLeaderboards
         public string CurrentUsername => _nakamaSystem.Session?.Username;
         public List<IEventLeaderboard> EventLeaderboards { get; } = new();
         public List<IEventLeaderboardScore> SelectedEventLeaderboardRecords { get; } = new();
+        public List<LeaderboardDisplayItem> DisplayItems { get; } = new();
 
         public event Action<ISession, EventLeaderboardsController> OnInitialized;
 
@@ -57,7 +59,7 @@ namespace HiroEventLeaderboards
             coordinator.ReceivedStartSuccess += HandleStartSuccess;
 
             _view = new EventLeaderboardsView(this, coordinator, eventLeaderboardEntryTemplate,
-                eventLeaderboardRecordTemplate);
+                eventLeaderboardRecordTemplate, eventLeaderboardZoneTemplate);
         }
 
         private static void HandleStartError(Exception e)
@@ -119,7 +121,14 @@ namespace HiroEventLeaderboards
 
             // Get detailed event leaderboard info with scores
             var detailedEventLeaderboard = await _eventLeaderboardsSystem.GetEventLeaderboardAsync(_selectedEventLeaderboard.Id);
-            return detailedEventLeaderboard.Scores.ToList();
+            var scores = detailedEventLeaderboard.Scores.ToList();
+
+            // Calculate zone boundaries and create display list
+            var boundaries = EventLeaderboardZoneCalculator.CalculateZones(detailedEventLeaderboard);
+            DisplayItems.Clear();
+            DisplayItems.AddRange(EventLeaderboardZoneCalculator.CreateDisplayList(scores, boundaries));
+
+            return scores;
         }
 
         #endregion
