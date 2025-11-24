@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Readme
   m_EditorClassIdentifier: 
   icon: {fileID: 2800000, guid: 2287ceace33d64348b1c2701d0b0bd2e, type: 3}
-  title: Challenges, powered by Hiro
+  title: Event Leaderboards, powered by Hiro
   sections:
-  - heading: Challenges
-    text: The official sample project for the Hiro Challenges system. Built with minimal
+  - heading: Event Leaderboards
+    text: The official sample project for the Hiro Event Leaderboards system. Built with minimal
       boilerplate so you can easily copy the code into your project and adapt the
       scripts and UI to suit your game.
     linkText: 
@@ -40,7 +40,7 @@ MonoBehaviour:
   - heading: 
     text: 
     linkText: Hiro Unity Client SDK Guide
-    url: https://heroiclabs.com/docs/hiro/unity/challenges/
+    url: https://heroiclabs.com/docs/hiro/unity/event-leaderboards/
   - heading: 
     text: 
     linkText: Learn about Hiro
