@@ -18,36 +18,30 @@ using Hiro;
 namespace HiroEventLeaderboards
 {
     /// <summary>
-    /// Utility class for consistent time-related calculations across event leaderboards.
+    /// Utility class for time-related calculations across event leaderboards.
     /// </summary>
     public static class EventLeaderboardTimeUtility
     {
-        /// <summary>
-        /// Calculates the time remaining for an event leaderboard.
-        /// </summary>
-        /// <param name="eventLeaderboard">The event leaderboard</param>
-        /// <returns>TimeSpan representing time remaining, or TimeSpan.Zero if ended</returns>
         public static TimeSpan GetTimeRemaining(IEventLeaderboard eventLeaderboard)
         {
-            var currentTime = DateTimeOffset.FromUnixTimeSeconds(eventLeaderboard.CurrentTimeSec);
-            var endTime = DateTimeOffset.FromUnixTimeSeconds(eventLeaderboard.EndTimeSec);
-            var timeRemaining = endTime - currentTime;
-
-            // Return zero if event has ended or is not active
-            if (!eventLeaderboard.IsActive || timeRemaining.TotalSeconds <= 0)
+            // Return zero if event is not active
+            if (!eventLeaderboard.IsActive)
             {
                 return TimeSpan.Zero;
             }
 
-            return timeRemaining;
+            var nowUnix = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            var endUnix = eventLeaderboard.EndTimeSec;
+
+            var secondsRemaining = System.Math.Max(0, endUnix - nowUnix);
+
+            return TimeSpan.FromSeconds(secondsRemaining);
         }
 
         /// <summary>
         /// Formats a time duration conditionally showing only relevant units.
         /// Examples: "3h 25m", "2d 5h", "45m"
         /// </summary>
-        /// <param name="duration">The duration to format</param>
-        /// <returns>Formatted string representation of the duration</returns>
         public static string FormatTimeDuration(TimeSpan duration)
         {
             if (duration.TotalMinutes < 1)
@@ -67,39 +61,41 @@ namespace HiroEventLeaderboards
 
             return $"{duration.Minutes}m";
         }
-
-        /// <summary>
-        /// Gets the current time for an event leaderboard.
-        /// </summary>
-        public static DateTimeOffset GetCurrentTime(IEventLeaderboard eventLeaderboard)
-        {
-            return DateTimeOffset.FromUnixTimeSeconds(eventLeaderboard.CurrentTimeSec);
-        }
-
-        /// <summary>
-        /// Gets the start time for an event leaderboard.
-        /// </summary>
+        
         public static DateTimeOffset GetStartTime(IEventLeaderboard eventLeaderboard)
         {
             return DateTimeOffset.FromUnixTimeSeconds(eventLeaderboard.StartTimeSec);
         }
 
-        /// <summary>
-        /// Gets the end time for an event leaderboard.
-        /// </summary>
         public static DateTimeOffset GetEndTime(IEventLeaderboard eventLeaderboard)
         {
             return DateTimeOffset.FromUnixTimeSeconds(eventLeaderboard.EndTimeSec);
         }
 
-        /// <summary>
-        /// Checks if an event has started.
-        /// </summary>
         public static bool HasStarted(IEventLeaderboard eventLeaderboard)
         {
-            var currentTime = GetCurrentTime(eventLeaderboard);
-            var startTime = GetStartTime(eventLeaderboard);
-            return currentTime >= startTime;
+            var nowUnix = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            var startUnix = eventLeaderboard.StartTimeSec;
+            return nowUnix >= startUnix;
+        }
+
+        /// <summary>
+        /// Calculates the time until the next start of an event leaderboard.
+        /// </summary>
+        public static TimeSpan GetTimeUntilNextStart(IEventLeaderboard eventLeaderboard)
+        {
+            // ExpiryTimeSec is 0 when there is no next iteration (series has ended)
+            if (eventLeaderboard.ExpiryTimeSec == 0)
+            {
+                return TimeSpan.Zero;
+            }
+
+            var nowUnix = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            var expiryUnix = eventLeaderboard.ExpiryTimeSec;
+
+            var secondsUntilNext = System.Math.Max(0, expiryUnix - nowUnix);
+
+            return TimeSpan.FromSeconds(secondsUntilNext);
         }
     }
 }
