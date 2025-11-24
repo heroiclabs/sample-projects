@@ -235,7 +235,7 @@ namespace HiroEventLeaderboards
             _eventLeaderboardsList.selectionChanged += objects => _ = SelectEventLeaderboard();
 
             _eventLeaderboardsScrollView = _eventLeaderboardsList.Q<ScrollView>();
-            _eventLeaderboardsScrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
+            _eventLeaderboardsScrollView.verticalScrollerVisibility = ScrollerVisibility.Auto;
         }
 
         private void InitializeModals(VisualElement rootElement)
@@ -486,11 +486,11 @@ namespace HiroEventLeaderboards
             // 2. Event can be rolled after claiming rewards (to re-join)
             _rollButton.style.display = ((isActive && !userHasJoined) || canRoll) ? DisplayStyle.Flex : DisplayStyle.None;
 
-            // Debug buttons are always shown when event is active (developer tools)
+            // Debug buttons are only shown when event is active AND user has joined (developer tools)
             if (_debugFillButton != null)
-                _debugFillButton.style.display = isActive ? DisplayStyle.Flex : DisplayStyle.None;
+                _debugFillButton.style.display = (isActive && userHasJoined) ? DisplayStyle.Flex : DisplayStyle.None;
             if (_debugRandomScoresButton != null)
-                _debugRandomScoresButton.style.display = isActive ? DisplayStyle.Flex : DisplayStyle.None;
+                _debugRandomScoresButton.style.display = (isActive && userHasJoined) ? DisplayStyle.Flex : DisplayStyle.None;
 
             // Show dev tools section when an event is selected
             if (_devToolsPanel != null)
@@ -673,7 +673,7 @@ namespace HiroEventLeaderboards
             
             _infoResetScheduleLabel.text = string.IsNullOrEmpty(resetScheduleDesc)
                 ? $"<b>Reset schedule:</b> N/A"
-                : $"<b>Reset schedule:</b> ({resetScheduleDesc})";
+                : $"<b>Reset schedule:</b> {resetScheduleDesc}";
 
             // Calculate duration in human-readable format
             var durationSeconds = (leaderboard.EndTimeSec - leaderboard.StartTimeSec);
