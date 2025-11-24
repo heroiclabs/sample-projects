@@ -176,7 +176,7 @@
             },
             "start_time_sec": 0,
             "end_time_sec": 0,
-            "duration": 3000
+            "duration": 3300
         },
         "puzzle_and_monsters": {
             "name": "Puzzle and Monsters",
@@ -399,15 +399,15 @@
         },
         "desire_for_speed": {
             "name": "Desire for Speed",
-            "description": "Race against time! Clear the featured track as fast as possible to beat your opponents.",
+            "description": "Clear the featured track as fast as possible to beat your opponents.",
             "category": "Speedrun",
             "ascending": true,
             "operator": "best",
-            "reset_schedule": "*/30 * * * *",
+            "reset_schedule": "0 * * * *",
             "cohort_size": 30,
             "additional_properties": {
-                "description": "30-minute speedrun trial using change zones. Ascending (lower is better) with best score operator. Up to 5 attempts per player.",
-                "reset_schedule_desc": "every 30 minutes",
+                "description": "Hourly speedrun trial using change zones. Ascending (lower is better) with best score operator. Up to 5 attempts per player.",
+                "reset_schedule_desc": "every hour",
                 "icon": "icon_energy_green"
             },
             "max_num_score": 5,
@@ -632,7 +632,7 @@
             },
             "start_time_sec": 0,
             "end_time_sec": 0,
-            "duration": 1500
+            "duration": 3300
         }
     }
 }
