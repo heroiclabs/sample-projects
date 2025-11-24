@@ -8,7 +8,7 @@
             <ui:VisualElement style="flex-direction: row; justify-content: space-between; margin-bottom: 5px;">
                 <ui:Label text="Event Leaderboard Name" name="name" class="heroic-list-view__item-label" style="font-size: 32px; -unity-text-align: middle-left; -unity-font-style: bold; flex-grow: 1;" />
                 <ui:VisualElement name="status-container" style="align-items: center; justify-content: center; min-width: 100px;">
-                    <ui:Label text="Active" name="status" class="heroic-list-view__item-label" style="font-size: 22px; -unity-text-align: middle-center; color: rgb(255, 255, 255); padding-left: 15px; padding-right: 15px; padding-top: 5px; padding-bottom: 5px; background-image: url(&quot;project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/UI_etc/label_grade_white.png?fileID=2800000&amp;guid=c40d7dffb4df1488f9b7f20aeff89382&amp;type=3#label_grade_white&quot;); -unity-slice-left: 15; -unity-slice-top: 15; -unity-slice-right: 15; -unity-slice-bottom: 15;" />
+                    <ui:Label text="Active" name="status" class="heroic-list-view__item-label" style="font-size: 22px; -unity-text-align: middle-center; color: rgb(255, 255, 255); padding-left: 15px; padding-right: 15px; padding-top: 5px; padding-bottom: 5px; background-image: url(&quot;project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/UI_etc/label_grade_white.png?fileID=2800000&amp;guid=5145962f13c304f13898fbf4b7b52197&amp;type=3#label_grade_white&quot;); -unity-slice-left: 15; -unity-slice-top: 15; -unity-slice-right: 15; -unity-slice-bottom: 15;" />
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement style="flex-direction: row; justify-content: space-between;">
@@ -17,7 +17,7 @@
                     <ui:Label text="Weekly" name="category" class="heroic-list-view__item-label" style="font-size: 24px; -unity-text-align: middle-left;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="time-remaining-container" style="flex-direction: row; align-items: center; margin-top: 5px;">
-                    <ui:Label text="Time Left:" name="time-remaining-label" class="heroic-list-view__item-label" style="font-size: 22px; -unity-text-align: middle-left; color: rgb(150, 150, 150); margin-right: 8px;" />
+                    <ui:Label text="Time left:" name="time-remaining-label" parse-escape-sequences="true" class="heroic-list-view__item-label" style="font-size: 22px; -unity-text-align: middle-left; color: rgb(150, 150, 150); margin-right: 8px;" />
                     <ui:Label text="5d 12h 30m" name="time-remaining" class="heroic-list-view__item-label" style="font-size: 22px; -unity-text-align: middle-left; color: rgb(255, 152, 0);" />
                 </ui:VisualElement>
             </ui:VisualElement>

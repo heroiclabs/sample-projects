@@ -44,7 +44,7 @@
                             <ui:Label name="empty-state-message" text="No records to display" style="font-size: 28px; color: rgb(150, 150, 150); -unity-text-align: middle-center; white-space: normal;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="event-leaderboard-actions" style="padding-top: 15px; padding-right: 20px; padding-bottom: 15px; padding-left: 20px; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; display: flex; align-items: center; justify-content: space-between; height: 190px; flex-direction: row;">
+                    <ui:VisualElement name="event-leaderboard-actions" style="padding-top: 15px; padding-right: 20px; padding-bottom: 15px; padding-left: 20px; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; display: flex; align-items: center; justify-content: center; height: 190px; flex-direction: row;">
                         <ui:Button text="Submit score" name="event-leaderboard-submit-score" class="heroic-button" style="display: none; height: 80px; padding-right: 32px; padding-left: 32px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px;" />
                         <ui:Button text="Claim rewards" name="event-leaderboard-claim" class="heroic-button" style="display: none; height: 80px; padding-right: 32px; padding-left: 32px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px;" />
                         <ui:Button text="Join event" name="event-leaderboard-roll" class="heroic-button" style="display: none; height: 80px; padding-right: 32px; padding-left: 32px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px;" />
@@ -95,11 +95,17 @@
                     <ui:Label text="DEBUG RANDOM SCORES" class="heroic-title" style="color: rgb(255, 255, 255); -unity-text-align: middle-center; flex-grow: 1;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="debug-random-scores-modal-bottom" style="height: 85%; align-self: center; align-items: center; width: 100%; padding-left: 30px; padding-right: 30px; padding-top: 30px; padding-bottom: 30px; margin-bottom: 30px;">
-                    <ui:IntegerField label="Min Score" value="1" name="debug-min-score" style="width: 100%; margin-bottom: 15px;" />
-                    <ui:IntegerField label="Max Score" value="100" name="debug-max-score" style="width: 100%; margin-bottom: 15px;" />
+                    <ui:VisualElement style="flex-direction: row; width: 100%; margin-bottom: 15px; align-items: center; justify-content: flex-start;">
+                        <ui:IntegerField label="Min score" value="1" name="debug-min-score" style="flex-grow: 1;" />
+                        <ui:Label text="to" style="font-size: 24px; margin-left: 10px; margin-right: 10px; color: rgb(150, 150, 150); height: auto; flex-grow: 0; align-self: center; align-content: stretch; margin-top: 20px;" />
+                        <ui:IntegerField label="Max score" value="100" name="debug-max-score" style="flex-grow: 1;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement style="flex-direction: row; width: 100%; margin-bottom: 15px; align-items: center;">
+                        <ui:IntegerField label="Min subscore" value="1" name="debug-subscore-min" style="flex-grow: 1;" />
+                        <ui:Label text="to" style="font-size: 24px; margin-left: 10px; margin-right: 10px; color: rgb(150, 150, 150); margin-top: 20px;" />
+                        <ui:IntegerField label="Max subscore" value="100" name="debug-subscore-max" style="flex-grow: 1;" />
+                    </ui:VisualElement>
                     <ui:EnumField label="Operator" value="Set" name="debug-operator" type="Nakama.ApiOperator, Nakama" style="width: 100%; margin-bottom: 15px;" />
-                    <ui:IntegerField label="Min Subscore" value="1" name="debug-subscore-min" style="width: 100%; margin-bottom: 15px;" />
-                    <ui:IntegerField label="Max Subscore" value="100" name="debug-subscore-max" style="width: 100%; margin-bottom: 15px;" />
                     <ui:Label text="Assign random scores to all players in the cohort (does not change your score)." style="font-size: 18px; color: rgb(150, 150, 150); margin-bottom: 20px; white-space: normal;" />
                     <ui:Button text="Randomize" name="debug-random-scores-modal-submit" class="heroic-button" style="margin-top: 20px;" />
                 </ui:VisualElement>
