@@ -11,12 +11,25 @@
         <ui:VisualElement style="width: 100%; height: 100%;">
             <ui:VisualElement name="store-container" class="heroic-main__panel" style="flex-grow: 1; padding: 20px; border-radius: 15px; background-color: rgba(255, 255, 255, 0.05);">
                 <ui:VisualElement name="featured-container" style="flex-direction: row; margin-bottom: 20px; min-height: 400px; height: 80%;">
+                    <!-- Featured Item (Pink background - shown in Featured tab) -->
                     <ui:VisualElement name="featured-item" style="width: 380px; background-color: rgb(255, 158, 158); border-radius: 20px; padding: 30px; align-items: center; justify-content: space-between; position: relative; margin-right: 20px;">
                         <ui:Label name="featured-badge" text="x5 VALUE" style="position: absolute; top: 20px; right: 20px; background-color: rgb(219, 112, 219); color: white; padding: 8px 15px; border-radius: 20px; font-size: 16px; -unity-font-style: bold;" />
                         <ui:VisualElement name="featured-icon" style="width: 200px; height: 200px; margin-top: 20px; margin-bottom: 20px;" />
                         <ui:Label name="featured-name" text="Starter Pack" style="font-size: 32px; -unity-font-style: bold; color: white; margin-bottom: 20px; -unity-text-align: middle-center;" />
                         <ui:Button name="featured-purchase-button" style="width: 200px; height: 50px; background-color: white; border-radius: 25px; border-width: 0;">
                             <ui:Label name="featured-price" text="$10.99" style="color: rgb(255, 158, 158); font-size: 24px; -unity-font-style: bold;" />
+                        </ui:Button>
+                    </ui:VisualElement>
+                    <!-- Lootbox Item (Blue background - shown in Deals tab) -->
+                    <ui:VisualElement name="lootbox-item" style="width: 380px; background-color: rgb(100, 149, 237); border-radius: 20px; padding: 30px; align-items: center; justify-content: space-between; position: relative; margin-right: 20px; display: none;">
+                        <ui:Label name="lootbox-badge" text="MYSTERY BOX" style="position: absolute; top: 20px; right: 20px; background-color: rgb(255, 215, 0); color: rgb(50, 50, 50); padding: 8px 15px; border-radius: 20px; font-size: 16px; -unity-font-style: bold;" />
+                        <ui:VisualElement name="lootbox-icon" style="width: 200px; height: 200px; margin-top: 20px; margin-bottom: 20px;" />
+                        <ui:Label name="lootbox-name" text="Mystery Lootbox" style="font-size: 32px; -unity-font-style: bold; color: white; margin-bottom: 20px; -unity-text-align: middle-center;" />
+                        <ui:Button name="lootbox-purchase-button" style="width: 200px; height: 50px; background-color: white; border-radius: 25px; border-width: 0;">
+                            <ui:VisualElement style="flex-direction: row; align-items: center; justify-content: center;">
+                                <ui:VisualElement name="lootbox-cost-icon" style="width: 30px; height: 30px; margin-right: 10px;" />
+                                <ui:Label name="lootbox-price" text="500" style="color: rgb(100, 149, 237); font-size: 24px; -unity-font-style: bold;" />
+                            </ui:VisualElement>
                         </ui:Button>
                     </ui:VisualElement>
                     <ui:ScrollView horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Auto" style="flex-grow: 1;">

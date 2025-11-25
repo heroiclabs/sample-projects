@@ -56,6 +56,7 @@ namespace HiroStore
         private StoreTab _currentTab = StoreTab.Featured;
         private EconomyListStoreItem _selectedItem;
         private EconomyListStoreItem _featuredItem;
+        private EconomyListStoreItem _lootboxItem;
 
         #region Initialization
 
@@ -138,9 +139,14 @@ namespace HiroStore
 
                 Debug.Log($"Loaded {StoreItems.Count} store items");
 
-                // Find featured item (you can customize this logic)
+                // Find featured item for Featured tab
                 _featuredItem = (EconomyListStoreItem)StoreItems.FirstOrDefault(item => 
                     item.Category == "featured" || item.Name.ToLower().Contains("starter"));
+
+                // Find lootbox item for Deals tab
+                _lootboxItem = (EconomyListStoreItem)StoreItems.FirstOrDefault(item => 
+                    item.Category == "lootbox" || item.Name.ToLower().Contains("lootbox") || 
+                    item.Name.ToLower().Contains("mystery"));
 
                 await _view.RefreshStoreDisplay();
             }
@@ -156,7 +162,7 @@ namespace HiroStore
             return _currentTab switch
             {
                 StoreTab.Deals => StoreItems.Where(item => 
-                    item.Category == "deals").ToList(),
+                    item.Category == "deals" && item != _lootboxItem).ToList(),
                 StoreTab.Featured => StoreItems.Where(item => 
                     item.Category == "currency" && item != _featuredItem).ToList(),
                 StoreTab.Resources => StoreItems.Where(item => 
@@ -174,6 +180,8 @@ namespace HiroStore
         public StoreTab GetCurrentTab() => _currentTab;
 
         public EconomyListStoreItem GetFeaturedItem() => _featuredItem;
+
+        public EconomyListStoreItem GetLootboxItem() => _lootboxItem;
 
         #endregion
 

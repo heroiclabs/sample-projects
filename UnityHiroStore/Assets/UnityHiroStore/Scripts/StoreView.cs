@@ -37,6 +37,15 @@ namespace HiroStore
         private Label _featuredPrice;
         private VisualElement _featuredCurrencyIcon;
 
+        // Lootbox Item Elements
+        private VisualElement _lootboxItem;
+        private VisualElement _lootboxIcon;
+        private Label _lootboxName;
+        private Label _lootboxBadge;
+        private Button _lootboxPurchaseButton;
+        private Label _lootboxPrice;
+        private VisualElement _lootboxCostIcon;
+
         // Modals
         private VisualElement _purchaseModal;
         private VisualElement _modalItemIcon;
@@ -115,6 +124,21 @@ namespace HiroStore
                 if (featured != null) ShowPurchaseModal(featured);
             });
 
+            // Lootbox Item
+            _lootboxItem = root.Q<VisualElement>("lootbox-item");
+            _lootboxIcon = root.Q<VisualElement>("lootbox-icon");
+            _lootboxName = root.Q<Label>("lootbox-name");
+            _lootboxBadge = root.Q<Label>("lootbox-badge");
+            _lootboxPurchaseButton = root.Q<Button>("lootbox-purchase-button");
+            _lootboxPrice = root.Q<Label>("lootbox-price");
+            _lootboxCostIcon = root.Q<VisualElement>("lootbox-cost-icon");
+
+            _lootboxPurchaseButton.RegisterCallback<ClickEvent>(_ => 
+            {
+                var lootbox = _controller.GetLootboxItem();
+                if (lootbox != null) ShowPurchaseModal(lootbox);
+            });
+
             // Purchase Modal
             _purchaseModal = root.Q<VisualElement>("purchase-modal");
             _modalItemIcon = root.Q<VisualElement>("modal-item-icon");
@@ -162,9 +186,37 @@ namespace HiroStore
 
         public async Task RefreshStoreDisplay()
         {
-            PopulateFeaturedItem();
+            UpdateFeaturedAndLootboxDisplay();
             PopulateStoreGrid();
             UpdateTabButtons();
+        }
+
+        private void UpdateFeaturedAndLootboxDisplay()
+        {
+            var currentTab = _controller.GetCurrentTab();
+            
+            if (currentTab == StoreController.StoreTab.Deals)
+            {
+                // Show lootbox, hide featured
+                _featuredItem.style.display = DisplayStyle.None;
+                _lootboxItem.style.display = DisplayStyle.Flex;
+                
+                PopulateLootboxItem();
+            }
+            else if (currentTab == StoreController.StoreTab.Featured)
+            {
+                // Show featured, hide lootbox
+                _featuredItem.style.display = DisplayStyle.Flex;
+                _lootboxItem.style.display = DisplayStyle.None;
+                
+                PopulateFeaturedItem();
+            }
+            else
+            {
+                // Hide both for Resources tab
+                _featuredItem.style.display = DisplayStyle.None;
+                _lootboxItem.style.display = DisplayStyle.None;
+            }
         }
 
         private void PopulateFeaturedItem()
@@ -173,11 +225,11 @@ namespace HiroStore
             
             if (featured == null)
             {
-                _featuredContainer.style.display = DisplayStyle.None;
+                _featuredItem.style.display = DisplayStyle.None;
                 return;
             }
 
-            _featuredContainer.style.display = DisplayStyle.Flex;
+            _featuredItem.style.display = DisplayStyle.Flex;
 
             // Set icon
             var featuredIcon = _controller.GetItemIcon(featured.Id);
@@ -204,6 +256,46 @@ namespace HiroStore
             }
         }
 
+        private void PopulateLootboxItem()
+        {
+            var lootbox = _controller.GetLootboxItem();
+            
+            if (lootbox == null)
+            {
+                _lootboxItem.style.display = DisplayStyle.None;
+                return;
+            }
+
+            _lootboxItem.style.display = DisplayStyle.Flex;
+
+            // Set icon
+            var lootboxIcon = _controller.GetItemIcon(lootbox.Id);
+            if (lootboxIcon != null)
+            {
+                _lootboxIcon.style.backgroundImage = new StyleBackground(lootboxIcon);
+            }
+
+            // Set name
+            _lootboxName.text = lootbox.Name;
+
+            // Set badge if applicable
+            if (lootbox.AdditionalProperties != null && lootbox.AdditionalProperties.ContainsKey("badge"))
+            {
+                _lootboxBadge.text = lootbox.AdditionalProperties["badge"];
+            }
+            else
+            {
+                _lootboxBadge.text = "MYSTERY BOX";
+            }
+
+            // Set price
+            SetLootboxPrice(lootbox);
+
+            // Update affordability
+            bool canAfford = _controller.CanAffordItem(lootbox);
+            _lootboxPurchaseButton.SetEnabled(canAfford);
+        }
+
         private void SetFeaturedPrice(EconomyListStoreItem featured)
         {
             // Hide currency icon by default
@@ -213,7 +305,7 @@ namespace HiroStore
             }
             
             // Soft currency purchase
-            else if (featured.Cost.Currencies.Count > 0)
+            if (featured.Cost.Currencies.Count > 0)
             {
                 var primaryCurrency = _controller.GetPrimaryCurrency(featured);
                 var amount = _controller.GetPrimaryCurrencyAmount(featured);
@@ -238,6 +330,42 @@ namespace HiroStore
             }
         }
 
+        private void SetLootboxPrice(EconomyListStoreItem lootbox)
+        {
+            // Real money purchase
+            if (!string.IsNullOrEmpty(lootbox.Cost.Sku))
+            {
+                _lootboxPrice.text = lootbox.Cost.Sku;
+                _lootboxCostIcon.style.display = DisplayStyle.None;
+            }
+            // Soft currency purchase
+            else if (lootbox.Cost.Currencies.Count > 0)
+            {
+                var primaryCurrency = _controller.GetPrimaryCurrency(lootbox);
+                var amount = _controller.GetPrimaryCurrencyAmount(lootbox);
+                
+                // Set currency icon if available
+                var currencyIcon = _controller.GetCurrencyIcon(primaryCurrency);
+                if (currencyIcon != null)
+                {
+                    _lootboxCostIcon.style.backgroundImage = new StyleBackground(currencyIcon);
+                    _lootboxCostIcon.style.display = DisplayStyle.Flex;
+                }
+                else
+                {
+                    _lootboxCostIcon.style.display = DisplayStyle.None;
+                }
+                
+                _lootboxPrice.text = amount.ToString();
+            }
+            // Free
+            else
+            {
+                _lootboxPrice.text = "FREE";
+                _lootboxCostIcon.style.display = DisplayStyle.None;
+            }
+        }
+
         private void PopulateStoreGrid()
         {
             _storeGrid.Clear();
@@ -248,6 +376,10 @@ namespace HiroStore
             {
                 // Skip the featured item in the grid
                 if (item == _controller.GetFeaturedItem())
+                    continue;
+
+                // Skip the lootbox item in the grid
+                if (item == _controller.GetLootboxItem())
                     continue;
 
                 CreateStoreItemSlot(item);

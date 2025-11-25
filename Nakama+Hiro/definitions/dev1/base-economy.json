@@ -262,6 +262,41 @@
         }
       }
     },
+    "lucky_chest": {
+          "name": "Lucky Chest",
+          "category": "lootbox",
+          "cost": {
+              "currencies": {
+                  "gems": 199
+              }
+          },
+          "reward": {
+              "weighted": [
+                  {
+                      "currencies": {
+                          "coins": {
+                              "min": 1000,
+                              "max": 2000,
+                              "multiple": 100
+                          }
+                      },
+                      "weight": 1
+                  },
+                  {
+                      "currencies": {
+                          "coins": {
+                              "min": 20000,
+                              "max": 30000,
+                              "multiple": 1000
+                          }
+                      },
+                      "weight": 9
+                  }
+              ],
+              "total_weight": 10,
+              "max_rolls": 1
+          }
+    },
     "key": {
       "name": "Key",
       "description": "Unlock special content!",
