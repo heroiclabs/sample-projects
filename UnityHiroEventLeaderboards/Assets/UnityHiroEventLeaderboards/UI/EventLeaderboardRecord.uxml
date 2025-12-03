@@ -1,0 +1,26 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
+    <ui:VisualElement name="record-container" style="flex-grow: 1; flex-direction: row; padding-left: 10px; padding-right: 10px; justify-content: space-between; height: 110px; margin-right: 10px; background-image: url(&quot;project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Background/bg_rounded_white_bg.png?fileID=2800000&amp;guid=98ba2fcee9bd34a079fb250f7777ea69&amp;type=3#bg_rounded_white_bg&quot;); -unity-slice-left: 25; -unity-slice-top: 25; -unity-slice-right: 25; -unity-slice-bottom: 25; -unity-background-image-tint-color: rgb(238, 238, 238); margin-left: 10px; margin-top: 10px; align-items: center;">
+        <ui:VisualElement style="background-color: rgb(132, 154, 255); border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; align-items: center; justify-content: center; width: 90px; height: 75px; margin-right: 15px; flex-shrink: 0;">
+            <ui:Label text="#1" name="rank" class="heroic-list-view__item-label" style="font-size: 36px; -unity-text-align: middle-center; color: rgb(255, 255, 255); -unity-font-style: bold; overflow: visible; text-overflow: clip;" />
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-grow: 1; justify-content: center;">
+            <ui:Label text="Username" name="username" class="heroic-list-view__item-label" style="-unity-text-align: middle-left; font-size: 32px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; -unity-font-style: bold;" />
+        </ui:VisualElement>
+        <ui:VisualElement style="justify-content: center; align-items: flex-end; min-width: 120px; flex-direction: row; width: 40%;">
+            <ui:VisualElement name="medal-container" style="flex-direction: column; align-items: center; justify-content: center; margin-right: 15px; width: 60px; display: flex;">
+                <ui:VisualElement name="medal-gold" style="width: 50px; height: 50px; background-image: url(&quot;project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/IconItem/128/icon_medal_gold.png?fileID=2800000&amp;guid=fde9f4ba9e91d47a883f4d13ffa1d2ae&amp;type=3#icon_medal_gold&quot;); display: none;" />
+                <ui:VisualElement name="medal-silver" style="width: 50px; height: 50px; background-image: url(&quot;project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/IconItem/128/icon_medal_silver.png?fileID=2800000&amp;guid=52f12da67fc064d03bf0cc9bd8d7af35&amp;type=3#icon_medal_silver&quot;); display: none;" />
+                <ui:VisualElement name="medal-bronze" style="width: 50px; height: 50px; background-image: url(&quot;project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/IconItem/128/icon_medal_bronze.png?fileID=2800000&amp;guid=8e29ecad29d7949408e3ffaec8614cc4&amp;type=3#icon_medal_bronze&quot;); display: none;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="flex-direction: column; align-items: center; width: 50%;">
+                <ui:Label text="Score" class="heroic-list-view__item-label" style="font-size: 20px; color: rgb(150, 150, 150);" />
+                <ui:Label text="0" name="score" class="heroic-list-view__item-label" style="-unity-text-align: lower-center; font-size: 36px; -unity-font-style: bold; color: rgb(76, 175, 80); white-space: nowrap; text-overflow: clip;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="flex-direction: column; align-items: center; margin-bottom: 2px; width: 50%;">
+                <ui:Label text="Sub Score" class="heroic-list-view__item-label" style="font-size: 20px; color: rgb(150, 150, 150);" />
+                <ui:Label text="0" name="sub-score" class="heroic-list-view__item-label" style="-unity-text-align: lower-center; font-size: 36px; color: rgb(150, 150, 150); margin-left: 8px; text-overflow: ellipsis; white-space: nowrap;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

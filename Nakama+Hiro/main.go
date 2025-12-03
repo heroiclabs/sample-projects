@@ -63,7 +63,8 @@ func InitModule(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runti
 		hiro.WithBaseSystem(fmt.Sprintf("definitions/%s/base-system.json", env), true),
 		hiro.WithLeaderboardsSystem(fmt.Sprintf("definitions/%s/base-leaderboards.json", env), true),
 		hiro.WithChallengesSystem(fmt.Sprintf("definitions/%s/base-challenges.json", env), true),
-		hiro.WithEconomySystem(fmt.Sprintf("definitions/%s/base-economy.json", env), true))
+		hiro.WithEconomySystem(fmt.Sprintf("definitions/%s/base-economy.json", env), true),
+		hiro.WithEventLeaderboardsSystem(fmt.Sprintf("definitions/%s/base-event-leaderboards.json", env), true))
 	if err != nil {
 		return err
 	}

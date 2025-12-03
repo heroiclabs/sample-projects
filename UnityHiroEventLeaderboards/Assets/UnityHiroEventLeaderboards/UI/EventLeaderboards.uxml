@@ -1,0 +1,140 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="WalletDisplay" src="project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/CustomComponents/WalletDisplay.uxml?fileID=9197481963319205126&amp;guid=77e1a552d086b48229afe31d3c5002aa&amp;type=3#WalletDisplay" />
+    <ui:Template name="ErrorPopup" src="project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/CustomComponents/ErrorPopup.uxml?fileID=9197481963319205126&amp;guid=0104c211a1dfc4d17b2607e880de676f&amp;type=3#ErrorPopup" />
+    <Style src="project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
+    <ui:VisualElement name="event-leaderboards-top" class="heroic-top__background">
+        <ui:Label text="EVENT LEADERBOARDS" enable-rich-text="true" class="heroic-title" />
+        <ui:Instance template="WalletDisplay" name="wallet-display" style="position: absolute; right: 0; height: 100%; top: 0;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="event-leaderboards-main" class="heroic-main__background">
+        <ui:VisualElement name="main-left" style="width: 50%; padding-top: 30px; padding-right: 30px; padding-bottom: 30px; padding-left: 30px;">
+            <ui:VisualElement style="height: 15%; flex-direction: row; justify-content: space-evenly; align-items: center;">
+                <ui:VisualElement style="flex-direction: row; justify-content: space-around;">
+                    <ui:Button text="Events" name="my-event-leaderboards-tab" class="heroic-horizontal-tab-button selected" style="width: 450px;">
+                        <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
+                    </ui:Button>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:ListView fixed-item-height="150" name="event-leaderboards-list" style="flex-grow: 1; margin-bottom: 10px;" />
+            <ui:Button text="Refresh" name="event-leaderboards-refresh" class="heroic-button-square" style="align-self: flex-start;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="main-right" style="width: 50%; align-self: stretch; align-items: stretch; flex-direction: column;">
+            <ui:VisualElement style="margin-top: 30px; margin-right: 30px; margin-bottom: 30px; flex-grow: 1;">
+                <ui:VisualElement name="selected-event-leaderboard-panel" class="heroic-main__panel" style="height: 30%; flex-grow: 1; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
+                    <ui:VisualElement name="event-leaderboard-header" style="height: 30%; background-color: rgb(132, 154, 255); border-top-left-radius: 15px; border-top-right-radius: 15px; padding-top: 20px; padding-bottom: 20px;">
+                        <ui:VisualElement style="flex-direction: row; justify-content: flex-start; align-items: center; height: 30%; margin-bottom: 5px; padding-left: 20px; padding-right: 20px;">
+                            <ui:Button name="event-info-button" class="heroic-button-square" style="width: 36px; height: 36px; background-image: url(&quot;project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/IconPictogram/Trimmed/icon_info_round.png?fileID=5594067324049312358&amp;guid=d3463420244634fb8811b1c4207f6b03&amp;type=3#icon_info_round_0&quot;); border-radius: 20px; padding: 0; margin: 0; -unity-background-scale-mode: scale-to-fit; -unity-background-image-tint-color: rgb(255, 255, 255); -unity-slice-left: 0; -unity-slice-top: 0; -unity-slice-right: 0; -unity-slice-bottom: 0; margin-left: 0; margin-top: 8px; margin-right: 16px;" />
+                            <ui:Label text="Event Leaderboard Name" name="selected-event-leaderboard-name" class="heroic-title" style="color: rgb(255, 255, 255); margin-top: 0; margin-right: 5px; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: middle-center;" />
+                        </ui:VisualElement>
+                        <ui:Label text="Event leaderboard description goes here." name="selected-event-leaderboard-description" class="heroic-title" style="font-size: 24px; color: rgb(255, 255, 255); overflow: visible; white-space: normal; height: 30%; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 75px; padding-bottom: 0; padding-left: 75px; -unity-font-style: normal; align-content: center; -unity-text-align: middle-left; align-items: stretch; align-self: flex-start;" />
+                        <ui:VisualElement style="height: 40%; flex-direction: row; justify-content: space-between; align-items: center; padding-left: 75px; padding-right: 75px;">
+                            <ui:VisualElement name="tier-container" style="flex-direction: row; align-items: center; justify-content: flex-start;">
+                                <ui:VisualElement style="width: 42px; height: 42px; background-image: url(&quot;project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/IconPictogram/128/icon_ranking.png?fileID=2800000&amp;guid=6d0d265fca7204e989dd41152bdcc8ec&amp;type=3#icon_ranking&quot;); margin-right: 8px;" />
+                                <ui:Label text="Bronze" name="selected-event-leaderboard-tier" class="heroic-title" style="font-size: 24px; color: rgb(255, 255, 255); -unity-font-style: bold;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement style="flex-direction: row; align-items: center; justify-content: flex-start;">
+                                <ui:VisualElement style="width: 42px; height: 42px; background-image: url(&quot;project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/IconPictogram/128/icon_timer.png?fileID=2800000&amp;guid=6e2698a2461b043f483c3c1eda1770ea&amp;type=3#icon_timer&quot;); margin-right: 5px;" />
+                                <ui:Label text="5d 12h" name="selected-event-leaderboard-time-remaining" class="heroic-title" style="font-size: 24px; color: rgb(255, 255, 255);" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement style="height: 55%; flex-grow: 1; flex-shrink: 0; position: relative;">
+                        <ui:ListView name="event-leaderboard-records-list" fixed-item-height="110" style="flex-grow: 1;" />
+                        <ui:VisualElement name="empty-state-container" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: none; align-items: center; justify-content: center; padding: 40px;">
+                            <ui:Label name="empty-state-message" text="No records to display" style="font-size: 28px; color: rgb(150, 150, 150); -unity-text-align: middle-center; white-space: normal;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="event-leaderboard-actions" style="padding-top: 15px; padding-right: 20px; padding-bottom: 15px; padding-left: 20px; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; display: flex; align-items: center; justify-content: center; height: 190px; flex-direction: row;">
+                        <ui:Button text="Submit score" name="event-leaderboard-submit-score" class="heroic-button" style="display: none; height: 80px; padding-right: 32px; padding-left: 32px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px;" />
+                        <ui:Button text="Claim rewards" name="event-leaderboard-claim" class="heroic-button" style="display: none; height: 80px; padding-right: 32px; padding-left: 32px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px;" />
+                        <ui:Button text="Join event" name="event-leaderboard-roll" class="heroic-button" style="display: none; height: 80px; padding-right: 32px; padding-left: 32px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px;" />
+                        <ui:Button text="Debug fill" name="event-leaderboard-debug-fill" class="heroic-button" style="margin-right: 10px; display: none; height: 80px; padding-right: 32px; padding-left: 32px; margin-top: 10px; margin-bottom: 10px; margin-left: 10px; background-image: url(&quot;project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Button/button_rounded_h84_white_shadow.png?fileID=-1247119682716566457&amp;guid=4f539c64ecb59456bab590ecc5a4be5a&amp;type=3#button_rounded_h84_white_shadow_0&quot;); -unity-background-image-tint-color: rgb(255, 255, 255); color: rgb(32, 49, 82);" />
+                        <ui:Button text="Debug scores" name="event-leaderboard-debug-random-scores" class="heroic-button" style="height: 80px; padding-right: 32px; padding-left: 32px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px; display: none; color: rgb(32, 49, 82); background-image: url(&quot;project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Button/button_rounded_h84_white_shadow.png?fileID=-1247119682716566457&amp;guid=4f539c64ecb59456bab590ecc5a4be5a&amp;type=3#button_rounded_h84_white_shadow_0&quot;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement template="ErrorPopup" name="submit-score-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
+        <Style src="project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
+        <ui:VisualElement name="submit-score-modal-background" class="heroic-error-popup__background" style="flex-grow: 0;">
+            <ui:VisualElement name="submit-score-modal-panel" class="heroic-main__panel" style="height: auto; width: 700px;">
+                <ui:VisualElement name="submit-score-modal-top" style="height: 15%; background-color: rgb(132, 154, 255); border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                    <ui:Label text="SUBMIT SCORE" class="heroic-title" style="color: rgb(255, 255, 255); -unity-text-align: middle-center; flex-grow: 1;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="submit-score-modal-bottom" style="height: 85%; align-self: center; align-items: center; width: 100%; padding-left: 30px; padding-right: 30px; padding-top: 30px; padding-bottom: 30px; margin-bottom: 30px;">
+                    <ui:IntegerField label="Score" value="0" name="submit-score-score" style="width: 100%; margin-bottom: 15px;" />
+                    <ui:IntegerField label="Subscore" value="0" name="submit-score-subscore" style="width: 100%; margin-bottom: 15px;" />
+                    <ui:Button text="Submit" name="submit-score-modal-submit" class="heroic-button" style="margin-top: 20px;" />
+                </ui:VisualElement>
+                <ui:Button name="submit-score-modal-close" class="heroic-close-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement template="ErrorPopup" name="debug-fill-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
+        <Style src="project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
+        <ui:VisualElement name="debug-fill-modal-background" class="heroic-error-popup__background">
+            <ui:VisualElement name="debug-fill-modal-panel" class="heroic-main__panel" style="height: auto; width: 700px;">
+                <ui:VisualElement name="debug-fill-modal-top" style="height: 15%; background-color: rgb(132, 154, 255); border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                    <ui:Label text="DEBUG FILL" class="heroic-title" style="color: rgb(255, 255, 255); -unity-text-align: middle-center; flex-grow: 1;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="debug-fill-modal-bottom" style="height: 85%; align-self: center; align-items: center; width: 100%; padding-left: 30px; padding-right: 30px; padding-top: 30px; padding-bottom: 30px; margin-bottom: 30px;">
+                    <ui:IntegerField label="Target Count" value="50" name="debug-fill-target-count" style="width: 100%; margin-bottom: 15px;" />
+                    <ui:Label text="Fill the event leaderboard with dummy users up to the target count." style="font-size: 18px; color: rgb(150, 150, 150); margin-bottom: 20px; white-space: normal;" />
+                    <ui:Button text="Fill" name="debug-fill-modal-fill" class="heroic-button" style="margin-top: 20px;" />
+                </ui:VisualElement>
+                <ui:Button name="debug-fill-modal-close" class="heroic-close-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement template="ErrorPopup" name="debug-random-scores-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
+        <Style src="project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
+        <ui:VisualElement name="debug-random-scores-modal-background" class="heroic-error-popup__background">
+            <ui:VisualElement name="debug-random-scores-modal-panel" class="heroic-main__panel" style="height: auto; width: 700px;">
+                <ui:VisualElement name="debug-random-scores-modal-top" style="height: 15%; background-color: rgb(132, 154, 255); border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                    <ui:Label text="DEBUG RANDOM SCORES" class="heroic-title" style="color: rgb(255, 255, 255); -unity-text-align: middle-center; flex-grow: 1;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="debug-random-scores-modal-bottom" style="height: 85%; align-self: center; align-items: center; width: 100%; padding-left: 30px; padding-right: 30px; padding-top: 30px; padding-bottom: 30px; margin-bottom: 30px;">
+                    <ui:VisualElement style="flex-direction: row; width: 100%; margin-bottom: 15px; align-items: center; justify-content: flex-start;">
+                        <ui:IntegerField label="Min score" value="1" name="debug-min-score" style="flex-grow: 1;" />
+                        <ui:Label text="to" style="font-size: 24px; margin-left: 10px; margin-right: 10px; color: rgb(150, 150, 150); height: auto; flex-grow: 0; align-self: center; align-content: stretch; margin-top: 20px;" />
+                        <ui:IntegerField label="Max score" value="100" name="debug-max-score" style="flex-grow: 1;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement style="flex-direction: row; width: 100%; margin-bottom: 15px; align-items: center;">
+                        <ui:IntegerField label="Min subscore" value="1" name="debug-subscore-min" style="flex-grow: 1;" />
+                        <ui:Label text="to" style="font-size: 24px; margin-left: 10px; margin-right: 10px; color: rgb(150, 150, 150); margin-top: 20px;" />
+                        <ui:IntegerField label="Max subscore" value="100" name="debug-subscore-max" style="flex-grow: 1;" />
+                    </ui:VisualElement>
+                    <ui:EnumField label="Operator" value="Set" name="debug-operator" type="Nakama.ApiOperator, Nakama" style="width: 100%; margin-bottom: 15px;" />
+                    <ui:Label text="Assign random scores to all players in the cohort (does not change your score)." style="font-size: 18px; color: rgb(150, 150, 150); margin-bottom: 20px; white-space: normal;" />
+                    <ui:Button text="Randomize" name="debug-random-scores-modal-submit" class="heroic-button" style="margin-top: 20px;" />
+                </ui:VisualElement>
+                <ui:Button name="debug-random-scores-modal-close" class="heroic-close-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:Instance template="ErrorPopup" name="error-popup" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: none;" />
+    <ui:VisualElement template="ErrorPopup" name="event-info-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
+        <Style src="project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
+        <ui:VisualElement name="event-info-modal-background" class="heroic-error-popup__background">
+            <ui:VisualElement name="event-info-modal-panel" class="heroic-main__panel" style="height: auto; width: 900px; max-height: 85%;">
+                <ui:VisualElement name="event-info-modal-top" style="height: auto; background-color: rgb(132, 154, 255); border-top-left-radius: 15px; border-top-right-radius: 15px; padding: 20px;">
+                    <ui:Label text="EVENT DETAILS (DEBUG)" class="heroic-title" style="color: rgb(255, 255, 255); -unity-text-align: middle-center;" />
+                </ui:VisualElement>
+                <ui:ScrollView name="event-info-modal-scroll" style="flex-grow: 1; max-height: 650px; padding: 20px;">
+                    <ui:VisualElement name="event-info-content" style="padding: 10px;">
+                        <ui:Label text="&lt;b&gt;Event ID:&lt;/b&gt; puzzle_championship" name="info-id" enable-rich-text="true" style="font-size: 24px; margin-bottom: 10px; white-space: normal;" />
+                        <ui:Label text="&lt;b&gt;Operator:&lt;/b&gt; best" name="info-operator" enable-rich-text="true" style="font-size: 24px; margin-bottom: 10px; white-space: normal;" />
+                        <ui:Label text="&lt;b&gt;Reset schedule:&lt;/b&gt; 0 */2 * * * (every 2 hours)" name="info-reset-schedule" enable-rich-text="true" style="font-size: 24px; margin-bottom: 10px; white-space: normal;" />
+                        <ui:Label text="&lt;b&gt;Cohort size:&lt;/b&gt; 50" name="info-cohort-size" enable-rich-text="true" style="font-size: 24px; margin-bottom: 10px; white-space: normal;" />
+                        <ui:Label text="&lt;b&gt;Ascending:&lt;/b&gt; false (lower scores are better)" name="info-ascending" enable-rich-text="true" style="font-size: 24px; margin-bottom: 10px; white-space: normal;" />
+                        <ui:Label text="&lt;b&gt;Duration:&lt;/b&gt; 110 minutes" name="info-max-idle-tier-drop" enable-rich-text="true" style="font-size: 24px; margin-bottom: 10px; white-space: normal;" />
+                        <ui:Label text="&lt;b&gt;Change zones:&lt;/b&gt;\nTier 0: Promotion 30%, Demotion 0%, Demote idle: false" name="info-change-zones" enable-rich-text="true" style="font-size: 24px; margin-bottom: 10px; white-space: normal;" />
+                        <ui:Label text="&lt;b&gt;Reward tiers:&lt;/b&gt;\n&lt;b&gt;Tier 0&lt;/b&gt;\nRank 1-5: +1 tier" name="info-reward-tiers" enable-rich-text="true" style="font-size: 24px; margin-bottom: 10px; white-space: normal;" />
+                    </ui:VisualElement>
+                </ui:ScrollView>
+                <ui:Button name="event-info-modal-close" class="heroic-close-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
