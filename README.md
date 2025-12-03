@@ -15,6 +15,7 @@ Ready-to-use templates for **Nakama** game development. Download, play, and copy
 **Hiro Templates**
 
 -   [Challenges](./UnityHiroChallenges/) - Compete against friends in different game modes.
+-   [Event Leaderboards](./UnityHiroEventLeaderboards/) - Create cohort-based leaderboards with tiered progression.
 
 ## Documentation
 
