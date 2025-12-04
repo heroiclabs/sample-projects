@@ -2,13 +2,13 @@ console:
     max_message_size_bytes: 409600
 leaderboard:
     blacklist_rank_cache:
-    - "*"
+        - "*"
 logger:
     level: "DEBUG"
 runtime:
     env:
-    - "ENV=dev1"
-    - "HIRO_LICENSE="
+        - "ENV=dev1"
+        - "HIRO_LICENSE=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmlhbCI6ZmFsc2UsIm5hbWUiOiJIZXJvaWMgTGFicyIsInNlYXRzIjoxLCJpc3N1ZV90aW1lIjoxNzQ3NjUxNzY0LCJleHBpcnlfdGltZSI6MTc3OTE4Nzc2NCwiZ3JhY2Vfc2VjIjoyNDE5MjAwfQ.ilMmwbSi5u7uMYSnUwIQ8-pbPeW1zNPrsE4pJhmCOV97W2il4vjkuXS5xXw01AsIQ2pq8N5SJGDliTPOfLCaTRuEmm8qdZdq5FhlwFR1uoVCTPCeGHsuO0KRERu4nsvwvt0HtLL5CnT9DlXi4x8Vs91NhcalpqnWEEZDmhazfKqclTS9Pd9wq_OAhWAld4JwlRa0v5ZwKfn9C42_AxsjqTrRogVi19Op3AR4r9wNGcbK6R448FUwmU14jnV5DkSv9vNvzEQXGicx0Dqw_7Qh2R-nw3xYE0ZRwUqxJEAhcJhBWXeWUfwLvBWH9rX1nnQpcYdSx6Gfdfgi_x2IZekWpg"
 session:
     token_expiry_sec: 86400 # 24 hours
     refresh_token_expiry_sec: 604800 # 7 days
