@@ -113,13 +113,6 @@ namespace HiroStore
                     _bonusBadge.style.display = DisplayStyle.Flex;
                 }
             }
-
-            // Check if free (will override badge if present)
-            if (IsFreeItem(item))
-            {
-                _itemBadge.text = "FREE";
-                _itemBadge.style.display = DisplayStyle.Flex;
-            }
         }
 
         private void SetupPurchaseButton(IEconomyListStoreItem item)
@@ -154,10 +147,10 @@ namespace HiroStore
         private void SetupSoftCurrencyButton(IEconomyListStoreItem item)
         {
             _currencyPurchaseButton.style.display = DisplayStyle.Flex;
-            
+
             var primaryCurrency = _controller.GetPrimaryCurrency((EconomyListStoreItem)item);
             var amount = _controller.GetPrimaryCurrencyAmount(item);
-            
+
             // Set currency icon
             var currencyIcon = _controller.GetCurrencyIcon(primaryCurrency);
             if (currencyIcon != null)
@@ -167,19 +160,6 @@ namespace HiroStore
 
             // Set currency amount
             _currencyAmount.text = amount.ToString();
-
-            // Visual feedback for affordability
-            bool canAfford = _controller.CanAffordItem(item);
-            if (!canAfford)
-            {
-                _currencyPurchaseButton.SetEnabled(false);
-                _currencyPurchaseButton.style.backgroundColor = new StyleColor(new Color(0.5f, 0.5f, 0.5f, 1f));
-            }
-            else
-            {
-                _currencyPurchaseButton.SetEnabled(true);
-                _currencyPurchaseButton.style.backgroundColor = new StyleColor(new Color(132f/255f, 154f/255f, 1f, 1f));
-            }
         }
 
         private bool IsFreeItem(IEconomyListStoreItem item)
@@ -197,33 +177,6 @@ namespace HiroStore
             _currencyPurchaseButton?.RegisterCallback(callback);
             _moneyPurchaseButton?.RegisterCallback(callback);
             _freeButton?.RegisterCallback(callback);
-        }
-
-        public void SetHighlight(bool highlighted)
-        {
-            if (highlighted)
-            {
-                var highlightColor = new Color(64f/255f, 224f/255f, 208f/255f, 1f);
-                _root.style.borderTopColor = new StyleColor(highlightColor);
-                _root.style.borderBottomColor = new StyleColor(highlightColor);
-                _root.style.borderLeftColor = new StyleColor(highlightColor);
-                _root.style.borderRightColor = new StyleColor(highlightColor);
-                _root.style.borderTopWidth = 3;
-                _root.style.borderBottomWidth = 3;
-                _root.style.borderLeftWidth = 3;
-                _root.style.borderRightWidth = 3;
-            }
-            else
-            {
-                _root.style.borderTopColor = new StyleColor(Color.clear);
-                _root.style.borderBottomColor = new StyleColor(Color.clear);
-                _root.style.borderLeftColor = new StyleColor(Color.clear);
-                _root.style.borderRightColor = new StyleColor(Color.clear);
-                _root.style.borderTopWidth = 0;
-                _root.style.borderBottomWidth = 0;
-                _root.style.borderLeftWidth = 0;
-                _root.style.borderRightWidth = 0;
-            }
         }
     }
 }

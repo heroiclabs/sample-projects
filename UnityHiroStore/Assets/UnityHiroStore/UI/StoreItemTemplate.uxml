@@ -1,5 +1,5 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement name="store-item-slot" style="width: 15%; height: 50%; margin: 10px; background-color: rgb(240, 241, 243); border-radius: 15px; padding: 15px; align-items: center; justify-content: space-between; position: relative; border-left-color: rgb(214, 215, 223); border-right-color: rgb(214, 215, 223); border-top-color: rgb(214, 215, 223); border-bottom-color: rgb(214, 215, 223); border-top-width: 10px; border-right-width: 10px; border-bottom-width: 10px; border-left-width: 10px; min-width: 200px; min-height: 300px;">
+    <ui:VisualElement name="store-item-slot" style="width: auto; height: auto; margin: 10px; border-radius: 15px; padding: 15px; align-items: center; justify-content: space-between; position: relative; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; min-width: 300px; min-height: 300px; max-width: 390px; max-height: 350px; margin-top: 0; background-image: url(&quot;project://database/Assets/UnityHiroStore/HeroicUI/Tab/tab_01_white_bg_default.png?fileID=-7469057409206181842&amp;guid=833e01ea4d81a481eb2abe3f8b2defed&amp;type=3#tab_01_white_bg_default_0&quot;); -unity-slice-left: 10; -unity-slice-top: 10; -unity-slice-right: 20; -unity-slice-bottom: 10;">
         <ui:VisualElement name="Top" language-direction="Inherit" style="position: relative; top: auto; right: auto; flex-direction: row; align-items: flex-end; height: 36px; width: 190px;">
             <ui:VisualElement name="badge-container" style="position: absolute; top: -19px; right: -23px; flex-direction: row; align-items: flex-end; rotate: 34deg; height: 58px; width: 75px; display: flex;">
                 <ui:Label name="bonus-badge" text="+300&#10;Bonus" style="display: none; background-color: rgb(64, 224, 208); color: rgb(255, 255, 255); padding: 5px 10px; border-radius: 15px; font-size: 12px; -unity-font-style: bold; -unity-text-align: upper-center; white-space: nowrap; height: 46px; width: 75px;" />
@@ -8,18 +8,18 @@
         <ui:VisualElement name="badge-container" language-direction="Inherit" style="position: absolute; top: -4px; right: 42px; flex-direction: row; align-items: flex-end; height: 36px; width: 151px; display: flex;">
             <ui:Label name="item-badge" text="FREE" language-direction="Inherit" style="display: none; background-color: rgb(147, 112, 219); color: rgb(255, 255, 255); padding: 5px 10px; border-radius: 15px; font-size: 12px; -unity-font-style: bold; margin-bottom: 5px; -unity-text-align: middle-left; white-space: nowrap; overflow: hidden;" />
         </ui:VisualElement>
-        <ui:VisualElement name="item-icon" style="width: 128px; height: 128px; background-color: rgba(132, 154, 255, 0.1); border-radius: 10px; margin-top: 10px; margin-bottom: 10px; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; -unity-slice-type: sliced; -unity-background-scale-mode: scale-and-crop;" />
+        <ui:VisualElement name="item-icon" style="width: 192px; height: 192px; background-color: rgba(0, 0, 0, 0); margin-top: 10px; margin-bottom: 10px; -unity-background-scale-mode: scale-to-fit; overflow: visible;" />
         <ui:Label name="item-amount" text="1000" style="font-size: 24px; -unity-font-style: bold; color: rgb(0, 0, 0); margin-bottom: 5px;" />
         <ui:VisualElement name="purchase-container" style="width: 100%; align-items: center;">
-            <ui:Button name="currency-purchase-button" style="width: 100%; height: 40px; background-color: rgb(132, 154, 255); border-radius: 20px; border-width: 0; display: flex; flex-direction: row; align-items: center; justify-content: center; padding: 0;">
-                <ui:VisualElement name="currency-icon" style="width: 24px; height: 24px; margin-right: 5px; background-color: rgba(255, 255, 255, 0.3); border-radius: 12px;" />
-                <ui:Label name="currency-amount" text="350" style="color: rgb(255, 255, 255); font-size: 18px; -unity-font-style: bold;" />
+            <ui:Button name="currency-purchase-button" class="store-item-button" style="display: flex;">
+                <ui:VisualElement name="currency-icon" style="width: 24px; height: 24px; margin-right: 5px;" />
+                <ui:Label name="currency-amount" text="350" />
             </ui:Button>
-            <ui:Button name="money-purchase-button" style="width: 100%; height: 40px; background-color: rgb(132, 154, 255); border-radius: 20px; border-width: 0; display: none;">
-                <ui:Label name="price-label" text="$3.99" style="color: rgb(255, 255, 255); font-size: 18px; -unity-font-style: bold;" />
+            <ui:Button name="money-purchase-button" class="store-item-button" style="display: none;">
+                <ui:Label name="price-label" text="$3.99" />
             </ui:Button>
-            <ui:Button name="free-button" style="width: 100%; height: 40px; background-color: rgb(200, 200, 200); border-radius: 20px; border-width: 0; display: none;">
-                <ui:Label text="FREE" style="color: rgb(132, 154, 255); font-size: 18px; -unity-font-style: bold;" />
+            <ui:Button name="free-button" class="store-item-button store-item-button--free" style="display: none;">
+                <ui:Label text="FREE" />
             </ui:Button>
         </ui:VisualElement>
     </ui:VisualElement>

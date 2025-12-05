@@ -409,15 +409,11 @@ namespace HiroStore
         private void UpdateTabButtons()
         {
             var currentTab = _controller.GetCurrentTab();
-            var activeColor = new Color(132f / 255f, 154f / 255f, 255f / 255f, 1f);
-            var inactiveColor = new Color(132f / 255f, 154f / 255f, 255f / 255f, 0.2f);
 
-            _tabDeals.style.backgroundColor = currentTab == StoreController.StoreTab.Deals 
-                ? new StyleColor(activeColor) : new StyleColor(inactiveColor);
-            _tabFeatured.style.backgroundColor = currentTab == StoreController.StoreTab.Featured 
-                ? new StyleColor(activeColor) : new StyleColor(inactiveColor);
-            _tabResources.style.backgroundColor = currentTab == StoreController.StoreTab.Resources 
-                ? new StyleColor(activeColor) : new StyleColor(inactiveColor);
+            // Toggle the 'selected' class on each tab based on current selection
+            _tabDeals.EnableInClassList("selected", currentTab == StoreController.StoreTab.Deals);
+            _tabFeatured.EnableInClassList("selected", currentTab == StoreController.StoreTab.Featured);
+            _tabResources.EnableInClassList("selected", currentTab == StoreController.StoreTab.Resources);
         }
 
         #endregion
