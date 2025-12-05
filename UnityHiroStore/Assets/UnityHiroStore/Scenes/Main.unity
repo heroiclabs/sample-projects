@@ -308,7 +308,7 @@ GameObject:
   - component: {fileID: 1350379567}
   - component: {fileID: 1350379568}
   m_Layer: 0
-  m_Name: HiroInventory
+  m_Name: HiroStore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -368,22 +368,26 @@ MonoBehaviour:
   itemIconMappings:
   - itemId: starter_pack
     icon: {fileID: 3944290700555534273, guid: cbb64d88a966a4408a01870b5a95fbdb, type: 3}
-  - itemId: gems_20
-    icon: {fileID: -2393766674097040171, guid: 50fddcad4278c4549af0ba95a47ab9e7, type: 3}
-  - itemId: bomb
-    icon: {fileID: 1996048190166631823, guid: 239daefcee8c34448936bf5ec71b371e, type: 3}
-  - itemId: gems_400
+  - itemId: gems_500
     icon: {fileID: 6914003639015951727, guid: 054fe83591ff046e89344f59d98d8aae, type: 3}
+  - itemId: gems_1000
+    icon: {fileID: 8263917951045151403, guid: 33e1aae2b5d1d4774ab0a7bcc6cfc6a3, type: 3}
+  - itemId: gems_2000
+    icon: {fileID: -1207233957396233476, guid: 61886c27cd5c24e27b8034f1da943441, type: 3}
+  - itemId: gems_5000
+    icon: {fileID: -1077162195667718523, guid: 13f044dc61cb240cc9279e4aa7b6b6cc, type: 3}
+  - itemId: coins_500
+    icon: {fileID: 5323416431931247887, guid: 17e0aeaeab52448c89f2ef8f55f429fd, type: 3}
+  - itemId: coins_1000
+    icon: {fileID: 9076855744671337443, guid: 9a97381afbd604ec88c4b11438aad864, type: 3}
+  - itemId: coins_2000
+    icon: {fileID: -8169955672604759640, guid: a1a3f2bec2a764a659f0c82cf099da61, type: 3}
+  - itemId: coins_5000
+    icon: {fileID: -1834601727760964032, guid: b4e282ca4e8e647218810f4afa9ee4bd, type: 3}
   - itemId: potion
     icon: {fileID: 1188792238481573301, guid: 9c4eb9c4dee3149ebb37bdc0ada990b4, type: 3}
-  - itemId: gems_2000
-    icon: {fileID: 8263917951045151403, guid: 33e1aae2b5d1d4774ab0a7bcc6cfc6a3, type: 3}
-  - itemId: coins_1000
-    icon: {fileID: -5783113326861504038, guid: 5f8f5ad33c70a437b8a0dd6326b1b229, type: 3}
-  - itemId: coins_5000
-    icon: {fileID: 5323416431931247887, guid: 17e0aeaeab52448c89f2ef8f55f429fd, type: 3}
-  - itemId: coins_10000
-    icon: {fileID: -8169955672604759640, guid: a1a3f2bec2a764a659f0c82cf099da61, type: 3}
+  - itemId: bomb
+    icon: {fileID: 1996048190166631823, guid: 239daefcee8c34448936bf5ec71b371e, type: 3}
   - itemId: bonus_defense
     icon: {fileID: 473728356293506998, guid: 10cf24350db0647e9992653e46101bad, type: 3}
   - itemId: bonus_attack
