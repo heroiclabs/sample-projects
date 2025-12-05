@@ -3,7 +3,7 @@ using UnityEditor;
 using System.IO;
 using System.Reflection;
 
-namespace UnityNakamaTournaments.Editor
+namespace NakamaTournaments.Editor
 {
     [CustomEditor(typeof(Readme))]
     [InitializeOnLoad]

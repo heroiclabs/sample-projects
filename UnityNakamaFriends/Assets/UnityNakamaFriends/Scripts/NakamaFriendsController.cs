@@ -5,7 +5,7 @@ using Nakama;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace UnityNakamaFriends
+namespace NakamaFriends
 {
     [RequireComponent(typeof(UIDocument))]
     public class NakamaFriendsController : MonoBehaviour
