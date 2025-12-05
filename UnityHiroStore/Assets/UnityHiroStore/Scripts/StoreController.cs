@@ -48,12 +48,11 @@ namespace HiroStore
 
         public enum StoreTab
         {
-            Deals,
-            Featured,
-            Resources
+            Currency,
+            Items
         }
 
-        private StoreTab _currentTab = StoreTab.Featured;
+        private StoreTab _currentTab = StoreTab.Currency;
         private EconomyListStoreItem _selectedItem;
         private EconomyListStoreItem _featuredItem;
         private EconomyListStoreItem _lootboxItem;
@@ -161,12 +160,10 @@ namespace HiroStore
         {
             return _currentTab switch
             {
-                StoreTab.Deals => StoreItems.Where(item => 
-                    item.Category == "deals" && item != _lootboxItem).ToList(),
-                StoreTab.Featured => StoreItems.Where(item => 
+                StoreTab.Currency => StoreItems.Where(item =>
                     item.Category == "currency" && item != _featuredItem).ToList(),
-                StoreTab.Resources => StoreItems.Where(item => 
-                    item.Category == "resources").ToList(),
+                StoreTab.Items => StoreItems.Where(item =>
+                    (item.Category == "resources" || item.Category == "lootbox") && item != _lootboxItem).ToList(),
                 _ => StoreItems.ToList()
             };
         }

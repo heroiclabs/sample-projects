@@ -9,7 +9,7 @@
     <ui:VisualElement name="store-main" class="heroic-main__background" style="padding: 30px; align-items: center; justify-content: flex-start;">
         <ui:VisualElement style="width: 100%; height: 100%;">
             <ui:VisualElement name="store-container" class="heroic-main__panel" style="flex-grow: 1; padding: 20px; border-radius: 15px; background-image: none; align-items: stretch; padding-left: 40px; padding-right: 40px;">
-                <ui:VisualElement name="featured-container" style="flex-direction: row; margin-bottom: 20px; min-height: 400px; height: 80%; flex-grow: 1;">
+                <ui:VisualElement name="featured-container" style="flex-direction: row; margin-bottom: 20px; min-height: 400px; height: 80%; flex-grow: 1; align-self: auto; align-items: stretch; padding-left: 40px;">
                     <ui:VisualElement name="featured-item" style="width: 380px; background-color: rgb(255, 158, 158); border-radius: 20px; padding: 30px; align-items: center; justify-content: space-between; position: relative; margin-right: 20px;">
                         <ui:Label name="featured-badge" text="x5 VALUE" style="position: absolute; top: 20px; right: 20px; background-color: rgb(219, 112, 219); color: white; padding: 8px 15px; border-radius: 20px; font-size: 16px; -unity-font-style: bold;" />
                         <ui:VisualElement name="featured-icon" style="width: 200px; height: 200px; margin-top: 20px; margin-bottom: 20px;" />
@@ -29,19 +29,16 @@
                             </ui:VisualElement>
                         </ui:Button>
                     </ui:VisualElement>
-                    <ui:ScrollView horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Hidden" style="flex-grow: 1; align-items: flex-start;">
+                    <ui:ScrollView horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Hidden" style="flex-grow: 1; align-content: stretch; justify-content: space-around;">
                         <ui:VisualElement name="store-grid" style="flex-direction: row; flex-wrap: wrap; justify-content: flex-start; padding: 10px;" />
                     </ui:ScrollView>
                 </ui:VisualElement>
                 <ui:VisualElement name="button-row" style="flex-direction: row; justify-content: center; align-items: center; margin-top: 20px; padding: 10px; overflow: visible; width: 100%;">
                     <ui:VisualElement name="tab-navigation" style="flex-direction: row; justify-content: center; align-items: center; overflow: visible;">
-                        <ui:Button text="Deals" name="tab-deals" class="heroic-horizontal-tab-button">
+                        <ui:Button text="Currency" name="tab-currency" class="heroic-horizontal-tab-button selected">
                             <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" style="background-image: url(&quot;project://database/Assets/UnityHiroStore/HeroicUI/Tab/tab_01_violet_focus_tail_up.png?fileID=2800000&amp;guid=ab6e09096280e4ba187d353bc57606d7&amp;type=3#tab_01_violet_focus_tail_up&quot;); bottom: auto; top: -40px;" />
                         </ui:Button>
-                        <ui:Button text="Featured" name="tab-featured" class="heroic-horizontal-tab-button selected">
-                            <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" style="background-image: url(&quot;project://database/Assets/UnityHiroStore/HeroicUI/Tab/tab_01_violet_focus_tail_up.png?fileID=2800000&amp;guid=ab6e09096280e4ba187d353bc57606d7&amp;type=3#tab_01_violet_focus_tail_up&quot;); bottom: auto; top: -40px;" />
-                        </ui:Button>
-                        <ui:Button name="tab-resources" text="Resources" class="heroic-horizontal-tab-button">
+                        <ui:Button text="Items" name="tab-items" class="heroic-horizontal-tab-button">
                             <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" style="background-image: url(&quot;project://database/Assets/UnityHiroStore/HeroicUI/Tab/tab_01_violet_focus_tail_up.png?fileID=2800000&amp;guid=ab6e09096280e4ba187d353bc57606d7&amp;type=3#tab_01_violet_focus_tail_up&quot;); bottom: auto; top: -40px;" />
                         </ui:Button>
                     </ui:VisualElement>

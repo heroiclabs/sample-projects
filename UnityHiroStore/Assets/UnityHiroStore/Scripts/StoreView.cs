@@ -21,9 +21,8 @@ namespace HiroStore
         // UI Elements
         private Button _backButton;
         private Button _refreshButton;
-        private Button _tabDeals;
-        private Button _tabFeatured;
-        private Button _tabResources;
+        private Button _tabCurrency;
+        private Button _tabItems;
         
         private VisualElement _featuredContainer;
         private VisualElement _featuredItem;
@@ -93,14 +92,11 @@ namespace HiroStore
             _refreshButton.RegisterCallback<ClickEvent>(async evt => await _controller.RefreshStore());
 
             // Tabs
-            _tabDeals = root.Q<Button>("tab-deals");
-            _tabDeals.RegisterCallback<ClickEvent>(_ => SwitchTab(StoreController.StoreTab.Deals));
+            _tabCurrency = root.Q<Button>("tab-currency");
+            _tabCurrency.RegisterCallback<ClickEvent>(_ => SwitchTab(StoreController.StoreTab.Currency));
 
-            _tabFeatured = root.Q<Button>("tab-featured");
-            _tabFeatured.RegisterCallback<ClickEvent>(_ => SwitchTab(StoreController.StoreTab.Featured));
-
-            _tabResources = root.Q<Button>("tab-resources");
-            _tabResources.RegisterCallback<ClickEvent>(_ => SwitchTab(StoreController.StoreTab.Resources));
+            _tabItems = root.Q<Button>("tab-items");
+            _tabItems.RegisterCallback<ClickEvent>(_ => SwitchTab(StoreController.StoreTab.Items));
 
             // Store Grid
             _storeGrid = root.Q<VisualElement>("store-grid");
@@ -185,26 +181,26 @@ namespace HiroStore
         private void UpdateFeaturedAndLootboxDisplay()
         {
             var currentTab = _controller.GetCurrentTab();
-            
-            if (currentTab == StoreController.StoreTab.Deals)
-            {
-                // Show lootbox, hide featured
-                _featuredItem.style.display = DisplayStyle.None;
-                _lootboxItem.style.display = DisplayStyle.Flex;
-                
-                PopulateLootboxItem();
-            }
-            else if (currentTab == StoreController.StoreTab.Featured)
+
+            if (currentTab == StoreController.StoreTab.Currency)
             {
                 // Show featured, hide lootbox
                 _featuredItem.style.display = DisplayStyle.Flex;
                 _lootboxItem.style.display = DisplayStyle.None;
-                
+
                 PopulateFeaturedItem();
+            }
+            else if (currentTab == StoreController.StoreTab.Items)
+            {
+                // Show lootbox, hide featured
+                _featuredItem.style.display = DisplayStyle.None;
+                _lootboxItem.style.display = DisplayStyle.Flex;
+
+                PopulateLootboxItem();
             }
             else
             {
-                // Hide both for Resources tab
+                // Hide both
                 _featuredItem.style.display = DisplayStyle.None;
                 _lootboxItem.style.display = DisplayStyle.None;
             }
@@ -411,9 +407,8 @@ namespace HiroStore
             var currentTab = _controller.GetCurrentTab();
 
             // Toggle the 'selected' class on each tab based on current selection
-            _tabDeals.EnableInClassList("selected", currentTab == StoreController.StoreTab.Deals);
-            _tabFeatured.EnableInClassList("selected", currentTab == StoreController.StoreTab.Featured);
-            _tabResources.EnableInClassList("selected", currentTab == StoreController.StoreTab.Resources);
+            _tabCurrency.EnableInClassList("selected", currentTab == StoreController.StoreTab.Currency);
+            _tabItems.EnableInClassList("selected", currentTab == StoreController.StoreTab.Items);
         }
 
         #endregion
