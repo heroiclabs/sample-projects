@@ -3,15 +3,13 @@
     <ui:Template name="ErrorPopup" src="project://database/Assets/UnityHiroStore/HeroicUI/CustomComponents/ErrorPopup.uxml?fileID=9197481963319205126&amp;guid=0104c211a1dfc4d17b2607e880de676f&amp;type=3#ErrorPopup" />
     <Style src="project://database/Assets/UnityHiroStore/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
     <ui:VisualElement name="store-top" class="heroic-top__background">
-        <ui:Button name="back-button" text="&lt;" class="heroic-button-square" style="position: absolute; left: 20px; width: 60px; height: 60px; font-size: 32px;" />
         <ui:Label text="SHOP" enable-rich-text="true" class="heroic-title" />
         <ui:Instance template="WalletDisplay" name="wallet-display" style="position: absolute; right: 0; height: 100%; top: 0;" />
     </ui:VisualElement>
     <ui:VisualElement name="store-main" class="heroic-main__background" style="padding: 30px; align-items: center; justify-content: flex-start;">
         <ui:VisualElement style="width: 100%; height: 100%;">
-            <ui:VisualElement name="store-container" class="heroic-main__panel" style="flex-grow: 1; padding: 20px; border-radius: 15px; background-color: rgba(255, 255, 255, 0.05);">
+            <ui:VisualElement name="store-container" class="heroic-main__panel" style="flex-grow: 1; padding: 20px; border-radius: 15px; background-image: none;">
                 <ui:VisualElement name="featured-container" style="flex-direction: row; margin-bottom: 20px; min-height: 400px; height: 80%;">
-                    <!-- Featured Item (Pink background - shown in Featured tab) -->
                     <ui:VisualElement name="featured-item" style="width: 380px; background-color: rgb(255, 158, 158); border-radius: 20px; padding: 30px; align-items: center; justify-content: space-between; position: relative; margin-right: 20px;">
                         <ui:Label name="featured-badge" text="x5 VALUE" style="position: absolute; top: 20px; right: 20px; background-color: rgb(219, 112, 219); color: white; padding: 8px 15px; border-radius: 20px; font-size: 16px; -unity-font-style: bold;" />
                         <ui:VisualElement name="featured-icon" style="width: 200px; height: 200px; margin-top: 20px; margin-bottom: 20px;" />
@@ -20,7 +18,6 @@
                             <ui:Label name="featured-price" text="$10.99" style="color: rgb(255, 158, 158); font-size: 24px; -unity-font-style: bold;" />
                         </ui:Button>
                     </ui:VisualElement>
-                    <!-- Lootbox Item (Blue background - shown in Deals tab) -->
                     <ui:VisualElement name="lootbox-item" style="width: 380px; background-color: rgb(100, 149, 237); border-radius: 20px; padding: 30px; align-items: center; justify-content: space-between; position: relative; margin-right: 20px; display: none;">
                         <ui:Label name="lootbox-badge" text="MYSTERY BOX" style="position: absolute; top: 20px; right: 20px; background-color: rgb(255, 215, 0); color: rgb(50, 50, 50); padding: 8px 15px; border-radius: 20px; font-size: 16px; -unity-font-style: bold;" />
                         <ui:VisualElement name="lootbox-icon" style="width: 200px; height: 200px; margin-top: 20px; margin-bottom: 20px;" />
@@ -36,16 +33,21 @@
                         <ui:VisualElement name="store-grid" style="flex-direction: row; flex-wrap: wrap; justify-content: flex-start; padding: 10px;" />
                     </ui:ScrollView>
                 </ui:VisualElement>
-                <ui:VisualElement name="tab-navigation" style="flex-direction: row; justify-content: center; align-items: center; margin-top: 20px; padding: 10px;">
-                    <ui:Button name="tab-deals" text="Deals" class="heroic-button" style="margin: 0 10px; padding: 15px 30px; background-color: rgba(132, 154, 255, 0.2); width: 158px;">
-                        <ui:Label name="free-badge" text="FREE" style="position: absolute; left: 106px; background-color: rgb(132, 154, 255); color: white; padding: 5px 10px; border-radius: 10px; font-size: 12px; -unity-font-style: bold; top: -3px;" />
-                    </ui:Button>
-                    <ui:VisualElement style="position: relative;">
-                        <ui:Button name="tab-featured" text="Featured" class="heroic-button" style="margin: 0 10px; padding: 15px 30px; background-color: rgb(132, 154, 255);" />
-                        <ui:Label name="new-badge" text="NEW" style="position: absolute; top: -10px; right: -10px; background-color: rgb(219, 112, 219); color: white; padding: 5px 10px; border-radius: 10px; font-size: 12px; -unity-font-style: bold;" />
+                <ui:VisualElement name="tab-row" style="flex-direction: row; justify-content: center; align-items: center; margin-top: 20px; padding: 10px; overflow: visible; width: 100%;">
+                    <ui:VisualElement name="tab-navigation" style="flex-direction: row; justify-content: center; align-items: center; overflow: visible;">
+                        <ui:Button name="tab-deals" text="Deals" class="heroic-horizontal-tab-button">
+                            <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
+                            <ui:Label name="free-badge" text="FREE" style="position: absolute; left: 170px; background-color: rgb(132, 154, 255); color: white; padding: 5px 10px; border-radius: 10px; font-size: 12px; -unity-font-style: bold; top: -3px;" />
+                        </ui:Button>
+                        <ui:Button name="tab-featured" text="Featured" class="heroic-horizontal-tab-button selected">
+                            <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
+                            <ui:Label name="new-badge" text="NEW" style="position: absolute; top: -10px; right: -10px; background-color: rgb(219, 112, 219); color: white; padding: 5px 10px; border-radius: 10px; font-size: 12px; -unity-font-style: bold;" />
+                        </ui:Button>
+                        <ui:Button name="tab-resources" text="Resources" class="heroic-horizontal-tab-button">
+                            <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
+                        </ui:Button>
                     </ui:VisualElement>
-                    <ui:Button name="tab-resources" text="Resources" class="heroic-button" style="margin: 0 10px; padding: 15px 30px; background-color: rgba(132, 154, 255, 0.2);" />
-                    <ui:Button name="refresh-button" text="Refresh" class="heroic-button" style="margin-left: 30px; padding: 15px 40px; background-color: rgb(132, 154, 255);" />
+                    <ui:Button name="refresh-button" text="Refresh" class="heroic-button" style="position: absolute; right: 20px; padding: 15px 40px;" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
