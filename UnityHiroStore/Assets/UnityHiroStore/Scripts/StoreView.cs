@@ -88,10 +88,7 @@ namespace HiroStore
             // Wallet
             _walletDisplay = new WalletDisplay(root.Q<VisualElement>("wallet-display"));
 
-            // Navigation
-            _backButton = root.Q<Button>("back-button");
-            _backButton.RegisterCallback<ClickEvent>(_ => HandleBackButton());
-
+            // Refresh
             _refreshButton = root.Q<Button>("refresh-button");
             _refreshButton.RegisterCallback<ClickEvent>(async evt => await _controller.RefreshStore());
 
@@ -172,12 +169,6 @@ namespace HiroStore
         public void StartObservingWallet()
         {
             _walletDisplay.StartObserving();
-        }
-
-        private void HandleBackButton()
-        {
-            // Navigate back to previous scene or menu
-            Debug.Log("Back button pressed");
         }
 
         #endregion
