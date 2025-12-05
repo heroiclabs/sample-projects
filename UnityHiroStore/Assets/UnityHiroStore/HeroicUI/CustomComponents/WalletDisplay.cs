@@ -57,11 +57,7 @@ namespace HeroicUI
             coinsCanceller = new CancellationTokenSource();
 
             var startGemsValue = float.Parse(gemsLabel.text);
-            float endGemsValue = system.Wallet.GetValueOrDefault(CoinsId, 0);
-            if (system.Wallet.TryGetValue(GemsId, out var gemsValue))
-            {
-                endCoinsValue = gemsValue;
-            }
+            float endGemsValue = system.Wallet.GetValueOrDefault(GemsId, 0);
 
             gemsCanceller?.Cancel();
             gemsCanceller = new CancellationTokenSource(); 
