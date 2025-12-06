@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-namespace HiroInventory.Editor
+namespace HiroAchievements.Editor
 {
     public class AccountSwitcherEditor : EditorWindow
     {
@@ -64,7 +64,7 @@ namespace HiroInventory.Editor
             var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
             foreach (var rootGameObject in rootGameObjects)
             {
-                if (!rootGameObject.TryGetComponent<InventoryController>(out var challengesController)) continue;
+                if (!rootGameObject.TryGetComponent<AchievementsController>(out var challengesController)) continue;
 
                 if (HiroCoordinator.Instance.GetSystem<NakamaSystem>().Session is Session session)
                 {
@@ -77,7 +77,7 @@ namespace HiroInventory.Editor
             }
         }
 
-        private void OnControllerInitialized(ISession session, InventoryController challengesController = null)
+        private void OnControllerInitialized(ISession session, AchievementsController challengesController = null)
         {
             accountUsernames[accountDropdown.choices[0]] = session.Username;
             UpdateUsernameLabels();
@@ -138,9 +138,9 @@ namespace HiroInventory.Editor
             var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
             foreach (var rootGameObject in rootGameObjects)
             {
-                if (!rootGameObject.TryGetComponent<InventoryController>(out var challengesController)) continue;
+                if (!rootGameObject.TryGetComponent<AchievementsController>(out var challengesController)) continue;
 
-                var coordinator = HiroCoordinator.Instance as HiroInventoryCoordinator;
+                var coordinator = HiroCoordinator.Instance as HiroAchievementsCoordinator;
                 if (coordinator == null) return;
                 var nakamaSystem = coordinator.GetSystem<NakamaSystem>();
 
@@ -152,7 +152,7 @@ namespace HiroInventory.Editor
 
                 try
                 {
-                    var newSession = await HiroInventoryCoordinator.NakamaAuthorizerFunc(accountDropdown.index)
+                    var newSession = await HiroAchievementsCoordinator.NakamaAuthorizerFunc(accountDropdown.index)
                         .Invoke(nakamaSystem.Client);
                     (nakamaSystem.Session as Session)?.Update(newSession.AuthToken, newSession.RefreshToken);
                     await nakamaSystem.RefreshAsync();

@@ -1,0 +1,81 @@
+{
+  "achievements": {
+    "achievementId1": {
+      "auto_claim": false,
+      "auto_reset": false,
+      "category": "category1",
+      "count": 0,
+      "reset_cronexpr": "* * * * *",
+      "duration_sec": 86400,
+      "max_count": 10,
+      "name": "name1",
+      "reward": {
+        "guaranteed": {
+          "currencies": {
+            "gold": {
+              "min": 100
+            }
+          },
+          "items": {
+            "hero_card": {
+              "min": 1,
+              "max": 5
+            }
+          }
+        }
+      },
+      "additional_properties": {
+        "propertyName": "value"
+      },
+      "sub_achievements": {}
+    },
+    "achievementId2": {
+      "auto_claim": false,
+      "auto_claim_total": false,
+      "auto_reset": false,
+      "category": "category2",
+      "count": 0,
+      "reset_cronexpr": "* * * * *",
+      "duration_sec": 86400,
+      "max_count": 10,
+      "name": "name2",
+      "reward": {
+        "guaranteed": {
+          "currencies": {
+            "gold": {
+              "min": 100
+            }
+          },
+          "items": {
+            "hero_card": {
+              "min": 1,
+              "max": 5
+            }
+          }
+        }
+      },
+      "total_reward": {
+        "guaranteed": {
+          "currencies": {
+            "gold": {
+              "min": 100
+            }
+          },
+          "items": {
+            "hero_card": {
+              "min": 1,
+              "max": 5
+            }
+          }
+        }
+      },
+      "precondition_ids": [
+        "achievementId1"
+      ],
+      "additional_properties": {
+        "propertyName": "value"
+      },
+      "sub_achievements": {}
+    }
+  }
+}
