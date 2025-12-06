@@ -1,0 +1,26 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="achievement-item-container" style="margin-bottom: 15px; padding: 15px; border-radius: 10px; border-width: 3px; border-color: rgba(198, 195, 228, 0.5); background-color: rgb(255, 255, 255); transition-duration: 0.2s; cursor: link;">
+        <ui:VisualElement style="flex-direction: row; align-items: center;">
+            <!-- Achievement Icon -->
+            <ui:VisualElement name="achievement-icon" style="width: 80px; height: 80px; margin-right: 15px; border-radius: 10px; border-width: 2px; border-color: rgb(200, 200, 200); background-color: rgb(240, 240, 240);">
+                <!-- Icon will be set via code -->
+            </ui:VisualElement>
+            
+            <!-- Achievement Info -->
+            <ui:VisualElement style="flex-grow: 1; justify-content: space-between;">
+                <!-- Name and Status -->
+                <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <ui:Label name="achievement-name" text="Achievement Name" style="font-size: 22px; -unity-font-style: bold; color: rgb(0, 0, 0);" />
+                    <ui:VisualElement name="status-badge" style="padding: 4px 12px; border-radius: 12px; background-color: rgb(100, 180, 100);">
+                        <ui:Label name="status-text" text="Status" style="font-size: 16px; color: rgb(255, 255, 255); -unity-font-style: bold;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                
+                <!-- Progress Bar -->
+                <ui:VisualElement name="achievement-progress-bar" style="height: 20px; background-color: rgb(230, 230, 230); border-radius: 10px; overflow: hidden;">
+                    <ui:VisualElement name="achievement-progress-fill" style="width: 0%; height: 100%; background-color: rgb(132, 154, 255); transition-duration: 0.3s;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
