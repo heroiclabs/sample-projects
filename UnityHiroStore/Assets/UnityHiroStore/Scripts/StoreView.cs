@@ -23,12 +23,10 @@ namespace HiroStore
         private Button _refreshButton;
         private Button _tabCurrency;
         private Button _tabItems;
-        
-        private VisualElement _featuredContainer;
-        private VisualElement _featuredItem;
         private VisualElement _storeGrid;
 
         // Featured Item Elements
+        private VisualElement _featuredItem;
         private VisualElement _featuredIcon;
         private Label _featuredName;
         private Label _featuredBadge;
@@ -102,7 +100,6 @@ namespace HiroStore
             _storeGrid = root.Q<VisualElement>("store-grid");
             
             // Featured Item
-            _featuredContainer = root.Q<VisualElement>("featured-container");
             _featuredItem = root.Q<VisualElement>("featured-item");
             _featuredIcon = root.Q<VisualElement>("featured-icon");
             _featuredName = root.Q<Label>("featured-name");
@@ -232,9 +229,9 @@ namespace HiroStore
             SetFeaturedPrice(featured);
 
             // Set badge if applicable
-            if (featured.AdditionalProperties != null && featured.AdditionalProperties.ContainsKey("badge"))
+            if (featured.AdditionalProperties.TryGetValue("badge", out var property))
             {
-                _featuredBadge.text = featured.AdditionalProperties["badge"];
+                _featuredBadge.text = property;
                 _featuredBadge.style.display = DisplayStyle.Flex;
             }
             else
@@ -266,14 +263,7 @@ namespace HiroStore
             _lootboxName.text = lootbox.Name;
 
             // Set badge if applicable
-            if (lootbox.AdditionalProperties != null && lootbox.AdditionalProperties.ContainsKey("badge"))
-            {
-                _lootboxBadge.text = lootbox.AdditionalProperties["badge"];
-            }
-            else
-            {
-                _lootboxBadge.text = "MYSTERY BOX";
-            }
+            _lootboxBadge.text = lootbox.AdditionalProperties.TryGetValue("badge", out var property) ? property : "MYSTERY BOX";
 
             // Set price
             SetLootboxPrice(lootbox);
