@@ -161,7 +161,10 @@ namespace HiroStore
             return _currentTab switch
             {
                 StoreTab.Currency => StoreItems.Where(item =>
-                    item.Category == "currency" && item != _featuredItem).ToList(),
+                    item.Category == "currency" && item != _featuredItem)
+                    .OrderBy(item => item.Name)
+                    .ThenBy(GetPrimaryCurrencyAmount) 
+                    .ToList(),
                 StoreTab.Items => StoreItems.Where(item =>
                     (item.Category == "resources" || item.Category == "lootbox") && item != _lootboxItem).ToList(),
                 _ => StoreItems.ToList()
