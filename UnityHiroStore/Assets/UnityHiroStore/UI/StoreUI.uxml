@@ -11,8 +11,11 @@
             <ui:VisualElement name="store-items" style="flex-direction: row; margin-bottom: 20px; min-height: 400px; height: 80%; flex-grow: 1; align-self: auto; align-items: stretch; padding-left: 40px;">
                 <ui:VisualElement name="featured-item" style="width: 380px; background-color: rgb(255, 158, 158); border-radius: 20px; padding: 30px; align-items: center; justify-content: space-between; position: relative; margin-right: 20px;">
                     <ui:Label name="featured-badge" text="x5 VALUE" style="position: absolute; top: 20px; right: 20px; background-color: rgb(219, 112, 219); color: white; padding: 8px 15px; border-radius: 20px; font-size: 16px; -unity-font-style: bold;" />
-                    <ui:VisualElement name="featured-icon" style="width: 200px; height: 200px; margin-top: 20px; margin-bottom: 20px;" />
+                    <ui:VisualElement name="featured-icon" style="width: 250px; height: 250px; margin-top: 40px; margin-bottom: 40px;" />
                     <ui:Label name="featured-name" text="Starter Pack" style="font-size: 32px; -unity-font-style: bold; color: white; margin-bottom: 20px; -unity-text-align: middle-center;" />
+                    <ui:VisualElement name="VisualElement" style="flex-grow: 0; height: auto;">
+                        <ui:VisualElement name="featured-value" style="width: 75px; height: 75px; margin-top: 0; margin-bottom: 0;" />
+                    </ui:VisualElement>
                     <ui:Button name="featured-purchase-button" style="width: 200px; height: 50px; background-color: white; border-radius: 25px; border-width: 0;">
                         <ui:Label name="featured-price" text="$10.99" style="color: rgb(255, 158, 158); font-size: 24px; -unity-font-style: bold;" />
                     </ui:Button>

@@ -15,13 +15,9 @@ namespace HiroStore
         private Label _amount;
         private Label _itemBadge;
         private Label _bonusBadge;
-        
-        private Button _currencyPurchaseButton;
-        private Button _moneyPurchaseButton;
-        private Button _freeButton;
-        
+
+        private Button _purchaseButton;
         private VisualElement _currencyIcon;
-        private Label _currencyAmount;
         private Label _priceLabel;
 
         private StoreController _controller;
@@ -40,13 +36,9 @@ namespace HiroStore
             _amount = visualElement.Q<Label>("item-amount");
             _itemBadge = visualElement.Q<Label>("item-badge");
             _bonusBadge = visualElement.Q<Label>("bonus-badge");
-            
-            _currencyPurchaseButton = visualElement.Q<Button>("currency-purchase-button");
-            _moneyPurchaseButton = visualElement.Q<Button>("money-purchase-button");
-            _freeButton = visualElement.Q<Button>("free-button");
-            
+
+            _purchaseButton = visualElement.Q<Button>("purchase-button");
             _currencyIcon = visualElement.Q<VisualElement>("currency-icon");
-            _currencyAmount = visualElement.Q<Label>("currency-amount");
             _priceLabel = visualElement.Q<Label>("price-label");
         }
 
@@ -117,49 +109,40 @@ namespace HiroStore
 
         private void SetupPurchaseButton(IEconomyListStoreItem item)
         {
-            // Hide all buttons first
-            _currencyPurchaseButton.style.display = DisplayStyle.None;
-            _moneyPurchaseButton.style.display = DisplayStyle.None;
-            _freeButton.style.display = DisplayStyle.None;
+            bool isFree = IsFreeItem(item);
 
-            if (IsFreeItem(item))
+            // Toggle the --free modifier class
+            _purchaseButton.EnableInClassList("store-item-button--free", isFree);
+
+            if (isFree)
             {
-                _freeButton.style.display = DisplayStyle.Flex;
-                return;
+                _currencyIcon.style.display = DisplayStyle.None;
+                _priceLabel.text = "FREE";
             }
-
-            if (IsRealMoneyItem(item))
+            else if (IsRealMoneyItem(item))
             {
-                SetupRealMoneyButton(item);
-                return;
+                _currencyIcon.style.display = DisplayStyle.None;
+                _priceLabel.text = item.Cost.Sku;
             }
-
-            // Soft currency purchase
-            SetupSoftCurrencyButton(item);
-        }
-
-        private void SetupRealMoneyButton(IEconomyListStoreItem item)
-        {
-            _moneyPurchaseButton.style.display = DisplayStyle.Flex;
-            _priceLabel.text = item.Cost.Sku;
-        }
-
-        private void SetupSoftCurrencyButton(IEconomyListStoreItem item)
-        {
-            _currencyPurchaseButton.style.display = DisplayStyle.Flex;
-
-            var primaryCurrency = _controller.GetPrimaryCurrency((EconomyListStoreItem)item);
-            var amount = _controller.GetPrimaryCurrencyAmount(item);
-
-            // Set currency icon
-            var currencyIcon = _controller.GetCurrencyIcon(primaryCurrency);
-            if (currencyIcon != null)
+            else
             {
-                _currencyIcon.style.backgroundImage = new StyleBackground(currencyIcon);
-            }
+                // Soft currency purchase
+                var primaryCurrency = _controller.GetPrimaryCurrency((EconomyListStoreItem)item);
+                var amount = _controller.GetPrimaryCurrencyAmount(item);
 
-            // Set currency amount
-            _currencyAmount.text = amount.ToString();
+                var currencyIcon = _controller.GetCurrencyIcon(primaryCurrency);
+                if (currencyIcon != null)
+                {
+                    _currencyIcon.style.backgroundImage = new StyleBackground(currencyIcon);
+                    _currencyIcon.style.display = DisplayStyle.Flex;
+                }
+                else
+                {
+                    _currencyIcon.style.display = DisplayStyle.None;
+                }
+
+                _priceLabel.text = amount.ToString();
+            }
         }
 
         private bool IsFreeItem(IEconomyListStoreItem item)
@@ -174,9 +157,7 @@ namespace HiroStore
 
         public void RegisterPurchaseCallback(EventCallback<ClickEvent> callback)
         {
-            _currencyPurchaseButton?.RegisterCallback(callback);
-            _moneyPurchaseButton?.RegisterCallback(callback);
-            _freeButton?.RegisterCallback(callback);
+            _purchaseButton?.RegisterCallback(callback);
         }
     }
 }
