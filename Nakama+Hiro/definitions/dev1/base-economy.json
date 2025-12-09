@@ -189,6 +189,7 @@
         },
         "loot_box": {
             "name": "Loot Box",
+            "description": "A box filled with random items and currencies.",
             "category": "items",
             "cost": {
                 "currencies": {
@@ -205,17 +206,25 @@
                                 "multiple": 100
                             }
                         },
-                        "weight": 1
+                        "weight": 6
                     },
                     {
-                        "currencies": {
-                            "coins": {
-                                "min": 20000,
-                                "max": 30000,
-                                "multiple": 1000
+                        "items": {
+                            "golden_key": {
+                                "min": 1,
+                                "max": 1
                             }
                         },
-                        "weight": 9
+                        "weight": 3
+                    },
+                    {
+                        "items": {
+                            "evil_eye": {
+                                "min": 1,
+                                "max": 1
+                            }
+                        },
+                        "weight": 1
                     }
                 ],
                 "total_weight": 10,
@@ -227,19 +236,19 @@
                 "theme": "secondary"
             }
         },
-        "bonus_defense": {
-            "name": "Bonus Defense",
-            "description": "Increase your defense!",
+        "iron_sword": {
+            "name": "Iron Sword",
+            "description": "A sharp sword made of iron.",
             "category": "items",
             "cost": {
                 "currencies": {
-                    "coins": 100
+                    "coins": 1000
                 }
             },
             "reward": {
                 "guaranteed": {
                     "items": {
-                        "bonus_defense": {
+                        "iron_sword": {
                             "min": 1,
                             "max": 1
                         }
@@ -249,11 +258,11 @@
         },
         "bomb": {
             "name": "Bomb",
-            "description": "Explosive power!",
+            "description": "Goes BOOM!",
             "category": "items",
             "cost": {
                 "currencies": {
-                    "coins": 200
+                    "coins": 2000
                 }
             },
             "reward": {
@@ -267,19 +276,19 @@
                 }
             }
         },
-        "potion": {
-            "name": "Potion",
-            "description": "Restore your health!",
+        "wooden_shield": {
+            "name": "Wooden Shield",
+            "description": "A basic shield made from reinforced wood.",
             "category": "items",
             "cost": {
                 "currencies": {
-                    "coins": 250
+                    "coins": 2500
                 }
             },
             "reward": {
                 "guaranteed": {
                     "items": {
-                        "potion": {
+                        "wooden_shield": {
                             "min": 1,
                             "max": 1
                         }
@@ -287,19 +296,19 @@
                 }
             }
         },
-        "bonus_attack": {
-            "name": "Bonus Attack",
-            "description": "Increase your attack power!",
+        "mana_potion": {
+            "name": "Mana Potion",
+            "description": "A vial of blue liquid that restores magical energy.",
             "category": "items",
             "cost": {
                 "currencies": {
-                    "coins": 400
+                    "coins": 3000
                 }
             },
             "reward": {
                 "guaranteed": {
                     "items": {
-                        "bonus_attack": {
+                        "mana_potion": {
                             "min": 1,
                             "max": 1
                         }
@@ -307,19 +316,19 @@
                 }
             }
         },
-        "star": {
-            "name": "Star",
-            "description": "Rare collectible star!",
+        "iron_shield": {
+            "name": "Iron Shield",
+            "description": "A sturdy shield forged from iron. Provides solid protection.",
             "category": "items",
             "cost": {
                 "currencies": {
-                    "coins": 600
+                    "coins": 5000
                 }
             },
             "reward": {
                 "guaranteed": {
                     "items": {
-                        "star": {
+                        "iron_shield": {
                             "min": 1,
                             "max": 1
                         }
@@ -327,19 +336,59 @@
                 }
             }
         },
-        "key": {
-            "name": "Key",
-            "description": "Unlock special content!",
+        "golden_key": {
+            "name": "Golden Key",
+            "description": "An ornate golden key that opens special treasure chests.",
             "category": "items",
             "cost": {
                 "currencies": {
-                    "coins": 800
+                    "coins": 6000
                 }
             },
             "reward": {
                 "guaranteed": {
                     "items": {
-                        "key": {
+                        "golden_key": {
+                            "min": 1,
+                            "max": 1
+                        }
+                    }
+                }
+            }
+        },
+        "lucky_charm": {
+            "name": "Lucky Charm",
+            "description": "A four-leaf clover that brings good fortune when used.",
+            "category": "items",
+            "cost": {
+                "currencies": {
+                    "coins": 8000
+                }
+            },
+            "reward": {
+                "guaranteed": {
+                    "items": {
+                        "lucky_charm": {
+                            "min": 1,
+                            "max": 1
+                        }
+                    }
+                }
+            }
+        },
+        "evil_eye": {
+            "name": "Eye of Sauron",
+            "description": "It is said to have the power to control the minds of others.",
+            "category": "items",
+            "cost": {
+                "currencies": {
+                    "coins": 10000
+                }
+            },
+            "reward": {
+                "guaranteed": {
+                    "items": {
+                        "evil_eye": {
                             "min": 1,
                             "max": 1
                         }
