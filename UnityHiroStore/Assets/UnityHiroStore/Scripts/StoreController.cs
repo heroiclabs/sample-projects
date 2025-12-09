@@ -134,8 +134,6 @@ namespace HiroStore
                 StoreItems.Clear();
                 StoreItems.AddRange(_economySystem.StoreItems);
 
-                Debug.Log($"Loaded {StoreItems.Count} store items");
-
                 await _view.RefreshStoreDisplay();
             }
             catch (Exception e)
@@ -149,7 +147,7 @@ namespace HiroStore
         {
             return StoreItems.Where(item =>
                 item.Category == category && !IsFeaturedItem(item))
-                .OrderBy(item => item.Name)
+                .OrderBy(item => item.Id.Split('_')[0])
                 .ThenBy(GetPrimaryCurrencyAmount)
                 .ToList();
         }
@@ -202,7 +200,6 @@ namespace HiroStore
         {
             _selectedItem = item;
             OnItemSelected?.Invoke(item);
-            Debug.Log($"Selected store item: {item?.Name ?? "None"}");
         }
 
         public EconomyListStoreItem GetSelectedItem() => _selectedItem;
@@ -215,7 +212,6 @@ namespace HiroStore
             try
             {
                 var result = await _economySystem.PurchaseStoreItemAsync(item.Id);
-                Debug.Log($"Purchased {item.Name} successfully");
 
                 // Refresh economy
                 await _economySystem.RefreshAsync();

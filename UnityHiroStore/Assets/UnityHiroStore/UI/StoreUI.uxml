@@ -39,7 +39,7 @@
                         <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" style="background-image: url(&quot;project://database/Assets/UnityHiroStore/HeroicUI/Tab/tab_01_violet_focus_tail_up.png?fileID=2800000&amp;guid=ab6e09096280e4ba187d353bc57606d7&amp;type=3#tab_01_violet_focus_tail_up&quot;); bottom: auto; top: -40px;" />
                     </ui:Button>
                 </ui:VisualElement>
-                <ui:Button name="refresh-button" text="Refresh" class="heroic-button" style="position: absolute; right: 20px; padding: 15px 40px;" />
+                <ui:Button name="refresh-button" text="Refresh" class="heroic-button heroic-button-secondary" style="position: absolute; right: 20px; padding: 15px 40px; background-image: url(&quot;project://database/Assets/UnityHiroStore/HeroicUI/Button/button_rounded_h96_white_shadow.png?fileID=-2464375657981821425&amp;guid=949d1be5630d14825b8df18af45b6473&amp;type=3#button_rounded_h96_white_shadow_0&quot;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
@@ -50,16 +50,16 @@
                     <ui:Label text="CONFIRM PURCHASE" class="heroic-title" style="color: rgb(255, 255, 255); -unity-text-align: middle-center; flex-grow: 1;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="purchase-modal-content" style="align-self: center; align-items: center; width: 100%; padding: 30px;">
-                    <ui:VisualElement name="modal-item-icon" style="width: 120px; height: 120px; margin-bottom: 20px; background-color: rgba(132, 154, 255, 0.1); border-radius: 15px;" />
-                    <ui:Label name="modal-item-name" text="Item Name" style="font-size: 24px; -unity-font-style: bold; margin-bottom: 10px; color: rgb(50, 50, 50);" />
-                    <ui:Label name="modal-item-description" text="Item description" style="font-size: 18px; margin-bottom: 20px; color: rgb(100, 100, 100); white-space: normal; -unity-text-align: upper-center;" />
+                    <ui:VisualElement name="modal-item-icon" style="width: 150px; height: 150px; margin-bottom: 20px; -unity-background-scale-mode: scale-to-fit;" />
+                    <ui:Label name="modal-item-name" text="Item Name" style="font-size: 32px; -unity-font-style: bold; margin-bottom: 10px; color: rgb(50, 50, 50);" />
+                    <ui:Label name="modal-item-description" text="Item description" style="font-size: 24px; margin-bottom: 20px; color: rgb(100, 100, 100); white-space: normal; -unity-text-align: upper-center;" />
                     <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 30px;">
-                        <ui:Label text="Cost: " style="font-size: 20px; color: rgb(80, 80, 80); margin-right: 10px;" />
-                        <ui:VisualElement name="modal-cost-icon" style="width: 30px; height: 30px; margin-right: 10px; background-color: rgba(132, 154, 255, 0.3); border-radius: 15px;" />
-                        <ui:Label name="modal-cost-amount" text="500" style="font-size: 24px; -unity-font-style: bold; color: rgb(132, 154, 255);" />
+                        <ui:Label text="Cost: " style="font-size: 26px; color: rgb(80, 80, 80); margin-right: 10px;" />
+                        <ui:VisualElement name="modal-cost-icon" style="width: 36px; height: 36px; margin-right: 10px; -unity-background-scale-mode: scale-to-fit;" />
+                        <ui:Label name="modal-cost-amount" text="500" style="font-size: 32px; -unity-font-style: bold; color: rgb(50, 50, 50);" />
                     </ui:VisualElement>
                     <ui:VisualElement style="flex-direction: row; width: 100%; justify-content: space-around;">
-                        <ui:Button text="Cancel" name="purchase-modal-cancel" class="heroic-button" style="width: 45%; background-color: rgb(150, 150, 150);" />
+                        <ui:Button text="Cancel" name="purchase-modal-cancel" class="heroic-button-gray" style="width: 45%;" />
                         <ui:Button text="Purchase" name="purchase-modal-confirm" class="heroic-button" style="width: 45%;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
@@ -69,14 +69,14 @@
     </ui:VisualElement>
     <ui:VisualElement name="reward-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
         <ui:VisualElement name="reward-modal-background" class="heroic-error-popup__background">
-            <ui:VisualElement name="reward-modal-panel" class="heroic-main__panel" style="height: auto; width: auto;">
+            <ui:VisualElement name="reward-modal-panel" class="heroic-main__panel" style="height: auto; width: 600px;">
                 <ui:VisualElement name="reward-modal-top" style="height: 100px; background-color: rgb(64, 224, 208); border-top-left-radius: 15px; border-top-right-radius: 15px;">
-                    <ui:Label text="PURCHASE SUCCESSFUL!" name="Label" class="heroic-title" style="color: rgb(255, 255, 255); -unity-text-align: middle-center; flex-grow: 1; margin-bottom: 4px; padding-top: 4px; padding-right: 4px; padding-left: 4px;" />
+                    <ui:Label text="SUCCESS" name="Label" class="heroic-title" style="color: rgb(255, 255, 255); -unity-text-align: middle-center; flex-grow: 1; margin-bottom: 4px; padding-top: 4px; padding-right: 4px; padding-left: 4px;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="reward-modal-content" style="align-self: center; align-items: center; width: 100%; padding: 40px;">
-                    <ui:Label text="You received:" style="font-size: 20px; margin-bottom: 20px; color: rgb(100, 100, 100);" />
-                    <ui:ScrollView name="reward-list" style="max-height: 300px; width: 100%; margin-bottom: 20px;" />
-                    <ui:Button text="Awesome!" name="reward-modal-close-button" class="heroic-button" style="margin-top: 20px;" />
+                    <ui:Label text="You received:" style="font-size: 26px; margin-bottom: 20px; color: rgb(100, 100, 100);" />
+                    <ui:ScrollView name="reward-list" style="max-height: 300px; margin-bottom: 20px;" />
+                    <ui:Button text="Continue" name="reward-modal-close-button" class="heroic-button" style="margin-top: 20px;" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>

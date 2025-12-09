@@ -64,11 +64,15 @@ namespace HiroStore
             // Set amount - show currency amount or item name
             if (item.Category == "currency")
             {
-                // For currency, show the amount
-                if (item.AvailableRewards?.Guaranteed?.Currencies != null &&
-                    item.AvailableRewards.Guaranteed.Currencies.TryGetValue(item.Name, out var currencyReward))
+                // For currency, show the first reward currency amount
+                var currencies = item.AvailableRewards?.Guaranteed?.Currencies;
+                if (currencies != null && currencies.Count > 0)
                 {
-                    _amount.text = currencyReward.Count.Min.ToString();
+                    foreach (var reward in currencies)
+                    {
+                        _amount.text = reward.Value.Count.Min.ToString();
+                        break;
+                    }
                 }
                 else
                 {

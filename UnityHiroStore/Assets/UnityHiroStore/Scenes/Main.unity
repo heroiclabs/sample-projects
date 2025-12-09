@@ -394,7 +394,7 @@ MonoBehaviour:
     icon: {fileID: -2124102372771563869, guid: 84f404a0c8b644dbfa668c57f0c3457c, type: 3}
   - itemId: star
     icon: {fileID: 1818913276908518488, guid: 4f1398be8efb94bde8ab003fbc84c402, type: 3}
-  - itemId: lucky_chest
+  - itemId: loot_box
     icon: {fileID: 1312465433301553684, guid: 1df9493f33ef54828824b38a728bae5d, type: 3}
   - itemId: key
     icon: {fileID: 384795800545428903, guid: c5504c3e06b0848e5b38316a71c917d5, type: 3}

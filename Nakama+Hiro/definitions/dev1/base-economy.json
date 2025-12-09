@@ -32,7 +32,7 @@
             }
         },
         "gems_500": {
-            "name": "gems",
+            "name": "500 Gems",
             "description": "500 gems - Free!",
             "category": "currency",
             "cost": {
@@ -50,7 +50,7 @@
             }
         },
         "gems_1000": {
-            "name": "gems",
+            "name": "1000 Gems",
             "description": "1000 gems bundle",
             "category": "currency",
             "cost": {
@@ -70,7 +70,7 @@
             }
         },
         "gems_2000": {
-            "name": "gems",
+            "name": "2000 Gems",
             "description": "2000 gems bundle",
             "category": "currency",
             "cost": {
@@ -90,7 +90,7 @@
             }
         },
         "gems_5000": {
-            "name": "gems",
+            "name": "5000 Gems",
             "description": "5000 gems bundle",
             "category": "currency",
             "cost": {
@@ -110,7 +110,7 @@
             }
         },
         "coins_500": {
-            "name": "coins",
+            "name": "500 Coins",
             "description": "500 coins - Free!",
             "category": "currency",
             "cost": {
@@ -128,7 +128,7 @@
             }
         },
         "coins_1000": {
-            "name": "coins",
+            "name": "1000 Coins",
             "description": "1000 coins bundle",
             "category": "currency",
             "cost": {
@@ -148,7 +148,7 @@
             }
         },
         "coins_2000": {
-            "name": "coins",
+            "name": "2000 Coins",
             "description": "2000 coins bundle",
             "category": "currency",
             "cost": {
@@ -168,7 +168,7 @@
             }
         },
         "coins_5000": {
-            "name": "coins",
+            "name": "5000 Coins",
             "description": "5000 coins bundle",
             "category": "currency",
             "cost": {
@@ -185,6 +185,46 @@
                         }
                     }
                 }
+            }
+        },
+        "loot_box": {
+            "name": "Loot Box",
+            "category": "items",
+            "cost": {
+                "currencies": {
+                    "gems": 250
+                }
+            },
+            "reward": {
+                "weighted": [
+                    {
+                        "currencies": {
+                            "coins": {
+                                "min": 1000,
+                                "max": 2000,
+                                "multiple": 100
+                            }
+                        },
+                        "weight": 1
+                    },
+                    {
+                        "currencies": {
+                            "coins": {
+                                "min": 20000,
+                                "max": 30000,
+                                "multiple": 1000
+                            }
+                        },
+                        "weight": 9
+                    }
+                ],
+                "total_weight": 10,
+                "max_rolls": 1
+            },
+            "additional_properties": {
+                "featured": "true",
+                "badge": "DEAL",
+                "theme": "secondary"
             }
         },
         "bonus_defense": {
@@ -285,46 +325,6 @@
                         }
                     }
                 }
-            }
-        },
-        "lucky_chest": {
-            "name": "Lucky Chest",
-            "category": "items",
-            "cost": {
-                "currencies": {
-                    "gems": 199
-                }
-            },
-            "reward": {
-                "weighted": [
-                    {
-                        "currencies": {
-                            "coins": {
-                                "min": 1000,
-                                "max": 2000,
-                                "multiple": 100
-                            }
-                        },
-                        "weight": 1
-                    },
-                    {
-                        "currencies": {
-                            "coins": {
-                                "min": 20000,
-                                "max": 30000,
-                                "multiple": 1000
-                            }
-                        },
-                        "weight": 9
-                    }
-                ],
-                "total_weight": 10,
-                "max_rolls": 1
-            },
-            "additional_properties": {
-                "featured": "true",
-                "badge": "DEAL",
-                "theme": "secondary"
             }
         },
         "key": {

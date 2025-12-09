@@ -227,7 +227,7 @@ namespace HiroStore
         {
             // Get the first reward currency
             var rewardCurrencies = featured.AvailableRewards?.Guaranteed?.Currencies;
-            if (rewardCurrencies.Count > 0)
+            if (rewardCurrencies != null && rewardCurrencies.Count > 0)
             {
                 var firstReward = rewardCurrencies.First();
                 var currencyCode = firstReward.Key;
@@ -455,31 +455,21 @@ namespace HiroStore
         private VisualElement CreateRewardElement(Sprite icon, string text)
         {
             var rewardElement = new VisualElement();
-            rewardElement.style.flexDirection = FlexDirection.Row;
-            rewardElement.style.alignItems = Align.Center;
-            rewardElement.style.marginBottom = 10;
-            rewardElement.style.paddingTop = 10;
-            rewardElement.style.backgroundColor = new Color(0.9f, 0.9f, 0.9f, 1f);
-            rewardElement.style.borderTopLeftRadius = 10;
+            rewardElement.AddToClassList("reward-item");
 
             var iconElement = new VisualElement();
-            iconElement.style.width = 50;
-            iconElement.style.height = 50;
-            iconElement.style.marginRight = 15;
-            iconElement.style.borderTopLeftRadius = 10;
-            
+            iconElement.AddToClassList("reward-item__icon");
             if (icon)
             {
                 iconElement.style.backgroundImage = new StyleBackground(icon);
             }
 
             var label = new Label(text);
-            label.style.fontSize = 20;
-            label.style.color = new Color(0.2f, 0.2f, 0.2f, 1f);
+            label.AddToClassList("reward-item__label");
 
             rewardElement.Add(iconElement);
             rewardElement.Add(label);
-            
+
             return rewardElement;
         }
 
