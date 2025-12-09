@@ -367,23 +367,23 @@ MonoBehaviour:
   storeItemTemplate: {fileID: 9197481963319205126, guid: 8dd3c785e50de45048715a68169a3967, type: 3}
   itemIconMappings:
   - itemId: starter_pack
-    icon: {fileID: 3944290700555534273, guid: cbb64d88a966a4408a01870b5a95fbdb, type: 3}
-  - itemId: gems_500
-    icon: {fileID: 6914003639015951727, guid: 054fe83591ff046e89344f59d98d8aae, type: 3}
-  - itemId: gems_1000
-    icon: {fileID: 8263917951045151403, guid: 33e1aae2b5d1d4774ab0a7bcc6cfc6a3, type: 3}
-  - itemId: gems_2000
-    icon: {fileID: -1207233957396233476, guid: 61886c27cd5c24e27b8034f1da943441, type: 3}
-  - itemId: gems_5000
     icon: {fileID: -1077162195667718523, guid: 13f044dc61cb240cc9279e4aa7b6b6cc, type: 3}
+  - itemId: gems_500
+    icon: {fileID: 8817019790960912848, guid: c294b23f5da514c6ab852396b711f4ba, type: 3}
+  - itemId: gems_1000
+    icon: {fileID: 6914003639015951727, guid: 054fe83591ff046e89344f59d98d8aae, type: 3}
+  - itemId: gems_2000
+    icon: {fileID: 8263917951045151403, guid: 33e1aae2b5d1d4774ab0a7bcc6cfc6a3, type: 3}
+  - itemId: gems_5000
+    icon: {fileID: -1207233957396233476, guid: 61886c27cd5c24e27b8034f1da943441, type: 3}
   - itemId: coins_500
-    icon: {fileID: 5323416431931247887, guid: 17e0aeaeab52448c89f2ef8f55f429fd, type: 3}
+    icon: {fileID: 3183744519848866733, guid: 6556f306ccdfc46558bec4887327a115, type: 3}
   - itemId: coins_1000
-    icon: {fileID: 9076855744671337443, guid: 9a97381afbd604ec88c4b11438aad864, type: 3}
+    icon: {fileID: 5323416431931247887, guid: 17e0aeaeab52448c89f2ef8f55f429fd, type: 3}
   - itemId: coins_2000
-    icon: {fileID: -8169955672604759640, guid: a1a3f2bec2a764a659f0c82cf099da61, type: 3}
+    icon: {fileID: 9076855744671337443, guid: 9a97381afbd604ec88c4b11438aad864, type: 3}
   - itemId: coins_5000
-    icon: {fileID: -1834601727760964032, guid: b4e282ca4e8e647218810f4afa9ee4bd, type: 3}
+    icon: {fileID: -8169955672604759640, guid: a1a3f2bec2a764a659f0c82cf099da61, type: 3}
   - itemId: potion
     icon: {fileID: 1188792238481573301, guid: 9c4eb9c4dee3149ebb37bdc0ada990b4, type: 3}
   - itemId: bomb
@@ -398,6 +398,8 @@ MonoBehaviour:
     icon: {fileID: 1312465433301553684, guid: 1df9493f33ef54828824b38a728bae5d, type: 3}
   - itemId: key
     icon: {fileID: 384795800545428903, guid: c5504c3e06b0848e5b38316a71c917d5, type: 3}
+  - itemId: gems
+    icon: {fileID: 6521567286427641033, guid: a839ad01459254854a6d8fdb961d443f, type: 3}
   currencyIconMappings:
   - currencyCode: gems
     icon: {fileID: 6521567286427641033, guid: 2f81cad22441d41269c6240c05157dd4, type: 3}

@@ -30,6 +30,8 @@ namespace HiroStore
         private VisualElement _featuredIcon;
         private Label _featuredName;
         private Label _featuredBadge;
+        private VisualElement _featuredValueIcon;
+        private Label _featuredValueAmount;
         private Button _featuredPurchaseButton;
         private Label _featuredPrice;
         private VisualElement _featuredCurrencyIcon;
@@ -104,6 +106,8 @@ namespace HiroStore
             _featuredIcon = root.Q<VisualElement>("featured-icon");
             _featuredName = root.Q<Label>("featured-name");
             _featuredBadge = root.Q<Label>("featured-badge");
+            _featuredValueIcon = root.Q<VisualElement>("featured-value-icon");
+            _featuredValueAmount = root.Q<Label>("featured-value-amount");
             _featuredPurchaseButton = root.Q<Button>("featured-purchase-button");
             _featuredPrice = root.Q<Label>("featured-price");
             _featuredCurrencyIcon = root.Q<VisualElement>("featured-currency-icon");
@@ -206,7 +210,7 @@ namespace HiroStore
         private void PopulateFeaturedItem()
         {
             var featured = _controller.GetFeaturedItem();
-            
+
             if (featured == null)
             {
                 _featuredItem.style.display = DisplayStyle.None;
@@ -225,6 +229,9 @@ namespace HiroStore
             // Set name
             _featuredName.text = featured.Name;
 
+            // Set reward value display (icon + amount)
+            SetFeaturedRewardValue(featured);
+
             // Set price based on cost type
             SetFeaturedPrice(featured);
 
@@ -237,6 +244,28 @@ namespace HiroStore
             else
             {
                 _featuredBadge.style.display = DisplayStyle.None;
+            }
+        }
+
+        private void SetFeaturedRewardValue(IEconomyListStoreItem featured)
+        {
+            // Get the first reward currency
+            var rewardCurrencies = featured.AvailableRewards?.Guaranteed?.Currencies;
+            if (rewardCurrencies != null && rewardCurrencies.Count > 0)
+            {
+                var firstReward = rewardCurrencies.First();
+                var currencyCode = firstReward.Key;
+                var amount = firstReward.Value.Count.Min;
+
+                // Set the reward icon
+                var currencyIcon = _controller.GetCurrencyIcon(currencyCode);
+                if (currencyIcon != null)
+                {
+                    _featuredValueIcon.style.backgroundImage = new StyleBackground(currencyIcon);
+                }
+
+                // Set the reward amount
+                _featuredValueAmount.text = amount.ToString();
             }
         }
 

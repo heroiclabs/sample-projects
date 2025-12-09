@@ -9,15 +9,21 @@
     <ui:VisualElement name="store-main" class="heroic-main__background" style="padding: 30px; align-items: stretch; justify-content: flex-start; flex-direction: column; width: 100%; height: 100%;">
         <ui:VisualElement name="store-container" class="heroic-main__panel" style="flex-grow: 1; padding: 20px; border-radius: 15px; background-image: none; align-items: stretch; padding-left: 40px; padding-right: 40px;">
             <ui:VisualElement name="store-items" style="flex-direction: row; margin-bottom: 20px; min-height: 400px; height: 80%; flex-grow: 1; align-self: auto; align-items: stretch; padding-left: 20px;">
-                <ui:VisualElement name="featured-item" style="width: 380px; background-color: rgb(255, 158, 158); border-radius: 20px; padding: 30px; align-items: center; justify-content: space-between; position: relative; margin-right: 20px;">
-                    <ui:Label name="featured-badge" text="x5 VALUE" style="position: absolute; top: 20px; right: 20px; background-color: rgb(219, 112, 219); color: white; padding: 8px 15px; border-radius: 20px; font-size: 16px; -unity-font-style: bold;" />
-                    <ui:VisualElement name="featured-icon" style="width: 250px; height: 250px; margin-top: 40px; margin-bottom: 40px;" />
-                    <ui:Label name="featured-name" text="Starter Pack" style="font-size: 32px; -unity-font-style: bold; color: white; margin-bottom: 20px; -unity-text-align: middle-center;" />
-                    <ui:VisualElement name="VisualElement" style="flex-grow: 0; height: auto;">
-                        <ui:VisualElement name="featured-value" style="width: 75px; height: 75px; margin-top: 0; margin-bottom: 0;" />
+                <ui:VisualElement name="featured-item" style="width: 380px; background-color: rgb(255, 157, 145); border-radius: 20px; align-items: center; justify-content: space-between; position: relative; margin-right: 20px; padding-top: 20px; overflow: visible;">
+                    <ui:Label name="featured-badge" text="SALE" class="featured-badge" style="-unity-font-definition: url(&quot;project://database/Assets/UnityHiroStore/HeroicUI/Fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-SemiBold.ttf?fileID=12800000&amp;guid=d6f606f65822d4c99a6ad30bb49af37f&amp;type=3#PlusJakartaSans-SemiBold&quot;); font-size: 24px; top: -10px; right: -10px;" />
+                    <ui:VisualElement name="featured-content" style="align-items: center; padding: 20px; width: 100%; margin-bottom: 20px;">
+                        <ui:VisualElement name="featured-icon" style="width: 310px; height: 310px; -unity-background-scale-mode: scale-to-fit; overflow: visible; margin-top: 20px;" />
+                        <ui:Label name="featured-name" text="Starter Pack" style="font-size: 36px; -unity-font-style: bold; color: white; -unity-text-align: middle-center; margin-top: 10px;" />
                     </ui:VisualElement>
-                    <ui:Button name="featured-purchase-button" style="width: 200px; height: 50px; background-color: white; border-radius: 25px; border-width: 0;">
-                        <ui:Label name="featured-price" text="$10.99" style="color: rgb(255, 158, 158); font-size: 24px; -unity-font-style: bold;" />
+                    <ui:VisualElement name="featured-value-container" style="width: 120px; height: 120px; background-color: rgba(255, 255, 255, 0.9); border-radius: 20px; align-items: center; justify-content: center; margin-bottom: 10px; position: relative; margin-top: 10px;">
+                        <ui:VisualElement name="featured-value-icon" style="width: 80px; height: 80px; -unity-background-scale-mode: scale-to-fit;" />
+                        <ui:Label name="featured-value-amount" text="6000" style="position: absolute; bottom: -12px; background-color: rgb(230, 229, 250); color: rgb(31, 49, 81); padding: 4px 16px; border-radius: 12px; font-size: 18px; -unity-font-style: bold; -unity-font-definition: url(&quot;project://database/Assets/UnityHiroStore/HeroicUI/Fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-Regular.ttf?fileID=12800000&amp;guid=e2ef62569164b4144847efcbba2e325a&amp;type=3#PlusJakartaSans-Regular&quot;);" />
+                    </ui:VisualElement>
+                    <ui:Button name="featured-purchase-button" style="width: 100%; height: 80px; background-color: rgb(255, 135, 137); border-radius: 0; border-width: 0; margin-top: auto;">
+                        <ui:VisualElement style="flex-direction: row; align-items: center; justify-content: center;">
+                            <ui:VisualElement name="featured-currency-icon" style="width: 40px; height: 40px; margin-right: 8px; -unity-background-scale-mode: scale-to-fit;" />
+                            <ui:Label name="featured-price" text="500" style="color: white; font-size: 36px; -unity-font-style: bold;" />
+                        </ui:VisualElement>
                     </ui:Button>
                 </ui:VisualElement>
                 <ui:VisualElement name="lootbox-item" style="width: 380px; background-color: rgb(100, 149, 237); border-radius: 20px; padding: 30px; align-items: center; justify-content: space-between; position: relative; margin-right: 20px; display: none;">
