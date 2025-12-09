@@ -8,7 +8,7 @@
     </ui:VisualElement>
     <ui:VisualElement name="store-main" class="heroic-main__background" style="padding: 30px; align-items: stretch; justify-content: flex-start; flex-direction: column; width: 100%; height: 100%;">
         <ui:VisualElement name="store-container" class="heroic-main__panel" style="flex-grow: 1; padding: 20px; border-radius: 15px; background-image: none; align-items: stretch; padding-left: 40px; padding-right: 40px;">
-            <ui:VisualElement name="store-items" style="flex-direction: row; margin-bottom: 20px; min-height: 400px; height: 80%; flex-grow: 1; align-self: auto; align-items: stretch; padding-left: 40px;">
+            <ui:VisualElement name="store-items" style="flex-direction: row; margin-bottom: 20px; min-height: 400px; height: 80%; flex-grow: 1; align-self: auto; align-items: stretch; padding-left: 20px;">
                 <ui:VisualElement name="featured-item" style="width: 380px; background-color: rgb(255, 158, 158); border-radius: 20px; padding: 30px; align-items: center; justify-content: space-between; position: relative; margin-right: 20px;">
                     <ui:Label name="featured-badge" text="x5 VALUE" style="position: absolute; top: 20px; right: 20px; background-color: rgb(219, 112, 219); color: white; padding: 8px 15px; border-radius: 20px; font-size: 16px; -unity-font-style: bold;" />
                     <ui:VisualElement name="featured-icon" style="width: 250px; height: 250px; margin-top: 40px; margin-bottom: 40px;" />
