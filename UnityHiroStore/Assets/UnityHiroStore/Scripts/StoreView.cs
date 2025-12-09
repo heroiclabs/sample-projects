@@ -396,16 +396,14 @@ namespace HiroStore
         {
             if (_pendingPurchaseItem == null) return;
 
+            var purchasedItem = _pendingPurchaseItem;
+
             try
             {
-                var result = await _controller.PurchaseItem(_pendingPurchaseItem);
-                
+                await _controller.PurchaseItem(_pendingPurchaseItem);
+
                 HidePurchaseModal();
-                
-                if (result != null)
-                {
-                    ShowRewardModal(result.Reward);
-                }
+                ShowRewardModal(purchasedItem);
 
                 await RefreshStoreDisplay();
             }
@@ -419,34 +417,42 @@ namespace HiroStore
 
         #region Reward Modal
 
-        private void ShowRewardModal(IReward reward)
+        private void ShowRewardModal(IEconomyListStoreItem purchasedItem)
         {
             _rewardList.Clear();
 
-            if (reward == null)
+            if (purchasedItem?.AvailableRewards?.Guaranteed == null)
             {
                 _rewardModal.style.display = DisplayStyle.Flex;
                 return;
             }
 
+            var guaranteed = purchasedItem.AvailableRewards.Guaranteed;
+
             // Display currency rewards
-            foreach (var currency in reward.Currencies)
+            if (guaranteed.Currencies != null)
             {
-                var rewardElement = CreateRewardElement(
-                    _controller.GetCurrencyIcon(currency.Key),
-                    $"{currency.Key}: {currency.Value}"
-                );
-                _rewardList.Add(rewardElement);
+                foreach (var currency in guaranteed.Currencies)
+                {
+                    var rewardElement = CreateRewardElement(
+                        _controller.GetCurrencyIcon(currency.Key),
+                        $"{currency.Key}: {currency.Value.Count.Min}"
+                    );
+                    _rewardList.Add(rewardElement);
+                }
             }
 
             // Display item rewards
-            foreach (var item in reward.Items)
+            if (guaranteed.Items != null)
             {
-                var rewardElement = CreateRewardElement(
-                    _controller.GetItemIcon(item.Key),
-                    $"{item.Key} x{item.Value}"
-                );
-                _rewardList.Add(rewardElement);
+                foreach (var item in guaranteed.Items)
+                {
+                    var rewardElement = CreateRewardElement(
+                        _controller.GetItemIcon(item.Key),
+                        $"{item.Key} x{item.Value.Count.Min}"
+                    );
+                    _rewardList.Add(rewardElement);
+                }
             }
 
             _rewardModal.style.display = DisplayStyle.Flex;
