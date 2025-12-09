@@ -14,7 +14,6 @@ namespace HiroStore
         private VisualElement _icon;
         private Label _amount;
         private Label _itemBadge;
-        private Label _bonusBadge;
 
         private Button _purchaseButton;
         private VisualElement _currencyIcon;
@@ -35,7 +34,6 @@ namespace HiroStore
             _icon = visualElement.Q<VisualElement>("item-icon");
             _amount = visualElement.Q<Label>("item-amount");
             _itemBadge = visualElement.Q<Label>("item-badge");
-            _bonusBadge = visualElement.Q<Label>("bonus-badge");
 
             _purchaseButton = visualElement.Q<Button>("purchase-button");
             _currencyIcon = visualElement.Q<VisualElement>("currency-icon");
@@ -87,23 +85,11 @@ namespace HiroStore
         private void SetupBadges(IEconomyListStoreItem item)
         {
             _itemBadge.style.display = DisplayStyle.None;
-            _bonusBadge.style.display = DisplayStyle.None;
 
-            if (item.AdditionalProperties != null)
+            if (item.AdditionalProperties != null && item.AdditionalProperties.ContainsKey("badge"))
             {
-                // Check for custom badge
-                if (item.AdditionalProperties.ContainsKey("badge"))
-                {
-                    _itemBadge.text = item.AdditionalProperties["badge"];
-                    _itemBadge.style.display = DisplayStyle.Flex;
-                }
-
-                // Check for bonus badge
-                if (item.AdditionalProperties.ContainsKey("bonus"))
-                {
-                    _bonusBadge.text = item.AdditionalProperties["bonus"];
-                    _bonusBadge.style.display = DisplayStyle.Flex;
-                }
+                _itemBadge.text = item.AdditionalProperties["badge"];
+                _itemBadge.style.display = DisplayStyle.Flex;
             }
         }
 
