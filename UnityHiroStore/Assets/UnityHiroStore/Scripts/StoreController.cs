@@ -39,9 +39,9 @@ namespace HiroStore
         private StoreView _view;
 
         public string CurrentUserId => _nakamaSystem.UserId;
-        public List<IEconomyListStoreItem> StoreItems { get; } = new();
-        public Dictionary<string, Sprite> ItemIconDictionary { get; private set; }
-        public Dictionary<string, Sprite> CurrencyIconDictionary { get; private set; }
+        private List<IEconomyListStoreItem> StoreItems { get; } = new();
+        private Dictionary<string, Sprite> ItemIconDictionary { get; set; }
+        private Dictionary<string, Sprite> CurrencyIconDictionary { get; set; }
 
         public event Action<ISession, StoreController> OnInitialized;
         public event Action<IEconomyListStoreItem> OnItemSelected;
@@ -54,8 +54,6 @@ namespace HiroStore
 
         private StoreTab _currentTab = StoreTab.Currency;
         private EconomyListStoreItem _selectedItem;
-        private EconomyListStoreItem _featuredItem;
-        private EconomyListStoreItem _lootboxItem;
 
         #region Initialization
 
@@ -64,7 +62,7 @@ namespace HiroStore
             BuildIconDictionaries();
 
             var storeCoordinator = HiroCoordinator.Instance as HiroStoreCoordinator;
-            if (storeCoordinator == null) return;
+            if (!storeCoordinator) return;
 
             storeCoordinator.ReceivedStartError += HandleStartError;
             storeCoordinator.ReceivedStartSuccess += HandleStartSuccess;
@@ -84,7 +82,7 @@ namespace HiroStore
             {
                 foreach (var mapping in itemIconMappings)
                 {
-                    if (!string.IsNullOrEmpty(mapping.itemId) && mapping.icon != null)
+                    if (!string.IsNullOrEmpty(mapping.itemId) && mapping.icon)
                     {
                         ItemIconDictionary[mapping.itemId] = mapping.icon;
                     }
@@ -96,7 +94,7 @@ namespace HiroStore
             {
                 foreach (var mapping in currencyIconMappings)
                 {
-                    if (!string.IsNullOrEmpty(mapping.currencyCode) && mapping.icon != null)
+                    if (!string.IsNullOrEmpty(mapping.currencyCode) && mapping.icon)
                     {
                         CurrencyIconDictionary[mapping.currencyCode] = mapping.icon;
                     }
@@ -138,15 +136,6 @@ namespace HiroStore
 
                 Debug.Log($"Loaded {StoreItems.Count} store items");
 
-                // Find featured item for Featured tab
-                _featuredItem = (EconomyListStoreItem)StoreItems.FirstOrDefault(item => 
-                    item.Category == "featured" || item.Name.ToLower().Contains("starter"));
-
-                // Find lootbox item for Deals tab
-                _lootboxItem = (EconomyListStoreItem)StoreItems.FirstOrDefault(item => 
-                    item.Category == "lootbox" || item.Name.ToLower().Contains("lootbox") || 
-                    item.Name.ToLower().Contains("mystery"));
-
                 await _view.RefreshStoreDisplay();
             }
             catch (Exception e)
@@ -156,19 +145,19 @@ namespace HiroStore
             }
         }
 
-        public List<IEconomyListStoreItem> GetItemsForCurrentTab()
+        public List<IEconomyListStoreItem> GetItemsForCategory(string category)
         {
-            return _currentTab switch
-            {
-                StoreTab.Currency => StoreItems.Where(item =>
-                    item.Category == "currency" && item != _featuredItem)
-                    .OrderBy(item => item.Name)
-                    .ThenBy(GetPrimaryCurrencyAmount) 
-                    .ToList(),
-                StoreTab.Items => StoreItems.Where(item =>
-                    (item.Category == "resources" || item.Category == "lootbox") && item != _lootboxItem).ToList(),
-                _ => StoreItems.ToList()
-            };
+            return StoreItems.Where(item =>
+                item.Category == category && !IsFeaturedItem(item))
+                .OrderBy(item => item.Name)
+                .ThenBy(GetPrimaryCurrencyAmount)
+                .ToList();
+        }
+
+        private bool IsFeaturedItem(IEconomyListStoreItem item)
+        {
+            return item.AdditionalProperties.TryGetValue("featured", out var value) &&
+                   value.Equals("true", StringComparison.OrdinalIgnoreCase);
         }
 
         public void SwitchTab(StoreTab tab)
@@ -179,9 +168,31 @@ namespace HiroStore
 
         public StoreTab GetCurrentTab() => _currentTab;
 
-        public EconomyListStoreItem GetFeaturedItem() => _featuredItem;
+        public string GetCurrentCategory()
+        {
+            return _currentTab switch
+            {
+                StoreTab.Currency => "currency",
+                StoreTab.Items => "items",
+                _ => ""
+            };
+        }
 
-        public EconomyListStoreItem GetLootboxItem() => _lootboxItem;
+        public EconomyListStoreItem GetFeaturedItemForCategory(string category)
+        {
+            return (EconomyListStoreItem)StoreItems.FirstOrDefault(item =>
+                item.Category == category && IsFeaturedItem(item));
+        }
+
+        public string GetItemTheme(IEconomyListStoreItem item)
+        {
+            if (item?.AdditionalProperties != null &&
+                item.AdditionalProperties.TryGetValue("theme", out var theme))
+            {
+                return theme;
+            }
+            return "primary";
+        }
 
         #endregion
 
@@ -203,8 +214,7 @@ namespace HiroStore
 
             try
             {
-                IEconomyPurchaseAck result;
-                result = await _economySystem.PurchaseStoreItemAsync(item.Id);
+                var result = await _economySystem.PurchaseStoreItemAsync(item.Id);
                 Debug.Log($"Purchased {item.Name} successfully");
 
                 // Refresh economy

@@ -35,15 +35,7 @@ namespace HiroStore
         private Button _featuredPurchaseButton;
         private Label _featuredPrice;
         private VisualElement _featuredCurrencyIcon;
-
-        // Lootbox Item Elements
-        private VisualElement _lootboxItem;
-        private VisualElement _lootboxIcon;
-        private Label _lootboxName;
-        private Label _lootboxBadge;
-        private Button _lootboxPurchaseButton;
-        private Label _lootboxPrice;
-        private VisualElement _lootboxCostIcon;
+        private string _currentTheme = "";
 
         // Modals
         private VisualElement _purchaseModal;
@@ -112,25 +104,10 @@ namespace HiroStore
             _featuredPrice = root.Q<Label>("featured-price");
             _featuredCurrencyIcon = root.Q<VisualElement>("featured-currency-icon");
 
-            _featuredPurchaseButton.RegisterCallback<ClickEvent>(_ => 
+            _featuredPurchaseButton.RegisterCallback<ClickEvent>(_ =>
             {
-                var featured = _controller.GetFeaturedItem();
+                var featured = _controller.GetFeaturedItemForCategory(_controller.GetCurrentCategory());
                 if (featured != null) ShowPurchaseModal(featured);
-            });
-
-            // Lootbox Item
-            _lootboxItem = root.Q<VisualElement>("lootbox-item");
-            _lootboxIcon = root.Q<VisualElement>("lootbox-icon");
-            _lootboxName = root.Q<Label>("lootbox-name");
-            _lootboxBadge = root.Q<Label>("lootbox-badge");
-            _lootboxPurchaseButton = root.Q<Button>("lootbox-purchase-button");
-            _lootboxPrice = root.Q<Label>("lootbox-price");
-            _lootboxCostIcon = root.Q<VisualElement>("lootbox-cost-icon");
-
-            _lootboxPurchaseButton.RegisterCallback<ClickEvent>(_ => 
-            {
-                var lootbox = _controller.GetLootboxItem();
-                if (lootbox != null) ShowPurchaseModal(lootbox);
             });
 
             // Purchase Modal
@@ -172,44 +149,22 @@ namespace HiroStore
 
         #region Store Display
 
-        public async Task RefreshStoreDisplay()
+        public Task RefreshStoreDisplay()
         {
-            UpdateFeaturedAndLootboxDisplay();
+            UpdateFeaturedDisplay();
             PopulateStoreGrid();
             UpdateTabButtons();
+            return Task.CompletedTask;
         }
 
-        private void UpdateFeaturedAndLootboxDisplay()
+        private void UpdateFeaturedDisplay()
         {
-            var currentTab = _controller.GetCurrentTab();
-
-            if (currentTab == StoreController.StoreTab.Currency)
-            {
-                // Show featured, hide lootbox
-                _featuredItem.style.display = DisplayStyle.Flex;
-                _lootboxItem.style.display = DisplayStyle.None;
-
-                PopulateFeaturedItem();
-            }
-            else if (currentTab == StoreController.StoreTab.Items)
-            {
-                // Show lootbox, hide featured
-                _featuredItem.style.display = DisplayStyle.None;
-                _lootboxItem.style.display = DisplayStyle.Flex;
-
-                PopulateLootboxItem();
-            }
-            else
-            {
-                // Hide both
-                _featuredItem.style.display = DisplayStyle.None;
-                _lootboxItem.style.display = DisplayStyle.None;
-            }
+            PopulateFeaturedItem();
         }
 
         private void PopulateFeaturedItem()
         {
-            var featured = _controller.GetFeaturedItem();
+            var featured = _controller.GetFeaturedItemForCategory(_controller.GetCurrentCategory());
 
             if (featured == null)
             {
@@ -218,6 +173,9 @@ namespace HiroStore
             }
 
             _featuredItem.style.display = DisplayStyle.Flex;
+
+            // Apply theme
+            ApplyFeaturedTheme(featured);
 
             // Set icon
             var featuredIcon = _controller.GetItemIcon(featured.Id);
@@ -247,11 +205,29 @@ namespace HiroStore
             }
         }
 
+        private void ApplyFeaturedTheme(IEconomyListStoreItem featured)
+        {
+            var newTheme = _controller.GetItemTheme(featured);
+
+            // Remove old theme class if different
+            if (!string.IsNullOrEmpty(_currentTheme) && _currentTheme != newTheme)
+            {
+                _featuredItem.RemoveFromClassList($"featured-item--{_currentTheme}");
+            }
+
+            // Add new theme class
+            if (_currentTheme != newTheme)
+            {
+                _featuredItem.AddToClassList($"featured-item--{newTheme}");
+                _currentTheme = newTheme;
+            }
+        }
+
         private void SetFeaturedRewardValue(IEconomyListStoreItem featured)
         {
             // Get the first reward currency
             var rewardCurrencies = featured.AvailableRewards?.Guaranteed?.Currencies;
-            if (rewardCurrencies != null && rewardCurrencies.Count > 0)
+            if (rewardCurrencies.Count > 0)
             {
                 var firstReward = rewardCurrencies.First();
                 var currencyCode = firstReward.Key;
@@ -267,39 +243,6 @@ namespace HiroStore
                 // Set the reward amount
                 _featuredValueAmount.text = amount.ToString();
             }
-        }
-
-        private void PopulateLootboxItem()
-        {
-            var lootbox = _controller.GetLootboxItem();
-            
-            if (lootbox == null)
-            {
-                _lootboxItem.style.display = DisplayStyle.None;
-                return;
-            }
-
-            _lootboxItem.style.display = DisplayStyle.Flex;
-
-            // Set icon
-            var lootboxIcon = _controller.GetItemIcon(lootbox.Id);
-            if (lootboxIcon != null)
-            {
-                _lootboxIcon.style.backgroundImage = new StyleBackground(lootboxIcon);
-            }
-
-            // Set name
-            _lootboxName.text = lootbox.Name;
-
-            // Set badge if applicable
-            _lootboxBadge.text = lootbox.AdditionalProperties.TryGetValue("badge", out var property) ? property : "MYSTERY BOX";
-
-            // Set price
-            SetLootboxPrice(lootbox);
-
-            // Update affordability
-            bool canAfford = _controller.CanAffordItem(lootbox);
-            _lootboxPurchaseButton.SetEnabled(canAfford);
         }
 
         private void SetFeaturedPrice(EconomyListStoreItem featured)
@@ -336,58 +279,14 @@ namespace HiroStore
             }
         }
 
-        private void SetLootboxPrice(EconomyListStoreItem lootbox)
-        {
-            // Real money purchase
-            if (!string.IsNullOrEmpty(lootbox.Cost.Sku))
-            {
-                _lootboxPrice.text = lootbox.Cost.Sku;
-                _lootboxCostIcon.style.display = DisplayStyle.None;
-            }
-            // Soft currency purchase
-            else if (lootbox.Cost.Currencies.Count > 0)
-            {
-                var primaryCurrency = _controller.GetPrimaryCurrency(lootbox);
-                var amount = _controller.GetPrimaryCurrencyAmount(lootbox);
-                
-                // Set currency icon if available
-                var currencyIcon = _controller.GetCurrencyIcon(primaryCurrency);
-                if (currencyIcon != null)
-                {
-                    _lootboxCostIcon.style.backgroundImage = new StyleBackground(currencyIcon);
-                    _lootboxCostIcon.style.display = DisplayStyle.Flex;
-                }
-                else
-                {
-                    _lootboxCostIcon.style.display = DisplayStyle.None;
-                }
-                
-                _lootboxPrice.text = amount.ToString();
-            }
-            // Free
-            else
-            {
-                _lootboxPrice.text = "FREE";
-                _lootboxCostIcon.style.display = DisplayStyle.None;
-            }
-        }
-
         private void PopulateStoreGrid()
         {
             _storeGrid.Clear();
 
-            var items = _controller.GetItemsForCurrentTab();
+            var items = _controller.GetItemsForCategory(_controller.GetCurrentCategory());
 
             foreach (var item in items)
             {
-                // Skip the featured item in the grid
-                if (item == _controller.GetFeaturedItem())
-                    continue;
-
-                // Skip the lootbox item in the grid
-                if (item == _controller.GetLootboxItem())
-                    continue;
-
                 CreateStoreItemSlot(item);
             }
         }
@@ -531,29 +430,23 @@ namespace HiroStore
             }
 
             // Display currency rewards
-            if (reward.Currencies != null)
+            foreach (var currency in reward.Currencies)
             {
-                foreach (var currency in reward.Currencies)
-                {
-                    var rewardElement = CreateRewardElement(
-                        _controller.GetCurrencyIcon(currency.Key),
-                        $"{currency.Key}: {currency.Value}"
-                    );
-                    _rewardList.Add(rewardElement);
-                }
+                var rewardElement = CreateRewardElement(
+                    _controller.GetCurrencyIcon(currency.Key),
+                    $"{currency.Key}: {currency.Value}"
+                );
+                _rewardList.Add(rewardElement);
             }
 
             // Display item rewards
-            if (reward.Items != null)
+            foreach (var item in reward.Items)
             {
-                foreach (var item in reward.Items)
-                {
-                    var rewardElement = CreateRewardElement(
-                        _controller.GetItemIcon(item.Key),
-                        $"{item.Key} x{item.Value}"
-                    );
-                    _rewardList.Add(rewardElement);
-                }
+                var rewardElement = CreateRewardElement(
+                    _controller.GetItemIcon(item.Key),
+                    $"{item.Key} x{item.Value}"
+                );
+                _rewardList.Add(rewardElement);
             }
 
             _rewardModal.style.display = DisplayStyle.Flex;
@@ -575,7 +468,7 @@ namespace HiroStore
             iconElement.style.marginRight = 15;
             iconElement.style.borderTopLeftRadius = 10;
             
-            if (icon != null)
+            if (icon)
             {
                 iconElement.style.backgroundImage = new StyleBackground(icon);
             }

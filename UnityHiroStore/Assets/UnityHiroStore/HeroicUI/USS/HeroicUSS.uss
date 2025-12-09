@@ -656,8 +656,36 @@
     background-color: rgba(0, 0, 0, 0);
     -unity-background-scale-mode: scale-to-fit;
     color: white;
-    font-size: 16px;
+    font-size: 24px;
     -unity-font-style: bold;
     -unity-text-align: middle-center;
     rotate: 15deg;
+}
+
+.featured-value-amount {
+    position: absolute;
+    bottom: -12px;
+    background-color: rgb(230, 229, 250);
+    color: rgb(31, 49, 81);
+    padding: 4px 16px;
+    border-radius: 12px;
+    font-size: 18px;
+    -unity-font-style: bold;
+}
+
+/* Featured Item Themes */
+.featured-item--primary {
+    background-color: rgb(255, 157, 145);
+}
+
+.featured-item--primary .featured-purchase-button {
+    background-color: rgb(255, 135, 137);
+}
+
+.featured-item--secondary {
+    background-color: rgb(133, 210, 255);
+}
+
+.featured-item--secondary .featured-purchase-button {
+    background-color: rgb(123, 198, 252);
 }
