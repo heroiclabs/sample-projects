@@ -9,24 +9,26 @@
         "starter_pack": {
             "name": "Starter Pack",
             "description": "Amazing starter bundle with 6000 gems!",
-            "category": "featured",
+            "category": "currency",
             "cost": {
                 "currencies": {
-                    "gems": 500
+                    "coins": 2500
                 }
             },
             "reward": {
                 "guaranteed": {
                     "currencies": {
                         "gems": {
-                            "min": 6000,
-                            "max": 6000
+                            "min": 8000,
+                            "max": 8000
                         }
                     }
                 }
             },
             "additional_properties": {
-                "badge": "x5 VALUE"
+                "featured": "true",
+                "badge": "SALE",
+                "theme": "primary"
             }
         },
         "gems_500": {
@@ -188,7 +190,7 @@
         "bonus_defense": {
             "name": "Bonus Defense",
             "description": "Increase your defense!",
-            "category": "resources",
+            "category": "items",
             "cost": {
                 "currencies": {
                     "coins": 100
@@ -208,7 +210,7 @@
         "bomb": {
             "name": "Bomb",
             "description": "Explosive power!",
-            "category": "resources",
+            "category": "items",
             "cost": {
                 "currencies": {
                     "coins": 200
@@ -228,7 +230,7 @@
         "potion": {
             "name": "Potion",
             "description": "Restore your health!",
-            "category": "resources",
+            "category": "items",
             "cost": {
                 "currencies": {
                     "coins": 250
@@ -248,7 +250,7 @@
         "bonus_attack": {
             "name": "Bonus Attack",
             "description": "Increase your attack power!",
-            "category": "resources",
+            "category": "items",
             "cost": {
                 "currencies": {
                     "coins": 400
@@ -268,7 +270,7 @@
         "star": {
             "name": "Star",
             "description": "Rare collectible star!",
-            "category": "resources",
+            "category": "items",
             "cost": {
                 "currencies": {
                     "coins": 600
@@ -287,7 +289,7 @@
         },
         "lucky_chest": {
             "name": "Lucky Chest",
-            "category": "lootbox",
+            "category": "items",
             "cost": {
                 "currencies": {
                     "gems": 199
@@ -318,12 +320,17 @@
                 ],
                 "total_weight": 10,
                 "max_rolls": 1
+            },
+            "additional_properties": {
+                "featured": "true",
+                "badge": "DEAL",
+                "theme": "secondary"
             }
         },
         "key": {
             "name": "Key",
             "description": "Unlock special content!",
-            "category": "resources",
+            "category": "items",
             "cost": {
                 "currencies": {
                     "coins": 800
