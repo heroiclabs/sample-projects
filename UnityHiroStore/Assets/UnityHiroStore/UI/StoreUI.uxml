@@ -15,10 +15,7 @@
                         <ui:VisualElement name="featured-icon" style="width: 310px; height: 310px; -unity-background-scale-mode: scale-to-fit; overflow: visible; margin-top: 20px;" />
                         <ui:Label name="featured-name" text="Starter Pack" style="font-size: 36px; -unity-font-style: bold; color: white; -unity-text-align: middle-center; margin-top: 10px;" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="featured-value-container" style="width: 120px; height: 120px; background-color: rgba(255, 255, 255, 0.9); border-radius: 20px; align-items: center; justify-content: center; margin-bottom: 10px; position: relative; margin-top: 10px;">
-                        <ui:VisualElement name="featured-value-icon" style="width: 80px; height: 80px; -unity-background-scale-mode: scale-to-fit;" />
-                        <ui:Label name="featured-value-amount" text="6000" class="featured-value-amount" />
-                    </ui:VisualElement>
+                    <ui:VisualElement name="featured-rewards-container" style="flex-direction: row; align-items: center; justify-content: center; margin-bottom: 10px; margin-top: 10px;" />
                     <ui:Button name="featured-purchase-button" class="featured-purchase-button" style="width: 100%; height: 80px; border-radius: 0; border-width: 0; margin-top: auto;">
                         <ui:VisualElement style="flex-direction: row; align-items: center; justify-content: center;">
                             <ui:VisualElement name="featured-currency-icon" style="width: 40px; height: 40px; margin-right: 8px; -unity-background-scale-mode: scale-to-fit;" />

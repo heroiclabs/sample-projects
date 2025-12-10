@@ -30,8 +30,7 @@ namespace HiroStore
         private VisualElement _featuredIcon;
         private Label _featuredName;
         private Label _featuredBadge;
-        private VisualElement _featuredValueIcon;
-        private Label _featuredValueAmount;
+        private VisualElement _featuredRewardsContainer;
         private Button _featuredPurchaseButton;
         private Label _featuredPrice;
         private VisualElement _featuredCurrencyIcon;
@@ -98,8 +97,7 @@ namespace HiroStore
             _featuredIcon = root.Q<VisualElement>("featured-icon");
             _featuredName = root.Q<Label>("featured-name");
             _featuredBadge = root.Q<Label>("featured-badge");
-            _featuredValueIcon = root.Q<VisualElement>("featured-value-icon");
-            _featuredValueAmount = root.Q<Label>("featured-value-amount");
+            _featuredRewardsContainer = root.Q<VisualElement>("featured-rewards-container");
             _featuredPurchaseButton = root.Q<Button>("featured-purchase-button");
             _featuredPrice = root.Q<Label>("featured-price");
             _featuredCurrencyIcon = root.Q<VisualElement>("featured-currency-icon");
@@ -174,23 +172,16 @@ namespace HiroStore
 
             _featuredItem.style.display = DisplayStyle.Flex;
 
-            // Apply theme
             ApplyFeaturedTheme(featured);
 
-            // Set icon
             var featuredIcon = _controller.GetItemIcon(featured.Id);
             if (featuredIcon != null)
             {
                 _featuredIcon.style.backgroundImage = new StyleBackground(featuredIcon);
             }
 
-            // Set name
             _featuredName.text = featured.Name;
-
-            // Set reward value display (icon + amount)
             SetFeaturedRewardValue(featured);
-
-            // Set price based on cost type
             SetFeaturedPrice(featured);
 
             // Set badge if applicable
@@ -209,13 +200,11 @@ namespace HiroStore
         {
             var newTheme = _controller.GetItemTheme(featured);
 
-            // Remove old theme class if different
             if (!string.IsNullOrEmpty(_currentTheme) && _currentTheme != newTheme)
             {
                 _featuredItem.RemoveFromClassList($"featured-item--{_currentTheme}");
             }
 
-            // Add new theme class
             if (_currentTheme != newTheme)
             {
                 _featuredItem.AddToClassList($"featured-item--{newTheme}");
@@ -225,24 +214,79 @@ namespace HiroStore
 
         private void SetFeaturedRewardValue(IEconomyListStoreItem featured)
         {
-            // Get the first reward currency
-            var rewardCurrencies = featured.AvailableRewards?.Guaranteed?.Currencies;
-            if (rewardCurrencies != null && rewardCurrencies.Count > 0)
+            _featuredRewardsContainer.Clear();
+
+            var availableRewards = featured.AvailableRewards;
+
+            // Add guaranteed currency rewards
+            if (availableRewards.Guaranteed?.Currencies != null)
             {
-                var firstReward = rewardCurrencies.First();
-                var currencyCode = firstReward.Key;
-                var amount = firstReward.Value.Count.Min;
-
-                // Set the reward icon
-                var currencyIcon = _controller.GetCurrencyIcon(currencyCode);
-                if (currencyIcon != null)
+                foreach (var currency in availableRewards.Guaranteed.Currencies)
                 {
-                    _featuredValueIcon.style.backgroundImage = new StyleBackground(currencyIcon);
+                    var icon = _controller.GetCurrencyIcon(currency.Key);
+                    var amount = currency.Value.Count.Min;
+                    _featuredRewardsContainer.Add(CreateFeaturedRewardElement(icon, amount.ToString()));
                 }
-
-                // Set the reward amount
-                _featuredValueAmount.text = amount.ToString();
             }
+
+            // Add guaranteed item rewards
+            if (availableRewards.Guaranteed?.Items != null)
+            {
+                foreach (var item in availableRewards.Guaranteed.Items)
+                {
+                    var icon = _controller.GetItemIcon(item.Key);
+                    var amount = item.Value.Count.Min;
+                    _featuredRewardsContainer.Add(CreateFeaturedRewardElement(icon, $"x{amount}"));
+                }
+            }
+
+            // Add weighted rewards (potential lootbox rewards)
+            if (availableRewards.Weighted != null)
+            {
+                foreach (var weightedReward in availableRewards.Weighted)
+                {
+                    // Add weighted currency rewards
+                    if (weightedReward.Currencies != null)
+                    {
+                        foreach (var currency in weightedReward.Currencies)
+                        {
+                            var icon = _controller.GetCurrencyIcon(currency.Key);
+                            _featuredRewardsContainer.Add(CreateFeaturedRewardElement(icon, null));
+                        }
+                    }
+
+                    // Add weighted item rewards
+                    if (weightedReward.Items != null)
+                    {
+                        foreach (var item in weightedReward.Items)
+                        {
+                            var icon = _controller.GetItemIcon(item.Key);
+                            _featuredRewardsContainer.Add(CreateFeaturedRewardElement(icon, null));
+                        }
+                    }
+                }
+            }
+        }
+
+        private VisualElement CreateFeaturedRewardElement(Sprite icon, string amountText)
+        {
+            var container = new VisualElement();
+            container.AddToClassList("featured-reward");
+
+            var iconElement = new VisualElement();
+            iconElement.AddToClassList("featured-reward__icon");
+            if (icon != null)
+            {
+                iconElement.style.backgroundImage = new StyleBackground(icon);
+            }
+            container.Add(iconElement);
+
+            if (string.IsNullOrEmpty(amountText)) return container;
+            var label = new Label(amountText);
+            label.AddToClassList("featured-value-amount");
+            container.Add(label);
+
+            return container;
         }
 
         private void SetFeaturedPrice(EconomyListStoreItem featured)
