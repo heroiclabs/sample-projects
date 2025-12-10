@@ -1,5 +1,236 @@
 {
   "achievements": {
+    "masterExplorer": {
+      "name": "Master Explorer",
+      "description": "Complete all exploration objectives across different zones.",
+      "category": "quest",
+      "max_count": 3,
+      "reward": {
+        "guaranteed": {
+          "currencies": {
+            "gold": {
+              "min": 1000
+            }
+          }
+        }
+      },
+      "sub_achievements": {
+        "exploreForest": {
+          "name": "Forest Explorer",
+          "description": "Discover all locations in the Forest Zone.",
+          "category": "quest",
+          "max_count": 10,
+          "reward": {
+            "guaranteed": {
+              "currencies": {
+                "gold": {
+                  "min": 200
+                }
+              }
+            }
+          }
+        },
+        "exploreMountains": {
+          "name": "Mountain Climber",
+          "description": "Discover all locations in the Mountain Zone.",
+          "category": "quest",
+          "max_count": 8,
+          "reward": {
+            "guaranteed": {
+              "currencies": {
+                "gold": {
+                  "min": 200
+                }
+              }
+            }
+          }
+        },
+        "exploreDesert": {
+          "name": "Desert Wanderer",
+          "description": "Discover all locations in the Desert Zone.",
+          "category": "quest",
+          "max_count": 12,
+          "reward": {
+            "guaranteed": {
+              "currencies": {
+                "gold": {
+                  "min": 200
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "craftingMaster": {
+      "name": "Crafting Master",
+      "description": "Master all crafting disciplines.",
+      "category": "quest",
+      "max_count": 4,
+      "reward": {
+        "guaranteed": {
+          "currencies": {
+            "gold": {
+              "min": 1500
+            }
+          }
+        }
+      },
+      "sub_achievements": {
+        "weaponsmith": {
+          "name": "Legendary Weaponsmith",
+          "description": "Craft 25 weapons of any type.",
+          "category": "quest",
+          "max_count": 25,
+          "reward": {
+            "guaranteed": {
+              "currencies": {
+                "gold": {
+                  "min": 300
+                }
+              }
+            }
+          }
+        },
+        "armorsmith": {
+          "name": "Master Armorsmith",
+          "description": "Craft 30 pieces of armor.",
+          "category": "quest",
+          "max_count": 30,
+          "reward": {
+            "guaranteed": {
+              "currencies": {
+                "gold": {
+                  "min": 300
+                }
+              }
+            }
+          }
+        },
+        "alchemist": {
+          "name": "Expert Alchemist",
+          "description": "Brew 50 potions.",
+          "category": "quest",
+          "max_count": 50,
+          "reward": {
+            "guaranteed": {
+              "currencies": {
+                "gold": {
+                  "min": 250
+                }
+              }
+            }
+          }
+        },
+        "enchanter": {
+          "name": "Arcane Enchanter",
+          "description": "Enchant 20 items.",
+          "category": "quest",
+          "max_count": 20,
+          "reward": {
+            "guaranteed": {
+              "currencies": {
+                "gold": {
+                  "min": 350
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "combatVeteran": {
+      "name": "Combat Veteran",
+      "description": "Prove your combat prowess by defeating various enemy types.",
+      "category": "quest",
+      "max_count": 5,
+      "reward": {
+        "guaranteed": {
+          "currencies": {
+            "gold": {
+              "min": 2000
+            }
+          }
+        }
+      },
+      "sub_achievements": {
+        "slayBoss1": {
+          "name": "Dragon Slayer",
+          "description": "Defeat the Ancient Dragon.",
+          "category": "quest",
+          "max_count": 1,
+          "reward": {
+            "guaranteed": {
+              "currencies": {
+                "gold": {
+                  "min": 500
+                }
+              }
+            }
+          }
+        },
+        "slayBoss2": {
+          "name": "Lich Hunter",
+          "description": "Defeat the Undead Lich.",
+          "category": "quest",
+          "max_count": 1,
+          "reward": {
+            "guaranteed": {
+              "currencies": {
+                "gold": {
+                  "min": 500
+                }
+              }
+            }
+          }
+        },
+        "slayElites": {
+          "name": "Elite Eliminator",
+          "description": "Defeat 50 elite enemies.",
+          "category": "quest",
+          "max_count": 50,
+          "reward": {
+            "guaranteed": {
+              "currencies": {
+                "gold": {
+                  "min": 400
+                }
+              }
+            }
+          }
+        },
+        "surviveWaves": {
+          "name": "Wave Survivor",
+          "description": "Survive 10 waves in the Arena.",
+          "category": "quest",
+          "max_count": 10,
+          "reward": {
+            "guaranteed": {
+              "currencies": {
+                "gold": {
+                  "min": 350
+                }
+              }
+            }
+          }
+        },
+        "perfectVictories": {
+          "name": "Flawless Fighter",
+          "description": "Win 5 battles without taking damage.",
+          "category": "quest",
+          "max_count": 5,
+          "reward": {
+            "guaranteed": {
+              "currencies": {
+                "gold": {
+                  "min": 450
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "killEnemiesRanged50": {
       "name": "Taking Out The Trash",
       "description": "Defeat 50 ranged enemies.",

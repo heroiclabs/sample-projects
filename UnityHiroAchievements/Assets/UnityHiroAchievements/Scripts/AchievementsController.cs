@@ -29,6 +29,9 @@ namespace HiroAchievements
         private IAchievementsSystem _achievementsSystem;
         private IEconomySystem _economySystem;
         private IAchievement _selectedAchievement;
+        private ISubAchievement _selectedSubAchievement;
+        private IAchievement _parentAchievement; // Track parent when sub is selected
+        private string _selectedSubAchievementKey; // Track the key in the parent's dictionary
 
         private AchievementsView _view;
 
@@ -155,12 +158,43 @@ namespace HiroAchievements
         public void SelectAchievement(IAchievement achievement)
         {
             _selectedAchievement = achievement;
+            _selectedSubAchievement = null; // Clear sub-achievement when main achievement is selected
             Debug.Log($"Selected achievement: {achievement?.Name ?? "None"}");
         }
 
         public IAchievement GetSelectedAchievement()
         {
             return _selectedAchievement;
+        }
+
+        public void SelectSubAchievement(ISubAchievement subAchievement, IAchievement parent, string subAchievementKey)
+        {
+            _selectedSubAchievement = subAchievement;
+            _parentAchievement = parent;
+            _selectedSubAchievementKey = subAchievementKey;
+            Debug.Log($"✓ SelectSubAchievement CALLED - Selected sub-achievement: {subAchievement?.Name ?? "None"} (ID: {subAchievement?.Id ?? "null"}, Key: {subAchievementKey})");
+        }
+
+        public ISubAchievement GetSelectedSubAchievement()
+        {
+            return _selectedSubAchievement;
+        }
+
+        public IAchievement GetParentAchievement()
+        {
+            return _parentAchievement;
+        }
+
+        public string GetSelectedSubAchievementKey()
+        {
+            return _selectedSubAchievementKey;
+        }
+
+        public void ClearSubAchievementSelection()
+        {
+            _selectedSubAchievement = null;
+            _parentAchievement = null;
+            _selectedSubAchievementKey = null;
         }
 
         #endregion
@@ -186,9 +220,19 @@ namespace HiroAchievements
 
         public async Task UpdateAchievementProgress(long progress)
         {
+            // If a sub-achievement is selected, update that
+            if (_selectedSubAchievement != null)
+            {
+                Debug.Log($"Updating SUB-ACHIEVEMENT: {_selectedSubAchievement.Name} (ID: {_selectedSubAchievement.Id})");
+                await UpdateAchievementProgress(_selectedSubAchievement.Id, progress);
+                return;
+            }
+
+            // Otherwise update the main achievement
             if (_selectedAchievement == null)
                 throw new Exception("No achievement selected.");
 
+            Debug.Log($"Updating MAIN ACHIEVEMENT: {_selectedAchievement.Name} (ID: {_selectedAchievement.Id})");
             await UpdateAchievementProgress(_selectedAchievement.Id, progress);
         }
 
@@ -205,6 +249,14 @@ namespace HiroAchievements
 
         public async Task ClaimAchievementReward(bool claimTotal = true)
         {
+            // If a sub-achievement is selected, claim that
+            if (_selectedSubAchievement != null)
+            {
+                await ClaimAchievementReward(_selectedSubAchievement.Id, claimTotal);
+                return;
+            }
+
+            // Otherwise claim the main achievement
             if (_selectedAchievement == null)
                 throw new Exception("No achievement selected.");
 
@@ -217,9 +269,20 @@ namespace HiroAchievements
             return (achievement.HasAvailableReward() || achievement.HasAvailableTotalReward()) && !achievement.IsClaimed() && achievement.Count >= achievement.MaxCount;
         }
 
+        public bool CanClaimReward(ISubAchievement subAchievement)
+        {
+            // Can claim if sub-achievement has reward and is completed
+            return subAchievement.HasAvailableReward() && !(subAchievement.ClaimTimeSec > 0) && subAchievement.Count >= subAchievement.MaxCount;
+        }
+
         public bool IsAchievementCompleted(IAchievement achievement)
         {
             return (achievement.HasAvailableReward() || achievement.HasAvailableTotalReward()) && achievement.IsClaimed();
+        }
+
+        public bool IsAchievementCompleted(ISubAchievement subAchievement)
+        {
+            return subAchievement.HasAvailableReward() && subAchievement.ClaimTimeSec > 0;
         }
 
         public bool IsAchievementLocked(IAchievement achievement)

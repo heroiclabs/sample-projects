@@ -11,6 +11,7 @@ namespace HiroAchievements
     {
         private VisualElement iconContainer;
         private Label nameLabel;
+        private Label subAchievementsLabel;
         private Label statusLabel;
         private VisualElement statusBadge;
         private VisualElement progressBar;
@@ -20,6 +21,7 @@ namespace HiroAchievements
         {
             iconContainer = visualElement.Q<VisualElement>("achievement-icon");
             nameLabel = visualElement.Q<Label>("achievement-name");
+            subAchievementsLabel = visualElement.Q<Label>("sub-achievements-text");
             statusLabel = visualElement.Q<Label>("status-text");
             statusBadge = visualElement.Q<VisualElement>("status-badge");
             progressBar = visualElement.Q<VisualElement>("achievement-progress-bar");
@@ -29,6 +31,28 @@ namespace HiroAchievements
         public void SetAchievement(IAchievement achievement, bool isCompleted, bool isLocked)
         {
             nameLabel.text = achievement.Name;
+
+            // Show sub-achievements count if available
+            if (subAchievementsLabel != null)
+            {
+                if (achievement.SubAchievements != null && achievement.SubAchievements.Count > 0)
+                {
+                    int completedCount = 0;
+                    foreach (var subAchievement in achievement.SubAchievements)
+                    {
+                        if (subAchievement.Value.Count >= subAchievement.Value.MaxCount)
+                        {
+                            completedCount++;
+                        }
+                    }
+                    subAchievementsLabel.text = $"{completedCount}/{achievement.SubAchievements.Count} Objectives";
+                    subAchievementsLabel.style.display = DisplayStyle.Flex;
+                }
+                else
+                {
+                    subAchievementsLabel.style.display = DisplayStyle.None;
+                }
+            }
 
             // Set status
             if (isCompleted)

@@ -10,7 +10,10 @@
             <ui:VisualElement style="flex-grow: 1; justify-content: space-between;">
                 <!-- Name and Status -->
                 <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <ui:Label name="achievement-name" text="Achievement Name" style="font-size: 22px; -unity-font-style: bold; color: rgb(0, 0, 0);" />
+                    <ui:VisualElement style="flex-direction: column;">
+                        <ui:Label name="achievement-name" text="Achievement Name" style="font-size: 22px; -unity-font-style: bold; color: rgb(0, 0, 0);" />
+                        <ui:Label name="sub-achievements-text" text="0/0 Objectives" style="font-size: 16px; color: rgb(100, 100, 100); margin-top: 4px; display: none;" />
+                    </ui:VisualElement>
                     <ui:VisualElement name="status-badge" style="padding: 4px 12px; border-radius: 12px; background-color: rgb(100, 180, 100);">
                         <ui:Label name="status-text" text="Status" style="font-size: 16px; color: rgb(255, 255, 255); -unity-font-style: bold;" />
                     </ui:VisualElement>

@@ -30,6 +30,7 @@ namespace HiroAchievements
         private Label _detailsProgressLabel;
         private VisualElement _detailsProgressBar;
         private VisualElement _detailsProgressFill;
+        private VisualElement _detailsSubAchievementsContainer;
         private VisualElement _detailsRewardsContainer;
         private Button _progressButton;
         private Button _claimButton;
@@ -44,6 +45,7 @@ namespace HiroAchievements
         private Label _errorMessage;
 
         private VisualElement _selectedAchievementElement;
+        private VisualElement _selectedSubAchievementElement;
         private UIDocument _uiDocument;
 
         public AchievementsView(AchievementsController controller, HiroAchievementsCoordinator coordinator,
@@ -54,7 +56,7 @@ namespace HiroAchievements
             _achievementItemTemplate = achievementItemTemplate;
             _defaultIcon = defaultIcon;
 
-            InitializeUI();
+            _ = InitializeUI();
         }
 
         #region UI Initialization
@@ -86,6 +88,7 @@ namespace HiroAchievements
             _detailsProgressLabel = rootElement.Q<Label>("details-progress");
             _detailsProgressBar = rootElement.Q<VisualElement>("details-progress-bar");
             _detailsProgressFill = rootElement.Q<VisualElement>("details-progress-fill");
+            _detailsSubAchievementsContainer = rootElement.Q<VisualElement>("details-sub-achievements");
             _detailsRewardsContainer = rootElement.Q<VisualElement>("details-rewards");
 
             _progressButton = rootElement.Q<Button>("progress-button");
@@ -93,6 +96,18 @@ namespace HiroAchievements
             {
                 if (_controller.GetSelectedAchievement() == null) return;
                 _progressQuantityField.value = 1;
+                
+                // Show which achievement will be updated in debug log
+                var subAch = _controller.GetSelectedSubAchievement();
+                if (subAch != null)
+                {
+                    Debug.Log($"Opening progress modal for sub-achievement: {subAch.Name}");
+                }
+                else
+                {
+                    Debug.Log($"Opening progress modal for achievement: {_controller.GetSelectedAchievement().Name}");
+                }
+                
                 _progressModal.style.display = DisplayStyle.Flex;
             });
 
@@ -199,6 +214,29 @@ namespace HiroAchievements
                 var nameLabel = container.Q<Label>("achievement-name");
                 nameLabel.text = achievement.Name;
 
+                // Set sub-achievements count
+                var subAchievementsLabel = container.Q<Label>("sub-achievements-text");
+                if (subAchievementsLabel != null)
+                {
+                    if (achievement.SubAchievements != null && achievement.SubAchievements.Count > 0)
+                    {
+                        int completedCount = 0;
+                        foreach (var subAchievement in achievement.SubAchievements)
+                        {
+                            if (subAchievement.Value.Count >= subAchievement.Value.MaxCount)
+                            {
+                                completedCount++;
+                            }
+                        }
+                        subAchievementsLabel.text = $"{completedCount}/{achievement.SubAchievements.Count} Objectives";
+                        subAchievementsLabel.style.display = DisplayStyle.Flex;
+                    }
+                    else
+                    {
+                        subAchievementsLabel.style.display = DisplayStyle.None;
+                    }
+                }
+
                 // Set status badge
                 var statusBadge = container.Q<VisualElement>("status-badge");
                 var statusLabel = statusBadge.Q<Label>("status-text");
@@ -206,8 +244,8 @@ namespace HiroAchievements
                 if (_controller.IsAchievementCompleted(achievement))
                 {
                     statusLabel.text = achievement.ClaimTimeSec > 0 ? "Claimed" : "Complete";
-                    statusBadge.style.backgroundColor = achievement.ClaimTimeSec > 0 
-                        ? new Color(0.6f, 0.6f, 0.6f, 1f) 
+                    statusBadge.style.backgroundColor = achievement.ClaimTimeSec > 0
+                        ? new Color(0.6f, 0.6f, 0.6f, 1f)
                         : new Color(0.4f, 0.8f, 0.4f, 1f);
                 }
                 else if (_controller.IsAchievementLocked(achievement))
@@ -221,15 +259,15 @@ namespace HiroAchievements
                     statusBadge.style.backgroundColor = new Color(0.5f, 0.6f, 1f, 1f);
                 }
 
-                // Set progress bar
+                // Set progress
                 var progressBar = container.Q<VisualElement>("achievement-progress-bar");
-                var progressFill = progressBar.Q<VisualElement>("achievement-progress-fill");
-                float progressPercent = achievement.MaxCount > 0 
-                    ? (float)achievement.Count / achievement.MaxCount * 100f 
+                var progressFill = container.Q<VisualElement>("achievement-progress-fill");
+                float progressPercent = achievement.MaxCount > 0
+                    ? (float)achievement.Count / achievement.MaxCount * 100f
                     : 0f;
                 progressFill.style.width = Length.Percent(Mathf.Clamp(progressPercent, 0f, 100f));
 
-                // Click handler
+                // Register click event
                 container.RegisterCallback<ClickEvent>(async evt =>
                 {
                     await SelectAchievement(achievement, container);
@@ -293,6 +331,26 @@ namespace HiroAchievements
             _detailsProgressLabel.text = $"Progress: {achievement.Count} / {achievement.MaxCount} ({progressPercent:F0}%)";
             _detailsProgressFill.style.width = Length.Percent(Mathf.Clamp(progressPercent, 0f, 100f));
 
+            // Sub-Achievements
+            if (_detailsSubAchievementsContainer != null)
+            {
+                _detailsSubAchievementsContainer.Clear();
+                if (achievement.SubAchievements != null && achievement.SubAchievements.Count > 0)
+                {
+                    _detailsSubAchievementsContainer.style.display = DisplayStyle.Flex;
+                    
+                    foreach (var subAchievementPair in achievement.SubAchievements)
+                    {
+                        var subAchievementElement = CreateSubAchievementElement(subAchievementPair.Value, achievement, subAchievementPair.Key);
+                        _detailsSubAchievementsContainer.Add(subAchievementElement);
+                    }
+                }
+                else
+                {
+                    _detailsSubAchievementsContainer.style.display = DisplayStyle.None;
+                }
+            }
+
             // Rewards
             _detailsRewardsContainer.Clear();
             if (achievement.HasReward())
@@ -324,6 +382,157 @@ namespace HiroAchievements
             await UpdateActionButtons();
         }
 
+        private VisualElement CreateSubAchievementElement(ISubAchievement subAchievement, IAchievement parent, string key)
+        {
+            // Container for the sub-achievement
+            var container = new VisualElement();
+            container.style.marginBottom = 10;
+            container.style.paddingTop = 10;
+            container.style.paddingBottom = 10;
+            container.style.paddingLeft = 10;
+            container.style.paddingRight = 10;
+            container.style.borderTopLeftRadius = 8;
+            container.style.borderTopRightRadius = 8;
+            container.style.borderBottomLeftRadius = 8;
+            container.style.borderBottomRightRadius = 8;
+            container.style.borderLeftWidth = 2;
+            container.style.borderRightWidth = 2;
+            container.style.borderTopWidth = 2;
+            container.style.borderBottomWidth = 2;
+            container.style.borderLeftColor = new Color(0.7f, 0.7f, 0.7f, 1f);
+            container.style.borderRightColor = new Color(0.7f, 0.7f, 0.7f, 1f);
+            container.style.borderTopColor = new Color(0.7f, 0.7f, 0.7f, 1f);
+            container.style.borderBottomColor = new Color(0.7f, 0.7f, 0.7f, 1f);
+            container.style.backgroundColor = new Color(0.95f, 0.95f, 0.95f, 1f);
+
+            // Add hover effect
+            container.RegisterCallback<MouseEnterEvent>(_ =>
+            {
+                if (_selectedSubAchievementElement != container)
+                {
+                    container.style.backgroundColor = new Color(0.9f, 0.9f, 1f, 1f);
+                }
+            });
+            container.RegisterCallback<MouseLeaveEvent>(_ =>
+            {
+                // Only reset if not selected
+                if (_selectedSubAchievementElement != container)
+                {
+                    container.style.backgroundColor = new Color(0.95f, 0.95f, 0.95f, 1f);
+                }
+            });
+
+            // Make clickable - pass sub-achievement, parent, and key
+            container.RegisterCallback<ClickEvent>(async evt =>
+            {
+                await SelectSubAchievement(subAchievement, parent, key, container);
+                evt.StopPropagation();
+            });
+
+            // Top row with name and status
+            var topRow = new VisualElement();
+            topRow.style.flexDirection = FlexDirection.Row;
+            topRow.style.justifyContent = Justify.SpaceBetween;
+            topRow.style.alignItems = Align.Center;
+            topRow.style.marginBottom = 8;
+
+            var nameLabel = new Label(subAchievement.Name);
+            nameLabel.style.fontSize = 18;
+            nameLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
+            nameLabel.style.color = new Color(0, 0, 0, 1f);
+            topRow.Add(nameLabel);
+
+            // Status badge with progress or checkmark
+            var statusBadge = new VisualElement();
+            statusBadge.style.paddingTop = 4;
+            statusBadge.style.paddingBottom = 4;
+            statusBadge.style.paddingLeft = 12;
+            statusBadge.style.paddingRight = 12;
+            statusBadge.style.borderTopLeftRadius = 12;
+            statusBadge.style.borderTopRightRadius = 12;
+            statusBadge.style.borderBottomLeftRadius = 12;
+            statusBadge.style.borderBottomRightRadius = 12;
+
+            bool isCompleted = subAchievement.Count >= subAchievement.MaxCount;
+            if (isCompleted)
+            {
+                statusBadge.style.backgroundColor = new Color(0.4f, 0.8f, 0.4f, 1f);
+                var checkLabel = new Label("✓");
+                checkLabel.style.fontSize = 18;
+                checkLabel.style.color = new Color(1, 1, 1, 1f);
+                checkLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
+                statusBadge.Add(checkLabel);
+            }
+            else
+            {
+                statusBadge.style.backgroundColor = new Color(0.5f, 0.6f, 1f, 1f);
+                var progressLabel = new Label("Progress");
+                progressLabel.style.fontSize = 14;
+                progressLabel.style.color = new Color(1, 1, 1, 1f);
+                progressLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
+                statusBadge.Add(progressLabel);
+            }
+            topRow.Add(statusBadge);
+
+            container.Add(topRow);
+
+            // Progress bar
+            var progressBarContainer = new VisualElement();
+            progressBarContainer.style.height = 18;
+            progressBarContainer.style.backgroundColor = new Color(0.85f, 0.85f, 0.85f, 1f);
+            progressBarContainer.style.borderTopLeftRadius = 9;
+            progressBarContainer.style.borderTopRightRadius = 9;
+            progressBarContainer.style.borderBottomLeftRadius = 9;
+            progressBarContainer.style.borderBottomRightRadius = 9;
+            progressBarContainer.style.overflow = Overflow.Hidden;
+
+            var progressFill = new VisualElement();
+            float progressPercent = subAchievement.MaxCount > 0
+                ? (float)subAchievement.Count / subAchievement.MaxCount * 100f
+                : 0f;
+            progressFill.style.width = Length.Percent(Mathf.Clamp(progressPercent, 0f, 100f));
+            progressFill.style.height = Length.Percent(100);
+            progressFill.style.backgroundColor = new Color(0.5f, 0.7f, 1f, 1f);
+
+            progressBarContainer.Add(progressFill);
+            container.Add(progressBarContainer);
+
+            return container;
+        }
+
+        private async Task SelectSubAchievement(ISubAchievement subAchievement, IAchievement parent, string key, VisualElement element)
+        {
+            if (subAchievement == null)
+            {
+                Debug.LogError("SelectSubAchievement called with NULL sub-achievement!");
+                return;
+            }
+
+            Debug.Log($"VIEW: SelectSubAchievement called with: {subAchievement.Name} (ID: {subAchievement.Id})");
+
+            // Deselect previous sub-achievement
+            if (_selectedSubAchievementElement != null)
+            {
+                _selectedSubAchievementElement.style.backgroundColor = new Color(0.95f, 0.95f, 0.95f, 1f);
+                _selectedSubAchievementElement.style.borderLeftColor = new Color(0.7f, 0.7f, 0.7f, 1f);
+                _selectedSubAchievementElement.style.borderRightColor = new Color(0.7f, 0.7f, 0.7f, 1f);
+                _selectedSubAchievementElement.style.borderTopColor = new Color(0.7f, 0.7f, 0.7f, 1f);
+                _selectedSubAchievementElement.style.borderBottomColor = new Color(0.7f, 0.7f, 0.7f, 1f);
+            }
+
+            // Select new sub-achievement
+            _controller.SelectSubAchievement(subAchievement, parent, key);
+            _selectedSubAchievementElement = element;
+            _selectedSubAchievementElement.style.backgroundColor = new Color(0.85f, 0.9f, 1f, 1f);
+            _selectedSubAchievementElement.style.borderLeftColor = new Color(0.5f, 0.6f, 1f, 1f);
+            _selectedSubAchievementElement.style.borderRightColor = new Color(0.5f, 0.6f, 1f, 1f);
+            _selectedSubAchievementElement.style.borderTopColor = new Color(0.5f, 0.6f, 1f, 1f);
+            _selectedSubAchievementElement.style.borderBottomColor = new Color(0.5f, 0.6f, 1f, 1f);
+
+            Debug.Log($"VIEW: Sub-achievement UI updated");
+            await UpdateActionButtons();
+        }
+
         private void ShowEmptyState()
         {
             _detailsNameLabel.text = "No Achievement Selected";
@@ -331,6 +540,11 @@ namespace HiroAchievements
             _detailsCategoryLabel.text = "";
             _detailsProgressLabel.text = "";
             _detailsProgressFill.style.width = Length.Percent(0);
+            if (_detailsSubAchievementsContainer != null)
+            {
+                _detailsSubAchievementsContainer.Clear();
+                _detailsSubAchievementsContainer.style.display = DisplayStyle.None;
+            }
             _detailsRewardsContainer.Clear();
 
             _achievementDetailsPanel.style.display = DisplayStyle.Flex;
@@ -344,6 +558,7 @@ namespace HiroAchievements
         {
             await _controller.RefreshAchievements();
             var selectedAchievement = _controller.GetSelectedAchievement();
+            var selectedSubAchievement = _controller.GetSelectedSubAchievement();
 
             if (selectedAchievement == null)
             {
@@ -352,14 +567,27 @@ namespace HiroAchievements
                 return;
             }
 
-            // Progress button: enabled if not completed
-            bool isCompleted = _controller.IsAchievementCompleted(selectedAchievement);
-            _progressButton.SetEnabled(!isCompleted);
+            // Check if a sub-achievement is selected
+            if (selectedSubAchievement != null)
+            {
+                // Use sub-achievement overloads
+                bool isCompleted = _controller.IsAchievementCompleted(selectedSubAchievement);
+                _progressButton.SetEnabled(!isCompleted);
 
-            // Claim button: enabled if can claim reward
-            bool canClaim = _controller.CanClaimReward(selectedAchievement);
-            Debug.Log("Can claim: " + canClaim);
-            _claimButton.SetEnabled(canClaim);
+                bool canClaim = _controller.CanClaimReward(selectedSubAchievement);
+                Debug.Log($"Sub-achievement can claim: {canClaim}");
+                _claimButton.SetEnabled(canClaim);
+            }
+            else
+            {
+                // Use main achievement overloads
+                bool isCompleted = _controller.IsAchievementCompleted(selectedAchievement);
+                _progressButton.SetEnabled(!isCompleted);
+
+                bool canClaim = _controller.CanClaimReward(selectedAchievement);
+                Debug.Log($"Main achievement can claim: {canClaim}");
+                _claimButton.SetEnabled(canClaim);
+            }
         }
 
         #endregion
@@ -411,7 +639,7 @@ namespace HiroAchievements
                         .FirstOrDefault(a => a.Id == selectedAchievement.Id);
                     if (updatedAchievement != null)
                     {
-                        ShowAchievementDetailsAsync(updatedAchievement);
+                        await ShowAchievementDetailsAsync(updatedAchievement);
                     }
                 }
 
