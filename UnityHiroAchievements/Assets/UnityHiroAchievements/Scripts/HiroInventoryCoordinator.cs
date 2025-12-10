@@ -42,6 +42,8 @@ namespace HiroAchievements
             systems.Add(inventorySystem);
             var economySystem = new EconomySystem(logger, nakamaSystem, EconomyStoreType.Unspecified);
             systems.Add(economySystem);
+            var AchievementsSystem = new AchievementsSystem(logger, nakamaSystem);
+            systems.Add(AchievementsSystem);
 
             return Task.FromResult(systems);
         }

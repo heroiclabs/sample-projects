@@ -59,7 +59,7 @@ namespace HiroAchievements
 
         #region UI Initialization
 
-        private void InitializeUI()
+        private async Task InitializeUI()
         {
             _uiDocument = _controller.GetComponent<UIDocument>();
             var rootElement = _uiDocument.rootVisualElement;
@@ -120,7 +120,7 @@ namespace HiroAchievements
             _errorCloseButton.RegisterCallback<ClickEvent>(_ => _errorPopup.style.display = DisplayStyle.None);
 
             UpdateTabButtons();
-            UpdateActionButtons();
+            await UpdateActionButtons();
         }
 
         public void StartObservingWallet()
@@ -184,10 +184,11 @@ namespace HiroAchievements
         private void PopulateAchievementsList(System.Collections.Generic.List<IAchievement> achievements)
         {
             _achievementsList.Clear();
-
+            Debug.Log(achievements.Count);
             foreach (var achievement in achievements)
             {
-                var achievementElement = _achievementItemTemplate.CloneTree();
+              Debug.Log("Adding Achievement");
+                var achievementElement = _achievementItemTemplate.Instantiate();
                 var container = achievementElement.Q<VisualElement>("achievement-item-container");
 
                 // Set achievement icon
@@ -229,9 +230,9 @@ namespace HiroAchievements
                 progressFill.style.width = Length.Percent(Mathf.Clamp(progressPercent, 0f, 100f));
 
                 // Click handler
-                container.RegisterCallback<ClickEvent>(evt =>
+                container.RegisterCallback<ClickEvent>(async evt =>
                 {
-                    SelectAchievement(achievement, container);
+                    await SelectAchievement(achievement, container);
                     evt.StopPropagation();
                 });
 
@@ -239,7 +240,7 @@ namespace HiroAchievements
             }
         }
 
-        private void SelectAchievement(IAchievement achievement, VisualElement element)
+        private async Task SelectAchievement(IAchievement achievement, VisualElement element)
         {
             // Deselect previous
             if (_selectedAchievementElement != null)
@@ -252,8 +253,8 @@ namespace HiroAchievements
             _selectedAchievementElement = element;
             _selectedAchievementElement.AddToClassList("selected-achievement");
 
-            ShowAchievementDetails(achievement);
-            UpdateActionButtons();
+            await ShowAchievementDetailsAsync(achievement);
+            await UpdateActionButtons();
         }
 
         private void SetAchievementIcon(VisualElement iconContainer, string achievementId)
@@ -277,7 +278,7 @@ namespace HiroAchievements
 
         #region Achievement Details
 
-        private void ShowAchievementDetails(IAchievement achievement)
+        private async Task ShowAchievementDetailsAsync(IAchievement achievement)
         {
             _detailsNameLabel.text = achievement.Name;
             _detailsDescriptionLabel.text = string.IsNullOrEmpty(achievement.Description)
@@ -320,6 +321,7 @@ namespace HiroAchievements
             }
 
             _achievementDetailsPanel.style.display = DisplayStyle.Flex;
+            await UpdateActionButtons();
         }
 
         private void ShowEmptyState()
@@ -338,8 +340,9 @@ namespace HiroAchievements
 
         #region Action Buttons
 
-        private void UpdateActionButtons()
+        private async Task UpdateActionButtons()
         {
+            await _controller.RefreshAchievements();
             var selectedAchievement = _controller.GetSelectedAchievement();
 
             if (selectedAchievement == null)
@@ -355,6 +358,7 @@ namespace HiroAchievements
 
             // Claim button: enabled if can claim reward
             bool canClaim = _controller.CanClaimReward(selectedAchievement);
+            Debug.Log("Can claim: " + canClaim);
             _claimButton.SetEnabled(canClaim);
         }
 
@@ -379,11 +383,11 @@ namespace HiroAchievements
                         .FirstOrDefault(a => a.Id == selectedAchievement.Id);
                     if (updatedAchievement != null)
                     {
-                        ShowAchievementDetails(updatedAchievement);
+                        await ShowAchievementDetailsAsync(updatedAchievement);
                     }
                 }
 
-                UpdateActionButtons();
+                await UpdateActionButtons();
             }
             catch (Exception e)
             {
@@ -407,11 +411,11 @@ namespace HiroAchievements
                         .FirstOrDefault(a => a.Id == selectedAchievement.Id);
                     if (updatedAchievement != null)
                     {
-                        ShowAchievementDetails(updatedAchievement);
+                        ShowAchievementDetailsAsync(updatedAchievement);
                     }
                 }
 
-                UpdateActionButtons();
+                await UpdateActionButtons();
             }
             catch (Exception e)
             {

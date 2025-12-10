@@ -364,28 +364,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d09862c4a7ec4898bc057b8378ab100c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HiroChallenges.HiroChallengesController
-  inventoryItemTemplate: {fileID: 9197481963319205126, guid: 8dd3c785e50de45048715a68169a3967, type: 3}
-  itemIconMappings:
-  - itemId: iron_sword
-    icon: {fileID: -2124102372771563869, guid: 84f404a0c8b644dbfa668c57f0c3457c, type: 3}
-  - itemId: gold_stack
-    icon: {fileID: 3183744519848866733, guid: 6556f306ccdfc46558bec4887327a115, type: 3}
-  - itemId: bomb
-    icon: {fileID: 1996048190166631823, guid: 239daefcee8c34448936bf5ec71b371e, type: 3}
-  - itemId: wooden_shield
-    icon: {fileID: -8020145047929140699, guid: 4ad4be2b759d24102a9b7575210ea2db, type: 3}
-  - itemId: mana_potion
-    icon: {fileID: 1188792238481573301, guid: 9c4eb9c4dee3149ebb37bdc0ada990b4, type: 3}
-  - itemId: iron_shield
-    icon: {fileID: 473728356293506998, guid: 0cf9f927f55bd443da92aad7ed15e7db, type: 3}
-  - itemId: magic_gem
-    icon: {fileID: 6521567286427641033, guid: 291bae5a918dd4ea3acba4ea98dc00d8, type: 3}
-  - itemId: golden_key
-    icon: {fileID: 1312465433301553684, guid: fb135d08768c24e41bfeb6807f9fca0a, type: 3}
-  - itemId: lucky_charm
-    icon: {fileID: -5502143058471085903, guid: 5ce489eb04a834e6a89e668e109041e2, type: 3}
-  - itemId: evil_eye
-    icon: {fileID: 6795985223779720529, guid: 20ee1762fea504e5bab4723bf295eb8e, type: 3}
+  achievementItemTemplate: {fileID: 9197481963319205126, guid: 8dd3c785e50de45048715a68169a3967, type: 3}
+  achievementIconMappings: []
   defaultIcon: {fileID: 4572200582248954793, guid: 0b0f45dc7e62c47689da39968a4415fa, type: 3}
 --- !u!1 &2121322951
 GameObject:

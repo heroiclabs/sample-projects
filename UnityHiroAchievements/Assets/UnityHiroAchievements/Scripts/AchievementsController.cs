@@ -137,22 +137,9 @@ namespace HiroAchievements
 
         public List<IAchievement> GetFilteredAchievements()
         {
-            if (_currentCategory == "all")
-            {
-                return AllAchievements;
-            }
-            else if (_currentCategory == "dailies")
-            {
-                return AllAchievements.Where(a => a.Category == "dailies").ToList();
-            }
-            else if (_currentCategory == "quests")
-            {
-                return AllAchievements.Where(a => a.Category == "quests").ToList();
-            }
-            else
-            {
-                return _achievementsSystem.GetAchievements(_currentCategory).ToList();
-            }
+          var result = _achievementsSystem.GetAchievements();
+          Debug.Log(result.Count());
+          return _achievementsSystem.GetAchievements().ToList();
         }
 
         public void SetCurrentCategory(string category)
@@ -194,6 +181,7 @@ namespace HiroAchievements
             };
 
             await _achievementsSystem.UpdateAchievementsAsync(updates);
+            await RefreshAchievements();
         }
 
         public async Task UpdateAchievementProgress(long progress)
@@ -226,13 +214,12 @@ namespace HiroAchievements
         public bool CanClaimReward(IAchievement achievement)
         {
             // Can claim if achievement has reward and is completed
-            return achievement.HasReward() && achievement.ClaimTimeSec == 0 && 
-                   achievement.Count >= achievement.MaxCount;
+            return (achievement.HasAvailableReward() || achievement.HasAvailableTotalReward()) && !achievement.IsClaimed() && achievement.Count >= achievement.MaxCount;
         }
 
         public bool IsAchievementCompleted(IAchievement achievement)
         {
-            return achievement.Count >= achievement.MaxCount;
+            return (achievement.HasAvailableReward() || achievement.HasAvailableTotalReward()) && achievement.IsClaimed();
         }
 
         public bool IsAchievementLocked(IAchievement achievement)
