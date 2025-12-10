@@ -284,12 +284,24 @@ namespace HiroAchievements
             if (_selectedAchievementElement != null)
             {
                 _selectedAchievementElement.RemoveFromClassList("selected-achievement");
+                // Reset visual style
+                _selectedAchievementElement.style.borderTopColor = new StyleColor(new Color(0.776f, 0.765f, 0.894f, 0.5f));
+                _selectedAchievementElement.style.borderBottomColor = new StyleColor(new Color(0.776f, 0.765f, 0.894f, 0.5f));
+                _selectedAchievementElement.style.borderLeftColor = new StyleColor(new Color(0.776f, 0.765f, 0.894f, 0.5f));
+                _selectedAchievementElement.style.borderRightColor = new StyleColor(new Color(0.776f, 0.765f, 0.894f, 0.5f));
+                _selectedAchievementElement.style.backgroundColor = new StyleColor(StyleKeyword.Null);
             }
 
             // Select new
             _controller.SelectAchievement(achievement);
             _selectedAchievementElement = element;
             _selectedAchievementElement.AddToClassList("selected-achievement");
+            // Add visual highlight
+            _selectedAchievementElement.style.borderTopColor = new Color(0.5f, 0.6f, 1f, 1f);
+            _selectedAchievementElement.style.borderBottomColor = new Color(0.5f, 0.6f, 1f, 1f);
+            _selectedAchievementElement.style.borderLeftColor = new Color(0.5f, 0.6f, 1f, 1f);
+            _selectedAchievementElement.style.borderRightColor = new Color(0.5f, 0.6f, 1f, 1f);
+            _selectedAchievementElement.style.backgroundColor = new Color(0.9f, 0.92f, 1f, 0.3f);
 
             await ShowAchievementDetailsAsync(achievement);
             await UpdateActionButtons();
@@ -466,11 +478,11 @@ namespace HiroAchievements
             else
             {
                 statusBadge.style.backgroundColor = new Color(0.5f, 0.6f, 1f, 1f);
-                var progressLabel = new Label("Progress");
-                progressLabel.style.fontSize = 14;
-                progressLabel.style.color = new Color(1, 1, 1, 1f);
-                progressLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
-                statusBadge.Add(progressLabel);
+                var progressInnerLabel = new Label("Progress");
+                progressInnerLabel.style.fontSize = 14;
+                progressInnerLabel.style.color = new Color(1, 1, 1, 1f);
+                progressInnerLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
+                statusBadge.Add(progressInnerLabel);
             }
             topRow.Add(statusBadge);
 
@@ -496,6 +508,14 @@ namespace HiroAchievements
 
             progressBarContainer.Add(progressFill);
             container.Add(progressBarContainer);
+
+            // Progress text label
+            var progressLabel = new Label($"{subAchievement.Count} / {subAchievement.MaxCount} ({progressPercent:F0}%)");
+            progressLabel.style.fontSize = 14;
+            progressLabel.style.color = new Color(0.4f, 0.4f, 0.4f, 1f);
+            progressLabel.style.marginTop = 4;
+            progressLabel.style.unityTextAlign = TextAnchor.MiddleCenter;
+            container.Add(progressLabel);
 
             return container;
         }
