@@ -594,15 +594,15 @@
     background-image: url("project://database/Assets/UnityHiroTeams/HeroicUI/Checkbox/checkbox_checked.png?fileID=2800000&guid=98e436c782ea7448e90590045e5658f2&type=3#checkbox_checked");
 }
 
-/* Detail Panel Tabs */
-.heroic-detail-tabs {
+/* Team Panel Tabs */
+.heroic-team-tabs {
     flex-direction: row;
     justify-content: center;
     align-items: center;
     padding-top: 15px;
 }
 
-.heroic-detail-tabs .heroic-horizontal-tab-button {
+.heroic-team-tabs .heroic-horizontal-tab-button {
     width: 19%;
     align-items: center;
 }

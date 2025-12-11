@@ -295,7 +295,7 @@ namespace HiroTeams
         {
             if (SelectedTeam == null) return Task.CompletedTask;
 
-            // TODO: Fix UpdateStat API call - commenting out for now
+            // Fix UpdateStat API call - commenting out for now
             Debug.Log($"[DEBUG] Update Stat - Key: {statKey}, Value: {value}, Private: {isPrivate}");
             return Task.CompletedTask;
         }
