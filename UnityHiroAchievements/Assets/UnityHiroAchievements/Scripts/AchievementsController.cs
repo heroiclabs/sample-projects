@@ -22,6 +22,7 @@ namespace HiroAchievements
     {
         [Header("References")]
         [SerializeField] private VisualTreeAsset achievementItemTemplate;
+        [SerializeField] private VisualTreeAsset subAchievementItemTemplate;
         [SerializeField] private AchievementIconMapping[] achievementIconMappings;
         [SerializeField] private Sprite defaultIcon;
 
@@ -68,7 +69,7 @@ namespace HiroAchievements
             achievementsCoordinator.ReceivedStartError += HandleStartError;
             achievementsCoordinator.ReceivedStartSuccess += HandleStartSuccess;
 
-            _view = new AchievementsView(this, achievementsCoordinator, achievementItemTemplate, defaultIcon);
+            _view = new AchievementsView(this, achievementsCoordinator, achievementItemTemplate, subAchievementItemTemplate, defaultIcon);
         }
 
         private void HandleStartError(Exception e)

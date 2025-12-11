@@ -13,6 +13,7 @@ namespace HiroAchievements
         private readonly AchievementsController _controller;
         private readonly HiroAchievementsCoordinator _coordinator;
         private readonly VisualTreeAsset _achievementItemTemplate;
+        private readonly VisualTreeAsset _subAchievementItemTemplate;
         private readonly Sprite _defaultIcon;
 
         private WalletDisplay _walletDisplay;
@@ -46,14 +47,17 @@ namespace HiroAchievements
 
         private VisualElement _selectedAchievementElement;
         private VisualElement _selectedSubAchievementElement;
+        private SubAchievementItemView _selectedSubAchievementView;
+        private System.Collections.Generic.Dictionary<VisualElement, SubAchievementItemView> _subAchievementViews = new System.Collections.Generic.Dictionary<VisualElement, SubAchievementItemView>();
         private UIDocument _uiDocument;
 
         public AchievementsView(AchievementsController controller, HiroAchievementsCoordinator coordinator,
-            VisualTreeAsset achievementItemTemplate, Sprite defaultIcon)
+            VisualTreeAsset achievementItemTemplate, VisualTreeAsset subAchievementItemTemplate, Sprite defaultIcon)
         {
             _controller = controller;
             _coordinator = coordinator;
             _achievementItemTemplate = achievementItemTemplate;
+            _subAchievementItemTemplate = subAchievementItemTemplate;
             _defaultIcon = defaultIcon;
 
             _ = InitializeUI();
@@ -286,9 +290,6 @@ namespace HiroAchievements
                 _selectedAchievementElement.RemoveFromClassList("selected-achievement");
                 // Reset visual style
                 _selectedAchievementElement.style.borderTopColor = new StyleColor(new Color(0.776f, 0.765f, 0.894f, 0.5f));
-                _selectedAchievementElement.style.borderBottomColor = new StyleColor(new Color(0.776f, 0.765f, 0.894f, 0.5f));
-                _selectedAchievementElement.style.borderLeftColor = new StyleColor(new Color(0.776f, 0.765f, 0.894f, 0.5f));
-                _selectedAchievementElement.style.borderRightColor = new StyleColor(new Color(0.776f, 0.765f, 0.894f, 0.5f));
                 _selectedAchievementElement.style.backgroundColor = new StyleColor(StyleKeyword.Null);
             }
 
@@ -298,9 +299,6 @@ namespace HiroAchievements
             _selectedAchievementElement.AddToClassList("selected-achievement");
             // Add visual highlight
             _selectedAchievementElement.style.borderTopColor = new Color(0.5f, 0.6f, 1f, 1f);
-            _selectedAchievementElement.style.borderBottomColor = new Color(0.5f, 0.6f, 1f, 1f);
-            _selectedAchievementElement.style.borderLeftColor = new Color(0.5f, 0.6f, 1f, 1f);
-            _selectedAchievementElement.style.borderRightColor = new Color(0.5f, 0.6f, 1f, 1f);
             _selectedAchievementElement.style.backgroundColor = new Color(0.9f, 0.92f, 1f, 0.3f);
 
             await ShowAchievementDetailsAsync(achievement);
@@ -347,6 +345,8 @@ namespace HiroAchievements
             if (_detailsSubAchievementsContainer != null)
             {
                 _detailsSubAchievementsContainer.Clear();
+                _subAchievementViews.Clear(); // Clear the views dictionary
+                
                 if (achievement.SubAchievements != null && achievement.SubAchievements.Count > 0)
                 {
                     _detailsSubAchievementsContainer.style.display = DisplayStyle.Flex;
@@ -396,33 +396,25 @@ namespace HiroAchievements
 
         private VisualElement CreateSubAchievementElement(ISubAchievement subAchievement, IAchievement parent, string key)
         {
-            // Container for the sub-achievement
-            var container = new VisualElement();
-            container.style.marginBottom = 10;
-            container.style.paddingTop = 10;
-            container.style.paddingBottom = 10;
-            container.style.paddingLeft = 10;
-            container.style.paddingRight = 10;
-            container.style.borderTopLeftRadius = 8;
-            container.style.borderTopRightRadius = 8;
-            container.style.borderBottomLeftRadius = 8;
-            container.style.borderBottomRightRadius = 8;
-            container.style.borderLeftWidth = 2;
-            container.style.borderRightWidth = 2;
-            container.style.borderTopWidth = 2;
-            container.style.borderBottomWidth = 2;
-            container.style.borderLeftColor = new Color(0.7f, 0.7f, 0.7f, 1f);
-            container.style.borderRightColor = new Color(0.7f, 0.7f, 0.7f, 1f);
-            container.style.borderTopColor = new Color(0.7f, 0.7f, 0.7f, 1f);
-            container.style.borderBottomColor = new Color(0.7f, 0.7f, 0.7f, 1f);
-            container.style.backgroundColor = new Color(0.95f, 0.95f, 0.95f, 1f);
+            // Instantiate the template
+            var subAchievementElement = _subAchievementItemTemplate.Instantiate();
+            
+            // Create view and set data
+            var subAchievementView = new SubAchievementItemView();
+            subAchievementView.SetVisualElement(subAchievementElement);
+            subAchievementView.SetSubAchievement(subAchievement);
+            
+            var container = subAchievementView.GetContainer();
+            
+            // Store view for later access
+            _subAchievementViews[container] = subAchievementView;
 
             // Add hover effect
             container.RegisterCallback<MouseEnterEvent>(_ =>
             {
                 if (_selectedSubAchievementElement != container)
                 {
-                    container.style.backgroundColor = new Color(0.9f, 0.9f, 1f, 1f);
+                    subAchievementView.SetHovered(true);
                 }
             });
             container.RegisterCallback<MouseLeaveEvent>(_ =>
@@ -430,7 +422,8 @@ namespace HiroAchievements
                 // Only reset if not selected
                 if (_selectedSubAchievementElement != container)
                 {
-                    container.style.backgroundColor = new Color(0.95f, 0.95f, 0.95f, 1f);
+                    subAchievementView.SetHovered(false);
+                    subAchievementView.SetSelected(false);
                 }
             });
 
@@ -441,83 +434,7 @@ namespace HiroAchievements
                 evt.StopPropagation();
             });
 
-            // Top row with name and status
-            var topRow = new VisualElement();
-            topRow.style.flexDirection = FlexDirection.Row;
-            topRow.style.justifyContent = Justify.SpaceBetween;
-            topRow.style.alignItems = Align.Center;
-            topRow.style.marginBottom = 8;
-
-            var nameLabel = new Label(subAchievement.Name);
-            nameLabel.style.fontSize = 18;
-            nameLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
-            nameLabel.style.color = new Color(0, 0, 0, 1f);
-            topRow.Add(nameLabel);
-
-            // Status badge with progress or checkmark
-            var statusBadge = new VisualElement();
-            statusBadge.style.paddingTop = 4;
-            statusBadge.style.paddingBottom = 4;
-            statusBadge.style.paddingLeft = 12;
-            statusBadge.style.paddingRight = 12;
-            statusBadge.style.borderTopLeftRadius = 12;
-            statusBadge.style.borderTopRightRadius = 12;
-            statusBadge.style.borderBottomLeftRadius = 12;
-            statusBadge.style.borderBottomRightRadius = 12;
-
-            bool isCompleted = subAchievement.Count >= subAchievement.MaxCount;
-            if (isCompleted)
-            {
-                statusBadge.style.backgroundColor = new Color(0.4f, 0.8f, 0.4f, 1f);
-                var checkLabel = new Label("✓");
-                checkLabel.style.fontSize = 18;
-                checkLabel.style.color = new Color(1, 1, 1, 1f);
-                checkLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
-                statusBadge.Add(checkLabel);
-            }
-            else
-            {
-                statusBadge.style.backgroundColor = new Color(0.5f, 0.6f, 1f, 1f);
-                var progressInnerLabel = new Label("Progress");
-                progressInnerLabel.style.fontSize = 14;
-                progressInnerLabel.style.color = new Color(1, 1, 1, 1f);
-                progressInnerLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
-                statusBadge.Add(progressInnerLabel);
-            }
-            topRow.Add(statusBadge);
-
-            container.Add(topRow);
-
-            // Progress bar
-            var progressBarContainer = new VisualElement();
-            progressBarContainer.style.height = 18;
-            progressBarContainer.style.backgroundColor = new Color(0.85f, 0.85f, 0.85f, 1f);
-            progressBarContainer.style.borderTopLeftRadius = 9;
-            progressBarContainer.style.borderTopRightRadius = 9;
-            progressBarContainer.style.borderBottomLeftRadius = 9;
-            progressBarContainer.style.borderBottomRightRadius = 9;
-            progressBarContainer.style.overflow = Overflow.Hidden;
-
-            var progressFill = new VisualElement();
-            float progressPercent = subAchievement.MaxCount > 0
-                ? (float)subAchievement.Count / subAchievement.MaxCount * 100f
-                : 0f;
-            progressFill.style.width = Length.Percent(Mathf.Clamp(progressPercent, 0f, 100f));
-            progressFill.style.height = Length.Percent(100);
-            progressFill.style.backgroundColor = new Color(0.5f, 0.7f, 1f, 1f);
-
-            progressBarContainer.Add(progressFill);
-            container.Add(progressBarContainer);
-
-            // Progress text label
-            var progressLabel = new Label($"{subAchievement.Count} / {subAchievement.MaxCount} ({progressPercent:F0}%)");
-            progressLabel.style.fontSize = 14;
-            progressLabel.style.color = new Color(0.4f, 0.4f, 0.4f, 1f);
-            progressLabel.style.marginTop = 4;
-            progressLabel.style.unityTextAlign = TextAnchor.MiddleCenter;
-            container.Add(progressLabel);
-
-            return container;
+            return subAchievementElement;
         }
 
         private async Task SelectSubAchievement(ISubAchievement subAchievement, IAchievement parent, string key, VisualElement element)
@@ -531,23 +448,21 @@ namespace HiroAchievements
             Debug.Log($"VIEW: SelectSubAchievement called with: {subAchievement.Name} (ID: {subAchievement.Id})");
 
             // Deselect previous sub-achievement
-            if (_selectedSubAchievementElement != null)
+            if (_selectedSubAchievementView != null && _selectedSubAchievementElement != null)
             {
-                _selectedSubAchievementElement.style.backgroundColor = new Color(0.95f, 0.95f, 0.95f, 1f);
-                _selectedSubAchievementElement.style.borderLeftColor = new Color(0.7f, 0.7f, 0.7f, 1f);
-                _selectedSubAchievementElement.style.borderRightColor = new Color(0.7f, 0.7f, 0.7f, 1f);
-                _selectedSubAchievementElement.style.borderTopColor = new Color(0.7f, 0.7f, 0.7f, 1f);
-                _selectedSubAchievementElement.style.borderBottomColor = new Color(0.7f, 0.7f, 0.7f, 1f);
+                _selectedSubAchievementView.SetSelected(false);
             }
 
             // Select new sub-achievement
             _controller.SelectSubAchievement(subAchievement, parent, key);
             _selectedSubAchievementElement = element;
-            _selectedSubAchievementElement.style.backgroundColor = new Color(0.85f, 0.9f, 1f, 1f);
-            _selectedSubAchievementElement.style.borderLeftColor = new Color(0.5f, 0.6f, 1f, 1f);
-            _selectedSubAchievementElement.style.borderRightColor = new Color(0.5f, 0.6f, 1f, 1f);
-            _selectedSubAchievementElement.style.borderTopColor = new Color(0.5f, 0.6f, 1f, 1f);
-            _selectedSubAchievementElement.style.borderBottomColor = new Color(0.5f, 0.6f, 1f, 1f);
+            
+            // Get the view from dictionary and mark as selected
+            if (_subAchievementViews.TryGetValue(element, out var view))
+            {
+                _selectedSubAchievementView = view;
+                _selectedSubAchievementView.SetSelected(true);
+            }
 
             Debug.Log($"VIEW: Sub-achievement UI updated");
             await UpdateActionButtons();
