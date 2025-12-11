@@ -4,7 +4,6 @@
       "name": "Master Explorer",
       "description": "Complete all exploration objectives across different zones.",
       "category": "quest",
-      "max_count": 3,
       "reward": {
         "guaranteed": {
           "currencies": {
@@ -66,7 +65,6 @@
       "name": "Crafting Master",
       "description": "Master all crafting disciplines.",
       "category": "quest",
-      "max_count": 4,
       "reward": {
         "guaranteed": {
           "currencies": {
@@ -143,7 +141,6 @@
       "name": "Combat Veteran",
       "description": "Prove your combat prowess by defeating various enemy types.",
       "category": "quest",
-      "max_count": 5,
       "reward": {
         "guaranteed": {
           "currencies": {
