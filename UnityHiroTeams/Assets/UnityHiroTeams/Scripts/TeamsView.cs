@@ -210,7 +210,7 @@ namespace HiroTeams
                 var newListEntry = _teamUserTemplate.Instantiate();
                 var newListEntryLogic = new TeamUserView();
                 newListEntry.userData = newListEntryLogic;
-                newListEntryLogic.SetVisualElement(newListEntry, _controller);
+                newListEntryLogic.SetVisualElement(newListEntry, _controller, this);
                 return newListEntry;
             };
             _teamUsersList.bindItem = (item, index) =>

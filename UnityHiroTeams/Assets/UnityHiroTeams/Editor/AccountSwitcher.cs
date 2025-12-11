@@ -171,7 +171,7 @@ namespace HiroTeams.Editor
                     (nakamaSystem.Session as Session)?.Update(newSession.AuthToken, newSession.RefreshToken);
                     await nakamaSystem.RefreshAsync();
                     accountUsernames[newValue] = newSession.Username;
-                    teamsController.SwitchComplete(newSession);
+                    teamsController.SwitchComplete();
 
                     SaveAccountUsernames();
                     break;

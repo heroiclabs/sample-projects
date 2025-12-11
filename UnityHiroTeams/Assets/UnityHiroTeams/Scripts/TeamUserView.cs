@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Threading.Tasks;
 using Hiro;
-using Hiro.System;
 using Hiro.Unity;
 using Nakama;
 using UnityEngine.UIElements;
@@ -34,10 +34,12 @@ namespace HiroTeams
 
         private string _userId;
         private HiroTeamsController _controller;
+        private TeamsView _teamsView;
 
-        public void SetVisualElement(VisualElement visualElement, HiroTeamsController controller)
+        public void SetVisualElement(VisualElement visualElement, HiroTeamsController controller, TeamsView teamsView)
         {
             _controller = controller;
+            _teamsView = teamsView;
 
             _usernameLabel = visualElement.Q<Label>("username");
             _roleLabel = visualElement.Q<Label>("role");
@@ -70,8 +72,7 @@ namespace HiroTeams
             _roleLabel.text = userState.ToString();
 
             // Get current user session to check if this is self
-            var nakamaSystem = HiroCoordinator.Instance.GetSystem<NakamaSystem>();
-            var session = nakamaSystem.Session;
+            var session = HiroCoordinator.Instance.GetSystem<NakamaSystem>().Session;
 
             // Hide all buttons if user is self
             if (session.UserId == teamUser.User.Id)
@@ -138,14 +139,87 @@ namespace HiroTeams
                             ? DisplayStyle.Flex
                             : DisplayStyle.None;
                     break;
+                case TeamUserState.Banned:
+                    break;
             }
         }
 
-        private Task AcceptUser() => _controller.AcceptJoinRequest(_userId);
-        private Task RejectUser() => _controller.RejectJoinRequest(_userId);
-        private Task PromoteUser() => _controller.PromoteUser(_userId);
-        private Task DemoteUser() => _controller.DemoteUser(_userId);
-        private Task KickUser() => _controller.KickUser(_userId);
-        private Task BanUser() => _controller.BanUser(_userId);
+        private async Task AcceptUser()
+        { 
+            try
+            {
+                await _controller.AcceptJoinRequest(_userId);
+                await _teamsView.RefreshTeams();
+            }
+            catch (Exception e)
+            {
+                _teamsView.ShowError(e.Message);
+            }
+        }
+
+        private async Task RejectUser()
+        {
+            try
+            {
+                await _controller.RejectJoinRequest(_userId);
+                await _teamsView.RefreshTeams();
+            }
+            catch (Exception e)
+            {
+                _teamsView.ShowError(e.Message);
+            }
+        }
+
+        private async Task PromoteUser()
+        {
+            try
+            {
+                await _controller.PromoteUser(_userId);
+                await _teamsView.RefreshTeams();
+            }
+            catch (Exception e)
+            {
+                _teamsView.ShowError(e.Message);
+            }
+        }
+
+        private async Task DemoteUser()
+        {
+            try
+            {
+                await _controller.DemoteUser(_userId);
+                await _teamsView.RefreshTeams();
+            }
+            catch (Exception e)
+            {
+                _teamsView.ShowError(e.Message);
+            }
+        }
+
+        private async Task KickUser()
+        {
+            try
+            {
+                await _controller.KickUser(_userId);
+                await _teamsView.RefreshTeams();
+            }
+            catch (Exception e)
+            {
+                _teamsView.ShowError(e.Message);
+            }
+        }
+
+        private async Task BanUser()
+        {
+            try
+            {
+                await _controller.BanUser(_userId);
+                await _teamsView.RefreshTeams();
+            }
+            catch (Exception e)
+            {
+                _teamsView.ShowError(e.Message);
+            }
+        }
     }
 }

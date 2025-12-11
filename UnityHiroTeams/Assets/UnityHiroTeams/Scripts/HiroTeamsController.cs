@@ -81,13 +81,13 @@ namespace HiroTeams
                 return;
             }
 
-            _view = new TeamsView(this, coordinator, teamEntryTemplate, teamUserTemplate);
-
             coordinator.ReceivedStartError += HandleStartError;
             coordinator.ReceivedStartSuccess += HandleStartSuccess;
+
+            _view = new TeamsView(this, coordinator, teamEntryTemplate, teamUserTemplate);
         }
 
-        private void HandleStartError(Exception e)
+        private static void HandleStartError(Exception e)
         {
             Debug.LogException(e);
         }
@@ -97,23 +97,15 @@ namespace HiroTeams
             _teamsSystem = HiroCoordinator.Instance.GetSystem<TeamsSystem>();
             _nakamaSystem = HiroCoordinator.Instance.GetSystem<NakamaSystem>();
 
-            try
-            {
-                await _teamsSystem.RefreshAsync();
-            }
-            catch (Exception e)
-            {
-                Debug.LogException(e);
-            }
+            await _view.RefreshTeams();
 
             OnInitialized?.Invoke(session, this);
         }
 
-        public void SwitchComplete(ISession newSession)
+        public void SwitchComplete()
         {
-            (_nakamaSystem.Session as Session)?.Update(newSession.AuthToken, newSession.RefreshToken);
             _ = _teamsSystem.RefreshAsync();
-            OnInitialized?.Invoke(newSession, this);
+            _ = _view.RefreshTeams();
         }
 
         #endregion
@@ -136,7 +128,6 @@ namespace HiroTeams
                     break;
                 case 1:
                     // Show user's current team if they have one
-                    await _teamsSystem.RefreshAsync();
                     if (_teamsSystem.Team != null)
                     {
                         Teams.Add(_teamsSystem.Team);
@@ -148,13 +139,12 @@ namespace HiroTeams
             }
 
             // If we have a Team selected, try to find it in the new list
-            for (int i = 0; i < Teams.Count; i++)
+            for (var i = 0; i < Teams.Count; i++)
             {
-                if (Teams[i].Id == _selectedTeamId)
-                {
-                    await SelectTeam(Teams[i]);
-                    return i;
-                }
+                if (Teams[i].Id != _selectedTeamId) continue;
+
+                await SelectTeam(Teams[i]);
+                return i;
             }
 
             // Team not found, clear selection
