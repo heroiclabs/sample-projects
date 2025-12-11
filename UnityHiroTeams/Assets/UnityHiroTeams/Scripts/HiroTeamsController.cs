@@ -14,7 +14,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Hiro;
 using Hiro.System;
@@ -38,8 +37,8 @@ namespace HiroTeams
     [Serializable]
     public struct AvatarData
     {
-        public int IconIndex;
-        public int BackgroundIndex;
+        public int iconIndex;
+        public int backgroundIndex;
     }
 
     [RequireComponent(typeof(UIDocument))]
@@ -59,633 +58,261 @@ namespace HiroTeams
         [field: SerializeField]
         public Texture2D[] AvatarBackgrounds { get; private set; }
 
+        private TeamsSystem _teamsSystem;
+        private NakamaSystem _nakamaSystem;
+        private TeamsView _view;
+
+        private string _selectedTeamId;
+
+        public ITeam SelectedTeam { get; private set; }
+        public List<ITeam> Teams { get; } = new();
+        public List<IGroupUserListGroupUser> SelectedTeamUsers { get; } = new();
+
         public event Action<ISession, HiroTeamsController> OnInitialized;
-
-        private Button allTab;
-        private Button myTeamTab;
-        private Button createButton;
-        private Button deleteButton;
-        private Button joinButton;
-        private Button leaveButton;
-        private VisualElement selectedTeamAvatarIcon;
-        private VisualElement selectedTeamAvatarBackground;
-        private VisualElement selectedTeamPanel;
-        private Label selectedTeamNameLabel;
-        private Label selectedTeamDescriptionLabel;
-        private ListView teamUsersList;
-        private ListView teamsList;
-        private ScrollView teamsScrollView;
-        private ScrollView teamUsersScrollView;
-
-        private VisualElement createModal;
-        private TextField modalNameField;
-        private TextField modalDescriptionField;
-        private IntegerField modalMaxCountField;
-        private Toggle modalOpenToggle;
-        private VisualElement modalAvatarBackground;
-        private VisualElement modalAvatarIcon;
-        private VisualElement modalPreviousBackgroundButton;
-        private VisualElement modalNextBackgroundButton;
-        private VisualElement modalPreviousIconButton;
-        private VisualElement modalNextIconButton;
-        private Button modalCreateButton;
-        private Button modalCloseButton;
-
-        private VisualElement errorPopup;
-        private Button errorCloseButton;
-        private Label errorMessage;
-
-        private int selectedTabIndex;
-        private int selectedAvatarBackgroundIndex;
-        private int selectedAvatarIconIndex;
-        private string selectedTeamId;
-        private ITeam selectedTeam;
-        private readonly List<ITeam> teams = new();
-        private readonly List<IGroupUserListGroupUser> selectedTeamUsers = new();
-
-        private TeamsSystem teamsSystem;
-        private NakamaSystem nakamaSystem;
 
         #region Initialization
 
         private void Start()
         {
-            InitializeUI();
             var coordinator = HiroCoordinator.Instance as HiroTeamsCoordinator;
             if (coordinator == null)
             {
                 Debug.LogError("HiroTeamsCoordinator not found!");
                 return;
             }
-            coordinator.ReceivedStartError += e =>
-            {
-                Debug.LogException(e);
-                errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = e.Message;
-            };
-            coordinator.ReceivedStartSuccess += session =>
-            {
-                teamsSystem = HiroCoordinator.Instance.GetSystem<TeamsSystem>();
-                nakamaSystem = HiroCoordinator.Instance.GetSystem<NakamaSystem>();
-                OnInitialized?.Invoke(session, this);
-                _ = InitializeTeamsAndRefresh();
-            };
+
+            _view = new TeamsView(this, coordinator, teamEntryTemplate, teamUserTemplate);
+
+            coordinator.ReceivedStartError += HandleStartError;
+            coordinator.ReceivedStartSuccess += HandleStartSuccess;
         }
 
-        private async Task InitializeTeamsAndRefresh()
+        private void HandleStartError(Exception e)
         {
+            Debug.LogException(e);
+        }
+
+        private async void HandleStartSuccess(ISession session)
+        {
+            _teamsSystem = HiroCoordinator.Instance.GetSystem<TeamsSystem>();
+            _nakamaSystem = HiroCoordinator.Instance.GetSystem<NakamaSystem>();
+
             try
             {
-                // Refresh the teams system to load user's current team state
-                await teamsSystem.RefreshAsync();
+                await _teamsSystem.RefreshAsync();
             }
             catch (Exception e)
             {
                 Debug.LogException(e);
             }
 
-            _ = UpdateTeams();
+            OnInitialized?.Invoke(session, this);
         }
 
         public void SwitchComplete(ISession newSession)
         {
-            // For use with the account switcher editor tool.
-            (nakamaSystem.Session as Session)?.Update(newSession.AuthToken, newSession.RefreshToken);
-            _ = InitializeTeamsAndRefresh();
+            (_nakamaSystem.Session as Session)?.Update(newSession.AuthToken, newSession.RefreshToken);
+            _ = _teamsSystem.RefreshAsync();
+            OnInitialized?.Invoke(newSession, this);
         }
 
         #endregion
 
-        #region UI Binding
+        #region Team List Operations
 
-        private void InitializeUI()
+        public async Task<int?> RefreshTeams(int tabIndex)
         {
-            var rootElement = GetComponent<UIDocument>().rootVisualElement;
+            Teams.Clear();
 
-            allTab = rootElement.Q<Button>("all-tab");
-            allTab.RegisterCallback<ClickEvent>(evt =>
+            switch (tabIndex)
             {
-                if (selectedTabIndex == 0) return;
-                selectedTabIndex = 0;
-                allTab.AddToClassList("selected");
-                myTeamTab.RemoveFromClassList("selected");
-                _ = UpdateTeams();
-            });
+                case 0:
+                    // List all Teams
+                    var teamList = await _teamsSystem.ListTeamsAsync(location: "", limit: teamEntriesLimit);
+                    foreach (var team in teamList.Teams)
+                    {
+                        Teams.Add(team);
+                    }
+                    break;
+                case 1:
+                    // Show user's current team if they have one
+                    await _teamsSystem.RefreshAsync();
+                    if (_teamsSystem.Team != null)
+                    {
+                        Teams.Add(_teamsSystem.Team);
+                    }
+                    break;
+                default:
+                    Debug.LogError("Unhandled Tab Index");
+                    return null;
+            }
 
-            myTeamTab = rootElement.Q<Button>("my-team-tab");
-            myTeamTab.RegisterCallback<ClickEvent>(evt =>
+            // If we have a Team selected, try to find it in the new list
+            for (int i = 0; i < Teams.Count; i++)
             {
-                if (selectedTabIndex == 1) return;
-                selectedTabIndex = 1;
-                myTeamTab.AddToClassList("selected");
-                allTab.RemoveFromClassList("selected");
-                _ = UpdateTeams();
-            });
-
-            createButton = rootElement.Q<Button>("team-create");
-            createButton.RegisterCallback<ClickEvent>(_ =>
-            {
-                selectedAvatarBackgroundIndex = 0;
-                selectedAvatarIconIndex = 0;
-                modalNameField.value = string.Empty;
-                modalDescriptionField.value = string.Empty;
-                modalMaxCountField.value = 30;
-                modalOpenToggle.value = true;
-                UpdateCreateModal();
-                createModal.style.display = DisplayStyle.Flex;
-            });
-
-            deleteButton = rootElement.Q<Button>("team-delete");
-            deleteButton.RegisterCallback<ClickEvent>(evt => _ = TeamDelete());
-
-            joinButton = rootElement.Q<Button>("team-join");
-            joinButton.RegisterCallback<ClickEvent>(evt => _ = TeamJoin());
-
-            leaveButton = rootElement.Q<Button>("team-leave");
-            leaveButton.RegisterCallback<ClickEvent>(evt => _ = TeamLeave());
-
-            selectedTeamPanel = rootElement.Q<VisualElement>("selected-team-panel");
-            selectedTeamAvatarIcon = rootElement.Q<VisualElement>("selected-team-avatar-icon");
-            selectedTeamAvatarBackground = rootElement.Q<VisualElement>("selected-team-avatar-background");
-            selectedTeamNameLabel = rootElement.Q<Label>("selected-team-name");
-            selectedTeamDescriptionLabel = rootElement.Q<Label>("selected-team-description");
-
-            teamUsersList = rootElement.Q<ListView>("team-users-list");
-            teamUsersList.makeItem = () =>
-            {
-                var newListEntry = teamUserTemplate.Instantiate();
-                var newListEntryLogic = new TeamUserView();
-                newListEntry.userData = newListEntryLogic;
-                newListEntryLogic.SetVisualElement(newListEntry, this);
-                return newListEntry;
-            };
-            teamUsersList.bindItem = (item, index) =>
-            {
-                var viewerUser = GetViewerUser();
-                var viewerState = viewerUser != null ? (TeamUserState)viewerUser.State : TeamUserState.None;
-                (item.userData as TeamUserView)?.SetTeamUser(viewerState, selectedTeamUsers[index]);
-            };
-            teamUsersList.itemsSource = selectedTeamUsers;
-
-            teamUsersScrollView = teamUsersList.Q<ScrollView>();
-            teamUsersScrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
-
-            teamsList = rootElement.Q<ListView>("teams-list");
-            teamsList.makeItem = () =>
-            {
-                var newListEntry = teamEntryTemplate.Instantiate();
-                var newListEntryLogic = new TeamView();
-                newListEntry.userData = newListEntryLogic;
-                newListEntryLogic.SetVisualElement(this, newListEntry);
-                return newListEntry;
-            };
-            teamsList.bindItem = (item, index) => { (item.userData as TeamView)?.SetTeam(teams[index]); };
-            teamsList.itemsSource = teams;
-            teamsList.selectionChanged += objects =>
-            {
-                if (teamsList.selectedItem is ITeam)
+                if (Teams[i].Id == _selectedTeamId)
                 {
-                    _ = OnTeamSelected(teamsList.selectedItem as ITeam);
-                }
-            };
-
-            teamsScrollView = teamsList.Q<ScrollView>();
-            teamsScrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
-
-            createModal = rootElement.Q<VisualElement>("create-modal");
-            modalNameField = rootElement.Q<TextField>("create-modal-name");
-            modalDescriptionField = rootElement.Q<TextField>("create-modal-description");
-            modalMaxCountField = rootElement.Q<IntegerField>("create-modal-max-count");
-            modalOpenToggle = rootElement.Q<Toggle>("create-modal-open");
-            modalAvatarBackground = rootElement.Q<VisualElement>("create-modal-avatar-background");
-            modalAvatarIcon = rootElement.Q<VisualElement>("create-modal-avatar-icon");
-            modalPreviousBackgroundButton = rootElement.Q<VisualElement>("create-modal-previous-background");
-            modalPreviousBackgroundButton.RegisterCallback<ClickEvent>(_ =>
-            {
-                selectedAvatarBackgroundIndex--;
-                if (selectedAvatarBackgroundIndex < 0)
-                {
-                    selectedAvatarBackgroundIndex = AvatarBackgrounds.Length - 1;
-                }
-                UpdateCreateModal();
-            });
-            modalNextBackgroundButton = rootElement.Q<VisualElement>("create-modal-next-background");
-            modalNextBackgroundButton.RegisterCallback<ClickEvent>(_ =>
-            {
-                selectedAvatarBackgroundIndex++;
-                if (selectedAvatarBackgroundIndex == AvatarBackgrounds.Length)
-                {
-                    selectedAvatarBackgroundIndex = 0;
-                }
-                UpdateCreateModal();
-            });
-            modalPreviousIconButton = rootElement.Q<VisualElement>("create-modal-previous-icon");
-            modalPreviousIconButton.RegisterCallback<ClickEvent>(_ =>
-            {
-                selectedAvatarIconIndex--;
-                if (selectedAvatarIconIndex < 0)
-                {
-                    selectedAvatarIconIndex = AvatarIcons.Length - 1;
-                }
-                UpdateCreateModal();
-            });
-            modalNextIconButton = rootElement.Q<VisualElement>("create-modal-next-icon");
-            modalNextIconButton.RegisterCallback<ClickEvent>(_ =>
-            {
-                selectedAvatarIconIndex++;
-                if (selectedAvatarIconIndex == AvatarIcons.Length)
-                {
-                    selectedAvatarIconIndex = 0;
-                }
-                UpdateCreateModal();
-            });
-            modalCreateButton = rootElement.Q<Button>("create-modal-create");
-            modalCreateButton.RegisterCallback<ClickEvent>(evt => _ = TeamCreate());
-            modalCloseButton = rootElement.Q<Button>("create-modal-close");
-            modalCloseButton.RegisterCallback<ClickEvent>(_ => createModal.style.display = DisplayStyle.None);
-
-            errorPopup = rootElement.Q<VisualElement>("error-popup");
-            errorMessage = rootElement.Q<Label>("error-message");
-            errorCloseButton = rootElement.Q<Button>("error-close");
-            errorCloseButton.RegisterCallback<ClickEvent>(_ => errorPopup.style.display = DisplayStyle.None);
-
-            _ = OnTeamSelected(null);
-        }
-
-        private IGroupUserListGroupUser GetViewerUser()
-        {
-            var session = nakamaSystem.Session;
-            foreach (var user in selectedTeamUsers)
-            {
-                if (user.User.Id == session.UserId)
-                {
-                    return user;
+                    await SelectTeam(Teams[i]);
+                    return i;
                 }
             }
+
+            // Team not found, clear selection
+            SelectedTeam = null;
+            _selectedTeamId = string.Empty;
             return null;
         }
 
-        private async Task OnTeamSelected(ITeam team)
+        public async Task SelectTeam(ITeam team)
         {
             if (team == null)
             {
-                selectedTeamId = string.Empty;
-                selectedTeamPanel.style.display = DisplayStyle.None;
+                SelectedTeam = null;
+                _selectedTeamId = string.Empty;
+                SelectedTeamUsers.Clear();
                 return;
             }
 
-            selectedTeam = team;
-            selectedTeamId = selectedTeam.Id;
+            SelectedTeam = team;
+            _selectedTeamId = team.Id;
 
-            // Parse avatar data
-            try
+            // Get team members
+            var teamMembers = await _teamsSystem.GetTeamMembersAsync(team.Id);
+            SelectedTeamUsers.Clear();
+            SelectedTeamUsers.AddRange(teamMembers.GroupUsers);
+        }
+
+        public TeamUserState GetViewerState()
+        {
+            if (_nakamaSystem?.Session == null) return TeamUserState.None;
+
+            foreach (var user in SelectedTeamUsers)
             {
-                var avatarData = JsonUtility.FromJson<AvatarData>(selectedTeam.AvatarUrl);
-                if (avatarData.IconIndex >= 0 && avatarData.IconIndex < AvatarIcons.Length)
+                if (user.User.Id == _nakamaSystem.Session.UserId)
                 {
-                    selectedTeamAvatarIcon.style.backgroundImage = AvatarIcons[avatarData.IconIndex];
-                }
-                if (avatarData.BackgroundIndex >= 0 && avatarData.BackgroundIndex < AvatarBackgrounds.Length)
-                {
-                    selectedTeamAvatarBackground.style.backgroundImage = AvatarBackgrounds[avatarData.BackgroundIndex];
+                    return (TeamUserState)user.State;
                 }
             }
-            catch
-            {
-                // Avatar URL might not be valid JSON, use defaults
-            }
-
-            selectedTeamNameLabel.text = selectedTeam.Name;
-            selectedTeamDescriptionLabel.text = selectedTeam.Description ?? "No description set.";
-
-            // Get team members using TeamsSystem
-            try
-            {
-                var teamMembers = await teamsSystem.GetTeamMembersAsync(selectedTeam.Id);
-                selectedTeamUsers.Clear();
-                selectedTeamUsers.AddRange(teamMembers.GroupUsers);
-                teamUsersList.RefreshItems();
-            }
-            catch (Exception e)
-            {
-                Debug.LogException(e);
-                errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = e.Message;
-                return;
-            }
-
-            var viewerUser = GetViewerUser();
-
-            // Show Join button if team is not full and user is not a member
-            if (selectedTeam.EdgeCount < selectedTeam.MaxCount && viewerUser == null)
-            {
-                joinButton.style.display = DisplayStyle.Flex;
-            }
-            else
-            {
-                joinButton.style.display = DisplayStyle.None;
-            }
-
-            // Show Leave and Delete buttons based on membership
-            if (viewerUser != null)
-            {
-                leaveButton.style.display = DisplayStyle.Flex;
-                deleteButton.style.display = viewerUser.State == (int)TeamUserState.SuperAdmin
-                    ? DisplayStyle.Flex
-                    : DisplayStyle.None;
-            }
-            else
-            {
-                leaveButton.style.display = DisplayStyle.None;
-                deleteButton.style.display = DisplayStyle.None;
-            }
-
-            selectedTeamPanel.style.display = DisplayStyle.Flex;
+            return TeamUserState.None;
         }
 
         #endregion
 
-        #region Teams
+        #region Team Lifecycle Operations
 
-        private async Task UpdateTeams()
+        public async Task CreateTeam(string name, string description, bool isOpen, int backgroundIndex, int iconIndex)
         {
-            teams.Clear();
-
-            try
+            var avatarDataJson = JsonUtility.ToJson(new AvatarData
             {
-                switch (selectedTabIndex)
-                {
-                    case 0:
-                        // List all Teams
-                        var teamList = await teamsSystem.ListTeamsAsync(location: "", limit: teamEntriesLimit);
-                        foreach (var team in teamList.Teams)
-                        {
-                            teams.Add(team);
-                        }
-                        break;
-                    case 1:
-                        // Show user's current team if they have one
-                        await teamsSystem.RefreshAsync();
-                        if (teamsSystem.Team != null)
-                        {
-                            teams.Add(teamsSystem.Team);
-                        }
-                        break;
-                    default:
-                        Debug.LogError("Unhandled Tab Index");
-                        return;
-                }
-            }
-            catch (Exception e)
-            {
-                errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = e.Message;
-                return;
-            }
+                backgroundIndex = backgroundIndex,
+                iconIndex = iconIndex
+            });
 
-            teamsList.RefreshItems();
-            teamsList.ClearSelection();
-
-            // If we have a Team selected, try to select it again if it still exists
-            foreach (var team in teams)
-            {
-                if (team.Id != selectedTeamId) continue;
-                _ = OnTeamSelected(team);
-                teamsList.SetSelection(teams.IndexOf(team));
-                return;
-            }
-
-            // If we don't find the previously selected Team, hide the selected Team panel
-            selectedTeamPanel.style.display = DisplayStyle.None;
+            await _teamsSystem.CreateTeamAsync(
+                name,
+                description,
+                isOpen,
+                avatarDataJson,
+                "en",
+                "{}"
+            );
         }
 
-        private void UpdateCreateModal()
+        public async Task DeleteTeam()
         {
-            // Update the preview for the Team's avatar logo
-            if (selectedAvatarBackgroundIndex >= 0 && selectedAvatarBackgroundIndex < AvatarBackgrounds.Length)
-            {
-                modalAvatarBackground.style.backgroundImage = AvatarBackgrounds[selectedAvatarBackgroundIndex];
-            }
-            if (selectedAvatarIconIndex >= 0 && selectedAvatarIconIndex < AvatarIcons.Length)
-            {
-                modalAvatarIcon.style.backgroundImage = AvatarIcons[selectedAvatarIconIndex];
-            }
+            if (SelectedTeam == null) return;
+            await _teamsSystem.DeleteTeamAsync(SelectedTeam.Id);
         }
 
-        private async Task TeamCreate()
+        public async Task JoinTeam()
         {
-            try
-            {
-                // Take the selected avatar icon and background, and convert it into a JSON object
-                var avatarDataJson = JsonUtility.ToJson(new AvatarData
-                {
-                    BackgroundIndex = selectedAvatarBackgroundIndex,
-                    IconIndex = selectedAvatarIconIndex
-                });
-
-                // Use TeamsSystem to create a new team
-                // Parameters: name, desc, open, avatar, langTag, setupMetadata
-                await teamsSystem.CreateTeamAsync(
-                    modalNameField.value,
-                    modalDescriptionField.value,
-                    modalOpenToggle.value,
-                    avatarDataJson,
-                    "en",
-                    "{}"
-                );
-            }
-            catch (Exception e)
-            {
-                errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = e.Message;
-                return;
-            }
-
-            // After successfully creating the Team, hide the create modal and update the Teams list
-            createModal.style.display = DisplayStyle.None;
-            _ = UpdateTeams();
+            if (SelectedTeam == null) return;
+            await _teamsSystem.JoinTeamAsync(SelectedTeam.Id);
         }
 
-        private async Task TeamDelete()
+        public async Task LeaveTeam()
         {
-            if (selectedTeam == null) return;
-
-            try
-            {
-                // Attempt to delete the selected Team
-                await teamsSystem.DeleteTeamAsync(selectedTeam.Id);
-                teamsList.ClearSelection();
-            }
-            catch (Exception e)
-            {
-                errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = e.Message;
-                return;
-            }
-
-            // After successfully deleting the Team, update the Teams list
-            _ = UpdateTeams();
+            if (SelectedTeam == null) return;
+            await _teamsSystem.LeaveTeamAsync(SelectedTeam.Id);
         }
 
-        private async Task TeamJoin()
+        #endregion
+
+        #region Team Member Operations
+
+        public async Task AcceptJoinRequest(string userId)
         {
-            if (selectedTeam == null) return;
-
-            try
-            {
-                // Attempt to join the selected Team
-                await teamsSystem.JoinTeamAsync(selectedTeam.Id);
-            }
-            catch (Exception e)
-            {
-                errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = e.Message;
-                return;
-            }
-
-            // After successfully joining the Team, update the Teams list
-            _ = UpdateTeams();
+            if (SelectedTeam == null) return;
+            await _teamsSystem.ApproveJoinRequestAsync(SelectedTeam.Id, userId);
         }
 
-        private async Task TeamLeave()
+        public async Task RejectJoinRequest(string userId)
         {
-            if (selectedTeam == null) return;
-
-            try
-            {
-                // Attempt to leave the selected Team
-                await teamsSystem.LeaveTeamAsync(selectedTeam.Id);
-                teamsList.ClearSelection();
-            }
-            catch (Exception e)
-            {
-                errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = e.Message;
-                return;
-            }
-
-            // After successfully leaving, update the Teams list
-            _ = UpdateTeams();
+            if (SelectedTeam == null) return;
+            await _teamsSystem.RejectJoinRequestAsync(SelectedTeam.Id, userId);
         }
 
-        public async Task TeamAccept(string userId)
+        public async Task PromoteUser(string userId)
         {
-            if (selectedTeam == null) return;
-
-            try
-            {
-                // Attempt to accept the selected user's join request
-                await teamsSystem.ApproveJoinRequestAsync(selectedTeam.Id, userId);
-            }
-            catch (Exception e)
-            {
-                errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = e.Message;
-                return;
-            }
-
-            // After successfully accepting the user, update the Teams list
-            _ = UpdateTeams();
+            if (SelectedTeam == null) return;
+            await _teamsSystem.PromoteUsersAsync(SelectedTeam.Id, new[] { userId });
         }
 
-        public async Task TeamReject(string userId)
+        public async Task DemoteUser(string userId)
         {
-            if (selectedTeam == null) return;
-
-            try
-            {
-                // Attempt to reject the selected user's join request
-                await teamsSystem.RejectJoinRequestAsync(selectedTeam.Id, userId);
-            }
-            catch (Exception e)
-            {
-                errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = e.Message;
-                return;
-            }
-
-            // After successfully rejecting the user, update the Teams list
-            _ = UpdateTeams();
+            if (SelectedTeam == null) return;
+            await _teamsSystem.DemoteUsersAsync(SelectedTeam.Id, new[] { userId });
         }
 
-        public async Task TeamPromote(string userId)
+        public async Task KickUser(string userId)
         {
-            if (selectedTeam == null) return;
-
-            try
-            {
-                // Attempt to promote the selected user
-                await teamsSystem.PromoteUsersAsync(selectedTeam.Id, new[] { userId });
-            }
-            catch (Exception e)
-            {
-                errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = e.Message;
-                return;
-            }
-
-            // After successfully promoting the user, update the Teams list
-            _ = UpdateTeams();
+            if (SelectedTeam == null) return;
+            await _teamsSystem.KickUsersAsync(SelectedTeam.Id, new[] { userId });
         }
 
-        public async Task TeamDemote(string userId)
+        public async Task BanUser(string userId)
         {
-            if (selectedTeam == null) return;
-
-            try
-            {
-                // Demote is done via Nakama client API since TeamsSystem doesn't expose it directly
-                await nakamaSystem.Client.DemoteGroupUsersAsync(nakamaSystem.Session, selectedTeam.Id, new[] { userId });
-            }
-            catch (Exception e)
-            {
-                errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = e.Message;
-                return;
-            }
-
-            // After successfully demoting the user, update the Teams list
-            _ = UpdateTeams();
+            if (SelectedTeam == null) return;
+            await _nakamaSystem.Client.BanGroupUsersAsync(_nakamaSystem.Session, SelectedTeam.Id, new[] { userId });
         }
 
-        public async Task TeamKick(string userId)
+        #endregion
+
+        #region Debug Operations
+
+        public async Task DebugGrantCurrency(string currencyId, int amount)
         {
-            if (selectedTeam == null) return;
+            if (SelectedTeam == null) return;
 
-            try
+            var currencies = new Dictionary<string, long>
             {
-                // Kick is done via Nakama client API since TeamsSystem doesn't expose it directly
-                await nakamaSystem.Client.KickGroupUsersAsync(nakamaSystem.Session, selectedTeam.Id, new[] { userId });
-            }
-            catch (Exception e)
-            {
-                errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = e.Message;
-                return;
-            }
-
-            // After successfully kicking the user, update the Teams list
-            _ = UpdateTeams();
+                { currencyId, amount }
+            };
+            await _teamsSystem.GrantAsync(currencies);
         }
 
-        public async Task TeamBan(string userId)
+        public Task DebugUpdateStat(string statKey, int value, bool isPrivate)
         {
-            if (selectedTeam == null) return;
+            if (SelectedTeam == null) return Task.CompletedTask;
 
-            try
-            {
-                // Ban is done via Nakama client API since TeamsSystem doesn't expose it directly
-                await nakamaSystem.Client.BanGroupUsersAsync(nakamaSystem.Session, selectedTeam.Id, new[] { userId });
-            }
-            catch (Exception e)
-            {
-                errorPopup.style.display = DisplayStyle.Flex;
-                errorMessage.text = e.Message;
-                return;
-            }
+            // TODO: Fix UpdateStat API call - commenting out for now
+            Debug.Log($"[DEBUG] Update Stat - Key: {statKey}, Value: {value}, Private: {isPrivate}");
+            return Task.CompletedTask;
+        }
 
-            // After successfully banning the user, update the Teams list
-            _ = UpdateTeams();
+        #endregion
+
+        #region Mailbox Operations
+
+        public async Task ClaimAllMailbox()
+        {
+            if (SelectedTeam == null) return;
+
+            var mailbox = await _teamsSystem.ListMailboxAsync();
+            foreach (var entry in mailbox.Entries)
+            {
+                await _teamsSystem.ClaimMailboxRewardAsync(entry.Id, true);
+            }
         }
 
         #endregion

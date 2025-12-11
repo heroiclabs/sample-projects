@@ -21,25 +21,83 @@
         </ui:VisualElement>
         <ui:VisualElement name="main-right" style="width: 55%;">
             <ui:VisualElement style="margin-top: 30px; margin-right: 30px; margin-bottom: 30px; flex-grow: 1;">
-                <ui:VisualElement name="selected-team-panel" class="heroic-main__panel" style="height: 30%; flex-grow: 1;">
-                    <ui:VisualElement style="height: 50%; background-color: rgb(132, 154, 255); border-top-left-radius: 15px; border-top-right-radius: 15px;">
-                        <ui:VisualElement style="height: 200px; align-self: center; margin-top: 25px; width: 100%;">
-                            <ui:VisualElement name="selected-team-avatar-background" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/UI_etc/clan_in_red.png?fileID=2800000&amp;guid=9c64b8175de6b4d98a9096473f7d0e50&amp;type=3#clan_in_red&quot;); -unity-background-scale-mode: scale-to-fit; background-size: 175px 180px; height: 100%; min-height: 200px;">
+                <ui:VisualElement name="selected-team-panel" class="heroic-main__panel" style="flex-grow: 1; flex-shrink: 0;">
+                    <ui:VisualElement style="background-color: rgb(132, 154, 255); border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                        <ui:VisualElement style="height: 140px; align-self: center; margin-top: 15px; width: 100%;">
+                            <ui:VisualElement name="selected-team-avatar-background" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/UI_etc/clan_in_red.png?fileID=2800000&amp;guid=9c64b8175de6b4d98a9096473f7d0e50&amp;type=3#clan_in_red&quot;); -unity-background-scale-mode: scale-to-fit; background-size: 120px 125px; height: 100%; min-height: 140px;">
                                 <ui:VisualElement name="avatar-frame" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/UI_etc/clan_frame.png?fileID=2800000&amp;guid=f09f98b081e934e4c82fd5d2f5cf93ca&amp;type=3#clan_frame&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; top: 0; left: 0; bottom: 0; right: 0;" />
                                 <ui:VisualElement name="selected-team-avatar-icon" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/IconMisc/icon_fist.png?fileID=2800000&amp;guid=8176dbc9a0f7145dcbb159234f38cfac&amp;type=3#icon_fist&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; top: 30%; left: 10%; bottom: 30%; right: 10%;" />
                             </ui:VisualElement>
                         </ui:VisualElement>
-                        <ui:VisualElement style="height: 45%;">
-                            <ui:Label text="Team Name" name="selected-team-name" class="heroic-title" style="color: rgb(255, 255, 255); height: 30%; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: middle-center;" />
-                            <ui:Label text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit massa id ullamcorper efficitur. Donec luctus sed erat id elementum. Vestibulum sed neque tellus. Quisque placerat dolor eget sem iaculis facilisis." name="selected-team-description" class="heroic-title" style="font-size: 28px; color: rgb(255, 255, 255); overflow: hidden; text-overflow: ellipsis; white-space: normal; height: 70%; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 30px; padding-bottom: 10px; padding-left: 30px; -unity-font-style: bold; align-content: center; -unity-text-align: middle-center;" />
+                        <ui:VisualElement style="padding: 10px 0 15px 0;">
+                            <ui:Label text="Team Name" name="selected-team-name" class="heroic-title" style="color: rgb(255, 255, 255); height: auto; margin: 0; padding: 0; -unity-text-align: middle-center; font-size: 36px;" />
+                            <ui:Label text="Team description goes here..." name="selected-team-description" class="heroic-title" style="font-size: 24px; color: rgb(255, 255, 255); overflow: hidden; text-overflow: ellipsis; white-space: normal; height: auto; margin: 0; padding: 0 20px 5px 20px; -unity-font-style: bold; -unity-text-align: middle-center;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:ListView name="team-users-list" fixed-item-height="110" style="height: 35%;" />
-                    <ui:VisualElement style="height: 15%; flex-direction: row; align-self: center; align-items: center;">
-                        <ui:Button text="Join" name="team-join" class="heroic-button" />
-                        <ui:Button text="Leave" name="team-leave" class="heroic-button" />
-                        <ui:Button text="Delete" name="team-delete" class="heroic-button" />
+                    <ui:VisualElement name="tab-content" style="flex-grow: 1; flex-shrink: 0;">
+                        <ui:VisualElement name="content-preview" class="heroic-tab-content" style="display: none;">
+                            <ui:VisualElement name="preview-stats" class="heroic-stats-row" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="content-members" class="heroic-tab-content" style="padding: 0;">
+                            <ui:ListView name="team-users-list" fixed-item-height="110" style="flex-grow: 1;" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="content-gifts" class="heroic-tab-content heroic-tab-content--hidden">
+                            <ui:Label text="Team Gifts" class="heroic-section-title" />
+                            <ui:ScrollView name="gifts-list" style="flex-grow: 1;" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="content-chat" class="heroic-tab-content heroic-tab-content--hidden">
+                            <ui:Label text="Team Chat" class="heroic-section-title" />
+                            <ui:ScrollView name="chat-messages" style="flex-grow: 1; background-color: rgb(250, 250, 250); border-radius: 10px; padding: 10px;" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="content-mailbox" class="heroic-tab-content heroic-tab-content--hidden">
+                            <ui:Label text="Reward Mailbox" class="heroic-section-title" />
+                            <ui:ScrollView name="mailbox-entries" style="flex-grow: 1;" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="content-about" class="heroic-tab-content heroic-tab-content--hidden">
+                            <ui:VisualElement name="about-stats-row" class="heroic-stats-row" />
+                            <ui:VisualElement name="stats-private-section" style="margin-top: 15px;">
+                                <ui:Label text="Private Stats (Admin Only)" class="heroic-section-title" style="font-size: 20px;" />
+                                <ui:VisualElement name="stats-private" class="heroic-stats-row" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="about-wallet-section" style="margin-top: 15px;">
+                                <ui:Label text="Team Wallet" class="heroic-section-title" />
+                                <ui:VisualElement name="wallet-currencies" style="flex-grow: 0;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="action-buttons" style="flex-direction: row; align-self: center; align-items: center; padding-top: 0; margin-bottom: 20px; flex-wrap: wrap; justify-content: center;">
+                            <ui:Button text="Join" name="team-join" class="heroic-button" />
+                            <ui:Button text="Leave" name="team-leave" class="heroic-button heroic-button-gray" />
+                            <ui:Button text="Delete" name="team-delete" class="heroic-button heroic-button-dark" />
+                            <ui:Button text="Debug" name="btn-debug" class="heroic-button" style="display: none;" />
+                            <ui:Button text="Promote" name="btn-promote" class="heroic-button" style="display: none;" />
+                            <ui:Button text="Demote" name="btn-demote" class="heroic-button heroic-button-gray" style="display: none;" />
+                            <ui:Button text="Kick" name="btn-kick" class="heroic-button heroic-button-gray" style="display: none;" />
+                            <ui:Button text="Ban" name="btn-ban" class="heroic-button heroic-button-dark" style="display: none;" />
+                            <ui:Button text="Claim All" name="btn-claim-all" class="heroic-button" style="display: none;" />
+                        </ui:VisualElement>
                     </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="detail-tabs" class="heroic-detail-tabs" style="justify-content: space-between;">
+                    <ui:Button name="tab-members" class="heroic-horizontal-tab-button selected">
+                        <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/Tab/tab_01_violet_focus_tail_up.png?fileID=2800000&amp;guid=ab6e09096280e4ba187d353bc57606d7&amp;type=3#tab_01_violet_focus_tail_up&quot;); top: -40px; bottom: auto;" />
+                        <ui:VisualElement name="tab-members-icon" class="heroic-tab-icon" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/IconPictogram/Trimmed/icon_friends.png?fileID=2800000&amp;guid=f04c92578d6ed4ceeb5ed77272318984&amp;type=3#icon_friends&quot;);" />
+                    </ui:Button>
+                    <ui:Button name="tab-gifts" class="heroic-horizontal-tab-button">
+                        <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/Tab/tab_01_violet_focus_tail_up.png?fileID=2800000&amp;guid=ab6e09096280e4ba187d353bc57606d7&amp;type=3#tab_01_violet_focus_tail_up&quot;); top: -40px; bottom: auto;" />
+                        <ui:VisualElement name="tab-gifts-icon" class="heroic-tab-icon" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/IconPictogram/Trimmed/icon_gift.png?fileID=2800000&amp;guid=b1ff7bca27a2e4e0baf4a88c75352ce3&amp;type=3#icon_gift&quot;);" />
+                    </ui:Button>
+                    <ui:Button name="tab-chat" class="heroic-horizontal-tab-button">
+                        <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/Tab/tab_01_violet_focus_tail_up.png?fileID=2800000&amp;guid=ab6e09096280e4ba187d353bc57606d7&amp;type=3#tab_01_violet_focus_tail_up&quot;); top: -40px; bottom: auto;" />
+                        <ui:VisualElement name="tab-chat-icon" class="heroic-tab-icon" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/IconPictogram/Trimmed/icon_chat.png?fileID=2800000&amp;guid=ec4c3e58099b64a5d84fadf4397f0780&amp;type=3#icon_chat&quot;);" />
+                    </ui:Button>
+                    <ui:Button name="tab-mailbox" class="heroic-horizontal-tab-button">
+                        <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/Tab/tab_01_violet_focus_tail_up.png?fileID=2800000&amp;guid=ab6e09096280e4ba187d353bc57606d7&amp;type=3#tab_01_violet_focus_tail_up&quot;); top: -40px; bottom: auto;" />
+                        <ui:VisualElement name="tab-mailbox-icon" class="heroic-tab-icon" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/IconPictogram/Trimmed/icon_chest.png?fileID=2800000&amp;guid=01fce9d21320b4abba53971703421bbe&amp;type=3#icon_chest&quot;);" />
+                    </ui:Button>
+                    <ui:Button name="tab-about" class="heroic-horizontal-tab-button">
+                        <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/Tab/tab_01_violet_focus_tail_up.png?fileID=2800000&amp;guid=ab6e09096280e4ba187d353bc57606d7&amp;type=3#tab_01_violet_focus_tail_up&quot;); top: -40px; bottom: auto;" />
+                        <ui:VisualElement name="tab-about-icon" class="heroic-tab-icon" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/IconPictogram/Trimmed/icon_info_round.png?fileID=2800000&amp;guid=d3463420244634fb8811b1c4207f6b03&amp;type=3#icon_info_round&quot;);" />
+                    </ui:Button>
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
@@ -87,4 +145,26 @@
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:Instance template="ErrorPopup" name="error-popup" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: none;" />
+    <ui:VisualElement name="debug-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
+        <Style src="project://database/Assets/UnityHiroTeams/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
+        <ui:VisualElement name="debug-modal-background" class="heroic-error-popup__background" style="flex-grow: 0;">
+            <ui:VisualElement name="debug-modal-panel" class="heroic-main__panel" style="height: auto; width: 600px; max-height: 80%;">
+                <ui:VisualElement name="debug-modal-top" style="height: 60px; background-color: rgb(132, 154, 255); border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                    <ui:Label text="DEBUG: Team Admin" class="heroic-title" style="color: rgb(255, 255, 255); -unity-text-align: middle-center; flex-grow: 1; font-size: 28px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="debug-modal-content" style="padding: 20px;">
+                    <ui:Label text="Grant Currency" class="heroic-section-title" />
+                    <ui:TextField label="Currency ID" placeholder-text="e.g. coins" name="debug-currency-id" style="margin-bottom: 10px;" />
+                    <ui:IntegerField label="Amount" value="100" name="debug-currency-amount" style="margin-bottom: 10px;" />
+                    <ui:Button text="Grant" name="debug-grant-currency" class="heroic-button" style="margin-bottom: 20px;" />
+                    <ui:Label text="Update Stats" class="heroic-section-title" />
+                    <ui:TextField label="Stat Key" placeholder-text="e.g. wins" name="debug-stat-key" style="margin-bottom: 10px;" />
+                    <ui:IntegerField label="Value" value="0" name="debug-stat-value" style="margin-bottom: 10px;" />
+                    <ui:Toggle label="Private Stat" name="debug-stat-private" style="margin-bottom: 10px;" />
+                    <ui:Button text="Update Stat" name="debug-update-stat" class="heroic-button" style="margin-bottom: 20px;" />
+                    <ui:Button text="Close" name="debug-modal-close" class="heroic-button heroic-button-gray" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
 </ui:UXML>

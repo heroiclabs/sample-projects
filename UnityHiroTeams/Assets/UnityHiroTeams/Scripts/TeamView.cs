@@ -20,21 +20,21 @@ namespace HiroTeams
 {
     public class TeamView
     {
-        private VisualElement avatarBackground;
-        private VisualElement avatarIcon;
-        private Label nameLabel;
-        private Label countLabel;
+        private VisualElement _avatarBackground;
+        private VisualElement _avatarIcon;
+        private Label _nameLabel;
+        private Label _countLabel;
 
-        private HiroTeamsController controller;
+        private HiroTeamsController _controller;
 
         public void SetVisualElement(HiroTeamsController parent, VisualElement visualElement)
         {
-            controller = parent;
+            _controller = parent;
 
-            avatarBackground = visualElement.Q<VisualElement>("avatar-background");
-            avatarIcon = visualElement.Q<VisualElement>("avatar-icon");
-            nameLabel = visualElement.Q<Label>("name");
-            countLabel = visualElement.Q<Label>("count");
+            _avatarBackground = visualElement.Q<VisualElement>("avatar-background");
+            _avatarIcon = visualElement.Q<VisualElement>("avatar-icon");
+            _nameLabel = visualElement.Q<Label>("name");
+            _countLabel = visualElement.Q<Label>("count");
         }
 
         public void SetTeam(ITeam team)
@@ -43,13 +43,13 @@ namespace HiroTeams
             try
             {
                 var avatarData = JsonUtility.FromJson<AvatarData>(team.AvatarUrl);
-                if (avatarData.IconIndex >= 0 && avatarData.IconIndex < controller.AvatarIcons.Length)
+                if (avatarData.iconIndex >= 0 && avatarData.iconIndex < _controller.AvatarIcons.Length)
                 {
-                    avatarIcon.style.backgroundImage = controller.AvatarIcons[avatarData.IconIndex];
+                    _avatarIcon.style.backgroundImage = _controller.AvatarIcons[avatarData.iconIndex];
                 }
-                if (avatarData.BackgroundIndex >= 0 && avatarData.BackgroundIndex < controller.AvatarBackgrounds.Length)
+                if (avatarData.backgroundIndex >= 0 && avatarData.backgroundIndex < _controller.AvatarBackgrounds.Length)
                 {
-                    avatarBackground.style.backgroundImage = controller.AvatarBackgrounds[avatarData.BackgroundIndex];
+                    _avatarBackground.style.backgroundImage = _controller.AvatarBackgrounds[avatarData.backgroundIndex];
                 }
             }
             catch
@@ -57,8 +57,8 @@ namespace HiroTeams
                 // Avatar URL might not be valid JSON, use defaults
             }
 
-            nameLabel.text = team.Name;
-            countLabel.text = $"{team.EdgeCount}/{team.MaxCount}";
+            _nameLabel.text = team.Name;
+            _countLabel.text = $"{team.EdgeCount}/{team.MaxCount}";
         }
     }
 }

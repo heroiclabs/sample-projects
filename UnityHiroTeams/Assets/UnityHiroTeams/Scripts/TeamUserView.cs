@@ -23,51 +23,51 @@ namespace HiroTeams
 {
     public class TeamUserView
     {
-        private Label usernameLabel;
-        private Label roleLabel;
-        private Button acceptButton;
-        private Button declineButton;
-        private Button promoteButton;
-        private Button demoteButton;
-        private Button kickButton;
-        private Button banButton;
+        private Label _usernameLabel;
+        private Label _roleLabel;
+        private Button _acceptButton;
+        private Button _declineButton;
+        private Button _promoteButton;
+        private Button _demoteButton;
+        private Button _kickButton;
+        private Button _banButton;
 
-        private string userId;
-        private HiroTeamsController teamsController;
+        private string _userId;
+        private HiroTeamsController _controller;
 
         public void SetVisualElement(VisualElement visualElement, HiroTeamsController controller)
         {
-            teamsController = controller;
+            _controller = controller;
 
-            usernameLabel = visualElement.Q<Label>("username");
-            roleLabel = visualElement.Q<Label>("role");
+            _usernameLabel = visualElement.Q<Label>("username");
+            _roleLabel = visualElement.Q<Label>("role");
 
-            acceptButton = visualElement.Q<Button>("accept");
-            acceptButton.RegisterCallback<ClickEvent>(evt => _ = AcceptUser());
+            _acceptButton = visualElement.Q<Button>("accept");
+            _acceptButton.RegisterCallback<ClickEvent>(evt => _ = AcceptUser());
 
-            declineButton = visualElement.Q<Button>("decline");
-            declineButton.RegisterCallback<ClickEvent>(evt => _ = RejectUser());
+            _declineButton = visualElement.Q<Button>("decline");
+            _declineButton.RegisterCallback<ClickEvent>(evt => _ = RejectUser());
 
-            promoteButton = visualElement.Q<Button>("promote");
-            promoteButton.RegisterCallback<ClickEvent>(evt => _ = PromoteUser());
+            _promoteButton = visualElement.Q<Button>("promote");
+            _promoteButton.RegisterCallback<ClickEvent>(evt => _ = PromoteUser());
 
-            demoteButton = visualElement.Q<Button>("demote");
-            demoteButton.RegisterCallback<ClickEvent>(evt => _ = DemoteUser());
+            _demoteButton = visualElement.Q<Button>("demote");
+            _demoteButton.RegisterCallback<ClickEvent>(evt => _ = DemoteUser());
 
-            kickButton = visualElement.Q<Button>("kick");
-            kickButton.RegisterCallback<ClickEvent>(evt => _ = KickUser());
+            _kickButton = visualElement.Q<Button>("kick");
+            _kickButton.RegisterCallback<ClickEvent>(evt => _ = KickUser());
 
-            banButton = visualElement.Q<Button>("ban");
-            banButton.RegisterCallback<ClickEvent>(evt => _ = BanUser());
+            _banButton = visualElement.Q<Button>("ban");
+            _banButton.RegisterCallback<ClickEvent>(evt => _ = BanUser());
         }
 
         public void SetTeamUser(TeamUserState viewerState, IGroupUserListGroupUser teamUser)
         {
             var userState = (TeamUserState)teamUser.State;
 
-            userId = teamUser.User.Id;
-            usernameLabel.text = teamUser.User.Username;
-            roleLabel.text = userState.ToString();
+            _userId = teamUser.User.Id;
+            _usernameLabel.text = teamUser.User.Username;
+            _roleLabel.text = userState.ToString();
 
             // Get current user session to check if this is self
             var nakamaSystem = HiroCoordinator.Instance.GetSystem<NakamaSystem>();
@@ -76,12 +76,12 @@ namespace HiroTeams
             // Hide all buttons if user is self
             if (session.UserId == teamUser.User.Id)
             {
-                acceptButton.style.display = DisplayStyle.None;
-                declineButton.style.display = DisplayStyle.None;
-                promoteButton.style.display = DisplayStyle.None;
-                demoteButton.style.display = DisplayStyle.None;
-                kickButton.style.display = DisplayStyle.None;
-                banButton.style.display = DisplayStyle.None;
+                _acceptButton.style.display = DisplayStyle.None;
+                _declineButton.style.display = DisplayStyle.None;
+                _promoteButton.style.display = DisplayStyle.None;
+                _demoteButton.style.display = DisplayStyle.None;
+                _kickButton.style.display = DisplayStyle.None;
+                _banButton.style.display = DisplayStyle.None;
                 return;
             }
 
@@ -91,48 +91,48 @@ namespace HiroTeams
                 case TeamUserState.None:
                 case TeamUserState.JoinRequest:
                 case TeamUserState.Member:
-                    acceptButton.style.display = DisplayStyle.None;
-                    declineButton.style.display = DisplayStyle.None;
-                    promoteButton.style.display = DisplayStyle.None;
-                    demoteButton.style.display = DisplayStyle.None;
-                    kickButton.style.display = DisplayStyle.None;
-                    banButton.style.display = DisplayStyle.None;
+                    _acceptButton.style.display = DisplayStyle.None;
+                    _declineButton.style.display = DisplayStyle.None;
+                    _promoteButton.style.display = DisplayStyle.None;
+                    _demoteButton.style.display = DisplayStyle.None;
+                    _kickButton.style.display = DisplayStyle.None;
+                    _banButton.style.display = DisplayStyle.None;
                     break;
 
                 // We can manage non-ADMIN or non-SUPERADMIN users, including accepting join requests
                 case TeamUserState.Admin:
-                    acceptButton.style.display =
+                    _acceptButton.style.display =
                         userState == TeamUserState.JoinRequest ? DisplayStyle.Flex : DisplayStyle.None;
-                    declineButton.style.display =
+                    _declineButton.style.display =
                         userState == TeamUserState.JoinRequest ? DisplayStyle.Flex : DisplayStyle.None;
-                    promoteButton.style.display =
+                    _promoteButton.style.display =
                         userState == TeamUserState.Member ? DisplayStyle.Flex : DisplayStyle.None;
-                    demoteButton.style.display =
+                    _demoteButton.style.display =
                         userState == TeamUserState.Admin ? DisplayStyle.Flex : DisplayStyle.None;
-                    kickButton.style.display =
+                    _kickButton.style.display =
                         userState == TeamUserState.Member ? DisplayStyle.Flex : DisplayStyle.None;
-                    banButton.style.display = userState is TeamUserState.JoinRequest or TeamUserState.Member
+                    _banButton.style.display = userState is TeamUserState.JoinRequest or TeamUserState.Member
                         ? DisplayStyle.Flex
                         : DisplayStyle.None;
                     break;
 
                 // We have all possible privileges
                 case TeamUserState.SuperAdmin:
-                    acceptButton.style.display =
+                    _acceptButton.style.display =
                         userState == TeamUserState.JoinRequest ? DisplayStyle.Flex : DisplayStyle.None;
-                    declineButton.style.display =
+                    _declineButton.style.display =
                         userState == TeamUserState.JoinRequest ? DisplayStyle.Flex : DisplayStyle.None;
-                    promoteButton.style.display = userState is TeamUserState.Member or TeamUserState.Admin
+                    _promoteButton.style.display = userState is TeamUserState.Member or TeamUserState.Admin
                         ? DisplayStyle.Flex
                         : DisplayStyle.None;
-                    demoteButton.style.display = userState is TeamUserState.SuperAdmin or TeamUserState.Admin
+                    _demoteButton.style.display = userState is TeamUserState.SuperAdmin or TeamUserState.Admin
                         ? DisplayStyle.Flex
                         : DisplayStyle.None;
-                    kickButton.style.display =
+                    _kickButton.style.display =
                         userState is TeamUserState.Member or TeamUserState.Admin or TeamUserState.SuperAdmin
                             ? DisplayStyle.Flex
                             : DisplayStyle.None;
-                    banButton.style.display =
+                    _banButton.style.display =
                         userState is TeamUserState.JoinRequest or TeamUserState.Member or TeamUserState.Admin
                             or TeamUserState.SuperAdmin
                             ? DisplayStyle.Flex
@@ -141,11 +141,11 @@ namespace HiroTeams
             }
         }
 
-        private Task AcceptUser() => teamsController.TeamAccept(userId);
-        private Task RejectUser() => teamsController.TeamReject(userId);
-        private Task PromoteUser() => teamsController.TeamPromote(userId);
-        private Task DemoteUser() => teamsController.TeamDemote(userId);
-        private Task KickUser() => teamsController.TeamKick(userId);
-        private Task BanUser() => teamsController.TeamBan(userId);
+        private Task AcceptUser() => _controller.AcceptJoinRequest(_userId);
+        private Task RejectUser() => _controller.RejectJoinRequest(_userId);
+        private Task PromoteUser() => _controller.PromoteUser(_userId);
+        private Task DemoteUser() => _controller.DemoteUser(_userId);
+        private Task KickUser() => _controller.KickUser(_userId);
+        private Task BanUser() => _controller.BanUser(_userId);
     }
 }

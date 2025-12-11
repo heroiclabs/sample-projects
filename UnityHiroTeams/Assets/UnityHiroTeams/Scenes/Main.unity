@@ -367,8 +367,27 @@ MonoBehaviour:
   teamEntriesLimit: 100
   teamEntryTemplate: {fileID: 9197481963319205126, guid: 7ed290a40a01c488e9211a3cd77bc058, type: 3}
   teamUserTemplate: {fileID: 9197481963319205126, guid: 65a99b96b81cb495d85421f99f6f7c34, type: 3}
-  <AvatarIcons>k__BackingField: []
-  <AvatarBackgrounds>k__BackingField: []
+  <AvatarIcons>k__BackingField:
+  - {fileID: 2800000, guid: 8176dbc9a0f7145dcbb159234f38cfac, type: 3}
+  - {fileID: 2800000, guid: 2b3c08c2b0cb8489c913a85034dc6161, type: 3}
+  - {fileID: 2800000, guid: 0675395c846da48028df6d4ff121fe72, type: 3}
+  - {fileID: 2800000, guid: a372de48cd56f4c2492c37ca1eeef0a1, type: 3}
+  - {fileID: 2800000, guid: 3f3b5e7491bff4090906b1c9aaa45b16, type: 3}
+  - {fileID: 2800000, guid: f22b89725da27406db13cc854e3519fd, type: 3}
+  - {fileID: 2800000, guid: 66d6ca0dc03934a30b6bdff7ba67d7cd, type: 3}
+  - {fileID: 2800000, guid: 705769dfd0eae469ca8892f133e530eb, type: 3}
+  - {fileID: 2800000, guid: ebf3cba3c7ec541f4b40b0630f59071c, type: 3}
+  - {fileID: 2800000, guid: 01fce9d21320b4abba53971703421bbe, type: 3}
+  - {fileID: 2800000, guid: 878a308bdd7d5464fb476ed18a2c7b6f, type: 3}
+  - {fileID: 2800000, guid: 12747fbaabceb442ca34adfa85a76c7c, type: 3}
+  <AvatarBackgrounds>k__BackingField:
+  - {fileID: 2800000, guid: d8f7fe01f3af741fb98723aef61fee8f, type: 3}
+  - {fileID: 2800000, guid: a69081eb42eb24a62941d80fea6a7d6c, type: 3}
+  - {fileID: 2800000, guid: 316031cbfa4a5493e97e41777534ddaa, type: 3}
+  - {fileID: 2800000, guid: d7a4b716e5e914e08868bbf90de56f7c, type: 3}
+  - {fileID: 2800000, guid: b9bf2743eacb24a14a408cd15eac4bf3, type: 3}
+  - {fileID: 2800000, guid: 9c64b8175de6b4d98a9096473f7d0e50, type: 3}
+  - {fileID: 2800000, guid: 8dfbd7f33225a4f3fa143f2beb4972b2, type: 3}
 --- !u!1 &2121322951
 GameObject:
   m_ObjectHideFlags: 0
