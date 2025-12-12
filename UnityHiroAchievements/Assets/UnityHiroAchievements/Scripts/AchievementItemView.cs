@@ -35,17 +35,11 @@ namespace HiroAchievements
             // Show sub-achievements count if available
             if (subAchievementsLabel != null)
             {
-                if (achievement.SubAchievements != null && achievement.SubAchievements.Count > 0)
+                if (AchievementProgressHelper.HasSubAchievements(achievement))
                 {
-                    int completedCount = 0;
-                    foreach (var subAchievement in achievement.SubAchievements)
-                    {
-                        if (subAchievement.Value.Count >= subAchievement.Value.MaxCount)
-                        {
-                            completedCount++;
-                        }
-                    }
-                    subAchievementsLabel.text = $"{completedCount}/{achievement.SubAchievements.Count} Objectives";
+                    int completedCount = AchievementProgressHelper.CountCompletedSubAchievements(achievement);
+                    subAchievementsLabel.text = string.Format(AchievementsUIConstants.ObjectivesFormat, 
+                        completedCount, achievement.SubAchievements.Count);
                     subAchievementsLabel.style.display = DisplayStyle.Flex;
                 }
                 else
@@ -57,44 +51,26 @@ namespace HiroAchievements
             // Set status
             if (isCompleted)
             {
-                statusLabel.text = achievement.ClaimTimeSec > 0 ? "Claimed" : "Complete";
+                statusLabel.text = achievement.ClaimTimeSec > 0 
+                    ? AchievementsUIConstants.StatusClaimed 
+                    : AchievementsUIConstants.StatusComplete;
                 statusBadge.style.backgroundColor = achievement.ClaimTimeSec > 0 
-                    ? new UnityEngine.Color(0.6f, 0.6f, 0.6f, 1f) 
-                    : new UnityEngine.Color(0.4f, 0.8f, 0.4f, 1f);
+                    ? AchievementsUIConstants.StatusClaimedColor 
+                    : AchievementsUIConstants.StatusCompleteColor;
             }
             else if (isLocked)
             {
-                statusLabel.text = "Locked";
-                statusBadge.style.backgroundColor = new UnityEngine.Color(0.5f, 0.5f, 0.5f, 1f);
+                statusLabel.text = AchievementsUIConstants.StatusLocked;
+                statusBadge.style.backgroundColor = AchievementsUIConstants.StatusLockedColor;
             }
             else
             {
-                statusLabel.text = "In Progress";
-                statusBadge.style.backgroundColor = new UnityEngine.Color(0.5f, 0.6f, 1f, 1f);
+                statusLabel.text = AchievementsUIConstants.StatusInProgress;
+                statusBadge.style.backgroundColor = AchievementsUIConstants.StatusInProgressColor;
             }
 
-            // Set progress - calculate based on sub-achievements if present
-            float progressPercent = 0f;
-            if (achievement.SubAchievements != null && achievement.SubAchievements.Count > 0)
-            {
-                // Calculate progress based on completed sub-achievements
-                int completedCount = 0;
-                foreach (var subAchievement in achievement.SubAchievements)
-                {
-                    if (subAchievement.Value.Count >= subAchievement.Value.MaxCount)
-                    {
-                        completedCount++;
-                    }
-                }
-                progressPercent = (float)completedCount / achievement.SubAchievements.Count * 100f;
-            }
-            else
-            {
-                // Use normal count/maxCount for achievements without sub-achievements
-                progressPercent = achievement.MaxCount > 0 
-                    ? (float)achievement.Count / achievement.MaxCount * 100f 
-                    : 0f;
-            }
+            // Set progress using helper
+            float progressPercent = AchievementProgressHelper.CalculateProgressPercent(achievement);
             progressFill.style.width = Length.Percent(UnityEngine.Mathf.Clamp(progressPercent, 0f, 100f));
         }
     }

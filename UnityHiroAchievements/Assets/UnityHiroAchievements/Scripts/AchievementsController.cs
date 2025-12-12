@@ -245,7 +245,7 @@ namespace HiroAchievements
 
         private async Task CheckAndProgressParentAchievement(IAchievement parentAchievement)
         {
-            if (parentAchievement.SubAchievements == null || parentAchievement.SubAchievements.Count == 0)
+            if (!AchievementProgressHelper.HasSubAchievements(parentAchievement))
                 return;
 
             // Refresh to get latest sub-achievement data
@@ -253,19 +253,11 @@ namespace HiroAchievements
             
             // Re-fetch the parent achievement to get updated sub-achievement counts
             var updatedParent = AllAchievements.FirstOrDefault(a => a.Id == parentAchievement.Id);
-            if (updatedParent == null || updatedParent.SubAchievements == null)
+            if (updatedParent == null)
                 return;
 
             // Check if all sub-achievements are completed
-            bool allCompleted = true;
-            foreach (var subAchievement in updatedParent.SubAchievements)
-            {
-                if (subAchievement.Value.Count < subAchievement.Value.MaxCount)
-                {
-                    allCompleted = false;
-                    break;
-                }
-            }
+            bool allCompleted = AchievementProgressHelper.AreAllSubAchievementsCompleted(updatedParent);
 
             // If all sub-achievements are complete and parent count is 0, progress parent by 1
             if (allCompleted && updatedParent.Count == 0)
@@ -305,7 +297,7 @@ namespace HiroAchievements
         public bool CanClaimReward(IAchievement achievement)
         {
             // Check if achievement has sub-achievements
-            if (achievement.SubAchievements != null && achievement.SubAchievements.Count > 0)
+            if (AchievementProgressHelper.HasSubAchievements(achievement))
             {
                 // For achievements with sub-achievements, the parent count will be 1 when all subs are complete
                 // This is because we auto-progress the parent when all sub-achievements finish
@@ -327,7 +319,7 @@ namespace HiroAchievements
         public bool IsAchievementCompleted(IAchievement achievement)
         {
             // Check if achievement has sub-achievements
-            if (achievement.SubAchievements != null && achievement.SubAchievements.Count > 0)
+            if (AchievementProgressHelper.HasSubAchievements(achievement))
             {
                 // For achievements with sub-achievements, check if parent count is 1 and claimed
                 // Parent count will be 1 when all sub-achievements are complete

@@ -45,20 +45,21 @@ namespace HiroAchievements
             // Set progress bar
             progressFill.style.width = Length.Percent(UnityEngine.Mathf.Clamp(progressPercent, 0f, 100f));
 
-            // Set progress text
-            progressText.text = $"{subAchievement.Count} / {subAchievement.MaxCount} ({progressPercent:F0}%)";
+            // Set progress text using constant format
+            progressText.text = string.Format(AchievementsUIConstants.SubAchievementProgressFormat, 
+                subAchievement.Count, subAchievement.MaxCount, progressPercent);
 
             // Set status badge
             bool isCompleted = subAchievement.Count >= subAchievement.MaxCount;
             if (isCompleted)
             {
-                statusLabel.text = "✓";
-                statusBadge.style.backgroundColor = new UnityEngine.Color(0.4f, 0.8f, 0.4f, 1f);
+                statusLabel.text = AchievementsUIConstants.StatusCheckmark;
+                statusBadge.style.backgroundColor = AchievementsUIConstants.StatusCompleteColor;
             }
             else
             {
-                statusLabel.text = "Progress";
-                statusBadge.style.backgroundColor = new UnityEngine.Color(0.5f, 0.6f, 1f, 1f);
+                statusLabel.text = AchievementsUIConstants.StatusProgressText;
+                statusBadge.style.backgroundColor = AchievementsUIConstants.StatusInProgressColor;
             }
         }
 
@@ -66,27 +67,27 @@ namespace HiroAchievements
         {
             if (selected)
             {
-                container.style.backgroundColor = new UnityEngine.Color(0.85f, 0.9f, 1f, 1f);
-                container.style.borderLeftColor = new UnityEngine.Color(0.5f, 0.6f, 1f, 1f);
-                container.style.borderRightColor = new UnityEngine.Color(0.5f, 0.6f, 1f, 1f);
-                container.style.borderTopColor = new UnityEngine.Color(0.5f, 0.6f, 1f, 1f);
-                container.style.borderBottomColor = new UnityEngine.Color(0.5f, 0.6f, 1f, 1f);
+                container.style.backgroundColor = AchievementsUIConstants.SelectionBackgroundColor;
+                container.style.borderLeftColor = AchievementsUIConstants.SelectionBorderColor;
+                container.style.borderRightColor = AchievementsUIConstants.SelectionBorderColor;
+                container.style.borderTopColor = AchievementsUIConstants.SelectionBorderColor;
+                container.style.borderBottomColor = AchievementsUIConstants.SelectionBorderColor;
             }
             else
             {
-                container.style.backgroundColor = new UnityEngine.Color(0.95f, 0.95f, 0.95f, 1f);
-                container.style.borderLeftColor = new UnityEngine.Color(0.7f, 0.7f, 0.7f, 1f);
-                container.style.borderRightColor = new UnityEngine.Color(0.7f, 0.7f, 0.7f, 1f);
-                container.style.borderTopColor = new UnityEngine.Color(0.7f, 0.7f, 0.7f, 1f);
-                container.style.borderBottomColor = new UnityEngine.Color(0.7f, 0.7f, 0.7f, 1f);
+                container.style.backgroundColor = AchievementsUIConstants.DefaultBackgroundColor;
+                container.style.borderLeftColor = AchievementsUIConstants.DefaultBorderColor;
+                container.style.borderRightColor = AchievementsUIConstants.DefaultBorderColor;
+                container.style.borderTopColor = AchievementsUIConstants.DefaultBorderColor;
+                container.style.borderBottomColor = AchievementsUIConstants.DefaultBorderColor;
             }
         }
 
         public void SetHovered(bool hovered)
         {
-            if (hovered && container.style.backgroundColor.value != new UnityEngine.Color(0.85f, 0.9f, 1f, 1f))
+            if (hovered && container.style.backgroundColor.value != AchievementsUIConstants.SelectionBackgroundColor)
             {
-                container.style.backgroundColor = new UnityEngine.Color(0.9f, 0.9f, 1f, 1f);
+                container.style.backgroundColor = AchievementsUIConstants.HoverBackgroundColor;
             }
         }
     }
