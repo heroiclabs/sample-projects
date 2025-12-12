@@ -111,11 +111,11 @@ namespace HiroAchievements
 
             await _achievementsSystem.RefreshAsync();
 
-            // Get all achievements
+            // Get all achievements (including locked ones)
             var achievements = _achievementsSystem.GetAchievements();
             AllAchievements.AddRange(achievements);
 
-            // Get repeatable achievements
+            // Get repeatable achievements (including locked ones)
             var repeatAchievements = _achievementsSystem.GetRepeatAchievements();
             RepeatAchievements.AddRange(repeatAchievements);
 
@@ -130,9 +130,11 @@ namespace HiroAchievements
             AllAchievements.Clear();
             RepeatAchievements.Clear();
 
+            // Get all achievements (including locked)
             var achievements = _achievementsSystem.GetAchievements();
             AllAchievements.AddRange(achievements);
 
+            // Get all repeatable achievements (including locked)
             var repeatAchievements = _achievementsSystem.GetRepeatAchievements();
             RepeatAchievements.AddRange(repeatAchievements);
 
@@ -339,9 +341,16 @@ namespace HiroAchievements
 
         public bool IsAchievementLocked(IAchievement achievement)
         {
-            // Check if achievement has preconditions that aren't met
-            // You can customize this logic based on your achievement system
-            return false;
+            // Get available achievements (those that are unlocked)
+            var availableAchievements = _achievementsSystem.GetAvailableAchievements();
+            var availableRepeatAchievements = _achievementsSystem.GetAvailableRepeatAchievements();
+            
+            // Check if this achievement is in the available list
+            bool isAvailable = availableAchievements.Any(a => a.Id == achievement.Id) || 
+                               availableRepeatAchievements.Any(a => a.Id == achievement.Id);
+            
+            // If not in available list, it's locked
+            return !isAvailable;
         }
 
         #endregion

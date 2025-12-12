@@ -244,23 +244,29 @@ namespace HiroAchievements
                 // Set status badge
                 var statusBadge = container.Q<VisualElement>("status-badge");
                 var statusLabel = statusBadge.Q<Label>("status-text");
+                bool isLocked = _controller.IsAchievementLocked(achievement);
 
                 if (_controller.IsAchievementCompleted(achievement))
                 {
-                    statusLabel.text = achievement.ClaimTimeSec > 0 ? "Claimed" : "Complete";
+                    statusLabel.text = achievement.ClaimTimeSec > 0 
+                        ? AchievementsUIConstants.StatusClaimed 
+                        : AchievementsUIConstants.StatusComplete;
                     statusBadge.style.backgroundColor = achievement.ClaimTimeSec > 0
-                        ? new Color(0.6f, 0.6f, 0.6f, 1f)
-                        : new Color(0.4f, 0.8f, 0.4f, 1f);
+                        ? AchievementsUIConstants.StatusClaimedColor
+                        : AchievementsUIConstants.StatusCompleteColor;
                 }
-                else if (_controller.IsAchievementLocked(achievement))
+                else if (isLocked)
                 {
-                    statusLabel.text = "Locked";
-                    statusBadge.style.backgroundColor = new Color(0.5f, 0.5f, 0.5f, 1f);
+                    statusLabel.text = AchievementsUIConstants.StatusLocked;
+                    statusBadge.style.backgroundColor = AchievementsUIConstants.StatusLockedColor;
+                    
+                    // Make locked achievements visually distinct
+                    container.style.opacity = 0.6f;
                 }
                 else
                 {
-                    statusLabel.text = "In Progress";
-                    statusBadge.style.backgroundColor = new Color(0.5f, 0.6f, 1f, 1f);
+                    statusLabel.text = AchievementsUIConstants.StatusInProgress;
+                    statusBadge.style.backgroundColor = AchievementsUIConstants.StatusInProgressColor;
                 }
 
                 // Set progress using helper
@@ -269,12 +275,15 @@ namespace HiroAchievements
                 float progressPercent = AchievementProgressHelper.CalculateProgressPercent(achievement);
                 progressFill.style.width = Length.Percent(Mathf.Clamp(progressPercent, 0f, 100f));
 
-                // Register click event
-                container.RegisterCallback<ClickEvent>(async evt =>
+                // Only register click event for unlocked achievements
+                if (!isLocked)
                 {
-                    await SelectAchievement(achievement, container);
-                    evt.StopPropagation();
-                });
+                    container.RegisterCallback<ClickEvent>(async evt =>
+                    {
+                        await SelectAchievement(achievement, container);
+                        evt.StopPropagation();
+                    });
+                }
 
                 _achievementsList.Add(achievementElement);
             }
@@ -332,10 +341,27 @@ namespace HiroAchievements
 
         private async Task ShowAchievementDetailsAsync(IAchievement achievement)
         {
+            bool isLocked = _controller.IsAchievementLocked(achievement);
+            
             _detailsNameLabel.text = achievement.Name;
-            _detailsDescriptionLabel.text = string.IsNullOrEmpty(achievement.Description)
-                ? "No description available."
-                : achievement.Description;
+            
+            // Add locked indicator to description if achievement is locked
+            if (isLocked)
+            {
+                _detailsDescriptionLabel.text = AchievementsUIConstants.LockedDescriptionPrefix +
+                    (string.IsNullOrEmpty(achievement.Description)
+                        ? "No description available."
+                        : achievement.Description);
+                _detailsDescriptionLabel.style.color = AchievementsUIConstants.StatusLockedColor;
+            }
+            else
+            {
+                _detailsDescriptionLabel.text = string.IsNullOrEmpty(achievement.Description)
+                    ? "No description available."
+                    : achievement.Description;
+                _detailsDescriptionLabel.style.color = new StyleColor(StyleKeyword.Null); // Reset to default
+            }
+            
             _detailsCategoryLabel.text = achievement.Category ?? "Uncategorized";
 
             // Progress - use helper to calculate
@@ -504,6 +530,16 @@ namespace HiroAchievements
             {
                 _progressButton.SetEnabled(false);
                 _claimButton.SetEnabled(false);
+                return;
+            }
+
+            // Check if main achievement is locked - if so, disable all buttons
+            bool isLocked = _controller.IsAchievementLocked(selectedAchievement);
+            if (isLocked)
+            {
+                _progressButton.SetEnabled(false);
+                _claimButton.SetEnabled(false);
+                Debug.Log("Achievement is locked - buttons disabled");
                 return;
             }
 

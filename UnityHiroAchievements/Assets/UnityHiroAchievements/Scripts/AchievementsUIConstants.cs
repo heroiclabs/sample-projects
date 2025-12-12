@@ -34,6 +34,9 @@ namespace HiroAchievements
         public const string StatusProgressText = "Progress";
         public const string StatusCheckmark = "✓";
 
+        // Locked Achievement Text
+        public const string LockedDescriptionPrefix = "🔒 LOCKED - Complete required achievements to unlock.\n\n";
+
         // UI Text Templates
         public const string ObjectivesFormat = "{0}/{1} Objectives";
         public const string ProgressFormat = "Progress: {0} / {1} ({2:F0}%)";

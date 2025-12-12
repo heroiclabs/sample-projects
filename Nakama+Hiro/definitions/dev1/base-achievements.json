@@ -239,6 +239,9 @@
       "description": "Defeat 50 ranged enemies.",
       "category": "quest",
       "max_count": 50,
+      "precondition_ids": [
+        "killEnemiesMelee100"
+      ],
       "reward": {
         "guaranteed": {
           "currencies": {
