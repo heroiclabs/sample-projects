@@ -67,6 +67,7 @@ namespace HiroTeams
         public ITeam SelectedTeam { get; private set; }
         public List<ITeam> Teams { get; } = new();
         public List<IGroupUserListGroupUser> SelectedTeamUsers { get; } = new();
+        public List<IUserChannelMessage> TeamMessages { get; } = new();
 
         public event Action<ISession, HiroTeamsController> OnInitialized;
 
@@ -115,6 +116,8 @@ namespace HiroTeams
         public async Task<int?> RefreshTeams(int tabIndex)
         {
             Teams.Clear();
+
+            await _teamsSystem.RefreshAsync();
 
             switch (tabIndex)
             {
@@ -190,7 +193,7 @@ namespace HiroTeams
 
         #region Team Lifecycle Operations
 
-        public async Task CreateTeam(string name, string description, bool isOpen, int backgroundIndex, int iconIndex)
+        public async Task CreateTeam(string teamName, string description, bool isOpen, int backgroundIndex, int iconIndex)
         {
             var avatarDataJson = JsonUtility.ToJson(new AvatarData
             {
@@ -199,7 +202,7 @@ namespace HiroTeams
             });
 
             await _teamsSystem.CreateTeamAsync(
-                name,
+                teamName,
                 description,
                 isOpen,
                 avatarDataJson,
@@ -292,6 +295,15 @@ namespace HiroTeams
 
         #endregion
 
+        #region Chat Operations
+
+        public IReadOnlyCollection<IUserChannelMessage> GetChatHistory()
+        {
+            return _teamsSystem.ChatHistory;
+        }
+
+        #endregion
+        
         #region Mailbox Operations
 
         public async Task ClaimAllMailbox()

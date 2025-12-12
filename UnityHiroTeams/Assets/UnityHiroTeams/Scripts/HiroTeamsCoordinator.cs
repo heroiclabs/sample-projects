@@ -71,13 +71,6 @@ namespace HiroTeams
 
             return async client =>
             {
-                // Due to the Account Switcher tool, we might need to log out before re-authenticating.
-                var nakamaSystem = Instance.GetSystem<NakamaSystem>();
-                if (nakamaSystem.Session != null)
-                {
-                    await client.SessionLogoutAsync(nakamaSystem.Session);
-                }
-
                 // Attempt to load a previous session if it is still valid.
                 var authToken = PlayerPrefs.GetString($"{playerPrefsAuthToken}_{index}");
                 var refreshToken = PlayerPrefs.GetString($"{playerPrefsRefreshToken}_{index}");

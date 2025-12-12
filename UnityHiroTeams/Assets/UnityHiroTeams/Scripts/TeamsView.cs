@@ -47,6 +47,7 @@ namespace HiroTeams
         // Lists
         private ListView _teamUsersList;
         private ListView _teamsList;
+        private ListView _chatMessages;
         private ScrollView _teamsScrollView;
         private ScrollView _teamUsersScrollView;
 
@@ -242,6 +243,19 @@ namespace HiroTeams
 
             _teamsScrollView = _teamsList.Q<ScrollView>();
             _teamsScrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
+
+            // Chat Messages
+            _chatMessages = rootElement.Q<ListView>("chat-messages");
+            _chatMessages.makeItem = () =>
+            {
+                var label = new Label();
+                return label;
+            };
+            _chatMessages.bindItem = (item, index) =>
+            {
+                if (item.userData is Label data) data.text = "";
+            };
+            _chatMessages.itemsSource = _controller.TeamChat;
         }
 
         private void InitializeCreateModal(VisualElement rootElement)
@@ -588,9 +602,9 @@ namespace HiroTeams
             // TODO: Implement gifts display
         }
 
-        private void RefreshChatTab()
+        private async Task RefreshChatTab()
         {
-            // TODO: Implement chat display
+            await RefreshTeams();
         }
 
         private void RefreshMailboxTab()

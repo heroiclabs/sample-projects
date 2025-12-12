@@ -47,7 +47,7 @@
                         </ui:VisualElement>
                         <ui:VisualElement name="content-chat" class="heroic-tab-content heroic-tab-content--hidden">
                             <ui:Label text="Team Chat" class="heroic-section-title" />
-                            <ui:ScrollView name="chat-messages" style="flex-grow: 1; background-color: rgb(250, 250, 250); border-radius: 10px; padding: 10px;" />
+                            <ui:ListView name="chat-messages" style="flex-grow: 1;" />
                         </ui:VisualElement>
                         <ui:VisualElement name="content-mailbox" class="heroic-tab-content heroic-tab-content--hidden">
                             <ui:Label text="Reward Mailbox" class="heroic-section-title" />
