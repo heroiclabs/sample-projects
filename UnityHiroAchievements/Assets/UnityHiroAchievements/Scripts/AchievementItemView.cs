@@ -73,10 +73,28 @@ namespace HiroAchievements
                 statusBadge.style.backgroundColor = new UnityEngine.Color(0.5f, 0.6f, 1f, 1f);
             }
 
-            // Set progress
-            float progressPercent = achievement.MaxCount > 0 
-                ? (float)achievement.Count / achievement.MaxCount * 100f 
-                : 0f;
+            // Set progress - calculate based on sub-achievements if present
+            float progressPercent = 0f;
+            if (achievement.SubAchievements != null && achievement.SubAchievements.Count > 0)
+            {
+                // Calculate progress based on completed sub-achievements
+                int completedCount = 0;
+                foreach (var subAchievement in achievement.SubAchievements)
+                {
+                    if (subAchievement.Value.Count >= subAchievement.Value.MaxCount)
+                    {
+                        completedCount++;
+                    }
+                }
+                progressPercent = (float)completedCount / achievement.SubAchievements.Count * 100f;
+            }
+            else
+            {
+                // Use normal count/maxCount for achievements without sub-achievements
+                progressPercent = achievement.MaxCount > 0 
+                    ? (float)achievement.Count / achievement.MaxCount * 100f 
+                    : 0f;
+            }
             progressFill.style.width = Length.Percent(UnityEngine.Mathf.Clamp(progressPercent, 0f, 100f));
         }
     }

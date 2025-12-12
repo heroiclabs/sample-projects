@@ -226,6 +226,12 @@ namespace HiroAchievements
             {
                 Debug.Log($"Updating SUB-ACHIEVEMENT: {_selectedSubAchievement.Name} (ID: {_selectedSubAchievement.Id})");
                 await UpdateAchievementProgress(_selectedSubAchievement.Id, progress);
+                
+                // After updating sub-achievement, check if all sub-achievements are complete
+                if (_parentAchievement != null)
+                {
+                    await CheckAndProgressParentAchievement(_parentAchievement);
+                }
                 return;
             }
 
@@ -235,6 +241,38 @@ namespace HiroAchievements
 
             Debug.Log($"Updating MAIN ACHIEVEMENT: {_selectedAchievement.Name} (ID: {_selectedAchievement.Id})");
             await UpdateAchievementProgress(_selectedAchievement.Id, progress);
+        }
+
+        private async Task CheckAndProgressParentAchievement(IAchievement parentAchievement)
+        {
+            if (parentAchievement.SubAchievements == null || parentAchievement.SubAchievements.Count == 0)
+                return;
+
+            // Refresh to get latest sub-achievement data
+            await RefreshAchievements();
+            
+            // Re-fetch the parent achievement to get updated sub-achievement counts
+            var updatedParent = AllAchievements.FirstOrDefault(a => a.Id == parentAchievement.Id);
+            if (updatedParent == null || updatedParent.SubAchievements == null)
+                return;
+
+            // Check if all sub-achievements are completed
+            bool allCompleted = true;
+            foreach (var subAchievement in updatedParent.SubAchievements)
+            {
+                if (subAchievement.Value.Count < subAchievement.Value.MaxCount)
+                {
+                    allCompleted = false;
+                    break;
+                }
+            }
+
+            // If all sub-achievements are complete and parent count is 0, progress parent by 1
+            if (allCompleted && updatedParent.Count == 0)
+            {
+                Debug.Log($"✓ All sub-achievements completed! Progressing parent achievement: {updatedParent.Name} (ID: {updatedParent.Id})");
+                await UpdateAchievementProgress(updatedParent.Id, 1);
+            }
         }
 
         public async Task ClaimAchievementReward(string achievementId, bool claimTotal = true)
@@ -266,8 +304,18 @@ namespace HiroAchievements
 
         public bool CanClaimReward(IAchievement achievement)
         {
-            // Can claim if achievement has reward and is completed
-            return (achievement.HasAvailableReward() || achievement.HasAvailableTotalReward()) && !achievement.IsClaimed() && achievement.Count >= achievement.MaxCount;
+            // Check if achievement has sub-achievements
+            if (achievement.SubAchievements != null && achievement.SubAchievements.Count > 0)
+            {
+                // For achievements with sub-achievements, the parent count will be 1 when all subs are complete
+                // This is because we auto-progress the parent when all sub-achievements finish
+                return (achievement.HasAvailableReward() || achievement.HasAvailableTotalReward()) && !achievement.IsClaimed() && achievement.Count >= 1;
+            }
+            else
+            {
+                // For normal achievements without sub-achievements, use count/maxCount
+                return (achievement.HasAvailableReward() || achievement.HasAvailableTotalReward()) && !achievement.IsClaimed() && achievement.Count >= achievement.MaxCount;
+            }
         }
 
         public bool CanClaimReward(ISubAchievement subAchievement)
@@ -278,7 +326,18 @@ namespace HiroAchievements
 
         public bool IsAchievementCompleted(IAchievement achievement)
         {
-            return (achievement.HasAvailableReward() || achievement.HasAvailableTotalReward()) && achievement.IsClaimed();
+            // Check if achievement has sub-achievements
+            if (achievement.SubAchievements != null && achievement.SubAchievements.Count > 0)
+            {
+                // For achievements with sub-achievements, check if parent count is 1 and claimed
+                // Parent count will be 1 when all sub-achievements are complete
+                return (achievement.HasAvailableReward() || achievement.HasAvailableTotalReward()) && achievement.IsClaimed() && achievement.Count >= 1;
+            }
+            else
+            {
+                // For normal achievements
+                return (achievement.HasAvailableReward() || achievement.HasAvailableTotalReward()) && achievement.IsClaimed();
+            }
         }
 
         public bool IsAchievementCompleted(ISubAchievement subAchievement)

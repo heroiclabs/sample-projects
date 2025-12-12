@@ -263,12 +263,31 @@ namespace HiroAchievements
                     statusBadge.style.backgroundColor = new Color(0.5f, 0.6f, 1f, 1f);
                 }
 
-                // Set progress
+                // Set progress - calculate based on sub-achievements if present
                 var progressBar = container.Q<VisualElement>("achievement-progress-bar");
                 var progressFill = container.Q<VisualElement>("achievement-progress-fill");
-                float progressPercent = achievement.MaxCount > 0
-                    ? (float)achievement.Count / achievement.MaxCount * 100f
-                    : 0f;
+                float progressPercent = 0f;
+                
+                if (achievement.SubAchievements != null && achievement.SubAchievements.Count > 0)
+                {
+                    // Calculate progress based on completed sub-achievements
+                    int completedCount = 0;
+                    foreach (var subAchievement in achievement.SubAchievements)
+                    {
+                        if (subAchievement.Value.Count >= subAchievement.Value.MaxCount)
+                        {
+                            completedCount++;
+                        }
+                    }
+                    progressPercent = (float)completedCount / achievement.SubAchievements.Count * 100f;
+                }
+                else
+                {
+                    // Use normal count/maxCount for achievements without sub-achievements
+                    progressPercent = achievement.MaxCount > 0
+                        ? (float)achievement.Count / achievement.MaxCount * 100f
+                        : 0f;
+                }
                 progressFill.style.width = Length.Percent(Mathf.Clamp(progressPercent, 0f, 100f));
 
                 // Register click event
@@ -290,6 +309,9 @@ namespace HiroAchievements
                 _selectedAchievementElement.RemoveFromClassList("selected-achievement");
                 // Reset visual style
                 _selectedAchievementElement.style.borderTopColor = new StyleColor(new Color(0.776f, 0.765f, 0.894f, 0.5f));
+                _selectedAchievementElement.style.borderBottomColor = new StyleColor(new Color(0.776f, 0.765f, 0.894f, 0.5f));
+                _selectedAchievementElement.style.borderRightColor = new StyleColor(new Color(0.776f, 0.765f, 0.894f, 0.5f));
+                _selectedAchievementElement.style.borderLeftColor = new StyleColor(new Color(0.776f, 0.765f, 0.894f, 0.5f));
                 _selectedAchievementElement.style.backgroundColor = new StyleColor(StyleKeyword.Null);
             }
 
@@ -299,6 +321,9 @@ namespace HiroAchievements
             _selectedAchievementElement.AddToClassList("selected-achievement");
             // Add visual highlight
             _selectedAchievementElement.style.borderTopColor = new Color(0.5f, 0.6f, 1f, 1f);
+            _selectedAchievementElement.style.borderBottomColor = new Color(0.5f, 0.6f, 1f, 1f);
+            _selectedAchievementElement.style.borderRightColor = new Color(0.5f, 0.6f, 1f, 1f);
+            _selectedAchievementElement.style.borderLeftColor = new Color(0.5f, 0.6f, 1f, 1f);
             _selectedAchievementElement.style.backgroundColor = new Color(0.9f, 0.92f, 1f, 0.3f);
 
             await ShowAchievementDetailsAsync(achievement);
@@ -334,11 +359,37 @@ namespace HiroAchievements
                 : achievement.Description;
             _detailsCategoryLabel.text = achievement.Category ?? "Uncategorized";
 
-            // Progress
-            float progressPercent = achievement.MaxCount > 0 
-                ? (float)achievement.Count / achievement.MaxCount * 100f 
-                : 0f;
-            _detailsProgressLabel.text = $"Progress: {achievement.Count} / {achievement.MaxCount} ({progressPercent:F0}%)";
+            // Progress - calculate based on sub-achievements if present
+            float progressPercent = 0f;
+            int currentProgress = 0;
+            int maxProgress = 0;
+            
+            if (achievement.SubAchievements != null && achievement.SubAchievements.Count > 0)
+            {
+                // Calculate progress based on completed sub-achievements
+                int completedCount = 0;
+                foreach (var subAchievement in achievement.SubAchievements)
+                {
+                    if (subAchievement.Value.Count >= subAchievement.Value.MaxCount)
+                    {
+                        completedCount++;
+                    }
+                }
+                currentProgress = completedCount;
+                maxProgress = achievement.SubAchievements.Count;
+                progressPercent = maxProgress > 0 ? (float)completedCount / maxProgress * 100f : 0f;
+            }
+            else
+            {
+                // Use normal count/maxCount for achievements without sub-achievements
+                currentProgress = (int)achievement.Count;
+                maxProgress = (int)achievement.MaxCount;
+                progressPercent = achievement.MaxCount > 0 
+                    ? (float)achievement.Count / achievement.MaxCount * 100f 
+                    : 0f;
+            }
+            
+            _detailsProgressLabel.text = $"Progress: {currentProgress} / {maxProgress} ({progressPercent:F0}%)";
             _detailsProgressFill.style.width = Length.Percent(Mathf.Clamp(progressPercent, 0f, 100f));
 
             // Sub-Achievements
