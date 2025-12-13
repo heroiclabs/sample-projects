@@ -366,7 +366,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HiroChallenges.HiroChallengesController
   teamEntriesLimit: 100
   teamEntryTemplate: {fileID: 9197481963319205126, guid: 7ed290a40a01c488e9211a3cd77bc058, type: 3}
-  teamUserTemplate: {fileID: 9197481963319205126, guid: 65a99b96b81cb495d85421f99f6f7c34, type: 3}
+  teamMemberTemplate: {fileID: 9197481963319205126, guid: 65a99b96b81cb495d85421f99f6f7c34, type: 3}
   <AvatarIcons>k__BackingField:
   - {fileID: 2800000, guid: 8176dbc9a0f7145dcbb159234f38cfac, type: 3}
   - {fileID: 2800000, guid: 2b3c08c2b0cb8489c913a85034dc6161, type: 3}

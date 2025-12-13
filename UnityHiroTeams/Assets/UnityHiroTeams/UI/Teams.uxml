@@ -39,7 +39,7 @@
                             <ui:VisualElement name="preview-stats" class="heroic-stats-row" />
                         </ui:VisualElement>
                         <ui:VisualElement name="content-members" class="heroic-tab-content" style="padding: 0;">
-                            <ui:ListView name="team-users-list" fixed-item-height="110" style="flex-grow: 1;" />
+                            <ui:ListView name="team-members-list" fixed-item-height="110" style="flex-grow: 1;" />
                         </ui:VisualElement>
                         <ui:VisualElement name="content-gifts" class="heroic-tab-content heroic-tab-content--hidden">
                             <ui:Label text="Team Gifts" class="heroic-section-title" />

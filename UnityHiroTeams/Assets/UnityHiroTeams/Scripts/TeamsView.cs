@@ -25,7 +25,7 @@ namespace HiroTeams
     {
         private readonly HiroTeamsController _controller;
         private readonly VisualTreeAsset _teamEntryTemplate;
-        private readonly VisualTreeAsset _teamUserTemplate;
+        private readonly VisualTreeAsset _teamMemberTemplate;
 
         // Main tabs
         private Button _allTab;
@@ -45,11 +45,11 @@ namespace HiroTeams
         private Label _selectedTeamDescriptionLabel;
 
         // Lists
-        private ListView _teamUsersList;
+        private ListView _teamMembersList;
         private ListView _teamsList;
         private ListView _chatMessages;
         private ScrollView _teamsScrollView;
-        private ScrollView _teamUsersScrollView;
+        private ScrollView _teamMembersScrollView;
 
         // Create modal
         private VisualElement _createModal;
@@ -127,11 +127,11 @@ namespace HiroTeams
             HiroTeamsController controller,
             HiroTeamsCoordinator coordinator,
             VisualTreeAsset teamEntryTemplate,
-            VisualTreeAsset teamUserTemplate)
+            VisualTreeAsset teamMemberTemplate)
         {
             _controller = controller;
             _teamEntryTemplate = teamEntryTemplate;
-            _teamUserTemplate = teamUserTemplate;
+            _teamMemberTemplate = teamMemberTemplate;
 
             Initialize(controller.GetComponent<UIDocument>().rootVisualElement);
             HideSelectedTeamPanel();
@@ -205,24 +205,24 @@ namespace HiroTeams
         private void InitializeLists(VisualElement rootElement)
         {
             // Team users list
-            _teamUsersList = rootElement.Q<ListView>("team-users-list");
-            _teamUsersList.makeItem = () =>
+            _teamMembersList = rootElement.Q<ListView>("team-members-list");
+            _teamMembersList.makeItem = () =>
             {
-                var newListEntry = _teamUserTemplate.Instantiate();
-                var newListEntryLogic = new TeamUserView();
+                var newListEntry = _teamMemberTemplate.Instantiate();
+                var newListEntryLogic = new TeamMemberView();
                 newListEntry.userData = newListEntryLogic;
                 newListEntryLogic.SetVisualElement(newListEntry, _controller, this);
                 return newListEntry;
             };
-            _teamUsersList.bindItem = (item, index) =>
+            _teamMembersList.bindItem = (item, index) =>
             {
                 var viewerState = _controller.GetViewerState();
-                (item.userData as TeamUserView)?.SetTeamUser(viewerState, _controller.SelectedTeamUsers[index]);
+                (item.userData as TeamMemberView)?.SetTeamMember(viewerState, _controller.SelectedTeamMembers[index]);
             };
-            _teamUsersList.itemsSource = _controller.SelectedTeamUsers;
+            _teamMembersList.itemsSource = _controller.SelectedTeamMembers;
 
-            _teamUsersScrollView = _teamUsersList.Q<ScrollView>();
-            _teamUsersScrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
+            _teamMembersScrollView = _teamMembersList.Q<ScrollView>();
+            _teamMembersScrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
 
             // Teams list
             _teamsList = rootElement.Q<ListView>("teams-list");
@@ -255,7 +255,7 @@ namespace HiroTeams
             {
                 if (item.userData is Label data) data.text = "";
             };
-            _chatMessages.itemsSource = _controller.TeamChat;
+            _chatMessages.itemsSource = _controller.TeamMessages;
         }
 
         private void InitializeCreateModal(VisualElement rootElement)
@@ -485,7 +485,7 @@ namespace HiroTeams
             _selectedTeamNameLabel.text = team.Name;
             _selectedTeamDescriptionLabel.text = team.Description ?? "No description set.";
 
-            _teamUsersList.RefreshItems();
+            _teamMembersList.RefreshItems();
 
             // Determine membership state
             var viewerState = _controller.GetViewerState();
@@ -676,7 +676,7 @@ namespace HiroTeams
 
             switch (_selectedTeamTabIndex)
             {
-                case 0: // Members - per-row buttons in TeamUserView handle member actions
+                case 0: // Members - per-row buttons in TeamMemberView handle member actions
                     break;
                 case 3: // Mailbox - show Claim All
                     _btnClaimAll.style.display = DisplayStyle.Flex;

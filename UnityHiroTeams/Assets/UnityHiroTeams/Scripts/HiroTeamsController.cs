@@ -52,7 +52,7 @@ namespace HiroTeams
         [SerializeField]
         private VisualTreeAsset teamEntryTemplate;
         [SerializeField]
-        private VisualTreeAsset teamUserTemplate;
+        private VisualTreeAsset teamMemberTemplate;
         [field: SerializeField]
         public Texture2D[] AvatarIcons { get; private set; }
         [field: SerializeField]
@@ -66,7 +66,7 @@ namespace HiroTeams
 
         public ITeam SelectedTeam { get; private set; }
         public List<ITeam> Teams { get; } = new();
-        public List<IGroupUserListGroupUser> SelectedTeamUsers { get; } = new();
+        public List<IGroupUserListGroupUser> SelectedTeamMembers { get; } = new();
         public List<IUserChannelMessage> TeamMessages { get; } = new();
 
         public event Action<ISession, HiroTeamsController> OnInitialized;
@@ -85,7 +85,7 @@ namespace HiroTeams
             coordinator.ReceivedStartError += HandleStartError;
             coordinator.ReceivedStartSuccess += HandleStartSuccess;
 
-            _view = new TeamsView(this, coordinator, teamEntryTemplate, teamUserTemplate);
+            _view = new TeamsView(this, coordinator, teamEntryTemplate, teamMemberTemplate);
         }
 
         private static void HandleStartError(Exception e)
@@ -162,7 +162,7 @@ namespace HiroTeams
             {
                 SelectedTeam = null;
                 _selectedTeamId = string.Empty;
-                SelectedTeamUsers.Clear();
+                SelectedTeamMembers.Clear();
                 return;
             }
 
@@ -171,19 +171,19 @@ namespace HiroTeams
 
             // Get team members
             var teamMembers = await _teamsSystem.GetTeamMembersAsync(team.Id);
-            SelectedTeamUsers.Clear();
-            SelectedTeamUsers.AddRange(teamMembers.GroupUsers);
+            SelectedTeamMembers.Clear();
+            SelectedTeamMembers.AddRange(teamMembers.GroupUsers);
         }
 
         public TeamUserState GetViewerState()
         {
             if (_nakamaSystem?.Session == null) return TeamUserState.None;
 
-            foreach (var user in SelectedTeamUsers)
+            foreach (var member in SelectedTeamMembers)
             {
-                if (user.User.Id == _nakamaSystem.Session.UserId)
+                if (member.User.Id == _nakamaSystem.Session.UserId)
                 {
-                    return (TeamUserState)user.State;
+                    return (TeamUserState)member.State;
                 }
             }
             return TeamUserState.None;

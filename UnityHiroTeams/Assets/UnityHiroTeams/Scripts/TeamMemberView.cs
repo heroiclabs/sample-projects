@@ -21,7 +21,7 @@ using UnityEngine.UIElements;
 
 namespace HiroTeams
 {
-    public class TeamUserView
+    public class TeamMemberView
     {
         private Label _usernameLabel;
         private Label _roleLabel;
@@ -63,19 +63,19 @@ namespace HiroTeams
             _banButton.RegisterCallback<ClickEvent>(evt => _ = BanUser());
         }
 
-        public void SetTeamUser(TeamUserState viewerState, IGroupUserListGroupUser teamUser)
+        public void SetTeamMember(TeamUserState viewerState, IGroupUserListGroupUser teamMember)
         {
-            var userState = (TeamUserState)teamUser.State;
+            var userState = (TeamUserState)teamMember.State;
 
-            _userId = teamUser.User.Id;
-            _usernameLabel.text = teamUser.User.Username;
+            _userId = teamMember.User.Id;
+            _usernameLabel.text = teamMember.User.Username;
             _roleLabel.text = userState.ToString();
 
             // Get current user session to check if this is self
             var session = HiroCoordinator.Instance.GetSystem<NakamaSystem>().Session;
 
-            // Hide all buttons if user is self
-            if (session.UserId == teamUser.User.Id)
+            // Hide all buttons if member is self
+            if (session.UserId == teamMember.User.Id)
             {
                 _acceptButton.style.display = DisplayStyle.None;
                 _declineButton.style.display = DisplayStyle.None;
