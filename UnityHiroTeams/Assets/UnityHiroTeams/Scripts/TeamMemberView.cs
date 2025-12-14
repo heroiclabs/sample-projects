@@ -63,9 +63,9 @@ namespace HiroTeams
             _banButton.RegisterCallback<ClickEvent>(evt => _ = BanUser());
         }
 
-        public void SetTeamMember(TeamUserState viewerState, IGroupUserListGroupUser teamMember)
+        public void SetTeamMember(TeamMemberState playerMemberState, IGroupUserListGroupUser teamMember)
         {
-            var userState = (TeamUserState)teamMember.State;
+            var userState = (TeamMemberState)teamMember.State;
 
             _userId = teamMember.User.Id;
             _usernameLabel.text = teamMember.User.Username;
@@ -86,12 +86,12 @@ namespace HiroTeams
                 return;
             }
 
-            switch (viewerState)
+            switch (playerMemberState)
             {
                 // We don't have permissions to manage the team
-                case TeamUserState.None:
-                case TeamUserState.JoinRequest:
-                case TeamUserState.Member:
+                case TeamMemberState.None:
+                case TeamMemberState.JoinRequest:
+                case TeamMemberState.Member:
                     _acceptButton.style.display = DisplayStyle.None;
                     _declineButton.style.display = DisplayStyle.None;
                     _promoteButton.style.display = DisplayStyle.None;
@@ -101,45 +101,45 @@ namespace HiroTeams
                     break;
 
                 // We can manage non-ADMIN or non-SUPERADMIN users, including accepting join requests
-                case TeamUserState.Admin:
+                case TeamMemberState.Admin:
                     _acceptButton.style.display =
-                        userState == TeamUserState.JoinRequest ? DisplayStyle.Flex : DisplayStyle.None;
+                        userState == TeamMemberState.JoinRequest ? DisplayStyle.Flex : DisplayStyle.None;
                     _declineButton.style.display =
-                        userState == TeamUserState.JoinRequest ? DisplayStyle.Flex : DisplayStyle.None;
+                        userState == TeamMemberState.JoinRequest ? DisplayStyle.Flex : DisplayStyle.None;
                     _promoteButton.style.display =
-                        userState == TeamUserState.Member ? DisplayStyle.Flex : DisplayStyle.None;
+                        userState == TeamMemberState.Member ? DisplayStyle.Flex : DisplayStyle.None;
                     _demoteButton.style.display =
-                        userState == TeamUserState.Admin ? DisplayStyle.Flex : DisplayStyle.None;
+                        userState == TeamMemberState.Admin ? DisplayStyle.Flex : DisplayStyle.None;
                     _kickButton.style.display =
-                        userState == TeamUserState.Member ? DisplayStyle.Flex : DisplayStyle.None;
-                    _banButton.style.display = userState is TeamUserState.JoinRequest or TeamUserState.Member
+                        userState == TeamMemberState.Member ? DisplayStyle.Flex : DisplayStyle.None;
+                    _banButton.style.display = userState is TeamMemberState.JoinRequest or TeamMemberState.Member
                         ? DisplayStyle.Flex
                         : DisplayStyle.None;
                     break;
 
                 // We have all possible privileges
-                case TeamUserState.SuperAdmin:
+                case TeamMemberState.SuperAdmin:
                     _acceptButton.style.display =
-                        userState == TeamUserState.JoinRequest ? DisplayStyle.Flex : DisplayStyle.None;
+                        userState == TeamMemberState.JoinRequest ? DisplayStyle.Flex : DisplayStyle.None;
                     _declineButton.style.display =
-                        userState == TeamUserState.JoinRequest ? DisplayStyle.Flex : DisplayStyle.None;
-                    _promoteButton.style.display = userState is TeamUserState.Member or TeamUserState.Admin
+                        userState == TeamMemberState.JoinRequest ? DisplayStyle.Flex : DisplayStyle.None;
+                    _promoteButton.style.display = userState is TeamMemberState.Member or TeamMemberState.Admin
                         ? DisplayStyle.Flex
                         : DisplayStyle.None;
-                    _demoteButton.style.display = userState is TeamUserState.SuperAdmin or TeamUserState.Admin
+                    _demoteButton.style.display = userState is TeamMemberState.SuperAdmin or TeamMemberState.Admin
                         ? DisplayStyle.Flex
                         : DisplayStyle.None;
                     _kickButton.style.display =
-                        userState is TeamUserState.Member or TeamUserState.Admin or TeamUserState.SuperAdmin
+                        userState is TeamMemberState.Member or TeamMemberState.Admin or TeamMemberState.SuperAdmin
                             ? DisplayStyle.Flex
                             : DisplayStyle.None;
                     _banButton.style.display =
-                        userState is TeamUserState.JoinRequest or TeamUserState.Member or TeamUserState.Admin
-                            or TeamUserState.SuperAdmin
+                        userState is TeamMemberState.JoinRequest or TeamMemberState.Member or TeamMemberState.Admin
+                            or TeamMemberState.SuperAdmin
                             ? DisplayStyle.Flex
                             : DisplayStyle.None;
                     break;
-                case TeamUserState.Banned:
+                case TeamMemberState.Banned:
                     break;
             }
         }

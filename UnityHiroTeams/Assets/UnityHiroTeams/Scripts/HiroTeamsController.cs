@@ -24,7 +24,7 @@ using UnityEngine.UIElements;
 
 namespace HiroTeams
 {
-    public enum TeamUserState
+    public enum TeamMemberState
     {
         None = -1,
         SuperAdmin = 0,
@@ -175,18 +175,18 @@ namespace HiroTeams
             SelectedTeamMembers.AddRange(teamMembers.GroupUsers);
         }
 
-        public TeamUserState GetViewerState()
+        public TeamMemberState GetPlayerMemberState()
         {
-            if (_nakamaSystem?.Session == null) return TeamUserState.None;
+            if (_nakamaSystem?.Session == null) return TeamMemberState.None;
 
             foreach (var member in SelectedTeamMembers)
             {
                 if (member.User.Id == _nakamaSystem.Session.UserId)
                 {
-                    return (TeamUserState)member.State;
+                    return (TeamMemberState)member.State;
                 }
             }
-            return TeamUserState.None;
+            return TeamMemberState.None;
         }
 
         #endregion

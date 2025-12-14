@@ -216,8 +216,8 @@ namespace HiroTeams
             };
             _teamMembersList.bindItem = (item, index) =>
             {
-                var viewerState = _controller.GetViewerState();
-                (item.userData as TeamMemberView)?.SetTeamMember(viewerState, _controller.SelectedTeamMembers[index]);
+                var playerMemberState = _controller.GetPlayerMemberState();
+                (item.userData as TeamMemberView)?.SetTeamMember(playerMemberState, _controller.SelectedTeamMembers[index]);
             };
             _teamMembersList.itemsSource = _controller.SelectedTeamMembers;
 
@@ -488,12 +488,12 @@ namespace HiroTeams
             _teamMembersList.RefreshItems();
 
             // Determine membership state
-            var viewerState = _controller.GetViewerState();
-            bool isOwnTeam = viewerState != TeamUserState.None && viewerState != TeamUserState.JoinRequest;
-            bool isAdmin = viewerState == TeamUserState.Admin || viewerState == TeamUserState.SuperAdmin;
+            var playerMemberState = _controller.GetPlayerMemberState();
+            bool isOwnTeam = playerMemberState != TeamMemberState.None && playerMemberState != TeamMemberState.JoinRequest;
+            bool isAdmin = playerMemberState == TeamMemberState.Admin || playerMemberState == TeamMemberState.SuperAdmin;
 
             // Show Join button if team is not full and user is not a member
-            _joinButton.style.display = team.EdgeCount < team.MaxCount && viewerState == TeamUserState.None
+            _joinButton.style.display = team.EdgeCount < team.MaxCount && playerMemberState == TeamMemberState.None
                 ? DisplayStyle.Flex
                 : DisplayStyle.None;
 
@@ -669,10 +669,10 @@ namespace HiroTeams
         {
             HideAllActionButtons();
 
-            var viewerState = _controller.GetViewerState();
-            bool isOwnTeam = viewerState != TeamUserState.None && viewerState != TeamUserState.JoinRequest;
-            bool isAdmin = viewerState == TeamUserState.Admin || viewerState == TeamUserState.SuperAdmin;
-            bool isSuperAdmin = viewerState == TeamUserState.SuperAdmin;
+            var playerMemberState = _controller.GetPlayerMemberState();
+            bool isOwnTeam = playerMemberState != TeamMemberState.None && playerMemberState != TeamMemberState.JoinRequest;
+            bool isAdmin = playerMemberState == TeamMemberState.Admin || playerMemberState == TeamMemberState.SuperAdmin;
+            bool isSuperAdmin = playerMemberState == TeamMemberState.SuperAdmin;
 
             switch (_selectedTeamTabIndex)
             {
