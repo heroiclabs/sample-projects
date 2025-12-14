@@ -175,16 +175,17 @@
                 <ui:VisualElement name="search-modal-content" style="padding: 20px; padding-top: 30px; padding-right: 30px; padding-bottom: 30px; padding-left: 30px;">
                     <ui:VisualElement style="margin-bottom: 15px;">
                         <ui:TextField label="Team Name" placeholder-text="Enter at least 3 characters..." name="search-name" style="width: 100%;" />
-                        <ui:Label text="Minimum 3 characters required for name search" style="font-size: 14px; color: rgb(150, 150, 150); margin-top: 5px;" />
+                        <ui:Label text="Minimum 3 characters" name="Label" style="font-size: 18px; color: rgb(150, 150, 150); margin-top: 5px;" />
                     </ui:VisualElement>
                     <ui:VisualElement style="margin-bottom: 15px;">
-                        <ui:DropdownField label="Language" name="search-language" index="0" choices="Any,English,French,Portuguese" style="width: 100%; overflow: visible;" />
+                        <ui:DropdownField label="Language" name="search-language" index="0" choices="All,English,French,Portuguese" style="width: 100%; overflow: visible;" />
                     </ui:VisualElement>
                     <ui:VisualElement style="margin-bottom: 15px;">
-                        <ui:DropdownField label="Team Type" name="search-open-filter" index="0" choices="Any,Open Teams,Invite Only" style="width: 100%; overflow: visible;" />
+                        <ui:DropdownField label="Team Type" name="search-open-filter" index="0" choices="All,Open,Invite Only" style="width: 100%; overflow: visible;" />
                     </ui:VisualElement>
                     <ui:VisualElement style="margin-bottom: 20px;">
-                        <ui:IntegerField label="Min Activity (Members)" value="0" name="search-min-activity" style="width: 100%;" />
+                        <ui:IntegerField label="Minimum Activity" value="0" name="search-min-activity" style="width: 100%;" />
+                        <ui:Label text="Activity is measured by team member count" name="Label" style="font-size: 18px; color: rgb(150, 150, 150); margin-top: 5px;" />
                     </ui:VisualElement>
                     <ui:VisualElement style="flex-direction: row; justify-content: space-between;">
                         <ui:Button text="Search" name="search-modal-search" class="heroic-button" style="width: 48%;" />

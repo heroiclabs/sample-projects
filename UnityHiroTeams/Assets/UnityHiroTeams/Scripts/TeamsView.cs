@@ -789,7 +789,7 @@ namespace HiroTeams
                 // Get open/closed filter: null = any, true = open only, false = invite only
                 bool? openFilter = _searchOpenFilterDropdown.value switch
                 {
-                    "Open Teams" => true,
+                    "Open" => true,
                     "Invite Only" => false,
                     _ => null
                 };
@@ -851,7 +851,7 @@ namespace HiroTeams
 
         private static string GetLanguageCode(string displayName)
         {
-            return LanguageCodes.TryGetValue(displayName, out var code) ? code : "en";
+            return LanguageCodes.GetValueOrDefault(displayName, "en");
         }
 
         private async Task DeleteTeam()
