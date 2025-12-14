@@ -13,10 +13,10 @@
         "stats_public": {
             "wins": { "value": 0 },
             "level": { "value": 1 },
-            "totalScore": { "value": 0 }
+            "points": { "value": 0 }
         },
         "stats_private": {
-            "internal_rating": { "value": 1000 }
+            "private_rating": { "value": 1000 }
         }
     },
     "gifts": {
