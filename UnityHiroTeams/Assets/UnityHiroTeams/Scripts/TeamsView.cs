@@ -43,6 +43,8 @@ namespace HiroTeams
         private VisualElement _selectedTeamAvatarBackground;
         private Label _selectedTeamNameLabel;
         private Label _selectedTeamDescriptionLabel;
+        private Label _headerTeamLevel;
+        private Label _headerMemberSlots;
 
         // Lists
         private ListView _teamMembersList;
@@ -200,6 +202,8 @@ namespace HiroTeams
             _selectedTeamAvatarBackground = rootElement.Q<VisualElement>("selected-team-avatar-background");
             _selectedTeamNameLabel = rootElement.Q<Label>("selected-team-name");
             _selectedTeamDescriptionLabel = rootElement.Q<Label>("selected-team-description");
+            _headerTeamLevel = rootElement.Q<Label>("header-team-level");
+            _headerMemberSlots = rootElement.Q<Label>("header-member-slots");
         }
 
         private void InitializeLists(VisualElement rootElement)
@@ -216,8 +220,8 @@ namespace HiroTeams
             };
             _teamMembersList.bindItem = (item, index) =>
             {
-                var playerMemberState = _controller.GetPlayerMemberState();
-                (item.userData as TeamMemberView)?.SetTeamMember(playerMemberState, _controller.SelectedTeamMembers[index]);
+                var viewerState = _controller.GetPlayerMemberState();
+                (item.userData as TeamMemberView)?.SetTeamMember(viewerState, _controller.SelectedTeamMembers[index]);
             };
             _teamMembersList.itemsSource = _controller.SelectedTeamMembers;
 
@@ -485,15 +489,18 @@ namespace HiroTeams
             _selectedTeamNameLabel.text = team.Name;
             _selectedTeamDescriptionLabel.text = team.Description ?? "No description set.";
 
+            // Update header stats
+            UpdateHeaderStats(team);
+
             _teamMembersList.RefreshItems();
 
             // Determine membership state
-            var playerMemberState = _controller.GetPlayerMemberState();
-            bool isOwnTeam = playerMemberState != TeamMemberState.None && playerMemberState != TeamMemberState.JoinRequest;
-            bool isAdmin = playerMemberState == TeamMemberState.Admin || playerMemberState == TeamMemberState.SuperAdmin;
+            var viewerState = _controller.GetPlayerMemberState();
+            bool isOwnTeam = viewerState != TeamMemberState.None && viewerState != TeamMemberState.JoinRequest;
+            bool isAdmin = viewerState == TeamMemberState.Admin || viewerState == TeamMemberState.SuperAdmin;
 
             // Show Join button if team is not full and user is not a member
-            _joinButton.style.display = team.EdgeCount < team.MaxCount && playerMemberState == TeamMemberState.None
+            _joinButton.style.display = team.EdgeCount < team.MaxCount && viewerState == TeamMemberState.None
                 ? DisplayStyle.Flex
                 : DisplayStyle.None;
 
@@ -616,6 +623,17 @@ namespace HiroTeams
 
         #region Stats Display
 
+        private void UpdateHeaderStats(ITeam team)
+        {
+            // Update member slots display (e.g., "5/30" showing open positions)
+            int openPositions = team.MaxCount - team.EdgeCount;
+            _headerMemberSlots.text = $"{openPositions}/{team.MaxCount}";
+
+            // Update team level from public stats (default to 1 if not set)
+            // TODO: Replace with actual team level from public stats when available
+            _headerTeamLevel.text = "1";
+        }
+
         private void PopulateStatsRow(VisualElement container)
         {
             var team = _controller.SelectedTeam;
@@ -669,10 +687,10 @@ namespace HiroTeams
         {
             HideAllActionButtons();
 
-            var playerMemberState = _controller.GetPlayerMemberState();
-            bool isOwnTeam = playerMemberState != TeamMemberState.None && playerMemberState != TeamMemberState.JoinRequest;
-            bool isAdmin = playerMemberState == TeamMemberState.Admin || playerMemberState == TeamMemberState.SuperAdmin;
-            bool isSuperAdmin = playerMemberState == TeamMemberState.SuperAdmin;
+            var viewerState = _controller.GetPlayerMemberState();
+            bool isOwnTeam = viewerState != TeamMemberState.None && viewerState != TeamMemberState.JoinRequest;
+            bool isAdmin = viewerState == TeamMemberState.Admin || viewerState == TeamMemberState.SuperAdmin;
+            bool isSuperAdmin = viewerState == TeamMemberState.SuperAdmin;
 
             switch (_selectedTeamTabIndex)
             {
