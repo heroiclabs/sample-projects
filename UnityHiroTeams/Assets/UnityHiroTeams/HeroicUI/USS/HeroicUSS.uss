@@ -151,7 +151,7 @@
     -unity-background-image-tint-color: rgb(84, 69, 177);
 }
 
-.heroic-icon-button {
+.heroic-button-circle {
     width: 70px;
     height: 70px;
     border-radius: 35px;
@@ -166,15 +166,15 @@
     transition-duration: 0.1s;
 }
 
-.heroic-icon-button:hover:enabled {
+.heroic-button-circle:hover:enabled {
     scale: 1.05 1.05;
 }
 
-.heroic-icon-button:active {
+.heroic-button-circle:active {
     background-color: rgb(84, 69, 177);
 }
 
-.heroic-icon-button__icon {
+.heroic-button-circle__icon {
     width: 32px;
     height: 32px;
     -unity-background-scale-mode: scale-to-fit;
@@ -182,12 +182,11 @@
 }
 
 .heroic-button-white {
-    background-image: url("project://database/Assets/UnityHiroTeams/HeroicUI/Button/button_circle_h64_white_shadow.png?fileID=2800000&guid=1119d811a7985409cb491478a19d499e&type=3#button_circle_h64_white_shadow");
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgb(255, 255, 255);
     color: rgb(101, 107, 136);
 }
 
-.heroic-button-white .heroic-icon-button__icon {
+.heroic-button-white .heroic-button-circle__icon {
     -unity-background-image-tint-color: rgb(101, 107, 136);
 }
 
@@ -642,7 +641,7 @@
 }
 
 .heroic-team-tabs .heroic-horizontal-tab-button {
-    width: 19%;
+    width: 24%;
     align-items: center;
 }
 

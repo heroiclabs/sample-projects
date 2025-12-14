@@ -7,10 +7,10 @@
         </ui:VisualElement>
         <ui:VisualElement style="flex-direction: row; justify-content: flex-end; width: 40%; align-items: center;">
             <ui:Button text="Accept" name="accept" class="heroic-button" style="height: 70px; font-size: 26px; width: 0; padding-left: 74px; padding-right: 74px;" />
-            <ui:Button text="Decline" name="decline" class="heroic-button-red" style="font-size: 26px; width: 0; height: 70px; padding-left: 74px; padding-right: 74px;" />
+            <ui:Button text="Decline" name="decline" class="heroic-button-dark" style="font-size: 26px; width: 0; height: 70px; padding-left: 74px; padding-right: 74px;" />
             <ui:Button text="Promote" name="promote" class="heroic-button" style="font-size: 26px; width: 0; height: 70px; padding-left: 74px; padding-right: 74px;" />
-            <ui:Button text="Demote" name="demote" class="heroic-button-red" style="font-size: 26px; width: 0; height: 70px; padding-left: 74px; padding-right: 74px;" />
-            <ui:Button text="Kick" name="kick" class="heroic-button-red" style="font-size: 26px; width: 0; height: 70px;" />
+            <ui:Button text="Demote" name="demote" class="heroic-button-white heroic-button" style="font-size: 26px; width: 0; height: 70px; padding-left: 74px; padding-right: 74px; background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/Button/button_rounded_h70_white_shadow.png?fileID=5437142645793252006&amp;guid=5c70cb49df9d34f1cb7b21d048fb9843&amp;type=3#button_rounded_h70_white_shadow_0&quot;); -unity-background-image-tint-color: rgb(255, 250, 250);" />
+            <ui:Button text="Kick" name="kick" class="heroic-button-dark" style="font-size: 26px; width: 0; height: 70px;" />
             <ui:Button text="Ban" name="ban" class="heroic-button-red" style="font-size: 26px; width: 0; height: 70px;" />
         </ui:VisualElement>
     </ui:VisualElement>

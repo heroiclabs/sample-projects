@@ -16,11 +16,11 @@
                     </ui:Button>
                 </ui:VisualElement>
                 <ui:VisualElement style="flex-direction: row; align-items: center;">
-                    <ui:Button name="team-search" class="heroic-icon-button heroic-button-white" style="margin-right: 12px; width: 75px; height: 75px;">
-                        <ui:VisualElement class="heroic-icon-button__icon" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/IconPictogram/Trimmed/icon_search.png?fileID=2800000&amp;guid=73cab2a589bd840718be5263992a311a&amp;type=3#icon_search&quot;);" />
+                    <ui:Button name="team-search" class="heroic-button-circle heroic-button-white" style="margin-right: 12px; width: 75px; height: 75px; background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/Button/button_circle_h64_white_shadow.png?fileID=-6848203366673554310&amp;guid=1119d811a7985409cb491478a19d499e&amp;type=3#button_circle_h64_white_shadow_0&quot;);">
+                        <ui:VisualElement class="heroic-button-circle__icon" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/IconPictogram/Trimmed/icon_search.png?fileID=2800000&amp;guid=73cab2a589bd840718be5263992a311a&amp;type=3#icon_search&quot;);" />
                     </ui:Button>
-                    <ui:Button name="team-create" class="heroic-icon-button">
-                        <ui:VisualElement class="heroic-icon-button__icon" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/IconPictogram/Trimmed/icon_add.png?fileID=2800000&amp;guid=8b0bf1b102fdb4387ab14ce4be4f54e6&amp;type=3#icon_add&quot;);" />
+                    <ui:Button name="team-create" class="heroic-button-circle">
+                        <ui:VisualElement class="heroic-button-circle__icon" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/IconPictogram/Trimmed/icon_add.png?fileID=2800000&amp;guid=8b0bf1b102fdb4387ab14ce4be4f54e6&amp;type=3#icon_add&quot;);" />
                     </ui:Button>
                 </ui:VisualElement>
             </ui:VisualElement>
@@ -136,7 +136,7 @@
                         <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/Tab/tab_01_violet_focus_tail_up.png?fileID=2800000&amp;guid=ab6e09096280e4ba187d353bc57606d7&amp;type=3#tab_01_violet_focus_tail_up&quot;); top: -40px; bottom: auto;" />
                         <ui:VisualElement name="tab-members-icon" class="heroic-tab-icon" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/IconPictogram/Trimmed/icon_friends.png?fileID=2800000&amp;guid=f04c92578d6ed4ceeb5ed77272318984&amp;type=3#icon_friends&quot;);" />
                     </ui:Button>
-                    <ui:Button name="tab-gifts" class="heroic-horizontal-tab-button">
+                    <ui:Button name="tab-gifts" class="heroic-horizontal-tab-button" style="display: none;">
                         <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/Tab/tab_01_violet_focus_tail_up.png?fileID=2800000&amp;guid=ab6e09096280e4ba187d353bc57606d7&amp;type=3#tab_01_violet_focus_tail_up&quot;); top: -40px; bottom: auto;" />
                         <ui:VisualElement name="tab-gifts-icon" class="heroic-tab-icon" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/IconPictogram/Trimmed/icon_gift.png?fileID=2800000&amp;guid=b1ff7bca27a2e4e0baf4a88c75352ce3&amp;type=3#icon_gift&quot;);" />
                     </ui:Button>
