@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Hiro;
 using Nakama;
@@ -105,10 +106,14 @@ namespace HiroTeams
 
         // Preview content for non-members
         private VisualElement _contentPreview;
-        private VisualElement _previewStats;
+        private Label _previewLanguageValue;
+        private Label _previewAccessValue;
+        private Label _previewWinsValue;
+        private Label _previewTotalScoreValue;
 
         // About tab elements
-        private VisualElement _aboutTeamInfoList;
+        private Label _aboutLanguageValue;
+        private Label _aboutAccessValue;
         private VisualElement _aboutStatsList;
         private VisualElement _aboutWalletList;
 
@@ -400,10 +405,14 @@ namespace HiroTeams
 
             // Preview content for non-members
             _contentPreview = rootElement.Q<VisualElement>("content-preview");
-            _previewStats = rootElement.Q<VisualElement>("preview-stats");
+            _previewLanguageValue = rootElement.Q<Label>("preview-language-value");
+            _previewAccessValue = rootElement.Q<Label>("preview-access-value");
+            _previewWinsValue = rootElement.Q<Label>("preview-wins-value");
+            _previewTotalScoreValue = rootElement.Q<Label>("preview-total-score-value");
 
             // About tab elements
-            _aboutTeamInfoList = rootElement.Q<VisualElement>("about-team-info-list");
+            _aboutLanguageValue = rootElement.Q<Label>("about-language-value");
+            _aboutAccessValue = rootElement.Q<Label>("about-access-value");
             _aboutStatsList = rootElement.Q<VisualElement>("about-stats-list");
             _aboutWalletList = rootElement.Q<VisualElement>("about-wallet-list");
         }
@@ -563,7 +572,7 @@ namespace HiroTeams
                 {
                     content.AddToClassList("heroic-tab-content--hidden");
                 }
-                PopulateStatsRow(_previewStats);
+                PopulatePreview();
                 HideAllActionButtons();
             }
 
@@ -636,25 +645,18 @@ namespace HiroTeams
 
         private async Task RefreshAboutTab()
         {
-            PopulateTeamInfo();
+            PopulateAboutTeamInfo();
             await PopulateStatsList();
             await PopulateWalletList();
         }
 
-        private void PopulateTeamInfo()
+        private void PopulateAboutTeamInfo()
         {
-            _aboutTeamInfoList.Clear();
-
             var team = _controller.SelectedTeam;
             if (team == null) return;
 
-            // Language
-            var languageDisplay = GetLanguageDisplayName(team.LangTag);
-            AddDataRow(_aboutTeamInfoList, "Language", languageDisplay);
-
-            // Open/Invite Only status
-            var accessType = team.Open ? "Open" : "Invite Only";
-            AddDataRow(_aboutTeamInfoList, "Access", accessType);
+            _aboutLanguageValue.text = GetLanguageDisplayName(team.LangTag);
+            _aboutAccessValue.text = team.Open ? "Open" : "Invite Only";
         }
 
         private static string GetLanguageDisplayName(string langTag)
@@ -766,41 +768,46 @@ namespace HiroTeams
             _headerMemberSlots.text = $"{openPositions}/{team.MaxCount}";
 
             // Update team level from public stats (default to 1 if not set)
-            // TODO: Replace with actual team level from public stats when available
-            _headerTeamLevel.text = "1";
+            var level = GetStatValueFromMetadata(team.Metadata, "level");
+            _headerTeamLevel.text = (level > 0 ? level : 1).ToString();
         }
 
-        private void PopulateStatsRow(VisualElement container)
+        private void PopulatePreview()
         {
             var team = _controller.SelectedTeam;
             if (team == null) return;
 
-            container.Clear();
+            // Team info
+            _previewLanguageValue.text = GetLanguageDisplayName(team.LangTag);
+            _previewAccessValue.text = team.Open ? "Open" : "Invite Only";
 
-            AddStatItem(container, "Members", team.EdgeCount.ToString());
-            AddStatItem(container, "Wins", "0");
-            AddStatItem(container, "Level", "1");
-            AddStatItem(container, "Total Score", "0");
+            // Stats from team metadata (public stats are embedded in metadata)
+            var wins = GetStatValueFromMetadata(team.Metadata, "wins");
+            var totalScore = GetStatValueFromMetadata(team.Metadata, "totalScore");
+            _previewWinsValue.text = wins.ToString("N0");
+            _previewTotalScoreValue.text = totalScore.ToString("N0");
         }
 
-        private void AddStatItem(VisualElement container, string label, string value)
+        private static long GetStatValueFromMetadata(string metadata, string statKey)
         {
-            var statItem = new VisualElement();
-            statItem.AddToClassList("heroic-stat-item");
+            if (string.IsNullOrEmpty(metadata)) return 0;
 
-            var content = new VisualElement();
-            content.AddToClassList("heroic-stat-item__content");
+            try
+            {
+                // Match pattern: "statKey":{"value":123, ...}
+                var pattern = $@"""{statKey}"":\s*\{{\s*""value"":\s*(\d+)";
+                var match = Regex.Match(metadata, pattern);
+                if (match.Success && long.TryParse(match.Groups[1].Value, out var value))
+                {
+                    return value;
+                }
+            }
+            catch
+            {
+                // Silently fail and return default
+            }
 
-            var labelElement = new Label(label);
-            labelElement.AddToClassList("heroic-stat-item__label");
-            content.Add(labelElement);
-
-            var valueElement = new Label(value);
-            valueElement.AddToClassList("heroic-stat-item__value");
-            content.Add(valueElement);
-
-            statItem.Add(content);
-            container.Add(statItem);
+            return 0;
         }
 
         #endregion

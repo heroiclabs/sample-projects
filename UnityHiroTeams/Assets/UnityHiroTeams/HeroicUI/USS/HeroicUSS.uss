@@ -753,6 +753,40 @@
     color: rgb(40, 40, 60);
 }
 
+/* Preview stat items (for non-members viewing team) */
+.heroic-preview-stat {
+    flex-direction: column;
+    align-items: center;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.heroic-preview-stat__label {
+    font-size: 16px;
+    -unity-font-definition: url("project://database/Assets/UnityHiroTeams/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&guid=fbe3b99011ddc4d419b127c34c0e03ab&type=3#PlusJakartaSans-VariableFont_wght");
+    color: rgb(120, 120, 120);
+    margin-bottom: 4px;
+}
+
+.heroic-preview-stat__value-row {
+    flex-direction: row;
+    align-items: center;
+}
+
+.heroic-preview-stat__value {
+    font-size: 32px;
+    -unity-font-definition: url("project://database/Assets/UnityHiroTeams/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.ttf?fileID=12800000&guid=fbe3b99011ddc4d419b127c34c0e03ab&type=3#PlusJakartaSans-VariableFont_wght");
+    -unity-font-style: bold;
+    color: rgb(40, 40, 60);
+}
+
+.heroic-preview-stat__icon {
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
 /* Modal header styling */
 .heroic-modal-header {
     height: 80px;

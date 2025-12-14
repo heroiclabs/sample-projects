@@ -53,7 +53,32 @@
                     </ui:VisualElement>
                     <ui:VisualElement name="tab-content" style="flex-grow: 1; flex-shrink: 0;">
                         <ui:VisualElement name="content-preview" class="heroic-tab-content" style="display: none;">
-                            <ui:VisualElement name="preview-stats" class="heroic-stats-row" />
+                            <ui:VisualElement name="preview-stats" style="flex-direction: row; justify-content: center; align-items: center;">
+                                <ui:VisualElement name="preview-wins" class="heroic-preview-stat">
+                                    <ui:VisualElement class="heroic-preview-stat__value-row">
+                                        <ui:VisualElement class="heroic-preview-stat__icon" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/IconItem/512/icon_trophy.png?fileID=2800000&amp;guid=1429718edd9334d058f48f3e73b77054&amp;type=3#icon_trophy&quot;); margin-left: 0; margin-right: 8px; width: 50px; height: 50px;" />
+                                        <ui:Label text="Wins" class="heroic-preview-stat__label" style="font-size: 32px;" />
+                                    </ui:VisualElement>
+                                    <ui:Label text="0" name="preview-wins-value" class="heroic-preview-stat__value" />
+                                </ui:VisualElement>
+                                <ui:VisualElement name="preview-score" class="heroic-preview-stat">
+                                    <ui:VisualElement class="heroic-preview-stat__value-row">
+                                        <ui:VisualElement name="VisualElement" class="heroic-preview-stat__icon" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/IconItem/512/icon_point.png?fileID=2800000&amp;guid=db337f99bbeca435dbeaa3def98d429a&amp;type=3#icon_point&quot;); margin-right: 8px; margin-left: 0; width: 50px; height: 50px;" />
+                                        <ui:Label text="Total Score" class="heroic-preview-stat__label" style="font-size: 32px;" />
+                                    </ui:VisualElement>
+                                    <ui:Label text="0" name="preview-total-score-value" class="heroic-preview-stat__value" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+                            <ui:VisualElement name="preview-team-info" style="margin-bottom: 20px;">
+                                <ui:VisualElement class="heroic-data-row">
+                                    <ui:Label text="Language" class="heroic-data-row__label" />
+                                    <ui:Label text="-" name="preview-language-value" class="heroic-data-row__value" />
+                                </ui:VisualElement>
+                                <ui:VisualElement class="heroic-data-row">
+                                    <ui:Label text="Access" class="heroic-data-row__label" />
+                                    <ui:Label text="-" name="preview-access-value" class="heroic-data-row__value" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
                         </ui:VisualElement>
                         <ui:VisualElement name="content-members" class="heroic-tab-content" style="padding: 0;">
                             <ui:ListView name="team-members-list" fixed-item-height="110" style="flex-grow: 1;" />
@@ -73,7 +98,14 @@
                         <ui:VisualElement name="content-about" class="heroic-tab-content heroic-tab-content--hidden">
                             <ui:VisualElement name="about-team-info" style="margin-bottom: 20px;">
                                 <ui:Label text="Team Info" class="heroic-section-title" />
-                                <ui:VisualElement name="about-team-info-list" />
+                                <ui:VisualElement class="heroic-data-row">
+                                    <ui:Label text="Language" class="heroic-data-row__label" />
+                                    <ui:Label text="-" name="about-language-value" class="heroic-data-row__value" />
+                                </ui:VisualElement>
+                                <ui:VisualElement class="heroic-data-row">
+                                    <ui:Label text="Access" class="heroic-data-row__label" />
+                                    <ui:Label text="-" name="about-access-value" class="heroic-data-row__value" />
+                                </ui:VisualElement>
                             </ui:VisualElement>
                             <ui:VisualElement style="flex-direction: row; flex-grow: 1;">
                                 <ui:VisualElement style="width: 50%; padding-right: 15px;">
