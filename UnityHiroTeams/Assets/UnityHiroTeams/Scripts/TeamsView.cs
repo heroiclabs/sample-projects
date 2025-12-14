@@ -625,7 +625,7 @@ namespace HiroTeams
                     RefreshGiftsTab();
                     break;
                 case 2: // Chat
-                    _ = RefreshChatTab();
+                    RefreshChatTab();
                     break;
                 case 3: // Mailbox
                     RefreshMailboxTab();
@@ -740,9 +740,10 @@ namespace HiroTeams
             // TODO: Implement gifts display
         }
 
-        private async Task RefreshChatTab()
+        private void RefreshChatTab()
         {
-            await RefreshTeams();
+            // TODO: Implement chat refresh - load team chat messages
+            _chatMessages.RefreshItems();
         }
 
         private void RefreshMailboxTab()
