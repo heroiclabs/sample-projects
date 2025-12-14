@@ -594,7 +594,6 @@
     background-image: url("project://database/Assets/UnityHiroTeams/HeroicUI/Checkbox/checkbox_checked.png?fileID=2800000&guid=98e436c782ea7448e90590045e5658f2&type=3#checkbox_checked");
 }
 
-/* Team Panel Tabs */
 .heroic-team-tabs {
     flex-direction: row;
     justify-content: center;
@@ -607,7 +606,6 @@
     align-items: center;
 }
 
-/* Tab icon inside horizontal tab button */
 .heroic-tab-icon {
     width: 50px;
     height: 50px;
@@ -619,7 +617,6 @@
     -unity-background-image-tint-color: rgb(107, 90, 239);
 }
 
-/* Tab content areas */
 .heroic-tab-content {
     flex-grow: 1;
     padding: 20px;
@@ -629,7 +626,6 @@
     display: none;
 }
 
-/* Section titles within tab content */
 .heroic-section-title {
     -unity-font-style: bold;
     font-size: 24px;
@@ -638,7 +634,6 @@
     margin-bottom: 10px;
 }
 
-/* Stat/Currency row styling */
 .heroic-data-row {
     flex-direction: row;
     justify-content: space-between;
@@ -662,7 +657,6 @@
     color: rgb(121, 99, 255);
 }
 
-/* Chat message styling */
 .heroic-chat-message {
     padding: 10px 15px;
     background-color: rgb(245, 245, 245);
@@ -685,7 +679,6 @@
     white-space: normal;
 }
 
-/* Stats row for preview display */
 .heroic-stats-row {
     flex-direction: row;
     justify-content: space-around;
@@ -719,4 +712,53 @@
     -unity-font-style: bold;
     color: rgb(40, 40, 60);
 }
+
+.heroic-icon-button {
+    width: 70px;
+    height: 70px;
+    border-radius: 35px;
+    background-color: rgb(121, 99, 255);
+    background-image: none;
+    border-width: 0;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+    justify-content: center;
+    transition-property: scale;
+    transition-duration: 0.1s;
+}
+
+.heroic-icon-button:hover:enabled {
+    scale: 1.05 1.05;
+}
+
+.heroic-icon-button:active {
+    background-color: rgb(84, 69, 177);
+}
+
+.heroic-icon-button__icon {
+    width: 32px;
+    height: 32px;
+    -unity-background-scale-mode: scale-to-fit;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+}
+
+/* Modal header styling */
+.heroic-modal-header {
+    height: 80px;
+    background-color: rgb(132, 154, 255);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+.heroic-modal-header .heroic-title {
+    color: rgb(255, 255, 255);
+    -unity-text-align: middle-center;
+    font-size: 36px;
+    margin: 0;
+    padding: 0;
+}
+
 
