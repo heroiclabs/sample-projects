@@ -71,14 +71,19 @@
                             <ui:ScrollView name="mailbox-entries" style="flex-grow: 1;" />
                         </ui:VisualElement>
                         <ui:VisualElement name="content-about" class="heroic-tab-content heroic-tab-content--hidden">
-                            <ui:VisualElement name="about-stats-row" class="heroic-stats-row" />
-                            <ui:VisualElement name="stats-private-section" style="margin-top: 15px;">
-                                <ui:Label text="Private Stats (Admin Only)" class="heroic-section-title" style="font-size: 20px;" />
-                                <ui:VisualElement name="stats-private" class="heroic-stats-row" />
+                            <ui:VisualElement name="about-team-info" style="margin-bottom: 20px;">
+                                <ui:Label text="Team Info" class="heroic-section-title" />
+                                <ui:VisualElement name="about-team-info-list" />
                             </ui:VisualElement>
-                            <ui:VisualElement name="about-wallet-section" style="margin-top: 15px;">
-                                <ui:Label text="Team Wallet" class="heroic-section-title" />
-                                <ui:VisualElement name="wallet-currencies" style="flex-grow: 0;" />
+                            <ui:VisualElement style="flex-direction: row; flex-grow: 1;">
+                                <ui:VisualElement style="width: 50%; padding-right: 15px;">
+                                    <ui:Label text="Stats" class="heroic-section-title" />
+                                    <ui:VisualElement name="about-stats-list" style="flex-grow: 1;" />
+                                </ui:VisualElement>
+                                <ui:VisualElement style="width: 50%; padding-left: 15px;">
+                                    <ui:Label text="Wallet" class="heroic-section-title" />
+                                    <ui:VisualElement name="about-wallet-list" style="flex-grow: 1;" />
+                                </ui:VisualElement>
                             </ui:VisualElement>
                         </ui:VisualElement>
                         <ui:VisualElement name="action-buttons" style="flex-direction: row; align-self: center; align-items: center; padding-top: 0; margin-bottom: 20px; flex-wrap: wrap; justify-content: center;">

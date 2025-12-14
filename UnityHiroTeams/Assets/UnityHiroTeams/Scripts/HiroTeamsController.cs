@@ -69,6 +69,21 @@ namespace HiroTeams
         public List<IGroupUserListGroupUser> SelectedTeamMembers { get; } = new();
         public List<IUserChannelMessage> TeamMessages { get; } = new();
 
+        // About tab data accessors
+        public bool IsAdmin => _teamsSystem?.IsAdmin ?? false;
+
+        public async Task<IStatList> GetStatsAsync()
+        {
+            if (_teamsSystem?.Team == null) return null;
+            return await _teamsSystem.GetStatsAsync();
+        }
+
+        public async Task<Dictionary<string, long>> GetWalletAsync()
+        {
+            if (_teamsSystem?.Team == null) return null;
+            return await _teamsSystem.GetWalletAsync();
+        }
+
         public event Action<ISession, HiroTeamsController> OnInitialized;
 
         #region Initialization

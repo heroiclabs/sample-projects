@@ -108,8 +108,9 @@ namespace HiroTeams
         private VisualElement _previewStats;
 
         // About tab elements
-        private VisualElement _aboutStatsRow;
-        private VisualElement _statsPrivateSection;
+        private VisualElement _aboutTeamInfoList;
+        private VisualElement _aboutStatsList;
+        private VisualElement _aboutWalletList;
 
         // Action buttons (visibility toggled per tab)
         private Button _btnDebug;
@@ -402,8 +403,9 @@ namespace HiroTeams
             _previewStats = rootElement.Q<VisualElement>("preview-stats");
 
             // About tab elements
-            _aboutStatsRow = rootElement.Q<VisualElement>("about-stats-row");
-            _statsPrivateSection = rootElement.Q<VisualElement>("stats-private-section");
+            _aboutTeamInfoList = rootElement.Q<VisualElement>("about-team-info-list");
+            _aboutStatsList = rootElement.Q<VisualElement>("about-stats-list");
+            _aboutWalletList = rootElement.Q<VisualElement>("about-wallet-list");
         }
 
         private void InitializeActionButtons(VisualElement rootElement)
@@ -545,16 +547,13 @@ namespace HiroTeams
             // Show/hide team tabs container - only visible for own team
             _teamTabsContainer.style.display = isOwnTeam ? DisplayStyle.Flex : DisplayStyle.None;
 
-            // Show/hide admin-only elements
-            _statsPrivateSection.style.display = isAdmin ? DisplayStyle.Flex : DisplayStyle.None;
-
             // Show preview for non-members, tab content for members
             if (isOwnTeam)
             {
                 _contentPreview.style.display = DisplayStyle.None;
                 ResetToDefaultTab();
                 UpdateActionButtonsVisibility();
-                RefreshAboutTab();
+                _ = RefreshAboutTab();
             }
             else
             {
@@ -630,16 +629,115 @@ namespace HiroTeams
                     RefreshMailboxTab();
                     break;
                 case 4: // About
-                    RefreshAboutTab();
+                    _ = RefreshAboutTab();
                     break;
             }
         }
 
-        private void RefreshAboutTab()
+        private async Task RefreshAboutTab()
         {
-            PopulateStatsRow(_aboutStatsRow);
-            // TODO: Populate private stats for admins
-            // TODO: Populate wallet currencies
+            PopulateTeamInfo();
+            await PopulateStatsList();
+            await PopulateWalletList();
+        }
+
+        private void PopulateTeamInfo()
+        {
+            _aboutTeamInfoList.Clear();
+
+            var team = _controller.SelectedTeam;
+            if (team == null) return;
+
+            // Language
+            var languageDisplay = GetLanguageDisplayName(team.LangTag);
+            AddDataRow(_aboutTeamInfoList, "Language", languageDisplay);
+
+            // Open/Invite Only status
+            var accessType = team.Open ? "Open" : "Invite Only";
+            AddDataRow(_aboutTeamInfoList, "Access", accessType);
+        }
+
+        private static string GetLanguageDisplayName(string langTag)
+        {
+            return langTag switch
+            {
+                "en" => "English",
+                "fr" => "French",
+                "pt" => "Portuguese",
+                _ => langTag ?? "Unknown"
+            };
+        }
+
+        private async Task PopulateStatsList()
+        {
+            _aboutStatsList.Clear();
+
+            var stats = await _controller.GetStatsAsync();
+            if (stats == null) return;
+
+            // Public stats
+            foreach (var stat in stats.Public)
+            {
+                AddDataRow(_aboutStatsList, FormatStatName(stat.Key), stat.Value.Value.ToString());
+            }
+
+            // Private stats (visible to all team members, not non-members)
+            foreach (var stat in stats.Private)
+            {
+                AddDataRow(_aboutStatsList, FormatStatName(stat.Key), stat.Value.Value.ToString());
+            }
+        }
+
+        private async Task PopulateWalletList()
+        {
+            _aboutWalletList.Clear();
+
+            var wallet = await _controller.GetWalletAsync();
+            if (wallet == null) return;
+
+            foreach (var currency in wallet)
+            {
+                AddDataRow(_aboutWalletList, FormatCurrencyName(currency.Key), currency.Value.ToString("N0"));
+            }
+        }
+
+        private void AddDataRow(VisualElement container, string label, string value)
+        {
+            var row = new VisualElement();
+            row.AddToClassList("heroic-data-row");
+
+            var labelElement = new Label(label);
+            labelElement.AddToClassList("heroic-data-row__label");
+            row.Add(labelElement);
+
+            var valueElement = new Label(value);
+            valueElement.AddToClassList("heroic-data-row__value");
+            row.Add(valueElement);
+
+            container.Add(row);
+        }
+
+        private string FormatStatName(string key)
+        {
+            return key switch
+            {
+                "wins" => "Wins",
+                "level" => "Level",
+                "totalScore" => "Total Score",
+                "internal_rating" => "Internal Rating",
+                _ => key
+            };
+        }
+
+        private string FormatCurrencyName(string key)
+        {
+            return key switch
+            {
+                "team_coins" => "Team Coins",
+                "team_gems" => "Team Gems",
+                "raid_tokens" => "Raid Tokens",
+                _ => key
+            };
         }
 
         private void RefreshGiftsTab()
@@ -958,7 +1056,7 @@ namespace HiroTeams
             {
                 await _controller.DebugGrantCurrency(currencyId, amount);
                 HideDebugModal();
-                RefreshAboutTab();
+                _ = RefreshAboutTab();
             }
             catch (Exception e)
             {
@@ -982,7 +1080,7 @@ namespace HiroTeams
             {
                 await _controller.DebugUpdateStat(statKey, value, isPrivate);
                 HideDebugModal();
-                RefreshAboutTab();
+                _ = RefreshAboutTab();
             }
             catch (Exception e)
             {
