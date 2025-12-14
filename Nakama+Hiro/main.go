@@ -69,11 +69,25 @@ func InitModule(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runti
 	if err != nil {
 		return err
 	}
-	_ = systems
+
+	// Activity calculator for Teams
+	// For simplicity, member count is a proxy for team activity - more members = more active team
+	if teamsSystem := systems.GetTeamsSystem(); teamsSystem != nil {
+		teamsSystem.SetActivityCalculator(calculateTeamActivity)
+		logger.Info("Teams activity calculator registered")
+	}
 
 	logger.Info("Module loaded in %dms", time.Since(initStart).Milliseconds())
 
 	return nil
+}
+
+func calculateTeamActivity(ctx context.Context, logger runtime.Logger, nk runtime.NakamaModule, team *hiro.Team) int64 {
+	if team == nil {
+		return 0
+	}
+
+	return int64(len(team.Members))
 }
 
 func createTournament(ctx context.Context, logger runtime.Logger, nk runtime.NakamaModule, id, resetSchedule, title, description string, duration, maxSize, maxNumScore int, joinRequired bool) error {
