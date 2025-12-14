@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Hiro;
 using Nakama;
@@ -59,6 +60,7 @@ namespace HiroTeams
         private TextField _modalDescriptionField;
         private IntegerField _modalMaxCountField;
         private Toggle _modalOpenToggle;
+        private DropdownField _modalLanguageDropdown;
         private VisualElement _modalAvatarBackground;
         private VisualElement _modalAvatarIcon;
         private VisualElement _modalPreviousBackgroundButton;
@@ -67,6 +69,17 @@ namespace HiroTeams
         private VisualElement _modalNextIconButton;
         private Button _modalCreateButton;
         private Button _modalCloseButton;
+
+        // Search modal
+        private VisualElement _searchModal;
+        private TextField _searchNameField;
+        private DropdownField _searchLanguageDropdown;
+        private DropdownField _searchOpenFilterDropdown;
+        private IntegerField _searchMinActivityField;
+        private Button _searchModalSearchButton;
+        private Button _searchModalClearButton;
+        private Button _searchModalCloseButton;
+        private Button _searchButton; // Icon button to open modal
 
         // Error popup
         private VisualElement _errorPopup;
@@ -147,6 +160,7 @@ namespace HiroTeams
         {
             InitializeTabs(rootElement);
             InitializeButtons(rootElement);
+            InitializeSearch(rootElement);
             InitializeSelectedTeamPanel(rootElement);
             InitializeLists(rootElement);
             InitializeCreateModal(rootElement);
@@ -193,6 +207,29 @@ namespace HiroTeams
 
             _leaveButton = rootElement.Q<Button>("team-leave");
             _leaveButton.RegisterCallback<ClickEvent>(evt => _ = LeaveTeam());
+        }
+
+        private void InitializeSearch(VisualElement rootElement)
+        {
+            // Search icon button to open modal
+            _searchButton = rootElement.Q<Button>("team-search");
+            _searchButton.RegisterCallback<ClickEvent>(_ => ShowSearchModal());
+
+            // Search modal elements
+            _searchModal = rootElement.Q<VisualElement>("search-modal");
+            _searchNameField = rootElement.Q<TextField>("search-name");
+            _searchLanguageDropdown = rootElement.Q<DropdownField>("search-language");
+            _searchOpenFilterDropdown = rootElement.Q<DropdownField>("search-open-filter");
+            _searchMinActivityField = rootElement.Q<IntegerField>("search-min-activity");
+
+            _searchModalSearchButton = rootElement.Q<Button>("search-modal-search");
+            _searchModalSearchButton.RegisterCallback<ClickEvent>(evt => _ = SearchTeams());
+
+            _searchModalClearButton = rootElement.Q<Button>("search-modal-clear");
+            _searchModalClearButton.RegisterCallback<ClickEvent>(_ => ClearSearch());
+
+            _searchModalCloseButton = rootElement.Q<Button>("search-modal-close");
+            _searchModalCloseButton.RegisterCallback<ClickEvent>(_ => HideSearchModal());
         }
 
         private void InitializeSelectedTeamPanel(VisualElement rootElement)
@@ -269,6 +306,7 @@ namespace HiroTeams
             _modalDescriptionField = rootElement.Q<TextField>("create-modal-description");
             _modalMaxCountField = rootElement.Q<IntegerField>("create-modal-max-count");
             _modalOpenToggle = rootElement.Q<Toggle>("create-modal-open");
+            _modalLanguageDropdown = rootElement.Q<DropdownField>("create-modal-language");
             _modalAvatarBackground = rootElement.Q<VisualElement>("create-modal-avatar-background");
             _modalAvatarIcon = rootElement.Q<VisualElement>("create-modal-avatar-icon");
 
@@ -586,7 +624,7 @@ namespace HiroTeams
                     RefreshGiftsTab();
                     break;
                 case 2: // Chat
-                    RefreshChatTab();
+                    _ = RefreshChatTab();
                     break;
                 case 3: // Mailbox
                     RefreshMailboxTab();
@@ -718,18 +756,82 @@ namespace HiroTeams
 
         #endregion
 
+        #region Search
+
+        private void ShowSearchModal()
+        {
+            _searchModal.style.display = DisplayStyle.Flex;
+        }
+
+        private void HideSearchModal()
+        {
+            _searchModal.style.display = DisplayStyle.None;
+        }
+
+        private async Task SearchTeams()
+        {
+            try
+            {
+                var name = _searchNameField.value;
+                var minActivity = _searchMinActivityField.value;
+
+                // Validate name length if provided
+                if (!string.IsNullOrEmpty(name) && name.Length < 3)
+                {
+                    ShowError("Team name search requires at least 3 characters.");
+                    return;
+                }
+
+                // Get language code from dropdown value, null for "Any"
+                var languageValue = _searchLanguageDropdown.value;
+                string language = languageValue == "Any" ? null : GetLanguageCode(languageValue);
+
+                // Get open/closed filter: null = any, true = open only, false = invite only
+                bool? openFilter = _searchOpenFilterDropdown.value switch
+                {
+                    "Open Teams" => true,
+                    "Invite Only" => false,
+                    _ => null
+                };
+
+                await _controller.SearchTeams(name, language, minActivity, openFilter);
+                _teamsList.RefreshItems();
+                _teamsList.ClearSelection();
+                HideSelectedTeamPanel();
+                HideSearchModal();
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+            }
+        }
+
+        private void ClearSearch()
+        {
+            _searchNameField.value = string.Empty;
+            _searchLanguageDropdown.index = 0;
+            _searchOpenFilterDropdown.index = 0;
+            _searchMinActivityField.value = 0;
+            _ = RefreshTeams();
+            HideSearchModal();
+        }
+
+        #endregion
+
         #region Team Actions
 
         private async Task CreateTeam()
         {
             try
             {
+                var language = GetLanguageCode(_modalLanguageDropdown.value);
                 await _controller.CreateTeam(
                     _modalNameField.value,
                     _modalDescriptionField.value,
                     _modalOpenToggle.value,
                     _selectedAvatarBackgroundIndex,
-                    _selectedAvatarIconIndex
+                    _selectedAvatarIconIndex,
+                    language
                 );
                 HideCreateModal();
                 await RefreshTeams();
@@ -738,6 +840,18 @@ namespace HiroTeams
             {
                 ShowError(e.Message);
             }
+        }
+
+        private static readonly Dictionary<string, string> LanguageCodes = new()
+        {
+            { "English", "en" },
+            { "French", "fr" },
+            { "Portuguese", "pt" }
+        };
+
+        private static string GetLanguageCode(string displayName)
+        {
+            return LanguageCodes.TryGetValue(displayName, out var code) ? code : "en";
         }
 
         private async Task DeleteTeam()
@@ -793,6 +907,7 @@ namespace HiroTeams
             _modalDescriptionField.value = string.Empty;
             _modalMaxCountField.value = 30;
             _modalOpenToggle.value = true;
+            _modalLanguageDropdown.index = 0; // Default to English
             UpdateCreateModalAvatar();
             _createModal.style.display = DisplayStyle.Flex;
         }
@@ -919,6 +1034,7 @@ namespace HiroTeams
         private void HideAllModals()
         {
             HideCreateModal();
+            HideSearchModal();
             HideDebugModal();
         }
 

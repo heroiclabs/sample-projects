@@ -111,7 +111,7 @@ namespace HiroTeams
 
         #endregion
 
-        #region Team List Operations
+        #region Team Discovery Operations
 
         public async Task<int?> RefreshTeams(int tabIndex)
         {
@@ -156,6 +156,33 @@ namespace HiroTeams
             return null;
         }
 
+        public async Task SearchTeams(string teamName, string language, int minActivity, bool? openFilter = null)
+        {
+            Teams.Clear();
+
+            // SearchTeamsAsync supports server-side filtering for langTag and minActivity
+            var results = await _teamsSystem.SearchTeamsAsync(
+                name: teamName ?? "",
+                langTag: language ?? "",
+                limit: teamEntriesLimit,
+                minActivity: minActivity
+            );
+
+            // Apply open/closed filter client-side
+            foreach (var team in results.Teams)
+            {
+                if (openFilter.HasValue && team.Open != openFilter.Value)
+                    continue;
+
+                Teams.Add(team);
+            }
+
+            // Clear selection after search
+            SelectedTeam = null;
+            _selectedTeamId = string.Empty;
+            SelectedTeamMembers.Clear();
+        }
+
         public async Task SelectTeam(ITeam team)
         {
             if (team == null)
@@ -193,7 +220,7 @@ namespace HiroTeams
 
         #region Team Lifecycle Operations
 
-        public async Task CreateTeam(string teamName, string description, bool isOpen, int backgroundIndex, int iconIndex)
+        public async Task CreateTeam(string teamName, string description, bool isOpen, int backgroundIndex, int iconIndex, string language = "en")
         {
             var avatarDataJson = JsonUtility.ToJson(new AvatarData
             {
@@ -206,7 +233,7 @@ namespace HiroTeams
                 description,
                 isOpen,
                 avatarDataJson,
-                "en",
+                language,
                 "{}"
             );
         }

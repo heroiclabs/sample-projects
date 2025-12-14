@@ -151,6 +151,46 @@
     -unity-background-image-tint-color: rgb(84, 69, 177);
 }
 
+.heroic-icon-button {
+    width: 70px;
+    height: 70px;
+    border-radius: 35px;
+    background-color: rgb(121, 99, 255);
+    background-image: none;
+    border-width: 0;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+    justify-content: center;
+    transition-property: scale;
+    transition-duration: 0.1s;
+}
+
+.heroic-icon-button:hover:enabled {
+    scale: 1.05 1.05;
+}
+
+.heroic-icon-button:active {
+    background-color: rgb(84, 69, 177);
+}
+
+.heroic-icon-button__icon {
+    width: 32px;
+    height: 32px;
+    -unity-background-scale-mode: scale-to-fit;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+}
+
+.heroic-button-white {
+    background-image: url("project://database/Assets/UnityHiroTeams/HeroicUI/Button/button_circle_h64_white_shadow.png?fileID=2800000&guid=1119d811a7985409cb491478a19d499e&type=3#button_circle_h64_white_shadow");
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(101, 107, 136);
+}
+
+.heroic-button-white .heroic-icon-button__icon {
+    -unity-background-image-tint-color: rgb(101, 107, 136);
+}
+
 .heroic-stepper {
     background-image: url("project://database/Assets/UnityHiroTeams/HeroicUI/Stepper/stepper_button_next_violet.png?fileID=2800000&guid=295ce4045d8694012af9e05244b2501c&type=3#stepper_button_next_violet");
     background-color: rgba(0, 0, 0, 0);
@@ -713,36 +753,6 @@
     color: rgb(40, 40, 60);
 }
 
-.heroic-icon-button {
-    width: 70px;
-    height: 70px;
-    border-radius: 35px;
-    background-color: rgb(121, 99, 255);
-    background-image: none;
-    border-width: 0;
-    padding: 0;
-    margin: 0;
-    align-items: center;
-    justify-content: center;
-    transition-property: scale;
-    transition-duration: 0.1s;
-}
-
-.heroic-icon-button:hover:enabled {
-    scale: 1.05 1.05;
-}
-
-.heroic-icon-button:active {
-    background-color: rgb(84, 69, 177);
-}
-
-.heroic-icon-button__icon {
-    width: 32px;
-    height: 32px;
-    -unity-background-scale-mode: scale-to-fit;
-    -unity-background-image-tint-color: rgb(255, 255, 255);
-}
-
 /* Modal header styling */
 .heroic-modal-header {
     height: 80px;
@@ -760,5 +770,3 @@
     margin: 0;
     padding: 0;
 }
-
-
