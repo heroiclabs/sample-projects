@@ -315,24 +315,23 @@ namespace HiroTeams
 
         #region Debug Operations
 
-        public async Task DebugGrantCurrency(string currencyId, int amount)
+        public async Task DebugUpdateStat(string statKey, int value, bool isPrivate)
         {
             if (SelectedTeam == null) return;
 
-            var currencies = new Dictionary<string, long>
+            var statUpdate = new List<UpdateStat>
             {
-                { currencyId, amount }
+                new(statKey, value, StatUpdateOperator.Set)
             };
-            await _teamsSystem.GrantAsync(currencies);
-        }
 
-        public Task DebugUpdateStat(string statKey, int value, bool isPrivate)
-        {
-            if (SelectedTeam == null) return Task.CompletedTask;
-
-            // Fix UpdateStat API call - commenting out for now
-            Debug.Log($"[DEBUG] Update Stat - Key: {statKey}, Value: {value}, Private: {isPrivate}");
-            return Task.CompletedTask;
+            if (isPrivate)
+            {
+                await _teamsSystem.UpdateStatsAsync(privateStats: statUpdate, publicStats: null);
+            }
+            else
+            {
+                await _teamsSystem.UpdateStatsAsync(privateStats: null, publicStats: statUpdate);
+            }
         }
 
         #endregion

@@ -14,10 +14,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Hiro;
 using Nakama;
+using Nakama.TinyJson;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -109,7 +109,7 @@ namespace HiroTeams
         private Label _previewLanguageValue;
         private Label _previewAccessValue;
         private Label _previewWinsValue;
-        private Label _previewTotalScoreValue;
+        private Label _previewPointsValue;
 
         // About tab elements
         private Label _aboutLanguageValue;
@@ -127,9 +127,6 @@ namespace HiroTeams
 
         // Debug modal elements
         private VisualElement _debugModal;
-        private TextField _debugCurrencyId;
-        private IntegerField _debugCurrencyAmount;
-        private Button _debugGrantCurrency;
         private TextField _debugStatKey;
         private IntegerField _debugStatValue;
         private Toggle _debugStatPrivate;
@@ -408,7 +405,7 @@ namespace HiroTeams
             _previewLanguageValue = rootElement.Q<Label>("preview-language-value");
             _previewAccessValue = rootElement.Q<Label>("preview-access-value");
             _previewWinsValue = rootElement.Q<Label>("preview-wins-value");
-            _previewTotalScoreValue = rootElement.Q<Label>("preview-total-score-value");
+            _previewPointsValue = rootElement.Q<Label>("preview-points-value");
 
             // About tab elements
             _aboutLanguageValue = rootElement.Q<Label>("about-language-value");
@@ -434,10 +431,6 @@ namespace HiroTeams
         private void InitializeDebugModal(VisualElement rootElement)
         {
             _debugModal = rootElement.Q<VisualElement>("debug-modal");
-            _debugCurrencyId = rootElement.Q<TextField>("debug-currency-id");
-            _debugCurrencyAmount = rootElement.Q<IntegerField>("debug-currency-amount");
-            _debugGrantCurrency = rootElement.Q<Button>("debug-grant-currency");
-            _debugGrantCurrency.RegisterCallback<ClickEvent>(evt => _ = DebugGrantCurrency());
 
             _debugStatKey = rootElement.Q<TextField>("debug-stat-key");
             _debugStatValue = rootElement.Q<IntegerField>("debug-stat-value");
@@ -725,8 +718,8 @@ namespace HiroTeams
             {
                 "wins" => "Wins",
                 "level" => "Level",
-                "totalScore" => "Total Score",
-                "internal_rating" => "Internal Rating",
+                "points" => "Points",
+                "private_rating" => "Private Rating",
                 _ => key
             };
         }
@@ -781,32 +774,26 @@ namespace HiroTeams
             _previewLanguageValue.text = GetLanguageDisplayName(team.LangTag);
             _previewAccessValue.text = team.Open ? "Open" : "Invite Only";
 
-            // Stats from team metadata (public stats are embedded in metadata)
+            // Team stats (available from metadata)
             var wins = GetStatValueFromMetadata(team.Metadata, "wins");
-            var totalScore = GetStatValueFromMetadata(team.Metadata, "totalScore");
+            var points = GetStatValueFromMetadata(team.Metadata, "points");
             _previewWinsValue.text = wins.ToString("N0");
-            _previewTotalScoreValue.text = totalScore.ToString("N0");
+            _previewPointsValue.text = points.ToString("N0");
         }
 
         private static long GetStatValueFromMetadata(string metadata, string statKey)
         {
             if (string.IsNullOrEmpty(metadata)) return 0;
 
-            try
+            var data = metadata.FromJson<Dictionary<string, object>>();
+            if (data?.TryGetValue("stats", out var statsObj) == true &&
+                statsObj is Dictionary<string, object> stats &&
+                stats.TryGetValue(statKey, out var statObj) &&
+                statObj is Dictionary<string, object> stat &&
+                stat.TryGetValue("value", out var valueObj))
             {
-                // Match pattern: "statKey":{"value":123, ...}
-                var pattern = $@"""{statKey}"":\s*\{{\s*""value"":\s*(\d+)";
-                var match = Regex.Match(metadata, pattern);
-                if (match.Success && long.TryParse(match.Groups[1].Value, out var value))
-                {
-                    return value;
-                }
+                return Convert.ToInt64(valueObj);
             }
-            catch
-            {
-                // Silently fail and return default
-            }
-
             return 0;
         }
 
@@ -1046,29 +1033,6 @@ namespace HiroTeams
         private void HideDebugModal()
         {
             _debugModal.style.display = DisplayStyle.None;
-        }
-
-        private async Task DebugGrantCurrency()
-        {
-            string currencyId = _debugCurrencyId.value;
-            int amount = _debugCurrencyAmount.value;
-
-            if (string.IsNullOrEmpty(currencyId))
-            {
-                ShowError("Currency ID is required");
-                return;
-            }
-
-            try
-            {
-                await _controller.DebugGrantCurrency(currencyId, amount);
-                HideDebugModal();
-                _ = RefreshAboutTab();
-            }
-            catch (Exception e)
-            {
-                ShowError(e.Message);
-            }
         }
 
         private async Task DebugUpdateStat()

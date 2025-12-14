@@ -64,9 +64,9 @@
                                 <ui:VisualElement name="preview-score" class="heroic-preview-stat">
                                     <ui:VisualElement class="heroic-preview-stat__value-row">
                                         <ui:VisualElement name="VisualElement" class="heroic-preview-stat__icon" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/IconItem/512/icon_point.png?fileID=2800000&amp;guid=db337f99bbeca435dbeaa3def98d429a&amp;type=3#icon_point&quot;); margin-right: 8px; margin-left: 0; width: 50px; height: 50px;" />
-                                        <ui:Label text="Total Score" class="heroic-preview-stat__label" style="font-size: 32px;" />
+                                        <ui:Label text="Points" class="heroic-preview-stat__label" style="font-size: 32px;" />
                                     </ui:VisualElement>
-                                    <ui:Label text="0" name="preview-total-score-value" class="heroic-preview-stat__value" />
+                                    <ui:Label text="0" name="preview-points-value" class="heroic-preview-stat__value" />
                                 </ui:VisualElement>
                             </ui:VisualElement>
                             <ui:VisualElement name="preview-team-info" style="margin-bottom: 20px;">
@@ -75,7 +75,7 @@
                                     <ui:Label text="-" name="preview-language-value" class="heroic-data-row__value" />
                                 </ui:VisualElement>
                                 <ui:VisualElement class="heroic-data-row">
-                                    <ui:Label text="Access" class="heroic-data-row__label" />
+                                    <ui:Label text="Team Type" class="heroic-data-row__label" />
                                     <ui:Label text="-" name="preview-access-value" class="heroic-data-row__value" />
                                 </ui:VisualElement>
                             </ui:VisualElement>
@@ -103,7 +103,7 @@
                                     <ui:Label text="-" name="about-language-value" class="heroic-data-row__value" />
                                 </ui:VisualElement>
                                 <ui:VisualElement class="heroic-data-row">
-                                    <ui:Label text="Access" class="heroic-data-row__label" />
+                                    <ui:Label text="Team Type" class="heroic-data-row__label" />
                                     <ui:Label text="-" name="about-access-value" class="heroic-data-row__value" />
                                 </ui:VisualElement>
                             </ui:VisualElement>
@@ -241,14 +241,10 @@
                     <ui:Label text="DEBUG: Team Admin" class="heroic-title" />
                 </ui:VisualElement>
                 <ui:VisualElement name="debug-modal-content" style="padding: 20px;">
-                    <ui:Label text="Grant Currency" class="heroic-section-title" />
-                    <ui:TextField label="Currency ID" placeholder-text="e.g. coins" name="debug-currency-id" style="margin-bottom: 10px;" />
-                    <ui:IntegerField label="Amount" value="100" name="debug-currency-amount" style="margin-bottom: 10px;" />
-                    <ui:Button text="Grant" name="debug-grant-currency" class="heroic-button" style="margin-bottom: 20px;" />
                     <ui:Label text="Update Stats" class="heroic-section-title" />
                     <ui:TextField label="Stat Key" placeholder-text="e.g. wins" name="debug-stat-key" style="margin-bottom: 10px;" />
                     <ui:IntegerField label="Value" value="0" name="debug-stat-value" style="margin-bottom: 10px;" />
-                    <ui:Toggle label="Private Stat" name="debug-stat-private" style="margin-bottom: 10px;" />
+                    <ui:Toggle label="Private Stat" name="debug-stat-private" style="margin-bottom: 10px; flex-direction: row; height: 45px;" />
                     <ui:Button text="Update Stat" name="debug-update-stat" class="heroic-button" style="margin-bottom: 20px;" />
                     <ui:Button text="Close" name="debug-modal-close" class="heroic-button heroic-button-gray" />
                 </ui:VisualElement>
