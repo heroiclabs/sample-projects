@@ -12,6 +12,7 @@ import (
 
 	"github.com/heroiclabs/hiro"
 	"github.com/heroiclabs/nakama-common/runtime"
+	"google.golang.org/protobuf/encoding/protojson"
 )
 
 func InitModule(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runtime.NakamaModule, initializer runtime.Initializer) error {
@@ -77,6 +78,18 @@ func InitModule(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runti
 		logger.Info("Teams activity calculator registered")
 	}
 
+	// Unregister the default team stats update RPC and replace with custom version that triggers achievements
+	if err := hiro.UnregisterRpc(initializer, hiro.RpcId_RPC_ID_TEAMS_STATS_UPDATE); err != nil {
+		return err
+	}
+	if err := initializer.RegisterRpc(
+		hiro.RpcId_RPC_ID_TEAMS_STATS_UPDATE.String(),
+		rpcTeamStatsUpdateWithAchievements(systems),
+	); err != nil {
+		return err
+	}
+	logger.Info("Custom team stats update RPC registered with achievement triggers")
+
 	logger.Info("Module loaded in %dms", time.Since(initStart).Milliseconds())
 
 	return nil
@@ -105,4 +118,95 @@ func createTournament(ctx context.Context, logger runtime.Logger, nk runtime.Nak
 		return runtime.NewError("failed to create tournament", 3)
 	}
 	return nil
+}
+
+// rpcTeamStatsUpdateWithAchievements returns a custom RPC that updates team stats and triggers achievements
+func rpcTeamStatsUpdateWithAchievements(systems hiro.Hiro) func(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runtime.NakamaModule, payload string) (string, error) {
+	return func(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runtime.NakamaModule, payload string) (string, error) {
+		userID, ok := ctx.Value(runtime.RUNTIME_CTX_USER_ID).(string)
+		if !ok {
+			return "", errors.New("no user ID in context")
+		}
+
+		// Parse the request using protojson (protobuf JSON format)
+		request := &hiro.TeamStatUpdateRequest{}
+		if err := protojson.Unmarshal([]byte(payload), request); err != nil {
+			return "", err
+		}
+
+		teamsSystem := systems.GetTeamsSystem()
+
+		// Call the actual stats update
+		statList, err := teamsSystem.StatsUpdate(ctx, logger, nk, userID, request.Id, request.Public, request.Private)
+		if err != nil {
+			return "", err
+		}
+
+		// Now trigger achievements based on stat values
+		// Only update when there's meaningful progress to report
+		achievementUpdates := make(map[string]int64)
+
+		// Handle level stat - milestone-based achievements
+		// Only update sub-achievements directly (they have independent counts from parent)
+		if levelStat, ok := statList.Public["level"]; ok {
+			level := levelStat.Value
+			logger.Debug("Team %s level is %d, checking milestones", request.Id, level)
+
+			// Update sub-achievements when milestones are reached
+			// Each sub-achievement has max_count: 1, so we set to 1 when milestone is reached
+			if level >= 2 {
+				achievementUpdates["TeamLevel_2"] = 1
+			}
+			if level >= 5 {
+				achievementUpdates["TeamLevel_5"] = 1
+			}
+			if level >= 10 {
+				achievementUpdates["TeamLevel_10"] = 1
+			}
+		}
+
+		// Handle wins stat - cumulative achievements
+		// Only update sub-achievements (they track independently toward their max_count)
+		if winsStat, ok := statList.Public["wins"]; ok {
+			wins := winsStat.Value
+			if wins > 0 {
+				logger.Debug("Team %s wins is %d, updating achievements", request.Id, wins)
+				achievementUpdates["TeamWins_5"] = wins
+				achievementUpdates["TeamWins_10"] = wins
+				achievementUpdates["TeamWins_25"] = wins
+			}
+		}
+
+		// Handle points stat - cumulative achievements
+		// Only update sub-achievements (they track independently toward their max_count)
+		if pointsStat, ok := statList.Public["points"]; ok {
+			points := pointsStat.Value
+			if points > 0 {
+				logger.Debug("Team %s points is %d, updating achievements", request.Id, points)
+				achievementUpdates["TeamPoints_100"] = points
+				achievementUpdates["TeamPoints_250"] = points
+				achievementUpdates["TeamPoints_500"] = points
+			}
+		}
+
+		// Update achievements if any updates to make
+		if len(achievementUpdates) > 0 {
+			logger.Info("Updating team achievements: %v", achievementUpdates)
+			_, _, err := teamsSystem.UpdateAchievements(ctx, logger, nk, userID, request.Id, achievementUpdates)
+			if err != nil {
+				logger.Warn("Failed to update team achievements: %v", err)
+				// Don't return error - stat update already succeeded
+			}
+		} else {
+			logger.Debug("No achievement updates needed")
+		}
+
+		// Return the stat list response using protojson
+		response, err := protojson.Marshal(statList)
+		if err != nil {
+			return "", err
+		}
+
+		return string(response), nil
+	}
 }

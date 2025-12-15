@@ -99,5 +99,170 @@
     },
     "reward_mailbox": {
         "max_size": 100
+    },
+    "achievements": {
+        "achievements": {
+            "TeamLevelMilestones": {
+            "name": "Team Level Milestones",
+            "description": "Earn rewards as your team levels up!",
+            "category": "team_progression",
+            "count": 0,
+            "max_count": 3,
+            "auto_claim_total": false,
+            "total_reward": {
+                "guaranteed": {
+                    "currencies": {
+                        "team_coins": { "min": 500 }
+                    }
+                }
+            },
+            "sub_achievements": {
+                "TeamLevel_2": {
+                    "name": "Reach Team Level 2",
+                    "description": "Your team reached level 2!",
+                    "count": 0,
+                    "max_count": 1,
+                    "auto_claim": false,
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": { "team_coins": { "min": 50 } }
+                        }
+                    }
+                },
+                "TeamLevel_5": {
+                    "name": "Reach Team Level 5",
+                    "description": "Your team reached level 5!",
+                    "count": 0,
+                    "max_count": 1,
+                    "auto_claim": false,
+                    "precondition_ids": ["TeamLevel_2"],
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": { "team_coins": { "min": 100 } }
+                        }
+                    }
+                },
+                "TeamLevel_10": {
+                    "name": "Reach Team Level 10",
+                    "description": "Your team reached level 10!",
+                    "count": 0,
+                    "max_count": 1,
+                    "auto_claim": false,
+                    "precondition_ids": ["TeamLevel_5"],
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": { "team_coins": { "min": 200 } }
+                        }
+                    }
+                }
+            }
+        },
+        "TeamWinsMilestones": {
+            "name": "Team Victories",
+            "description": "Win matches together as a team!",
+            "category": "team_progression",
+            "count": 0,
+            "max_count": 25,
+            "auto_claim": false,
+            "reward": {
+                "guaranteed": {
+                    "currencies": { "team_coins": { "min": 300 } }
+                }
+            },
+            "sub_achievements": {
+                "TeamWins_5": {
+                    "name": "Win 5 Matches",
+                    "description": "Your team won 5 matches!",
+                    "count": 0,
+                    "max_count": 5,
+                    "auto_claim": false,
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": { "team_coins": { "min": 50 } }
+                        }
+                    }
+                },
+                "TeamWins_10": {
+                    "name": "Win 10 Matches",
+                    "description": "Your team won 10 matches!",
+                    "count": 0,
+                    "max_count": 10,
+                    "auto_claim": false,
+                    "precondition_ids": ["TeamWins_5"],
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": { "team_coins": { "min": 100 } }
+                        }
+                    }
+                },
+                "TeamWins_25": {
+                    "name": "Win 25 Matches",
+                    "description": "Your team won 25 matches!",
+                    "count": 0,
+                    "max_count": 25,
+                    "auto_claim": false,
+                    "precondition_ids": ["TeamWins_10"],
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": { "team_coins": { "min": 150 } }
+                        }
+                    }
+                }
+            }
+        },
+        "TeamPointsMilestones": {
+            "name": "Team Points Milestones",
+            "description": "Accumulate points as a team!",
+            "category": "team_progression",
+            "count": 0,
+            "max_count": 500,
+            "auto_claim": false,
+            "reward": {
+                "guaranteed": {
+                    "currencies": { "team_coins": { "min": 400 } }
+                }
+            },
+            "sub_achievements": {
+                "TeamPoints_100": {
+                    "name": "Earn 100 Team Points",
+                    "description": "Your team earned 100 points!",
+                    "count": 0,
+                    "max_count": 100,
+                    "auto_claim": false,
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": { "team_coins": { "min": 75 } }
+                        }
+                    }
+                },
+                "TeamPoints_250": {
+                    "name": "Earn 250 Team Points",
+                    "description": "Your team earned 250 points!",
+                    "count": 0,
+                    "max_count": 250,
+                    "auto_claim": false,
+                    "precondition_ids": ["TeamPoints_100"],
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": { "team_coins": { "min": 125 } }
+                        }
+                    }
+                },
+                "TeamPoints_500": {
+                    "name": "Earn 500 Team Points",
+                    "description": "Your team earned 500 points!",
+                    "count": 0,
+                    "max_count": 500,
+                    "auto_claim": false,
+                    "precondition_ids": ["TeamPoints_250"],
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": { "team_coins": { "min": 200 } }
+                        }
+                    }
+                }
+            }
+        }
+        }
     }
 }
