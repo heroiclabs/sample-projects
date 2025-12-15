@@ -29,13 +29,14 @@ namespace HiroAchievements
         // Status Text
         public const string StatusClaimed = "Claimed";
         public const string StatusComplete = "Complete";
-        public const string StatusLocked = "Locked";
+        public const string StatusLocked = "🔒 Locked";
         public const string StatusInProgress = "In Progress";
         public const string StatusProgressText = "Progress";
         public const string StatusCheckmark = "✓";
 
         // Locked Achievement Text
         public const string LockedDescriptionPrefix = "🔒 LOCKED - Complete required achievements to unlock.\n\n";
+        public const string LockedClickToViewHint = "Click to view required achievements";
 
         // UI Text Templates
         public const string ObjectivesFormat = "{0}/{1} Objectives";

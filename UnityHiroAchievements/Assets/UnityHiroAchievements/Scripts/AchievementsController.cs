@@ -353,6 +353,59 @@ namespace HiroAchievements
             return !isAvailable;
         }
 
+        /// <summary>
+        /// Gets the prerequisite achievements for a locked achievement.
+        /// Returns empty list if achievement has no preconditions or if achievement is not locked.
+        /// </summary>
+        public List<IAchievement> GetPrerequisiteAchievements(IAchievement achievement)
+        {
+            var prerequisites = new List<IAchievement>();
+
+            // Check if achievement has preconditions
+            if (achievement.PreconditionIds == null || achievement.PreconditionIds.Count == 0)
+                return prerequisites;
+
+            // Find each prerequisite achievement in our lists
+            foreach (var preconditionId in achievement.PreconditionIds)
+            {
+                // Search in both normal and repeatable achievements
+                var prerequisite = AllAchievements.FirstOrDefault(a => a.Id == preconditionId) ??
+                                   RepeatAchievements.FirstOrDefault(a => a.Id == preconditionId);
+
+                if (prerequisite != null)
+                {
+                    prerequisites.Add(prerequisite);
+                }
+                else
+                {
+                    Debug.LogWarning($"Prerequisite achievement with ID '{preconditionId}' not found for achievement '{achievement.Name}'");
+                }
+            }
+
+            return prerequisites;
+        }
+
+        /// <summary>
+        /// Gets the names of incomplete prerequisite achievements.
+        /// Returns empty list if all prerequisites are completed.
+        /// </summary>
+        public List<string> GetIncompletePrerequisiteNames(IAchievement achievement)
+        {
+            var incompleteNames = new List<string>();
+            var prerequisites = GetPrerequisiteAchievements(achievement);
+
+            foreach (var prerequisite in prerequisites)
+            {
+                // Check if prerequisite is NOT completed
+                if (!IsAchievementCompleted(prerequisite))
+                {
+                    incompleteNames.Add(prerequisite.Name);
+                }
+            }
+
+            return incompleteNames;
+        }
+
         #endregion
 
         #region Category Helpers

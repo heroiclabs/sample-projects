@@ -240,7 +240,8 @@
       "category": "quest",
       "max_count": 50,
       "precondition_ids": [
-        "killEnemiesMelee100"
+        "killEnemiesMelee100",
+        "completeDungeons5"
       ],
       "reward": {
         "guaranteed": {

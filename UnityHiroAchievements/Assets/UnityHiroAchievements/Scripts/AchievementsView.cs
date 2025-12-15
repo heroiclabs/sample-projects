@@ -257,11 +257,31 @@ namespace HiroAchievements
                 }
                 else if (isLocked)
                 {
-                    statusLabel.text = AchievementsUIConstants.StatusLocked;
+                    // Get incomplete prerequisites count
+                    var incompletePrereqs = _controller.GetIncompletePrerequisiteNames(achievement);
+                    int incompleteCount = incompletePrereqs.Count;
+
+                    // Show locked with count of remaining prerequisites
+                    if (incompleteCount > 0)
+                    {
+                        statusLabel.text = $"{AchievementsUIConstants.StatusLocked} ({incompleteCount})";
+                    }
+                    else
+                    {
+                        statusLabel.text = AchievementsUIConstants.StatusLocked;
+                    }
                     statusBadge.style.backgroundColor = AchievementsUIConstants.StatusLockedColor;
                     
-                    // Make locked achievements visually distinct
-                    container.style.opacity = 0.6f;
+                    // Locked achievements are clickable to view prerequisites
+                    // Keep them at full opacity so users know they can click to see details
+                    
+                    // Add tooltip-like functionality (show on hover if needed)
+                    if (incompleteCount > 0)
+                    {
+                        // Add title attribute for native tooltip (if supported)
+                        var prerequisitesText = string.Join(", ", incompletePrereqs);
+                        Debug.Log($"Locked achievement '{achievement.Name}' requires: {prerequisitesText}");
+                    }
                 }
                 else
                 {
@@ -275,15 +295,13 @@ namespace HiroAchievements
                 float progressPercent = AchievementProgressHelper.CalculateProgressPercent(achievement);
                 progressFill.style.width = Length.Percent(Mathf.Clamp(progressPercent, 0f, 100f));
 
-                // Only register click event for unlocked achievements
-                if (!isLocked)
+                // Register click event for ALL achievements (including locked)
+                // Locked achievements can be viewed to see prerequisites, just not progressed
+                container.RegisterCallback<ClickEvent>(async evt =>
                 {
-                    container.RegisterCallback<ClickEvent>(async evt =>
-                    {
-                        await SelectAchievement(achievement, container);
-                        evt.StopPropagation();
-                    });
-                }
+                    await SelectAchievement(achievement, container);
+                    evt.StopPropagation();
+                });
 
                 _achievementsList.Add(achievementElement);
             }
@@ -348,10 +366,14 @@ namespace HiroAchievements
             // Add locked indicator to description if achievement is locked
             if (isLocked)
             {
+                var prerequisites = _controller.GetPrerequisiteAchievements(achievement);
+                string prerequisitesText = PrerequisiteDisplayHelper.FormatPrerequisitesList(prerequisites, _controller);
+
                 _detailsDescriptionLabel.text = AchievementsUIConstants.LockedDescriptionPrefix +
                     (string.IsNullOrEmpty(achievement.Description)
                         ? "No description available."
-                        : achievement.Description);
+                        : achievement.Description) +
+                    prerequisitesText;
                 _detailsDescriptionLabel.style.color = AchievementsUIConstants.StatusLockedColor;
             }
             else
