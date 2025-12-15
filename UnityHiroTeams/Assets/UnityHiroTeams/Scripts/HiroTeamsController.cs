@@ -53,6 +53,8 @@ namespace HiroTeams
         private VisualTreeAsset teamEntryTemplate;
         [SerializeField]
         private VisualTreeAsset teamMemberTemplate;
+        [SerializeField]
+        private VisualTreeAsset mailboxEntryTemplate;
         [field: SerializeField]
         public Texture2D[] AvatarIcons { get; private set; }
         [field: SerializeField]
@@ -100,7 +102,7 @@ namespace HiroTeams
             coordinator.ReceivedStartError += HandleStartError;
             coordinator.ReceivedStartSuccess += HandleStartSuccess;
 
-            _view = new TeamsView(this, coordinator, teamEntryTemplate, teamMemberTemplate);
+            _view = new TeamsView(this, coordinator, teamEntryTemplate, teamMemberTemplate, mailboxEntryTemplate);
         }
 
         private static void HandleStartError(Exception e)
@@ -347,6 +349,34 @@ namespace HiroTeams
         
         #region Mailbox Operations
 
+        public List<IRewardMailboxEntry> MailboxEntries { get; } = new();
+
+        public async Task<List<IRewardMailboxEntry>> GetMailboxEntriesAsync()
+        {
+            MailboxEntries.Clear();
+
+            if (_teamsSystem?.Team == null) return MailboxEntries;
+
+            var mailbox = await _teamsSystem.ListMailboxAsync();
+            foreach (var entry in mailbox.Entries)
+            {
+                if (entry.CanClaim)
+                {
+                    MailboxEntries.Add(entry);
+                }
+            }
+
+            return MailboxEntries;
+        }
+
+        public async Task<IRewardMailboxEntry> ClaimMailboxEntry(string entryId)
+        {
+            if (SelectedTeam == null) return null;
+
+            var result = await _teamsSystem.ClaimMailboxRewardAsync(entryId, true);
+            return result;
+        }
+
         public async Task ClaimAllMailbox()
         {
             if (SelectedTeam == null) return;
@@ -354,7 +384,10 @@ namespace HiroTeams
             var mailbox = await _teamsSystem.ListMailboxAsync();
             foreach (var entry in mailbox.Entries)
             {
-                await _teamsSystem.ClaimMailboxRewardAsync(entry.Id, true);
+                if (entry.CanClaim)
+                {
+                    await _teamsSystem.ClaimMailboxRewardAsync(entry.Id, true);
+                }
             }
         }
 

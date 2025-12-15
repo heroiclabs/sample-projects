@@ -93,7 +93,11 @@
                         </ui:VisualElement>
                         <ui:VisualElement name="content-mailbox" class="heroic-tab-content heroic-tab-content--hidden">
                             <ui:Label text="Reward Mailbox" class="heroic-section-title" />
-                            <ui:ScrollView name="mailbox-entries" style="flex-grow: 1;" />
+                            <ui:Label text="The Reward Mailbox is where rewards delivered from Team Achievements, Event Leaderboards, Store, and other systems will appear. &#10;&#10;In this project, rewards are granted for reaching certain level, wins, and points milestones. Go to the About tab and use the Debug action to adjust team stats, then come back here to see and claim your rewards." name="mailbox-description" style="font-size: 24px; color: rgb(100, 100, 100); margin-bottom: 15px; white-space: normal; -unity-font-definition: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/Fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-Regular.ttf?fileID=12800000&amp;guid=e2ef62569164b4144847efcbba2e325a&amp;type=3#PlusJakartaSans-Regular&quot;);" />
+                            <ui:VisualElement name="mailbox-empty-state" style="flex-grow: 1; align-items: center; justify-content: center; display: none;">
+                                <ui:Label text="No rewards available" style="font-size: 24px; color: rgb(150, 150, 150); -unity-font-style: italic;" />
+                            </ui:VisualElement>
+                            <ui:ListView name="mailbox-list" fixed-item-height="90" style="flex-grow: 1;" />
                         </ui:VisualElement>
                         <ui:VisualElement name="content-about" class="heroic-tab-content heroic-tab-content--hidden">
                             <ui:VisualElement name="about-team-info" style="margin-bottom: 20px;">
@@ -241,11 +245,29 @@
                     <ui:Label text="DEBUG: Team Admin" class="heroic-title" />
                 </ui:VisualElement>
                 <ui:VisualElement name="debug-modal-content" style="padding: 20px;">
-                    <ui:Label text="Update Stats" class="heroic-section-title" />
-                    <ui:TextField label="Stat Key" placeholder-text="e.g. wins" name="debug-stat-key" style="margin-bottom: 10px;" />
-                    <ui:IntegerField label="Value" value="0" name="debug-stat-value" style="margin-bottom: 10px;" />
-                    <ui:Toggle label="Private Stat" name="debug-stat-private" style="margin-bottom: 10px; flex-direction: row; height: 45px;" />
-                    <ui:Button text="Update Stat" name="debug-update-stat" class="heroic-button" style="margin-bottom: 20px;" />
+                    <ui:Label text="Adjust Team Stats" class="heroic-section-title" />
+                    <ui:Label text="Use these controls to simulate stat changes. Achievements will trigger automatically when milestones are reached." style="font-size: 18px; color: rgb(150, 150, 150); margin-bottom: 15px; white-space: normal;" />
+                    <ui:VisualElement name="debug-stat-level" class="heroic-debug-stat-row" style="flex-direction: row; align-items: center; margin-bottom: 12px; padding: 10px; background-color: rgba(0, 0, 0, 0.05); border-radius: 8px;">
+                        <ui:Label text="Level" style="width: 100px; font-size: 22px; -unity-font-style: bold;" />
+                        <ui:Button text="-" name="debug-level-dec" class="heroic-button heroic-button-gray" style="width: 50px; height: 50px; font-size: 28px; margin-right: 10px;" />
+                        <ui:Label text="1" name="debug-level-value" style="width: 60px; font-size: 26px; -unity-text-align: middle-center; -unity-font-style: bold;" />
+                        <ui:Button text="+" name="debug-level-inc" class="heroic-button" style="width: 50px; height: 50px; font-size: 28px; margin-left: 10px;" />
+                        <ui:Label text="(max 20)" style="font-size: 16px; color: rgb(150, 150, 150); margin-left: 15px;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="debug-stat-wins" class="heroic-debug-stat-row" style="flex-direction: row; align-items: center; margin-bottom: 12px; padding: 10px; background-color: rgba(0, 0, 0, 0.05); border-radius: 8px;">
+                        <ui:Label text="Wins" style="width: 100px; font-size: 22px; -unity-font-style: bold;" />
+                        <ui:Button text="-" name="debug-wins-dec" class="heroic-button heroic-button-gray" style="width: 50px; height: 50px; font-size: 28px; margin-right: 10px;" />
+                        <ui:Label text="0" name="debug-wins-value" style="width: 60px; font-size: 26px; -unity-text-align: middle-center; -unity-font-style: bold;" />
+                        <ui:Button text="+" name="debug-wins-inc" class="heroic-button" style="width: 50px; height: 50px; font-size: 28px; margin-left: 10px;" />
+                        <ui:Label text="(max 100)" style="font-size: 16px; color: rgb(150, 150, 150); margin-left: 15px;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="debug-stat-points" class="heroic-debug-stat-row" style="flex-direction: row; align-items: center; margin-bottom: 20px; padding: 10px; background-color: rgba(0, 0, 0, 0.05); border-radius: 8px;">
+                        <ui:Label text="Points" style="width: 100px; font-size: 22px; -unity-font-style: bold;" />
+                        <ui:Button text="-" name="debug-points-dec" class="heroic-button heroic-button-gray" style="width: 50px; height: 50px; font-size: 28px; margin-right: 10px;" />
+                        <ui:Label text="0" name="debug-points-value" style="width: 60px; font-size: 26px; -unity-text-align: middle-center; -unity-font-style: bold;" />
+                        <ui:Button text="+" name="debug-points-inc" class="heroic-button" style="width: 50px; height: 50px; font-size: 28px; margin-left: 10px;" />
+                        <ui:Label text="(max 1000)" style="font-size: 16px; color: rgb(150, 150, 150); margin-left: 15px;" />
+                    </ui:VisualElement>
                     <ui:Button text="Close" name="debug-modal-close" class="heroic-button heroic-button-gray" />
                 </ui:VisualElement>
             </ui:VisualElement>

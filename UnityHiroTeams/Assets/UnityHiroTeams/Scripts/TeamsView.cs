@@ -28,6 +28,7 @@ namespace HiroTeams
         private readonly HiroTeamsController _controller;
         private readonly VisualTreeAsset _teamEntryTemplate;
         private readonly VisualTreeAsset _teamMemberTemplate;
+        private readonly VisualTreeAsset _mailboxEntryTemplate;
 
         // Main tabs
         private Button _allTab;
@@ -52,8 +53,10 @@ namespace HiroTeams
         private ListView _teamMembersList;
         private ListView _teamsList;
         private ListView _chatMessages;
+        private ListView _mailboxList;
         private ScrollView _teamsScrollView;
         private ScrollView _teamMembersScrollView;
+        private VisualElement _mailboxEmptyState;
 
         // Create modal
         private VisualElement _createModal;
@@ -127,11 +130,23 @@ namespace HiroTeams
 
         // Debug modal elements
         private VisualElement _debugModal;
-        private TextField _debugStatKey;
-        private IntegerField _debugStatValue;
-        private Toggle _debugStatPrivate;
-        private Button _debugUpdateStat;
         private Button _debugModalClose;
+        private Label _debugLevelValue;
+        private Label _debugWinsValue;
+        private Label _debugPointsValue;
+        private Button _debugLevelInc;
+        private Button _debugLevelDec;
+        private Button _debugWinsInc;
+        private Button _debugWinsDec;
+        private Button _debugPointsInc;
+        private Button _debugPointsDec;
+
+        // Stat limits for debug modal
+        private const int MaxLevel = 20;
+        private const int MaxWins = 100;
+        private const int MaxPoints = 1000;
+        private const int MinStat = 0;
+        private const int MinLevel = 1;
 
         // View state
         private int _selectedTabIndex;
@@ -145,11 +160,13 @@ namespace HiroTeams
             HiroTeamsController controller,
             HiroTeamsCoordinator coordinator,
             VisualTreeAsset teamEntryTemplate,
-            VisualTreeAsset teamMemberTemplate)
+            VisualTreeAsset teamMemberTemplate,
+            VisualTreeAsset mailboxEntryTemplate)
         {
             _controller = controller;
             _teamEntryTemplate = teamEntryTemplate;
             _teamMemberTemplate = teamMemberTemplate;
+            _mailboxEntryTemplate = mailboxEntryTemplate;
 
             Initialize(controller.GetComponent<UIDocument>().rootVisualElement);
             HideSelectedTeamPanel();
@@ -300,6 +317,21 @@ namespace HiroTeams
                 if (item.userData is Label data) data.text = "";
             };
             _chatMessages.itemsSource = _controller.TeamMessages;
+
+            // Mailbox entries
+            _mailboxEmptyState = rootElement.Q<VisualElement>("mailbox-empty-state");
+            _mailboxList = rootElement.Q<ListView>("mailbox-list");
+            _mailboxList.makeItem = () =>
+            {
+                var newListEntry = _mailboxEntryTemplate.Instantiate();
+                return newListEntry;
+            };
+            _mailboxList.bindItem = (item, index) =>
+            {
+                var entry = _controller.MailboxEntries[index];
+                BindMailboxEntry(item, entry);
+            };
+            _mailboxList.itemsSource = _controller.MailboxEntries;
         }
 
         private void InitializeCreateModal(VisualElement rootElement)
@@ -432,11 +464,28 @@ namespace HiroTeams
         {
             _debugModal = rootElement.Q<VisualElement>("debug-modal");
 
-            _debugStatKey = rootElement.Q<TextField>("debug-stat-key");
-            _debugStatValue = rootElement.Q<IntegerField>("debug-stat-value");
-            _debugStatPrivate = rootElement.Q<Toggle>("debug-stat-private");
-            _debugUpdateStat = rootElement.Q<Button>("debug-update-stat");
-            _debugUpdateStat.RegisterCallback<ClickEvent>(evt => _ = DebugUpdateStat());
+            // Value labels
+            _debugLevelValue = rootElement.Q<Label>("debug-level-value");
+            _debugWinsValue = rootElement.Q<Label>("debug-wins-value");
+            _debugPointsValue = rootElement.Q<Label>("debug-points-value");
+
+            // Level buttons
+            _debugLevelInc = rootElement.Q<Button>("debug-level-inc");
+            _debugLevelInc.RegisterCallback<ClickEvent>(evt => { _ = AdjustStat("level", 1, MinLevel, MaxLevel); });
+            _debugLevelDec = rootElement.Q<Button>("debug-level-dec");
+            _debugLevelDec.RegisterCallback<ClickEvent>(evt => { _ = AdjustStat("level", -1, MinLevel, MaxLevel); });
+
+            // Wins buttons
+            _debugWinsInc = rootElement.Q<Button>("debug-wins-inc");
+            _debugWinsInc.RegisterCallback<ClickEvent>(evt => { _ = AdjustStat("wins", 1, MinStat, MaxWins); });
+            _debugWinsDec = rootElement.Q<Button>("debug-wins-dec");
+            _debugWinsDec.RegisterCallback<ClickEvent>(evt => { _ = AdjustStat("wins", -1, MinStat, MaxWins); });
+
+            // Points buttons
+            _debugPointsInc = rootElement.Q<Button>("debug-points-inc");
+            _debugPointsInc.RegisterCallback<ClickEvent>(evt => { _ = AdjustStat("points", 1, MinStat, MaxPoints); });
+            _debugPointsDec = rootElement.Q<Button>("debug-points-dec");
+            _debugPointsDec.RegisterCallback<ClickEvent>(evt => { _ = AdjustStat("points", -1, MinStat, MaxPoints); });
 
             _debugModalClose = rootElement.Q<Button>("debug-modal-close");
             _debugModalClose.RegisterCallback<ClickEvent>(_ => HideDebugModal());
@@ -746,9 +795,61 @@ namespace HiroTeams
             _chatMessages.RefreshItems();
         }
 
-        private void RefreshMailboxTab()
+        private async void RefreshMailboxTab()
         {
-            // TODO: Implement mailbox display
+            try
+            {
+                await _controller.GetMailboxEntriesAsync();
+                _mailboxList.RefreshItems();
+
+                // Show/hide empty state
+                bool hasEntries = _controller.MailboxEntries.Count > 0;
+                _mailboxEmptyState.style.display = hasEntries ? DisplayStyle.None : DisplayStyle.Flex;
+                _mailboxList.style.display = hasEntries ? DisplayStyle.Flex : DisplayStyle.None;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Failed to refresh mailbox: {e.Message}");
+            }
+        }
+
+        private void BindMailboxEntry(VisualElement item, IRewardMailboxEntry entry)
+        {
+            var nameLabel = item.Q<Label>("entry-name");
+            var rewardText = item.Q<Label>("entry-reward-text");
+            var claimButton = item.Q<Button>("entry-claim");
+
+            // Set the name - use the entry ID or a generic name
+            nameLabel.text = "Achievement Reward";
+
+            // Build reward text from the reward object
+            var rewardParts = new List<string>();
+            if (entry.Reward?.Currencies != null)
+            {
+                foreach (var currency in entry.Reward.Currencies)
+                {
+                    rewardParts.Add($"+{currency.Value} {FormatCurrencyName(currency.Key)}");
+                }
+            }
+            rewardText.text = rewardParts.Count > 0 ? string.Join(", ", rewardParts) : "Reward";
+
+            // Set up claim button
+            claimButton.SetEnabled(entry.CanClaim);
+            claimButton.clickable = new Clickable(() => _ = ClaimMailboxEntry(entry.Id));
+        }
+
+        private async Task ClaimMailboxEntry(string entryId)
+        {
+            try
+            {
+                await _controller.ClaimMailboxEntry(entryId);
+                RefreshMailboxTab();
+                _ = RefreshAboutTab(); // Refresh wallet display
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+            }
         }
 
         #endregion
@@ -1026,8 +1127,33 @@ namespace HiroTeams
 
         #region Debug Modal
 
-        private void ShowDebugModal()
+        private async void ShowDebugModal()
         {
+            // Load current stats and display them
+            try
+            {
+                var stats = await _controller.GetStatsAsync();
+                if (stats != null)
+                {
+                    // Get current values from public stats
+                    long level = 1, wins = 0, points = 0;
+                    if (stats.Public.TryGetValue("level", out var levelStat))
+                        level = levelStat.Value;
+                    if (stats.Public.TryGetValue("wins", out var winsStat))
+                        wins = winsStat.Value;
+                    if (stats.Public.TryGetValue("points", out var pointsStat))
+                        points = pointsStat.Value;
+
+                    _debugLevelValue.text = level.ToString();
+                    _debugWinsValue.text = wins.ToString();
+                    _debugPointsValue.text = points.ToString();
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Failed to load stats for debug modal: {e.Message}");
+            }
+
             _debugModal.style.display = DisplayStyle.Flex;
         }
 
@@ -1036,22 +1162,42 @@ namespace HiroTeams
             _debugModal.style.display = DisplayStyle.None;
         }
 
-        private async Task DebugUpdateStat()
+        private async Task AdjustStat(string statKey, int delta, int minValue, int maxValue)
         {
-            string statKey = _debugStatKey.value;
-            int value = _debugStatValue.value;
-            bool isPrivate = _debugStatPrivate.value;
-
-            if (string.IsNullOrEmpty(statKey))
-            {
-                ShowError("Stat key is required");
-                return;
-            }
-
             try
             {
-                await _controller.DebugUpdateStat(statKey, value, isPrivate);
-                HideDebugModal();
+                // Get current value
+                var stats = await _controller.GetStatsAsync();
+                if (stats == null) return;
+
+                long currentValue = statKey == "level" ? 1 : 0;
+                if (stats.Public.TryGetValue(statKey, out var stat))
+                    currentValue = stat.Value;
+
+                // Calculate new value with limits
+                long newValue = Math.Clamp(currentValue + delta, minValue, maxValue);
+
+                // Don't update if value hasn't changed
+                if (newValue == currentValue) return;
+
+                // Update the stat
+                await _controller.DebugUpdateStat(statKey, (int)newValue, false);
+
+                // Update the display
+                switch (statKey)
+                {
+                    case "level":
+                        _debugLevelValue.text = newValue.ToString();
+                        break;
+                    case "wins":
+                        _debugWinsValue.text = newValue.ToString();
+                        break;
+                    case "points":
+                        _debugPointsValue.text = newValue.ToString();
+                        break;
+                }
+
+                // Refresh the about tab to show updated stats
                 _ = RefreshAboutTab();
             }
             catch (Exception e)
@@ -1070,6 +1216,7 @@ namespace HiroTeams
             {
                 await _controller.ClaimAllMailbox();
                 RefreshMailboxTab();
+                _ = RefreshAboutTab(); // Refresh wallet display
             }
             catch (Exception e)
             {
