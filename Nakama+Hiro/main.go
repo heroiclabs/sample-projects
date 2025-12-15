@@ -84,7 +84,7 @@ func InitModule(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runti
 	}
 	if err := initializer.RegisterRpc(
 		hiro.RpcId_RPC_ID_TEAMS_STATS_UPDATE.String(),
-		rpcTeamStatsUpdateWithAchievements(systems),
+		rpcTeamStatsUpdateWithMailboxRewardGrant(systems),
 	); err != nil {
 		return err
 	}
@@ -120,15 +120,13 @@ func createTournament(ctx context.Context, logger runtime.Logger, nk runtime.Nak
 	return nil
 }
 
-// rpcTeamStatsUpdateWithAchievements returns a custom RPC that updates team stats and triggers achievements
-func rpcTeamStatsUpdateWithAchievements(systems hiro.Hiro) func(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runtime.NakamaModule, payload string) (string, error) {
+func rpcTeamStatsUpdateWithMailboxRewardGrant(systems hiro.Hiro) func(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runtime.NakamaModule, payload string) (string, error) {
 	return func(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runtime.NakamaModule, payload string) (string, error) {
 		userID, ok := ctx.Value(runtime.RUNTIME_CTX_USER_ID).(string)
 		if !ok {
 			return "", errors.New("no user ID in context")
 		}
 
-		// Parse the request using protojson (protobuf JSON format)
 		request := &hiro.TeamStatUpdateRequest{}
 		if err := protojson.Unmarshal([]byte(payload), request); err != nil {
 			return "", err
@@ -142,66 +140,27 @@ func rpcTeamStatsUpdateWithAchievements(systems hiro.Hiro) func(ctx context.Cont
 			return "", err
 		}
 
-		// Now trigger achievements based on stat values
-		// Only update when there's meaningful progress to report
-		achievementUpdates := make(map[string]int64)
-
-		// Handle level stat - milestone-based achievements
-		// Only update sub-achievements directly (they have independent counts from parent)
+		// Grant rewards to mailbox when level milestones are hit
 		if levelStat, ok := statList.Public["level"]; ok {
-			level := levelStat.Value
-			logger.Debug("Team %s level is %d, checking milestones", request.Id, level)
+			var reward *hiro.Reward
 
-			// Update sub-achievements when milestones are reached
-			// Each sub-achievement has max_count: 1, so we set to 1 when milestone is reached
-			if level >= 2 {
-				achievementUpdates["TeamLevel_2"] = 1
+			switch levelStat.Value {
+			case 2:
+				reward = &hiro.Reward{Currencies: map[string]int64{"team_coins": 50}}
+			case 5:
+				reward = &hiro.Reward{Currencies: map[string]int64{"team_coins": 100}}
+			case 10:
+				reward = &hiro.Reward{Currencies: map[string]int64{"team_coins": 200}}
 			}
-			if level >= 5 {
-				achievementUpdates["TeamLevel_5"] = 1
-			}
-			if level >= 10 {
-				achievementUpdates["TeamLevel_10"] = 1
+
+			if reward != nil {
+				_, err := teamsSystem.RewardMailboxGrant(ctx, logger, nk, userID, request.Id, reward)
+				if err != nil {
+					logger.Warn("Failed to grant level milestone reward: %v", err)
+				}
 			}
 		}
 
-		// Handle wins stat - cumulative achievements
-		// Only update sub-achievements (they track independently toward their max_count)
-		if winsStat, ok := statList.Public["wins"]; ok {
-			wins := winsStat.Value
-			if wins > 0 {
-				logger.Debug("Team %s wins is %d, updating achievements", request.Id, wins)
-				achievementUpdates["TeamWins_5"] = wins
-				achievementUpdates["TeamWins_10"] = wins
-				achievementUpdates["TeamWins_25"] = wins
-			}
-		}
-
-		// Handle points stat - cumulative achievements
-		// Only update sub-achievements (they track independently toward their max_count)
-		if pointsStat, ok := statList.Public["points"]; ok {
-			points := pointsStat.Value
-			if points > 0 {
-				logger.Debug("Team %s points is %d, updating achievements", request.Id, points)
-				achievementUpdates["TeamPoints_100"] = points
-				achievementUpdates["TeamPoints_250"] = points
-				achievementUpdates["TeamPoints_500"] = points
-			}
-		}
-
-		// Update achievements if any updates to make
-		if len(achievementUpdates) > 0 {
-			logger.Info("Updating team achievements: %v", achievementUpdates)
-			_, _, err := teamsSystem.UpdateAchievements(ctx, logger, nk, userID, request.Id, achievementUpdates)
-			if err != nil {
-				logger.Warn("Failed to update team achievements: %v", err)
-				// Don't return error - stat update already succeeded
-			}
-		} else {
-			logger.Debug("No achievement updates needed")
-		}
-
-		// Return the stat list response using protojson
 		response, err := protojson.Marshal(statList)
 		if err != nil {
 			return "", err
