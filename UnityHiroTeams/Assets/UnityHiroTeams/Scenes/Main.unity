@@ -367,6 +367,7 @@ MonoBehaviour:
   teamEntriesLimit: 100
   teamEntryTemplate: {fileID: 9197481963319205126, guid: 7ed290a40a01c488e9211a3cd77bc058, type: 3}
   teamMemberTemplate: {fileID: 9197481963319205126, guid: 65a99b96b81cb495d85421f99f6f7c34, type: 3}
+  mailboxEntryTemplate: {fileID: 9197481963319205126, guid: b6d19f193254c4d74ba83e774952da8f, type: 3}
   <AvatarIcons>k__BackingField:
   - {fileID: 2800000, guid: 8176dbc9a0f7145dcbb159234f38cfac, type: 3}
   - {fileID: 2800000, guid: 2b3c08c2b0cb8489c913a85034dc6161, type: 3}
@@ -388,8 +389,6 @@ MonoBehaviour:
   - {fileID: 2800000, guid: b9bf2743eacb24a14a408cd15eac4bf3, type: 3}
   - {fileID: 2800000, guid: 9c64b8175de6b4d98a9096473f7d0e50, type: 3}
   - {fileID: 2800000, guid: 8dfbd7f33225a4f3fa143f2beb4972b2, type: 3}
-  <WinsIcon>k__BackingField: {fileID: 2800000, guid: cd2345d73510644e29320ccc7c034028, type: 3}
-  <TotalScoreIcon>k__BackingField: {fileID: 2800000, guid: 9f7bf4b6d668547839833ff3d9365a90, type: 3}
 --- !u!1 &2121322951
 GameObject:
   m_ObjectHideFlags: 0

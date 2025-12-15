@@ -1,14 +1,15 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UnityHiroTeams/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
-    <ui:VisualElement name="mailbox-entry" style="flex-direction: row; align-items: center; padding: 10px 15px; margin-bottom: 8px; background-color: rgba(132, 154, 255, 0.1); border-radius: 10px; min-height: 80px;">
+    <ui:VisualElement name="mailbox-entry" style="flex-direction: row; align-items: center; padding: 10px 15px; margin-bottom: 8px; background-color: rgba(132, 154, 255, 0.1); border-radius: 10px; min-height: 100px; height: auto; padding-top: 15px; padding-bottom: 15px; padding-left: 20px; padding-right: 20px;">
         <ui:VisualElement name="entry-icon" style="width: 60px; height: 60px; background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/IconItem/512/icon_trophy.png?fileID=2800000&amp;guid=1429718edd9334d058f48f3e73b77054&amp;type=3#icon_trophy&quot;); -unity-background-scale-mode: scale-to-fit; margin-right: 15px; flex-shrink: 0;" />
         <ui:VisualElement name="entry-info" style="flex-grow: 1; justify-content: center;">
-            <ui:Label text="Achievement Reward" name="entry-name" style="font-size: 22px; -unity-font-style: bold; color: rgb(60, 60, 60); margin-bottom: 4px;" />
+            <ui:Label text="Level Reward" name="entry-name" style="font-size: 28px; -unity-font-style: bold; color: rgb(60, 60, 60); margin-bottom: 4px;" />
             <ui:VisualElement name="entry-rewards" style="flex-direction: row; align-items: center;">
-                <ui:VisualElement name="reward-icon" style="width: 28px; height: 28px; background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/IconItem/512/icon_coin.png?fileID=2800000&amp;guid=a1b2c3d4e5f6789012345678901234a1&amp;type=3#icon_coin&quot;); -unity-background-scale-mode: scale-to-fit; margin-right: 6px;" />
-                <ui:Label text="+100 team_coins" name="entry-reward-text" style="font-size: 18px; color: rgb(100, 100, 100);" />
+                <ui:Label text="+100 team_coins" name="entry-reward-text" style="font-size: 24px; color: rgb(100, 100, 100);" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:Button text="Claim" name="entry-claim" class="heroic-button" style="width: 100px; height: 50px; flex-shrink: 0;" />
+        <ui:Button name="entry-claim" class="heroic-button-circle" style="flex-shrink: 0;">
+            <ui:VisualElement class="heroic-button-circle__icon" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/IconPictogram/Trimmed/icon_check.png?fileID=2800000&amp;guid=b0af9179495e2471b8bc885787dd8170&amp;type=3#icon_check&quot;);" />
+        </ui:Button>
     </ui:VisualElement>
 </ui:UXML>

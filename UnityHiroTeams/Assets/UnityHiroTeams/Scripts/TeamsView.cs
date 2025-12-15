@@ -481,11 +481,11 @@ namespace HiroTeams
             _debugWinsDec = rootElement.Q<Button>("debug-wins-dec");
             _debugWinsDec.RegisterCallback<ClickEvent>(evt => { _ = AdjustStat("wins", -1, MinStat, MaxWins); });
 
-            // Points buttons
+            // Points buttons (increment by 50 since milestones are at 100, 250, 500)
             _debugPointsInc = rootElement.Q<Button>("debug-points-inc");
-            _debugPointsInc.RegisterCallback<ClickEvent>(evt => { _ = AdjustStat("points", 1, MinStat, MaxPoints); });
+            _debugPointsInc.RegisterCallback<ClickEvent>(evt => { _ = AdjustStat("points", 50, MinStat, MaxPoints); });
             _debugPointsDec = rootElement.Q<Button>("debug-points-dec");
-            _debugPointsDec.RegisterCallback<ClickEvent>(evt => { _ = AdjustStat("points", -1, MinStat, MaxPoints); });
+            _debugPointsDec.RegisterCallback<ClickEvent>(evt => { _ = AdjustStat("points", -50, MinStat, MaxPoints); });
 
             _debugModalClose = rootElement.Q<Button>("debug-modal-close");
             _debugModalClose.RegisterCallback<ClickEvent>(_ => HideDebugModal());
@@ -820,7 +820,7 @@ namespace HiroTeams
             var claimButton = item.Q<Button>("entry-claim");
 
             // Set the name - use the entry ID or a generic name
-            nameLabel.text = "Achievement Reward";
+            nameLabel.text = "Level Reward";
 
             // Build reward text from the reward object
             var rewardParts = new List<string>();
