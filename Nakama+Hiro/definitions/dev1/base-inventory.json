@@ -73,8 +73,8 @@
         "max_rolls": 2,
         "weighted": [
           {
-            "items": {
-              "ruby_gem": {
+            "currencies": {
+              "gems": {
                 "min": 1,
                 "max": 3
               }
@@ -189,8 +189,8 @@
         "max_rolls": 1,
         "weighted": [
           {
-            "items": {
-              "ruby_gem": {
+            "currencies": {
+              "gems": {
                 "min": 1,
                 "max": 3
               }

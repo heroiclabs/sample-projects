@@ -196,7 +196,7 @@ namespace HiroInventory
                     var newTotal = existingStack.Count + quantityToAdd;
                     if (newTotal > item.MaxCount)
                     {
-                        throw new InvalidOperationException($"MAX_COUNT_REACHED:{item.Name}:{item.MaxCount}");
+                        throw new InvalidOperationException($"You've reached the maximum amount of {item.Name} of {item.MaxCount}");
                     }
                 }
             }
@@ -208,7 +208,7 @@ namespace HiroInventory
 
                 if (newInstanceCount > item.MaxCount)
                 {
-                    throw new InvalidOperationException($"MAX_COUNT_REACHED");
+                    throw new InvalidOperationException($"You've reached the maximum amount of {item.Name} of {item.MaxCount}");
                 }
             }
         }

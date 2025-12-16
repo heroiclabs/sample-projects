@@ -476,11 +476,6 @@ namespace HiroInventory
                 _grantModal.style.display = DisplayStyle.None;
                 _inventoryFullModal.style.display = DisplayStyle.Flex;
             }
-            catch (InvalidOperationException e) when (e.Message == "MAX_COUNT_REACHED")
-            {
-                _grantModal.style.display = DisplayStyle.None;
-                ShowMaxCountReachedModal(e.Message);
-            }
             catch (Exception e)
             {
                 ShowError(e.Message);
