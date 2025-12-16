@@ -220,10 +220,13 @@ namespace HiroInventory
                 PopulateInventoryGrid();
 
                 // Clear selection after refresh
-                _controller.SelectItem(null);
-                _selectedSlot = null;
+                if(_controller.GetSelectedItem() == null)
+                {
+                    _controller.SelectItem(null);
+                    _selectedSlot = null;
+                    ShowEmptyState();
+                }
                 UpdateActionButtons();
-                ShowEmptyState();
             }
             catch (Exception e)
             {
@@ -267,30 +270,6 @@ namespace HiroInventory
 
                 // Click to select
                 slotRoot.RegisterCallback<ClickEvent>(evt => { SelectItemSlot(item, slotRoot); });
-
-                // Hover effects // ENRIQUE'S EDIT disabling for now to allow for only selection-based display
-                /*slotRoot.RegisterCallback<MouseEnterEvent>(evt =>
-                {
-                    if (_controller.GetSelectedItem() != item)
-                    {
-                        Color hoverColor = new Color(rarityColor.r, rarityColor.g, rarityColor.b, 0.8f);
-                        slotRoot.style.backgroundColor = new StyleColor(hoverColor);
-                        SetBorderColor(slotRoot, Color.white);
-                    }
-
-                    ShowItemDetails(item, evt.mousePosition);
-                });
-                slotRoot.RegisterCallback<MouseLeaveEvent>(evt =>
-                {
-                    if (_controller.GetSelectedItem() != item)
-                    {
-                        slotRoot.style.backgroundColor = new StyleColor(rarityColor);
-                        SetBorderColor(slotRoot, _itemBorderDefaultColor);
-                    }
-
-                    HideItemDetails();
-                });
-*/
 
                 _inventoryGrid.Add(slotRoot);
             }
