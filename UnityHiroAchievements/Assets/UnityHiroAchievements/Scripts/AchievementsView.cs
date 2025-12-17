@@ -248,12 +248,8 @@ namespace HiroAchievements
 
                 if (_controller.IsAchievementCompleted(achievement))
                 {
-                    statusLabel.text = achievement.ClaimTimeSec > 0 
-                        ? AchievementsUIConstants.StatusClaimed 
-                        : AchievementsUIConstants.StatusComplete;
-                    statusBadge.style.backgroundColor = achievement.ClaimTimeSec > 0
-                        ? AchievementsUIConstants.StatusClaimedColor
-                        : AchievementsUIConstants.StatusCompleteColor;
+                    statusLabel.text = AchievementsUIConstants.StatusComplete;
+                    statusBadge.style.backgroundColor = AchievementsUIConstants.StatusCompleteColor;
                 }
                 else if (isLocked)
                 {
@@ -282,6 +278,11 @@ namespace HiroAchievements
                         var prerequisitesText = string.Join(", ", incompletePrereqs);
                         Debug.Log($"Locked achievement '{achievement.Name}' requires: {prerequisitesText}");
                     }
+                }
+                else if(_controller.IsAchievementClaimable(achievement))
+                {
+                    statusLabel.text = AchievementsUIConstants.StatusToClaim;
+                    statusBadge.style.backgroundColor = AchievementsUIConstants.StatusToClaimColor;
                 }
                 else
                 {

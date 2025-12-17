@@ -51,10 +51,15 @@ namespace HiroAchievements
 
             // Set status badge
             bool isCompleted = subAchievement.Count >= subAchievement.MaxCount;
-            if (isCompleted)
+            if (isCompleted && subAchievement.ClaimTimeSec > 0)
             {
                 statusLabel.text = AchievementsUIConstants.StatusCheckmark;
                 statusBadge.style.backgroundColor = AchievementsUIConstants.StatusCompleteColor;
+            }
+            else if (isCompleted && subAchievement.ClaimTimeSec <= 0)
+            {
+                statusLabel.text = AchievementsUIConstants.StatusToClaim;
+                statusBadge.style.backgroundColor = AchievementsUIConstants.StatusToClaimColor;
             }
             else
             {

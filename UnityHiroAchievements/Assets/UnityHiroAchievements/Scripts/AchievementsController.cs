@@ -339,6 +339,16 @@ namespace HiroAchievements
             return subAchievement.HasAvailableReward() && subAchievement.ClaimTimeSec > 0;
         }
 
+        public bool IsAchievementClaimable(IAchievement achievement)
+        {
+            return (achievement.HasAvailableReward() || achievement.HasAvailableTotalReward()) && !achievement.IsClaimed() && achievement.Count >= achievement.MaxCount;
+        }
+
+        public bool IsAchievementCLaimable(ISubAchievement subAchievement)
+        {
+            return subAchievement.HasAvailableReward() && subAchievement.ClaimTimeSec <= 0 && subAchievement.Count >= subAchievement.MaxCount;
+        }
+
         public bool IsAchievementLocked(IAchievement achievement)
         {
             // Get available achievements (those that are unlocked)

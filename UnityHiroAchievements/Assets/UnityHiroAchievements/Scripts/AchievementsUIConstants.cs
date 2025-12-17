@@ -10,6 +10,7 @@ namespace HiroAchievements
     {
         // Status Badge Colors
         public static readonly Color StatusClaimedColor = new Color(0.6f, 0.6f, 0.6f, 1f);
+        public static readonly Color StatusToClaimColor = new Color(1f, 0.84f, 0f, 1f);
         public static readonly Color StatusCompleteColor = new Color(0.4f, 0.8f, 0.4f, 1f);
         public static readonly Color StatusLockedColor = new Color(0.5f, 0.5f, 0.5f, 1f);
         public static readonly Color StatusInProgressColor = new Color(0.5f, 0.6f, 1f, 1f);
@@ -28,6 +29,7 @@ namespace HiroAchievements
 
         // Status Text
         public const string StatusClaimed = "Claimed";
+        public const string StatusToClaim = "To Claim";
         public const string StatusComplete = "Complete";
         public const string StatusLocked = "🔒 Locked";
         public const string StatusInProgress = "In Progress";
