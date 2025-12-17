@@ -487,7 +487,7 @@ namespace HiroStore
                         var count = long.Parse(item.Value);
                         var rewardElement = CreateRewardElement(
                             _controller.GetItemIcon(item.Key),
-                            $"{item.Key} x{count}"
+                            $"{purchasedItem.Name} x{count}"
                         );
                         _rewardList.Add(rewardElement);
                     }
