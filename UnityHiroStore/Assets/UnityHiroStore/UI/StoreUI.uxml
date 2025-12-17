@@ -79,4 +79,9 @@
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:Instance template="ErrorPopup" name="error-popup" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: none;" />
+    <ui:VisualElement name="toast" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; align-items: center; justify-content: center; display: none;">
+        <ui:VisualElement name="toast-container" style="background-image: url(&quot;project://database/Assets/UnityHiroStore/HeroicUI/UI_etc/toast_r14_dark.png?fileID=2800000&amp;guid=e2d4c5a2e69d6426d8d72c19e76b4e98&amp;type=3#toast_r14_dark&quot;); -unity-slice-left: 20; -unity-slice-right: 20; -unity-slice-top: 20; -unity-slice-bottom: 20; padding: 16px 32px;">
+            <ui:Label name="toast-message" text="Toast message" style="color: rgb(255, 255, 255); font-size: 24px; -unity-font-style: bold;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
 </ui:UXML>

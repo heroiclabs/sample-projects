@@ -55,6 +55,11 @@ namespace HiroStore
         private Label _errorMessage;
         private Button _errorCloseButton;
 
+        // Toast
+        private VisualElement _toast;
+        private Label _toastMessage;
+        private System.Threading.CancellationTokenSource _toastCts;
+
         private IEconomyListStoreItem _pendingPurchaseItem;
 
         public StoreView(StoreController controller, HiroStoreCoordinator coordinator,
@@ -80,7 +85,11 @@ namespace HiroStore
 
             // Refresh
             _refreshButton = root.Q<Button>("refresh-button");
-            _refreshButton.RegisterCallback<ClickEvent>(async evt => await _controller.RefreshStore());
+            _refreshButton.RegisterCallback<ClickEvent>(async evt =>
+            {
+                await _controller.RefreshStore();
+                ShowToast("Store and wallet synced");
+            });
 
             // Tabs
             _tabCurrency = root.Q<Button>("tab-currency");
@@ -102,7 +111,7 @@ namespace HiroStore
             _featuredPrice = root.Q<Label>("featured-price");
             _featuredCurrencyIcon = root.Q<VisualElement>("featured-currency-icon");
 
-            _featuredPurchaseButton.RegisterCallback<ClickEvent>(_ =>
+            _featuredItem.RegisterCallback<ClickEvent>(_ =>
             {
                 var featured = _controller.GetFeaturedItemForCategory(_controller.GetCurrentCategory());
                 if (featured != null) ShowPurchaseModal(featured);
@@ -134,6 +143,10 @@ namespace HiroStore
             _errorMessage = root.Q<Label>("error-message");
             _errorCloseButton = root.Q<Button>("error-close");
             _errorCloseButton.RegisterCallback<ClickEvent>(_ => _errorPopup.style.display = DisplayStyle.None);
+
+            // Toast
+            _toast = root.Q<VisualElement>("toast");
+            _toastMessage = root.Q<Label>("toast-message");
 
             UpdateTabButtons();
         }
@@ -531,6 +544,30 @@ namespace HiroStore
         {
             _errorPopup.style.display = DisplayStyle.Flex;
             _errorMessage.text = message;
+        }
+
+        #endregion
+
+        #region Toast
+
+        private async void ShowToast(string message)
+        {
+            _toastCts?.Cancel();
+            _toastCts = new System.Threading.CancellationTokenSource();
+            var token = _toastCts.Token;
+
+            _toastMessage.text = message;
+            _toast.style.display = DisplayStyle.Flex;
+
+            try
+            {
+                await Task.Delay(2500, token);
+                _toast.style.display = DisplayStyle.None;
+            }
+            catch (System.OperationCanceledException)
+            {
+                // Toast was replaced by another, ignore
+            }
         }
 
         #endregion
