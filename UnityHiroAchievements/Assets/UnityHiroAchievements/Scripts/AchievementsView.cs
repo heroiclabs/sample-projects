@@ -418,7 +418,7 @@ namespace HiroAchievements
 
             // Rewards
             _detailsRewardsContainer.Clear();
-            if (achievement.HasReward())
+            if (achievement.HasAvailableReward())
             {
                 // Display rewards (you'll need to customize this based on your reward structure)
                 var rewardLabel = new Label("Rewards Available");
@@ -428,9 +428,11 @@ namespace HiroAchievements
                 _detailsRewardsContainer.Add(rewardLabel);
 
                 // Example reward display - customize based on your reward data structure
-                if (achievement.Reward != null)
+                if (achievement.AvailableRewards != null)
                 {
-                    var rewardText = new Label($"• Reward: {achievement.Reward}");
+                    IAvailableRewardsCurrency rewardIn;
+                    achievement.AvailableRewards.Guaranteed.Currencies.TryGetValue("gold", out rewardIn);
+                    var rewardText = new Label($"• Reward: {rewardIn.Count.Min} gold");
                     rewardText.style.fontSize = 18;
                     _detailsRewardsContainer.Add(rewardText);
                 }
