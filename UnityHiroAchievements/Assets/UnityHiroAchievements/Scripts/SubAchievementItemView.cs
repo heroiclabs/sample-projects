@@ -63,7 +63,7 @@ namespace HiroAchievements
             }
             else
             {
-                statusLabel.text = AchievementsUIConstants.StatusProgressText;
+                statusLabel.text = AchievementsUIConstants.StatusInProgress;
                 statusBadge.style.backgroundColor = AchievementsUIConstants.StatusInProgressColor;
             }
         }

@@ -33,7 +33,6 @@ namespace HiroAchievements
         public const string StatusComplete = "Complete";
         public const string StatusLocked = "🔒 Locked";
         public const string StatusInProgress = "In Progress";
-        public const string StatusProgressText = "Progress";
         public const string StatusCheckmark = "✓";
 
         // Locked Achievement Text
