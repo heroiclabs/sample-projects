@@ -12,6 +12,7 @@ namespace HiroAchievements
         private VisualElement container;
         private Label nameLabel;
         private Label statusLabel;
+        private Label rewardsLabel;
         private VisualElement statusBadge;
         private VisualElement progressBar;
         private VisualElement progressFill;
@@ -23,6 +24,7 @@ namespace HiroAchievements
             nameLabel = visualElement.Q<Label>("sub-achievement-name");
             statusLabel = visualElement.Q<Label>("sub-status-text");
             statusBadge = visualElement.Q<VisualElement>("sub-status-badge");
+            rewardsLabel = visualElement.Q<Label>("sub-achievement-reward-text");
             progressBar = visualElement.Q<VisualElement>("sub-achievement-progress-bar");
             progressFill = visualElement.Q<VisualElement>("sub-achievement-progress-fill");
             progressText = visualElement.Q<Label>("sub-achievement-progress-text");
@@ -48,6 +50,11 @@ namespace HiroAchievements
             // Set progress text using constant format
             progressText.text = string.Format(AchievementsUIConstants.SubAchievementProgressFormat, 
                 subAchievement.Count, subAchievement.MaxCount, progressPercent);
+
+            // Set rewards text
+            IAvailableRewardsCurrency rewards;
+            subAchievement.AvailableRewards.Guaranteed.Currencies.TryGetValue("gold", out rewards);
+            rewardsLabel.text = $"{rewards.Count.Min} Gold";
 
             // Set status badge
             bool isCompleted = subAchievement.Count >= subAchievement.MaxCount;
