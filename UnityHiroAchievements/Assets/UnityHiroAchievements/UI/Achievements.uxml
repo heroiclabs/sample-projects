@@ -8,13 +8,13 @@
     </ui:VisualElement>
     <ui:VisualElement name="achievements-main" class="heroic-main__background" style="padding: 30px; align-items: center; justify-content: center;">
         <ui:VisualElement name="content-container" style="width: 100%; height: 100%;">
-            <ui:VisualElement name="tab-navigation" style="flex-direction: row; margin-bottom: 20px; justify-content: center;">
+            <ui:VisualElement name="tab-navigation" style="flex-direction: row; margin-bottom: 20px; justify-content: center; height: auto; max-height: 20%;">
                 <ui:Button name="tab-dailies" text="Dailies" class="heroic-button tab-button" style="margin-right: 10px; padding: 15px 30px; font-size: 24px;" />
                 <ui:Button name="tab-quests" text="Quests" class="heroic-button tab-button" style="margin-right: 10px; padding: 15px 30px; font-size: 24px;" />
                 <ui:Button name="tab-achievements" text="Achievements" class="heroic-button tab-button active-tab" style="padding: 15px 30px; font-size: 24px;" />
             </ui:VisualElement>
-            <ui:VisualElement name="achievements-container" class="heroic-main__panel" style="flex-grow: 1; padding: 20px; border-radius: 15px;">
-                <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: space-between;">
+            <ui:VisualElement name="achievements-container" class="heroic-main__panel" style="flex-grow: 1; padding: 20px; border-radius: 15px; max-height: 80%;">
+                <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: space-between; min-height: auto;">
                     <ui:ScrollView name="achievements-scroll" horizontal-scroller-visibility="Hidden" style="width: 48%; margin: 10px; padding: 15px; background-image: url(&quot;project://database/Assets/UnityHiroAchievements/HeroicUI/Tab/tab_01_white_bg_default.png?fileID=-7469057409206181842&amp;guid=833e01ea4d81a481eb2abe3f8b2defed&amp;type=3#tab_01_white_bg_default_0&quot;); -unity-slice-left: 20; -unity-slice-top: 20; -unity-slice-right: 20; -unity-slice-bottom: 20;">
                         <ui:VisualElement name="achievements-list" style="flex-direction: column;" />
                     </ui:ScrollView>
