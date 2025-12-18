@@ -282,6 +282,36 @@
           }
         }
       }
+    },
+    "killEnemiesRanged1000": {
+      "name": "Death to Thousand",
+      "description": "Defeat 1000 enemies.",
+      "category": "achievement",
+      "max_count": 1000,
+      "reward": {
+        "guaranteed": {
+          "currencies": {
+            "gold": {
+              "min": 10000
+            }
+          }
+        }
+      }
+    },
+    "dailyLogin": {
+      "name": "Login",
+      "description": "Login Today",
+      "category": "daily",
+      "max_count": 1,
+      "reward": {
+        "guaranteed": {
+          "currencies": {
+            "gold": {
+              "min": 100
+            }
+          }
+        }
+      }
     }
   }
 }

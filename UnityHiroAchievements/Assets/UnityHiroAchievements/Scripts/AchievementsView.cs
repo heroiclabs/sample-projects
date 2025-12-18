@@ -77,9 +77,9 @@ namespace HiroAchievements
             _questsTabButton = rootElement.Q<Button>("tab-quests");
             _achievementsTabButton = rootElement.Q<Button>("tab-achievements");
 
-            _dailiesTabButton.RegisterCallback<ClickEvent>(_ => SwitchTab("dailies"));
-            _questsTabButton.RegisterCallback<ClickEvent>(_ => SwitchTab("quests"));
-            _achievementsTabButton.RegisterCallback<ClickEvent>(_ => SwitchTab("all"));
+            _dailiesTabButton.RegisterCallback<ClickEvent>(_ => SwitchTab("daily"));
+            _questsTabButton.RegisterCallback<ClickEvent>(_ => SwitchTab("quest"));
+            _achievementsTabButton.RegisterCallback<ClickEvent>(_ => SwitchTab("achievement"));
 
             // Achievements list
             _achievementsList = rootElement.Q<VisualElement>("achievements-list");

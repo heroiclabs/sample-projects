@@ -86,6 +86,7 @@ namespace HiroAchievements
             _economySystem = this.GetSystem<EconomySystem>();
 
             _view.StartObservingWallet();
+            _currentCategory = "quest";
 
             await LoadAchievements();
             await _view.RefreshAchievementsList();
@@ -131,11 +132,11 @@ namespace HiroAchievements
             RepeatAchievements.Clear();
 
             // Get all achievements (including locked)
-            var achievements = _achievementsSystem.GetAchievements();
+            var achievements = _achievementsSystem.GetAchievements(_currentCategory);
             AllAchievements.AddRange(achievements);
 
             // Get all repeatable achievements (including locked)
-            var repeatAchievements = _achievementsSystem.GetRepeatAchievements();
+            var repeatAchievements = _achievementsSystem.GetRepeatAchievements(_currentCategory);
             RepeatAchievements.AddRange(repeatAchievements);
 
             return GetFilteredAchievements();
@@ -143,9 +144,9 @@ namespace HiroAchievements
 
         public List<IAchievement> GetFilteredAchievements()
         {
-          var result = _achievementsSystem.GetAchievements();
+          var result = _achievementsSystem.GetAchievements(_currentCategory);
           Debug.Log(result.Count());
-          return _achievementsSystem.GetAchievements().ToList();
+          return result.ToList();
         }
 
         public void SetCurrentCategory(string category)
