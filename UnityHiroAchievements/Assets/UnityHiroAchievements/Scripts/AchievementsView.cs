@@ -162,22 +162,22 @@ namespace HiroAchievements
         {
             var currentCategory = _controller.GetCurrentCategory();
 
-            // Remove active class from all tabs
-            _dailiesTabButton.RemoveFromClassList("active-tab");
-            _questsTabButton.RemoveFromClassList("active-tab");
-            _achievementsTabButton.RemoveFromClassList("active-tab");
+            // Remove selected class from all tabs
+            _dailiesTabButton.RemoveFromClassList("selected");
+            _questsTabButton.RemoveFromClassList("selected");
+            _achievementsTabButton.RemoveFromClassList("selected");
 
-            // Add active class to current tab
+            // Add selected class to current tab
             switch (currentCategory)
             {
-                case "dailies":
-                    _dailiesTabButton.AddToClassList("active-tab");
+                case "daily":
+                    _dailiesTabButton.AddToClassList("selected");
                     break;
-                case "quests":
-                    _questsTabButton.AddToClassList("active-tab");
+                case "quest":
+                    _questsTabButton.AddToClassList("selected");
                     break;
                 default:
-                    _achievementsTabButton.AddToClassList("active-tab");
+                    _achievementsTabButton.AddToClassList("selected");
                     break;
             }
         }
@@ -267,14 +267,10 @@ namespace HiroAchievements
                         statusLabel.text = AchievementsUIConstants.StatusLocked;
                     }
                     statusBadge.style.backgroundColor = AchievementsUIConstants.StatusLockedColor;
-                    
+
                     // Locked achievements are clickable to view prerequisites
-                    // Keep them at full opacity so users know they can click to see details
-                    
-                    // Add tooltip-like functionality (show on hover if needed)
                     if (incompleteCount > 0)
                     {
-                        // Add title attribute for native tooltip (if supported)
                         var prerequisitesText = string.Join(", ", incompletePrereqs);
                         Debug.Log($"Locked achievement '{achievement.Name}' requires: {prerequisitesText}");
                     }
@@ -354,6 +350,34 @@ namespace HiroAchievements
             }
         }
 
+        private VisualElement CreateRewardTile(string rewardType, long amount)
+        {
+            var tile = new VisualElement();
+            tile.AddToClassList("reward-tile");
+            tile.AddToClassList($"reward-tile--{rewardType.ToLower()}");
+
+            // Icon element
+            var iconElement = new VisualElement();
+            iconElement.AddToClassList("reward-tile__icon");
+
+            // Set icon based on reward type
+            if (_controller.IconDictionary.TryGetValue(rewardType, out var rewardIcon))
+            {
+                iconElement.style.backgroundImage = new StyleBackground(rewardIcon);
+            }
+            else if (_defaultIcon != null)
+            {
+                iconElement.style.backgroundImage = new StyleBackground(_defaultIcon);
+            }
+            tile.Add(iconElement);
+
+            var amountLabel = new Label(amount.ToString());
+            amountLabel.AddToClassList("reward-tile__amount");
+            tile.Add(amountLabel);
+
+            return tile;
+        }
+
         #endregion
 
         #region Achievement Details
@@ -417,30 +441,33 @@ namespace HiroAchievements
                 }
             }
 
-            // Rewards
+            // Rewards - displayed as colored tile icons
             _detailsRewardsContainer.Clear();
-            if (achievement.HasAvailableReward())
+            if (achievement.HasAvailableReward() && achievement.AvailableRewards != null)
             {
-                // Display rewards (you'll need to customize this based on your reward structure)
-                var rewardLabel = new Label("Rewards Available");
-                rewardLabel.style.fontSize = 20;
-                rewardLabel.style.color = new Color(0.8f, 0.6f, 0.2f);
-                rewardLabel.style.marginBottom = 10;
-                _detailsRewardsContainer.Add(rewardLabel);
-
-                // Example reward display - customize based on your reward data structure
-                if (achievement.AvailableRewards != null)
+                // Display currency rewards as colored tiles
+                if (achievement.AvailableRewards.Guaranteed?.Currencies != null)
                 {
-                    IAvailableRewardsCurrency rewardIn;
-                    achievement.AvailableRewards.Guaranteed.Currencies.TryGetValue("gold", out rewardIn);
-                    var rewardText = new Label($"• Reward: {rewardIn.Count.Min} gold");
-                    rewardText.style.fontSize = 18;
-                    _detailsRewardsContainer.Add(rewardText);
+                    foreach (var currencyPair in achievement.AvailableRewards.Guaranteed.Currencies)
+                    {
+                        var rewardTile = CreateRewardTile(currencyPair.Key, currencyPair.Value.Count.Min);
+                        _detailsRewardsContainer.Add(rewardTile);
+                    }
+                }
+
+                // Display item rewards if any
+                if (achievement.AvailableRewards.Guaranteed?.Items != null)
+                {
+                    foreach (var itemPair in achievement.AvailableRewards.Guaranteed.Items)
+                    {
+                        var rewardTile = CreateRewardTile(itemPair.Key, itemPair.Value.Count.Min);
+                        _detailsRewardsContainer.Add(rewardTile);
+                    }
                 }
             }
             else
             {
-                var noRewardLabel = new Label("No rewards for this achievement");
+                var noRewardLabel = new Label("No rewards available");
                 noRewardLabel.style.fontSize = 18;
                 noRewardLabel.style.color = new Color(0.5f, 0.5f, 0.5f);
                 _detailsRewardsContainer.Add(noRewardLabel);

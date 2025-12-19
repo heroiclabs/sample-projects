@@ -9,14 +9,20 @@
     <ui:VisualElement name="achievements-main" class="heroic-main__background" style="padding: 30px; align-items: center; justify-content: center;">
         <ui:VisualElement name="content-container" style="width: 100%; height: 100%;">
             <ui:VisualElement name="tab-navigation" style="flex-direction: row; margin-bottom: 20px; justify-content: center; height: auto; max-height: 20%;">
-                <ui:Button name="tab-dailies" text="Dailies" class="heroic-button tab-button" style="margin-right: 10px; padding: 15px 30px; font-size: 24px;" />
-                <ui:Button name="tab-quests" text="Quests" class="heroic-button tab-button" style="margin-right: 10px; padding: 15px 30px; font-size: 24px;" />
-                <ui:Button name="tab-achievements" text="Achievements" class="heroic-button tab-button active-tab" style="padding: 15px 30px; font-size: 24px;" />
+                <ui:Button name="tab-dailies" text="Daily" class="heroic-horizontal-tab-button">
+                    <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
+                </ui:Button>
+                <ui:Button name="tab-quests" text="Quests" class="heroic-horizontal-tab-button">
+                    <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
+                </ui:Button>
+                <ui:Button name="tab-achievements" text="Achievements&#10;" class="heroic-horizontal-tab-button selected">
+                    <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
+                </ui:Button>
             </ui:VisualElement>
-            <ui:VisualElement name="achievements-container" class="heroic-main__panel" style="flex-grow: 1; padding: 20px; border-radius: 15px; max-height: 80%;">
+            <ui:VisualElement name="achievements-container" style="flex-grow: 1; padding: 20px; border-radius: 15px; max-height: 80%;">
                 <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: space-between; min-height: auto;">
                     <ui:ScrollView name="achievements-scroll" horizontal-scroller-visibility="Hidden" style="width: 48%; margin: 10px; padding: 15px; background-image: url(&quot;project://database/Assets/UnityHiroAchievements/HeroicUI/Tab/tab_01_white_bg_default.png?fileID=-7469057409206181842&amp;guid=833e01ea4d81a481eb2abe3f8b2defed&amp;type=3#tab_01_white_bg_default_0&quot;); -unity-slice-left: 20; -unity-slice-top: 20; -unity-slice-right: 20; -unity-slice-bottom: 20;">
-                        <ui:VisualElement name="achievements-list" style="flex-direction: column;" />
+                        <ui:VisualElement name="achievements-list" style="flex-direction: column; padding-right: 15px;" />
                     </ui:ScrollView>
                     <ui:ScrollView name="achievement-details-scroll" horizontal-scroller-visibility="Hidden" style="width: 48%; margin: 10px;">
                         <ui:VisualElement name="achievement-details" style="padding: 25px; border-radius: 15px; border-width: 4px; border-color: rgb(132, 154, 255); background-image: url(&quot;project://database/Assets/UnityHiroAchievements/HeroicUI/Tab/tab_01_white_bg_default.png?fileID=-7469057409206181842&amp;guid=833e01ea4d81a481eb2abe3f8b2defed&amp;type=3#tab_01_white_bg_default_0&quot;); -unity-slice-left: 20; -unity-slice-top: 20; -unity-slice-right: 20; -unity-slice-bottom: 20;">
@@ -25,6 +31,9 @@
                                 <ui:Label name="details-category" text="Category" style="color: rgb(132, 154, 255); font-size: 22px;" />
                             </ui:VisualElement>
                             <ui:VisualElement style="height: 2px; background-color: rgba(132, 154, 255, 0.3); margin-bottom: 14px;" />
+                            <ui:Label text="Rewards" style="font-size: 24px; -unity-font-style: bold; color: rgb(0, 0, 0); margin-bottom: 10px;" />
+                            <ui:VisualElement name="details-rewards" style="flex-direction: row; flex-wrap: wrap; margin-bottom: 20px; min-height: 80px;" />
+                            <ui:VisualElement style="height: 1px; background-color: rgba(132, 154, 255, 0.2); margin-bottom: 16px;" />
                             <ui:Label name="details-description" text="Description for the achievement" style="white-space: normal; margin-bottom: 16px; color: rgb(50, 50, 50); font-size: 22px;" />
                             <ui:VisualElement style="margin-bottom: 16px;">
                                 <ui:Label name="details-progress" text="Progress: 0 / 100 (0%)" style="margin-bottom: 8px; color: rgb(0, 0, 0); font-size: 20px;" />
@@ -33,18 +42,15 @@
                                 </ui:VisualElement>
                             </ui:VisualElement>
                             <ui:VisualElement name="details-sub-achievements" style="margin-bottom: 16px; display: none;" />
-                            <ui:VisualElement style="height: 1px; background-color: rgba(132, 154, 255, 0.2); margin-bottom: 16px;" />
-                            <ui:Label text="Rewards" style="font-size: 24px; -unity-font-style: bold; color: rgb(0, 0, 0); margin-bottom: 10px;" />
-                            <ui:VisualElement name="details-rewards" style="margin-bottom: 20px; min-height: 80px;" />
+                            <ui:VisualElement name="details-action-buttons" style="flex-direction: row; justify-content: flex-start; margin-top: 20px; padding-top: 16px; border-top-width: 1px; border-top-color: rgba(132, 154, 255, 0.2);">
+                                <ui:Button text="Progress" name="progress-button" class="heroic-button" style="margin-right: 10px; padding: 15px 30px; font-size: 20px;" />
+                                <ui:Button text="Claim Reward" name="claim-button" class="heroic-button" style="padding: 15px 30px; font-size: 20px;" />
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:ScrollView>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="action-buttons" style="flex-direction: row; justify-content: space-between; padding: 20px; background-color: rgba(132, 154, 255, 0.05); border-radius: 15px; margin-top: 20px;">
-                <ui:VisualElement style="flex-direction: row; flex-grow: 1; margin-right: 20px;">
-                    <ui:Button text="Progress" name="progress-button" class="heroic-button" style="margin-right: 10px; padding: 15px 30px; font-size: 20px; background-color: rgba(100, 180, 100, 0);" />
-                    <ui:Button text="Claim Reward" name="claim-button" class="heroic-button" style="padding: 15px 30px; font-size: 20px;" />
-                </ui:VisualElement>
+            <ui:VisualElement name="action-buttons" style="flex-direction: row; justify-content: flex-end; padding: 10px 20px; margin-top: 10px;">
                 <ui:Button text="Refresh" name="achievements-refresh" class="heroic-button" style="padding: 15px 30px; font-size: 20px; -unity-background-image-tint-color: rgb(239, 241, 243); color: rgb(42, 48, 89); background-image: url(&quot;project://database/Assets/UnityHiroAchievements/HeroicUI/Button/button_rounded_h84_white_shadow.png?fileID=-1247119682716566457&amp;guid=4f539c64ecb59456bab590ecc5a4be5a&amp;type=3#button_rounded_h84_white_shadow_0&quot;);" />
             </ui:VisualElement>
         </ui:VisualElement>

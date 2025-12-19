@@ -2,7 +2,7 @@
     <ui:VisualElement name="sub-achievement-item-container" style="margin-bottom: 10px; padding: 10px; border-radius: 8px; border-width: 2px; border-color: rgb(180, 180, 180); background-color: rgb(242, 242, 242);">
         <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 8px;">
             <ui:Label name="sub-achievement-name" text="Sub-Achievement Name" style="font-size: 18px; -unity-font-style: bold; color: rgb(0, 0, 0);" />
-            <ui:VisualElement name="sub-status-badge" style="padding: 4px 12px; border-radius: 12px; background-color: rgb(128, 153, 255);">
+            <ui:VisualElement name="sub-status-badge" class="sub-achievement-status-badge" style="padding: 4px 12px; border-radius: 12px;">
                 <ui:Label name="sub-status-text" text="Progress" style="font-size: 14px; color: rgb(255, 255, 255); -unity-font-style: bold;" />
             </ui:VisualElement>
         </ui:VisualElement>
