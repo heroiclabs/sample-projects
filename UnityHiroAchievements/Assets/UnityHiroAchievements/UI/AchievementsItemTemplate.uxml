@@ -1,25 +1,17 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement name="achievement-item-container" style="margin-bottom: 15px; padding: 15px; border-radius: 10px; border-width: 3px; border-color: rgba(198, 195, 228, 0.5); background-color: rgb(255, 255, 255); transition-duration: 0.2s; cursor: link;">
-        <ui:VisualElement style="flex-direction: row; align-items: center;">
-            <!-- Achievement Icon -->
-            <ui:VisualElement name="achievement-icon" style="width: 80px; height: 80px; margin-right: 15px; border-radius: 10px; -unity-background-scale-mode: scale-to-fit;">
-                <!-- Icon will be set via code -->
-            </ui:VisualElement>
-            
-            <!-- Achievement Info -->
+    <ui:VisualElement name="achievement-item-container" style="margin-bottom: 15px; padding: 15px; border-radius: 10px; border-width: 3px; background-color: rgb(255, 255, 255); transition-duration: 0.2s; cursor: link; height: 150px; justify-content: center;">
+        <ui:VisualElement name="VisualElement" style="flex-direction: row; align-items: center; height: 100%;">
+            <ui:VisualElement name="achievement-icon" style="width: 80px; height: 80px; margin-right: 15px; border-radius: 10px; -unity-background-scale-mode: scale-to-fit;" />
             <ui:VisualElement style="flex-grow: 1; justify-content: space-between;">
-                <!-- Name and Status -->
                 <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                     <ui:VisualElement style="flex-direction: column;">
-                        <ui:Label name="achievement-name" text="Achievement Name" style="font-size: 22px; -unity-font-style: bold; color: rgb(0, 0, 0);" />
-                        <ui:Label name="sub-achievements-text" text="0/0 Objectives" style="font-size: 16px; color: rgb(100, 100, 100); margin-top: 4px; display: none;" />
+                        <ui:Label name="achievement-name" text="Achievement Name" style="font-size: 32px; -unity-font-style: bold; color: rgb(0, 0, 0);" />
+                        <ui:Label name="sub-achievements-text" text="0/0 Objectives" style="font-size: 18px; color: rgb(100, 100, 100); margin-top: 4px; display: none;" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="status-badge" class="achievement-status-badge" style="padding: 4px 12px; border-radius: 12px;">
-                        <ui:Label name="status-text" text="Status" style="font-size: 16px; color: rgb(255, 255, 255); -unity-font-style: bold;" />
+                    <ui:VisualElement name="status-badge" class="achievement-status-badge" style="justify-content: flex-start;">
+                        <ui:Label name="status-text" text="Status" style="-unity-font-definition: url(&quot;project://database/Assets/UnityHiroAchievements/HeroicUI/Fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-Regular.ttf?fileID=12800000&amp;guid=e2ef62569164b4144847efcbba2e325a&amp;type=3#PlusJakartaSans-Regular&quot;); -unity-text-align: upper-center; font-size: 18px;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
-                
-                <!-- Progress Bar -->
                 <ui:VisualElement name="achievement-progress-bar" style="height: 20px; background-color: rgb(230, 230, 230); border-radius: 10px; overflow: hidden;">
                     <ui:VisualElement name="achievement-progress-fill" style="width: 0%; height: 100%; background-color: rgb(132, 154, 255); transition-duration: 0.3s;" />
                 </ui:VisualElement>

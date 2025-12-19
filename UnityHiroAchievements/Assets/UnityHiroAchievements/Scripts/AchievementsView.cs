@@ -309,25 +309,13 @@ namespace HiroAchievements
             // Deselect previous
             if (_selectedAchievementElement != null)
             {
-                _selectedAchievementElement.RemoveFromClassList("selected-achievement");
-                // Reset visual style
-                _selectedAchievementElement.style.borderTopColor = new StyleColor(AchievementsUIConstants.AchievementDefaultBorder);
-                _selectedAchievementElement.style.borderBottomColor = new StyleColor(AchievementsUIConstants.AchievementDefaultBorder);
-                _selectedAchievementElement.style.borderRightColor = new StyleColor(AchievementsUIConstants.AchievementDefaultBorder);
-                _selectedAchievementElement.style.borderLeftColor = new StyleColor(AchievementsUIConstants.AchievementDefaultBorder);
-                _selectedAchievementElement.style.backgroundColor = new StyleColor(StyleKeyword.Null);
+                _selectedAchievementElement.RemoveFromClassList("achievement-item--selected");
             }
 
             // Select new
             _controller.SelectAchievement(achievement);
             _selectedAchievementElement = element;
-            _selectedAchievementElement.AddToClassList("selected-achievement");
-            // Add visual highlight
-            _selectedAchievementElement.style.borderTopColor = AchievementsUIConstants.AchievementSelectionBorder;
-            _selectedAchievementElement.style.borderBottomColor = AchievementsUIConstants.AchievementSelectionBorder;
-            _selectedAchievementElement.style.borderRightColor = AchievementsUIConstants.AchievementSelectionBorder;
-            _selectedAchievementElement.style.borderLeftColor = AchievementsUIConstants.AchievementSelectionBorder;
-            _selectedAchievementElement.style.backgroundColor = AchievementsUIConstants.AchievementSelectionBackground;
+            _selectedAchievementElement.AddToClassList("achievement-item--selected");
 
             await ShowAchievementDetailsAsync(achievement);
             await UpdateActionButtons();
@@ -356,20 +344,25 @@ namespace HiroAchievements
             tile.AddToClassList("reward-tile");
             tile.AddToClassList($"reward-tile--{rewardType.ToLower()}");
 
-            // Icon element
-            var iconElement = new VisualElement();
-            iconElement.AddToClassList("reward-tile__icon");
+            // Icon container (colored background)
+            var iconContainer = new VisualElement();
+            iconContainer.AddToClassList("reward-tile__icon-container");
+
+            // Icon image (smaller, inside container)
+            var iconImage = new VisualElement();
+            iconImage.AddToClassList("reward-tile__icon");
 
             // Set icon based on reward type
             if (_controller.IconDictionary.TryGetValue(rewardType, out var rewardIcon))
             {
-                iconElement.style.backgroundImage = new StyleBackground(rewardIcon);
+                iconImage.style.backgroundImage = new StyleBackground(rewardIcon);
             }
             else if (_defaultIcon != null)
             {
-                iconElement.style.backgroundImage = new StyleBackground(_defaultIcon);
+                iconImage.style.backgroundImage = new StyleBackground(_defaultIcon);
             }
-            tile.Add(iconElement);
+            iconContainer.Add(iconImage);
+            tile.Add(iconContainer);
 
             var amountLabel = new Label(amount.ToString());
             amountLabel.AddToClassList("reward-tile__amount");

@@ -308,7 +308,7 @@ GameObject:
   - component: {fileID: 1350379567}
   - component: {fileID: 1350379568}
   m_Layer: 0
-  m_Name: HiroInventory
+  m_Name: HiroAchievements
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -366,8 +366,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HiroChallenges.HiroChallengesController
   achievementItemTemplate: {fileID: 9197481963319205126, guid: 8dd3c785e50de45048715a68169a3967, type: 3}
   subAchievementItemTemplate: {fileID: 9197481963319205126, guid: 7f17426476a504b17893b1f0f966e366, type: 3}
-  achievementIconMappings: []
-  defaultIcon: {fileID: 4572200582248954793, guid: 0b0f45dc7e62c47689da39968a4415fa, type: 3}
+  achievementIconMappings:
+  - achievementId: gold
+    icon: {fileID: 2312241255967906428, guid: 05350d1a74b174a1ab61d06d5bb69a19, type: 3}
+  defaultIcon: {fileID: -4557743989902557328, guid: 4184def4162ec410e93277dffcef44c9, type: 3}
 --- !u!1 &2121322951
 GameObject:
   m_ObjectHideFlags: 0

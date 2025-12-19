@@ -2,16 +2,16 @@
     <ui:VisualElement name="sub-achievement-item-container" style="margin-bottom: 10px; padding: 10px; border-radius: 8px; border-width: 2px; border-color: rgb(180, 180, 180); background-color: rgb(242, 242, 242);">
         <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 8px;">
             <ui:Label name="sub-achievement-name" text="Sub-Achievement Name" style="font-size: 18px; -unity-font-style: bold; color: rgb(0, 0, 0);" />
-            <ui:VisualElement name="sub-status-badge" class="sub-achievement-status-badge" style="padding: 4px 12px; border-radius: 12px;">
-                <ui:Label name="sub-status-text" text="Progress" style="font-size: 14px; color: rgb(255, 255, 255); -unity-font-style: bold;" />
+            <ui:VisualElement name="sub-status-badge" class="sub-achievement-status-badge">
+                <ui:Label name="sub-status-text" text="Progress" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="sub-achievement-progress-bar" style="height: 18px; background-color: rgb(217, 217, 217); border-radius: 9px; overflow: hidden; margin-bottom: 4px; flex-direction: column; justify-content: space-between; align-items: stretch;">
             <ui:VisualElement name="sub-achievement-progress-fill" style="width: 0%; height: 100%; background-color: rgb(128, 179, 255); transition-duration: 0.3s;" />
         </ui:VisualElement>
         <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-            <ui:Label name="sub-achievement-progress-text" text="0 / 0 (0%)" style="font-size: 14px; color: rgb(100, 100, 100); -unity-text-align: middle-center; margin-top: 4px; height: 25px; width: 80%;" />
-            <ui:Label name="sub-achievement-reward-text" text="1 Gold" style="font-size: 14px; color: rgb(100, 100, 100); -unity-text-align: middle-center; margin-top: 4px; width: 20%;" />
+            <ui:Label name="sub-achievement-progress-text" text="0 / 0 (0%)" style="font-size: 18px; color: rgb(100, 100, 100); -unity-text-align: middle-center; margin-top: 4px; height: 25px; width: 80%;" />
+            <ui:Label name="sub-achievement-reward-text" text="1 Gold" style="font-size: 18px; color: rgb(100, 100, 100); -unity-text-align: middle-center; margin-top: 4px; width: 20%;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

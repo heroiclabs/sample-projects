@@ -28,11 +28,11 @@ namespace HiroAchievements
         public static readonly Color AchievementDefaultBorder = new Color(0.776f, 0.765f, 0.894f, 0.5f);
 
         // Status Text
-        public const string StatusClaimed = "Claimed";
-        public const string StatusToClaim = "To Claim";
-        public const string StatusComplete = "Complete";
-        public const string StatusLocked = "🔒 Locked";
-        public const string StatusInProgress = "In Progress";
+        public const string StatusClaimed = "CLAIMED";
+        public const string StatusToClaim = "CAN CLAIM";
+        public const string StatusComplete = "COMPLETE";
+        public const string StatusLocked = "🔒 LOCKED";
+        public const string StatusInProgress = "IN PROGRESS";
         public const string StatusCheckmark = "✓";
 
         // Locked Achievement Text
