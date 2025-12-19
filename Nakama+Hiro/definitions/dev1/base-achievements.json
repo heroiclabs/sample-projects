@@ -11,6 +11,14 @@
           "currencies": {
             "gold": {
               "min": 1000
+            },
+            "gems": {
+              "min": 50
+            }
+          },
+          "items": {
+            "golden_key": {
+              "min": 1
             }
           }
         }
@@ -27,6 +35,11 @@
                 "gold": {
                   "min": 200
                 }
+              },
+              "items": {
+                "mana_potion": {
+                  "min": 2
+                }
               }
             }
           }
@@ -41,6 +54,9 @@
               "currencies": {
                 "gold": {
                   "min": 200
+                },
+                "gems": {
+                  "min": 10
                 }
               }
             }
@@ -55,7 +71,10 @@
             "guaranteed": {
               "currencies": {
                 "gold": {
-                  "min": 200
+                  "min": 250
+                },
+                "gems": {
+                  "min": 15
                 }
               }
             }
@@ -65,7 +84,7 @@
     },
     "craftingMaster": {
       "name": "Crafting Master",
-      "description": "Master all crafting disciplines.",
+      "description": "Master all crafting disciplines and become a legendary artisan.",
       "category": "quest",
       "count": 1,
       "max_count": 1,
@@ -74,6 +93,14 @@
           "currencies": {
             "gold": {
               "min": 1500
+            },
+            "gems": {
+              "min": 75
+            }
+          },
+          "items": {
+            "small_crafting_bag": {
+              "min": 3
             }
           }
         }
@@ -90,6 +117,11 @@
                 "gold": {
                   "min": 300
                 }
+              },
+              "items": {
+                "iron_sword": {
+                  "min": 1
+                }
               }
             }
           }
@@ -103,7 +135,12 @@
             "guaranteed": {
               "currencies": {
                 "gold": {
-                  "min": 300
+                  "min": 350
+                }
+              },
+              "items": {
+                "iron_shield": {
+                  "min": 1
                 }
               }
             }
@@ -111,7 +148,7 @@
         },
         "alchemist": {
           "name": "Expert Alchemist",
-          "description": "Brew 50 potions.",
+          "description": "Brew 50 potions of any kind.",
           "category": "quest",
           "max_count": 50,
           "reward": {
@@ -120,20 +157,33 @@
                 "gold": {
                   "min": 250
                 }
+              },
+              "items": {
+                "mana_potion": {
+                  "min": 5
+                }
               }
             }
           }
         },
         "enchanter": {
           "name": "Arcane Enchanter",
-          "description": "Enchant 20 items.",
+          "description": "Enchant 20 items with magical properties.",
           "category": "quest",
           "max_count": 20,
           "reward": {
             "guaranteed": {
               "currencies": {
                 "gold": {
-                  "min": 350
+                  "min": 400
+                },
+                "gems": {
+                  "min": 20
+                }
+              },
+              "items": {
+                "magic_gem": {
+                  "min": 1
                 }
               }
             }
@@ -143,7 +193,7 @@
     },
     "combatVeteran": {
       "name": "Combat Veteran",
-      "description": "Prove your combat prowess by defeating various enemy types.",
+      "description": "Prove your combat prowess by defeating various enemy types and conquering the arena.",
       "category": "quest",
       "count": 1,
       "max_count": 1,
@@ -152,6 +202,14 @@
           "currencies": {
             "gold": {
               "min": 2000
+            },
+            "gems": {
+              "min": 100
+            }
+          },
+          "items": {
+            "lucky_charm": {
+              "min": 1
             }
           }
         }
@@ -159,7 +217,7 @@
       "sub_achievements": {
         "slayBoss1": {
           "name": "Dragon Slayer",
-          "description": "Defeat the Ancient Dragon.",
+          "description": "Defeat the Ancient Dragon in its mountain lair.",
           "category": "quest",
           "max_count": 1,
           "reward": {
@@ -167,6 +225,14 @@
               "currencies": {
                 "gold": {
                   "min": 500
+                },
+                "gems": {
+                  "min": 25
+                }
+              },
+              "items": {
+                "bomb": {
+                  "min": 3
                 }
               }
             }
@@ -174,7 +240,7 @@
         },
         "slayBoss2": {
           "name": "Lich Hunter",
-          "description": "Defeat the Undead Lich.",
+          "description": "Defeat the Undead Lich in the catacombs.",
           "category": "quest",
           "max_count": 1,
           "reward": {
@@ -182,6 +248,14 @@
               "currencies": {
                 "gold": {
                   "min": 500
+                },
+                "gems": {
+                  "min": 25
+                }
+              },
+              "items": {
+                "mana_potion": {
+                  "min": 5
                 }
               }
             }
@@ -189,7 +263,7 @@
         },
         "slayElites": {
           "name": "Elite Eliminator",
-          "description": "Defeat 50 elite enemies.",
+          "description": "Defeat 50 elite enemies throughout the world.",
           "category": "quest",
           "max_count": 50,
           "reward": {
@@ -197,6 +271,14 @@
               "currencies": {
                 "gold": {
                   "min": 400
+                },
+                "gems": {
+                  "min": 15
+                }
+              },
+              "items": {
+                "bomb": {
+                  "min": 5
                 }
               }
             }
@@ -204,7 +286,7 @@
         },
         "surviveWaves": {
           "name": "Wave Survivor",
-          "description": "Survive 10 waves in the Arena.",
+          "description": "Survive 10 consecutive waves in the Arena.",
           "category": "quest",
           "max_count": 10,
           "reward": {
@@ -212,6 +294,14 @@
               "currencies": {
                 "gold": {
                   "min": 350
+                },
+                "gems": {
+                  "min": 10
+                }
+              },
+              "items": {
+                "mana_potion": {
+                  "min": 3
                 }
               }
             }
@@ -219,14 +309,22 @@
         },
         "perfectVictories": {
           "name": "Flawless Fighter",
-          "description": "Win 5 battles without taking damage.",
+          "description": "Win 5 battles without taking any damage.",
           "category": "quest",
           "max_count": 5,
           "reward": {
             "guaranteed": {
               "currencies": {
                 "gold": {
-                  "min": 450
+                  "min": 500
+                },
+                "gems": {
+                  "min": 30
+                }
+              },
+              "items": {
+                "lucky_charm": {
+                  "min": 1
                 }
               }
             }
@@ -235,8 +333,8 @@
       }
     },
     "killEnemiesRanged50": {
-      "name": "Taking Out The Trash",
-      "description": "Defeat 50 ranged enemies.",
+      "name": "Sharpshooter",
+      "description": "Defeat 50 ranged enemies from a distance.",
       "category": "quest",
       "max_count": 50,
       "precondition_ids": [
@@ -247,7 +345,15 @@
         "guaranteed": {
           "currencies": {
             "gold": {
-              "min": 100
+              "min": 150
+            },
+            "gems": {
+              "min": 10
+            }
+          },
+          "items": {
+            "bomb": {
+              "min": 2
             }
           }
         }
@@ -255,14 +361,19 @@
     },
     "killEnemiesMelee100": {
       "name": "Pest Control",
-      "description": "Defeat 100 melee enemies.",
+      "description": "Defeat 100 melee enemies in close combat.",
       "category": "quest",
       "max_count": 100,
       "reward": {
         "guaranteed": {
           "currencies": {
             "gold": {
-              "min": 100
+              "min": 150
+            }
+          },
+          "items": {
+            "mana_potion": {
+              "min": 2
             }
           }
         }
@@ -270,7 +381,7 @@
     },
     "completeDungeons5": {
       "name": "Aspiring Adventurer",
-      "description": "Complete 5 dungeons.",
+      "description": "Complete 5 dungeons and prove your worth as an adventurer.",
       "category": "quest",
       "max_count": 5,
       "reward": {
@@ -278,14 +389,22 @@
           "currencies": {
             "gold": {
               "min": 500
+            },
+            "gems": {
+              "min": 20
+            }
+          },
+          "items": {
+            "golden_key": {
+              "min": 1
             }
           }
         }
       }
     },
     "killEnemiesRanged1000": {
-      "name": "Death to Thousand",
-      "description": "Defeat 1000 enemies.",
+      "name": "Bringer of a Thousand Deaths",
+      "description": "Defeat 1000 enemies and cement your legacy as a legendary warrior.",
       "category": "achievement",
       "max_count": 1000,
       "reward": {
@@ -293,14 +412,28 @@
           "currencies": {
             "gold": {
               "min": 10000
+            },
+            "gems": {
+              "min": 500
+            }
+          },
+          "items": {
+            "magic_gem": {
+              "min": 3
+            },
+            "golden_key": {
+              "min": 2
+            },
+            "lucky_charm": {
+              "min": 1
             }
           }
         }
       }
     },
     "dailyLogin": {
-      "name": "Login",
-      "description": "Login Today",
+      "name": "Daily Login",
+      "description": "Log in to the game today to claim your daily reward.",
       "category": "daily",
       "max_count": 1,
       "reward": {
@@ -308,6 +441,9 @@
           "currencies": {
             "gold": {
               "min": 100
+            },
+            "gems": {
+              "min": 5
             }
           }
         }
