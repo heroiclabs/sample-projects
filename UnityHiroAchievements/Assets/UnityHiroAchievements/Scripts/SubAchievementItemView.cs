@@ -51,10 +51,16 @@ namespace HiroAchievements
             progressText.text = string.Format(AchievementsUIConstants.SubAchievementProgressFormat, 
                 subAchievement.Count, subAchievement.MaxCount, progressPercent);
 
-            // Set rewards text
-            IAvailableRewardsCurrency rewards;
-            subAchievement.AvailableRewards.Guaranteed.Currencies.TryGetValue("gold", out rewards);
-            rewardsLabel.text = $"{rewards.Count.Min} Gold";
+            // Set rewards text - sub-achievements only reward coins
+            if (subAchievement.AvailableRewards?.Guaranteed?.Currencies != null &&
+                subAchievement.AvailableRewards.Guaranteed.Currencies.TryGetValue("coins", out var rewards))
+            {
+                rewardsLabel.text = $"{rewards.Count.Min} Coins";
+            }
+            else
+            {
+                rewardsLabel.text = "No reward";
+            }
 
             // Set status badge
             bool isCompleted = subAchievement.Count >= subAchievement.MaxCount;

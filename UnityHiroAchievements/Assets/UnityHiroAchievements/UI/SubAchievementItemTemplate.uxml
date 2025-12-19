@@ -1,5 +1,5 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement name="sub-achievement-item-container" style="margin-bottom: 10px; padding: 10px; border-radius: 8px; border-width: 2px; border-color: rgb(180, 180, 180); background-color: rgb(242, 242, 242);">
+    <ui:VisualElement name="sub-achievement-item-container" style="margin-bottom: 16px; padding: 10px; border-radius: 8px; border-width: 2px; border-color: rgb(180, 180, 180); background-color: rgb(242, 242, 242);">
         <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 8px;">
             <ui:Label name="sub-achievement-name" text="Sub-Achievement Name" style="font-size: 18px; -unity-font-style: bold; color: rgb(0, 0, 0);" />
             <ui:VisualElement name="sub-status-badge" class="sub-achievement-status-badge">

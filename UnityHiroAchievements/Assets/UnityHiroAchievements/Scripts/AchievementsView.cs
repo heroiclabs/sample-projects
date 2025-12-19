@@ -190,6 +190,7 @@ namespace HiroAchievements
         {
             try
             {
+                UpdateTabButtons();
                 var achievements = await _controller.RefreshAchievements();
                 PopulateAchievementsList(achievements);
             }
@@ -338,13 +339,32 @@ namespace HiroAchievements
             }
         }
 
+        private static readonly System.Collections.Generic.Dictionary<string, string> ItemRarities = new()
+        {
+            // Currencies
+            { "coins", "common" },
+            { "gems", "rare" },
+            // Items from inventory
+            { "iron_sword", "common" },
+            { "mana_potion", "uncommon" },
+            { "golden_key", "rare" },
+            { "lucky_charm", "epic" }
+        };
+
+        private string GetRarity(string itemId)
+        {
+            return ItemRarities.TryGetValue(itemId.ToLower(), out var rarity) ? rarity : "common";
+        }
+
         private VisualElement CreateRewardTile(string rewardType, long amount)
         {
             var tile = new VisualElement();
             tile.AddToClassList("reward-tile");
-            tile.AddToClassList($"reward-tile--{rewardType.ToLower()}");
 
-            // Icon container (colored background)
+            var rarity = GetRarity(rewardType);
+            tile.AddToClassList($"reward-tile--{rarity}");
+
+            // Icon container (colored background based on rarity)
             var iconContainer = new VisualElement();
             iconContainer.AddToClassList("reward-tile__icon-container");
 

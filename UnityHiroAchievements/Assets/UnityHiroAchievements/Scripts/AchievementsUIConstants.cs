@@ -10,7 +10,7 @@ namespace HiroAchievements
     {
         // Status Badge Colors
         public static readonly Color StatusClaimedColor = new Color(0.6f, 0.6f, 0.6f, 1f);
-        public static readonly Color StatusToClaimColor = new Color(1f, 0.84f, 0f, 1f);
+        public static readonly Color StatusToClaimColor = new Color(0.075f, 0.824f, 0.761f, 1f); // #13d2c2
         public static readonly Color StatusCompleteColor = new Color(0.4f, 0.8f, 0.4f, 1f);
         public static readonly Color StatusLockedColor = new Color(0.5f, 0.5f, 0.5f, 1f);
         public static readonly Color StatusInProgressColor = new Color(0.5f, 0.6f, 1f, 1f);

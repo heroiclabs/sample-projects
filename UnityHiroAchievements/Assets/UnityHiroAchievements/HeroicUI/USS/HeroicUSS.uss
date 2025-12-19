@@ -642,7 +642,7 @@
     width: 100px;
     height: 100px;
     border-radius: 15px;
-    background-color: rgb(176, 135, 222);
+    background-color: rgb(190, 184, 218);
     align-items: center;
     justify-content: center;
     padding: 16px;
@@ -662,32 +662,24 @@
     -unity-text-align: middle-center;
 }
 
-.reward-tile--gold > .reward-tile__icon-container {
-    background-color: rgb(250, 214, 95);
+.reward-tile--common > .reward-tile__icon-container {
+    background-color: rgb(138, 182, 246);
 }
 
-.reward-tile--gems > .reward-tile__icon-container {
-    background-color: rgb(176, 135, 222);
+.reward-tile--uncommon > .reward-tile__icon-container {
+    background-color: rgb(200, 223, 122);
 }
 
-.reward-tile--coins > .reward-tile__icon-container {
-    background-color: rgb(250, 214, 95);
+.reward-tile--rare > .reward-tile__icon-container {
+    background-color: rgb(165, 136, 246);
 }
 
-.reward-tile--keys > .reward-tile__icon-container {
-    background-color: rgb(115, 191, 217);
+.reward-tile--epic > .reward-tile__icon-container {
+    background-color: rgb(253, 224, 95);
 }
 
-.reward-tile--stars > .reward-tile__icon-container {
-    background-color: rgb(250, 153, 140);
-}
-
-.reward-tile--energy > .reward-tile__icon-container {
-    background-color: rgb(140, 217, 166);
-}
-
-.reward-tile--bombs > .reward-tile__icon-container {
-    background-color: rgb(140, 217, 166);
+.reward-tile--legendary > .reward-tile__icon-container {
+    background-color: rgb(255, 149, 146);
 }
 
 .achievement-status-badge {

@@ -1,5 +1,5 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement name="achievement-item-container" style="margin-bottom: 15px; padding: 15px; border-radius: 10px; border-width: 3px; background-color: rgb(255, 255, 255); transition-duration: 0.2s; cursor: link; height: 150px; justify-content: center;">
+    <ui:VisualElement name="achievement-item-container" style="margin-bottom: 16px; padding: 15px; border-radius: 10px; border-width: 3px; background-color: rgb(255, 255, 255); transition-duration: 0.2s; cursor: link; height: 150px; justify-content: center;">
         <ui:VisualElement name="VisualElement" style="flex-direction: row; align-items: center; height: 100%;">
             <ui:VisualElement name="achievement-icon" style="width: 80px; height: 80px; margin-right: 15px; border-radius: 10px; -unity-background-scale-mode: scale-to-fit;" />
             <ui:VisualElement style="flex-grow: 1; justify-content: space-between;">

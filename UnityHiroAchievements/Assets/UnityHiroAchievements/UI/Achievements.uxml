@@ -8,33 +8,30 @@
     </ui:VisualElement>
     <ui:VisualElement name="achievements-main" class="heroic-main__background" style="padding: 30px; align-items: center; justify-content: center;">
         <ui:VisualElement name="content-container" style="width: 100%; height: 100%;">
-            <ui:VisualElement name="tab-navigation" style="flex-direction: row; margin-bottom: 20px; justify-content: flex-start; height: auto; max-height: 20%; margin-left: 80px;">
+            <ui:VisualElement name="tab-navigation" style="flex-direction: row; margin-bottom: 20px; justify-content: flex-start; height: auto; max-height: 20%; margin-left: 80px; align-items: auto; width: auto;">
                 <ui:Button name="tab-dailies" text="Daily" class="heroic-horizontal-tab-button">
                     <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
                 </ui:Button>
                 <ui:Button name="tab-quests" text="Quests" class="heroic-horizontal-tab-button">
                     <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
                 </ui:Button>
-                <ui:Button name="tab-achievements" text="Achievements&#10;" class="heroic-horizontal-tab-button selected">
+                <ui:Button name="tab-achievements" text="Achievements&#10;" class="heroic-horizontal-tab-button">
                     <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
                 </ui:Button>
             </ui:VisualElement>
             <ui:VisualElement name="achievements-container" style="flex-grow: 1; padding: 20px; border-radius: 15px; max-height: none; padding-top: 0;">
                 <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: space-between; min-height: auto;">
-                    <ui:ScrollView name="achievements-scroll" horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="AlwaysVisible" style="width: 55%; margin: 10px; padding: 15px; -unity-slice-left: 20; -unity-slice-top: 20; -unity-slice-right: 20; -unity-slice-bottom: 20; margin-top: 0; margin-bottom: 0;">
+                    <ui:ScrollView name="achievements-scroll" horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Hidden" style="width: 55%; margin: 10px; padding: 15px; -unity-slice-left: 20; -unity-slice-top: 20; -unity-slice-right: 20; -unity-slice-bottom: 20; margin-top: 0; margin-bottom: 0;">
                         <ui:VisualElement name="achievements-list" style="flex-direction: column; padding-right: 15px;" />
                     </ui:ScrollView>
                     <ui:VisualElement name="details-column" style="width: 45%; flex-direction: column;">
-                        <ui:ScrollView name="achievement-details-scroll" horizontal-scroller-visibility="Hidden" style="flex-grow: 1; margin: 10px; margin-top: 0; margin-bottom: 0; max-height: 88%;">
+                        <ui:ScrollView name="achievement-details-scroll" horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Hidden" style="flex-grow: 1; margin: 10px; margin-top: 0; margin-bottom: 0; max-height: 88%;">
                             <ui:VisualElement name="achievement-details" style="padding: 25px; border-radius: 15px; border-width: 4px; border-color: rgb(132, 154, 255); background-image: url(&quot;project://database/Assets/UnityHiroAchievements/HeroicUI/Tab/tab_01_white_bg_default.png?fileID=-7469057409206181842&amp;guid=833e01ea4d81a481eb2abe3f8b2defed&amp;type=3#tab_01_white_bg_default_0&quot;); -unity-slice-left: 20; -unity-slice-top: 20; -unity-slice-right: 20; -unity-slice-bottom: 20; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0;">
                                 <ui:VisualElement style="flex-direction: row; justify-content: space-between; margin-bottom: 12px;">
                                     <ui:Label name="details-name" text="Achievement Name" style="-unity-font-style: bold; color: rgb(0, 0, 0); font-size: 28px;" />
                                     <ui:Label name="details-category" text="Category" style="color: rgb(132, 154, 255); font-size: 22px;" />
                                 </ui:VisualElement>
                                 <ui:VisualElement style="height: 2px; background-color: rgba(132, 154, 255, 0.3); margin-bottom: 14px;" />
-                                <ui:Label text="Rewards" style="font-size: 24px; -unity-font-style: bold; color: rgb(0, 0, 0); margin-bottom: 10px;" />
-                                <ui:VisualElement name="details-rewards" style="flex-direction: row; flex-wrap: wrap; margin-bottom: 20px; min-height: 80px;" />
-                                <ui:VisualElement style="height: 1px; background-color: rgba(132, 154, 255, 0.2); margin-bottom: 16px;" />
                                 <ui:Label name="details-description" text="Description for the achievement" style="white-space: normal; margin-bottom: 16px; color: rgb(50, 50, 50); font-size: 22px;" />
                                 <ui:VisualElement style="margin-bottom: 16px;">
                                     <ui:Label name="details-progress" text="Progress: 0 / 100 (0%)" style="margin-bottom: 8px; color: rgb(0, 0, 0); font-size: 20px;" />
@@ -43,6 +40,9 @@
                                     </ui:VisualElement>
                                 </ui:VisualElement>
                                 <ui:VisualElement name="details-sub-achievements" style="margin-bottom: 16px; display: none;" />
+                                <ui:VisualElement style="height: 1px; background-color: rgba(132, 154, 255, 0.2); margin-bottom: 16px;" />
+                                <ui:Label text="Rewards" style="font-size: 24px; -unity-font-style: bold; color: rgb(0, 0, 0); margin-bottom: 10px;" />
+                                <ui:VisualElement name="details-rewards" style="flex-direction: row; flex-wrap: wrap; margin-bottom: 20px; min-height: 80px;" />
                             </ui:VisualElement>
                         </ui:ScrollView>
                         <ui:VisualElement name="action-buttons" style="flex-direction: row; justify-content: center; padding: 10px; margin-top: 15px;">

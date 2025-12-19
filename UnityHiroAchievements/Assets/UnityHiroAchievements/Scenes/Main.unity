@@ -367,8 +367,18 @@ MonoBehaviour:
   achievementItemTemplate: {fileID: 9197481963319205126, guid: 8dd3c785e50de45048715a68169a3967, type: 3}
   subAchievementItemTemplate: {fileID: 9197481963319205126, guid: 7f17426476a504b17893b1f0f966e366, type: 3}
   achievementIconMappings:
-  - achievementId: gold
+  - achievementId: coins
     icon: {fileID: 2312241255967906428, guid: 05350d1a74b174a1ab61d06d5bb69a19, type: 3}
+  - achievementId: gems
+    icon: {fileID: 6521567286427641033, guid: a839ad01459254854a6d8fdb961d443f, type: 3}
+  - achievementId: iron_sword
+    icon: {fileID: -2124102372771563869, guid: 5fb67603c7a30480483bc313077ec2c5, type: 3}
+  - achievementId: mana_potion
+    icon: {fileID: 1188792238481573301, guid: efb262540fa6945d2bcfe4256f379882, type: 3}
+  - achievementId: golden_key
+    icon: {fileID: 1312465433301553684, guid: cccc8ecaacd78418290f76db7f946ddf, type: 3}
+  - achievementId: lucky_charm
+    icon: {fileID: -5502143058471085903, guid: e7c9d5c0c79ff4f7197a322f2f040e16, type: 3}
   defaultIcon: {fileID: -4557743989902557328, guid: 4184def4162ec410e93277dffcef44c9, type: 3}
 --- !u!1 &2121322951
 GameObject:
