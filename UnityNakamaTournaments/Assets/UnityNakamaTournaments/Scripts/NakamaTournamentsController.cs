@@ -5,7 +5,7 @@ using Nakama;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace UnityNakamaTournaments
+namespace NakamaTournaments
 {
     [RequireComponent(typeof(UIDocument))]
     public class NakamaTournamentsController : MonoBehaviour

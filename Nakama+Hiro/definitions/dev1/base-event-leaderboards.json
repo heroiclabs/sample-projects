@@ -1,0 +1,638 @@
+{
+    "event_leaderboards": {
+        "food_battles": {
+            "name": "Food Battles!",
+            "description": "Face off against other chefs to see who can cook up the best dishes.",
+            "category": "PvP",
+            "ascending": false,
+            "operator": "best",
+            "reset_schedule": "0 * * * *",
+            "cohort_size": 100,
+            "additional_properties": {
+                "description": "Hourly tournament using reward tiers for promotion/demotion. Top 5 players (1-5) promote to next tier, bottom players (16+) in tier 1+ demote.",
+                "reset_schedule_desc": "every hour",
+                "icon": "icon_trophy"
+            },
+            "max_num_score": 0,
+            "tiers": 3,
+            "max_idle_tier_drop": 1,
+            "reward_tiers": {
+                "0": [
+                    {
+                        "name": "Master Chef",
+                        "rank_min": 1,
+                        "rank_max": 5,
+                        "tier_change": 1,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "coins": {
+                                        "min": 2000,
+                                        "max": 2000
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "Skilled Chef",
+                        "rank_min": 6,
+                        "rank_max": 15,
+                        "tier_change": 0,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "coins": {
+                                        "min": 1000,
+                                        "max": 1000
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "Apprentice Chef",
+                        "rank_min": 16,
+                        "rank_max": 100,
+                        "tier_change": 0,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "coins": {
+                                        "min": 500,
+                                        "max": 500
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "1": [
+                    {
+                        "name": "Master Chef",
+                        "rank_min": 1,
+                        "rank_max": 5,
+                        "tier_change": 1,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "coins": {
+                                        "min": 4000,
+                                        "max": 4000
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "Skilled Chef",
+                        "rank_min": 6,
+                        "rank_max": 15,
+                        "tier_change": 0,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "coins": {
+                                        "min": 2000,
+                                        "max": 2000
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "Apprentice Chef",
+                        "rank_min": 16,
+                        "rank_max": 100,
+                        "tier_change": -1,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "coins": {
+                                        "min": 1000,
+                                        "max": 1000
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "2": [
+                    {
+                        "name": "Master Chef",
+                        "rank_min": 1,
+                        "rank_max": 5,
+                        "tier_change": 0,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "coins": {
+                                        "min": 8000,
+                                        "max": 8000
+                                    }
+                                },
+                                "items": {
+                                    "legendary_chef_hat": {
+                                        "min": 1,
+                                        "max": 1
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "Skilled Chef",
+                        "rank_min": 6,
+                        "rank_max": 15,
+                        "tier_change": 0,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "coins": {
+                                        "min": 4000,
+                                        "max": 4000
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "Apprentice Chef",
+                        "rank_min": 16,
+                        "rank_max": 100,
+                        "tier_change": -1,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "coins": {
+                                        "min": 2000,
+                                        "max": 2000
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "start_time_sec": 0,
+            "end_time_sec": 0,
+            "duration": 3300
+        },
+        "puzzle_and_monsters": {
+            "name": "Puzzle and Monsters",
+            "description": "Compete to rack up the highest total score across all your puzzle attempts.",
+            "category": "Puzzle",
+            "ascending": false,
+            "operator": "incr",
+            "reset_schedule": "0 */2 * * *",
+            "cohort_size": 50,
+            "additional_properties": {
+                "description": "2-hour event using change zones with percentage-based promotion/demotion. Scores increment (accumulate) across multiple attempts.",
+                "reset_schedule_desc": "every 2 hours",
+                "icon": "icon_skull"
+            },
+            "max_num_score": 0,
+            "tiers": 3,
+            "max_idle_tier_drop": 1,
+            "reward_tiers": {
+                "0": [
+                    {
+                        "name": "Champion",
+                        "rank_min": 1,
+                        "rank_max": 5,
+                        "tier_change": 1,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "gems": {
+                                        "min": 500,
+                                        "max": 500
+                                    },
+                                    "coins": {
+                                        "min": 5000,
+                                        "max": 5000
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "Challenger",
+                        "rank_min": 6,
+                        "rank_max": 15,
+                        "tier_change": 0,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "gems": {
+                                        "min": 250,
+                                        "max": 250
+                                    },
+                                    "coins": {
+                                        "min": 2500,
+                                        "max": 2500
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "Participant",
+                        "rank_min": 16,
+                        "rank_max": 50,
+                        "tier_change": 0,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "coins": {
+                                        "min": 500,
+                                        "max": 500
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "1": [
+                    {
+                        "name": "Champion",
+                        "rank_min": 1,
+                        "rank_max": 5,
+                        "tier_change": 1,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "gems": {
+                                        "min": 1000,
+                                        "max": 1000
+                                    },
+                                    "coins": {
+                                        "min": 10000,
+                                        "max": 10000
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "Challenger",
+                        "rank_min": 6,
+                        "rank_max": 15,
+                        "tier_change": 0,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "gems": {
+                                        "min": 500,
+                                        "max": 500
+                                    },
+                                    "coins": {
+                                        "min": 5000,
+                                        "max": 5000
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "Participant",
+                        "rank_min": 16,
+                        "rank_max": 50,
+                        "tier_change": -1,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "coins": {
+                                        "min": 1000,
+                                        "max": 1000
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "2": [
+                    {
+                        "name": "Champion",
+                        "rank_min": 1,
+                        "rank_max": 5,
+                        "tier_change": 0,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "gems": {
+                                        "min": 2000,
+                                        "max": 2000
+                                    },
+                                    "coins": {
+                                        "min": 20000,
+                                        "max": 20000
+                                    }
+                                },
+                                "items": {
+                                    "puzzle_master_trophy": {
+                                        "min": 1,
+                                        "max": 1
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "Challenger",
+                        "rank_min": 6,
+                        "rank_max": 15,
+                        "tier_change": 0,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "gems": {
+                                        "min": 1000,
+                                        "max": 1000
+                                    },
+                                    "coins": {
+                                        "min": 10000,
+                                        "max": 10000
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "Participant",
+                        "rank_min": 16,
+                        "rank_max": 50,
+                        "tier_change": -1,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "coins": {
+                                        "min": 2000,
+                                        "max": 2000
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "change_zones": {
+                "0": {
+                    "promotion": 0.3,
+                    "demotion": 0,
+                    "demote_idle": false
+                },
+                "1": {
+                    "promotion": 0.2,
+                    "demotion": 0.2,
+                    "demote_idle": true
+                },
+                "2": {
+                    "promotion": 0,
+                    "demotion": 0.25,
+                    "demote_idle": true
+                }
+            },
+            "start_time_sec": 0,
+            "end_time_sec": 0,
+            "duration": 6600
+        },
+        "desire_for_speed": {
+            "name": "Desire for Speed",
+            "description": "Clear the featured track as fast as possible to beat your opponents.",
+            "category": "Speedrun",
+            "ascending": true,
+            "operator": "best",
+            "reset_schedule": "0 * * * *",
+            "cohort_size": 30,
+            "additional_properties": {
+                "description": "Hourly speedrun trial using change zones. Ascending (lower is better) with best score operator. Up to 5 attempts per player.",
+                "reset_schedule_desc": "every hour",
+                "icon": "icon_energy_green"
+            },
+            "max_num_score": 5,
+            "tiers": 3,
+            "max_idle_tier_drop": 1,
+            "reward_tiers": {
+                "0": [
+                    {
+                        "name": "Speed Demon",
+                        "rank_min": 1,
+                        "rank_max": 5,
+                        "tier_change": 1,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "gems": {
+                                        "min": 300,
+                                        "max": 300
+                                    },
+                                    "coins": {
+                                        "min": 3000,
+                                        "max": 3000
+                                    }
+                                },
+                                "items": {
+                                    "rare_chest": {
+                                        "min": 1,
+                                        "max": 1
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "Dungeon Runner",
+                        "rank_min": 6,
+                        "rank_max": 15,
+                        "tier_change": 0,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "gems": {
+                                        "min": 150,
+                                        "max": 150
+                                    },
+                                    "coins": {
+                                        "min": 1500,
+                                        "max": 1500
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "Dungeon Explorer",
+                        "rank_min": 16,
+                        "rank_max": 30,
+                        "tier_change": 0,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "coins": {
+                                        "min": 500,
+                                        "max": 500
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "1": [
+                    {
+                        "name": "Speed Demon",
+                        "rank_min": 1,
+                        "rank_max": 5,
+                        "tier_change": 1,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "gems": {
+                                        "min": 600,
+                                        "max": 600
+                                    },
+                                    "coins": {
+                                        "min": 6000,
+                                        "max": 6000
+                                    }
+                                },
+                                "items": {
+                                    "epic_chest": {
+                                        "min": 1,
+                                        "max": 1
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "Dungeon Runner",
+                        "rank_min": 6,
+                        "rank_max": 15,
+                        "tier_change": 0,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "gems": {
+                                        "min": 300,
+                                        "max": 300
+                                    },
+                                    "coins": {
+                                        "min": 3000,
+                                        "max": 3000
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "Dungeon Explorer",
+                        "rank_min": 16,
+                        "rank_max": 30,
+                        "tier_change": -1,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "coins": {
+                                        "min": 1000,
+                                        "max": 1000
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "2": [
+                    {
+                        "name": "Speed Demon",
+                        "rank_min": 1,
+                        "rank_max": 5,
+                        "tier_change": 0,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "gems": {
+                                        "min": 1200,
+                                        "max": 1200
+                                    },
+                                    "coins": {
+                                        "min": 12000,
+                                        "max": 12000
+                                    }
+                                },
+                                "items": {
+                                    "legendary_chest": {
+                                        "min": 1,
+                                        "max": 1
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "Dungeon Runner",
+                        "rank_min": 6,
+                        "rank_max": 15,
+                        "tier_change": 0,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "gems": {
+                                        "min": 600,
+                                        "max": 600
+                                    },
+                                    "coins": {
+                                        "min": 6000,
+                                        "max": 6000
+                                    }
+                                },
+                                "items": {
+                                    "epic_chest": {
+                                        "min": 1,
+                                        "max": 1
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "Dungeon Explorer",
+                        "rank_min": 16,
+                        "rank_max": 30,
+                        "tier_change": -1,
+                        "reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "coins": {
+                                        "min": 2000,
+                                        "max": 2000
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "change_zones": {
+                "0": {
+                    "promotion": 0.33,
+                    "demotion": 0,
+                    "demote_idle": false
+                },
+                "1": {
+                    "promotion": 0.25,
+                    "demotion": 0.25,
+                    "demote_idle": true
+                },
+                "2": {
+                    "promotion": 0,
+                    "demotion": 0.3,
+                    "demote_idle": true
+                }
+            },
+            "start_time_sec": 0,
+            "end_time_sec": 0,
+            "duration": 3300
+        }
+    }
+}

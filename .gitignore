@@ -1,2 +1,13 @@
 .DS_Store
 */Packages/com.unity.asset-store-tools
+*/.vscode/
+
+# Unity generated files
+*/Library/
+*/Logs/
+*/obj/
+*/Temp/
+*/.idea/
+*/*.csproj
+*/*.sln
+*/UserSettings/
