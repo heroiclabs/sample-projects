@@ -657,6 +657,7 @@ namespace HiroAchievements
                 }
 
                 await UpdateActionButtons();
+                await RefreshAchievementsList();
             }
             catch (Exception e)
             {
