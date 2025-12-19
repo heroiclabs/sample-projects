@@ -64,6 +64,7 @@ func InitModule(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runti
 		hiro.WithLeaderboardsSystem(fmt.Sprintf("definitions/%s/base-leaderboards.json", env), true),
 		hiro.WithChallengesSystem(fmt.Sprintf("definitions/%s/base-challenges.json", env), true),
 		hiro.WithEconomySystem(fmt.Sprintf("definitions/%s/base-economy.json", env), true),
+		hiro.WithInventorySystem(fmt.Sprintf("definitions/%s/base-inventory.json", env), true),
 		hiro.WithEventLeaderboardsSystem(fmt.Sprintf("definitions/%s/base-event-leaderboards.json", env), true))
 	if err != nil {
 		return err
