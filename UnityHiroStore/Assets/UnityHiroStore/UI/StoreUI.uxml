@@ -1,0 +1,87 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="WalletDisplay" src="project://database/Assets/UnityHiroStore/HeroicUI/CustomComponents/WalletDisplay.uxml?fileID=9197481963319205126&amp;guid=77e1a552d086b48229afe31d3c5002aa&amp;type=3#WalletDisplay" />
+    <ui:Template name="ErrorPopup" src="project://database/Assets/UnityHiroStore/HeroicUI/CustomComponents/ErrorPopup.uxml?fileID=9197481963319205126&amp;guid=0104c211a1dfc4d17b2607e880de676f&amp;type=3#ErrorPopup" />
+    <Style src="project://database/Assets/UnityHiroStore/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
+    <ui:VisualElement name="store-top" class="heroic-top__background">
+        <ui:Label text="SHOP" enable-rich-text="true" class="heroic-title" />
+        <ui:Instance template="WalletDisplay" name="wallet-display" style="position: absolute; right: 0; height: 100%; top: 0;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="store-main" class="heroic-main__background" style="padding: 30px; align-items: stretch; justify-content: flex-start; flex-direction: column; width: 100%; height: 100%;">
+        <ui:VisualElement name="store-container" class="heroic-main__panel" style="flex-grow: 1; padding: 20px; border-radius: 15px; background-image: none; align-items: stretch; padding-left: 40px; padding-right: 40px;">
+            <ui:VisualElement name="store-items" style="flex-direction: row; margin-bottom: 20px; min-height: 400px; height: 80%; flex-grow: 1; align-self: auto; align-items: stretch; padding-left: 20px;">
+                <ui:VisualElement name="featured-item" class="featured-item--primary" style="width: 380px; border-radius: 20px; align-items: center; justify-content: space-between; position: relative; margin-right: 20px; padding-top: 20px; overflow: visible;">
+                    <ui:Label name="featured-badge" text="SALE" class="featured-badge" />
+                    <ui:VisualElement name="featured-content" style="align-items: center; padding: 20px; width: 100%; margin-bottom: 20px;">
+                        <ui:VisualElement name="featured-icon" style="width: 310px; height: 310px; -unity-background-scale-mode: scale-to-fit; overflow: visible; margin-top: 20px;" />
+                        <ui:Label name="featured-name" text="Starter Pack" style="font-size: 36px; -unity-font-style: bold; color: white; -unity-text-align: middle-center; margin-top: 10px;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="featured-rewards-container" style="flex-direction: row; align-items: center; justify-content: center; margin-bottom: 10px; margin-top: 10px;" />
+                    <ui:Button name="featured-purchase-button" class="featured-purchase-button" style="width: 100%; height: 80px; border-radius: 0; border-width: 0; margin-top: auto;">
+                        <ui:VisualElement style="flex-direction: row; align-items: center; justify-content: center;">
+                            <ui:VisualElement name="featured-currency-icon" style="width: 40px; height: 40px; margin-right: 8px; -unity-background-scale-mode: scale-to-fit;" />
+                            <ui:Label name="featured-price" text="500" style="color: white; font-size: 36px; -unity-font-style: bold;" />
+                        </ui:VisualElement>
+                    </ui:Button>
+                </ui:VisualElement>
+                <ui:ScrollView horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Hidden" style="flex-grow: 1; align-content: stretch; justify-content: space-around;">
+                    <ui:VisualElement name="store-grid" style="flex-direction: row; flex-wrap: wrap; justify-content: flex-start; padding: 10px;" />
+                </ui:ScrollView>
+            </ui:VisualElement>
+            <ui:VisualElement name="button-row" style="flex-direction: row; justify-content: center; align-items: center; margin-top: 20px; padding: 10px; overflow: visible; width: 100%;">
+                <ui:VisualElement name="tab-navigation" style="flex-direction: row; justify-content: center; align-items: center; overflow: visible;">
+                    <ui:Button text="Currency" name="tab-currency" class="heroic-horizontal-tab-button selected">
+                        <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" style="background-image: url(&quot;project://database/Assets/UnityHiroStore/HeroicUI/Tab/tab_01_violet_focus_tail_up.png?fileID=2800000&amp;guid=ab6e09096280e4ba187d353bc57606d7&amp;type=3#tab_01_violet_focus_tail_up&quot;); bottom: auto; top: -40px;" />
+                    </ui:Button>
+                    <ui:Button text="Items" name="tab-items" class="heroic-horizontal-tab-button">
+                        <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" style="background-image: url(&quot;project://database/Assets/UnityHiroStore/HeroicUI/Tab/tab_01_violet_focus_tail_up.png?fileID=2800000&amp;guid=ab6e09096280e4ba187d353bc57606d7&amp;type=3#tab_01_violet_focus_tail_up&quot;); bottom: auto; top: -40px;" />
+                    </ui:Button>
+                </ui:VisualElement>
+                <ui:Button name="refresh-button" text="Refresh" class="heroic-button heroic-button-secondary" style="position: absolute; right: 20px; padding: 15px 40px; background-image: url(&quot;project://database/Assets/UnityHiroStore/HeroicUI/Button/button_rounded_h96_white_shadow.png?fileID=-2464375657981821425&amp;guid=949d1be5630d14825b8df18af45b6473&amp;type=3#button_rounded_h96_white_shadow_0&quot;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="purchase-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
+        <ui:VisualElement name="purchase-modal-background" class="heroic-error-popup__background">
+            <ui:VisualElement name="purchase-modal-panel" class="heroic-main__panel" style="height: auto; width: 600px;">
+                <ui:VisualElement name="purchase-modal-top" style="height: 100px; background-color: rgb(132, 154, 255); border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                    <ui:Label text="CONFIRM PURCHASE" class="heroic-title" style="color: rgb(255, 255, 255); -unity-text-align: middle-center; flex-grow: 1;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="purchase-modal-content" style="align-self: center; align-items: center; width: 100%; padding: 30px;">
+                    <ui:VisualElement name="modal-item-icon" style="width: 150px; height: 150px; margin-bottom: 20px; -unity-background-scale-mode: scale-to-fit;" />
+                    <ui:Label name="modal-item-name" text="Item Name" style="font-size: 32px; -unity-font-style: bold; margin-bottom: 10px; color: rgb(50, 50, 50);" />
+                    <ui:Label name="modal-item-description" text="Item description" style="font-size: 24px; margin-bottom: 20px; color: rgb(100, 100, 100); white-space: normal; -unity-text-align: upper-center;" />
+                    <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 30px;">
+                        <ui:Label text="Cost: " style="font-size: 26px; color: rgb(80, 80, 80); margin-right: 10px;" />
+                        <ui:VisualElement name="modal-cost-icon" style="width: 36px; height: 36px; margin-right: 10px; -unity-background-scale-mode: scale-to-fit;" />
+                        <ui:Label name="modal-cost-amount" text="500" style="font-size: 32px; -unity-font-style: bold; color: rgb(50, 50, 50);" />
+                    </ui:VisualElement>
+                    <ui:VisualElement style="flex-direction: row; width: 100%; justify-content: space-around;">
+                        <ui:Button text="Cancel" name="purchase-modal-cancel" class="heroic-button-gray" style="width: 45%;" />
+                        <ui:Button text="Purchase" name="purchase-modal-confirm" class="heroic-button" style="width: 45%;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:Button name="purchase-modal-close" class="heroic-close-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="reward-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
+        <ui:VisualElement name="reward-modal-background" class="heroic-error-popup__background">
+            <ui:VisualElement name="reward-modal-panel" class="heroic-main__panel" style="height: auto; width: 600px;">
+                <ui:VisualElement name="reward-modal-top" style="height: 100px; background-color: rgb(64, 224, 208); border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                    <ui:Label text="SUCCESS" name="Label" class="heroic-title" style="color: rgb(255, 255, 255); -unity-text-align: middle-center; flex-grow: 1; margin-bottom: 4px; padding-top: 4px; padding-right: 4px; padding-left: 4px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="reward-modal-content" style="align-self: center; align-items: center; width: 100%; padding: 40px;">
+                    <ui:Label text="You received:" style="font-size: 26px; margin-bottom: 20px; color: rgb(100, 100, 100);" />
+                    <ui:ScrollView name="reward-list" style="max-height: 300px; margin-bottom: 20px;" />
+                    <ui:Button text="Continue" name="reward-modal-close-button" class="heroic-button" style="margin-top: 20px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:Instance template="ErrorPopup" name="error-popup" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: none;" />
+    <ui:VisualElement name="toast" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; align-items: center; justify-content: center; display: none;">
+        <ui:VisualElement name="toast-container" style="background-image: url(&quot;project://database/Assets/UnityHiroStore/HeroicUI/UI_etc/toast_r14_dark.png?fileID=2800000&amp;guid=e2d4c5a2e69d6426d8d72c19e76b4e98&amp;type=3#toast_r14_dark&quot;); -unity-slice-left: 20; -unity-slice-right: 20; -unity-slice-top: 20; -unity-slice-bottom: 20; padding: 16px 32px;">
+            <ui:Label name="toast-message" text="Toast message" style="color: rgb(255, 255, 255); font-size: 24px; -unity-font-style: bold;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
