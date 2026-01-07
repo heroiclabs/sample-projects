@@ -77,7 +77,7 @@ namespace HiroAchievements
         {
             float displaySeconds = Math.Max(0, seconds);
             TimeSpan time = TimeSpan.FromSeconds(displaySeconds);
-            _resetTimeLabel.text = string.Format("{0:D2}:{1:D2}:{2:D2}", 
+            _resetTimeLabel.text = string.Format("Dailies reset in: {0:D2}:{1:D2}:{2:D2}", 
                 time.Hours, time.Minutes, time.Seconds);
         }
     }

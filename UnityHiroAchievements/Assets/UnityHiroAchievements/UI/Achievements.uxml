@@ -18,7 +18,7 @@
                 <ui:Button name="tab-achievements" text="Achievements&#10;" class="heroic-horizontal-tab-button">
                     <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
                 </ui:Button>
-                <ui:Label name="reset-time" text="23:59:59" style="white-space: normal; margin-bottom: 16px; color: rgb(50, 50, 50); font-size: 22px; height: 35px; width: 235px;" />
+                <ui:Label name="reset-time" text="23:59:59" style="white-space: nowrap; margin-bottom: 16px; color: rgb(50, 50, 50); font-size: 22px; height: auto; width: auto; right: auto; left: 36%; -unity-text-align: upper-right;" />
             </ui:VisualElement>
             <ui:VisualElement name="achievements-container" style="flex-grow: 1; padding: 20px; border-radius: 15px; max-height: none; padding-top: 0;">
                 <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: space-between; min-height: auto;">
