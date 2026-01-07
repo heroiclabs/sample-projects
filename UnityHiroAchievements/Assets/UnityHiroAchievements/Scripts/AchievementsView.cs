@@ -23,6 +23,7 @@ namespace HiroAchievements
         private Button _achievementsTabButton;
         private Button _refreshButton;
         private Label _resetTimeLabel;
+        private CountdownTimer _timer;
 
         private VisualElement _achievementsList;
         private VisualElement _achievementDetailsPanel;
@@ -82,6 +83,7 @@ namespace HiroAchievements
             _questsTabButton.RegisterCallback<ClickEvent>(_ => SwitchTab("quest"));
             _achievementsTabButton.RegisterCallback<ClickEvent>(_ => SwitchTab("achievement"));
             _resetTimeLabel = rootElement.Q<Label>("reset-time");
+            _timer = new CountdownTimer(this, _resetTimeLabel);
 
             // Achievements list
             _achievementsList = rootElement.Q<VisualElement>("achievements-list");
@@ -195,7 +197,7 @@ namespace HiroAchievements
                 UpdateTabButtons();
                 var achievements = await _controller.RefreshAchievements();
                 PopulateAchievementsList(achievements);
-                _resetTimeLabel.text = _controller.GetResetTime();
+                _timer.start(_controller.GetResetTime());
             }
             catch (Exception e)
             {

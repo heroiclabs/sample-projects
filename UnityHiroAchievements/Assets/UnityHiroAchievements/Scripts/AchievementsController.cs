@@ -132,7 +132,6 @@ namespace HiroAchievements
             RepeatAchievements.Clear();
 
             // Get all achievements (including locked)
-            Debug.Log(_currentCategory);
             var achievements = _achievementsSystem.GetAchievements(_currentCategory);
             AllAchievements.AddRange(achievements);
 
@@ -145,9 +144,7 @@ namespace HiroAchievements
 
         public List<IAchievement> GetFilteredAchievements()
         {
-          Debug.Log(_currentCategory);
           var result = GetAllAchievements(_currentCategory);
-          Debug.Log(result.Count());
           return result.ToList();
         }
 
@@ -423,20 +420,16 @@ namespace HiroAchievements
 
         #region Helpers
 
-        public String GetResetTime()
+        public float GetResetTime()
         {
             foreach(var achievement in GetAllAchievements(_currentCategory))
             {
                 if(achievement.ResetTimeSec > 0)
                 {
-                    TimeSpan time = TimeSpan.FromSeconds(achievement.ResetTimeSec - achievement.CurrentTimeSec);
-                    return string.Format("{0:D2}:{1:D2}:{2:D2}", 
-                         time.Hours, 
-                         time.Minutes, 
-                         time.Seconds);
+                    return achievement.ResetTimeSec - achievement.CurrentTimeSec;
                 }
             }
-            return "";
+            return -1;
         }
 
         List<IAchievement> GetAllAchievements(string category)
