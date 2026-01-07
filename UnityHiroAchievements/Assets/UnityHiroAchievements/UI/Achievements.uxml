@@ -9,7 +9,7 @@
     <ui:VisualElement name="achievements-main" class="heroic-main__background" style="padding: 30px; align-items: center; justify-content: center;">
         <ui:VisualElement name="content-container" style="width: 100%; height: 100%;">
             <ui:VisualElement name="tab-navigation" style="flex-direction: row; margin-bottom: 20px; justify-content: flex-start; height: auto; max-height: 20%; margin-left: 80px; align-items: auto; width: auto;">
-                <ui:Button name="tab-dailies" text="Daily" class="heroic-horizontal-tab-button">
+                <ui:Button name="tab-dailies" text="Daily" class="heroic-horizontal-tab-button" style="white-space: nowrap;">
                     <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
                 </ui:Button>
                 <ui:Button name="tab-quests" text="Quests" class="heroic-horizontal-tab-button">
@@ -18,6 +18,7 @@
                 <ui:Button name="tab-achievements" text="Achievements&#10;" class="heroic-horizontal-tab-button">
                     <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
                 </ui:Button>
+                <ui:Label name="reset-time" text="23:59:59" style="white-space: normal; margin-bottom: 16px; color: rgb(50, 50, 50); font-size: 22px; height: 35px; width: 235px;" />
             </ui:VisualElement>
             <ui:VisualElement name="achievements-container" style="flex-grow: 1; padding: 20px; border-radius: 15px; max-height: none; padding-top: 0;">
                 <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: space-between; min-height: auto;">

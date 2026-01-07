@@ -113,7 +113,7 @@ namespace HiroAchievements
             await _achievementsSystem.RefreshAsync();
 
             // Get all achievements (including locked ones)
-            var achievements = _achievementsSystem.GetAchievements();
+            var achievements = GetAllAchievements();
             AllAchievements.AddRange(achievements);
 
             // Get repeatable achievements (including locked ones)
@@ -132,6 +132,7 @@ namespace HiroAchievements
             RepeatAchievements.Clear();
 
             // Get all achievements (including locked)
+            Debug.Log(_currentCategory);
             var achievements = _achievementsSystem.GetAchievements(_currentCategory);
             AllAchievements.AddRange(achievements);
 
@@ -144,7 +145,8 @@ namespace HiroAchievements
 
         public List<IAchievement> GetFilteredAchievements()
         {
-          var result = _achievementsSystem.GetAchievements(_currentCategory);
+          Debug.Log(_currentCategory);
+          var result = GetAllAchievements(_currentCategory);
           Debug.Log(result.Count());
           return result.ToList();
         }
@@ -345,7 +347,7 @@ namespace HiroAchievements
             return (achievement.HasAvailableReward() || achievement.HasAvailableTotalReward()) && !achievement.IsClaimed() && achievement.Count >= achievement.MaxCount;
         }
 
-        public bool IsAchievementCLaimable(ISubAchievement subAchievement)
+        public bool IsAchievementClaimable(ISubAchievement subAchievement)
         {
             return subAchievement.HasAvailableReward() && subAchievement.ClaimTimeSec <= 0 && subAchievement.Count >= subAchievement.MaxCount;
         }
@@ -419,21 +421,44 @@ namespace HiroAchievements
 
         #endregion
 
-        #region Category Helpers
+        #region Helpers
 
-        public List<string> GetAllCategories()
+        public String GetResetTime()
         {
-            var categories = new HashSet<string> { "all", "dailies", "quests" };
-
-            foreach (var achievement in AllAchievements)
+            foreach(var achievement in GetAllAchievements(_currentCategory))
             {
-                if (!string.IsNullOrEmpty(achievement.Category))
+                if(achievement.ResetTimeSec > 0)
                 {
-                    categories.Add(achievement.Category);
+                    TimeSpan time = TimeSpan.FromSeconds(achievement.ResetTimeSec - achievement.CurrentTimeSec);
+                    return string.Format("{0:D2}:{1:D2}:{2:D2}", 
+                         time.Hours, 
+                         time.Minutes, 
+                         time.Seconds);
                 }
             }
+            return "";
+        }
 
-            return categories.ToList();
+        List<IAchievement> GetAllAchievements(string category)
+        {
+            var achievements = _achievementsSystem.GetAchievements(category);
+            var repeatedAchievements = _achievementsSystem.GetRepeatAchievements(category);
+            List<IAchievement> result = new List<IAchievement>();
+            result.AddRange(achievements);
+            result.AddRange(repeatedAchievements);
+
+            return result;
+        }
+
+        List<IAchievement> GetAllAchievements()
+        {
+            var achievements = _achievementsSystem.GetAchievements();
+            var repeatedAchievements = _achievementsSystem.GetRepeatAchievements();
+            List<IAchievement> result = new List<IAchievement>();
+            result.AddRange(achievements);
+            result.AddRange(repeatedAchievements);
+
+            return result;
         }
 
         #endregion

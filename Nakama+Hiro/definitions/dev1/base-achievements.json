@@ -432,6 +432,7 @@
             "name": "Login Reward",
             "description": "Welcome back! Log in to claim your daily reward.",
             "category": "daily",
+            "reset_cronexpr": "* * * * *",
             "max_count": 1,
             "reward": {
                 "guaranteed": {
@@ -455,6 +456,7 @@
             "name": "Daily Craft",
             "description": "Keep your crafting skills sharp.",
             "category": "daily",
+            "reset_cronexpr": "* * * * *",
             "max_count": 1,
             "reward": {
                 "guaranteed": {
@@ -475,6 +477,7 @@
             "name": "Daily Combat",
             "description": "Defeat 10 enemies to hone your combat skills.",
             "category": "daily",
+            "reset_cronexpr": "* * * * *",
             "max_count": 10,
             "reward": {
                 "guaranteed": {
