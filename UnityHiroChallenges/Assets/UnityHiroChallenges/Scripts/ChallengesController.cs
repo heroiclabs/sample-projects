@@ -66,7 +66,7 @@ namespace HiroChallenges
 
         private async void HandleStartSuccess(ISession session)
         {
-            // Cache Hiro systems.
+            // Initialize and cache Hiro system references
             _nakamaSystem = this.GetSystem<NakamaSystem>();
             _challengesSystem = this.GetSystem<ChallengesSystem>();
             _economySystem = this.GetSystem<EconomySystem>();
@@ -76,6 +76,7 @@ namespace HiroChallenges
             OnInitialized?.Invoke(session, this);
         }
 
+        // Called when switching between accounts using the account switcher.
         public void SwitchComplete()
         {
             _ = _view.RefreshChallenges();
@@ -86,6 +87,7 @@ namespace HiroChallenges
 
         #region Challenge Templates
 
+        // Loads available challenge templates from the system and returns their display names
         public async Task<List<string>> LoadChallengeTemplates()
         {
             _challengeTemplates.Clear();
@@ -121,7 +123,7 @@ namespace HiroChallenges
             var userChallengesResult = await _challengesSystem.ListChallengesAsync(null);
             Challenges.AddRange(userChallengesResult.Challenges);
 
-            // If we have a challenge selected, try to reselect it
+            // Try to reselect the previously selected challenge if it still exists
             foreach (var challenge in Challenges)
             {
                 if (challenge.Id != _selectedChallengeId) continue;
@@ -144,7 +146,6 @@ namespace HiroChallenges
             _selectedChallenge = challenge;
             _selectedChallengeId = _selectedChallenge.Id;
 
-            // Get detailed challenge info with scores
             var detailedChallenge = await _challengesSystem.GetChallengeAsync(_selectedChallenge.Id, true);
             return detailedChallenge.Scores.ToList();
         }
@@ -152,7 +153,6 @@ namespace HiroChallenges
         #endregion
 
         #region Challenge Lifecycle Operations
-
         public async Task CreateChallenge(int templateIndex, string challengeName, int maxParticipants,
             string inviteesInput,
             int delay, int duration, bool isOpen)
@@ -162,6 +162,7 @@ namespace HiroChallenges
 
             var selectedTemplate = _challengeTemplates.ElementAt(templateIndex);
 
+            // Validate and parse invitee usernames from a string of usernames separated by a comma.
             if (string.IsNullOrEmpty(inviteesInput))
                 throw new Exception("Invitees field cannot be empty. Please enter at least one username.");
 
@@ -174,6 +175,7 @@ namespace HiroChallenges
             if (inviteeUsernames.Count == 0)
                 throw new Exception("No valid usernames found. Please enter at least one username.");
 
+            // Convert usernames to user IDs via Nakama API
             var invitees = await _nakamaSystem.Client.GetUsersAsync(
                 _nakamaSystem.Session,
                 usernames: inviteeUsernames,
@@ -182,6 +184,7 @@ namespace HiroChallenges
 
             var inviteeIDs = invitees.Users.Select(user => user.Id).ToArray();
 
+            // Verify all usernames were found
             if (inviteeIDs.Length != inviteeUsernames.Count)
                 throw new Exception(
                     $"Could not find all users. Requested: {inviteeUsernames.Count}, Found: {inviteeIDs.Length}");
@@ -232,7 +235,6 @@ namespace HiroChallenges
         #endregion
 
         #region Challenge Participation Operations
-
         public async Task SubmitScore(int score, int subScore, string metadata)
         {
             if (_selectedChallenge == null) return;
@@ -250,6 +252,7 @@ namespace HiroChallenges
         {
             if (_selectedChallenge == null) return;
 
+            // Validate and parse invitee usernames from a string of usernames separated by a comma.
             if (string.IsNullOrEmpty(inviteesInput))
                 throw new Exception("Invitees field cannot be empty. Please enter at least one username.");
 
@@ -262,6 +265,7 @@ namespace HiroChallenges
             if (inviteeUsernames.Count == 0)
                 throw new Exception("No valid usernames found. Please enter at least one username.");
 
+            // Convert usernames to user IDs via Nakama API
             var invitees = await _nakamaSystem.Client.GetUsersAsync(
                 _nakamaSystem.Session,
                 usernames: inviteeUsernames,
@@ -270,6 +274,7 @@ namespace HiroChallenges
 
             var inviteeIDs = invitees.Users.Select(user => user.Id).ToArray();
 
+            // Verify all usernames were found
             if (inviteeIDs.Length != inviteeUsernames.Count)
                 throw new Exception(
                     $"Could not find all users. Requested: {inviteeUsernames.Count}, Found: {inviteeIDs.Length}");

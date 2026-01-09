@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcf7219bab7fe46a1ad266029b2fee19, type: 3}
+  m_Name: Readme
+  m_EditorClassIdentifier: 
+  icon: {fileID: 2800000, guid: 2287ceace33d64348b1c2701d0b0bd2e, type: 3}
+  title: Event Leaderboards, powered by Hiro
+  sections:
+  - heading: Event Leaderboards
+    text: The official sample project for the Hiro Event Leaderboards system. Built with minimal
+      boilerplate so you can easily copy the code into your project and adapt the
+      scripts and UI to suit your game.
+    linkText: 
+    url: 
+  - heading: Resources
+    text: 
+    linkText: 
+    url: 
+  - heading: 
+    text: 
+    linkText: Docs
+    url: https://heroiclabs.com/docs/sample-projects
+  - heading: 
+    text: 
+    linkText: Community forums
+    url: https://forum.heroiclabs.com/
+  - heading: 
+    text: 
+    linkText: Github
+    url: https://github.com/heroiclabs/sample-projects
+  - heading: 
+    text: 
+    linkText: Hiro Unity Client SDK Guide
+    url: https://heroiclabs.com/docs/hiro/unity/event-leaderboards/
+  - heading: 
+    text: 
+    linkText: Learn about Hiro
+    url: https://heroiclabs.com/docs/hiro/concepts/introduction/
+  loadedLayout: 1

@@ -3,7 +3,7 @@ using UnityEditor;
 using System.IO;
 using System.Reflection;
 
-namespace UnityNakamaFriends.Editor
+namespace NakamaFriends.Editor
 {
     [CustomEditor(typeof(Readme))]
     [InitializeOnLoad]

@@ -1,0 +1,745 @@
+.heroic-button {
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("project://database/Assets/UnityHiroStore/HeroicUI/Button/button_rounded_h84_white.png?fileID=-5596177910589249262&guid=31bbd3f34dbe14a9b83b0893fe342659&type=3#button_rounded_h84_white_0");
+    font-size: 30px;
+    color: rgb(255, 255, 255);
+    -unity-font-definition: url("project://database/Assets/UnityHiroStore/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-style: bold;
+    padding-left: 64px;
+    padding-right: 64px;
+    -unity-background-scale-mode: scale-and-crop;
+    height: 90px;
+    -unity-slice-left: 50;
+    -unity-slice-right: 50;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: rgb(121, 99, 255);
+    transition-property: scale;
+    transition-duration: 0.1s;
+}
+
+.heroic-button:hover:enabled {
+    scale: 1.05 1.05;
+}
+
+.heroic-button:active {
+    -unity-background-image-tint-color: rgb(84, 69, 177);
+}
+
+.heroic-button-dark {
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 32px;
+    color: rgb(255, 255, 255);
+    -unity-font-definition: url("project://database/Assets/UnityHiroStore/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-style: bold;
+    padding-left: 64px;
+    padding-right: 64px;
+    -unity-background-scale-mode: scale-and-crop;
+    height: 90px;
+    -unity-slice-left: 50;
+    -unity-slice-right: 50;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: rgb(85, 100, 153);
+    transition-property: scale;
+    transition-duration: 0.1s;
+    background-image: url("project://database/Assets/UnityHiroStore/HeroicUI/Button/button_rounded_h84_white.png?fileID=-5596177910589249262&guid=31bbd3f34dbe14a9b83b0893fe342659&type=3#button_rounded_h84_white_0");
+}
+
+.heroic-button-dark:hover:enabled {
+    scale: 1.05 1.05;
+}
+
+.heroic-button-dark:active {
+    -unity-background-image-tint-color: rgb(55, 65, 99);
+}
+
+.heroic-button-gray {
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 32px;
+    color: rgb(100, 100, 100);
+    -unity-font-definition: url("project://database/Assets/UnityHiroStore/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-style: bold;
+    padding-left: 64px;
+    padding-right: 64px;
+    -unity-background-scale-mode: scale-and-crop;
+    height: 90px;
+    -unity-slice-left: 50;
+    -unity-slice-right: 50;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    transition-property: scale;
+    transition-duration: 0.1s;
+    background-image: url("project://database/Assets/UnityHiroStore/HeroicUI/Button/button_rounded_h84_white.png?fileID=-5596177910589249262&guid=31bbd3f34dbe14a9b83b0893fe342659&type=3#button_rounded_h84_white_0");
+    -unity-background-image-tint-color: rgb(239, 241, 243);
+}
+
+.heroic-button-gray:hover:enabled {
+    scale: 1.05 1.05;
+}
+
+.heroic-button-gray:active {
+    -unity-background-image-tint-color: rgb(143, 143, 149);
+}
+
+.heroic-button-secondary {
+    -unity-background-image-tint-color: rgb(239, 241, 243);
+    color: rgb(96, 91, 207);
+}
+
+.heroic-button-secondary:active {
+    -unity-background-image-tint-color: rgb(220, 222, 225);
+}
+
+.heroic-button-red {
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 32px;
+    color: rgb(255, 255, 255);
+    -unity-font-definition: url("project://database/Assets/UnityHiroStore/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-style: bold;
+    padding-left: 64px;
+    padding-right: 64px;
+    -unity-background-scale-mode: scale-and-crop;
+    height: 90px;
+    -unity-slice-left: 50;
+    -unity-slice-right: 50;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: rgb(224, 50, 50);
+    transition-property: scale;
+    transition-duration: 0.1s;
+    background-image: url("project://database/Assets/UnityHiroStore/HeroicUI/Button/button_rounded_h84_white.png?fileID=-5596177910589249262&guid=31bbd3f34dbe14a9b83b0893fe342659&type=3#button_rounded_h84_white_0");
+}
+
+.heroic-button-red:hover:enabled {
+    scale: 1.05 1.05;
+}
+
+.heroic-button-red:active {
+    -unity-background-image-tint-color: rgb(160, 34, 34);
+}
+
+.heroic-button-square {
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(255, 255, 255);
+    font-size: 30px;
+    -unity-font-definition: url("project://database/Assets/UnityHiroStore/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-style: bold;
+    height: 70px;
+    padding-right: 30px;
+    padding-left: 30px;
+    background-image: url("project://database/Assets/UnityHiroStore/HeroicUI/Button/button_rounded_rectangle_r14_white.png?fileID=7399481762379025213&guid=f01c12e8a6e6a4046b29765e026b60c2&type=3#button_rounded_rectangle_r14_white_0");
+    -unity-slice-left: 25;
+    -unity-slice-right: 25;
+    -unity-slice-top: 25;
+    -unity-slice-bottom: 25;
+    margin: 10px;
+    -unity-background-scale-mode: scale-and-crop;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: rgb(121, 99, 255);
+    transition-property: scale;
+    transition-duration: 0.1s;
+}
+
+.heroic-button-square:hover:enabled {
+    scale: 1.05 1.05;
+}
+
+.heroic-button-square:active {
+    -unity-background-image-tint-color: rgb(84, 69, 177);
+}
+
+.heroic-stepper {
+    background-image: url("project://database/Assets/UnityHiroStore/HeroicUI/Stepper/stepper_button_next_violet.png?fileID=2800000&guid=295ce4045d8694012af9e05244b2501c&type=3#stepper_button_next_violet");
+    background-color: rgba(0, 0, 0, 0);
+    -unity-background-scale-mode: scale-and-crop;
+    width: 70px;
+    height: 76px;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+}
+
+.heroic-stepper:hover:enabled {
+    scale: 1.05 1.05;
+}
+
+.heroic-stepper:active {
+    -unity-background-image-tint-color: rgb(177, 177, 177);
+}
+
+.heroic-table-head {
+    font-size: 26px;
+    -unity-text-align: middle-center;
+    -unity-font-definition: url("project://database/Assets/UnityHiroStore/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-style: bold;
+    color: rgb(129, 129, 129);
+    margin: 0;
+    padding: 0;
+}
+
+.heroic-vertical-tab-button {
+    font-size: 32px;
+    -unity-font-definition: url("project://database/Assets/UnityHiroStore/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-style: bold;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(31, 49, 81);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    background-image: url("project://database/Assets/UnityHiroStore/HeroicUI/Tab/tab_01_white_bg_default.png?fileID=-7469057409206181842&guid=833e01ea4d81a481eb2abe3f8b2defed&type=3#tab_01_white_bg_default_0");
+    -unity-slice-left: 10;
+    -unity-slice-top: 10;
+    -unity-slice-right: 20;
+    -unity-slice-bottom: 10;
+    transition-property: scale;
+    transition-duration: 0.1s;
+    height: 100px;
+    flex-direction: row;
+    -unity-text-align: middle-left;
+    padding-left: 80px;
+    overflow: visible;
+}
+
+.heroic-vertical-tab-button:hover:enabled {
+    font-size: 32px;
+    -unity-font-definition: url("project://database/Assets/UnityHiroStore/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-style: bold;
+    overflow: visible;
+    scale: 1.05 1.05;
+}
+
+.heroic-vertical-tab-button:active {
+    overflow: visible;
+    -unity-background-image-tint-color: rgb(242, 242, 242);
+}
+
+.heroic-vertical-tab-button.selected {
+    font-size: 32px;
+    -unity-font-definition: url("project://database/Assets/UnityHiroStore/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-style: bold;
+    background-image: url("project://database/Assets/UnityHiroStore/HeroicUI/Tab/tab_01_violet_focus_bg.png?fileID=-138532423673759688&guid=7220fe2d7b94943c1b0b447d81765648&type=3#tab_01_violet_focus_bg_0");
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px 10px 25px 25px;
+}
+
+.heroic-vertical-tab-button.selected:active {
+    background-color: rgb(242, 242, 242);
+}
+
+.heroic-vertical-tab-button.selected .heroic-vertical-tab-button__arrow {
+    display: flex;
+}
+
+.heroic-vertical-tab-button__arrow {
+    position: absolute;
+    right: -10px;
+    background-image: url("project://database/Assets/UnityHiroStore/HeroicUI/Tab/tab_01_violet_focus_tail_right.png?fileID=2800000&guid=3e9c4b4a8713e46e8ab71b3d8e9ac523&type=3#tab_01_violet_focus_tail_right");
+    width: 12px;
+    -unity-background-scale-mode: scale-to-fit;
+    height: 100%;
+    align-self: center;
+    display: none;
+}
+
+.heroic-horizontal-tab-button {
+    font-size: 32px;
+    -unity-font-definition: url("project://database/Assets/UnityHiroStore/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-style: bold;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(31, 49, 81);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    background-image: url("project://database/Assets/UnityHiroStore/HeroicUI/Tab/tab_01_white_bg_default.png?fileID=-7469057409206181842&guid=833e01ea4d81a481eb2abe3f8b2defed&type=3#tab_01_white_bg_default_0");
+    -unity-slice-left: 10;
+    -unity-slice-top: 10;
+    -unity-slice-right: 20;
+    -unity-slice-bottom: 10;
+    transition-property: scale;
+    transition-duration: 0.1s;
+    height: 75px;
+    flex-direction: column;
+    -unity-text-align: middle-center;
+    overflow: visible;
+    width: 250px;
+}
+
+.heroic-horizontal-tab-button:hover:enabled {
+    font-size: 32px;
+    -unity-font-definition: url("project://database/Assets/UnityHiroStore/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-style: bold;
+    overflow: visible;
+    scale: 1.05 1.05;
+}
+
+.heroic-horizontal-tab-button:active {
+    overflow: visible;
+    -unity-background-image-tint-color: rgb(242, 242, 242);
+}
+
+.heroic-horizontal-tab-button.selected {
+    font-size: 32px;
+    -unity-font-definition: url("project://database/Assets/UnityHiroStore/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-style: bold;
+    background-image: url("project://database/Assets/UnityHiroStore/HeroicUI/Tab/tab_01_violet_focus_bg.png?fileID=-138532423673759688&guid=7220fe2d7b94943c1b0b447d81765648&type=3#tab_01_violet_focus_bg_0");
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px 10px 25px 25px;
+}
+
+.heroic-horizontal-tab-button.selected:active {
+    background-color: rgb(242, 242, 242);
+}
+
+.heroic-horizontal-tab-button.selected .heroic-horizontal-tab-button__arrow {
+    display: flex;
+}
+
+.heroic-horizontal-tab-button__arrow {
+    position: absolute;
+    background-image: url("project://database/Assets/UnityHiroStore/HeroicUI/Tab/tab_01_violet_focus_tail_up_down.png?fileID=2800000&guid=7a65a604dc43c462e9c7b1c34bf7be57&type=3#tab_01_violet_focus_tail_up_down");
+    width: 16px;
+    -unity-background-scale-mode: scale-to-fit;
+    height: 100%;
+    align-self: center;
+    display: none;
+    bottom: -40px;
+}
+
+.heroic-close-button {
+    top: -10px;
+    right: -10px;
+    width: 56px;
+    height: 56px;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("project://database/Assets/UnityHiroStore/HeroicUI/Popup/button_circle_h69_merged_icon_close.png?fileID=2800000&guid=f635cd0a8ec764f4c8cc0eb1faf32dd2&type=3#button_circle_h69_merged_icon_close");
+    position: absolute;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    transition-property: scale;
+    transition-duration: 0.1s;
+}
+
+.heroic-close-button:hover {
+    scale: 1.05 1.05;
+}
+
+.heroic-close-button:active {
+    -unity-background-image-tint-color: rgb(177, 177, 177);
+}
+
+.heroic-title {
+    -unity-font-definition: url("project://database/Assets/UnityHiroStore/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    font-size: 46px;
+    -unity-font-style: bold;
+    -unity-text-align: upper-center;
+}
+
+.heroic-top__background {
+    background-color: rgb(214, 215, 223);
+    padding: 10px;
+}
+
+.heroic-main__background {
+    flex-grow: 1;
+    background-color: rgb(240, 241, 243);
+    flex-direction: row;
+}
+
+.heroic-main__panel {
+    background-image: url("project://database/Assets/UnityHiroStore/HeroicUI/Tab/tab_01_white_bg_default.png?fileID=-7469057409206181842&guid=833e01ea4d81a481eb2abe3f8b2defed&type=3#tab_01_white_bg_default_0");
+    -unity-background-scale-mode: scale-and-crop;
+    -unity-slice-left: 25;
+    -unity-slice-top: 25;
+    -unity-slice-right: 25;
+    -unity-slice-bottom: 25;
+    background-color: rgba(0, 0, 0, 0);
+    -unity-slice-scale: 1.5px;
+}
+
+.heroic-error-popup__background {
+    flex-grow: 1;
+    position: absolute;
+    right: 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.78);
+    align-items: center;
+    justify-content: center;
+}
+
+.heroic-error-popup__panel {
+    background-image: url("project://database/Assets/UnityHiroStore/HeroicUI/Popup/popup_white_bg.png?fileID=2800000&guid=429e1dfddd1074610a96f4bd98b268d3&type=3#popup_white_bg");
+    -unity-slice-left: 50;
+    -unity-slice-top: 50;
+    -unity-slice-right: 50;
+    -unity-slice-bottom: 50;
+    width: 50%;
+    height: 50%;
+}
+
+.heroic-error-popup__icon {
+    background-image: url("project://database/Assets/UnityHiroStore/HeroicUI/IconPictogram/128/icon_exclamation_round.png?fileID=2800000&guid=15c620183627e4fb783260284ac17675&type=3#icon_exclamation_round");
+    -unity-background-image-tint-color: rgb(224, 50, 50);
+    -unity-background-scale-mode: scale-to-fit;
+    height: 25%;
+    flex-shrink: 0;
+    margin-top: 10px;
+}
+
+.heroic-error-popup__message {
+    flex-grow: 1;
+    -unity-text-align: middle-center;
+    font-size: 32px;
+    -unity-font-definition: url("project://database/Assets/UnityHiroStore/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-style: bold;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    white-space: normal;
+}
+
+.heroic-divider {
+    background-image: url("project://database/Assets/UnityHiroStore/HeroicUI/Frame/divider_horizontal_dotline_transparent_gray.png?fileID=2800000&guid=96adb1bf817974235bc1fc635af8b2f3&type=3#divider_horizontal_dotline_transparent_gray");
+    background-size: 20px 4px;
+    background-repeat: space no-repeat;
+    height: 4px;
+}
+
+.heroic-list__head {
+    height: 66px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    flex-shrink: 0;
+    flex-direction: row;
+    border-bottom-color: rgb(155, 152, 253);
+    border-bottom-width: 5px;
+}
+
+.heroic-list__title {
+    -unity-font-style: bold;
+    font-size: 26px;
+    -unity-font-definition: url("project://database/Assets/UnityHiroStore/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    color: rgb(31, 49, 81);
+}
+
+.heroic-list-view__item-label {
+    -unity-text-align: middle-center;
+    font-size: 32px;
+    -unity-font-definition: url("project://database/Assets/UnityHiroStore/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-style: bold;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.unity-list-view__item {
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(27, 27, 27);
+}
+
+.unity-base-field {
+    flex-direction: column;
+    margin-right: 10px;
+}
+
+.unity-base-field__input {
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("project://database/Assets/UnityHiroStore/HeroicUI/TextInput/text_input_merged_gray.png?fileID=2800000&guid=c0934a7a45f1d4937aae187c0cfbe078&type=3#text_input_merged_gray");
+    -unity-slice-left: 25;
+    -unity-slice-top: 25;
+    -unity-slice-right: 25;
+    -unity-slice-bottom: 25;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-radius: 0;
+    overflow: hidden;
+    height: 75px;
+    padding-left: 18px;
+    padding-right: 18px;
+    width: 100%;
+}
+
+.unity-base-field__label {
+    -unity-font-definition: url("project://database/Assets/UnityHiroStore/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-style: bold;
+    min-width: 0;
+    font-size: 26px;
+    color: rgb(27, 27, 27);
+}
+
+.unity-base-text-field {
+    font-size: 30px;
+    -unity-font-definition: url("project://database/Assets/UnityHiroStore/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-style: bold;
+}
+
+.unity-enum-field {
+    font-size: 30px;
+    -unity-font-style: bold;
+    -unity-font-definition: url("project://database/Assets/UnityHiroStore/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+}
+
+.unity-enum-field__arrow {
+    background-image: url("project://database/Assets/UnityHiroStore/HeroicUI/Dropdown/dropdown_button_tail_default.png?fileID=2800000&guid=5929a856508804b18b7d6452a985c34a&type=3#dropdown_button_tail_default");
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    -unity-background-scale-mode: scale-to-fit;
+    width: 20px;
+    height: 20px;
+}
+
+.unity-enum-field__input {
+    width: 375px;
+}
+
+.unity-popup-field {
+    font-size: 30px;
+    -unity-font-style: bold;
+    -unity-font-definition: url("project://database/Assets/UnityHiroStore/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+}
+
+.unity-base-popup-field__arrow {
+    background-image: url("project://database/Assets/UnityHiroStore/HeroicUI/Dropdown/dropdown_button_tail_default.png?fileID=2800000&guid=5929a856508804b18b7d6452a985c34a&type=3#dropdown_button_tail_default");
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    -unity-background-scale-mode: scale-to-fit;
+    width: 20px;
+    height: 20px;
+}
+
+.unity-base-popup-field__input {
+    width: 100%;
+}
+
+.unity-popup-field__input {
+    width: 100%;
+}
+
+.unity-list-view__empty-label {
+    display: none;
+}
+
+.unity-scroll-view__content-container {
+    min-height: 100%;
+}
+
+.unity-base-slider__dragger {
+    background-color: white;
+    border-color: rgb(121, 99, 255);
+    border-radius: 20px;
+    border-top-width: 12px;
+    border-left-width: 3px;
+    border-bottom-width: 12px;
+    border-right-width: 3px;
+}
+
+.unity-base-slider__tracker {
+    background-color: rgb(121, 99, 255);
+}
+
+.unity-slider__input {
+    background-image: none;
+    padding: 0;
+}
+
+.unity-repeat-button {
+    background-color: rgb(121, 99, 255);
+    -unity-background-image-tint-color: white;
+    border-width: 0;
+    border-radius: 0;
+}
+
+.unity-scroller__high-button {
+    background-image: url("project://database/Assets/UnityHiroStore/HeroicUI/IconPictogram/128/icon_arrow_bottom.png?fileID=2800000&guid=7f0f961e425ca4b2eb9cd6b35bdd8a75&type=3#icon_arrow_bottom");
+}
+
+.unity-scroller__low-button {
+    background-image: url("project://database/Assets/UnityHiroStore/HeroicUI/IconPictogram/128/icon_arrow_up-1.png?fileID=2800000&guid=6074a299ff9754f79a0024fec1b0750a&type=3#icon_arrow_up-1");
+}
+
+.unity-toggle__input {
+    background-image: none;
+    padding-right: 0;
+    padding-left: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    align-items: flex-start;
+    align-self: center;
+    height: 100%;
+    flex-grow: 1;
+}
+
+.unity-toggle__checkmark {
+    -unity-background-scale-mode: scale-to-fit;
+    background-image: url("project://database/Assets/UnityHiroStore/HeroicUI/Checkbox/checkbox_unchecked.png?fileID=2800000&guid=2d7fc3d81a5ea41f39f7f069f07a09c8&type=3#checkbox_unchecked");
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    background-color: rgba(255, 255, 255, 0);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    height: 100%;
+    width: 45px;
+}
+
+.unity-toggle:checked .unity-toggle__checkmark {
+    background-image: url("project://database/Assets/UnityHiroStore/HeroicUI/Checkbox/checkbox_checked.png?fileID=2800000&guid=98e436c782ea7448e90590045e5658f2&type=3#checkbox_checked");
+}
+
+.unity-base-text-field__input--placeholder {
+    color: rgba(156, 156, 156, 0.52);
+}
+
+.store-item-button {
+    width: 100%;
+    height: 60px;
+    border-radius: 30px;
+    border-width: 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    background-color: rgb(227, 220, 252);
+    background-image: none;
+}
+
+.store-item-button Label {
+    color: rgb(39, 47, 76);
+    font-size: 18px;
+    -unity-font-style: bold;
+}
+
+.store-item-button--free {
+    background-color: rgb(121, 99, 255);
+}
+
+.store-item-button--free Label {
+    color: rgb(255, 255, 255);
+}
+
+.featured-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 100px;
+    height: 100px;
+    background-image: url("project://database/Assets/UnityHiroStore/HeroicUI/UI_etc/badge_burst_pink.png?fileID=-2680266022368906025&guid=39f1585a2ae114b86964f05080ccc770&type=3#badge_burst_pink_0");
+    background-color: rgba(0, 0, 0, 0);
+    -unity-background-scale-mode: scale-to-fit;
+    color: white;
+    font-size: 24px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    rotate: 15deg;
+}
+
+.featured-value-amount {
+    position: absolute;
+    bottom: -12px;
+    background-color: rgb(230, 229, 250);
+    color: rgb(31, 49, 81);
+    padding: 4px 16px;
+    border-radius: 12px;
+    font-size: 18px;
+    -unity-font-style: bold;
+}
+
+.featured-reward {
+    width: 100px;
+    height: 100px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.featured-reward__icon {
+    width: 60px;
+    height: 60px;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+/* Featured Item Themes */
+.featured-item--primary {
+    background-color: rgb(255, 157, 145);
+}
+
+.featured-item--primary .featured-purchase-button {
+    background-color: rgb(255, 135, 137);
+}
+
+.featured-item--secondary {
+    background-color: rgb(133, 210, 255);
+}
+
+.featured-item--secondary .featured-purchase-button {
+    background-color: rgb(123, 198, 252);
+}
+
+/* Reward Modal Elements */
+#reward-list .unity-scroll-view__content-container {
+    align-items: center;
+}
+
+.reward-item {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    padding-top: 10px;
+}
+
+.reward-item__icon {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.reward-item__label {
+    font-size: 28px;
+    color: rgb(50, 50, 50);
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+}

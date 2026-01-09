@@ -1,0 +1,8 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
+    <ui:VisualElement name="zone-container" style="flex-grow: 1; flex-direction: row; padding-left: 10px; padding-right: 10px; justify-content: center; align-items: center; height: 110px; margin-right: 10px; margin-left: 10px; margin-top: 10px;">
+        <ui:VisualElement name="arrow-left" style="width: 40px; height: 40px; background-image: url(&quot;project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/IconPictogram/128/icon_arrow_up.png?fileID=2800000&amp;guid=f4c2e35863f0d4f9eb99f7f8a50f2b2f&amp;type=3#icon_arrow_up&quot;); margin-right: 15px;" />
+        <ui:Label text="PROMOTION ZONE" name="zone-label" class="heroic-list-view__item-label" style="font-size: 28px; -unity-text-align: middle-center; -unity-font-style: bold; color: rgb(76, 175, 80);" />
+        <ui:VisualElement name="arrow-right" style="width: 40px; height: 40px; background-image: url(&quot;project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/IconPictogram/128/icon_arrow_up.png?fileID=2800000&amp;guid=f4c2e35863f0d4f9eb99f7f8a50f2b2f&amp;type=3#icon_arrow_up&quot;); margin-left: 15px;" />
+    </ui:VisualElement>
+</ui:UXML>

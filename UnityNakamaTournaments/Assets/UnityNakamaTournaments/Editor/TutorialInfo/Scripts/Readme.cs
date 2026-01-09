@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace UnityNakamaTournaments.Editor
+namespace NakamaTournaments.Editor
 {
     public class Readme : ScriptableObject
     {

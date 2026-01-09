@@ -50,7 +50,7 @@
                     <ui:Button text="Grant Item" name="item-grant" class="heroic-button" style="flex-grow: 1; flex-direction: row; width: 40px; padding-right: 10px; padding-left: 10px;" />
                 </ui:VisualElement>
                 <ui:VisualElement style="flex-direction: row; align-items: flex-end; justify-content: flex-end;">
-                    <ui:Button text="Refresh" name="inventory-refresh" class="heroic-button" style="margin-right: 25px; -unity-background-image-tint-color: rgb(239, 241, 243); color: rgb(42, 48, 89); background-image: url(&quot;project://database/Assets/UnityHiroInventory/HeroicUI/Button/button_rounded_h84_white_shadow.png?fileID=-1247119682716566457&amp;guid=4f539c64ecb59456bab590ecc5a4be5a&amp;type=3#button_rounded_h84_white_shadow_0&quot;);" />
+                    <ui:Button text="Refresh" name="inventory-refresh" class="heroic-button" style="margin-right: 25px; -unity-background-image-tint-color: rgb(255, 255, 255); color: rgb(42, 48, 89); background-image: url(&quot;project://database/Assets/UnityHiroInventory/HeroicUI/Button/button_rounded_h84_white_shadow.png?fileID=-1247119682716566457&amp;guid=4f539c64ecb59456bab590ecc5a4be5a&amp;type=3#button_rounded_h84_white_shadow_0&quot;);" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
