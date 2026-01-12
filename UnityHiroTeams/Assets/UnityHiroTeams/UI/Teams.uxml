@@ -79,6 +79,9 @@
                                     <ui:Label text="-" name="preview-access-value" class="heroic-data-row__value" />
                                 </ui:VisualElement>
                             </ui:VisualElement>
+                            <ui:VisualElement name="preview-pending-message" style="display: none; background-color: rgba(255, 193, 7, 0.15); border-radius: 8px; padding: 15px; margin-top: 10px; align-items: center;">
+                                <ui:Label text="Your request to join this team is pending approval" style="font-size: 22px; color: rgb(180, 140, 0); -unity-font-style: bold; -unity-text-align: middle-center;" />
+                            </ui:VisualElement>
                         </ui:VisualElement>
                         <ui:VisualElement name="content-members" class="heroic-tab-content" style="padding: 0;">
                             <ui:ListView name="team-members-list" fixed-item-height="110" style="flex-grow: 1;" />
@@ -168,10 +171,7 @@
                     <ui:Label text="CREATE TEAM" class="heroic-title" />
                 </ui:VisualElement>
                 <ui:VisualElement name="create-modal-content" style="height: auto; align-self: center; align-items: center; width: 100%; padding-left: 30px; padding-right: 30px; padding-top: 30px; padding-bottom: 30px; justify-content: flex-start;">
-                    <ui:VisualElement name="VisualElement" style="flex-direction: row; width: 100%; height: auto;">
-                        <ui:TextField label="Name" placeholder-text="Enter text..." name="create-modal-name" style="width: 75%; padding-right: 20px; margin-right: 0; margin-left: 0;" />
-                        <ui:IntegerField label="Max Count" value="30" name="create-modal-max-count" style="width: 25%; margin-right: 0; margin-left: 0;" />
-                    </ui:VisualElement>
+                    <ui:TextField label="Name" placeholder-text="Enter text..." name="create-modal-name" style="width: 100%; margin-right: 0; margin-left: 0;" />
                     <ui:VisualElement style="flex-direction: row; width: 100%; height: auto; align-items: center; margin-top: 8px;">
                         <ui:VisualElement style="width: 40%; align-items: center;">
                             <ui:VisualElement name="create-modal-avatar-background" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/UI_etc/clan_in_red.png?fileID=2800000&amp;guid=9c64b8175de6b4d98a9096473f7d0e50&amp;type=3#clan_in_red&quot;); -unity-background-scale-mode: scale-to-fit; background-size: 116px 116px; min-height: 128px; min-width: 128px;">
@@ -192,7 +192,7 @@
                         <ui:TextField label="Description" placeholder-text="Enter text..." name="create-modal-description" multiline="true" style="height: 100%; width: 60%; margin-right: 0; margin-left: 0; white-space: normal;" />
                     </ui:VisualElement>
                     <ui:VisualElement name="VisualElement" style="height: auto; justify-content: flex-start; align-self: auto; flex-direction: row; width: 100%; align-items: stretch; margin-top: 8px;">
-                        <ui:Toggle label="Open (anyone can join)" name="create-modal-open" toggle-on-label-click="false" style="flex-direction: column; align-items: flex-start; height: auto; width: 40%; justify-content: flex-start; margin-right: 0; margin-top: 0; margin-bottom: 0; margin-left: 0;" />
+                        <ui:Toggle label="Anyone can join" name="create-modal-open" toggle-on-label-click="false" style="flex-direction: row; align-items: center; height: auto; width: 40%; justify-content: flex-start; margin-right: 0; margin-top: 0; margin-bottom: 0; margin-left: 0;" />
                         <ui:VisualElement name="VisualElement" style="width: 60%; margin-right: 6px;">
                             <ui:DropdownField label="Language" name="create-modal-language" index="0" choices="English,French,Portuguese" style="width: 100%; overflow: visible;" />
                         </ui:VisualElement>

@@ -62,7 +62,6 @@ namespace HiroTeams
         private VisualElement _createModal;
         private TextField _modalNameField;
         private TextField _modalDescriptionField;
-        private IntegerField _modalMaxCountField;
         private Toggle _modalOpenToggle;
         private DropdownField _modalLanguageDropdown;
         private VisualElement _modalAvatarBackground;
@@ -113,6 +112,7 @@ namespace HiroTeams
         private Label _previewAccessValue;
         private Label _previewWinsValue;
         private Label _previewPointsValue;
+        private VisualElement _previewPendingMessage;
 
         // About tab elements
         private Label _aboutLanguageValue;
@@ -339,7 +339,6 @@ namespace HiroTeams
             _createModal = rootElement.Q<VisualElement>("create-modal");
             _modalNameField = rootElement.Q<TextField>("create-modal-name");
             _modalDescriptionField = rootElement.Q<TextField>("create-modal-description");
-            _modalMaxCountField = rootElement.Q<IntegerField>("create-modal-max-count");
             _modalOpenToggle = rootElement.Q<Toggle>("create-modal-open");
             _modalLanguageDropdown = rootElement.Q<DropdownField>("create-modal-language");
             _modalAvatarBackground = rootElement.Q<VisualElement>("create-modal-avatar-background");
@@ -438,6 +437,7 @@ namespace HiroTeams
             _previewAccessValue = rootElement.Q<Label>("preview-access-value");
             _previewWinsValue = rootElement.Q<Label>("preview-wins-value");
             _previewPointsValue = rootElement.Q<Label>("preview-points-value");
+            _previewPendingMessage = rootElement.Q<VisualElement>("preview-pending-message");
 
             // About tab elements
             _aboutLanguageValue = rootElement.Q<Label>("about-language-value");
@@ -616,6 +616,11 @@ namespace HiroTeams
                 }
                 PopulatePreview();
                 HideAllActionButtons();
+
+                // Show pending message if user has a pending join request
+                _previewPendingMessage.style.display = viewerState == TeamMemberState.JoinRequest
+                    ? DisplayStyle.Flex
+                    : DisplayStyle.None;
             }
 
             _selectedTeamPanel.style.display = DisplayStyle.Flex;
@@ -1099,7 +1104,6 @@ namespace HiroTeams
             _selectedAvatarIconIndex = 0;
             _modalNameField.value = string.Empty;
             _modalDescriptionField.value = string.Empty;
-            _modalMaxCountField.value = 30;
             _modalOpenToggle.value = true;
             _modalLanguageDropdown.index = 0; // Default to English
             UpdateCreateModalAvatar();
