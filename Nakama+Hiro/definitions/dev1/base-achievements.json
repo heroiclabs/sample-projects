@@ -1,0 +1,496 @@
+{
+    "achievements": {
+        "masterExplorer": {
+            "name": "Master Explorer",
+            "description": "An adventurer who has charted every corner of the world. Complete all exploration objectives across different zones.",
+            "category": "achievement",
+            "count": 1,
+            "max_count": 1,
+            "reward": {
+                "guaranteed": {
+                    "currencies": {
+                        "coins": {
+                            "min": 1000
+                        },
+                        "gems": {
+                            "min": 50
+                        }
+                    },
+                    "items": {
+                        "golden_key": {
+                            "min": 2
+                        },
+                        "mana_potion": {
+                            "min": 5
+                        }
+                    }
+                }
+            },
+            "sub_achievements": {
+                "exploreForest": {
+                    "name": "Forest Explorer",
+                    "description": "Discover all locations in the Forest Zone.",
+                    "category": "achievement",
+                    "max_count": 10,
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": {
+                                "coins": {
+                                    "min": 200
+                                }
+                            }
+                        }
+                    }
+                },
+                "exploreMountains": {
+                    "name": "Mountain Climber",
+                    "description": "Discover all locations in the Mountain Zone.",
+                    "category": "achievement",
+                    "max_count": 8,
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": {
+                                "coins": {
+                                    "min": 200
+                                }
+                            }
+                        }
+                    }
+                },
+                "exploreDesert": {
+                    "name": "Desert Wanderer",
+                    "description": "Discover all locations in the Desert Zone.",
+                    "category": "achievement",
+                    "max_count": 12,
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": {
+                                "coins": {
+                                    "min": 250
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "craftingMaster": {
+            "name": "Crafting Master",
+            "description": "A legendary artisan who has mastered every crafting discipline.",
+            "category": "achievement",
+            "count": 1,
+            "max_count": 1,
+            "reward": {
+                "guaranteed": {
+                    "currencies": {
+                        "coins": {
+                            "min": 1500
+                        },
+                        "gems": {
+                            "min": 75
+                        }
+                    },
+                    "items": {
+                        "iron_sword": {
+                            "min": 3
+                        },
+                        "lucky_charm": {
+                            "min": 1
+                        }
+                    }
+                }
+            },
+            "sub_achievements": {
+                "weaponsmith": {
+                    "name": "Legendary Weaponsmith",
+                    "description": "Craft 25 weapons of any type.",
+                    "category": "achievement",
+                    "max_count": 25,
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": {
+                                "coins": {
+                                    "min": 300
+                                }
+                            }
+                        }
+                    }
+                },
+                "armorsmith": {
+                    "name": "Master Armorsmith",
+                    "description": "Craft 30 pieces of armor.",
+                    "category": "achievement",
+                    "max_count": 30,
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": {
+                                "coins": {
+                                    "min": 350
+                                }
+                            }
+                        }
+                    }
+                },
+                "alchemist": {
+                    "name": "Expert Alchemist",
+                    "description": "Brew 50 potions of any kind.",
+                    "category": "achievement",
+                    "max_count": 50,
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": {
+                                "coins": {
+                                    "min": 250
+                                }
+                            }
+                        }
+                    }
+                },
+                "enchanter": {
+                    "name": "Arcane Enchanter",
+                    "description": "Enchant 20 items with magical properties.",
+                    "category": "achievement",
+                    "max_count": 20,
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": {
+                                "coins": {
+                                    "min": 400
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "combatVeteran": {
+            "name": "Combat Veteran",
+            "description": "A battle-hardened warrior who has conquered every combat challenge.",
+            "category": "achievement",
+            "count": 1,
+            "max_count": 1,
+            "reward": {
+                "guaranteed": {
+                    "currencies": {
+                        "coins": {
+                            "min": 2000
+                        },
+                        "gems": {
+                            "min": 100
+                        }
+                    },
+                    "items": {
+                        "lucky_charm": {
+                            "min": 2
+                        },
+                        "iron_sword": {
+                            "min": 2
+                        },
+                        "mana_potion": {
+                            "min": 10
+                        }
+                    }
+                }
+            },
+            "sub_achievements": {
+                "slayBoss1": {
+                    "name": "Dragon Slayer",
+                    "description": "Defeat the Ancient Dragon.",
+                    "category": "achievement",
+                    "max_count": 1,
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": {
+                                "coins": {
+                                    "min": 500
+                                }
+                            }
+                        }
+                    }
+                },
+                "slayBoss2": {
+                    "name": "Lich Hunter",
+                    "description": "Defeat the Undead Lich.",
+                    "category": "achievement",
+                    "max_count": 1,
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": {
+                                "coins": {
+                                    "min": 500
+                                }
+                            }
+                        }
+                    }
+                },
+                "slayElites": {
+                    "name": "Elite Eliminator",
+                    "description": "Defeat 50 elite enemies.",
+                    "category": "achievement",
+                    "max_count": 50,
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": {
+                                "coins": {
+                                    "min": 400
+                                }
+                            }
+                        }
+                    }
+                },
+                "surviveWaves": {
+                    "name": "Wave Survivor",
+                    "description": "Survive 10 consecutive arena waves.",
+                    "category": "achievement",
+                    "max_count": 10,
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": {
+                                "coins": {
+                                    "min": 350
+                                }
+                            }
+                        }
+                    }
+                },
+                "perfectVictories": {
+                    "name": "Flawless Fighter",
+                    "description": "Win 5 battles without taking damage.",
+                    "category": "achievement",
+                    "max_count": 5,
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": {
+                                "coins": {
+                                    "min": 500
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "thousandDeaths": {
+            "name": "Bringer of a Thousand Deaths",
+            "description": "A legendary warrior whose enemies number in the thousands.",
+            "category": "achievement",
+            "max_count": 1000,
+            "reward": {
+                "guaranteed": {
+                    "currencies": {
+                        "coins": {
+                            "min": 10000
+                        },
+                        "gems": {
+                            "min": 500
+                        }
+                    },
+                    "items": {
+                        "golden_key": {
+                            "min": 5
+                        },
+                        "lucky_charm": {
+                            "min": 3
+                        },
+                        "iron_sword": {
+                            "min": 5
+                        },
+                        "mana_potion": {
+                            "min": 20
+                        }
+                    }
+                }
+            }
+        },
+        "clearGoblinCamp": {
+            "name": "Clear the Goblin Camp",
+            "description": "The goblin camp east of Millbrook Village has been raiding local farms. Clear out the goblins to protect the villagers.",
+            "category": "quest",
+            "max_count": 25,
+            "reward": {
+                "guaranteed": {
+                    "currencies": {
+                        "coins": {
+                            "min": 200
+                        },
+                        "gems": {
+                            "min": 10
+                        }
+                    },
+                    "items": {
+                        "mana_potion": {
+                            "min": 3
+                        }
+                    }
+                }
+            }
+        },
+        "defendTheVillage": {
+            "name": "Defend the Village",
+            "description": "Bandits are attacking Millbrook Village! Help the guards repel the attackers and save the townspeople.",
+            "category": "quest",
+            "max_count": 30,
+            "precondition_ids": ["clearGoblinCamp"],
+            "reward": {
+                "guaranteed": {
+                    "currencies": {
+                        "coins": {
+                            "min": 300
+                        },
+                        "gems": {
+                            "min": 15
+                        }
+                    },
+                    "items": {
+                        "iron_sword": {
+                            "min": 1
+                        },
+                        "mana_potion": {
+                            "min": 3
+                        }
+                    }
+                }
+            }
+        },
+        "gatherSupplies": {
+            "name": "Gather Supplies for the Blacksmith",
+            "description": "The village blacksmith needs materials to forge new weapons. Collect iron ore and wood from the surrounding areas.",
+            "category": "quest",
+            "max_count": 20,
+            "reward": {
+                "guaranteed": {
+                    "currencies": {
+                        "coins": {
+                            "min": 150
+                        },
+                        "gems": {
+                            "min": 5
+                        }
+                    },
+                    "items": {
+                        "iron_sword": {
+                            "min": 1
+                        }
+                    }
+                }
+            }
+        },
+        "theLostArtifact": {
+            "name": "The Lost Artifact",
+            "description": "An ancient artifact has been stolen from the village temple. Track down the thieves and recover the relic.",
+            "category": "quest",
+            "max_count": 5,
+            "precondition_ids": ["defendTheVillage"],
+            "reward": {
+                "guaranteed": {
+                    "currencies": {
+                        "coins": {
+                            "min": 500
+                        },
+                        "gems": {
+                            "min": 25
+                        }
+                    },
+                    "items": {
+                        "golden_key": {
+                            "min": 1
+                        },
+                        "lucky_charm": {
+                            "min": 1
+                        }
+                    }
+                }
+            }
+        },
+        "dungeonDelver": {
+            "name": "The Dungeon Delver",
+            "description": "The kingdom needs heroes to clear the dangerous dungeons that have emerged across the land. Explore and conquer 5 dungeons.",
+            "category": "quest",
+            "max_count": 5,
+            "reward": {
+                "guaranteed": {
+                    "currencies": {
+                        "coins": {
+                            "min": 500
+                        },
+                        "gems": {
+                            "min": 25
+                        }
+                    },
+                    "items": {
+                        "golden_key": {
+                            "min": 1
+                        },
+                        "iron_sword": {
+                            "min": 1
+                        }
+                    }
+                }
+            }
+        },
+        "dailyLogin": {
+            "name": "Login Reward",
+            "description": "Welcome back! Log in to claim your daily reward.",
+            "category": "daily",
+            "reset_cronexpr": "* * * * *",
+            "max_count": 1,
+            "reward": {
+                "guaranteed": {
+                    "currencies": {
+                        "coins": {
+                            "min": 100
+                        },
+                        "gems": {
+                            "min": 5
+                        }
+                    },
+                    "items": {
+                        "mana_potion": {
+                            "min": 1
+                        }
+                    }
+                }
+            }
+        },
+        "dailyCraft": {
+            "name": "Daily Craft",
+            "description": "Keep your crafting skills sharp.",
+            "category": "daily",
+            "reset_cronexpr": "* * * * *",
+            "max_count": 1,
+            "reward": {
+                "guaranteed": {
+                    "currencies": {
+                        "coins": {
+                            "min": 50
+                        }
+                    },
+                    "items": {
+                        "iron_sword": {
+                            "min": 1
+                        }
+                    }
+                }
+            }
+        },
+        "dailyCombat": {
+            "name": "Daily Combat",
+            "description": "Defeat 10 enemies to hone your combat skills.",
+            "category": "daily",
+            "reset_cronexpr": "* * * * *",
+            "max_count": 10,
+            "reward": {
+                "guaranteed": {
+                    "currencies": {
+                        "coins": {
+                            "min": 75
+                        },
+                        "gems": {
+                            "min": 3
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
