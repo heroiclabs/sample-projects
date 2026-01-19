@@ -235,7 +235,7 @@ namespace HiroChallenges
         #endregion
 
         #region Challenge Participation Operations
-        public async Task SubmitScore(int score, int subScore, string metadata)
+        public async Task SubmitScore(int score, int subScore)
         {
             if (_selectedChallenge == null) return;
 
@@ -243,7 +243,7 @@ namespace HiroChallenges
                 _selectedChallenge.Id,
                 score,
                 subScore,
-                metadata,
+                null, // metadata can be personalized accordingly to the needs of the game
                 true
             );
         }

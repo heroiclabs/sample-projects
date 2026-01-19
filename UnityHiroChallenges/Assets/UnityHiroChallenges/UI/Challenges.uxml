@@ -105,7 +105,6 @@
                 <ui:VisualElement name="submit-score-modal-bottom" style="height: 85%; align-self: center; align-items: center; width: 100%; padding-left: 30px; padding-right: 30px; padding-top: 30px; padding-bottom: 30px; margin-bottom: 30px;">
                     <ui:IntegerField label="Score" value="0" name="submit-score-score" style="width: 100%; margin-bottom: 15px;" />
                     <ui:IntegerField label="Subscore" value="0" name="submit-score-subscore" style="width: 100%; margin-bottom: 15px;" />
-                    <ui:TextField label="Metadata (optional)" placeholder-text="Enter metadata..." name="submit-score-metadata" style="width: 100%; margin-bottom: 15px;" />
                     <ui:Button text="Submit" name="submit-score-modal-submit" class="heroic-button" style="margin-top: 20px;" />
                 </ui:VisualElement>
                 <ui:Button name="submit-score-modal-close" class="heroic-close-button" />
