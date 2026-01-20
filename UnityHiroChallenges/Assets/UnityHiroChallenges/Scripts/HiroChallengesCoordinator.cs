@@ -71,13 +71,6 @@ namespace HiroChallenges
 
             return async client =>
             {
-                // Due to the Account Switcher tool, we might need to log out before re-authenticating.
-                var nakamaSystem = Instance.GetSystem<NakamaSystem>();
-                if (nakamaSystem.Session != null)
-                {
-                    await client.SessionLogoutAsync(nakamaSystem.Session);
-                }
-
                 // Attempt to load a previous session if it is still valid.
                 var authToken = PlayerPrefs.GetString($"{playerPrefsAuthToken}_{index}");
                 var refreshToken = PlayerPrefs.GetString($"{playerPrefsRefreshToken}_{index}");
@@ -86,17 +79,11 @@ namespace HiroChallenges
 
                 // Add an hour, so we check whether the token is within an hour of expiration to refresh it.
                 var expiredDate = DateTime.UtcNow.AddHours(1);
-                if (session != null && !session.HasRefreshExpired(expiredDate))
-                {
-                    return session;
-                }
+                if (session != null && !session.HasRefreshExpired(expiredDate)) return session;
 
                 // Attempt to read the device ID to use for Authentication.
                 var deviceId = PlayerPrefs.GetString(playerPrefsDeviceId, SystemInfo.deviceUniqueIdentifier);
-                if (deviceId == SystemInfo.unsupportedIdentifier)
-                {
-                    deviceId = Guid.NewGuid().ToString();
-                }
+                if (deviceId == SystemInfo.unsupportedIdentifier) deviceId = Guid.NewGuid().ToString();
 
                 session = await client.AuthenticateDeviceAsync($"{deviceId}_{index}");
 
@@ -105,10 +92,7 @@ namespace HiroChallenges
                 PlayerPrefs.SetString($"{playerPrefsAuthToken}_{index}", session.AuthToken);
                 PlayerPrefs.SetString($"{playerPrefsRefreshToken}_{index}", session.RefreshToken);
 
-                if (session.Created)
-                {
-                    Debug.LogFormat("New user account '{0}' created.", session.UserId);
-                }
+                if (session.Created) Debug.LogFormat("New user account '{0}' created.", session.UserId);
 
                 return session;
             };

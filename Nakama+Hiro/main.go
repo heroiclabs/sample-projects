@@ -12,6 +12,7 @@ import (
 
 	"github.com/heroiclabs/hiro"
 	"github.com/heroiclabs/nakama-common/runtime"
+	"google.golang.org/protobuf/encoding/protojson"
 )
 
 func InitModule(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runtime.NakamaModule, initializer runtime.Initializer) error {
@@ -64,16 +65,44 @@ func InitModule(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runti
 		hiro.WithLeaderboardsSystem(fmt.Sprintf("definitions/%s/base-leaderboards.json", env), true),
 		hiro.WithChallengesSystem(fmt.Sprintf("definitions/%s/base-challenges.json", env), true),
 		hiro.WithEconomySystem(fmt.Sprintf("definitions/%s/base-economy.json", env), true),
-		hiro.WithAchievementsSystem(fmt.Sprintf("definitions/%s/base-achievements.json", env), true))
+		hiro.WithEventLeaderboardsSystem(fmt.Sprintf("definitions/%s/base-event-leaderboards.json", env), true),
+		hiro.WithTeamsSystem(fmt.Sprintf("definitions/%s/base-teams.json", env), true),
+		hiro.WithAchievementsSystem(fmt.Sprintf("definitions/%s/base-achievements.json", env), true),
 		hiro.WithInventorySystem(fmt.Sprintf("definitions/%s/base-inventory.json", env), true))
 	if err != nil {
 		return err
 	}
-	_ = systems
+
+	// Activity calculator for Teams
+	// For simplicity, member count is a proxy for team activity - more members = more active team
+	if teamsSystem := systems.GetTeamsSystem(); teamsSystem != nil {
+		teamsSystem.SetActivityCalculator(calculateTeamActivity)
+		logger.Info("Teams activity calculator registered")
+	}
+
+	// Unregister the default team stats update RPC and replace with custom version that triggers achievements
+	if err := hiro.UnregisterRpc(initializer, hiro.RpcId_RPC_ID_TEAMS_STATS_UPDATE); err != nil {
+		return err
+	}
+	if err := initializer.RegisterRpc(
+		hiro.RpcId_RPC_ID_TEAMS_STATS_UPDATE.String(),
+		rpcTeamStatsUpdateWithMailboxRewardGrant(systems),
+	); err != nil {
+		return err
+	}
+	logger.Info("Custom team stats update RPC registered with achievement triggers")
 
 	logger.Info("Module loaded in %dms", time.Since(initStart).Milliseconds())
 
 	return nil
+}
+
+func calculateTeamActivity(ctx context.Context, logger runtime.Logger, nk runtime.NakamaModule, team *hiro.Team) int64 {
+	if team == nil {
+		return 0
+	}
+
+	return int64(len(team.Members))
 }
 
 func createTournament(ctx context.Context, logger runtime.Logger, nk runtime.NakamaModule, id, resetSchedule, title, description string, duration, maxSize, maxNumScore int, joinRequired bool) error {
@@ -91,4 +120,54 @@ func createTournament(ctx context.Context, logger runtime.Logger, nk runtime.Nak
 		return runtime.NewError("failed to create tournament", 3)
 	}
 	return nil
+}
+
+func rpcTeamStatsUpdateWithMailboxRewardGrant(systems hiro.Hiro) func(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runtime.NakamaModule, payload string) (string, error) {
+	return func(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runtime.NakamaModule, payload string) (string, error) {
+		userID, ok := ctx.Value(runtime.RUNTIME_CTX_USER_ID).(string)
+		if !ok {
+			return "", errors.New("no user ID in context")
+		}
+
+		request := &hiro.TeamStatUpdateRequest{}
+		if err := protojson.Unmarshal([]byte(payload), request); err != nil {
+			return "", err
+		}
+
+		teamsSystem := systems.GetTeamsSystem()
+
+		// Call the actual stats update
+		statList, err := teamsSystem.StatsUpdate(ctx, logger, nk, userID, request.Id, request.Public, request.Private)
+		if err != nil {
+			return "", err
+		}
+
+		// Grant rewards to mailbox when level milestones are hit
+		if levelStat, ok := statList.Public["level"]; ok {
+			var reward *hiro.Reward
+
+			switch levelStat.Value {
+			case 2:
+				reward = &hiro.Reward{Currencies: map[string]int64{"team_coins": 50}}
+			case 5:
+				reward = &hiro.Reward{Currencies: map[string]int64{"team_coins": 100}}
+			case 10:
+				reward = &hiro.Reward{Currencies: map[string]int64{"team_coins": 200}}
+			}
+
+			if reward != nil {
+				_, err := teamsSystem.RewardMailboxGrant(ctx, logger, nk, userID, request.Id, reward)
+				if err != nil {
+					logger.Warn("Failed to grant level milestone reward: %v", err)
+				}
+			}
+		}
+
+		response, err := protojson.Marshal(statList)
+		if err != nil {
+			return "", err
+		}
+
+		return string(response), nil
+	}
 }

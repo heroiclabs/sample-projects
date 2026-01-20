@@ -1,0 +1,16 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UnityHiroTeams/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
+    <ui:VisualElement style="flex-grow: 1; flex-direction: row; padding-left: 10px; padding-right: 10px; height: 120px; margin-bottom: 20px; margin-right: 20px; background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/Background/bg_rounded_white_bg.png?fileID=2800000&amp;guid=98ba2fcee9bd34a079fb250f7777ea69&amp;type=3#bg_rounded_white_bg&quot;); -unity-slice-left: 25; -unity-slice-top: 25; -unity-slice-right: 25; -unity-slice-bottom: 25;">
+        <ui:VisualElement name="avatar-background" style="background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/UI_etc/clan_in_blue.png?fileID=2800000&amp;guid=d8f7fe01f3af741fb98723aef61fee8f&amp;type=3#clan_in_blue&quot;); -unity-background-scale-mode: scale-to-fit; width: 92px; background-size: 95% 70%; min-width: 92px;">
+            <ui:VisualElement name="avatar-icon" style="flex-grow: 1; position: absolute; top: 35%; right: 10%; left: 10%; bottom: 35%; background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/IconMisc/icon_fist.png?fileID=2800000&amp;guid=8176dbc9a0f7145dcbb159234f38cfac&amp;type=3#icon_fist&quot;); -unity-background-scale-mode: scale-to-fit;" />
+            <ui:VisualElement name="avatar-frame" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/UI_etc/clan_frame.png?fileID=2800000&amp;guid=f09f98b081e934e4c82fd5d2f5cf93ca&amp;type=3#clan_frame&quot;); -unity-background-scale-mode: scale-to-fit; position: absolute; top: 0; right: 0; bottom: 0; left: 0;" />
+        </ui:VisualElement>
+        <ui:VisualElement style="justify-content: space-evenly; width: 60%; padding-right: 5px; padding-top: 10px; padding-left: 10px; padding-bottom: 10px; flex-grow: 1; margin-left: 8px;">
+            <ui:Label text="Team Name" name="name" class="heroic-list-view__item-label" style="font-size: 28px; -unity-text-align: middle-left;" />
+            <ui:VisualElement style="flex-direction: row;">
+                <ui:VisualElement style="width: 36px; background-image: url(&quot;project://database/Assets/UnityHiroTeams/HeroicUI/Avatar/avatar_circle_icon_white.png?fileID=2800000&amp;guid=93641a1dc56fe4e12aeae7744e5bee4e&amp;type=3#avatar_circle_icon_white&quot;); -unity-background-image-tint-color: rgb(183, 183, 183); -unity-background-scale-mode: scale-to-fit;" />
+                <ui:Label text="Count" name="count" class="heroic-list-view__item-label" style="flex-grow: 1; width: 20%; font-size: 28px; -unity-text-align: middle-left; margin-left: 4px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
