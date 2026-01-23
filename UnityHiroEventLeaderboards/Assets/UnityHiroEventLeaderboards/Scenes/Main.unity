@@ -277,10 +277,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HiroChallenges.HiroChallengesCoordinator
   localHost: 0
-  scheme: http
-  host: 127.0.0.1
-  port: 7350
-  serverKey: defaultkey
+  scheme: https
+  host: sample-prjcts.eu-west1-a.nakamacloud.io
+  port: 443
+  serverKey: uNezOE3FOprj6nPs
 --- !u!4 &634194746
 Transform:
   m_ObjectHideFlags: 0

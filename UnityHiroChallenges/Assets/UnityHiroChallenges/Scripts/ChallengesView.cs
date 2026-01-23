@@ -69,7 +69,6 @@ namespace HiroChallenges
         private VisualElement _submitScoreModal;
         private IntegerField _scoreField;
         private IntegerField _subScoreField;
-        private TextField _scoreMetadataField;
         private Button _submitScoreModalButton;
         private Button _submitScoreModalCloseButton;
 
@@ -264,7 +263,6 @@ namespace HiroChallenges
             _submitScoreModal = rootElement.Q<VisualElement>("submit-score-modal");
             _scoreField = rootElement.Q<IntegerField>("submit-score-score");
             _subScoreField = rootElement.Q<IntegerField>("submit-score-subscore");
-            _scoreMetadataField = rootElement.Q<TextField>("submit-score-metadata");
 
             _submitScoreModalButton = rootElement.Q<Button>("submit-score-modal-submit");
             _submitScoreModalButton.RegisterCallback<ClickEvent>(SubmitScore);
@@ -552,7 +550,6 @@ namespace HiroChallenges
         {
             _scoreField.value = 0;
             _subScoreField.value = 0;
-            _scoreMetadataField.value = string.Empty;
             _submitScoreModal.style.display = DisplayStyle.Flex;
         }
 
@@ -565,7 +562,7 @@ namespace HiroChallenges
         {
             try
             {
-                await _controller.SubmitScore(_scoreField.value, _subScoreField.value, _scoreMetadataField.value);
+                await _controller.SubmitScore(_scoreField.value, _subScoreField.value);
                 HideSubmitScoreModal();
             }
             catch (Exception e)
