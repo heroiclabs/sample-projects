@@ -157,7 +157,7 @@ namespace HiroChallenges.Editor
                     (nakamaSystem.Session as Session)?.Update(newSession.AuthToken, newSession.RefreshToken);
                     await nakamaSystem.RefreshAsync();
                     accountUsernames[newValue] = newSession.Username;
-                    challengesController.SwitchComplete();
+                    await challengesController.SwitchComplete();
 
                     SaveAccountUsernames();
                     break;

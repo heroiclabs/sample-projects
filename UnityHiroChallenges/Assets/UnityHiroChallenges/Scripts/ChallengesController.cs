@@ -42,8 +42,8 @@ namespace HiroChallenges
         #region Serialized Fields
         
         [Header("References")]
-        [SerializeField] private VisualTreeAsset challengeEntryTemplate;
-        [SerializeField] private VisualTreeAsset challengeParticipantTemplate;
+        [SerializeField] private VisualTreeAsset _challengeEntryTemplate;
+        [SerializeField] private VisualTreeAsset _challengeParticipantTemplate;
 
         #endregion
 
@@ -61,17 +61,15 @@ namespace HiroChallenges
         private string _selectedChallengeId;
         
         // UI state
-        private ChallengeViewState _viewState = new();
-        
         private ChallengesView _view;
-
+    
+        private string CurrentUserId => _nakamaSystem?.UserId;
         #endregion
 
         #region Public Properties
-        
-        public string CurrentUserId => _nakamaSystem?.UserId;
+
         public List<IChallenge> Challenges { get; } = new();
-        public ChallengeViewState ViewState => _viewState;
+        public ChallengeViewState ViewState { get; } = new();
 
         #endregion
 
@@ -96,8 +94,8 @@ namespace HiroChallenges
             _view = new ChallengesView(
                 this,
                 challengesCoordinator,
-                challengeEntryTemplate,
-                challengeParticipantTemplate
+                _challengeEntryTemplate,
+                _challengeParticipantTemplate
             );
 
             // Now subscribe to coordinator events
@@ -144,10 +142,10 @@ namespace HiroChallenges
         /// <summary>
         /// Called when switching between accounts using the account switcher.
         /// </summary>
-        public void SwitchComplete()
+        public async Task SwitchComplete()
         {
-            _ = _view.RefreshChallengesAsync();
-            _ = _economySystem.RefreshAsync();
+            await _view.RefreshChallengesAsync();
+            await _economySystem.RefreshAsync();
         }
 
         #endregion
@@ -227,7 +225,7 @@ namespace HiroChallenges
             {
                 _selectedChallengeId = string.Empty;
                 _selectedChallenge = null;
-                _viewState.Reset();
+                ViewState.Reset();
                 return null;
             }
 
@@ -253,18 +251,18 @@ namespace HiroChallenges
             var isActive = challenge.IsActive;
             var canClaim = challenge.CanClaim;
 
-            _viewState.ShowJoinButton = isActive && foundParticipant == null;
-            _viewState.ShowLeaveButton = !isActive && foundParticipant != null && !canClaim;
-            _viewState.ShowSubmitScoreButton = isActive && 
+            ViewState.ShowJoinButton = isActive && foundParticipant == null;
+            ViewState.ShowLeaveButton = !isActive && foundParticipant != null && !canClaim;
+            ViewState.ShowSubmitScoreButton = isActive && 
                                                 foundParticipant != null &&
                                                 foundParticipant.NumScores < challenge.MaxNumScore;
-            _viewState.ShowInviteButton = isActive && 
+            ViewState.ShowInviteButton = isActive && 
                                           foundParticipant != null &&
                                           foundParticipant.Id == challenge.OwnerId &&
                                           challenge.Size < challenge.MaxSize;
-            _viewState.ShowClaimRewardsButton = !isActive && foundParticipant != null && canClaim;
+            ViewState.ShowClaimRewardsButton = !isActive && foundParticipant != null && canClaim;
             
-            _viewState.SubmitScoreText = foundParticipant != null
+            ViewState.SubmitScoreText = foundParticipant != null
                 ? $"Submit Score ({foundParticipant.NumScores}/{challenge.MaxNumScore})"
                 : "Submit Score";
         }
