@@ -19,6 +19,9 @@ using UnityEngine.UIElements;
 
 namespace HiroChallenges
 {
+    /// <summary>
+    /// View component for displaying a single challenge in a list.
+    /// </summary>
     public sealed class ChallengeView
     {
         private Label _nameLabel;
@@ -41,24 +44,27 @@ namespace HiroChallenges
             _nameLabel.text = challenge.Name;
             _categoryLabel.text = challenge.Category;
 
-            // Convert status to readable string.
+            // Convert status to readable string
             var now = DateTimeOffset.Now;
             var startTime = DateTimeOffset.FromUnixTimeSeconds(challenge.StartTimeSec);
             var difference = startTime - now;
+            
             if (difference.Seconds > 0)
             {
                 _statusLabel.text = $"Starting in {difference.Days}d, {difference.Hours}h, {difference.Minutes}m";
-                _statusLabel.style.color = new StyleColor(Color.orange);
+                _statusLabel.style.color = new StyleColor(Color.yellow);
             }
             else
             {
                 _statusLabel.text = challenge.IsActive ? "Active" : "Ended";
-                _statusLabel.style.color = challenge.IsActive ? new StyleColor(Color.green) : new StyleColor(Color.red);
+                _statusLabel.style.color = challenge.IsActive
+                    ? new StyleColor(Color.green)
+                    : new StyleColor(Color.red);
             }
 
             _participantsLabel.text = $"{challenge.Size}/{challenge.MaxSize}";
 
-            // Format end time to display for local time.
+            // Format end time to display for local time
             var endTime = DateTimeOffset.FromUnixTimeSeconds(challenge.EndTimeSec).LocalDateTime;
             _endTimeLabel.text = endTime.ToString("MMM dd, HH:mm");
         }

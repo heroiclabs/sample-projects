@@ -17,6 +17,9 @@ using UnityEngine.UIElements;
 
 namespace HiroChallenges
 {
+    /// <summary>
+    /// View component for displaying a single challenge participant in a list.
+    /// </summary>
     public sealed class ChallengeParticipantView
     {
         private Label _usernameLabel;
@@ -34,13 +37,13 @@ namespace HiroChallenges
 
         public void SetChallengeParticipant(IChallenge challenge, IChallengeScore participantScore)
         {
-            // Display username along with remaining score submissions.
+            // Display username along with remaining score submissions
             _usernameLabel.text =
                 $"<color=blue>({participantScore.NumScores}/{challenge.MaxNumScore})</color> {participantScore.Username} ";
             _scoreLabel.text = participantScore.Score.ToString();
             _subScoreLabel.text = participantScore.Subscore.ToString();
 
-            // A rank of 0 would mean that you are yet to submit your first score.
+            // A rank of 0 would mean that you are yet to submit your first score
             _rankLabel.text = participantScore.Rank > 0 ? $"#{participantScore.Rank}" : "-";
         }
     }
