@@ -100,7 +100,7 @@ namespace HiroChallenges
 
         protected override void SystemsInitializeCompleted()
         {
-            var nakamaSystem = Instance.GetSystem<NakamaSystem>();
+            var nakamaSystem = this.GetSystem<NakamaSystem>();
             ReceivedStartSuccess?.Invoke(nakamaSystem.Session);
         }
 
