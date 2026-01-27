@@ -282,4 +282,181 @@ namespace HiroChallenges.Tests.Editor
             Assert.AreEqual(2000, defaults.DurationSeconds);
         }
     }
+
+    /// <summary>
+    /// EditMode integration tests for the full challenge flow with multiple players.
+    /// Uses the Account Switcher pattern to switch between accounts on a single controller.
+    /// Requires: Nakama server running at 127.0.0.1:7350
+    /// </summary>
+    [TestFixture]
+    public class ChallengeFlowTests
+    {
+        private const string Scheme = "http";
+        private const string Host = "127.0.0.1";
+        private const int Port = 7350;
+        private const string ServerKey = "defaultkey";
+
+        private IClient _client;
+        private string _testDeviceId;
+
+        private GameObject _controllerGo;
+        private ChallengesController _controller;
+        private NakamaSystem _nakamaSystem;
+        private ChallengesSystem _challengesSystem;
+        private EconomySystem _economySystem;
+
+        // Store sessions for cleanup
+        private ISession[] _sessions;
+        private string[] _usernames;
+
+        [SetUp]
+        public async Task SetUp()
+        {
+            _testDeviceId = $"test-device-{Guid.NewGuid():N}";
+            _client = new Client(Scheme, Host, Port, ServerKey);
+
+            // Authenticate all 4 accounts and store their sessions/usernames
+            _sessions = new ISession[4];
+            _usernames = new string[4];
+
+            for (var i = 0; i < 4; i++)
+            {
+                _sessions[i] = await _client.AuthenticateDeviceAsync($"{_testDeviceId}_{i}");
+                _usernames[i] = _sessions[i].Username;
+            }
+
+            var logger = new Hiro.Unity.Logger();
+
+            // Initialize with account 0
+            _nakamaSystem = new NakamaSystem(logger, _client, _ => Task.FromResult(_sessions[0]));
+            await _nakamaSystem.InitializeAsync();
+
+            _challengesSystem = new ChallengesSystem(logger, _nakamaSystem);
+            await _challengesSystem.InitializeAsync();
+
+            _economySystem = new EconomySystem(logger, _nakamaSystem, EconomyStoreType.Unspecified);
+            await _economySystem.InitializeAsync();
+
+            // Create controller
+            _controllerGo = new GameObject("TestController");
+            _controllerGo.AddComponent<UIDocument>();
+            _controller = _controllerGo.AddComponent<ChallengesController>();
+
+            var bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance;
+            typeof(ChallengesController).GetField("_nakamaSystem", bindingFlags).SetValue(_controller, _nakamaSystem);
+            typeof(ChallengesController).GetField("_challengesSystem", bindingFlags).SetValue(_controller, _challengesSystem);
+            typeof(ChallengesController).GetField("_economySystem", bindingFlags).SetValue(_controller, _economySystem);
+            typeof(ChallengesController).GetField("_currentUserId", bindingFlags).SetValue(_controller, _sessions[0].UserId);
+        }
+
+        [TearDown]
+        public async Task TearDown()
+        {
+            if (_controllerGo != null)
+                UnityEngine.Object.DestroyImmediate(_controllerGo);
+
+            // Re-authenticate to get fresh sessions (originals were modified during switching)
+            for (var i = 0; i < _sessions.Length; i++)
+            {
+                var freshSession = await _client.AuthenticateDeviceAsync($"{_testDeviceId}_{i}");
+                await _client.DeleteAccountAsync(freshSession);
+            }
+        }
+
+        private async Task SwitchToAccountAsync(int accountIndex)
+        {
+            var newSession = _sessions[accountIndex];
+            await AccountSwitcher.SwitchToSessionAsync(_nakamaSystem, _controller, newSession);
+
+            var bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance;
+            typeof(ChallengesController).GetField("_currentUserId", bindingFlags).SetValue(_controller, newSession.UserId);
+
+            Debug.Log($"Switched to account {accountIndex}: {newSession.Username}");
+        }
+
+        [Test]
+        public async Task FullChallengeFlow_CreateInviteJoinSubmitScores_ScoresAreSortedByRank()
+        {
+            // Account 0: Load templates and create challenge with 3 invitees
+            await _controller.LoadChallengeTemplatesAsync();
+            var defaults = _controller.GetCreationDefaults();
+
+            var invitees = $"{_usernames[1]},{_usernames[2]},{_usernames[3]}";
+
+            await _controller.CreateChallengeAsync(
+                0,
+                $"Flow Test {DateTime.UtcNow.Ticks}",
+                defaults.MaxParticipants,
+                invitees,
+                0,
+                defaults.DurationSeconds,
+                true
+            );
+
+            await _controller.RefreshChallengesAsync();
+            Assert.IsTrue(_controller.Challenges.Count > 0, "Challenge should have been created");
+
+            var challenge = _controller.Challenges[0];
+            await _controller.SelectChallengeAsync(challenge);
+            Debug.Log($"Created challenge: {challenge.Name}");
+
+            // Account 0 submits score 10
+            await _controller.SubmitScoreAsync(10, 0);
+            Debug.Log($"Account 0 ({_usernames[0]}) submitted score: 10");
+
+            // Switch to account 1, join and submit score 25
+            await SwitchToAccountAsync(1);
+            await _controller.RefreshChallengesAsync();
+            await _controller.SelectChallengeAsync(_controller.Challenges[0]);
+            await _controller.JoinChallengeAsync();
+            await _controller.SubmitScoreAsync(25, 0);
+            Debug.Log($"Account 1 ({_usernames[1]}) joined and submitted score: 25");
+
+            // Switch to account 2, join and submit score 50
+            await SwitchToAccountAsync(2);
+            await _controller.RefreshChallengesAsync();
+            await _controller.SelectChallengeAsync(_controller.Challenges[0]);
+            await _controller.JoinChallengeAsync();
+            await _controller.SubmitScoreAsync(50, 0);
+            Debug.Log($"Account 2 ({_usernames[2]}) joined and submitted score: 50");
+
+            // Switch to account 3, join and submit score 75
+            await SwitchToAccountAsync(3);
+            await _controller.RefreshChallengesAsync();
+            await _controller.SelectChallengeAsync(_controller.Challenges[0]);
+            await _controller.JoinChallengeAsync();
+            await _controller.SubmitScoreAsync(75, 0);
+            Debug.Log($"Account 3 ({_usernames[3]}) joined and submitted score: 75");
+
+            // Switch back to account 0 to verify final state
+            await SwitchToAccountAsync(0);
+            await _controller.RefreshChallengesAsync();
+            var participants = await _controller.SelectChallengeAsync(_controller.Challenges[0]);
+
+            Assert.IsNotNull(participants);
+            Assert.AreEqual(4, participants.Count, "Should have 4 participants");
+
+            Debug.Log("=== Participants in returned order ===");
+            for (var i = 0; i < participants.Count; i++)
+            {
+                var p = participants[i];
+                Debug.Log($"Position {i}: {p.Username}, Score: {p.Score}, Rank: {p.Rank}");
+            }
+
+            // Verify scores are sorted by rank (highest score = rank 1)
+            Assert.AreEqual(1, participants[0].Rank, $"First should be rank 1, got {participants[0].Rank}");
+            Assert.AreEqual(75, participants[0].Score, $"Rank 1 should have score 75, got {participants[0].Score}");
+
+            Assert.AreEqual(2, participants[1].Rank, $"Second should be rank 2, got {participants[1].Rank}");
+            Assert.AreEqual(50, participants[1].Score, $"Rank 2 should have score 50, got {participants[1].Score}");
+
+            Assert.AreEqual(3, participants[2].Rank, $"Third should be rank 3, got {participants[2].Rank}");
+            Assert.AreEqual(25, participants[2].Score, $"Rank 3 should have score 25, got {participants[2].Score}");
+
+            Assert.AreEqual(4, participants[3].Rank, $"Fourth should be rank 4, got {participants[3].Rank}");
+            Assert.AreEqual(10, participants[3].Score, $"Rank 4 should have score 10, got {participants[3].Score}");
+
+            Debug.Log("=== All assertions passed - scores are sorted correctly by rank ===");
+        }
+    }
 }

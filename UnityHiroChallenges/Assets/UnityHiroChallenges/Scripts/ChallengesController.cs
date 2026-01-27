@@ -49,12 +49,8 @@ namespace HiroChallenges
         private IChallenge _selectedChallenge;
         private string _selectedChallengeId;
 
-        private ChallengesView _view;
-
         public List<IChallenge> Challenges { get; } = new();
 
-        public event Action<ISession, ChallengesController> OnInitialized;
-        public event Action<Exception> OnInitializationFailed;
 
         public bool IsInitialized { get; private set; }
         public Exception InitializationError { get; private set; }
@@ -68,7 +64,8 @@ namespace HiroChallenges
                 return;
             }
 
-            _view = new ChallengesView(
+            // View manages itself and observes systems directly
+            _ = new ChallengesView(
                 this,
                 GetComponent<UIDocument>().rootVisualElement,
                 _challengeEntryTemplate,
@@ -83,15 +80,12 @@ namespace HiroChallenges
         {
             InitializationError = e;
             Debug.LogException(e);
-            OnInitializationFailed?.Invoke(e);
         }
 
-        private async void HandleStartSuccess(ISession session)
+        private void HandleStartSuccess()
         {
             InitializeSystems();
-            await _view.InitializeAsync(_economySystem);
             IsInitialized = true;
-            OnInitialized?.Invoke(session, this);
         }
 
         private void InitializeSystems()
@@ -112,7 +106,8 @@ namespace HiroChallenges
 
         public async Task SwitchCompleteAsync()
         {
-            await _view.RefreshChallengesAsync();
+            _selectedChallenge = null;
+            _selectedChallengeId = string.Empty;
             await _economySystem.RefreshAsync();
         }
 

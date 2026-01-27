@@ -16,6 +16,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Hiro;
+using Hiro.System;
+using Hiro.Unity;
 using UnityEngine;
 using UnityEngine.UIElements;
 using HeroicUI;
@@ -25,8 +27,9 @@ namespace HiroChallenges
     /// <summary>
     /// View for the Challenges system.
     /// Manages UI presentation and user interactions, delegates all business logic to Controller.
+    /// Observes Hiro systems directly for updates.
     /// </summary>
-    public sealed class ChallengesView
+    public sealed class ChallengesView : IDisposable
     {
         private const int DefaultTabIndex = 0;
 
@@ -85,6 +88,9 @@ namespace HiroChallenges
         private IChallenge _currentChallenge;
         private int _selectedTabIndex = DefaultTabIndex;
 
+        private IDisposable _challengesSystemObserver;
+        private IDisposable _nakamaSystemObserver;
+
         public ChallengesView(
             ChallengesController controller,
             VisualElement rootElement,
@@ -97,13 +103,46 @@ namespace HiroChallenges
 
             Initialize(rootElement);
             HideSelectedChallengePanel();
+
+            var coordinator = HiroCoordinator.Instance as HiroChallengesCoordinator;
+            coordinator.ReceivedStartSuccess += OnCoordinatorReady;
         }
 
-        public async Task InitializeAsync(IEconomySystem economySystem)
+        private async void OnCoordinatorReady()
         {
+            var coordinator = HiroCoordinator.Instance as HiroChallengesCoordinator;
+            coordinator.ReceivedStartSuccess -= OnCoordinatorReady;
+
+            // Wait for controller to initialize its systems
+            while (!_controller.IsInitialized)
+                await Task.Yield();
+
             _walletDisplay.StartObserving();
+
+            var challengesSystem = coordinator.GetSystem<ChallengesSystem>();
+            var nakamaSystem = coordinator.GetSystem<NakamaSystem>();
+
+            _challengesSystemObserver = SystemObserver<ChallengesSystem>.Create(challengesSystem, OnChallengesSystemUpdated);
+            _nakamaSystemObserver = SystemObserver<NakamaSystem>.Create(nakamaSystem, OnNakamaSystemUpdated);
+
             await LoadTemplatesAsync();
             await RefreshChallengesAsync();
+        }
+
+        private void OnChallengesSystemUpdated(ChallengesSystem system)
+        {
+            _ = RefreshChallengesAsync();
+        }
+
+        private void OnNakamaSystemUpdated(NakamaSystem system)
+        {
+            _ = RefreshChallengesAsync();
+        }
+
+        public void Dispose()
+        {
+            _challengesSystemObserver?.Dispose();
+            _nakamaSystemObserver?.Dispose();
         }
 
         private void Initialize(VisualElement rootElement)
@@ -375,6 +414,11 @@ namespace HiroChallenges
                     UpdateSelectedChallengePanel(
                         _controller.Challenges[refreshResult.SelectedChallengeIndex],
                         refreshResult.Participants);
+                }
+                else
+                {
+                    _challengesList.ClearSelection();
+                    HideSelectedChallengePanel();
                 }
             }
             catch (Exception e)

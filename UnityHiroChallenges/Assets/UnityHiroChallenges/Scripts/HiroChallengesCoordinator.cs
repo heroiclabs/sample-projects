@@ -37,7 +37,7 @@ namespace HiroChallenges
         private string serverKey = "uNezOE3FOprj6nPs";
 
         public event Action<Exception> ReceivedStartError;
-        public event Action<ISession> ReceivedStartSuccess;
+        public event Action ReceivedStartSuccess;
 
         protected override Task<Systems> CreateSystemsAsync()
         {
@@ -119,7 +119,7 @@ namespace HiroChallenges
         protected override void SystemsInitializeCompleted()
         {
             var nakamaSystem = this.GetSystem<NakamaSystem>();
-            ReceivedStartSuccess?.Invoke(nakamaSystem.Session);
+            ReceivedStartSuccess?.Invoke();
         }
 
         protected override void SystemsInitializeFailed(Exception e)

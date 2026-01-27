@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Nakama;
 using Hiro;
 using Hiro.Unity;
@@ -61,31 +62,32 @@ namespace HiroChallenges.Editor
 
             if (!EditorApplication.isPlaying) return;
 
-            var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
-            foreach (var rootGameObject in rootGameObjects)
-            {
-                if (!rootGameObject.TryGetComponent<ChallengesController>(out var challengesController)) continue;
+            var coordinator = HiroCoordinator.Instance as HiroChallengesCoordinator;
+            if (coordinator == null) return;
 
-                if (HiroCoordinator.Instance.GetSystem<NakamaSystem>().Session is Session session)
-                {
-                    OnControllerInitialized(session);
-                }
-                else
-                {
-                    challengesController.OnInitialized += OnControllerInitialized;
-                }
+            var nakamaSystem = coordinator.GetSystem<NakamaSystem>();
+            if (nakamaSystem?.Session != null)
+            {
+                OnCoordinatorInitialized();
+            }
+            else
+            {
+                coordinator.ReceivedStartSuccess += OnCoordinatorInitialized;
             }
         }
 
-        private void OnControllerInitialized(ISession session, ChallengesController challengesController = null)
+        private void OnCoordinatorInitialized()
         {
+            var coordinator = HiroCoordinator.Instance as HiroChallengesCoordinator;
+            if (coordinator == null)
+                throw new InvalidOperationException("HiroChallengesCoordinator not found");
+
+            var session = coordinator.GetSystem<NakamaSystem>().Session;
             accountUsernames[accountDropdown.choices[0]] = session.Username;
             UpdateUsernameLabels();
+            SaveAccountUsernames();
 
-            if (challengesController != null)
-            {
-                challengesController.OnInitialized -= OnControllerInitialized;
-            }
+            coordinator.ReceivedStartSuccess -= OnCoordinatorInitialized;
         }
 
         private void LoadAccountUsernames()
@@ -138,13 +140,13 @@ namespace HiroChallenges.Editor
             var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
             foreach (var rootGameObject in rootGameObjects)
             {
-                if (!rootGameObject.TryGetComponent<ChallengesController>(out var challengesController)) continue;
+                if (!rootGameObject.TryGetComponent<ChallengesController>(out var controller)) continue;
 
                 var coordinator = HiroCoordinator.Instance as HiroChallengesCoordinator;
                 if (coordinator == null) return;
                 var nakamaSystem = coordinator.GetSystem<NakamaSystem>();
+                if (nakamaSystem == null) return;
 
-                // Save username before switching
                 if (!string.IsNullOrEmpty(previousValue) && nakamaSystem.Session != null)
                 {
                     accountUsernames[previousValue] = nakamaSystem.Session.Username;
@@ -152,13 +154,11 @@ namespace HiroChallenges.Editor
 
                 try
                 {
-                    var newSession = await HiroChallengesCoordinator.NakamaAuthorizerFunc(accountDropdown.index)
-                        .Invoke(nakamaSystem.Client);
-                    (nakamaSystem.Session as Session)?.Update(newSession.AuthToken, newSession.RefreshToken);
-                    await nakamaSystem.RefreshAsync();
+                    var newSession = await AccountSwitcher.SwitchAccountAsync(
+                        nakamaSystem,
+                        controller,
+                        accountDropdown.index);
                     accountUsernames[newValue] = newSession.Username;
-                    await challengesController.SwitchCompleteAsync();
-
                     SaveAccountUsernames();
                     break;
                 }
