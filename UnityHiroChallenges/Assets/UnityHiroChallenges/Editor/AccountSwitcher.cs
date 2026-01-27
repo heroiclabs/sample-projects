@@ -145,7 +145,7 @@ namespace HiroChallenges.Editor
                 var nakamaSystem = coordinator.GetSystem<NakamaSystem>();
 
                 // Save username before switching
-                if (!string.IsNullOrEmpty(previousValue))
+                if (!string.IsNullOrEmpty(previousValue) && nakamaSystem.Session != null)
                 {
                     accountUsernames[previousValue] = nakamaSystem.Session.Username;
                 }
@@ -157,7 +157,7 @@ namespace HiroChallenges.Editor
                     (nakamaSystem.Session as Session)?.Update(newSession.AuthToken, newSession.RefreshToken);
                     await nakamaSystem.RefreshAsync();
                     accountUsernames[newValue] = newSession.Username;
-                    await challengesController.SwitchComplete();
+                    await challengesController.SwitchCompleteAsync();
 
                     SaveAccountUsernames();
                     break;

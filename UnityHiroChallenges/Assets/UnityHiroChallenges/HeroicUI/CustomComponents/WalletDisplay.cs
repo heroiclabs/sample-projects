@@ -40,7 +40,6 @@ namespace HeroicUI
         {
             var economySystem = HiroCoordinator.Instance.Systems.GetSystem<EconomySystem>();
             economyDisposer = SystemObserver<EconomySystem>.Create(economySystem, OnEconomyUpdated);
-            economySystem.RefreshAsync();
         }
 
         private void OnEconomyUpdated(EconomySystem system)

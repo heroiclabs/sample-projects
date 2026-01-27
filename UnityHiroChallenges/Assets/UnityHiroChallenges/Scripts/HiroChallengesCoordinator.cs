@@ -28,13 +28,13 @@ namespace HiroChallenges
         private bool localHost;
 
         [Header("Nakama Settings")] [SerializeField]
-        private string scheme = "http";
+        private string scheme = "https";
         [SerializeField]
-        private string host = "127.0.0.1";
+        private string host = "sample-prjcts.eu-west1-a.nakamacloud.io";
         [SerializeField]
-        private int port = 7350;
+        private int port = 443;
         [SerializeField]
-        private string serverKey = "defaultkey";
+        private string serverKey = "uNezOE3FOprj6nPs";
 
         public event Action<Exception> ReceivedStartError;
         public event Action<ISession> ReceivedStartSuccess;
@@ -79,7 +79,25 @@ namespace HiroChallenges
 
                 // Add an hour, so we check whether the token is within an hour of expiration to refresh it.
                 var expiredDate = DateTime.UtcNow.AddHours(1);
-                if (session != null && !session.HasRefreshExpired(expiredDate)) return session;
+                if (session != null && !session.HasRefreshExpired(expiredDate))
+                {
+                    try
+                    {
+                        // Validate the session by refreshing it
+                        session = await client.SessionRefreshAsync(session);
+                        PlayerPrefs.SetString($"{playerPrefsAuthToken}_{index}", session.AuthToken);
+                        PlayerPrefs.SetString($"{playerPrefsRefreshToken}_{index}", session.RefreshToken);
+                        return session;
+                    }
+                    catch (ApiResponseException e) when (
+                        e.Message.Contains("Refresh token invalid or expired") ||
+                        e.Message.Contains("User account not found"))
+                    {
+                        Debug.LogWarning($"Stored session invalid ({e.Message}), clearing tokens and re-authenticating...");
+                        PlayerPrefs.DeleteKey($"{playerPrefsAuthToken}_{index}");
+                        PlayerPrefs.DeleteKey($"{playerPrefsRefreshToken}_{index}");
+                    }
+                }
 
                 // Attempt to read the device ID to use for Authentication.
                 var deviceId = PlayerPrefs.GetString(playerPrefsDeviceId, SystemInfo.deviceUniqueIdentifier);

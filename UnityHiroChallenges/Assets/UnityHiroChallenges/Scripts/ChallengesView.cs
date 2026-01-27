@@ -28,19 +28,12 @@ namespace HiroChallenges
     /// </summary>
     public sealed class ChallengesView
     {
-        #region Constants
-
         private const int DefaultTabIndex = 0;
-
-        #endregion
-
-        #region Private Fields
 
         private readonly ChallengesController _controller;
         private readonly VisualTreeAsset _challengeEntryTemplate;
         private readonly VisualTreeAsset _challengeParticipantTemplate;
 
-        // Main UI elements
         private WalletDisplay _walletDisplay;
         private Button _myChallengesTab;
         private Button _createButton;
@@ -60,7 +53,6 @@ namespace HiroChallenges
         private ScrollView _challengeParticipantsScrollView;
         private Button _refreshButton;
 
-        // Create Challenge modal elements
         private VisualElement _createModal;
         private DropdownField _modalTemplateDropdown;
         private TextField _modalNameField;
@@ -74,36 +66,28 @@ namespace HiroChallenges
         private Button _modalCreateButton;
         private Button _modalCloseButton;
 
-        // Submit Score modal elements
         private VisualElement _submitScoreModal;
         private IntegerField _scoreField;
         private IntegerField _subScoreField;
         private Button _submitScoreModalButton;
         private Button _submitScoreModalCloseButton;
 
-        // Invite modal elements
         private VisualElement _inviteModal;
         private TextField _inviteModalInvitees;
         private Button _inviteModalButton;
         private Button _inviteModalCloseButton;
 
-        // Error popup elements
         private VisualElement _errorPopup;
         private Button _errorCloseButton;
         private Label _errorMessage;
 
-        // Transient state for current selection (not business state)
         private readonly List<IChallengeScore> _selectedChallengeParticipants = new();
         private IChallenge _currentChallenge;
         private int _selectedTabIndex = DefaultTabIndex;
 
-        #endregion
-
-        #region Initialization
-
         public ChallengesView(
             ChallengesController controller,
-            HiroChallengesCoordinator coordinator,
+            VisualElement rootElement,
             VisualTreeAsset challengeEntryTemplate,
             VisualTreeAsset challengeParticipantTemplate)
         {
@@ -111,13 +95,15 @@ namespace HiroChallenges
             _challengeEntryTemplate = challengeEntryTemplate;
             _challengeParticipantTemplate = challengeParticipantTemplate;
 
-            // Subscribe to events (removed unused parameters)
-            controller.OnInitialized += HandleInitialized;
-            coordinator.ReceivedStartError += HandleStartError;
-
-            Initialize(controller.GetComponent<UIDocument>().rootVisualElement);
-
+            Initialize(rootElement);
             HideSelectedChallengePanel();
+        }
+
+        public async Task InitializeAsync(IEconomySystem economySystem)
+        {
+            _walletDisplay.StartObserving();
+            await LoadTemplatesAsync();
+            await RefreshChallengesAsync();
         }
 
         private void Initialize(VisualElement rootElement)
@@ -135,7 +121,6 @@ namespace HiroChallenges
         private void InitializeTabs(VisualElement rootElement)
         {
             _myChallengesTab = rootElement.Q<Button>("my-challenges-tab");
-            
             _myChallengesTab.RegisterCallback<ClickEvent>(_ => OnMyChallengesTabClicked());
         }
 
@@ -189,7 +174,6 @@ namespace HiroChallenges
 
         private void InitializeLists(VisualElement rootElement)
         {
-            // Set up and bind participants list
             _challengeParticipantsList = rootElement.Q<ListView>("challenge-participants-list");
             _challengeParticipantsList.makeItem = () =>
             {
@@ -210,7 +194,6 @@ namespace HiroChallenges
             _challengeParticipantsScrollView = _challengeParticipantsList.Q<ScrollView>();
             _challengeParticipantsScrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
 
-            // Set up and bind challenges list
             _challengesList = rootElement.Q<ListView>("challenges-list");
             _challengesList.makeItem = () =>
             {
@@ -225,7 +208,7 @@ namespace HiroChallenges
                 (item.userData as ChallengeView)?.SetChallenge(_controller.Challenges[index]);
             };
             _challengesList.itemsSource = _controller.Challenges;
-            
+
             _challengesList.selectionChanged += _ => OnChallengeSelectionChanged();
 
             _challengesScrollView = _challengesList.Q<ScrollView>();
@@ -246,61 +229,43 @@ namespace HiroChallenges
 
         private void InitializeCreateModal(VisualElement rootElement)
         {
-            _createModal = rootElement.Q<VisualElement>("create-modal");
-            if (_createModal == null)
+            _createModal = rootElement.RequireElement<VisualElement>("create-modal");
+
+            _modalTemplateDropdown = _createModal.RequireElement<DropdownField>("create-modal-template");
+            _modalTemplateDropdown.RegisterValueChangedCallback(evt =>
             {
-                Debug.LogError("Missing UI element: 'create-modal'");
-                return;
-            }
+                var template = _controller.GetTemplate(evt.newValue != null ? _modalTemplateDropdown.index : 0);
+                if (template != null)
+                    UpdateCreateModalLimits(template);
+            });
 
-            _modalTemplateDropdown = _createModal.Q<DropdownField>("create-modal-template");
-            if (_modalTemplateDropdown != null)
+            _modalNameField = _createModal.RequireElement<TextField>("create-modal-name");
+            _modalMaxParticipantsField = _createModal.RequireElement<IntegerField>("create-modal-max-participants");
+
+            _modalInvitees = _createModal.RequireElement<TextField>("create-modal-invitees");
+            RegisterAutocompleteHandler(_modalInvitees);
+
+            _modalChallengeDelay = _createModal.RequireElement<SliderInt>("create-modal-delay");
+            _modalChallengeDelayLabel = _createModal.RequireElement<Label>("create-modal-delay-value");
+            _modalChallengeDelay.RegisterValueChangedCallback(evt =>
             {
-                _modalTemplateDropdown.RegisterValueChangedCallback(evt =>
-                {
-                    var template = _controller.GetTemplate(evt.newValue != null ? _modalTemplateDropdown.index : 0);
-                    if (template != null)
-                        UpdateCreateModalLimits(template);
-                });
-            }
+                _modalChallengeDelayLabel.text = $"{evt.newValue}s";
+            });
 
-            _modalNameField = _createModal.Q<TextField>("create-modal-name");
-            _modalMaxParticipantsField = _createModal.Q<IntegerField>("create-modal-max-participants");
-            _modalInvitees = _createModal.Q<TextField>("create-modal-invitees");
-
-            _modalChallengeDelay = _createModal.Q<SliderInt>("create-modal-delay");
-            _modalChallengeDelayLabel = _createModal.Q<Label>("create-modal-delay-value");
-            if (_modalChallengeDelay != null && _modalChallengeDelayLabel != null)
+            _modalChallengeDuration = _createModal.RequireElement<SliderInt>("create-modal-duration");
+            _modalChallengeDurationLabel = _createModal.RequireElement<Label>("create-modal-duration-value");
+            _modalChallengeDuration.RegisterValueChangedCallback(evt =>
             {
-                _modalChallengeDelay.RegisterValueChangedCallback(evt =>
-                {
-                    _modalChallengeDelayLabel.text = $"{evt.newValue}s";
-                });
-            }
+                _modalChallengeDurationLabel.text = $"{evt.newValue}s";
+            });
 
-            _modalChallengeDuration = _createModal.Q<SliderInt>("create-modal-duration");
-            _modalChallengeDurationLabel = _createModal.Q<Label>("create-modal-duration-value");
-            if (_modalChallengeDuration != null && _modalChallengeDurationLabel != null)
-            {
-                _modalChallengeDuration.RegisterValueChangedCallback(evt =>
-                {
-                    _modalChallengeDurationLabel.text = $"{evt.newValue}s";
-                });
-            }
+            _modalOpenToggle = _createModal.RequireElement<Toggle>("create-modal-open");
 
-            _modalOpenToggle = _createModal.Q<Toggle>("create-modal-open");
+            _modalCreateButton = _createModal.RequireElement<Button>("create-modal-create");
+            _modalCreateButton.RegisterCallback<ClickEvent>(_ => OnCreateConfirmClicked());
 
-            _modalCreateButton = _createModal.Q<Button>("create-modal-create");
-            if (_modalCreateButton != null)
-            {
-                _modalCreateButton.RegisterCallback<ClickEvent>(_ => OnCreateConfirmClicked());
-            }
-
-            _modalCloseButton = _createModal.Q<Button>("create-modal-close");
-            if (_modalCloseButton != null)
-            {
-                _modalCloseButton.RegisterCallback<ClickEvent>(_ => HideCreateModal());
-            }
+            _modalCloseButton = _createModal.RequireElement<Button>("create-modal-close");
+            _modalCloseButton.RegisterCallback<ClickEvent>(_ => HideCreateModal());
         }
 
         private async void OnCreateConfirmClicked()
@@ -310,51 +275,78 @@ namespace HiroChallenges
 
         private void InitializeSubmitScoreModal(VisualElement rootElement)
         {
-            _submitScoreModal = rootElement.Q<VisualElement>("submit-score-modal");
-            if (_submitScoreModal == null)
-            {
-                Debug.LogError("Missing UI element: 'submit-score-modal'");
-                return;
-            }
+            _submitScoreModal = rootElement.RequireElement<VisualElement>("submit-score-modal");
 
-            _scoreField = _submitScoreModal.Q<IntegerField>("submit-score-score");
-            _subScoreField = _submitScoreModal.Q<IntegerField>("submit-score-subscore");
+            _scoreField = _submitScoreModal.RequireElement<IntegerField>("submit-score-score");
+            _subScoreField = _submitScoreModal.RequireElement<IntegerField>("submit-score-subscore");
 
-            _submitScoreModalButton = _submitScoreModal.Q<Button>("submit-score-modal-submit");
-            if (_submitScoreModalButton != null)
-            {
-                _submitScoreModalButton.RegisterCallback<ClickEvent>(_ => SubmitScoreAsync());
-            }
+            _submitScoreModalButton = _submitScoreModal.RequireElement<Button>("submit-score-modal-submit");
+            _submitScoreModalButton.RegisterCallback<ClickEvent>(_ => SubmitScoreAsync());
 
-            _submitScoreModalCloseButton = _submitScoreModal.Q<Button>("submit-score-modal-close");
-            if (_submitScoreModalCloseButton != null)
-            {
-                _submitScoreModalCloseButton.RegisterCallback<ClickEvent>(_ => HideSubmitScoreModal());
-            }
+            _submitScoreModalCloseButton = _submitScoreModal.RequireElement<Button>("submit-score-modal-close");
+            _submitScoreModalCloseButton.RegisterCallback<ClickEvent>(_ => HideSubmitScoreModal());
         }
 
         private void InitializeInviteModal(VisualElement rootElement)
         {
-            _inviteModal = rootElement.Q<VisualElement>("invite-modal");
-            if (_inviteModal == null)
+            _inviteModal = rootElement.RequireElement<VisualElement>("invite-modal");
+
+            _inviteModalInvitees = _inviteModal.RequireElement<TextField>("invite-modal-invitees");
+            RegisterAutocompleteHandler(_inviteModalInvitees);
+
+            _inviteModalButton = _inviteModal.RequireElement<Button>("invite-modal-invite");
+            _inviteModalButton.RegisterCallback<ClickEvent>(_ => OnInviteConfirmClicked());
+
+            _inviteModalCloseButton = _inviteModal.RequireElement<Button>("invite-modal-close");
+            _inviteModalCloseButton.RegisterCallback<ClickEvent>(_ => HideInviteModal());
+        }
+
+        private List<string> GetAutocompleteCandidates(TextField textField)
+        {
+            var usernames = new List<string>(_controller.GetKnownUsernames());
+
+            // For invite modal, also exclude current participants
+            if (textField == _inviteModalInvitees)
             {
-                Debug.LogError("Missing UI element: 'invite-modal'");
-                return;
+                var excludeSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                foreach (var p in _selectedChallengeParticipants)
+                {
+                    if (!string.IsNullOrEmpty(p.Username))
+                        excludeSet.Add(p.Username);
+                }
+                usernames.RemoveAll(u => excludeSet.Contains(u));
             }
 
-            _inviteModalInvitees = _inviteModal.Q<TextField>("invite-modal-invitees");
+            return usernames;
+        }
 
-            _inviteModalButton = _inviteModal.Q<Button>("invite-modal-invite");
-            if (_inviteModalButton != null)
-            {
-                _inviteModalButton.RegisterCallback<ClickEvent>(_ => OnInviteConfirmClicked());
-            }
+        private void UpdateUsernamePlaceholder(TextField textField)
+        {
+            var usernames = GetAutocompleteCandidates(textField);
+            textField.textEdition.placeholder = usernames.Count > 0
+                ? string.Join(", ", usernames)
+                : string.Empty;
+        }
 
-            _inviteModalCloseButton = _inviteModal.Q<Button>("invite-modal-close");
-            if (_inviteModalCloseButton != null)
+        private void RegisterAutocompleteHandler(TextField textField)
+        {
+            textField.RegisterCallback<KeyDownEvent>(evt =>
             {
-                _inviteModalCloseButton.RegisterCallback<ClickEvent>(_ => HideInviteModal());
-            }
+                if (evt.keyCode != KeyCode.Tab)
+                    return;
+
+                evt.PreventDefault();
+                evt.StopPropagation();
+
+                var candidates = GetAutocompleteCandidates(textField);
+                var completed = UsernameAutocomplete.Complete(textField.value, candidates);
+
+                if (completed != textField.value)
+                {
+                    textField.value = completed;
+                    textField.SelectRange(completed.Length, completed.Length);
+                }
+            }, TrickleDown.TrickleDown);
         }
 
         private async void OnInviteConfirmClicked()
@@ -364,35 +356,11 @@ namespace HiroChallenges
 
         private void InitializeErrorPopup(VisualElement rootElement)
         {
-            _errorPopup = rootElement.Q<VisualElement>("error-popup");
-            if (_errorPopup == null)
-            {
-                Debug.LogError("Missing UI element: 'error-popup'");
-                return;
-            }
-
-            _errorMessage = _errorPopup.Q<Label>("error-message");
-            _errorCloseButton = _errorPopup.Q<Button>("error-close");
-            if (_errorCloseButton != null)
-            {
-                _errorCloseButton.RegisterCallback<ClickEvent>(_ => HideErrorPopup());
-            }
+            _errorPopup = rootElement.RequireElement<VisualElement>("error-popup");
+            _errorMessage = _errorPopup.RequireElement<Label>("error-message");
+            _errorCloseButton = _errorPopup.RequireElement<Button>("error-close");
+            _errorCloseButton.RegisterCallback<ClickEvent>(_ => HideErrorPopup());
         }
-
-        private async void HandleInitialized(Nakama.ISession session, ChallengesController controller)
-        {
-            _walletDisplay.StartObserving();
-            await LoadTemplatesAsync();
-        }
-
-        private void HandleStartError(Exception e)
-        {
-            ShowError(e.Message);
-        }
-
-        #endregion
-
-        #region Challenge List Management
 
         public async Task RefreshChallengesAsync()
         {
@@ -401,7 +369,6 @@ namespace HiroChallenges
                 var refreshResult = await _controller.RefreshChallengesAsync();
                 _challengesList.RefreshItems();
 
-                // If a previously selected challenge still exists, reselect it
                 if (refreshResult != null)
                 {
                     _challengesList.selectedIndex = refreshResult.SelectedChallengeIndex;
@@ -439,10 +406,6 @@ namespace HiroChallenges
             }
         }
 
-        /// <summary>
-        /// Updates the selected challenge panel with challenge details and participants.
-        /// Reads view state from controller to determine button visibility.
-        /// </summary>
         private void UpdateSelectedChallengePanel(IChallenge challenge, List<IChallengeScore> participants)
         {
             _currentChallenge = challenge;
@@ -452,7 +415,6 @@ namespace HiroChallenges
             _selectedChallengeNameLabel.text = challenge.Name;
             _selectedChallengeDescriptionLabel.text = challenge.Description;
 
-            // Convert status to readable string
             var now = DateTimeOffset.Now;
             var startTime = DateTimeOffset.FromUnixTimeSeconds(challenge.StartTimeSec);
             var difference = startTime - now;
@@ -477,23 +439,19 @@ namespace HiroChallenges
             _challengeParticipantsList.RefreshItems();
             ShowSelectedChallengePanel();
 
-            // Update button states based on controller's view state
             UpdateButtonStates();
         }
 
-        /// <summary>
-        /// Updates button visibility based on the view state from the controller.
-        /// </summary>
         private void UpdateButtonStates()
         {
-            var viewState = _controller.ViewState;
+            var permissions = _controller.GetPermissions(_currentChallenge, _selectedChallengeParticipants);
 
-            _joinButton.SetDisplay(viewState.ShowJoinButton);
-            _leaveButton.SetDisplay(viewState.ShowLeaveButton);
-            _submitScoreButton.SetDisplay(viewState.ShowSubmitScoreButton);
-            _submitScoreButton.text = viewState.SubmitScoreText;
-            _inviteButton.SetDisplay(viewState.ShowInviteButton);
-            _claimRewardsButton.SetDisplay(viewState.ShowClaimRewardsButton);
+            _joinButton.SetDisplay(permissions.CanJoin);
+            _leaveButton.SetDisplay(permissions.CanLeave);
+            _submitScoreButton.SetDisplay(permissions.CanSubmitScore);
+            _submitScoreButton.text = $"Submit Score ({permissions.ScoresSubmitted}/{permissions.MaxScores})";
+            _inviteButton.SetDisplay(permissions.CanInvite);
+            _claimRewardsButton.SetDisplay(permissions.CanClaim);
         }
 
         private void ShowSelectedChallengePanel()
@@ -505,10 +463,6 @@ namespace HiroChallenges
         {
             _selectedChallengePanel.Hide();
         }
-
-        #endregion
-
-        #region Challenge Action Handlers
 
         private async void JoinChallengeAsync()
         {
@@ -553,10 +507,6 @@ namespace HiroChallenges
             }
         }
 
-        #endregion
-
-        #region Create Challenge Modal
-
         private async Task LoadTemplatesAsync()
         {
             try
@@ -582,12 +532,13 @@ namespace HiroChallenges
         private void ShowCreateModal()
         {
             ResetCreateModalInputs();
-            _createModal?.Show();
+            UpdateUsernamePlaceholder(_modalInvitees);
+            _createModal.Show();
         }
 
         private void HideCreateModal()
         {
-            _createModal?.Hide();
+            _createModal.Hide();
         }
 
         private async Task CreateChallengeAsync()
@@ -603,7 +554,7 @@ namespace HiroChallenges
                     _modalChallengeDuration.value,
                     _modalOpenToggle.value
                 );
-                
+
                 HideCreateModal();
                 await RefreshChallengesAsync();
             }
@@ -617,7 +568,7 @@ namespace HiroChallenges
         private void ResetCreateModalInputs()
         {
             var defaults = _controller.GetCreationDefaults();
-            
+
             _modalNameField.value = string.Empty;
             _modalMaxParticipantsField.value = defaults.MaxParticipants;
             _modalInvitees.value = string.Empty;
@@ -629,9 +580,6 @@ namespace HiroChallenges
                 _modalTemplateDropdown.index = 0;
         }
 
-        /// <summary>
-        /// Updates slider and field constraints based on selected challenge template limits.
-        /// </summary>
         private void UpdateCreateModalLimits(IChallengeTemplate template)
         {
             var maxDelay = template.StartDelayMax;
@@ -655,20 +603,16 @@ namespace HiroChallenges
                 template.Players.Max);
         }
 
-        #endregion
-
-        #region Submit Score Modal
-
         private void ShowSubmitScoreModal()
         {
-            if (_scoreField != null) _scoreField.value = 0;
-            if (_subScoreField != null) _subScoreField.value = 0;
-            _submitScoreModal?.Show();
+            _scoreField.value = 0;
+            _subScoreField.value = 0;
+            _submitScoreModal.Show();
         }
 
         private void HideSubmitScoreModal()
         {
-            _submitScoreModal?.Hide();
+            _submitScoreModal.Hide();
         }
 
         private async void SubmitScoreAsync()
@@ -686,22 +630,16 @@ namespace HiroChallenges
             }
         }
 
-        #endregion
-
-        #region Invite Modal
-
         private void ShowInviteModal()
         {
-            if (_inviteModalInvitees != null)
-            {
-                _inviteModalInvitees.value = string.Empty;
-            }
-            _inviteModal?.Show();
+            _inviteModalInvitees.value = string.Empty;
+            UpdateUsernamePlaceholder(_inviteModalInvitees);
+            _inviteModal.Show();
         }
 
         private void HideInviteModal()
         {
-            _inviteModal?.Hide();
+            _inviteModal.Hide();
         }
 
         private async Task InviteUsersAsync()
@@ -719,49 +657,18 @@ namespace HiroChallenges
             }
         }
 
-        #endregion
-
-        #region Error Handling
-
-        private void ShowError(string message)
+        public void ShowError(string message)
         {
-            if (_errorMessage != null)
-            {
-                _errorMessage.text = message;
-            }
-            
-            if (_errorPopup != null)
-            {
-                _errorPopup.Show();
-            }
-            else
-            {
-                Debug.LogError($"Challenge Error: {message}");
-            }
+            _errorMessage.text = message;
+            _errorPopup.Show();
         }
 
         private void HideErrorPopup()
         {
-            _errorPopup?.Hide();
+            _errorPopup.Hide();
         }
-
-        #endregion
-
-        #region Helper Methods
-
-        private void HideAllModals()
-        {
-            HideCreateModal();
-            HideSubmitScoreModal();
-            HideInviteModal();
-        }
-
-        #endregion
     }
 
-    /// <summary>
-    /// Extension methods for UI element visibility.
-    /// </summary>
     public static class UIElementExtensions
     {
         public static void Show(this VisualElement element)
@@ -777,6 +684,14 @@ namespace HiroChallenges
         public static void SetDisplay(this VisualElement element, bool visible)
         {
             element.style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
+        }
+
+        public static T RequireElement<T>(this VisualElement parent, string name) where T : VisualElement
+        {
+            var element = parent.Q<T>(name);
+            if (element == null)
+                throw new InvalidOperationException($"Required UI element '{name}' of type {typeof(T).Name} not found");
+            return element;
         }
     }
 }

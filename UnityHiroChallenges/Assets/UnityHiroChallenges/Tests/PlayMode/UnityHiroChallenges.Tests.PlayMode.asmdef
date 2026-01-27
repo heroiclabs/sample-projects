@@ -1,0 +1,26 @@
+{
+    "name": "UnityHiroChallenges.Tests.PlayMode",
+    "rootNamespace": "HiroChallenges.Tests",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "UnityHiroChallenges.Runtime",
+        "NakamaRuntime"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll",
+        "Hiro.dll",
+        "Hiro.Unity.dll",
+        "Nakama.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
