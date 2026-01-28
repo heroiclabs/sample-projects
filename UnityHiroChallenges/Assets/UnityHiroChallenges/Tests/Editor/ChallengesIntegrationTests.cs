@@ -74,7 +74,7 @@ namespace HiroChallenges.Tests.Editor
             typeof(ChallengesController).GetField("_nakamaSystem", bindingFlags).SetValue(_controller, _nakamaSystem);
             typeof(ChallengesController).GetField("_challengesSystem", bindingFlags).SetValue(_controller, _challengesSystem);
             typeof(ChallengesController).GetField("_economySystem", bindingFlags).SetValue(_controller, _economySystem);
-            typeof(ChallengesController).GetField("_currentUserId", bindingFlags).SetValue(_controller, _session.UserId);
+            _controller.CurrentUserId = _session.UserId;
         }
 
         [TearDown]
@@ -98,7 +98,7 @@ namespace HiroChallenges.Tests.Editor
                 0,
                 $"Test Challenge {DateTime.UtcNow.Ticks}",
                 defaults.MaxParticipants,
-                _inviteeSession.Username,
+                new[] { _inviteeSession.UserId },
                 defaults.DelaySeconds,
                 defaults.DurationSeconds,
                 true
@@ -121,7 +121,7 @@ namespace HiroChallenges.Tests.Editor
                 0,
                 $"Get Test {DateTime.UtcNow.Ticks}",
                 defaults.MaxParticipants,
-                _inviteeSession.Username,
+                new[] { _inviteeSession.UserId },
                 defaults.DelaySeconds,
                 defaults.DurationSeconds,
                 true
@@ -132,7 +132,7 @@ namespace HiroChallenges.Tests.Editor
             Assert.IsTrue(_controller.Challenges.Count > 0, "Should have at least one challenge");
 
             var challenge = _controller.Challenges[0];
-            var participants = await _controller.SelectChallengeAsync(challenge);
+            var participants = await _controller.SelectChallengeAsync(challenge.Id);
 
             Assert.IsNotNull(participants);
             Debug.Log($"Challenge '{challenge.Name}' has {participants.Count} participants");
@@ -187,7 +187,7 @@ namespace HiroChallenges.Tests.Editor
             typeof(ChallengesController).GetField("_nakamaSystem", bindingFlags).SetValue(_controller, _nakamaSystem);
             typeof(ChallengesController).GetField("_challengesSystem", bindingFlags).SetValue(_controller, _challengesSystem);
             typeof(ChallengesController).GetField("_economySystem", bindingFlags).SetValue(_controller, _economySystem);
-            typeof(ChallengesController).GetField("_currentUserId", bindingFlags).SetValue(_controller, _session.UserId);
+            _controller.CurrentUserId = _session.UserId;
         }
 
         [TearDown]
@@ -246,14 +246,14 @@ namespace HiroChallenges.Tests.Editor
             }
 
             var challenge = _controller.Challenges[0];
-            var participants = await _controller.SelectChallengeAsync(challenge);
+            var participants = await _controller.SelectChallengeAsync(challenge.Id);
 
             Assert.IsNotNull(participants);
             Debug.Log($"Challenge '{challenge.Name}' has {participants.Count} participants");
         }
 
         [Test]
-        public async Task GetPermissions_WhenChallengeSelected_ReturnsValidPermissions()
+        public async Task ChallengeExtensions_WhenChallengeSelected_ReturnsValidPermissions()
         {
             await _controller.RefreshChallengesAsync();
 
@@ -264,11 +264,10 @@ namespace HiroChallenges.Tests.Editor
             }
 
             var challenge = _controller.Challenges[0];
-            var participants = await _controller.SelectChallengeAsync(challenge);
-            var permissions = _controller.GetPermissions(challenge, participants);
+            var participants = await _controller.SelectChallengeAsync(challenge.Id);
+            var participant = _controller.GetCurrentParticipant(participants);
 
-            Assert.IsNotNull(permissions);
-            Debug.Log($"Permissions: CanJoin={permissions.CanJoin}, CanSubmitScore={permissions.CanSubmitScore}, CanClaim={permissions.CanClaim}");
+            Debug.Log($"Permissions: CanJoin={challenge.CanJoin(participant)}, CanSubmitScore={challenge.CanSubmitScore(participant)}, CanClaim={challenge.CanClaimReward(participant)}");
         }
 
         [Test]
@@ -297,7 +296,6 @@ namespace HiroChallenges.Tests.Editor
         private const string ServerKey = "defaultkey";
 
         private IClient _client;
-        private string _testDeviceId;
 
         private GameObject _controllerGo;
         private ChallengesController _controller;
@@ -305,30 +303,19 @@ namespace HiroChallenges.Tests.Editor
         private ChallengesSystem _challengesSystem;
         private EconomySystem _economySystem;
 
-        // Store sessions for cleanup
-        private ISession[] _sessions;
-        private string[] _usernames;
-
         [SetUp]
         public async Task SetUp()
         {
-            _testDeviceId = $"test-device-{Guid.NewGuid():N}";
+            // Clear any cached account data from previous test runs
+            AccountSwitcher.ClearAccounts();
+            ClearTestTokens();
+
             _client = new Client(Scheme, Host, Port, ServerKey);
-
-            // Authenticate all 4 accounts and store their sessions/usernames
-            _sessions = new ISession[4];
-            _usernames = new string[4];
-
-            for (var i = 0; i < 4; i++)
-            {
-                _sessions[i] = await _client.AuthenticateDeviceAsync($"{_testDeviceId}_{i}");
-                _usernames[i] = _sessions[i].Username;
-            }
 
             var logger = new Hiro.Unity.Logger();
 
             // Initialize with account 0
-            _nakamaSystem = new NakamaSystem(logger, _client, _ => Task.FromResult(_sessions[0]));
+            _nakamaSystem = new NakamaSystem(logger, _client, HiroChallengesCoordinator.NakamaAuthorizerFunc("test", 0));
             await _nakamaSystem.InitializeAsync();
 
             _challengesSystem = new ChallengesSystem(logger, _nakamaSystem);
@@ -346,7 +333,7 @@ namespace HiroChallenges.Tests.Editor
             typeof(ChallengesController).GetField("_nakamaSystem", bindingFlags).SetValue(_controller, _nakamaSystem);
             typeof(ChallengesController).GetField("_challengesSystem", bindingFlags).SetValue(_controller, _challengesSystem);
             typeof(ChallengesController).GetField("_economySystem", bindingFlags).SetValue(_controller, _economySystem);
-            typeof(ChallengesController).GetField("_currentUserId", bindingFlags).SetValue(_controller, _sessions[0].UserId);
+            // CurrentUserId is set by SwitchAccountAsync -> SwitchCompleteAsync
         }
 
         [TearDown]
@@ -355,108 +342,166 @@ namespace HiroChallenges.Tests.Editor
             if (_controllerGo != null)
                 UnityEngine.Object.DestroyImmediate(_controllerGo);
 
-            // Re-authenticate to get fresh sessions (originals were modified during switching)
-            for (var i = 0; i < _sessions.Length; i++)
+            // Delete all test accounts
+            for (var i = 0; i < 4; i++)
             {
-                var freshSession = await _client.AuthenticateDeviceAsync($"{_testDeviceId}_{i}");
-                await _client.DeleteAccountAsync(freshSession);
+                var session = await HiroChallengesCoordinator.NakamaAuthorizerFunc("test", i).Invoke(_client);
+                await _client.DeleteAccountAsync(session);
             }
+
+            // Clear cached data
+            AccountSwitcher.ClearAccounts();
+            ClearTestTokens();
         }
 
-        private async Task SwitchToAccountAsync(int accountIndex)
+        private static void ClearTestTokens()
         {
-            var newSession = _sessions[accountIndex];
-            await AccountSwitcher.SwitchToSessionAsync(_nakamaSystem, _controller, newSession);
-
-            var bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance;
-            typeof(ChallengesController).GetField("_currentUserId", bindingFlags).SetValue(_controller, newSession.UserId);
-
-            Debug.Log($"Switched to account {accountIndex}: {newSession.Username}");
+            PlayerPrefs.DeleteKey("nakama.DeviceId_test");
+            for (var i = 0; i < 4; i++)
+            {
+                PlayerPrefs.DeleteKey($"nakama.AuthToken_test_{i}");
+                PlayerPrefs.DeleteKey($"nakama.RefreshToken_test_{i}");
+            }
         }
 
         [Test]
         public async Task FullChallengeFlow_CreateInviteJoinSubmitScores_ScoresAreSortedByRank()
         {
-            // Account 0: Load templates and create challenge with 3 invitees
+            // Get user IDs for all accounts
+            var userIds = new string[4];
+            for (var i = 0; i < 4; i++)
+            {
+                var session = await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, _controller, "test", i);
+                userIds[i] = session.UserId;
+            }
+
+            // Switch to Account 0: Load templates and create challenge with 1 invitee
+            await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, _controller, "test", 0);
             await _controller.LoadChallengeTemplatesAsync();
             var defaults = _controller.GetCreationDefaults();
 
-            var invitees = $"{_usernames[1]},{_usernames[2]},{_usernames[3]}";
-
-            await _controller.CreateChallengeAsync(
+            var createdChallenge = await _controller.CreateChallengeAsync(
                 0,
                 $"Flow Test {DateTime.UtcNow.Ticks}",
                 defaults.MaxParticipants,
-                invitees,
+                new[] { userIds[1] },
                 0,
                 defaults.DurationSeconds,
                 true
             );
 
-            await _controller.RefreshChallengesAsync();
-            Assert.IsTrue(_controller.Challenges.Count > 0, "Challenge should have been created");
-
-            var challenge = _controller.Challenges[0];
-            await _controller.SelectChallengeAsync(challenge);
-            Debug.Log($"Created challenge: {challenge.Name}");
+            var challengeId = createdChallenge.Id;
+            var participants0 = await _controller.SelectChallengeAsync(challengeId);
+            Assert.AreEqual(createdChallenge.Id, _controller.SelectedChallenge.Id);
+            Assert.AreEqual(2, participants0.Count, "Challenge should have 2 participants (owner + 1 invitee)");
 
             // Account 0 submits score 10
             await _controller.SubmitScoreAsync(10, 0);
-            Debug.Log($"Account 0 ({_usernames[0]}) submitted score: 10");
 
-            // Switch to account 1, join and submit score 25
-            await SwitchToAccountAsync(1);
-            await _controller.RefreshChallengesAsync();
-            await _controller.SelectChallengeAsync(_controller.Challenges[0]);
+            // Switch to Account 1, join and submit score 25
+            await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, _controller, "test", 1);
+            var participants1 = await _controller.SelectChallengeAsync(challengeId);
+            Assert.AreEqual(createdChallenge.Id, _controller.SelectedChallenge.Id);
+            var challenge1 = _controller.SelectedChallenge;
+            var participant1 = _controller.GetCurrentParticipant(participants1);
+
+            Assert.IsNotNull(participant1, "Account 1 should be a participant (was invited)");
+            Assert.AreEqual(ChallengeState.Invited, participant1.State, "Account 1 should be in Invited state before joining");
+            Assert.IsTrue(challenge1.IsActive, "Challenge should be active");
+            Assert.IsTrue(challenge1.Size < challenge1.MaxSize, "Challenge should have room for more participants");
+            Assert.AreEqual(2, participants1.Count, "Challenge should have 2 participants (owner + 1 invitee)");
+            Assert.IsTrue(challenge1.CanJoin(participant1), "Account 1 should be able to join");
+            Assert.IsFalse(challenge1.CanSubmitScore(participant1), "Account 1 should not be able to submit score before joining");
+
             await _controller.JoinChallengeAsync();
+            participants1 = await _controller.SelectChallengeAsync(challengeId);
+            Assert.AreEqual(createdChallenge.Id, _controller.SelectedChallenge.Id);
+            challenge1 = _controller.SelectedChallenge;
+            participant1 = _controller.GetCurrentParticipant(participants1);
+            Assert.AreEqual(ChallengeState.Joined, participant1.State, "Account 1 should be in Joined state after joining");
+            Assert.IsFalse(challenge1.CanJoin(participant1), "Account 1 should not be able to join after joining");
+            Assert.IsTrue(challenge1.CanSubmitScore(participant1), "Account 1 should be able to submit score after joining");
+
             await _controller.SubmitScoreAsync(25, 0);
-            Debug.Log($"Account 1 ({_usernames[1]}) joined and submitted score: 25");
 
-            // Switch to account 2, join and submit score 50
-            await SwitchToAccountAsync(2);
-            await _controller.RefreshChallengesAsync();
-            await _controller.SelectChallengeAsync(_controller.Challenges[0]);
+            // Switch back to Account 0 to invite Accounts 2 and 3
+            await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, _controller, "test", 0);
+            await _controller.SelectChallengeAsync(challengeId);
+            Assert.AreEqual(createdChallenge.Id, _controller.SelectedChallenge.Id);
+            await _controller.InviteToChallengeAsync(new[] { userIds[2], userIds[3] });
+
+            // Switch to Account 2, join and submit score 50
+            await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, _controller, "test", 2);
+            var participants2 = await _controller.SelectChallengeAsync(challengeId);
+            Assert.AreEqual(createdChallenge.Id, _controller.SelectedChallenge.Id);
+            var challenge2 = _controller.SelectedChallenge;
+            var participant2 = _controller.GetCurrentParticipant(participants2);
+            Assert.IsNotNull(participant2, "Account 2 should be a participant (was invited)");
+            Assert.AreEqual(4, participants2.Count, "Challenge should have 4 participants (owner + 3 invitees)");
+            Assert.AreEqual(ChallengeState.Invited, participant2.State, "Account 2 should be in Invited state before joining");
+            Assert.IsTrue(challenge2.CanJoin(participant2), "Account 2 should be able to join");
+            Assert.IsFalse(challenge2.CanSubmitScore(participant2), "Account 2 should not be able to submit score before joining");
+
             await _controller.JoinChallengeAsync();
+            participants2 = await _controller.SelectChallengeAsync(challengeId);
+            Assert.AreEqual(createdChallenge.Id, _controller.SelectedChallenge.Id);
+            challenge2 = _controller.SelectedChallenge;
+            participant2 = _controller.GetCurrentParticipant(participants2);
+            Assert.AreEqual(ChallengeState.Joined, participant2.State, "Account 2 should be in Joined state after joining");
+            Assert.IsTrue(challenge2.CanSubmitScore(participant2), "Account 2 should be able to submit score after joining");
+
             await _controller.SubmitScoreAsync(50, 0);
-            Debug.Log($"Account 2 ({_usernames[2]}) joined and submitted score: 50");
 
-            // Switch to account 3, join and submit score 75
-            await SwitchToAccountAsync(3);
-            await _controller.RefreshChallengesAsync();
-            await _controller.SelectChallengeAsync(_controller.Challenges[0]);
+            // Switch to Account 3, join and submit score 75
+            await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, _controller, "test", 3);
+            var participants3 = await _controller.SelectChallengeAsync(challengeId);
+            Assert.AreEqual(createdChallenge.Id, _controller.SelectedChallenge.Id);
+            var challenge3 = _controller.SelectedChallenge;
+            var participant3 = _controller.GetCurrentParticipant(participants3);
+            Assert.IsNotNull(participant3, "Account 3 should be a participant (was invited)");
+            Assert.AreEqual(4, participants3.Count, "Challenge should have 4 participants (owner + 3 invitees)");
+            Assert.AreEqual(ChallengeState.Invited, participant3.State, "Account 3 should be in Invited state before joining");
+            Assert.IsTrue(challenge3.CanJoin(participant3), "Account 3 should be able to join");
+            Assert.IsFalse(challenge3.CanSubmitScore(participant3), "Account 3 should not be able to submit score before joining");
+
             await _controller.JoinChallengeAsync();
+            participants3 = await _controller.SelectChallengeAsync(challengeId);
+            challenge3 = _controller.SelectedChallenge;
+            participant3 = _controller.GetCurrentParticipant(participants3);
+            Assert.AreEqual(ChallengeState.Joined, participant3.State, "Account 3 should be in Joined state after joining");
+            Assert.IsTrue(challenge3.CanSubmitScore(participant3), "Account 3 should be able to submit score after joining");
+
             await _controller.SubmitScoreAsync(75, 0);
-            Debug.Log($"Account 3 ({_usernames[3]}) joined and submitted score: 75");
 
-            // Switch back to account 0 to verify final state
-            await SwitchToAccountAsync(0);
-            await _controller.RefreshChallengesAsync();
-            var participants = await _controller.SelectChallengeAsync(_controller.Challenges[0]);
-
+            // Switch back to Account 0 to verify final state
+            await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, _controller, "test", 0);
+            var participants = await _controller.SelectChallengeAsync(challengeId);
+            Assert.AreEqual(createdChallenge.Id, _controller.SelectedChallenge.Id);
             Assert.IsNotNull(participants);
             Assert.AreEqual(4, participants.Count, "Should have 4 participants");
 
-            Debug.Log("=== Participants in returned order ===");
-            for (var i = 0; i < participants.Count; i++)
+            // Verify all participants are in Joined state
+            foreach (var p in participants)
             {
-                var p = participants[i];
-                Debug.Log($"Position {i}: {p.Username}, Score: {p.Score}, Rank: {p.Rank}");
+                Assert.AreEqual(ChallengeState.Joined, p.State, $"Participant {p.Username} should be in Joined state");
             }
 
             // Verify scores are sorted by rank (highest score = rank 1)
-            Assert.AreEqual(1, participants[0].Rank, $"First should be rank 1, got {participants[0].Rank}");
-            Assert.AreEqual(75, participants[0].Score, $"Rank 1 should have score 75, got {participants[0].Score}");
+            Assert.AreEqual(1, participants[0].Rank, "First should be rank 1");
+            Assert.AreEqual(75, participants[0].Score, "Rank 1 should have score 75");
+            Assert.AreEqual(userIds[3], participants[0].Id, "Rank 1 should be Account 3");
 
-            Assert.AreEqual(2, participants[1].Rank, $"Second should be rank 2, got {participants[1].Rank}");
-            Assert.AreEqual(50, participants[1].Score, $"Rank 2 should have score 50, got {participants[1].Score}");
+            Assert.AreEqual(2, participants[1].Rank, "Second should be rank 2");
+            Assert.AreEqual(50, participants[1].Score, "Rank 2 should have score 50");
+            Assert.AreEqual(userIds[2], participants[1].Id, "Rank 2 should be Account 2");
 
-            Assert.AreEqual(3, participants[2].Rank, $"Third should be rank 3, got {participants[2].Rank}");
-            Assert.AreEqual(25, participants[2].Score, $"Rank 3 should have score 25, got {participants[2].Score}");
+            Assert.AreEqual(3, participants[2].Rank, "Third should be rank 3");
+            Assert.AreEqual(25, participants[2].Score, "Rank 3 should have score 25");
+            Assert.AreEqual(userIds[1], participants[2].Id, "Rank 3 should be Account 1");
 
-            Assert.AreEqual(4, participants[3].Rank, $"Fourth should be rank 4, got {participants[3].Rank}");
-            Assert.AreEqual(10, participants[3].Score, $"Rank 4 should have score 10, got {participants[3].Score}");
-
-            Debug.Log("=== All assertions passed - scores are sorted correctly by rank ===");
+            Assert.AreEqual(4, participants[3].Rank, "Fourth should be rank 4");
+            Assert.AreEqual(10, participants[3].Score, "Rank 4 should have score 10");
+            Assert.AreEqual(userIds[0], participants[3].Id, "Rank 4 should be Account 0");
         }
     }
 }

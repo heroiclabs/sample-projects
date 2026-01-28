@@ -44,12 +44,12 @@ namespace HiroChallenges
         private IChallengesSystem _challengesSystem;
         private IEconomySystem _economySystem;
         private NakamaSystem _nakamaSystem;
-        private string _currentUserId;
+        public string CurrentUserId;
 
-        private IChallenge _selectedChallenge;
         private string _selectedChallengeId;
 
         public List<IChallenge> Challenges { get; } = new();
+        public IChallenge SelectedChallenge { get; private set; }
 
 
         public bool IsInitialized { get; private set; }
@@ -101,13 +101,14 @@ namespace HiroChallenges
             if (_economySystem == null)
                 throw new InvalidOperationException("EconomySystem not available");
 
-            _currentUserId = _nakamaSystem.UserId;
+            CurrentUserId = _nakamaSystem.UserId;
         }
 
         public async Task SwitchCompleteAsync()
         {
-            _selectedChallenge = null;
+            SelectedChallenge = null;
             _selectedChallengeId = string.Empty;
+            CurrentUserId = _nakamaSystem.UserId;
             await _economySystem.RefreshAsync();
         }
 
@@ -151,7 +152,7 @@ namespace HiroChallenges
                 if (challenge.Id != _selectedChallengeId)
                     continue;
 
-                var participants = await SelectChallengeAsync(challenge);
+                var participants = await SelectChallengeAsync(challenge.Id);
                 return new ChallengeRefreshResult
                 {
                     SelectedChallengeIndex = Challenges.IndexOf(challenge),
@@ -162,33 +163,30 @@ namespace HiroChallenges
             return null;
         }
 
-        public async Task<List<IChallengeScore>> SelectChallengeAsync(IChallenge challenge)
+        public async Task<List<IChallengeScore>> SelectChallengeAsync(string challengeId)
         {
-            if (challenge == null)
+            if (string.IsNullOrEmpty(challengeId))
             {
                 _selectedChallengeId = string.Empty;
-                _selectedChallenge = null;
+                SelectedChallenge = null;
                 return null;
             }
 
-            _selectedChallenge = challenge;
-            _selectedChallengeId = challenge.Id;
-
-            var detailedChallenge = await _challengesSystem.GetChallengeAsync(_selectedChallenge.Id, true);
-            return detailedChallenge.Scores.ToList();
+            _selectedChallengeId = challengeId;
+            SelectedChallenge = await _challengesSystem.GetChallengeAsync(challengeId, true);
+            return SelectedChallenge.Scores.ToList();
         }
 
-        public ChallengePermissions GetPermissions(IChallenge challenge, IReadOnlyList<IChallengeScore> participants)
+        public IChallengeScore GetCurrentParticipant(IReadOnlyList<IChallengeScore> participants)
         {
-            var currentParticipant = participants.FirstOrDefault(p => p.Id == _currentUserId);
-            return new ChallengePermissions(challenge, currentParticipant);
+            return participants.FirstOrDefault(p => p.Id == CurrentUserId);
         }
 
-        public async Task CreateChallengeAsync(
+        public async Task<IChallenge> CreateChallengeAsync(
             int templateIndex,
             string challengeName,
             int maxParticipants,
-            string inviteesInput,
+            string[] inviteeIds,
             int delaySeconds,
             int durationSeconds,
             bool isOpen)
@@ -197,7 +195,6 @@ namespace HiroChallenges
                 throw new ArgumentException("Please select a valid Challenge template.", nameof(templateIndex));
 
             var selectedTemplate = _challengeTemplates.ElementAt(templateIndex);
-            var inviteeIDs = await ParseAndValidateInviteesAsync(inviteesInput);
 
             selectedTemplate.Value.AdditionalProperties.TryGetValue("description", out var description);
             selectedTemplate.Value.AdditionalProperties.TryGetValue("category", out var category);
@@ -206,9 +203,8 @@ namespace HiroChallenges
                 selectedTemplate.Key,
                 challengeName,
                 description ?? "Missing description.",
-                inviteeIDs,
+                inviteeIds,
                 isOpen,
-                selectedTemplate.Value.MaxNumScore,
                 delaySeconds,
                 durationSeconds,
                 maxParticipants,
@@ -217,41 +213,43 @@ namespace HiroChallenges
             );
 
             _selectedChallengeId = newChallenge.Id;
-            _selectedChallenge = newChallenge;
+            SelectedChallenge = newChallenge;
+
+            return newChallenge;
         }
 
         public async Task JoinChallengeAsync()
         {
-            if (_selectedChallenge == null)
+            if (SelectedChallenge == null)
                 throw new InvalidOperationException("No challenge selected");
 
-            await _challengesSystem.JoinChallengeAsync(_selectedChallenge.Id);
+            await _challengesSystem.JoinChallengeAsync(SelectedChallenge.Id);
         }
 
         public async Task LeaveChallengeAsync()
         {
-            if (_selectedChallenge == null)
+            if (SelectedChallenge == null)
                 throw new InvalidOperationException("No challenge selected");
 
-            await _challengesSystem.LeaveChallengeAsync(_selectedChallenge.Id);
+            await _challengesSystem.LeaveChallengeAsync(SelectedChallenge.Id);
         }
 
         public async Task ClaimChallengeAsync()
         {
-            if (_selectedChallenge == null)
+            if (SelectedChallenge == null)
                 throw new InvalidOperationException("No challenge selected");
 
-            await _challengesSystem.ClaimChallengeAsync(_selectedChallenge.Id);
+            await _challengesSystem.ClaimChallengeAsync(SelectedChallenge.Id);
             await _economySystem.RefreshAsync();
         }
 
         public async Task SubmitScoreAsync(int score, int subScore)
         {
-            if (_selectedChallenge == null)
+            if (SelectedChallenge == null)
                 throw new InvalidOperationException("No challenge selected");
 
             await _challengesSystem.SubmitChallengeScoreAsync(
-                _selectedChallenge.Id,
+                SelectedChallenge.Id,
                 score,
                 subScore,
                 null,
@@ -259,16 +257,14 @@ namespace HiroChallenges
             );
         }
 
-        public async Task InviteToChallengeAsync(string inviteesInput)
+        public async Task InviteToChallengeAsync(string[] inviteeIds)
         {
-            if (_selectedChallenge == null)
+            if (SelectedChallenge == null)
                 throw new InvalidOperationException("No challenge selected");
 
-            var inviteeIDs = await ParseAndValidateInviteesAsync(inviteesInput);
-
             await _challengesSystem.InviteChallengeAsync(
-                _selectedChallenge.Id,
-                inviteeIDs
+                SelectedChallenge.Id,
+                inviteeIds
             );
         }
 
@@ -282,97 +278,6 @@ namespace HiroChallenges
             };
         }
 
-        public IEnumerable<string> GetKnownUsernames()
-        {
-            var currentUsername = _nakamaSystem.Session.Username;
-
-#if UNITY_EDITOR
-            var usernames = GetEditorKnownUsernames();
-#else
-            var usernames = Array.Empty<string>();
-#endif
-
-            var filtered = new List<string>();
-            foreach (var username in usernames)
-            {
-                if (!string.Equals(username, currentUsername, StringComparison.OrdinalIgnoreCase))
-                    filtered.Add(username);
-            }
-            return filtered;
-        }
-
-#if UNITY_EDITOR
-        private static IEnumerable<string> GetEditorKnownUsernames()
-        {
-            const string accountUsernamesKey = "AccountSwitcher_Usernames";
-            var savedUsernames = UnityEditor.EditorPrefs.GetString(accountUsernamesKey, "");
-
-            if (string.IsNullOrEmpty(savedUsernames))
-                return Array.Empty<string>();
-
-            try
-            {
-                var data = JsonUtility.FromJson<UsernameStorage>(savedUsernames);
-                if (data?.items == null)
-                    return Array.Empty<string>();
-
-                var result = new List<string>();
-                foreach (var item in data.items)
-                {
-                    if (!string.IsNullOrEmpty(item.value))
-                        result.Add(item.value);
-                }
-                return result;
-            }
-            catch
-            {
-                return Array.Empty<string>();
-            }
-        }
-
-        [Serializable]
-        private class UsernameStorage
-        {
-            public List<UsernameItem> items;
-        }
-
-        [Serializable]
-        private class UsernameItem
-        {
-            public string key;
-            public string value;
-        }
-#endif
-
-        private async Task<string[]> ParseAndValidateInviteesAsync(string inviteesInput)
-        {
-            if (string.IsNullOrEmpty(inviteesInput))
-                throw new ArgumentException("Invitees field cannot be empty. Please enter at least one username.");
-
-            var inviteeUsernames = inviteesInput
-                .Split(',')
-                .Select(username => username.Trim())
-                .Where(username => !string.IsNullOrEmpty(username))
-                .ToList();
-
-            if (inviteeUsernames.Count == 0)
-                throw new ArgumentException("No valid usernames found. Please enter at least one username.");
-
-            var result = await _nakamaSystem.Client.GetUsersAsync(
-                _nakamaSystem.Session,
-                usernames: inviteeUsernames,
-                ids: null
-            );
-            var inviteeIDs = result.Users.Select(user => user.Id).ToList();
-
-            if (inviteeIDs.Count != inviteeUsernames.Count)
-            {
-                throw new ArgumentException(
-                    $"Could not find all users. Requested: {inviteeUsernames.Count}, Found: {inviteeIDs.Count}");
-            }
-
-            return inviteeIDs.ToArray();
-        }
     }
 
     #region Data Transfer Objects

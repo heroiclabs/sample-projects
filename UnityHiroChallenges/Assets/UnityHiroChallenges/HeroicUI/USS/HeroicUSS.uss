@@ -619,3 +619,17 @@
 .unity-base-text-field__input--placeholder {
     color: rgba(156, 156, 156, 0.52);
 }
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border-top-width: 4px;
+    border-right-width: 4px;
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+    border-top-color: rgb(121, 99, 255);
+    border-right-color: rgba(121, 99, 255, 0.3);
+    border-bottom-color: rgba(121, 99, 255, 0.3);
+    border-left-color: rgba(121, 99, 255, 0.3);
+}

@@ -91,6 +91,9 @@ namespace HiroChallenges
         private IDisposable _challengesSystemObserver;
         private IDisposable _nakamaSystemObserver;
 
+        private LoadingSpinner _challengesListSpinner;
+        private LoadingSpinner _selectedChallengeSpinner;
+
         public ChallengesView(
             ChallengesController controller,
             VisualElement rootElement,
@@ -111,7 +114,11 @@ namespace HiroChallenges
         private async void OnCoordinatorReady()
         {
             var coordinator = HiroCoordinator.Instance as HiroChallengesCoordinator;
+            System.Diagnostics.Debug.Assert(coordinator != null, nameof(coordinator) + " != null");
             coordinator.ReceivedStartSuccess -= OnCoordinatorReady;
+
+            // Show spinner while initializing
+            _challengesListSpinner.Show();
 
             // Wait for controller to initialize its systems
             while (!_controller.IsInitialized)
@@ -119,19 +126,13 @@ namespace HiroChallenges
 
             _walletDisplay.StartObserving();
 
-            var challengesSystem = coordinator.GetSystem<ChallengesSystem>();
             var nakamaSystem = coordinator.GetSystem<NakamaSystem>();
 
-            _challengesSystemObserver = SystemObserver<ChallengesSystem>.Create(challengesSystem, OnChallengesSystemUpdated);
-            _nakamaSystemObserver = SystemObserver<NakamaSystem>.Create(nakamaSystem, OnNakamaSystemUpdated);
-
             await LoadTemplatesAsync();
-            await RefreshChallengesAsync();
-        }
 
-        private void OnChallengesSystemUpdated(ChallengesSystem system)
-        {
-            _ = RefreshChallengesAsync();
+            // Observer calls callback immediately on subscribe, which triggers initial refresh
+            // RefreshChallengesAsync will hide the spinner when done
+            _nakamaSystemObserver = SystemObserver<NakamaSystem>.Create(nakamaSystem, OnNakamaSystemUpdated);
         }
 
         private void OnNakamaSystemUpdated(NakamaSystem system)
@@ -141,8 +142,9 @@ namespace HiroChallenges
 
         public void Dispose()
         {
-            _challengesSystemObserver?.Dispose();
             _nakamaSystemObserver?.Dispose();
+            _challengesListSpinner?.Dispose();
+            _selectedChallengeSpinner?.Dispose();
         }
 
         private void Initialize(VisualElement rootElement)
@@ -155,6 +157,13 @@ namespace HiroChallenges
             InitializeLists(rootElement);
             InitializeModals(rootElement);
             InitializeErrorPopup(rootElement);
+            InitializeSpinners(rootElement);
+        }
+
+        private void InitializeSpinners(VisualElement rootElement)
+        {
+            _challengesListSpinner = new LoadingSpinner(rootElement.Q("challenges-list-spinner"));
+            _selectedChallengeSpinner = new LoadingSpinner(rootElement.Q("selected-challenge-spinner"));
         }
 
         private void InitializeTabs(VisualElement rootElement)
@@ -179,13 +188,13 @@ namespace HiroChallenges
             _createButton.RegisterCallback<ClickEvent>(_ => ShowCreateModal());
 
             _joinButton = rootElement.Q<Button>("challenge-join");
-            _joinButton.RegisterCallback<ClickEvent>(_ => JoinChallengeAsync());
+            _joinButton.RegisterCallback<ClickEvent>(_ => JoinChallenge());
 
             _leaveButton = rootElement.Q<Button>("challenge-leave");
-            _leaveButton.RegisterCallback<ClickEvent>(_ => LeaveChallengeAsync());
+            _leaveButton.RegisterCallback<ClickEvent>(_ => LeaveChallenge());
 
             _claimRewardsButton = rootElement.Q<Button>("challenge-claim");
-            _claimRewardsButton.RegisterCallback<ClickEvent>(_ => ClaimChallengeAsync());
+            _claimRewardsButton.RegisterCallback<ClickEvent>(_ => ClaimChallenge());
 
             _submitScoreButton = rootElement.Q<Button>("challenge-submit-score");
             _submitScoreButton.RegisterCallback<ClickEvent>(_ => ShowSubmitScoreModal());
@@ -301,16 +310,12 @@ namespace HiroChallenges
             _modalOpenToggle = _createModal.RequireElement<Toggle>("create-modal-open");
 
             _modalCreateButton = _createModal.RequireElement<Button>("create-modal-create");
-            _modalCreateButton.RegisterCallback<ClickEvent>(_ => OnCreateConfirmClicked());
+            _modalCreateButton.RegisterCallback<ClickEvent>(_ => CreateChallenge());
 
             _modalCloseButton = _createModal.RequireElement<Button>("create-modal-close");
             _modalCloseButton.RegisterCallback<ClickEvent>(_ => HideCreateModal());
         }
 
-        private async void OnCreateConfirmClicked()
-        {
-            await CreateChallengeAsync();
-        }
 
         private void InitializeSubmitScoreModal(VisualElement rootElement)
         {
@@ -320,7 +325,7 @@ namespace HiroChallenges
             _subScoreField = _submitScoreModal.RequireElement<IntegerField>("submit-score-subscore");
 
             _submitScoreModalButton = _submitScoreModal.RequireElement<Button>("submit-score-modal-submit");
-            _submitScoreModalButton.RegisterCallback<ClickEvent>(_ => SubmitScoreAsync());
+            _submitScoreModalButton.RegisterCallback<ClickEvent>(_ => SubmitScore());
 
             _submitScoreModalCloseButton = _submitScoreModal.RequireElement<Button>("submit-score-modal-close");
             _submitScoreModalCloseButton.RegisterCallback<ClickEvent>(_ => HideSubmitScoreModal());
@@ -334,7 +339,7 @@ namespace HiroChallenges
             RegisterAutocompleteHandler(_inviteModalInvitees);
 
             _inviteModalButton = _inviteModal.RequireElement<Button>("invite-modal-invite");
-            _inviteModalButton.RegisterCallback<ClickEvent>(_ => OnInviteConfirmClicked());
+            _inviteModalButton.RegisterCallback<ClickEvent>(_ => InviteUsers());
 
             _inviteModalCloseButton = _inviteModal.RequireElement<Button>("invite-modal-close");
             _inviteModalCloseButton.RegisterCallback<ClickEvent>(_ => HideInviteModal());
@@ -342,7 +347,7 @@ namespace HiroChallenges
 
         private List<string> GetAutocompleteCandidates(TextField textField)
         {
-            var usernames = new List<string>(_controller.GetKnownUsernames());
+            var usernames = new List<string>(AccountSwitcher.GetKnownUsernames(_controller.CurrentUserId));
 
             // For invite modal, also exclude current participants
             if (textField == _inviteModalInvitees)
@@ -388,10 +393,6 @@ namespace HiroChallenges
             }, TrickleDown.TrickleDown);
         }
 
-        private async void OnInviteConfirmClicked()
-        {
-            await InviteUsersAsync();
-        }
 
         private void InitializeErrorPopup(VisualElement rootElement)
         {
@@ -403,6 +404,7 @@ namespace HiroChallenges
 
         public async Task RefreshChallengesAsync()
         {
+            _challengesListSpinner.Show();
             try
             {
                 var refreshResult = await _controller.RefreshChallengesAsync();
@@ -426,6 +428,10 @@ namespace HiroChallenges
                 ShowError(e.Message);
                 Debug.Log(e);
             }
+            finally
+            {
+                _challengesListSpinner.Hide();
+            }
         }
 
         private async Task SelectChallengeAsync()
@@ -439,7 +445,7 @@ namespace HiroChallenges
                 }
 
                 var selectedChallenge = _controller.Challenges[_challengesList.selectedIndex];
-                var participants = await _controller.SelectChallengeAsync(selectedChallenge);
+                var participants = await _controller.SelectChallengeAsync(selectedChallenge.Id);
 
                 UpdateSelectedChallengePanel(selectedChallenge, participants);
             }
@@ -488,14 +494,17 @@ namespace HiroChallenges
 
         private void UpdateButtonStates()
         {
-            var permissions = _controller.GetPermissions(_currentChallenge, _selectedChallengeParticipants);
+            var participant = _controller.GetCurrentParticipant(_selectedChallengeParticipants);
 
-            _joinButton.SetDisplay(permissions.CanJoin);
-            _leaveButton.SetDisplay(permissions.CanLeave);
-            _submitScoreButton.SetDisplay(permissions.CanSubmitScore);
-            _submitScoreButton.text = $"Submit Score ({permissions.ScoresSubmitted}/{permissions.MaxScores})";
-            _inviteButton.SetDisplay(permissions.CanInvite);
-            _claimRewardsButton.SetDisplay(permissions.CanClaim);
+            Debug.Log($"UpdateButtonStates - Challenge: {_currentChallenge.Name}, Participant: {participant?.Username ?? "null"}, State: {participant?.State}");
+            Debug.Log($"  CanJoin: {_currentChallenge.CanJoin(participant)}, CanSubmitScore: {_currentChallenge.CanSubmitScore(participant)}");
+
+            _joinButton.SetDisplay(_currentChallenge.CanJoin(participant));
+            _leaveButton.SetDisplay(_currentChallenge.CanLeave(participant));
+            _submitScoreButton.SetDisplay(_currentChallenge.CanSubmitScore(participant));
+            _submitScoreButton.text = $"Submit Score ({participant?.NumScores ?? 0}/{_currentChallenge.MaxNumScore})";
+            _inviteButton.SetDisplay(_currentChallenge.CanInvite(participant));
+            _claimRewardsButton.SetDisplay(_currentChallenge.CanClaimReward(participant));
         }
 
         private void ShowSelectedChallengePanel()
@@ -508,21 +517,28 @@ namespace HiroChallenges
             _selectedChallengePanel.Hide();
         }
 
-        private async void JoinChallengeAsync()
+        private async void JoinChallenge()
         {
+            HideSelectedChallengePanel();
+            _selectedChallengeSpinner.Show();
             try
             {
                 await _controller.JoinChallengeAsync();
-                await RefreshChallengesAsync();
+                // ChallengesSystem doesn't notify observers, so refresh manually
+                await SelectChallengeAsync();
             }
             catch (Exception e)
             {
                 ShowError(e.Message);
                 Debug.Log(e);
             }
+            finally
+            {
+                _selectedChallengeSpinner.Hide();
+            }
         }
 
-        private async void LeaveChallengeAsync()
+        private async void LeaveChallenge()
         {
             try
             {
@@ -537,17 +553,23 @@ namespace HiroChallenges
             }
         }
 
-        private async void ClaimChallengeAsync()
+        private async void ClaimChallenge()
         {
+            HideSelectedChallengePanel();
+            _selectedChallengeSpinner.Show();
             try
             {
                 await _controller.ClaimChallengeAsync();
-                await RefreshChallengesAsync();
+                await SelectChallengeAsync();
             }
             catch (Exception e)
             {
                 ShowError(e.Message);
                 Debug.Log(e);
+            }
+            finally
+            {
+                _selectedChallengeSpinner.Hide();
             }
         }
 
@@ -585,21 +607,24 @@ namespace HiroChallenges
             _createModal.Hide();
         }
 
-        private async Task CreateChallengeAsync()
+        private async void CreateChallenge()
         {
             try
             {
+                var inviteeIds = AccountSwitcher.ParseUsernamesToIds(_modalInvitees.value);
+
                 await _controller.CreateChallengeAsync(
                     _modalTemplateDropdown.index,
                     _modalNameField.value,
                     _modalMaxParticipantsField.value,
-                    _modalInvitees.value,
+                    inviteeIds,
                     _modalChallengeDelay.value,
                     _modalChallengeDuration.value,
                     _modalOpenToggle.value
                 );
 
                 HideCreateModal();
+                // ChallengesSystem doesn't notify observers, so refresh manually
                 await RefreshChallengesAsync();
             }
             catch (Exception e)
@@ -659,18 +684,25 @@ namespace HiroChallenges
             _submitScoreModal.Hide();
         }
 
-        private async void SubmitScoreAsync()
+        private async void SubmitScore()
         {
+            HideSubmitScoreModal();
+            HideSelectedChallengePanel();
+            _selectedChallengeSpinner.Show();
             try
             {
                 await _controller.SubmitScoreAsync(_scoreField.value, _subScoreField.value);
-                HideSubmitScoreModal();
-                await RefreshChallengesAsync();
+                // ChallengesSystem doesn't notify observers, so refresh manually
+                await SelectChallengeAsync();
             }
             catch (Exception e)
             {
                 ShowError(e.Message);
                 Debug.Log(e);
+            }
+            finally
+            {
+                _selectedChallengeSpinner.Hide();
             }
         }
 
@@ -686,18 +718,25 @@ namespace HiroChallenges
             _inviteModal.Hide();
         }
 
-        private async Task InviteUsersAsync()
+        private async void InviteUsers()
         {
+            HideInviteModal();
+            HideSelectedChallengePanel();
+            _selectedChallengeSpinner.Show();
             try
             {
-                await _controller.InviteToChallengeAsync(_inviteModalInvitees.value);
-                HideInviteModal();
-                await RefreshChallengesAsync();
+                var inviteeIds = AccountSwitcher.ParseUsernamesToIds(_inviteModalInvitees.value);
+                await _controller.InviteToChallengeAsync(inviteeIds);
+                await SelectChallengeAsync();
             }
             catch (Exception e)
             {
                 ShowError(e.Message);
                 Debug.Log(e);
+            }
+            finally
+            {
+                _selectedChallengeSpinner.Hide();
             }
         }
 

@@ -12,7 +12,8 @@
     "precompiledReferences": [
         "Nakama.dll",
         "Hiro.dll",
-        "Hiro.Unity.dll"
+        "Hiro.Unity.dll",
+        "Satori.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

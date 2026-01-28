@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 using Nakama;
 using Hiro;
 using Hiro.Unity;
@@ -18,10 +16,7 @@ namespace HiroChallenges.Editor
 
         private DropdownField accountDropdown;
         private Label usernamesLabel;
-
-        private readonly SortedDictionary<string, string> accountUsernames = new();
-
-        private const string AccountUsernamesKey = "AccountSwitcher_Usernames";
+        private string _env;
 
         [MenuItem("Tools/Nakama/Account Switcher")]
         public static void ShowWindow()
@@ -32,17 +27,16 @@ namespace HiroChallenges.Editor
             window.Focus();
         }
 
-        [MenuItem("Tools/Nakama/Clear Test Accounts")]
+        [MenuItem("Tools/Nakama/Clear Saved Accounts")]
         public static void ClearSavedAccounts()
         {
-            EditorPrefs.DeleteKey(AccountUsernamesKey);
-            Debug.Log("Cleared all saved account usernames");
+            AccountSwitcher.ClearAccounts();
+            Debug.Log("Cleared all saved accounts");
 
             // Refresh any open Account Switcher windows
             var windows = Resources.FindObjectsOfTypeAll<AccountSwitcherEditor>();
             foreach (var window in windows)
             {
-                window.accountUsernames.Clear();
                 window.UpdateUsernameLabels();
             }
         }
@@ -56,14 +50,14 @@ namespace HiroChallenges.Editor
 
             usernamesLabel = rootVisualElement.Q<Label>("usernames");
 
-            // Load saved usernames on startup
-            LoadAccountUsernames();
             UpdateUsernameLabels();
 
             if (!EditorApplication.isPlaying) return;
 
             var coordinator = HiroCoordinator.Instance as HiroChallengesCoordinator;
             if (coordinator == null) return;
+
+            _env = coordinator.IsLocalHost ? "local" : "heroiclabs";
 
             var nakamaSystem = coordinator.GetSystem<NakamaSystem>();
             if (nakamaSystem?.Session != null)
@@ -76,66 +70,32 @@ namespace HiroChallenges.Editor
             }
         }
 
-        private void OnCoordinatorInitialized()
+        private async void OnCoordinatorInitialized()
         {
             var coordinator = HiroCoordinator.Instance as HiroChallengesCoordinator;
             if (coordinator == null)
                 throw new InvalidOperationException("HiroChallengesCoordinator not found");
 
-            var session = coordinator.GetSystem<NakamaSystem>().Session;
-            accountUsernames[accountDropdown.choices[0]] = session.Username;
-            UpdateUsernameLabels();
-            SaveAccountUsernames();
-
             coordinator.ReceivedStartSuccess -= OnCoordinatorInitialized;
-        }
 
-        private void LoadAccountUsernames()
-        {
-            var savedUsernames = EditorPrefs.GetString(AccountUsernamesKey, "");
-            if (string.IsNullOrEmpty(savedUsernames)) return;
-
-            try
+            var nakamaSystem = coordinator.GetSystem<NakamaSystem>();
+            var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
+            foreach (var rootGameObject in rootGameObjects)
             {
-                var usernameData = JsonUtility.FromJson<SerializableStringDictionary>(savedUsernames);
-                accountUsernames.Clear();
+                if (!rootGameObject.TryGetComponent<ChallengesController>(out var controller)) continue;
 
-                foreach (var item in usernameData.items)
-                {
-                    accountUsernames[item.key] = item.value;
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.LogWarning($"Failed to load saved account usernames: {ex.Message}");
-            }
-        }
-
-        private void SaveAccountUsernames()
-        {
-            try
-            {
-                var usernameData = new SerializableStringDictionary();
-                foreach (var kvp in accountUsernames)
-                {
-                    usernameData.items.Add(new SerializableKeyValuePair { key = kvp.Key, value = kvp.Value });
-                }
-
-                var json = JsonUtility.ToJson(usernameData);
-                EditorPrefs.SetString(AccountUsernamesKey, json);
-            }
-            catch (Exception ex)
-            {
-                Debug.LogWarning($"Failed to save account usernames: {ex.Message}");
+                await AccountSwitcher.EnsureAccountsExistAsync(nakamaSystem, controller, _env);
+                // Switch back to account 0 after ensuring all accounts exist
+                await AccountSwitcher.SwitchAccountAsync(nakamaSystem, controller, _env, 0);
+                accountDropdown.index = 0;
+                UpdateUsernameLabels();
+                return;
             }
         }
 
         private async void SwitchAccount(ChangeEvent<string> changeEvt)
         {
             if (!EditorApplication.isPlaying) return;
-
-            var previousValue = changeEvt.previousValue;
-            var newValue = changeEvt.newValue;
 
             var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
             foreach (var rootGameObject in rootGameObjects)
@@ -147,19 +107,15 @@ namespace HiroChallenges.Editor
                 var nakamaSystem = coordinator.GetSystem<NakamaSystem>();
                 if (nakamaSystem == null) return;
 
-                if (!string.IsNullOrEmpty(previousValue) && nakamaSystem.Session != null)
-                {
-                    accountUsernames[previousValue] = nakamaSystem.Session.Username;
-                }
-
                 try
                 {
                     var newSession = await AccountSwitcher.SwitchAccountAsync(
                         nakamaSystem,
                         controller,
+                        _env,
                         accountDropdown.index);
-                    accountUsernames[newValue] = newSession.Username;
-                    SaveAccountUsernames();
+
+                    Debug.Log($"Switch to account index: {accountDropdown.index}, env: {_env}");
                     break;
                 }
                 catch (ApiResponseException e)
@@ -174,32 +130,20 @@ namespace HiroChallenges.Editor
 
         private void UpdateUsernameLabels()
         {
+            var accounts = AccountSwitcher.GetAllAccounts();
             var sb = new StringBuilder();
             var index = 1;
 
-            foreach (var kvp in accountUsernames)
+            foreach (var kvp in accounts)
             {
                 sb.Append(index);
                 sb.Append(": ");
-                sb.Append(kvp.Value);
+                sb.Append(kvp.Value.Username);
                 sb.AppendLine();
                 index++;
             }
 
             usernamesLabel.text = sb.ToString();
-        }
-
-        [Serializable]
-        private class SerializableStringDictionary
-        {
-            public List<SerializableKeyValuePair> items = new();
-        }
-
-        [Serializable]
-        private class SerializableKeyValuePair
-        {
-            public string key;
-            public string value;
         }
     }
 }
