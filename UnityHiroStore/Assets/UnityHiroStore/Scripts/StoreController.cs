@@ -213,9 +213,6 @@ namespace HiroStore
             {
                 var result = await _economySystem.PurchaseStoreItemAsync(item.Id);
 
-                // Refresh economy
-                await _economySystem.RefreshAsync();
-
                 return result;
             }
             catch (Exception e)

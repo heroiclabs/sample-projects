@@ -1,0 +1,22 @@
+{
+    "name": "UnityHiroChallenges.Runtime",
+    "rootNamespace": "HiroChallenges",
+    "references": [
+        "NakamaRuntime",
+        "UnityHiroChallenges.HeroicUI"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Nakama.dll",
+        "Hiro.dll",
+        "Hiro.Unity.dll",
+        "Satori.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

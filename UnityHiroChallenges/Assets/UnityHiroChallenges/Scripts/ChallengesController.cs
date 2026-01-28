@@ -24,71 +24,95 @@ using UnityEngine.UIElements;
 
 namespace HiroChallenges
 {
+    /// <summary>
+    /// Controller for the Challenges system.
+    /// Handles business logic and coordinates between the View and Hiro systems.
+    /// </summary>
     [RequireComponent(typeof(UIDocument))]
     public class ChallengesController : MonoBehaviour
     {
-        [Header("References")]
-        [SerializeField] private VisualTreeAsset challengeEntryTemplate;
-        [SerializeField] private VisualTreeAsset challengeParticipantTemplate;
+        private const int DefaultMaxParticipants = 100;
+        private const int DefaultDelaySeconds = 0;
+        private const int DefaultDurationSeconds = 2000;
+
+        [Header("UI Templates")]
+        [SerializeField] private VisualTreeAsset _challengeEntryTemplate;
+        [SerializeField] private VisualTreeAsset _challengeParticipantTemplate;
 
         private readonly Dictionary<string, IChallengeTemplate> _challengeTemplates = new();
+
         private IChallengesSystem _challengesSystem;
         private IEconomySystem _economySystem;
         private NakamaSystem _nakamaSystem;
-        private IChallenge _selectedChallenge;
+        public string CurrentUserId;
+
         private string _selectedChallengeId;
 
-        private ChallengesView _view;
-
-        public string CurrentUserId => _nakamaSystem.UserId;
         public List<IChallenge> Challenges { get; } = new();
+        public IChallenge SelectedChallenge { get; private set; }
 
-        public event Action<ISession, ChallengesController> OnInitialized;
 
-        #region Initialization
+        public bool IsInitialized { get; private set; }
+        public Exception InitializationError { get; private set; }
 
         private void Start()
         {
-            var challengesCoordinator = HiroCoordinator.Instance as HiroChallengesCoordinator;
-            if (challengesCoordinator == null) return;
+            var coordinator = HiroCoordinator.Instance as HiroChallengesCoordinator;
+            if (coordinator == null)
+            {
+                Debug.LogError("HiroChallengesCoordinator not found");
+                return;
+            }
 
-            challengesCoordinator.ReceivedStartError += HandleStartError;
-            challengesCoordinator.ReceivedStartSuccess += HandleStartSuccess;
+            // View manages itself and observes systems directly
+            _ = new ChallengesView(
+                this,
+                GetComponent<UIDocument>().rootVisualElement,
+                _challengeEntryTemplate,
+                _challengeParticipantTemplate
+            );
 
-            _view = new ChallengesView(this, challengesCoordinator, challengeEntryTemplate,
-                challengeParticipantTemplate);
+            coordinator.ReceivedStartError += HandleStartError;
+            coordinator.ReceivedStartSuccess += HandleStartSuccess;
         }
 
-        private static void HandleStartError(Exception e)
+        private void HandleStartError(Exception e)
         {
+            InitializationError = e;
             Debug.LogException(e);
         }
 
-        private async void HandleStartSuccess(ISession session)
+        private void HandleStartSuccess()
         {
-            // Initialize and cache Hiro system references
+            InitializeSystems();
+            IsInitialized = true;
+        }
+
+        private void InitializeSystems()
+        {
             _nakamaSystem = this.GetSystem<NakamaSystem>();
             _challengesSystem = this.GetSystem<ChallengesSystem>();
             _economySystem = this.GetSystem<EconomySystem>();
 
-            await _view.RefreshChallenges();
+            if (_nakamaSystem == null)
+                throw new InvalidOperationException("NakamaSystem not available");
+            if (_challengesSystem == null)
+                throw new InvalidOperationException("ChallengesSystem not available");
+            if (_economySystem == null)
+                throw new InvalidOperationException("EconomySystem not available");
 
-            OnInitialized?.Invoke(session, this);
+            CurrentUserId = _nakamaSystem.UserId;
         }
 
-        // Called when switching between accounts using the account switcher.
-        public void SwitchComplete()
+        public async Task SwitchCompleteAsync()
         {
-            _ = _view.RefreshChallenges();
-            _ = _economySystem.RefreshAsync();
+            SelectedChallenge = null;
+            _selectedChallengeId = string.Empty;
+            CurrentUserId = _nakamaSystem.UserId;
+            await _economySystem.RefreshAsync();
         }
 
-        #endregion
-
-        #region Challenge Templates
-
-        // Loads available challenge templates from the system and returns their display names
-        public async Task<List<string>> LoadChallengeTemplates()
+        public async Task<List<string>> LoadChallengeTemplatesAsync()
         {
             _challengeTemplates.Clear();
             var loadedTemplates = (await _challengesSystem.GetTemplatesAsync()).Templates;
@@ -97,10 +121,12 @@ namespace HiroChallenges
             foreach (var template in loadedTemplates)
             {
                 _challengeTemplates[template.Key] = template.Value;
-                challengeTemplateNames.Add(
-                    template.Value.AdditionalProperties.TryGetValue("display_name", out var displayName)
-                        ? displayName
-                        : template.Key);
+
+                var displayName = template.Value.AdditionalProperties.TryGetValue("display_name", out var name)
+                    ? name
+                    : template.Key;
+
+                challengeTemplateNames.Add(displayName);
             }
 
             return challengeTemplateNames;
@@ -108,86 +134,67 @@ namespace HiroChallenges
 
         public IChallengeTemplate GetTemplate(int templateIndex)
         {
-            if (templateIndex < 0 || templateIndex >= _challengeTemplates.Count) return null;
+            if (templateIndex < 0 || templateIndex >= _challengeTemplates.Count)
+                return null;
+
             return _challengeTemplates.ElementAt(templateIndex).Value;
         }
 
-        #endregion
-
-        #region Challenge List Operations
-
-        public async Task<Tuple<int, List<IChallengeScore>>> RefreshChallenges()
+        public async Task<ChallengeRefreshResult> RefreshChallengesAsync()
         {
             Challenges.Clear();
 
             var userChallengesResult = await _challengesSystem.ListChallengesAsync(null);
             Challenges.AddRange(userChallengesResult.Challenges);
 
-            // Try to reselect the previously selected challenge if it still exists
             foreach (var challenge in Challenges)
             {
-                if (challenge.Id != _selectedChallengeId) continue;
+                if (challenge.Id != _selectedChallengeId)
+                    continue;
 
-                var participants = await SelectChallenge(challenge);
-                return new Tuple<int, List<IChallengeScore>>(Challenges.IndexOf(challenge), participants);
+                var participants = await SelectChallengeAsync(challenge.Id);
+                return new ChallengeRefreshResult
+                {
+                    SelectedChallengeIndex = Challenges.IndexOf(challenge),
+                    Participants = participants
+                };
             }
 
             return null;
         }
 
-        public async Task<List<IChallengeScore>> SelectChallenge(IChallenge challenge)
+        public async Task<List<IChallengeScore>> SelectChallengeAsync(string challengeId)
         {
-            if (challenge == null)
+            if (string.IsNullOrEmpty(challengeId))
             {
                 _selectedChallengeId = string.Empty;
+                SelectedChallenge = null;
                 return null;
             }
 
-            _selectedChallenge = challenge;
-            _selectedChallengeId = _selectedChallenge.Id;
-
-            var detailedChallenge = await _challengesSystem.GetChallengeAsync(_selectedChallenge.Id, true);
-            return detailedChallenge.Scores.ToList();
+            _selectedChallengeId = challengeId;
+            SelectedChallenge = await _challengesSystem.GetChallengeAsync(challengeId, true);
+            return SelectedChallenge.Scores.ToList();
         }
 
-        #endregion
+        public IChallengeScore GetCurrentParticipant(IReadOnlyList<IChallengeScore> participants)
+        {
+            return participants.FirstOrDefault(p => p.Id == CurrentUserId);
+        }
 
-        #region Challenge Lifecycle Operations
-        public async Task CreateChallenge(int templateIndex, string challengeName, int maxParticipants,
-            string inviteesInput,
-            int delay, int duration, bool isOpen)
+        public async Task<IChallenge> CreateChallengeAsync(
+            int templateIndex,
+            string challengeName,
+            int maxParticipants,
+            string[] inviteeIds,
+            int delaySeconds,
+            int durationSeconds,
+            bool isOpen)
         {
             if (templateIndex < 0 || templateIndex >= _challengeTemplates.Count)
-                throw new Exception("Please select a valid Challenge template.");
+                throw new ArgumentException("Please select a valid Challenge template.", nameof(templateIndex));
 
             var selectedTemplate = _challengeTemplates.ElementAt(templateIndex);
-
-            // Validate and parse invitee usernames from a string of usernames separated by a comma.
-            if (string.IsNullOrEmpty(inviteesInput))
-                throw new Exception("Invitees field cannot be empty. Please enter at least one username.");
-
-            var inviteeUsernames = inviteesInput
-                .Split(',')
-                .Select(username => username.Trim())
-                .Where(username => !string.IsNullOrEmpty(username))
-                .ToList();
-
-            if (inviteeUsernames.Count == 0)
-                throw new Exception("No valid usernames found. Please enter at least one username.");
-
-            // Convert usernames to user IDs via Nakama API
-            var invitees = await _nakamaSystem.Client.GetUsersAsync(
-                _nakamaSystem.Session,
-                usernames: inviteeUsernames,
-                ids: null
-            );
-
-            var inviteeIDs = invitees.Users.Select(user => user.Id).ToArray();
-
-            // Verify all usernames were found
-            if (inviteeIDs.Length != inviteeUsernames.Count)
-                throw new Exception(
-                    $"Could not find all users. Requested: {inviteeUsernames.Count}, Found: {inviteeIDs.Length}");
 
             selectedTemplate.Value.AdditionalProperties.TryGetValue("description", out var description);
             selectedTemplate.Value.AdditionalProperties.TryGetValue("category", out var category);
@@ -196,95 +203,97 @@ namespace HiroChallenges
                 selectedTemplate.Key,
                 challengeName,
                 description ?? "Missing description.",
-                inviteeIDs,
+                inviteeIds,
                 isOpen,
-                selectedTemplate.Value.MaxNumScore,
-                delay,
-                duration,
+                delaySeconds,
+                durationSeconds,
                 maxParticipants,
                 category ?? "Missing category",
                 new Dictionary<string, string>()
             );
 
             _selectedChallengeId = newChallenge.Id;
-            _selectedChallenge = newChallenge;
+            SelectedChallenge = newChallenge;
+
+            return newChallenge;
         }
 
-        public async Task JoinChallenge()
+        public async Task JoinChallengeAsync()
         {
-            if (_selectedChallenge == null) return;
+            if (SelectedChallenge == null)
+                throw new InvalidOperationException("No challenge selected");
 
-            await _challengesSystem.JoinChallengeAsync(_selectedChallenge.Id);
+            await _challengesSystem.JoinChallengeAsync(SelectedChallenge.Id);
         }
 
-        public async Task LeaveChallenge()
+        public async Task LeaveChallengeAsync()
         {
-            if (_selectedChallenge == null) return;
+            if (SelectedChallenge == null)
+                throw new InvalidOperationException("No challenge selected");
 
-            await _challengesSystem.LeaveChallengeAsync(_selectedChallenge.Id);
+            await _challengesSystem.LeaveChallengeAsync(SelectedChallenge.Id);
         }
 
-        public async Task ClaimChallenge()
+        public async Task ClaimChallengeAsync()
         {
-            if (_selectedChallenge == null) return;
+            if (SelectedChallenge == null)
+                throw new InvalidOperationException("No challenge selected");
 
-            await _challengesSystem.ClaimChallengeAsync(_selectedChallenge.Id);
+            await _challengesSystem.ClaimChallengeAsync(SelectedChallenge.Id);
             await _economySystem.RefreshAsync();
         }
 
-        #endregion
-
-        #region Challenge Participation Operations
-        public async Task SubmitScore(int score, int subScore)
+        public async Task SubmitScoreAsync(int score, int subScore)
         {
-            if (_selectedChallenge == null) return;
+            if (SelectedChallenge == null)
+                throw new InvalidOperationException("No challenge selected");
 
             await _challengesSystem.SubmitChallengeScoreAsync(
-                _selectedChallenge.Id,
+                SelectedChallenge.Id,
                 score,
                 subScore,
-                null, // metadata can be personalized accordingly to the needs of the game
+                null,
                 true
             );
         }
 
-        public async Task InviteToChallenge(string inviteesInput)
+        public async Task InviteToChallengeAsync(string[] inviteeIds)
         {
-            if (_selectedChallenge == null) return;
-
-            // Validate and parse invitee usernames from a string of usernames separated by a comma.
-            if (string.IsNullOrEmpty(inviteesInput))
-                throw new Exception("Invitees field cannot be empty. Please enter at least one username.");
-
-            var inviteeUsernames = inviteesInput
-                .Split(',')
-                .Select(username => username.Trim())
-                .Where(username => !string.IsNullOrEmpty(username))
-                .ToList();
-
-            if (inviteeUsernames.Count == 0)
-                throw new Exception("No valid usernames found. Please enter at least one username.");
-
-            // Convert usernames to user IDs via Nakama API
-            var invitees = await _nakamaSystem.Client.GetUsersAsync(
-                _nakamaSystem.Session,
-                usernames: inviteeUsernames,
-                ids: null
-            );
-
-            var inviteeIDs = invitees.Users.Select(user => user.Id).ToArray();
-
-            // Verify all usernames were found
-            if (inviteeIDs.Length != inviteeUsernames.Count)
-                throw new Exception(
-                    $"Could not find all users. Requested: {inviteeUsernames.Count}, Found: {inviteeIDs.Length}");
+            if (SelectedChallenge == null)
+                throw new InvalidOperationException("No challenge selected");
 
             await _challengesSystem.InviteChallengeAsync(
-                _selectedChallenge.Id,
-                inviteeIDs
+                SelectedChallenge.Id,
+                inviteeIds
             );
         }
 
-        #endregion
+        public ChallengeCreationDefaults GetCreationDefaults()
+        {
+            return new ChallengeCreationDefaults
+            {
+                MaxParticipants = DefaultMaxParticipants,
+                DelaySeconds = DefaultDelaySeconds,
+                DurationSeconds = DefaultDurationSeconds
+            };
+        }
+
     }
+
+    #region Data Transfer Objects
+
+    public class ChallengeRefreshResult
+    {
+        public int SelectedChallengeIndex { get; set; }
+        public List<IChallengeScore> Participants { get; set; }
+    }
+
+    public class ChallengeCreationDefaults
+    {
+        public int MaxParticipants { get; set; }
+        public int DelaySeconds { get; set; }
+        public int DurationSeconds { get; set; }
+    }
+
+    #endregion
 }
