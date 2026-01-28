@@ -469,7 +469,7 @@ namespace HiroChallenges
             var startTime = DateTimeOffset.FromUnixTimeSeconds(challenge.StartTimeSec);
             var difference = startTime - now;
 
-            if (difference.Seconds > 0)
+            if (difference.TotalSeconds > 0)
             {
                 _selectedChallengeStatusLabel.text =
                     $"Starting in {difference.Days}d, {difference.Hours}h, {difference.Minutes}m";
