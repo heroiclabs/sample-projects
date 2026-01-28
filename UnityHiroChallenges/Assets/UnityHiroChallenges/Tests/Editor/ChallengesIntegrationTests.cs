@@ -13,6 +13,8 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Hiro;
@@ -223,6 +225,47 @@ namespace HiroChallenges.Tests.Editor
 
             Assert.IsNotNull(template, "First template should exist");
             Debug.Log($"Template MaxNumScore: {template.MaxNumScore}");
+        }
+
+        [Test]
+        public async Task GetTemplate_UsesStableOrder_NotDictionaryOrder()
+        {
+            await _controller.LoadChallengeTemplatesAsync();
+
+            var bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance;
+            var templatesField = typeof(ChallengesController).GetField("_challengeTemplates", bindingFlags);
+            var templates = (Dictionary<string, IChallengeTemplate>)templatesField.GetValue(_controller);
+
+            if (templates.Count < 2)
+                Assert.Inconclusive("Need at least two templates to validate ordering.");
+
+            var ordered = templates
+                .Select(template => new
+                {
+                    template.Key,
+                    DisplayName = template.Value.AdditionalProperties.TryGetValue("display_name", out var name)
+                        ? name
+                        : template.Key
+                })
+                .OrderBy(template => template.DisplayName, StringComparer.OrdinalIgnoreCase)
+                .ToList();
+
+            var expectedFirstKey = ordered[0].Key;
+
+            var reversedKeys = ordered.Select(template => template.Key).Reverse().ToList();
+            var reorderedTemplates = new Dictionary<string, IChallengeTemplate>();
+            foreach (var key in reversedKeys)
+                reorderedTemplates.Add(key, templates[key]);
+
+            templatesField.SetValue(_controller, reorderedTemplates);
+
+            var selectedTemplate = _controller.GetTemplate(0);
+            var actualFirstKey = reorderedTemplates.First(template => ReferenceEquals(template.Value, selectedTemplate)).Key;
+
+            Assert.AreEqual(
+                expectedFirstKey,
+                actualFirstKey,
+                "Template selection should be stable regardless of dictionary insertion order.");
         }
 
         [Test]
