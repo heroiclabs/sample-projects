@@ -9,9 +9,9 @@
         </ui:VisualElement>
         <ui:VisualElement style="justify-content: center; align-items: flex-end; min-width: 120px; flex-direction: row; width: 40%;">
             <ui:VisualElement name="medal-container" style="flex-direction: column; align-items: center; justify-content: center; margin-right: 15px; width: 60px; display: flex;">
-                <ui:VisualElement name="medal-gold" style="width: 50px; height: 50px; background-image: url(&quot;project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/IconItem/128/icon_medal_gold.png?fileID=2800000&amp;guid=fde9f4ba9e91d47a883f4d13ffa1d2ae&amp;type=3#icon_medal_gold&quot;); display: none;" />
-                <ui:VisualElement name="medal-silver" style="width: 50px; height: 50px; background-image: url(&quot;project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/IconItem/128/icon_medal_silver.png?fileID=2800000&amp;guid=52f12da67fc064d03bf0cc9bd8d7af35&amp;type=3#icon_medal_silver&quot;); display: none;" />
-                <ui:VisualElement name="medal-bronze" style="width: 50px; height: 50px; background-image: url(&quot;project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/IconItem/128/icon_medal_bronze.png?fileID=2800000&amp;guid=8e29ecad29d7949408e3ffaec8614cc4&amp;type=3#icon_medal_bronze&quot;); display: none;" />
+                <ui:VisualElement name="medal-gold" style="width: 50px; height: 50px; display: none; background-image: url(&quot;project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/IconItem/128/icon_medal_gold.png?fileID=2800000&amp;guid=27caf3ea231264c27b3d680697be294e&amp;type=3#icon_medal_gold&quot;);" />
+                <ui:VisualElement name="medal-silver" style="width: 50px; height: 50px; background-image: url(&quot;project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/IconItem/128/icon_medal_silver.png?fileID=2800000&amp;guid=1d6a0905f728440759dc69d382d958ad&amp;type=3#icon_medal_silver&quot;); display: none;" />
+                <ui:VisualElement name="medal-bronze" style="width: 50px; height: 50px; background-image: url(&quot;project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/IconItem/128/icon_medal_bronze.png?fileID=2800000&amp;guid=cf900cbe8b6254fa4b32a44c040ed6f6&amp;type=3#icon_medal_bronze&quot;); display: none;" />
             </ui:VisualElement>
             <ui:VisualElement style="flex-direction: column; align-items: center; width: 50%;">
                 <ui:Label text="Score" class="heroic-list-view__item-label" style="font-size: 20px; color: rgb(150, 150, 150);" />
