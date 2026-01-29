@@ -152,6 +152,7 @@ namespace HiroChallenges
             _nakamaSystemObserver?.Dispose();
             _challengesListSpinner?.Dispose();
             _selectedChallengeSpinner?.Dispose();
+            _challengesList.selectionChanged -= OnChallengeListSelectionChanged;
         }
 
         private void Initialize(VisualElement rootElement)
@@ -264,13 +265,13 @@ namespace HiroChallenges
             };
             _challengesList.itemsSource = _controller.Challenges;
 
-            _challengesList.selectionChanged += _ => OnChallengeSelectionChanged();
+            _challengesList.selectionChanged += OnChallengeListSelectionChanged;
 
             _challengesScrollView = _challengesList.Q<ScrollView>();
             _challengesScrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
         }
 
-        private async void OnChallengeSelectionChanged()
+        private async void OnChallengeListSelectionChanged(IEnumerable<object> _)
         {
             await SelectChallengeAsync();
         }

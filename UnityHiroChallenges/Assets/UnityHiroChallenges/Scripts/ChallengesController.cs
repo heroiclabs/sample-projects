@@ -77,6 +77,16 @@ namespace HiroChallenges
             coordinator.ReceivedStartSuccess += HandleStartSuccess;
         }
 
+        private void OnDestroy()
+        {
+            var coordinator = HiroCoordinator.Instance as HiroChallengesCoordinator;
+            if (coordinator == null)
+                return;
+
+            coordinator.ReceivedStartError -= HandleStartError;
+            coordinator.ReceivedStartSuccess -= HandleStartSuccess;
+        }
+
         public Task WaitForInitializationAsync() => _initializationTcs.Task;
 
         private void HandleStartError(Exception e)
