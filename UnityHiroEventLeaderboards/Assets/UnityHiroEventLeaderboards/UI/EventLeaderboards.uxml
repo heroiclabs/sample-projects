@@ -8,6 +8,13 @@
     </ui:VisualElement>
     <ui:VisualElement name="event-leaderboards-main" class="heroic-main__background">
         <ui:VisualElement name="main-left" style="width: 50%; padding-top: 30px; padding-right: 30px; padding-bottom: 30px; padding-left: 30px;">
+            <ui:VisualElement style="height: 15%; flex-direction: row; justify-content: space-evenly; align-items: center;">
+                <ui:VisualElement style="flex-direction: row; justify-content: space-around;">
+                    <ui:Button text="Events" name="my-event-leaderboards-tab" class="heroic-horizontal-tab-button selected" style="width: 450px;">
+                        <ui:VisualElement name="arrow" class="heroic-horizontal-tab-button__arrow" />
+                    </ui:Button>
+                </ui:VisualElement>
+            </ui:VisualElement>
             <ui:ListView fixed-item-height="150" name="event-leaderboards-list" style="flex-grow: 1; margin-bottom: 10px;" />
             <ui:Button text="Refresh" name="event-leaderboards-refresh" class="heroic-button-square" style="align-self: flex-start;" />
         </ui:VisualElement>
