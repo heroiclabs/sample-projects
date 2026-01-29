@@ -49,6 +49,8 @@ namespace HiroChallenges
 
         private static Dictionary<string, AccountInfo> _accountCache;
 
+        public static event Action AccountSwitched;
+
         public static async Task<ISession> SwitchAccountAsync(
             NakamaSystem nakamaSystem,
             ChallengesController controller,
@@ -75,9 +77,10 @@ namespace HiroChallenges
             ChallengesController controller,
             ISession newSession)
         {
-            (nakamaSystem.Session as Session).Update(newSession.AuthToken, newSession.RefreshToken);
+            ((Session)nakamaSystem.Session).Update(newSession.AuthToken, newSession.RefreshToken);
             await nakamaSystem.RefreshAsync();
             await controller.SwitchCompleteAsync();
+            AccountSwitched?.Invoke();
         }
 
         public static void StoreAccountInfo(string key, AccountInfo info)

@@ -74,7 +74,10 @@ namespace HiroChallenges.Editor
         {
             var coordinator = HiroCoordinator.Instance as HiroChallengesCoordinator;
             if (coordinator == null)
-                throw new InvalidOperationException("HiroChallengesCoordinator not found");
+            {
+                Debug.LogError("HiroChallengesCoordinator not found");
+                return;
+            }
 
             coordinator.ReceivedStartSuccess -= OnCoordinatorInitialized;
 

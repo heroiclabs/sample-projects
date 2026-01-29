@@ -89,8 +89,6 @@ namespace HiroChallenges
         private IChallenge _currentChallenge;
         private int _selectedTabIndex = DefaultTabIndex;
 
-        private IDisposable _challengesSystemObserver;
-        private IDisposable _nakamaSystemObserver;
 
         private LoadingSpinner _challengesListSpinner;
         private LoadingSpinner _selectedChallengeSpinner;
@@ -132,24 +130,21 @@ namespace HiroChallenges
             }
 
             _walletDisplay.StartObserving();
-
-            var nakamaSystem = coordinator.GetSystem<NakamaSystem>();
+            AccountSwitcher.AccountSwitched += OnAccountSwitched;
 
             await LoadTemplatesAsync();
-
-            // Observer calls callback immediately on subscribe, which triggers initial refresh
-            // RefreshChallengesAsync will hide the spinner when done
-            _nakamaSystemObserver = SystemObserver<NakamaSystem>.Create(nakamaSystem, OnNakamaSystemUpdated);
+            await RefreshChallengesAsync();
         }
 
-        private void OnNakamaSystemUpdated(NakamaSystem system)
+        private async void OnAccountSwitched()
         {
-            _ = RefreshChallengesAsync();
+            _challengesListSpinner.Show();
+            await RefreshChallengesAsync();
         }
 
         public void Dispose()
         {
-            _nakamaSystemObserver?.Dispose();
+            AccountSwitcher.AccountSwitched -= OnAccountSwitched;
             _challengesListSpinner?.Dispose();
             _selectedChallengeSpinner?.Dispose();
             _challengesList.selectionChanged -= OnChallengeListSelectionChanged;
@@ -502,9 +497,6 @@ namespace HiroChallenges
         private void UpdateButtonStates()
         {
             var participant = _controller.GetCurrentParticipant(_selectedChallengeParticipants);
-
-            Debug.Log($"UpdateButtonStates - Challenge: {_currentChallenge.Name}, Participant: {participant?.Username ?? "null"}, State: {participant?.State}");
-            Debug.Log($"  CanJoin: {_currentChallenge.CanJoin(participant)}, CanSubmitScore: {_currentChallenge.CanSubmitScore(participant)}");
 
             _joinButton.SetDisplay(_currentChallenge.CanJoin(participant));
             _leaveButton.SetDisplay(_currentChallenge.CanLeave(participant));
