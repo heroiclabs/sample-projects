@@ -85,11 +85,12 @@ namespace HiroChallenges.Editor
             var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
             foreach (var rootGameObject in rootGameObjects)
             {
-                if (!rootGameObject.TryGetComponent<ChallengesController>(out var controller)) continue;
+                if (!rootGameObject.TryGetComponent<ChallengesViewBehaviour>(out var viewBehaviour)) continue;
+                if (viewBehaviour.Controller == null) continue;
 
-                await AccountSwitcher.EnsureAccountsExistAsync(nakamaSystem, controller, _env);
+                await AccountSwitcher.EnsureAccountsExistAsync(nakamaSystem, viewBehaviour.Controller, _env);
                 // Switch back to account 0 after ensuring all accounts exist
-                await AccountSwitcher.SwitchAccountAsync(nakamaSystem, controller, _env, 0);
+                await AccountSwitcher.SwitchAccountAsync(nakamaSystem, viewBehaviour.Controller, _env, 0);
                 accountDropdown.index = 0;
                 UpdateUsernameLabels();
                 return;
@@ -103,7 +104,8 @@ namespace HiroChallenges.Editor
             var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
             foreach (var rootGameObject in rootGameObjects)
             {
-                if (!rootGameObject.TryGetComponent<ChallengesController>(out var controller)) continue;
+                if (!rootGameObject.TryGetComponent<ChallengesViewBehaviour>(out var viewBehaviour)) continue;
+                if (viewBehaviour.Controller == null) continue;
 
                 var coordinator = HiroCoordinator.Instance as HiroChallengesCoordinator;
                 if (coordinator == null) return;
@@ -112,9 +114,9 @@ namespace HiroChallenges.Editor
 
                 try
                 {
-                    var newSession = await AccountSwitcher.SwitchAccountAsync(
+                    await AccountSwitcher.SwitchAccountAsync(
                         nakamaSystem,
-                        controller,
+                        viewBehaviour.Controller,
                         _env,
                         accountDropdown.index);
 

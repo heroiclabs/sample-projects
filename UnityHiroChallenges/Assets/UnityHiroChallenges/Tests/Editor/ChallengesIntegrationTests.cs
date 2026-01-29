@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Hiro;
 using Hiro.System;
@@ -23,7 +22,6 @@ using Hiro.Unity;
 using Nakama;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace HiroChallenges.Tests.Editor
 {
@@ -39,7 +37,6 @@ namespace HiroChallenges.Tests.Editor
         private const int Port = 7350;
         private const string ServerKey = "defaultkey";
 
-        private GameObject _controllerGo;
         private ChallengesController _controller;
         private IClient _client;
         private ISession _session;
@@ -67,24 +64,12 @@ namespace HiroChallenges.Tests.Editor
             _economySystem = new EconomySystem(logger, _nakamaSystem, EconomyStoreType.Unspecified);
             await _economySystem.InitializeAsync();
 
-            // Create controller and inject systems
-            _controllerGo = new GameObject("TestController");
-            _controllerGo.AddComponent<UIDocument>();
-            _controller = _controllerGo.AddComponent<ChallengesController>();
-
-            var bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance;
-            typeof(ChallengesController).GetField("_nakamaSystem", bindingFlags).SetValue(_controller, _nakamaSystem);
-            typeof(ChallengesController).GetField("_challengesSystem", bindingFlags).SetValue(_controller, _challengesSystem);
-            typeof(ChallengesController).GetField("_economySystem", bindingFlags).SetValue(_controller, _economySystem);
-            _controller.CurrentUserId = _session.UserId;
+            _controller = new ChallengesController(_nakamaSystem, _challengesSystem, _economySystem);
         }
 
         [TearDown]
         public async Task TearDown()
         {
-            if (_controllerGo != null)
-                UnityEngine.Object.DestroyImmediate(_controllerGo);
-
             await _client.DeleteAccountAsync(_session);
             await _client.DeleteAccountAsync(_inviteeSession);
         }
@@ -155,7 +140,6 @@ namespace HiroChallenges.Tests.Editor
         private const int Port = 7350;
         private const string ServerKey = "defaultkey";
 
-        private GameObject _controllerGo;
         private ChallengesController _controller;
         private IClient _client;
         private ISession _session;
@@ -181,25 +165,12 @@ namespace HiroChallenges.Tests.Editor
             _economySystem = new EconomySystem(logger, _nakamaSystem, EconomyStoreType.Unspecified);
             await _economySystem.InitializeAsync();
 
-            // Create controller without UIDocument requirement
-            _controllerGo = new GameObject("TestController");
-            _controllerGo.AddComponent<UIDocument>();
-            _controller = _controllerGo.AddComponent<ChallengesController>();
-
-            // Inject systems via reflection
-            var bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance;
-            typeof(ChallengesController).GetField("_nakamaSystem", bindingFlags).SetValue(_controller, _nakamaSystem);
-            typeof(ChallengesController).GetField("_challengesSystem", bindingFlags).SetValue(_controller, _challengesSystem);
-            typeof(ChallengesController).GetField("_economySystem", bindingFlags).SetValue(_controller, _economySystem);
-            _controller.CurrentUserId = _session.UserId;
+            _controller = new ChallengesController(_nakamaSystem, _challengesSystem, _economySystem);
         }
 
         [TearDown]
         public async Task TearDown()
         {
-            if (_controllerGo != null)
-                UnityEngine.Object.DestroyImmediate(_controllerGo);
-
             await _client.DeleteAccountAsync(_session);
         }
 
@@ -318,7 +289,6 @@ namespace HiroChallenges.Tests.Editor
 
         private IClient _client;
 
-        private GameObject _controllerGo;
         private ChallengesController _controller;
         private NakamaSystem _nakamaSystem;
         private ChallengesSystem _challengesSystem;
@@ -345,24 +315,12 @@ namespace HiroChallenges.Tests.Editor
             _economySystem = new EconomySystem(logger, _nakamaSystem, EconomyStoreType.Unspecified);
             await _economySystem.InitializeAsync();
 
-            // Create controller
-            _controllerGo = new GameObject("TestController");
-            _controllerGo.AddComponent<UIDocument>();
-            _controller = _controllerGo.AddComponent<ChallengesController>();
-
-            var bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance;
-            typeof(ChallengesController).GetField("_nakamaSystem", bindingFlags).SetValue(_controller, _nakamaSystem);
-            typeof(ChallengesController).GetField("_challengesSystem", bindingFlags).SetValue(_controller, _challengesSystem);
-            typeof(ChallengesController).GetField("_economySystem", bindingFlags).SetValue(_controller, _economySystem);
-            // CurrentUserId is set by SwitchAccountAsync -> SwitchCompleteAsync
+            _controller = new ChallengesController(_nakamaSystem, _challengesSystem, _economySystem);
         }
 
         [TearDown]
         public async Task TearDown()
         {
-            if (_controllerGo != null)
-                UnityEngine.Object.DestroyImmediate(_controllerGo);
-
             // Delete all test accounts
             for (var i = 0; i < 4; i++)
             {

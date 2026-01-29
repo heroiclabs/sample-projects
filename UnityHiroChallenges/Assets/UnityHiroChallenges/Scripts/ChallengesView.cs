@@ -107,39 +107,39 @@ namespace HiroChallenges
             HideSelectedChallengePanel();
             _challengesListSpinner.Show();
 
-            var coordinator = HiroCoordinator.Instance as HiroChallengesCoordinator;
-            coordinator.ReceivedStartSuccess += OnCoordinatorReady;
+            _walletDisplay.StartObserving();
+            AccountSwitcher.AccountSwitched += OnAccountSwitched;
+
+            _ = InitializeAsync();
         }
 
-        private async void OnCoordinatorReady()
+        private async Task InitializeAsync()
         {
-            var coordinator = HiroCoordinator.Instance as HiroChallengesCoordinator;
-            System.Diagnostics.Debug.Assert(coordinator != null, nameof(coordinator) + " != null");
-            coordinator.ReceivedStartSuccess -= OnCoordinatorReady;
-
-            // Wait for controller to initialize its systems
             try
             {
-                await _controller.WaitForInitializationAsync();
+                await LoadTemplatesAsync();
+                await RefreshChallengesAsync();
             }
             catch (Exception e)
             {
                 _challengesListSpinner.Hide();
                 ShowError(e.Message);
-                return;
+                Debug.LogException(e);
             }
-
-            _walletDisplay.StartObserving();
-            AccountSwitcher.AccountSwitched += OnAccountSwitched;
-
-            await LoadTemplatesAsync();
-            await RefreshChallengesAsync();
         }
 
         private async void OnAccountSwitched()
         {
-            _challengesListSpinner.Show();
-            await RefreshChallengesAsync();
+            try
+            {
+                _challengesListSpinner.Show();
+                await RefreshChallengesAsync();
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
         }
 
         public void Dispose()
@@ -182,7 +182,16 @@ namespace HiroChallenges
 
             _selectedTabIndex = DefaultTabIndex;
             _myChallengesTab.AddToClassList("selected");
-            await RefreshChallengesAsync();
+
+            try
+            {
+                await RefreshChallengesAsync();
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
         }
 
         private void InitializeButtons(VisualElement rootElement)
@@ -211,7 +220,15 @@ namespace HiroChallenges
 
         private async void OnRefreshClicked()
         {
-            await RefreshChallengesAsync();
+            try
+            {
+                await RefreshChallengesAsync();
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
         }
 
         private void InitializeSelectedChallengePanel(VisualElement rootElement)
@@ -268,7 +285,15 @@ namespace HiroChallenges
 
         private async void OnChallengeListSelectionChanged(IEnumerable<object> _)
         {
-            await SelectChallengeAsync();
+            try
+            {
+                await SelectChallengeAsync();
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
         }
 
         private void InitializeModals(VisualElement rootElement)
@@ -361,7 +386,11 @@ namespace HiroChallenges
                     if (!string.IsNullOrEmpty(p.Username))
                         excludeSet.Add(p.Username);
                 }
-                usernames.RemoveAll(u => excludeSet.Contains(u));
+                for (var i = usernames.Count - 1; i >= 0; i--)
+                {
+                    if (excludeSet.Contains(usernames[i]))
+                        usernames.RemoveAt(i);
+                }
             }
 
             return usernames;

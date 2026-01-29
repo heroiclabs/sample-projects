@@ -14,106 +14,38 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Hiro;
-using Hiro.Unity;
-using Nakama;
-using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace HiroChallenges
 {
     /// <summary>
-    /// Controller for the Challenges system.
-    /// Handles business logic and coordinates between the View and Hiro systems.
+    /// Controller/Presenter for the Challenges system.
+    /// Handles business logic and coordinates with Hiro systems.
     /// </summary>
-    [RequireComponent(typeof(UIDocument))]
-    public class ChallengesController : MonoBehaviour
+    public class ChallengesController
     {
         private const int DefaultMaxParticipants = 100;
         private const int DefaultDelaySeconds = 0;
         private const int DefaultDurationSeconds = 2000;
 
-        [Header("UI Templates")]
-        [SerializeField] private VisualTreeAsset _challengeEntryTemplate;
-        [SerializeField] private VisualTreeAsset _challengeParticipantTemplate;
-
         private readonly Dictionary<string, IChallengeTemplate> _challengeTemplates = new();
 
-        private IChallengesSystem _challengesSystem;
-        private IEconomySystem _economySystem;
-        private NakamaSystem _nakamaSystem;
-        public string CurrentUserId;
+        private readonly IChallengesSystem _challengesSystem;
+        private readonly IEconomySystem _economySystem;
+        private readonly NakamaSystem _nakamaSystem;
 
         private string _selectedChallengeId;
 
+        public string CurrentUserId { get; private set; }
         public List<IChallenge> Challenges { get; } = new();
         public IChallenge SelectedChallenge { get; private set; }
 
-
-        public bool IsInitialized { get; private set; }
-
-        private readonly TaskCompletionSource<bool> _initializationTcs = new();
-
-        private void Start()
+        public ChallengesController(NakamaSystem nakamaSystem, IChallengesSystem challengesSystem, IEconomySystem economySystem)
         {
-            var coordinator = HiroCoordinator.Instance as HiroChallengesCoordinator;
-            if (coordinator == null)
-            {
-                Debug.LogError("HiroChallengesCoordinator not found");
-                return;
-            }
-
-            // View manages itself and observes systems directly
-            _ = new ChallengesView(
-                this,
-                GetComponent<UIDocument>().rootVisualElement,
-                _challengeEntryTemplate,
-                _challengeParticipantTemplate
-            );
-
-            coordinator.ReceivedStartError += HandleStartError;
-            coordinator.ReceivedStartSuccess += HandleStartSuccess;
-        }
-
-        private void OnDestroy()
-        {
-            var coordinator = HiroCoordinator.Instance as HiroChallengesCoordinator;
-            if (coordinator == null)
-                return;
-
-            coordinator.ReceivedStartError -= HandleStartError;
-            coordinator.ReceivedStartSuccess -= HandleStartSuccess;
-        }
-
-        public Task WaitForInitializationAsync() => _initializationTcs.Task;
-
-        private void HandleStartError(Exception e)
-        {
-            Debug.LogException(e);
-            _initializationTcs.TrySetException(e);
-        }
-
-        private void HandleStartSuccess()
-        {
-            InitializeSystems();
-            IsInitialized = true;
-            _initializationTcs.TrySetResult(true);
-        }
-
-        private void InitializeSystems()
-        {
-            _nakamaSystem = this.GetSystem<NakamaSystem>();
-            _challengesSystem = this.GetSystem<ChallengesSystem>();
-            _economySystem = this.GetSystem<EconomySystem>();
-
-            if (_nakamaSystem == null)
-                throw new InvalidOperationException("NakamaSystem not available");
-            if (_challengesSystem == null)
-                throw new InvalidOperationException("ChallengesSystem not available");
-            if (_economySystem == null)
-                throw new InvalidOperationException("EconomySystem not available");
+            _nakamaSystem = nakamaSystem ?? throw new ArgumentNullException(nameof(nakamaSystem));
+            _challengesSystem = challengesSystem ?? throw new ArgumentNullException(nameof(challengesSystem));
+            _economySystem = economySystem ?? throw new ArgumentNullException(nameof(economySystem));
 
             CurrentUserId = _nakamaSystem.UserId;
         }
@@ -142,7 +74,9 @@ namespace HiroChallenges
                 orderedTemplates.Add((template.Key, template.Value, displayName));
             }
 
-            foreach (var template in orderedTemplates.OrderBy(t => t.DisplayName, StringComparer.OrdinalIgnoreCase))
+            orderedTemplates.Sort((a, b) => string.Compare(a.DisplayName, b.DisplayName, StringComparison.OrdinalIgnoreCase));
+
+            foreach (var template in orderedTemplates)
             {
                 _challengeTemplates[template.Key] = template.Template;
                 challengeTemplateOptions.Add(new ChallengeTemplateOption
@@ -199,12 +133,17 @@ namespace HiroChallenges
 
             _selectedChallengeId = challengeId;
             SelectedChallenge = await _challengesSystem.GetChallengeAsync(challengeId, true);
-            return SelectedChallenge.Scores.ToList();
+            return new List<IChallengeScore>(SelectedChallenge.Scores);
         }
 
         public IChallengeScore GetCurrentParticipant(IReadOnlyList<IChallengeScore> participants)
         {
-            return participants.FirstOrDefault(p => p.Id == CurrentUserId);
+            foreach (var participant in participants)
+            {
+                if (participant.Id == CurrentUserId)
+                    return participant;
+            }
+            return null;
         }
 
         public async Task<IChallenge> CreateChallengeAsync(
@@ -219,15 +158,13 @@ namespace HiroChallenges
             if (string.IsNullOrEmpty(templateId) || !_challengeTemplates.ContainsKey(templateId))
                 throw new ArgumentException("Please select a valid Challenge template.", nameof(templateId));
 
-            var selectedTemplate = new KeyValuePair<string, IChallengeTemplate>(
-                templateId,
-                _challengeTemplates[templateId]);
+            var template = _challengeTemplates[templateId];
 
-            selectedTemplate.Value.AdditionalProperties.TryGetValue("description", out var description);
-            selectedTemplate.Value.AdditionalProperties.TryGetValue("category", out var category);
+            template.AdditionalProperties.TryGetValue("description", out var description);
+            template.AdditionalProperties.TryGetValue("category", out var category);
 
             var newChallenge = await _challengesSystem.CreateChallengeAsync(
-                selectedTemplate.Key,
+                templateId,
                 challengeName,
                 description ?? "Missing description.",
                 inviteeIds,
@@ -304,7 +241,6 @@ namespace HiroChallenges
                 DurationSeconds = DefaultDurationSeconds
             };
         }
-
     }
 
     #region Data Transfer Objects
