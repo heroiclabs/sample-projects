@@ -3,7 +3,7 @@ using UnityEditor;
 using System.IO;
 using System.Reflection;
 
-namespace HiroChallenges.Editor
+namespace HiroEventLeaderboards.Editor
 {
     [CustomEditor(typeof(Readme))]
     [InitializeOnLoad]

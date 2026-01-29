@@ -1,4 +1,4 @@
 @import url("unity-theme://default");
 
-@import url("/Assets/UnityHiroChallenges/HeroicUI/USS/HeroicUSSGlobal.uss");
+@import url("/Assets/UnityHiroEventLeaderboards/HeroicUI/USS/HeroicUSSGlobal.uss");
 

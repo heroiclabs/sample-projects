@@ -31,7 +31,6 @@ namespace HiroEventLeaderboards
         private readonly VisualTreeAsset _eventLeaderboardZoneTemplate;
 
         private WalletDisplay _walletDisplay;
-        private Button _myEventLeaderboardsTab;
         private Button _submitScoreButton;
         private Button _claimRewardsButton;
         private Button _rollButton;
@@ -88,7 +87,6 @@ namespace HiroEventLeaderboards
         private Label _infoRewardTiersLabel;
 
         private IEventLeaderboard _currentEventLeaderboard;
-        private int _selectedTabIndex;
 
         #region Initialization
 
@@ -125,14 +123,8 @@ namespace HiroEventLeaderboards
 
         private void InitializeTabs(VisualElement rootElement)
         {
-            _myEventLeaderboardsTab = rootElement.Q<Button>("my-event-leaderboards-tab");
-            _myEventLeaderboardsTab.RegisterCallback<ClickEvent>(evt =>
-            {
-                if (_selectedTabIndex == 0) return;
-                _selectedTabIndex = 0;
-                _myEventLeaderboardsTab.AddToClassList("selected");
-                _ = RefreshEventLeaderboards();
-            });
+            var tab = rootElement.Q<Button>("my-event-leaderboards-tab");
+            tab.pickingMode = PickingMode.Ignore;
         }
 
         private void InitializeButtons(VisualElement rootElement)
@@ -662,7 +654,7 @@ namespace HiroEventLeaderboards
                 : $"<b>Event ID:</b> {leaderboard.Id}\n\n{description}";
             _infoOperatorLabel.text = $"<b>Operator:</b> {leaderboard.Operator}";
             _infoCohortSizeLabel.text = $"<b>Cohort size:</b> {leaderboard.MaxCount}";
-            _infoAscendingLabel.text = $"<b>Ascending:</b> {leaderboard.Ascending} (lower scores are better)";
+            _infoAscendingLabel.text = $"<b>Ascending:</b> {leaderboard.Ascending} ({(leaderboard.Ascending ? "lower" : "higher")} scores are better)";
 
             var resetScheduleDesc = "";
        

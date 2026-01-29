@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace HiroChallenges.Editor
+namespace HiroEventLeaderboards.Editor
 {
     public class Readme : ScriptableObject
     {
