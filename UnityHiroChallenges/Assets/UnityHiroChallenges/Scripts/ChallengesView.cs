@@ -107,6 +107,7 @@ namespace HiroChallenges
 
             Initialize(rootElement);
             HideSelectedChallengePanel();
+            _challengesListSpinner.Show();
 
             var coordinator = HiroCoordinator.Instance as HiroChallengesCoordinator;
             coordinator.ReceivedStartSuccess += OnCoordinatorReady;
@@ -118,12 +119,17 @@ namespace HiroChallenges
             System.Diagnostics.Debug.Assert(coordinator != null, nameof(coordinator) + " != null");
             coordinator.ReceivedStartSuccess -= OnCoordinatorReady;
 
-            // Show spinner while initializing
-            _challengesListSpinner.Show();
-
             // Wait for controller to initialize its systems
-            while (!_controller.IsInitialized)
-                await Task.Yield();
+            try
+            {
+                await _controller.WaitForInitializationAsync();
+            }
+            catch (Exception e)
+            {
+                _challengesListSpinner.Hide();
+                ShowError(e.Message);
+                return;
+            }
 
             _walletDisplay.StartObserving();
 
@@ -380,7 +386,6 @@ namespace HiroChallenges
                 if (evt.keyCode != KeyCode.Tab)
                     return;
 
-                evt.PreventDefault();
                 evt.StopPropagation();
 
                 var candidates = GetAutocompleteCandidates(textField);

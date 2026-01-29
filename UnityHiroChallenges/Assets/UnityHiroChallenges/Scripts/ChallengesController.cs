@@ -53,7 +53,8 @@ namespace HiroChallenges
 
 
         public bool IsInitialized { get; private set; }
-        public Exception InitializationError { get; private set; }
+
+        private readonly TaskCompletionSource<bool> _initializationTcs = new();
 
         private void Start()
         {
@@ -76,16 +77,19 @@ namespace HiroChallenges
             coordinator.ReceivedStartSuccess += HandleStartSuccess;
         }
 
+        public Task WaitForInitializationAsync() => _initializationTcs.Task;
+
         private void HandleStartError(Exception e)
         {
-            InitializationError = e;
             Debug.LogException(e);
+            _initializationTcs.TrySetException(e);
         }
 
         private void HandleStartSuccess()
         {
             InitializeSystems();
             IsInitialized = true;
+            _initializationTcs.TrySetResult(true);
         }
 
         private void InitializeSystems()
