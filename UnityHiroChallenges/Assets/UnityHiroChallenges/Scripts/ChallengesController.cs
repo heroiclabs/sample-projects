@@ -36,9 +36,10 @@ namespace HiroChallenges
         private readonly NakamaSystem _nakamaSystem;
 
         private string _selectedChallengeId;
+        private readonly List<IChallenge> _challenges = new();
 
         public string CurrentUserId { get; private set; }
-        public List<IChallenge> Challenges { get; } = new();
+        public IReadOnlyList<IChallenge> Challenges => _challenges;
         public IChallenge SelectedChallenge { get; private set; }
 
         public ChallengesController(NakamaSystem nakamaSystem, IChallengesSystem challengesSystem, IEconomySystem economySystem)
@@ -101,12 +102,12 @@ namespace HiroChallenges
 
         public async Task<ChallengeRefreshResult> RefreshChallengesAsync()
         {
-            Challenges.Clear();
+            _challenges.Clear();
 
             var userChallengesResult = await _challengesSystem.ListChallengesAsync(null);
-            Challenges.AddRange(userChallengesResult.Challenges);
+            _challenges.AddRange(userChallengesResult.Challenges);
 
-            foreach (var challenge in Challenges)
+            foreach (var challenge in _challenges)
             {
                 if (challenge.Id != _selectedChallengeId)
                     continue;
@@ -114,7 +115,7 @@ namespace HiroChallenges
                 var participants = await SelectChallengeAsync(challenge.Id);
                 return new ChallengeRefreshResult
                 {
-                    SelectedChallengeIndex = Challenges.IndexOf(challenge),
+                    SelectedChallengeIndex = _challenges.IndexOf(challenge),
                     Participants = participants
                 };
             }
