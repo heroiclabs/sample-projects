@@ -730,15 +730,30 @@ namespace HiroChallenges
             try
             {
                 ThrowIfDisposedOrCancelled();
-                var inviteeIds = AccountSwitcher.ParseUsernamesToIds(_modalInvitees.value);
+
                 var selectedOption = GetSelectedTemplateOption();
                 if (selectedOption == null)
                     throw new InvalidOperationException("Please select a valid Challenge template.");
 
+                var template = _controller.GetTemplate(selectedOption.Id);
+                if (template == null)
+                    throw new InvalidOperationException("Selected template not found.");
+
+                var challengeName = _modalNameField.value?.Trim();
+                if (string.IsNullOrEmpty(challengeName))
+                    throw new InvalidOperationException("Please enter a challenge name.");
+
+                var maxParticipants = _modalMaxParticipantsField.value;
+                if (maxParticipants < template.Players.Min || maxParticipants > template.Players.Max)
+                    throw new InvalidOperationException(
+                        $"Max participants must be between {template.Players.Min} and {template.Players.Max}.");
+
+                var inviteeIds = AccountSwitcher.ParseUsernamesToIds(_modalInvitees.value);
+
                 await _controller.CreateChallengeAsync(
                     selectedOption.Id,
-                    _modalNameField.value,
-                    _modalMaxParticipantsField.value,
+                    challengeName,
+                    maxParticipants,
                     inviteeIds,
                     _modalChallengeDelay.value,
                     _modalChallengeDuration.value,
