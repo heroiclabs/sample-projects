@@ -243,8 +243,6 @@ namespace HiroChallenges
         }
     }
 
-    #region Data Transfer Objects
-
     public class ChallengeRefreshResult
     {
         public int SelectedChallengeIndex { get; set; }
@@ -263,6 +261,4 @@ namespace HiroChallenges
         public int DelaySeconds { get; set; }
         public int DurationSeconds { get; set; }
     }
-
-    #endregion
 }

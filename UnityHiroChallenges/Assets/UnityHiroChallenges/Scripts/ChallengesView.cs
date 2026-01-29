@@ -88,6 +88,8 @@ namespace HiroChallenges
 
         private readonly List<IChallengeScore> _selectedChallengeParticipants = new();
         private readonly CancellationTokenSource _cts = new();
+        private readonly object _disposeLock = new();
+        private volatile bool _disposed;
         private IChallenge _currentChallenge;
         private int _selectedTabIndex = DefaultTabIndex;
 
@@ -118,7 +120,7 @@ namespace HiroChallenges
         {
             try
             {
-                _cts.Token.ThrowIfCancellationRequested();
+                ThrowIfDisposedOrCancelled();
                 await LoadTemplatesAsync();
                 await RefreshChallengesAsync();
             }
@@ -138,7 +140,7 @@ namespace HiroChallenges
         {
             try
             {
-                _cts.Token.ThrowIfCancellationRequested();
+                ThrowIfDisposedOrCancelled();
                 _challengesListSpinner.Show();
                 await RefreshChallengesAsync();
             }
@@ -155,12 +157,26 @@ namespace HiroChallenges
 
         public void Dispose()
         {
+            lock (_disposeLock)
+            {
+                if (_disposed)
+                    return;
+                _disposed = true;
+            }
+
             _cts.Cancel();
             _cts.Dispose();
             AccountSwitcher.AccountSwitched -= OnAccountSwitched;
             _challengesListSpinner?.Dispose();
             _selectedChallengeSpinner?.Dispose();
             _challengesList.selectionChanged -= OnChallengeListSelectionChanged;
+        }
+
+        private void ThrowIfDisposedOrCancelled()
+        {
+            if (_disposed)
+                throw new OperationCanceledException();
+            ThrowIfDisposedOrCancelled();
         }
 
         private void Initialize(VisualElement rootElement)
@@ -198,7 +214,7 @@ namespace HiroChallenges
 
             try
             {
-                _cts.Token.ThrowIfCancellationRequested();
+                ThrowIfDisposedOrCancelled();
                 await RefreshChallengesAsync();
             }
             catch (OperationCanceledException)
@@ -240,7 +256,7 @@ namespace HiroChallenges
         {
             try
             {
-                _cts.Token.ThrowIfCancellationRequested();
+                ThrowIfDisposedOrCancelled();
                 await RefreshChallengesAsync();
             }
             catch (OperationCanceledException)
@@ -310,7 +326,7 @@ namespace HiroChallenges
         {
             try
             {
-                _cts.Token.ThrowIfCancellationRequested();
+                ThrowIfDisposedOrCancelled();
                 await SelectChallengeAsync();
             }
             catch (OperationCanceledException)
@@ -371,7 +387,6 @@ namespace HiroChallenges
             _modalCloseButton = _createModal.RequireElement<Button>("create-modal-close");
             _modalCloseButton.RegisterCallback<ClickEvent>(_ => HideCreateModal());
         }
-
 
         private void InitializeSubmitScoreModal(VisualElement rootElement)
         {
@@ -452,7 +467,6 @@ namespace HiroChallenges
             }, TrickleDown.TrickleDown);
         }
 
-
         private void InitializeErrorPopup(VisualElement rootElement)
         {
             _errorPopup = rootElement.RequireElement<VisualElement>("error-popup");
@@ -466,9 +480,9 @@ namespace HiroChallenges
             _challengesListSpinner.Show();
             try
             {
-                _cts.Token.ThrowIfCancellationRequested();
+                ThrowIfDisposedOrCancelled();
                 var refreshResult = await _controller.RefreshChallengesAsync();
-                _cts.Token.ThrowIfCancellationRequested();
+                ThrowIfDisposedOrCancelled();
                 _challengesList.RefreshItems();
 
                 if (refreshResult != null)
@@ -503,7 +517,7 @@ namespace HiroChallenges
         {
             try
             {
-                _cts.Token.ThrowIfCancellationRequested();
+                ThrowIfDisposedOrCancelled();
                 if (_challengesList.selectedIndex == -1)
                 {
                     HideSelectedChallengePanel();
@@ -512,7 +526,7 @@ namespace HiroChallenges
 
                 var selectedChallenge = _controller.Challenges[_challengesList.selectedIndex];
                 var participants = await _controller.SelectChallengeAsync(selectedChallenge.Id);
-                _cts.Token.ThrowIfCancellationRequested();
+                ThrowIfDisposedOrCancelled();
 
                 UpdateSelectedChallengePanel(selectedChallenge, participants);
             }
@@ -568,7 +582,7 @@ namespace HiroChallenges
             var participant = _controller.GetCurrentParticipant(_selectedChallengeParticipants);
 
             var isInvited = participant != null && participant.State == ChallengeState.Invited;
-            var canJoin = _currentChallenge.CanJoin(participant) || isInvited;
+            var canJoin = _currentChallenge.CanJoin(participant);
             var canLeave = _currentChallenge.CanLeave(participant);
             var canSubmit = _currentChallenge.CanSubmitScore(participant);
             var canInvite = _currentChallenge.CanInvite(participant);
@@ -602,7 +616,7 @@ namespace HiroChallenges
             _selectedChallengeSpinner.Show();
             try
             {
-                _cts.Token.ThrowIfCancellationRequested();
+                ThrowIfDisposedOrCancelled();
                 await _controller.JoinChallengeAsync();
                 await SelectChallengeAsync();
             }
@@ -626,7 +640,7 @@ namespace HiroChallenges
         {
             try
             {
-                _cts.Token.ThrowIfCancellationRequested();
+                ThrowIfDisposedOrCancelled();
                 await _controller.LeaveChallengeAsync();
                 _challengesList.ClearSelection();
                 await RefreshChallengesAsync();
@@ -648,9 +662,10 @@ namespace HiroChallenges
             _selectedChallengeSpinner.Show();
             try
             {
-                _cts.Token.ThrowIfCancellationRequested();
+                ThrowIfDisposedOrCancelled();
                 await _controller.ClaimChallengeAsync();
-                await SelectChallengeAsync();
+                _challengesList.ClearSelection();
+                await RefreshChallengesAsync();
             }
             catch (OperationCanceledException)
             {
@@ -672,7 +687,7 @@ namespace HiroChallenges
         {
             try
             {
-                _cts.Token.ThrowIfCancellationRequested();
+                ThrowIfDisposedOrCancelled();
                 _templateOptions = await _controller.LoadChallengeTemplatesAsync();
                 var displayNames = new List<string>(_templateOptions.Count);
                 foreach (var option in _templateOptions)
@@ -714,7 +729,7 @@ namespace HiroChallenges
         {
             try
             {
-                _cts.Token.ThrowIfCancellationRequested();
+                ThrowIfDisposedOrCancelled();
                 var inviteeIds = AccountSwitcher.ParseUsernamesToIds(_modalInvitees.value);
                 var selectedOption = GetSelectedTemplateOption();
                 if (selectedOption == null)
@@ -818,7 +833,7 @@ namespace HiroChallenges
             _selectedChallengeSpinner.Show();
             try
             {
-                _cts.Token.ThrowIfCancellationRequested();
+                ThrowIfDisposedOrCancelled();
                 await _controller.SubmitScoreAsync(_scoreField.value, _subScoreField.value);
                 await SelectChallengeAsync();
             }
@@ -857,7 +872,7 @@ namespace HiroChallenges
             _selectedChallengeSpinner.Show();
             try
             {
-                _cts.Token.ThrowIfCancellationRequested();
+                ThrowIfDisposedOrCancelled();
                 var inviteeIds = AccountSwitcher.ParseUsernamesToIds(_inviteModalInvitees.value);
                 await _controller.InviteToChallengeAsync(inviteeIds);
                 await SelectChallengeAsync();

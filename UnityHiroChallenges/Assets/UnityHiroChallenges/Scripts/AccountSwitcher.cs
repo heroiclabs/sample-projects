@@ -57,11 +57,30 @@ namespace HiroChallenges
             string env,
             int accountIndex)
         {
+            var newSession = await AuthenticateAndStoreAccountAsync(nakamaSystem, controller, env, accountIndex);
+            AccountSwitched?.Invoke();
+            return newSession;
+        }
+
+        public static async Task SwitchToSessionAsync(
+            NakamaSystem nakamaSystem,
+            ChallengesController controller,
+            ISession newSession)
+        {
+            await ApplySessionAsync(nakamaSystem, controller, newSession);
+            AccountSwitched?.Invoke();
+        }
+
+        private static async Task<ISession> AuthenticateAndStoreAccountAsync(
+            NakamaSystem nakamaSystem,
+            ChallengesController controller,
+            string env,
+            int accountIndex)
+        {
             var newSession = await HiroChallengesCoordinator.NakamaAuthorizerFunc(env, accountIndex)
                 .Invoke(nakamaSystem.Client);
-            await SwitchToSessionAsync(nakamaSystem, controller, newSession);
+            await ApplySessionAsync(nakamaSystem, controller, newSession);
 
-            // Store account info
             var key = $"{env}_{accountIndex}";
             StoreAccountInfo(key, new AccountInfo
             {
@@ -72,15 +91,18 @@ namespace HiroChallenges
             return newSession;
         }
 
-        public static async Task SwitchToSessionAsync(
+        private static async Task ApplySessionAsync(
             NakamaSystem nakamaSystem,
             ChallengesController controller,
             ISession newSession)
         {
-            ((Session)nakamaSystem.Session).Update(newSession.AuthToken, newSession.RefreshToken);
+            if (nakamaSystem.Session is not Session session)
+                throw new InvalidOperationException(
+                    $"Cannot switch account: NakamaSystem.Session is {nakamaSystem.Session?.GetType().Name ?? "null"}, expected Session");
+
+            session.Update(newSession.AuthToken, newSession.RefreshToken);
             await nakamaSystem.RefreshAsync();
             await controller.SwitchCompleteAsync();
-            AccountSwitched?.Invoke();
         }
 
         public static void StoreAccountInfo(string key, AccountInfo info)
@@ -149,6 +171,7 @@ namespace HiroChallenges
         {
             _accountCache = new Dictionary<string, AccountInfo>();
             PlayerPrefs.DeleteKey(AccountDataKey);
+            PlayerPrefs.Save();
         }
 
         public static async Task EnsureAccountsExistAsync(
@@ -157,15 +180,20 @@ namespace HiroChallenges
             string env,
             int count = 4)
         {
+            var accountsCreated = false;
             for (var i = 0; i < count; i++)
             {
                 var key = $"{env}_{i}";
                 LoadCache();
                 if (!_accountCache.ContainsKey(key))
                 {
-                    await SwitchAccountAsync(nakamaSystem, controller, env, i);
+                    await AuthenticateAndStoreAccountAsync(nakamaSystem, controller, env, i);
+                    accountsCreated = true;
                 }
             }
+
+            if (accountsCreated)
+                AccountSwitched?.Invoke();
         }
 
         private static void LoadCache()
@@ -210,6 +238,7 @@ namespace HiroChallenges
             }
             var json = JsonUtility.ToJson(data);
             PlayerPrefs.SetString(AccountDataKey, json);
+            PlayerPrefs.Save();
         }
     }
 }
