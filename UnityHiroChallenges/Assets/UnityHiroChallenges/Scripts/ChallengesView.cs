@@ -457,7 +457,7 @@ namespace HiroChallenges
             catch (Exception e)
             {
                 ShowError(e.Message);
-                Debug.Log(e);
+                Debug.LogException(e);
             }
             finally
             {
@@ -483,7 +483,7 @@ namespace HiroChallenges
             catch (Exception e)
             {
                 ShowError(e.Message);
-                Debug.Log(e);
+                Debug.LogException(e);
             }
         }
 
@@ -558,7 +558,7 @@ namespace HiroChallenges
             catch (Exception e)
             {
                 ShowError(e.Message);
-                Debug.Log(e);
+                Debug.LogException(e);
             }
             finally
             {
@@ -577,7 +577,7 @@ namespace HiroChallenges
             catch (Exception e)
             {
                 ShowError(e.Message);
-                Debug.Log(e);
+                Debug.LogException(e);
             }
         }
 
@@ -593,7 +593,7 @@ namespace HiroChallenges
             catch (Exception e)
             {
                 ShowError(e.Message);
-                Debug.Log(e);
+                Debug.LogException(e);
             }
             finally
             {
@@ -622,7 +622,7 @@ namespace HiroChallenges
             catch (Exception e)
             {
                 ShowError(e.Message);
-                Debug.Log(e);
+                Debug.LogException(e);
             }
         }
 
@@ -664,7 +664,7 @@ namespace HiroChallenges
             catch (Exception e)
             {
                 ShowError(e.Message);
-                Debug.Log(e);
+                Debug.LogException(e);
             }
         }
 
@@ -749,7 +749,7 @@ namespace HiroChallenges
             catch (Exception e)
             {
                 ShowError(e.Message);
-                Debug.Log(e);
+                Debug.LogException(e);
             }
             finally
             {
@@ -783,7 +783,7 @@ namespace HiroChallenges
             catch (Exception e)
             {
                 ShowError(e.Message);
-                Debug.Log(e);
+                Debug.LogException(e);
             }
             finally
             {
