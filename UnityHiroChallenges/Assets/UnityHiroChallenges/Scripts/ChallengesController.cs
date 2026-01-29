@@ -112,32 +112,43 @@ namespace HiroChallenges
             await _economySystem.RefreshAsync();
         }
 
-        public async Task<List<string>> LoadChallengeTemplatesAsync()
+        public async Task<List<ChallengeTemplateOption>> LoadChallengeTemplatesAsync()
         {
             _challengeTemplates.Clear();
             var loadedTemplates = (await _challengesSystem.GetTemplatesAsync()).Templates;
-            var challengeTemplateNames = new List<string>();
+            var challengeTemplateOptions = new List<ChallengeTemplateOption>();
+            var orderedTemplates = new List<(string Key, IChallengeTemplate Template, string DisplayName)>();
 
             foreach (var template in loadedTemplates)
             {
-                _challengeTemplates[template.Key] = template.Value;
-
                 var displayName = template.Value.AdditionalProperties.TryGetValue("display_name", out var name)
                     ? name
                     : template.Key;
 
-                challengeTemplateNames.Add(displayName);
+                orderedTemplates.Add((template.Key, template.Value, displayName));
             }
 
-            return challengeTemplateNames;
+            foreach (var template in orderedTemplates.OrderBy(t => t.DisplayName, StringComparer.OrdinalIgnoreCase))
+            {
+                _challengeTemplates[template.Key] = template.Template;
+                challengeTemplateOptions.Add(new ChallengeTemplateOption
+                {
+                    Id = template.Key,
+                    DisplayName = template.DisplayName
+                });
+            }
+
+            return challengeTemplateOptions;
         }
 
-        public IChallengeTemplate GetTemplate(int templateIndex)
+        public IChallengeTemplate GetTemplate(string templateId)
         {
-            if (templateIndex < 0 || templateIndex >= _challengeTemplates.Count)
+            if (string.IsNullOrEmpty(templateId))
                 return null;
 
-            return _challengeTemplates.ElementAt(templateIndex).Value;
+            return _challengeTemplates.TryGetValue(templateId, out var template)
+                ? template
+                : null;
         }
 
         public async Task<ChallengeRefreshResult> RefreshChallengesAsync()
@@ -183,7 +194,7 @@ namespace HiroChallenges
         }
 
         public async Task<IChallenge> CreateChallengeAsync(
-            int templateIndex,
+            string templateId,
             string challengeName,
             int maxParticipants,
             string[] inviteeIds,
@@ -191,10 +202,12 @@ namespace HiroChallenges
             int durationSeconds,
             bool isOpen)
         {
-            if (templateIndex < 0 || templateIndex >= _challengeTemplates.Count)
-                throw new ArgumentException("Please select a valid Challenge template.", nameof(templateIndex));
+            if (string.IsNullOrEmpty(templateId) || !_challengeTemplates.ContainsKey(templateId))
+                throw new ArgumentException("Please select a valid Challenge template.", nameof(templateId));
 
-            var selectedTemplate = _challengeTemplates.ElementAt(templateIndex);
+            var selectedTemplate = new KeyValuePair<string, IChallengeTemplate>(
+                templateId,
+                _challengeTemplates[templateId]);
 
             selectedTemplate.Value.AdditionalProperties.TryGetValue("description", out var description);
             selectedTemplate.Value.AdditionalProperties.TryGetValue("category", out var category);
@@ -286,6 +299,12 @@ namespace HiroChallenges
     {
         public int SelectedChallengeIndex { get; set; }
         public List<IChallengeScore> Participants { get; set; }
+    }
+
+    public class ChallengeTemplateOption
+    {
+        public string Id { get; set; }
+        public string DisplayName { get; set; }
     }
 
     public class ChallengeCreationDefaults

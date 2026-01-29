@@ -36,6 +36,7 @@ namespace HiroChallenges
         private readonly ChallengesController _controller;
         private readonly VisualTreeAsset _challengeEntryTemplate;
         private readonly VisualTreeAsset _challengeParticipantTemplate;
+        private List<ChallengeTemplateOption> _templateOptions = new();
 
         private WalletDisplay _walletDisplay;
         private Button _myChallengesTab;
@@ -282,7 +283,7 @@ namespace HiroChallenges
             _modalTemplateDropdown = _createModal.RequireElement<DropdownField>("create-modal-template");
             _modalTemplateDropdown.RegisterValueChangedCallback(evt =>
             {
-                var template = _controller.GetTemplate(evt.newValue != null ? _modalTemplateDropdown.index : 0);
+                var template = GetSelectedTemplate();
                 if (template != null)
                     UpdateCreateModalLimits(template);
             });
@@ -577,13 +578,16 @@ namespace HiroChallenges
         {
             try
             {
-                var templateNames = await _controller.LoadChallengeTemplatesAsync();
-                _modalTemplateDropdown.choices = templateNames;
+                _templateOptions = await _controller.LoadChallengeTemplatesAsync();
+                var displayNames = new List<string>(_templateOptions.Count);
+                foreach (var option in _templateOptions)
+                    displayNames.Add(option.DisplayName);
+                _modalTemplateDropdown.choices = displayNames;
 
-                if (templateNames.Count > 0)
+                if (_templateOptions.Count > 0)
                 {
                     _modalTemplateDropdown.index = 0;
-                    var firstTemplate = _controller.GetTemplate(0);
+                    var firstTemplate = _controller.GetTemplate(_templateOptions[0].Id);
                     if (firstTemplate != null)
                         UpdateCreateModalLimits(firstTemplate);
                 }
@@ -612,9 +616,12 @@ namespace HiroChallenges
             try
             {
                 var inviteeIds = AccountSwitcher.ParseUsernamesToIds(_modalInvitees.value);
+                var selectedOption = GetSelectedTemplateOption();
+                if (selectedOption == null)
+                    throw new InvalidOperationException("Please select a valid Challenge template.");
 
                 await _controller.CreateChallengeAsync(
-                    _modalTemplateDropdown.index,
+                    selectedOption.Id,
                     _modalNameField.value,
                     _modalMaxParticipantsField.value,
                     inviteeIds,
@@ -647,6 +654,23 @@ namespace HiroChallenges
 
             if (_modalTemplateDropdown.choices.Count > 0)
                 _modalTemplateDropdown.index = 0;
+        }
+
+        private ChallengeTemplateOption GetSelectedTemplateOption()
+        {
+            var index = _modalTemplateDropdown.index;
+            if (index < 0 || index >= _templateOptions.Count)
+                return null;
+
+            return _templateOptions[index];
+        }
+
+        private IChallengeTemplate GetSelectedTemplate()
+        {
+            var selectedOption = GetSelectedTemplateOption();
+            return selectedOption != null
+                ? _controller.GetTemplate(selectedOption.Id)
+                : null;
         }
 
         private void UpdateCreateModalLimits(IChallengeTemplate template)

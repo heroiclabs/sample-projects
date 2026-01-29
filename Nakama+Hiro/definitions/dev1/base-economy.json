@@ -1,8 +1,8 @@
 {
     "initialize_user": {
         "currencies": {
-            "coins": 1000000,
-            "gems": 100000
+            "coins": 100,
+            "gems": 10
         }
     },
     "store_items": {

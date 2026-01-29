@@ -92,12 +92,13 @@ namespace HiroChallenges.Tests.Editor
         [Test]
         public async Task CreateChallengeAsync_WithValidTemplate_Succeeds()
         {
-            await _controller.LoadChallengeTemplatesAsync();
+            var templates = await _controller.LoadChallengeTemplatesAsync();
+            var templateId = templates[0].Id;
 
             var defaults = _controller.GetCreationDefaults();
 
             await _controller.CreateChallengeAsync(
-                0,
+                templateId,
                 $"Test Challenge {DateTime.UtcNow.Ticks}",
                 defaults.MaxParticipants,
                 new[] { _inviteeSession.UserId },
@@ -115,12 +116,13 @@ namespace HiroChallenges.Tests.Editor
         [Test]
         public async Task SelectChallengeAsync_AfterCreate_ReturnsDetails()
         {
-            await _controller.LoadChallengeTemplatesAsync();
+            var templates = await _controller.LoadChallengeTemplatesAsync();
+            var templateId = templates[0].Id;
 
             var defaults = _controller.GetCreationDefaults();
 
             await _controller.CreateChallengeAsync(
-                0,
+                templateId,
                 $"Get Test {DateTime.UtcNow.Ticks}",
                 defaults.MaxParticipants,
                 new[] { _inviteeSession.UserId },
@@ -202,7 +204,7 @@ namespace HiroChallenges.Tests.Editor
         }
 
         [Test]
-        public async Task LoadChallengeTemplatesAsync_ReturnsTemplateNames()
+        public async Task LoadChallengeTemplatesAsync_ReturnsTemplateOptions()
         {
             var templates = await _controller.LoadChallengeTemplatesAsync();
 
@@ -210,62 +212,38 @@ namespace HiroChallenges.Tests.Editor
             Assert.IsTrue(templates.Count > 0, "No challenge templates found on server");
             Debug.Log($"Found {templates.Count} templates");
 
-            foreach (var name in templates)
+            foreach (var template in templates)
             {
-                Debug.Log($"Template: {name}");
+                Debug.Log($"Template: {template.DisplayName} ({template.Id})");
             }
         }
 
         [Test]
         public async Task GetTemplate_AfterLoad_ReturnsTemplateDetails()
         {
-            await _controller.LoadChallengeTemplatesAsync();
+            var templates = await _controller.LoadChallengeTemplatesAsync();
 
-            var template = _controller.GetTemplate(0);
+            var template = _controller.GetTemplate(templates[0].Id);
 
             Assert.IsNotNull(template, "First template should exist");
             Debug.Log($"Template MaxNumScore: {template.MaxNumScore}");
         }
 
         [Test]
-        public async Task GetTemplate_UsesStableOrder_NotDictionaryOrder()
+        public async Task LoadChallengeTemplatesAsync_ReturnsOptionsSortedByDisplayName()
         {
-            await _controller.LoadChallengeTemplatesAsync();
-
-            var bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance;
-            var templatesField = typeof(ChallengesController).GetField("_challengeTemplates", bindingFlags);
-            var templates = (Dictionary<string, IChallengeTemplate>)templatesField.GetValue(_controller);
+            var templates = await _controller.LoadChallengeTemplatesAsync();
 
             if (templates.Count < 2)
                 Assert.Inconclusive("Need at least two templates to validate ordering.");
 
             var ordered = templates
-                .Select(template => new
-                {
-                    template.Key,
-                    DisplayName = template.Value.AdditionalProperties.TryGetValue("display_name", out var name)
-                        ? name
-                        : template.Key
-                })
                 .OrderBy(template => template.DisplayName, StringComparer.OrdinalIgnoreCase)
                 .ToList();
 
-            var expectedFirstKey = ordered[0].Key;
-
-            var reversedKeys = ordered.Select(template => template.Key).Reverse().ToList();
-            var reorderedTemplates = new Dictionary<string, IChallengeTemplate>();
-            foreach (var key in reversedKeys)
-                reorderedTemplates.Add(key, templates[key]);
-
-            templatesField.SetValue(_controller, reorderedTemplates);
-
-            var selectedTemplate = _controller.GetTemplate(0);
-            var actualFirstKey = reorderedTemplates.First(template => ReferenceEquals(template.Value, selectedTemplate)).Key;
-
-            Assert.AreEqual(
-                expectedFirstKey,
-                actualFirstKey,
-                "Template selection should be stable regardless of dictionary insertion order.");
+            Assert.IsTrue(
+                templates.SequenceEqual(ordered),
+                "Template options should be sorted by display name.");
         }
 
         [Test]
@@ -420,11 +398,12 @@ namespace HiroChallenges.Tests.Editor
 
             // Switch to Account 0: Load templates and create challenge with 1 invitee
             await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, _controller, "test", 0);
-            await _controller.LoadChallengeTemplatesAsync();
+            var templates = await _controller.LoadChallengeTemplatesAsync();
+            var templateId = templates[0].Id;
             var defaults = _controller.GetCreationDefaults();
 
             var createdChallenge = await _controller.CreateChallengeAsync(
-                0,
+                templateId,
                 $"Flow Test {DateTime.UtcNow.Ticks}",
                 defaults.MaxParticipants,
                 new[] { userIds[1] },
