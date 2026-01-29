@@ -176,7 +176,7 @@ namespace HiroChallenges
         {
             if (_disposed)
                 throw new OperationCanceledException();
-            ThrowIfDisposedOrCancelled();
+            _cts.Token.ThrowIfCancellationRequested();
         }
 
         private void Initialize(VisualElement rootElement)

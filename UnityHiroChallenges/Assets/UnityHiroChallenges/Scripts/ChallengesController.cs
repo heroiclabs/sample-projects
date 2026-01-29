@@ -128,7 +128,7 @@ namespace HiroChallenges
             {
                 _selectedChallengeId = string.Empty;
                 SelectedChallenge = null;
-                return null;
+                return new List<IChallengeScore>();
             }
 
             _selectedChallengeId = challengeId;
