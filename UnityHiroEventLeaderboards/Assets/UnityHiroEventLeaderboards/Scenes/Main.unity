@@ -275,7 +275,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb6dc514907ac4e2eb8fd3ae7fc63949, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HiroChallenges.HiroChallengesCoordinator
+  m_EditorClassIdentifier: Assembly-CSharp::HiroEventLeaderboards.HiroEventLeaderboardsCoordinator
   localHost: 0
   scheme: https
   host: sample-prjcts.eu-west1-a.nakamacloud.io
@@ -363,7 +363,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a331e098f557e49af95eb66a008e913a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HiroChallenges.HiroChallengesController
+  m_EditorClassIdentifier: Assembly-CSharp::HiroEventLeaderboards.EventLeaderboardsController
   eventLeaderboardEntryTemplate: {fileID: 9197481963319205126, guid: 7f2d3bbe277224287bcb00ffc778b404, type: 3}
   eventLeaderboardRecordTemplate: {fileID: 9197481963319205126, guid: 3b1430e8390154d66bcf08444c83fa76, type: 3}
   eventLeaderboardZoneTemplate: {fileID: 9197481963319205126, guid: f665d0c9be32f422789af3de8b2f8f5e, type: 3}

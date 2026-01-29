@@ -1,9 +1,9 @@
 .heroic-button {
     background-color: rgba(0, 0, 0, 0);
-    background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Button/button_rounded_h84_white.png?fileID=-5596177910589249262&guid=31bbd3f34dbe14a9b83b0893fe342659&type=3#button_rounded_h84_white_0");
+    background-image: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Button/button_rounded_h84_white.png?fileID=-5596177910589249262&guid=31bbd3f34dbe14a9b83b0893fe342659&type=3#button_rounded_h84_white_0");
     font-size: 30px;
     color: rgb(255, 255, 255);
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     padding-left: 64px;
     padding-right: 64px;
@@ -32,7 +32,7 @@
     background-color: rgba(0, 0, 0, 0);
     font-size: 32px;
     color: rgb(255, 255, 255);
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     padding-left: 64px;
     padding-right: 64px;
@@ -47,7 +47,7 @@
     -unity-background-image-tint-color: rgb(85, 100, 153);
     transition-property: scale;
     transition-duration: 0.1s;
-    background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Button/button_rounded_h84_white.png?fileID=-5596177910589249262&guid=31bbd3f34dbe14a9b83b0893fe342659&type=3#button_rounded_h84_white_0");
+    background-image: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Button/button_rounded_h84_white.png?fileID=-5596177910589249262&guid=31bbd3f34dbe14a9b83b0893fe342659&type=3#button_rounded_h84_white_0");
 }
 
 .heroic-button-dark:hover:enabled {
@@ -62,7 +62,7 @@
     background-color: rgba(0, 0, 0, 0);
     font-size: 32px;
     color: rgb(100, 100, 100);
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     padding-left: 64px;
     padding-right: 64px;
@@ -76,7 +76,7 @@
     border-bottom-color: rgba(0, 0, 0, 0);
     transition-property: scale;
     transition-duration: 0.1s;
-    background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Button/button_rounded_h84_white.png?fileID=-5596177910589249262&guid=31bbd3f34dbe14a9b83b0893fe342659&type=3#button_rounded_h84_white_0");
+    background-image: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Button/button_rounded_h84_white.png?fileID=-5596177910589249262&guid=31bbd3f34dbe14a9b83b0893fe342659&type=3#button_rounded_h84_white_0");
     -unity-background-image-tint-color: rgb(239, 241, 243);
 }
 
@@ -92,7 +92,7 @@
     background-color: rgba(0, 0, 0, 0);
     font-size: 32px;
     color: rgb(255, 255, 255);
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     padding-left: 64px;
     padding-right: 64px;
@@ -107,7 +107,7 @@
     -unity-background-image-tint-color: rgb(224, 50, 50);
     transition-property: scale;
     transition-duration: 0.1s;
-    background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Button/button_rounded_h84_white.png?fileID=-5596177910589249262&guid=31bbd3f34dbe14a9b83b0893fe342659&type=3#button_rounded_h84_white_0");
+    background-image: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Button/button_rounded_h84_white.png?fileID=-5596177910589249262&guid=31bbd3f34dbe14a9b83b0893fe342659&type=3#button_rounded_h84_white_0");
 }
 
 .heroic-button-red:hover:enabled {
@@ -122,12 +122,12 @@
     background-color: rgba(0, 0, 0, 0);
     color: rgb(255, 255, 255);
     font-size: 30px;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     height: 70px;
     padding-right: 30px;
     padding-left: 30px;
-    background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Button/button_rounded_rectangle_r14_white.png?fileID=7399481762379025213&guid=f01c12e8a6e6a4046b29765e026b60c2&type=3#button_rounded_rectangle_r14_white_0");
+    background-image: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Button/button_rounded_rectangle_r14_white.png?fileID=7399481762379025213&guid=f01c12e8a6e6a4046b29765e026b60c2&type=3#button_rounded_rectangle_r14_white_0");
     -unity-slice-left: 25;
     -unity-slice-right: 25;
     -unity-slice-top: 25;
@@ -152,7 +152,7 @@
 }
 
 .heroic-stepper {
-    background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Stepper/stepper_button_next_violet.png?fileID=2800000&guid=295ce4045d8694012af9e05244b2501c&type=3#stepper_button_next_violet");
+    background-image: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Stepper/stepper_button_next_violet.png?fileID=2800000&guid=295ce4045d8694012af9e05244b2501c&type=3#stepper_button_next_violet");
     background-color: rgba(0, 0, 0, 0);
     -unity-background-scale-mode: scale-and-crop;
     width: 70px;
@@ -174,7 +174,7 @@
 .heroic-table-head {
     font-size: 26px;
     -unity-text-align: middle-center;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     color: rgb(129, 129, 129);
     margin: 0;
@@ -183,7 +183,7 @@
 
 .heroic-vertical-tab-button {
     font-size: 32px;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     background-color: rgba(0, 0, 0, 0);
     color: rgb(31, 49, 81);
@@ -195,7 +195,7 @@
     border-right-color: rgba(0, 0, 0, 0);
     border-top-color: rgba(0, 0, 0, 0);
     border-bottom-color: rgba(0, 0, 0, 0);
-    background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Tab/tab_01_white_bg_default.png?fileID=-7469057409206181842&guid=833e01ea4d81a481eb2abe3f8b2defed&type=3#tab_01_white_bg_default_0");
+    background-image: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Tab/tab_01_white_bg_default.png?fileID=-7469057409206181842&guid=833e01ea4d81a481eb2abe3f8b2defed&type=3#tab_01_white_bg_default_0");
     -unity-slice-left: 10;
     -unity-slice-top: 10;
     -unity-slice-right: 20;
@@ -211,7 +211,7 @@
 
 .heroic-vertical-tab-button:hover:enabled {
     font-size: 32px;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     overflow: visible;
     scale: 1.05 1.05;
@@ -224,9 +224,9 @@
 
 .heroic-vertical-tab-button.selected {
     font-size: 32px;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
-    background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Tab/tab_01_violet_focus_bg.png?fileID=-138532423673759688&guid=7220fe2d7b94943c1b0b447d81765648&type=3#tab_01_violet_focus_bg_0");
+    background-image: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Tab/tab_01_violet_focus_bg.png?fileID=-138532423673759688&guid=7220fe2d7b94943c1b0b447d81765648&type=3#tab_01_violet_focus_bg_0");
     background-color: rgb(255, 255, 255);
     border-radius: 10px 10px 25px 25px;
 }
@@ -242,7 +242,7 @@
 .heroic-vertical-tab-button__arrow {
     position: absolute;
     right: -10px;
-    background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Tab/tab_01_violet_focus_tail_right.png?fileID=2800000&guid=3e9c4b4a8713e46e8ab71b3d8e9ac523&type=3#tab_01_violet_focus_tail_right");
+    background-image: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Tab/tab_01_violet_focus_tail_right.png?fileID=2800000&guid=3e9c4b4a8713e46e8ab71b3d8e9ac523&type=3#tab_01_violet_focus_tail_right");
     width: 12px;
     -unity-background-scale-mode: scale-to-fit;
     height: 100%;
@@ -252,7 +252,7 @@
 
 .heroic-horizontal-tab-button {
     font-size: 32px;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     background-color: rgba(0, 0, 0, 0);
     color: rgb(31, 49, 81);
@@ -264,7 +264,7 @@
     border-right-color: rgba(0, 0, 0, 0);
     border-top-color: rgba(0, 0, 0, 0);
     border-bottom-color: rgba(0, 0, 0, 0);
-    background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Tab/tab_01_white_bg_default.png?fileID=-7469057409206181842&guid=833e01ea4d81a481eb2abe3f8b2defed&type=3#tab_01_white_bg_default_0");
+    background-image: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Tab/tab_01_white_bg_default.png?fileID=-7469057409206181842&guid=833e01ea4d81a481eb2abe3f8b2defed&type=3#tab_01_white_bg_default_0");
     -unity-slice-left: 10;
     -unity-slice-top: 10;
     -unity-slice-right: 20;
@@ -280,7 +280,7 @@
 
 .heroic-horizontal-tab-button:hover:enabled {
     font-size: 32px;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     overflow: visible;
     scale: 1.05 1.05;
@@ -293,9 +293,9 @@
 
 .heroic-horizontal-tab-button.selected {
     font-size: 32px;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
-    background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Tab/tab_01_violet_focus_bg.png?fileID=-138532423673759688&guid=7220fe2d7b94943c1b0b447d81765648&type=3#tab_01_violet_focus_bg_0");
+    background-image: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Tab/tab_01_violet_focus_bg.png?fileID=-138532423673759688&guid=7220fe2d7b94943c1b0b447d81765648&type=3#tab_01_violet_focus_bg_0");
     background-color: rgb(255, 255, 255);
     border-radius: 10px 10px 25px 25px;
 }
@@ -310,7 +310,7 @@
 
 .heroic-horizontal-tab-button__arrow {
     position: absolute;
-    background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Tab/tab_01_violet_focus_tail_up_down.png?fileID=2800000&guid=7a65a604dc43c462e9c7b1c34bf7be57&type=3#tab_01_violet_focus_tail_up_down");
+    background-image: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Tab/tab_01_violet_focus_tail_up_down.png?fileID=2800000&guid=7a65a604dc43c462e9c7b1c34bf7be57&type=3#tab_01_violet_focus_tail_up_down");
     width: 16px;
     -unity-background-scale-mode: scale-to-fit;
     height: 100%;
@@ -327,7 +327,7 @@
     margin: 0;
     padding: 0;
     background-color: rgba(0, 0, 0, 0);
-    background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Popup/button_circle_h69_merged_icon_close.png?fileID=2800000&guid=f635cd0a8ec764f4c8cc0eb1faf32dd2&type=3#button_circle_h69_merged_icon_close");
+    background-image: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Popup/button_circle_h69_merged_icon_close.png?fileID=2800000&guid=f635cd0a8ec764f4c8cc0eb1faf32dd2&type=3#button_circle_h69_merged_icon_close");
     position: absolute;
     border-top-width: 0;
     border-right-width: 0;
@@ -346,7 +346,7 @@
 }
 
 .heroic-title {
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     font-size: 46px;
     -unity-font-style: bold;
     -unity-text-align: upper-center;
@@ -364,7 +364,7 @@
 }
 
 .heroic-main__panel {
-    background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Tab/tab_01_white_bg_default.png?fileID=-7469057409206181842&guid=833e01ea4d81a481eb2abe3f8b2defed&type=3#tab_01_white_bg_default_0");
+    background-image: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Tab/tab_01_white_bg_default.png?fileID=-7469057409206181842&guid=833e01ea4d81a481eb2abe3f8b2defed&type=3#tab_01_white_bg_default_0");
     -unity-background-scale-mode: scale-and-crop;
     -unity-slice-left: 25;
     -unity-slice-top: 25;
@@ -387,7 +387,7 @@
 }
 
 .heroic-error-popup__panel {
-    background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Popup/popup_white_bg.png?fileID=2800000&guid=429e1dfddd1074610a96f4bd98b268d3&type=3#popup_white_bg");
+    background-image: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Popup/popup_white_bg.png?fileID=2800000&guid=429e1dfddd1074610a96f4bd98b268d3&type=3#popup_white_bg");
     -unity-slice-left: 50;
     -unity-slice-top: 50;
     -unity-slice-right: 50;
@@ -397,7 +397,7 @@
 }
 
 .heroic-error-popup__icon {
-    background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/IconPictogram/128/icon_exclamation_round.png?fileID=2800000&guid=15c620183627e4fb783260284ac17675&type=3#icon_exclamation_round");
+    background-image: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/IconPictogram/128/icon_exclamation_round.png?fileID=2800000&guid=15c620183627e4fb783260284ac17675&type=3#icon_exclamation_round");
     -unity-background-image-tint-color: rgb(224, 50, 50);
     -unity-background-scale-mode: scale-to-fit;
     height: 25%;
@@ -409,7 +409,7 @@
     flex-grow: 1;
     -unity-text-align: middle-center;
     font-size: 32px;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     position: absolute;
     left: 0;
@@ -420,7 +420,7 @@
 }
 
 .heroic-divider {
-    background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Frame/divider_horizontal_dotline_transparent_gray.png?fileID=2800000&guid=96adb1bf817974235bc1fc635af8b2f3&type=3#divider_horizontal_dotline_transparent_gray");
+    background-image: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Frame/divider_horizontal_dotline_transparent_gray.png?fileID=2800000&guid=96adb1bf817974235bc1fc635af8b2f3&type=3#divider_horizontal_dotline_transparent_gray");
     background-size: 20px 4px;
     background-repeat: space no-repeat;
     height: 4px;
@@ -439,14 +439,14 @@
 .heroic-list__title {
     -unity-font-style: bold;
     font-size: 26px;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     color: rgb(31, 49, 81);
 }
 
 .heroic-list-view__item-label {
     -unity-text-align: middle-center;
     font-size: 32px;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     margin: 0;
     padding: 0;
@@ -466,7 +466,7 @@
 
 .unity-base-field__input {
     background-color: rgba(0, 0, 0, 0);
-    background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/TextInput/text_input_merged_gray.png?fileID=2800000&guid=c0934a7a45f1d4937aae187c0cfbe078&type=3#text_input_merged_gray");
+    background-image: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/TextInput/text_input_merged_gray.png?fileID=2800000&guid=c0934a7a45f1d4937aae187c0cfbe078&type=3#text_input_merged_gray");
     -unity-slice-left: 25;
     -unity-slice-top: 25;
     -unity-slice-right: 25;
@@ -484,7 +484,7 @@
 }
 
 .unity-base-field__label {
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
     min-width: 0;
     font-size: 26px;
@@ -493,18 +493,18 @@
 
 .unity-base-text-field {
     font-size: 30px;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
     -unity-font-style: bold;
 }
 
 .unity-enum-field {
     font-size: 30px;
     -unity-font-style: bold;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
 }
 
 .unity-enum-field__arrow {
-    background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Dropdown/dropdown_button_tail_default.png?fileID=2800000&guid=5929a856508804b18b7d6452a985c34a&type=3#dropdown_button_tail_default");
+    background-image: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Dropdown/dropdown_button_tail_default.png?fileID=2800000&guid=5929a856508804b18b7d6452a985c34a&type=3#dropdown_button_tail_default");
     -unity-background-image-tint-color: rgb(255, 255, 255);
     -unity-background-scale-mode: scale-to-fit;
     width: 20px;
@@ -518,11 +518,11 @@
 .unity-popup-field {
     font-size: 30px;
     -unity-font-style: bold;
-    -unity-font-definition: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
+    -unity-font-definition: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Fonts/Plus_Jakarta_Sans/PlusJakartaSans-VariableFont_wght.asset?fileID=11400000&guid=568a675c4201b4dd0a34965e57338ba4&type=2#PlusJakartaSans-VariableFont_wght");
 }
 
 .unity-base-popup-field__arrow {
-    background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Dropdown/dropdown_button_tail_default.png?fileID=2800000&guid=5929a856508804b18b7d6452a985c34a&type=3#dropdown_button_tail_default");
+    background-image: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Dropdown/dropdown_button_tail_default.png?fileID=2800000&guid=5929a856508804b18b7d6452a985c34a&type=3#dropdown_button_tail_default");
     -unity-background-image-tint-color: rgb(255, 255, 255);
     -unity-background-scale-mode: scale-to-fit;
     width: 20px;
@@ -572,11 +572,11 @@
 }
 
 .unity-scroller__high-button {
-    background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/IconPictogram/128/icon_arrow_bottom.png?fileID=2800000&guid=7f0f961e425ca4b2eb9cd6b35bdd8a75&type=3#icon_arrow_bottom");
+    background-image: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/IconPictogram/128/icon_arrow_bottom.png?fileID=2800000&guid=7f0f961e425ca4b2eb9cd6b35bdd8a75&type=3#icon_arrow_bottom");
 }
 
 .unity-scroller__low-button {
-    background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/IconPictogram/128/icon_arrow_up-1.png?fileID=2800000&guid=6074a299ff9754f79a0024fec1b0750a&type=3#icon_arrow_up-1");
+    background-image: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/IconPictogram/128/icon_arrow_up-1.png?fileID=2800000&guid=6074a299ff9754f79a0024fec1b0750a&type=3#icon_arrow_up-1");
 }
 
 .unity-toggle__input {
@@ -597,7 +597,7 @@
 
 .unity-toggle__checkmark {
     -unity-background-scale-mode: scale-to-fit;
-    background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Checkbox/checkbox_unchecked.png?fileID=2800000&guid=2d7fc3d81a5ea41f39f7f069f07a09c8&type=3#checkbox_unchecked");
+    background-image: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Checkbox/checkbox_unchecked.png?fileID=2800000&guid=2d7fc3d81a5ea41f39f7f069f07a09c8&type=3#checkbox_unchecked");
     border-top-width: 0;
     border-right-width: 0;
     border-bottom-width: 0;
@@ -613,7 +613,7 @@
 }
 
 .unity-toggle:checked .unity-toggle__checkmark {
-    background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/Checkbox/checkbox_checked.png?fileID=2800000&guid=98e436c782ea7448e90590045e5658f2&type=3#checkbox_checked");
+    background-image: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/Checkbox/checkbox_checked.png?fileID=2800000&guid=98e436c782ea7448e90590045e5658f2&type=3#checkbox_checked");
 }
 
 .unity-base-text-field__input--placeholder {
