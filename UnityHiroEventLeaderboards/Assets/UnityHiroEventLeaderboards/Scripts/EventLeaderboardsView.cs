@@ -31,7 +31,6 @@ namespace HiroEventLeaderboards
         private readonly VisualTreeAsset _eventLeaderboardZoneTemplate;
 
         private WalletDisplay _walletDisplay;
-        private Button _myEventLeaderboardsTab;
         private Button _submitScoreButton;
         private Button _claimRewardsButton;
         private Button _rollButton;
@@ -114,25 +113,12 @@ namespace HiroEventLeaderboards
         {
             _walletDisplay = new WalletDisplay(rootElement.Q<VisualElement>("wallet-display"));
 
-            InitializeTabs(rootElement);
             InitializeButtons(rootElement);
             InitializeDevTools(rootElement);
             InitializeSelectedEventLeaderboardPanel(rootElement);
             InitializeLists(rootElement);
             InitializeModals(rootElement);
             InitializeErrorPopup(rootElement);
-        }
-
-        private void InitializeTabs(VisualElement rootElement)
-        {
-            _myEventLeaderboardsTab = rootElement.Q<Button>("my-event-leaderboards-tab");
-            _myEventLeaderboardsTab.RegisterCallback<ClickEvent>(evt =>
-            {
-                if (_selectedTabIndex == 0) return;
-                _selectedTabIndex = 0;
-                _myEventLeaderboardsTab.AddToClassList("selected");
-                _ = RefreshEventLeaderboards();
-            });
         }
 
         private void InitializeButtons(VisualElement rootElement)
