@@ -648,7 +648,7 @@ namespace HiroEventLeaderboards
                 : $"<b>Event ID:</b> {leaderboard.Id}\n\n{description}";
             _infoOperatorLabel.text = $"<b>Operator:</b> {leaderboard.Operator}";
             _infoCohortSizeLabel.text = $"<b>Cohort size:</b> {leaderboard.MaxCount}";
-            _infoAscendingLabel.text = $"<b>Ascending:</b> {leaderboard.Ascending} (lower scores are better)";
+            _infoAscendingLabel.text = $"<b>Ascending:</b> {leaderboard.Ascending} ({(leaderboard.Ascending ? "lower" : "higher")} scores are better)";
 
             var resetScheduleDesc = "";
        
