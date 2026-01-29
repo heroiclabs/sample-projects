@@ -30,33 +30,33 @@ namespace HiroChallenges
         [SerializeField] private VisualTreeAsset _challengeEntryTemplate;
         [SerializeField] private VisualTreeAsset _challengeParticipantTemplate;
 
+        private HiroChallengesCoordinator _coordinator;
         private ChallengesView _view;
 
         public ChallengesController Controller { get; private set; }
 
         private void Start()
         {
-            var coordinator = HiroCoordinator.Instance as HiroChallengesCoordinator;
-            if (coordinator == null)
+            _coordinator = HiroCoordinator.Instance as HiroChallengesCoordinator;
+            if (_coordinator == null)
             {
                 Debug.LogError("HiroChallengesCoordinator not found");
                 return;
             }
 
-            coordinator.ReceivedStartSuccess += OnCoordinatorReady;
+            _coordinator.ReceivedStartSuccess += OnCoordinatorReady;
         }
 
         private void OnCoordinatorReady()
         {
-            var coordinator = HiroCoordinator.Instance as HiroChallengesCoordinator;
-            if (coordinator == null)
+            if (_coordinator == null)
                 return;
 
-            coordinator.ReceivedStartSuccess -= OnCoordinatorReady;
+            _coordinator.ReceivedStartSuccess -= OnCoordinatorReady;
 
-            var nakamaSystem = coordinator.GetSystem<NakamaSystem>();
-            var challengesSystem = coordinator.GetSystem<ChallengesSystem>();
-            var economySystem = coordinator.GetSystem<EconomySystem>();
+            var nakamaSystem = _coordinator.GetSystem<NakamaSystem>();
+            var challengesSystem = _coordinator.GetSystem<ChallengesSystem>();
+            var economySystem = _coordinator.GetSystem<EconomySystem>();
 
             Controller = new ChallengesController(nakamaSystem, challengesSystem, economySystem);
 
@@ -70,9 +70,8 @@ namespace HiroChallenges
 
         private void OnDestroy()
         {
-            var coordinator = HiroCoordinator.Instance as HiroChallengesCoordinator;
-            if (coordinator != null)
-                coordinator.ReceivedStartSuccess -= OnCoordinatorReady;
+            if (_coordinator != null)
+                _coordinator.ReceivedStartSuccess -= OnCoordinatorReady;
 
             _view?.Dispose();
         }

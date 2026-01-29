@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,84 +12,92 @@ namespace HeroicUI
 {
     public class WalletDisplay : IDisposable
     {
-        private Label coinsLabel;
-        private Label gemsLabel;
-
-        private CancellationTokenSource gemsCanceller;
-        private CancellationTokenSource coinsCanceller;
-
-        private IDisposable economyDisposer;
-
         private const string CoinsId = "coins";
         private const string GemsId = "gems";
         private const float CurrencyLerpTime = 0.6f;
+        private const float FrameDelaySeconds = 0.016f; // ~60fps fixed frame time
+
+        private readonly Label _coinsLabel;
+        private readonly Label _gemsLabel;
+
+        private CancellationTokenSource _gemsCanceller;
+        private CancellationTokenSource _coinsCanceller;
+        private IDisposable _economyDisposer;
 
         public WalletDisplay(VisualElement topElement)
         {
-            InitializeUI(topElement);
-        }
-
-        private void InitializeUI(VisualElement topElement)
-        {
-            coinsLabel = topElement.Q<Label>("coins");
-            gemsLabel = topElement.Q<Label>("gems");
+            _coinsLabel = topElement.Q<Label>("coins");
+            _gemsLabel = topElement.Q<Label>("gems");
         }
 
         public void StartObserving()
         {
             var economySystem = HiroCoordinator.Instance.Systems.GetSystem<EconomySystem>();
-            economyDisposer = SystemObserver<EconomySystem>.Create(economySystem, OnEconomyUpdated);
+            _economyDisposer = SystemObserver<EconomySystem>.Create(economySystem, OnEconomyUpdated);
         }
 
-        private void OnEconomyUpdated(EconomySystem system)
+        private async void OnEconomyUpdated(EconomySystem system)
         {
-            _ = HandleWalletUpdatedAsync(system);
+            try
+            {
+                await HandleWalletUpdatedAsync(system);
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected when cancellation is requested
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
         }
 
         private async Task HandleWalletUpdatedAsync(EconomySystem system)
         {
-            var startCoinsValue = float.Parse(coinsLabel.text);
-            float endCoinsValue = system.Wallet.GetValueOrDefault(CoinsId, 0);
+            float.TryParse(_coinsLabel.text, NumberStyles.Number, CultureInfo.InvariantCulture, out var startCoinsValue);
+            system.Wallet.TryGetValue(CoinsId, out var endCoinsValue);
 
-            coinsCanceller?.Cancel();
-            coinsCanceller = new CancellationTokenSource();
+            _coinsCanceller?.Cancel();
+            _coinsCanceller?.Dispose();
+            _coinsCanceller = new CancellationTokenSource();
 
-            var startGemsValue = float.Parse(gemsLabel.text);
-            float endGemsValue = system.Wallet.GetValueOrDefault(GemsId, 0);
+            float.TryParse(_gemsLabel.text, NumberStyles.Number, CultureInfo.InvariantCulture, out var startGemsValue);
+            system.Wallet.TryGetValue(GemsId, out var endGemsValue);
 
-            gemsCanceller?.Cancel();
-            gemsCanceller = new CancellationTokenSource(); 
-            
-            await Task.WhenAll(LerpRoutine(coinsLabel, startCoinsValue, endCoinsValue, coinsCanceller.Token),
-                LerpRoutine(gemsLabel, startGemsValue, endGemsValue, gemsCanceller.Token));
+            _gemsCanceller?.Cancel();
+            _gemsCanceller?.Dispose();
+            _gemsCanceller = new CancellationTokenSource();
+
+            await Task.WhenAll(
+                LerpRoutine(_coinsLabel, startCoinsValue, endCoinsValue, _coinsCanceller.Token),
+                LerpRoutine(_gemsLabel, startGemsValue, endGemsValue, _gemsCanceller.Token));
         }
 
         private static async Task LerpRoutine(Label label, float startValue, float endValue, CancellationToken ct)
         {
-            var lerpValue = startValue;
             var t = 0f;
-            label.text = string.Empty;
 
-            while (Mathf.Abs(endValue - lerpValue) > 0.05f)
+            while (Mathf.Abs(endValue - Mathf.Lerp(startValue, endValue, t)) > 0.05f)
             {
-                if (ct.IsCancellationRequested)
-                {
-                    return;
-                }
+                ct.ThrowIfCancellationRequested();
 
-                t += Time.deltaTime / CurrencyLerpTime;
-
-                lerpValue = Mathf.Lerp(startValue, endValue, t);
+                t += FrameDelaySeconds / CurrencyLerpTime;
+                var lerpValue = Mathf.Lerp(startValue, endValue, t);
                 label.text = lerpValue.ToString("0");
-                await Task.Delay(TimeSpan.FromSeconds(Time.deltaTime), ct);
+
+                await Task.Delay(TimeSpan.FromSeconds(FrameDelaySeconds), ct);
             }
 
-            label.text = endValue.ToString(CultureInfo.InvariantCulture);
+            label.text = endValue.ToString("0", CultureInfo.InvariantCulture);
         }
 
         public void Dispose()
         {
-            economyDisposer?.Dispose();
+            _coinsCanceller?.Cancel();
+            _coinsCanceller?.Dispose();
+            _gemsCanceller?.Cancel();
+            _gemsCanceller?.Dispose();
+            _economyDisposer?.Dispose();
         }
     }
 }

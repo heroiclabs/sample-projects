@@ -483,5 +483,67 @@ namespace HiroChallenges.Tests.Editor
             Assert.AreEqual(10, participants[3].Score, "Rank 4 should have score 10");
             Assert.AreEqual(userIds[0], participants[3].Id, "Rank 4 should be Account 0");
         }
+
+        /// <summary>
+        /// Tests that an invited participant can join even when challenge size equals max_size.
+        /// Reproduces bug where CanJoin returns false for invited user when challenge appears full.
+        /// </summary>
+        [Test]
+        public async Task CanJoin_WhenInvitedAndChallengeAtMaxSize_ReturnsTrue()
+        {
+            // Setup: Create challenge with max_size = 3
+            // Uses accounts 0, 1, 2 from existing setup
+            var templates = await _controller.LoadChallengeTemplatesAsync();
+            Assert.IsNotEmpty(templates, "Should have at least one template");
+
+            // Get user IDs for accounts 1 and 2
+            var session1 = await HiroChallengesCoordinator.NakamaAuthorizerFunc("test", 1).Invoke(_client);
+            var session2 = await HiroChallengesCoordinator.NakamaAuthorizerFunc("test", 2).Invoke(_client);
+            var userIds = new[] { session1.UserId, session2.UserId };
+
+            // Account 0 creates challenge with max 3 participants, invites accounts 1 and 2
+            var createdChallenge = await _controller.CreateChallengeAsync(
+                templates[0].Id,
+                "MaxSizeTest",
+                3, // max 3 participants
+                userIds,
+                0,
+                2000,
+                false
+            );
+
+            var challengeId = createdChallenge.Id;
+            Assert.IsNotNull(challengeId);
+
+            // Account 0 (owner) joins and submits score
+            await _controller.JoinChallengeAsync();
+            await _controller.SubmitScoreAsync(10, 0);
+
+            // Account 1 joins and submits score
+            await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, _controller, "test", 1);
+            await _controller.SelectChallengeAsync(challengeId);
+            await _controller.JoinChallengeAsync();
+            await _controller.SubmitScoreAsync(20, 0);
+
+            // Now challenge has: size=3, max_size=3
+            // Account 0: Joined, Account 1: Joined, Account 2: Invited (not yet joined)
+
+            // Switch to Account 2 (invited but not joined)
+            await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, _controller, "test", 2);
+            var participants = await _controller.SelectChallengeAsync(challengeId);
+            var challenge = _controller.SelectedChallenge;
+            var participant = _controller.GetCurrentParticipant(participants);
+
+            // Verify state
+            Assert.IsNotNull(participant, "Account 2 should be a participant (was invited)");
+            Assert.AreEqual(ChallengeState.Invited, participant.State, "Account 2 should be in Invited state");
+            Assert.AreEqual(challenge.Size, challenge.MaxSize, "Challenge should be at max size");
+
+            // BUG: CanJoin returns false even though participant is invited and should be able to join
+            // The invited participant is already counted in size, so they should be able to join
+            Assert.IsTrue(challenge.CanJoin(participant),
+                $"Invited participant should be able to join even when size({challenge.Size}) == max_size({challenge.MaxSize}). " +
+                $"Participant state: {participant.State}");
+        }
     }
 }
