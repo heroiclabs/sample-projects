@@ -62,7 +62,7 @@ namespace HiroEventLeaderboards
             }
 
             // Display status of the event leaderboard
-            if (eventLeaderboard.IsActive)
+            if (eventLeaderboard.IsActive || eventLeaderboard.CanRoll)
             {
                 _statusLabel.text = "Active";
                 _statusLabel.style.color = new StyleColor(Color.white);
