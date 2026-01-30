@@ -61,25 +61,13 @@ namespace HiroEventLeaderboards
                 }
             }
 
-            // Display status of event
-            var currentTime = DateTimeOffset.UtcNow;
-            var startTime = EventLeaderboardTimeUtility.GetStartTime(eventLeaderboard);
-
+            // Display status of the event leaderboard
             if (eventLeaderboard.IsActive)
             {
-                if (EventLeaderboardTimeUtility.HasStarted(eventLeaderboard))
-                {
-                    _statusLabel.text = "Active";
-                    _statusLabel.style.color = new StyleColor(Color.white);
-                    _statusLabel.style.unityBackgroundImageTintColor = new StyleColor(new Color(0.078f, 0.827f, 0.761f, 1f));
-                }
-                else
-                {
-                    var difference = startTime - currentTime;
-                    _statusLabel.text = $"Starts in {EventLeaderboardTimeUtility.FormatTimeDuration(difference)}";
-                    _statusLabel.style.color = new StyleColor(Color.white);
-                    _statusLabel.style.unityBackgroundImageTintColor = new StyleColor(new Color(1f, 0.8f, 0.3f, 1f));
-                }
+                _statusLabel.text = "Active";
+                _statusLabel.style.color = new StyleColor(Color.white);
+                _statusLabel.style.unityBackgroundImageTintColor = new StyleColor(new Color(0.078f, 0.827f, 0.761f, 1f));
+
             }
             else
             {
