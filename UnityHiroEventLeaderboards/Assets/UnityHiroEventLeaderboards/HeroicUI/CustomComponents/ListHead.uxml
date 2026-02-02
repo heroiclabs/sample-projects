@@ -1,5 +1,5 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/UnityHiroChallenges/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
+    <Style src="project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
     <ui:VisualElement name="list-head" class="heroic-list__head">
         <ui:VisualElement name="headers" style="flex-direction: row; flex-shrink: 0; flex-grow: 1;">
             <ui:Label text="Rank" name="rank" class="heroic-table-head" style="width: 10%;" />

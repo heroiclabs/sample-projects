@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="28" result="Passed" total="28" passed="28" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-01-27 19:13:27Z" end-time="2026-01-27 19:13:28Z" duration="0.9479032">
+  <test-suite type="TestSuite" id="1000" name="UnityHiroChallenges" fullname="UnityHiroChallenges" runstate="Runnable" testcasecount="28" result="Passed" start-time="2026-01-27 19:13:27Z" end-time="2026-01-27 19:13:28Z" duration="0.947903" total="28" passed="28" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1035" name="UnityHiroChallenges.Tests.Editor.dll" fullname="/Users/andres/Developer/sample-projects/UnityHiroChallenges/Library/ScriptAssemblies/UnityHiroChallenges.Tests.Editor.dll" runstate="Runnable" testcasecount="28" result="Passed" start-time="2026-01-27 19:13:27Z" end-time="2026-01-27 19:13:28Z" duration="0.945160" total="28" passed="28" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="67487" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1036" name="HiroChallenges" fullname="HiroChallenges" runstate="Runnable" testcasecount="28" result="Passed" start-time="2026-01-27 19:13:27Z" end-time="2026-01-27 19:13:28Z" duration="0.944857" total="28" passed="28" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1037" name="Tests" fullname="HiroChallenges.Tests" runstate="Runnable" testcasecount="28" result="Passed" start-time="2026-01-27 19:13:27Z" end-time="2026-01-27 19:13:28Z" duration="0.944610" total="28" passed="28" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1038" name="Editor" fullname="HiroChallenges.Tests.Editor" runstate="Runnable" testcasecount="28" result="Passed" start-time="2026-01-27 19:13:27Z" end-time="2026-01-27 19:13:28Z" duration="0.944342" total="28" passed="28" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1005" name="NakamaAccountTests" fullname="HiroChallenges.Tests.Editor.NakamaAccountTests" classname="HiroChallenges.Tests.Editor.NakamaAccountTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-01-27 19:13:27Z" end-time="2026-01-27 19:13:28Z" duration="0.938299" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1008" name="Authenticate_SameDeviceId_ReturnsSameUser" fullname="HiroChallenges.Tests.Editor.NakamaAccountTests.Authenticate_SameDeviceId_ReturnsSameUser" methodname="Authenticate_SameDeviceId_ReturnsSameUser" classname="HiroChallenges.Tests.Editor.NakamaAccountTests" runstate="Runnable" seed="380066033" result="Passed" start-time="2026-01-27 19:13:27Z" end-time="2026-01-27 19:13:28Z" duration="0.136869" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1006" name="Authenticate_WithDeviceId_ReturnsSession" fullname="HiroChallenges.Tests.Editor.NakamaAccountTests.Authenticate_WithDeviceId_ReturnsSession" methodname="Authenticate_WithDeviceId_ReturnsSession" classname="HiroChallenges.Tests.Editor.NakamaAccountTests" runstate="Runnable" seed="1367410914" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.046178" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Authenticated user: 3ff1463a-09e3-46c7-b61f-a89ec3eef489, Username: Player70972547
+]]></output>
+              </test-case>
+              <test-case id="1007" name="Authenticate_WithDifferentIndices_CreatesDifferentUsers" fullname="HiroChallenges.Tests.Editor.NakamaAccountTests.Authenticate_WithDifferentIndices_CreatesDifferentUsers" methodname="Authenticate_WithDifferentIndices_CreatesDifferentUsers" classname="HiroChallenges.Tests.Editor.NakamaAccountTests" runstate="Runnable" seed="86278682" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.149253" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Account 0: 844219f6-b39b-4248-a657-2c8f97b9d91d
+Account 1: dd7120a2-1988-4fba-8337-f1878154838a
+Account 2: fac00142-de65-45a6-a54a-8b1687a546b6
+]]></output>
+              </test-case>
+              <test-case id="1009" name="GetAccount_ReturnsUserInfo" fullname="HiroChallenges.Tests.Editor.NakamaAccountTests.GetAccount_ReturnsUserInfo" methodname="GetAccount_ReturnsUserInfo" classname="HiroChallenges.Tests.Editor.NakamaAccountTests" runstate="Runnable" seed="351638942" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.100834" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Account ID: 5d1da442-98b6-4ad9-9cb0-2254c426b485
+Username: Player10793144
+Display Name: 
+Created: 2026-01-27T19:13:28Z
+]]></output>
+              </test-case>
+              <test-case id="1010" name="GetUsers_WithMultipleAccounts_ReturnsAllUsers" fullname="HiroChallenges.Tests.Editor.NakamaAccountTests.GetUsers_WithMultipleAccounts_ReturnsAllUsers" methodname="GetUsers_WithMultipleAccounts_ReturnsAllUsers" classname="HiroChallenges.Tests.Editor.NakamaAccountTests" runstate="Runnable" seed="1771741757" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.200443" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[User: 772f4da1-b8fd-415a-a330-c9c3d042fd22, Username: Player86747521
+User: 32780147-64c6-427e-aa18-b3956c471968, Username: Player41753097
+User: a47cdeb8-377c-4550-aa17-1a64e85fc3fa, Username: Player02557287
+]]></output>
+              </test-case>
+              <test-case id="1012" name="SessionRefresh_WithValidSession_ReturnsValidSession" fullname="HiroChallenges.Tests.Editor.NakamaAccountTests.SessionRefresh_WithValidSession_ReturnsValidSession" methodname="SessionRefresh_WithValidSession_ReturnsValidSession" classname="HiroChallenges.Tests.Editor.NakamaAccountTests" runstate="Runnable" seed="2009774484" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.099024" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[UserId: 5f08606e-700c-47ca-b99d-4e4721c7a2f0
+Session valid: AuthToken present=True
+]]></output>
+              </test-case>
+              <test-case id="1011" name="SwitchAccount_SimulatesAccountSwitcher" fullname="HiroChallenges.Tests.Editor.NakamaAccountTests.SwitchAccount_SimulatesAccountSwitcher" methodname="SwitchAccount_SimulatesAccountSwitcher" classname="HiroChallenges.Tests.Editor.NakamaAccountTests" runstate="Runnable" seed="1690646786" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.199916" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Account 0: UserId=add0cfa2-7b35-48ea-b244-662c07fd5467, Username=Player05916260
+Account 1: UserId=f33d0272-ce0a-459a-be24-198fa626da55, Username=Player74188614
+Account 2: UserId=daa8f55b-42c8-4872-ba9d-f99bf4d8bcf7, Username=Player34909620
+Account switching simulation successful
+]]></output>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1013" name="UsernameAutocompleteTests" fullname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests" classname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests" runstate="Runnable" testcasecount="21" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.004923" total="21" passed="21" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1022" name="Complete_CaseInsensitive_MatchesRegardlessOfCase" fullname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests.Complete_CaseInsensitive_MatchesRegardlessOfCase" methodname="Complete_CaseInsensitive_MatchesRegardlessOfCase" classname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests" runstate="Runnable" seed="1325399276" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.000711" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1025" name="Complete_CommaSeparated_AutocompletesLastSegment" fullname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests.Complete_CommaSeparated_AutocompletesLastSegment" methodname="Complete_CommaSeparated_AutocompletesLastSegment" classname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests" runstate="Runnable" seed="2032729308" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.000077" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1030" name="Complete_CommaSeparated_EmptyLastSegment_ReturnsFirstRemaining" fullname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests.Complete_CommaSeparated_EmptyLastSegment_ReturnsFirstRemaining" methodname="Complete_CommaSeparated_EmptyLastSegment_ReturnsFirstRemaining" classname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests" runstate="Runnable" seed="1582450511" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.000052" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1026" name="Complete_CommaSeparated_ExcludesAlreadySelected" fullname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests.Complete_CommaSeparated_ExcludesAlreadySelected" methodname="Complete_CommaSeparated_ExcludesAlreadySelected" classname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests" runstate="Runnable" seed="1558374266" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.000048" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1027" name="Complete_CommaSeparated_MultipleAlreadySelected" fullname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests.Complete_CommaSeparated_MultipleAlreadySelected" methodname="Complete_CommaSeparated_MultipleAlreadySelected" classname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests" runstate="Runnable" seed="737604432" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.000051" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1031" name="Complete_CommaSeparated_NoRemainingMatches_ReturnsInput" fullname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests.Complete_CommaSeparated_NoRemainingMatches_ReturnsInput" methodname="Complete_CommaSeparated_NoRemainingMatches_ReturnsInput" classname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests" runstate="Runnable" seed="1265776096" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.000053" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1028" name="Complete_CommaSeparated_SingleRemainingMatch" fullname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests.Complete_CommaSeparated_SingleRemainingMatch" methodname="Complete_CommaSeparated_SingleRemainingMatch" classname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests" runstate="Runnable" seed="1936636230" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.000044" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1034" name="Complete_CommaSeparated_WhenCommonPrefixEqualsInput_PicksFirst" fullname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests.Complete_CommaSeparated_WhenCommonPrefixEqualsInput_PicksFirst" methodname="Complete_CommaSeparated_WhenCommonPrefixEqualsInput_PicksFirst" classname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests" runstate="Runnable" seed="1038181686" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.000048" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1029" name="Complete_CommaSeparated_WithSpacesAfterComma" fullname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests.Complete_CommaSeparated_WithSpacesAfterComma" methodname="Complete_CommaSeparated_WithSpacesAfterComma" classname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests" runstate="Runnable" seed="317942653" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.000044" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1033" name="Complete_EmptyInput_NoCommonPrefix_ReturnsFirst" fullname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests.Complete_EmptyInput_NoCommonPrefix_ReturnsFirst" methodname="Complete_EmptyInput_NoCommonPrefix_ReturnsFirst" classname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests" runstate="Runnable" seed="298341480" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.000055" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1032" name="Complete_TwoTabs_FirstCommonPrefixThenFirstMatch" fullname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests.Complete_TwoTabs_FirstCommonPrefixThenFirstMatch" methodname="Complete_TwoTabs_FirstCommonPrefixThenFirstMatch" classname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests" runstate="Runnable" seed="862505518" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.000034" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1017" name="Complete_WhenInputEqualsCommonPrefix_ReturnsFirstMatch" fullname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests.Complete_WhenInputEqualsCommonPrefix_ReturnsFirstMatch" methodname="Complete_WhenInputEqualsCommonPrefix_ReturnsFirstMatch" classname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests" runstate="Runnable" seed="448459877" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.000040" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1014" name="Complete_WithCommonPrefix_ReturnsLongestCommonPrefix" fullname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests.Complete_WithCommonPrefix_ReturnsLongestCommonPrefix" methodname="Complete_WithCommonPrefix_ReturnsLongestCommonPrefix" classname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests" runstate="Runnable" seed="530520250" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.000026" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1023" name="Complete_WithDivergingMatches_StopsAtDivergence" fullname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests.Complete_WithDivergingMatches_StopsAtDivergence" methodname="Complete_WithDivergingMatches_StopsAtDivergence" classname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests" runstate="Runnable" seed="849295510" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.000063" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1019" name="Complete_WithEmptyInput_ReturnsCommonPrefixOrFirst" fullname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests.Complete_WithEmptyInput_ReturnsCommonPrefixOrFirst" methodname="Complete_WithEmptyInput_ReturnsCommonPrefixOrFirst" classname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests" runstate="Runnable" seed="774685164" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.000033" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1024" name="Complete_WithIdenticalMatches_ReturnsFullMatch" fullname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests.Complete_WithIdenticalMatches_ReturnsFullMatch" methodname="Complete_WithIdenticalMatches_ReturnsFullMatch" classname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests" runstate="Runnable" seed="1132916319" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.000052" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1018" name="Complete_WithMoreSpecificInput_ReturnsLongestCommonPrefix" fullname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests.Complete_WithMoreSpecificInput_ReturnsLongestCommonPrefix" methodname="Complete_WithMoreSpecificInput_ReturnsLongestCommonPrefix" classname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests" runstate="Runnable" seed="779794345" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.000038" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1016" name="Complete_WithNoMatches_ReturnsInput" fullname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests.Complete_WithNoMatches_ReturnsInput" methodname="Complete_WithNoMatches_ReturnsInput" classname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests" runstate="Runnable" seed="374741346" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.000036" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1020" name="Complete_WithNullInput_TreatedAsEmpty" fullname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests.Complete_WithNullInput_TreatedAsEmpty" methodname="Complete_WithNullInput_TreatedAsEmpty" classname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests" runstate="Runnable" seed="982030382" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.000072" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1021" name="Complete_WithNullUsernames_ReturnsInput" fullname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests.Complete_WithNullUsernames_ReturnsInput" methodname="Complete_WithNullUsernames_ReturnsInput" classname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests" runstate="Runnable" seed="502492082" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.000040" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1015" name="Complete_WithSingleMatch_ReturnsFullUsername" fullname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests.Complete_WithSingleMatch_ReturnsFullUsername" methodname="Complete_WithSingleMatch_ReturnsFullUsername" classname="HiroChallenges.Tests.Editor.UsernameAutocompleteTests" runstate="Runnable" seed="1031385203" result="Passed" start-time="2026-01-27 19:13:28Z" end-time="2026-01-27 19:13:28Z" duration="0.000040" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Saving results to: /Users/andres/Library/Application Support/DefaultCompany/UnityHiroChallenges/TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

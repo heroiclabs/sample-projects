@@ -14,23 +14,36 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Hiro;
-using UnityEngine;
-using UnityEngine.UIElements;
 using HeroicUI;
 using Nakama;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace HiroEventLeaderboards
 {
-    public sealed class EventLeaderboardsView
+    /// <summary>
+    /// View for the Event Leaderboards UI.
+    /// Handles UI presentation and user interactions.
+    /// Implements IDisposable for proper resource cleanup.
+    /// </summary>
+    public sealed class EventLeaderboardsView : IDisposable
     {
         private readonly EventLeaderboardsController _controller;
+        private readonly VisualElement _rootElement;
         private readonly VisualTreeAsset _eventLeaderboardEntryTemplate;
         private readonly VisualTreeAsset _eventLeaderboardRecordTemplate;
         private readonly VisualTreeAsset _eventLeaderboardZoneTemplate;
 
+        private CancellationTokenSource _cts = new();
+        private readonly object _disposeLock = new();
+        private volatile bool _disposed;
+
         private WalletDisplay _walletDisplay;
+        private LoadingSpinner _listSpinner;
+        private LoadingSpinner _recordsSpinner;
         private Button _myEventLeaderboardsTab;
         private Button _submitScoreButton;
         private Button _claimRewardsButton;
@@ -48,8 +61,6 @@ namespace HiroEventLeaderboards
         private VisualElement _emptyStateContainer;
         private Label _emptyStateMessage;
         private ListView _eventLeaderboardsList;
-        private ScrollView _eventLeaderboardsScrollView;
-        private ScrollView _eventLeaderboardRecordsScrollView;
         private Button _refreshButton;
 
         private VisualElement _submitScoreModal;
@@ -90,277 +101,555 @@ namespace HiroEventLeaderboards
         private IEventLeaderboard _currentEventLeaderboard;
         private int _selectedTabIndex;
 
-        #region Initialization
-
-        public EventLeaderboardsView(EventLeaderboardsController controller, HiroEventLeaderboardsCoordinator coordinator,
+        public EventLeaderboardsView(
+            EventLeaderboardsController controller,
+            VisualElement rootElement,
             VisualTreeAsset eventLeaderboardEntryTemplate,
             VisualTreeAsset eventLeaderboardRecordTemplate,
             VisualTreeAsset eventLeaderboardZoneTemplate)
         {
-            _controller = controller;
-            _eventLeaderboardEntryTemplate = eventLeaderboardEntryTemplate;
-            _eventLeaderboardRecordTemplate = eventLeaderboardRecordTemplate;
-            _eventLeaderboardZoneTemplate = eventLeaderboardZoneTemplate;
-
-            controller.OnInitialized += HandleInitialized;
-            coordinator.ReceivedStartError += HandleStartError;
-
-            Initialize(controller.GetComponent<UIDocument>().rootVisualElement);
-
-            HideSelectedEventLeaderboardPanel();
+            _controller = controller ?? throw new ArgumentNullException(nameof(controller));
+            _rootElement = rootElement ?? throw new ArgumentNullException(nameof(rootElement));
+            _eventLeaderboardEntryTemplate = eventLeaderboardEntryTemplate ?? throw new ArgumentNullException(nameof(eventLeaderboardEntryTemplate));
+            _eventLeaderboardRecordTemplate = eventLeaderboardRecordTemplate ?? throw new ArgumentNullException(nameof(eventLeaderboardRecordTemplate));
+            _eventLeaderboardZoneTemplate = eventLeaderboardZoneTemplate ?? throw new ArgumentNullException(nameof(eventLeaderboardZoneTemplate));
         }
 
-        private void Initialize(VisualElement rootElement)
+        /// <summary>
+        /// Initializes the view and starts observing systems.
+        /// Call this after construction when the coordinator is ready.
+        /// </summary>
+        public void Initialize()
         {
-            _walletDisplay = new WalletDisplay(rootElement.Q<VisualElement>("wallet-display"));
+            InitializeElements();
+            SubscribeToEvents();
+            _selectedEventLeaderboardPanel.Hide();
 
-            InitializeTabs(rootElement);
-            InitializeButtons(rootElement);
-            InitializeDevTools(rootElement);
-            InitializeSelectedEventLeaderboardPanel(rootElement);
-            InitializeLists(rootElement);
-            InitializeModals(rootElement);
-            InitializeErrorPopup(rootElement);
+            _walletDisplay.StartObserving();
+
+            // Initial refresh
+            OnRefreshRequested();
         }
 
-        private void InitializeTabs(VisualElement rootElement)
+        public void Dispose()
         {
-            _myEventLeaderboardsTab = rootElement.Q<Button>("my-event-leaderboards-tab");
-            _myEventLeaderboardsTab.RegisterCallback<ClickEvent>(evt =>
+            lock (_disposeLock)
             {
-                if (_selectedTabIndex == 0) return;
-                _selectedTabIndex = 0;
-                _myEventLeaderboardsTab.AddToClassList("selected");
-                _ = RefreshEventLeaderboards();
-            });
+                if (_disposed)
+                    return;
+                _disposed = true;
+            }
+
+            _cts.Cancel();
+            _cts.Dispose();
+
+            _listSpinner?.Dispose();
+            _recordsSpinner?.Dispose();
+            _walletDisplay?.Dispose();
+
+            UnsubscribeFromEvents();
         }
 
-        private void InitializeButtons(VisualElement rootElement)
+        private void ThrowIfDisposedOrCancelled()
         {
-            _submitScoreButton = rootElement.Q<Button>("event-leaderboard-submit-score");
-            _submitScoreButton.RegisterCallback<ClickEvent>(_ => ShowSubmitScoreModal());
-
-            _claimRewardsButton = rootElement.Q<Button>("event-leaderboard-claim");
-            _claimRewardsButton.RegisterCallback<ClickEvent>(ClaimRewards);
-
-            _rollButton = rootElement.Q<Button>("event-leaderboard-roll");
-            _rollButton.RegisterCallback<ClickEvent>(RollEventLeaderboard);
-
-            _refreshButton = rootElement.Q<Button>("event-leaderboards-refresh");
-            _refreshButton.RegisterCallback<ClickEvent>(evt => _ = RefreshEventLeaderboards());
+            if (_disposed)
+                throw new ObjectDisposedException(nameof(EventLeaderboardsView));
+            _cts.Token.ThrowIfCancellationRequested();
         }
 
-        private void InitializeDevTools(VisualElement rootElement)
+        #region Initialization
+
+        private void InitializeElements()
         {
-            _devToolsPanel = rootElement.Q<VisualElement>("dev-tools");
+            _walletDisplay = new WalletDisplay(_rootElement.Q<VisualElement>("wallet-display"));
 
-            _debugFillButton = rootElement.Q<Button>("event-leaderboard-debug-fill");
-            _debugFillButton?.RegisterCallback<ClickEvent>(_ => ShowDebugFillModal());
+            var listSpinnerElement = _rootElement.Q<VisualElement>("event-leaderboards-list-spinner");
+            _listSpinner = new LoadingSpinner(listSpinnerElement);
 
-            _debugRandomScoresButton = rootElement.Q<Button>("event-leaderboard-debug-random-scores");
-            _debugRandomScoresButton?.RegisterCallback<ClickEvent>(_ => ShowDebugRandomScoresModal());
+            var recordsSpinnerElement = _rootElement.Q<VisualElement>("event-leaderboard-records-spinner");
+            _recordsSpinner = new LoadingSpinner(recordsSpinnerElement);
+
+            InitializeTabs();
+            InitializeButtons();
+            InitializeDevTools();
+            InitializeSelectedEventLeaderboardPanel();
+            InitializeLists();
+            InitializeModals();
+            InitializeErrorPopup();
         }
 
-        private void InitializeSelectedEventLeaderboardPanel(VisualElement rootElement)
+        private void InitializeTabs()
         {
-            _selectedEventLeaderboardPanel = rootElement.Q<VisualElement>("selected-event-leaderboard-panel");
-            _selectedEventLeaderboardNameLabel = rootElement.Q<Label>("selected-event-leaderboard-name");
-            _selectedEventLeaderboardDescriptionLabel = rootElement.Q<Label>("selected-event-leaderboard-description");
-            _selectedEventLeaderboardTierLabel = rootElement.Q<Label>("selected-event-leaderboard-tier");
-            _selectedEventLeaderboardTimeRemainingLabel = rootElement.Q<Label>("selected-event-leaderboard-time-remaining");
-
-            _eventInfoButton = rootElement.Q<Button>("event-info-button");
-            _eventInfoButton.RegisterCallback<ClickEvent>(_ => ShowEventInfoModal());
+            _myEventLeaderboardsTab = _rootElement.RequireElement<Button>("my-event-leaderboards-tab");
+            _myEventLeaderboardsTab.RegisterCallback<ClickEvent>(OnTabClicked);
         }
 
-        private void InitializeLists(VisualElement rootElement)
+        private void InitializeButtons()
+        {
+            _submitScoreButton = _rootElement.RequireElement<Button>("event-leaderboard-submit-score");
+            _submitScoreButton.RegisterCallback<ClickEvent>(OnSubmitScoreClicked);
+
+            _claimRewardsButton = _rootElement.RequireElement<Button>("event-leaderboard-claim");
+            _claimRewardsButton.RegisterCallback<ClickEvent>(OnClaimRewardsClicked);
+
+            _rollButton = _rootElement.RequireElement<Button>("event-leaderboard-roll");
+            _rollButton.RegisterCallback<ClickEvent>(OnRollClicked);
+
+            _refreshButton = _rootElement.RequireElement<Button>("event-leaderboards-refresh");
+            _refreshButton.RegisterCallback<ClickEvent>(OnRefreshClicked);
+        }
+
+        private void InitializeDevTools()
+        {
+            _devToolsPanel = _rootElement.Q<VisualElement>("dev-tools");
+
+            _debugFillButton = _rootElement.Q<Button>("event-leaderboard-debug-fill");
+            _debugFillButton?.RegisterCallback<ClickEvent>(OnDebugFillClicked);
+
+            _debugRandomScoresButton = _rootElement.Q<Button>("event-leaderboard-debug-random-scores");
+            _debugRandomScoresButton?.RegisterCallback<ClickEvent>(OnDebugRandomScoresClicked);
+        }
+
+        private void InitializeSelectedEventLeaderboardPanel()
+        {
+            _selectedEventLeaderboardPanel = _rootElement.RequireElement<VisualElement>("selected-event-leaderboard-panel");
+            _selectedEventLeaderboardNameLabel = _rootElement.RequireElement<Label>("selected-event-leaderboard-name");
+            _selectedEventLeaderboardDescriptionLabel = _rootElement.RequireElement<Label>("selected-event-leaderboard-description");
+            _selectedEventLeaderboardTierLabel = _rootElement.RequireElement<Label>("selected-event-leaderboard-tier");
+            _selectedEventLeaderboardTimeRemainingLabel = _rootElement.RequireElement<Label>("selected-event-leaderboard-time-remaining");
+
+            _eventInfoButton = _rootElement.RequireElement<Button>("event-info-button");
+            _eventInfoButton.RegisterCallback<ClickEvent>(OnEventInfoClicked);
+        }
+
+        private void InitializeLists()
         {
             // Event leaderboard records list
-            _eventLeaderboardRecordsList = rootElement.Q<ListView>("event-leaderboard-records-list");
-            _eventLeaderboardRecordsList.makeItem = () =>
-            {
-                // Create a container that can hold either a record or a zone indicator
-                var container = new VisualElement();
-                container.style.flexGrow = 1;
-                return container;
-            };
-            _eventLeaderboardRecordsList.bindItem = (item, index) =>
-            {
-                item.Clear();
-                var displayItem = _controller.DisplayItems[index];
+            _eventLeaderboardRecordsList = _rootElement.RequireElement<ListView>("event-leaderboard-records-list");
+            _eventLeaderboardRecordsList.makeItem = MakeRecordItem;
+            _eventLeaderboardRecordsList.bindItem = BindRecordItem;
+            _eventLeaderboardRecordsList.itemsSource = (System.Collections.IList)_controller.DisplayItems;
 
-                if (displayItem.Type == LeaderboardDisplayItem.ItemType.PlayerRecord)
-                {
-                    // Create and bind a player record
-                    var recordElement = _eventLeaderboardRecordTemplate.Instantiate();
-                    var recordView = new EventLeaderboardRecordView();
-                    recordView.SetVisualElement(recordElement);
-                    recordView.SetEventLeaderboardRecord(displayItem.PlayerRecord, _currentEventLeaderboard, _controller.CurrentUsername);
-                    item.Add(recordElement);
-                }
-                else if (displayItem.Type == LeaderboardDisplayItem.ItemType.ZoneIndicator)
-                {
-                    // Create and bind a zone indicator
-                    var zoneElement = _eventLeaderboardZoneTemplate.Instantiate();
-                    var zoneView = new EventLeaderboardZoneView();
-                    zoneView.SetVisualElement(zoneElement);
-                    zoneView.SetZone(displayItem.ZoneType);
-                    item.Add(zoneElement);
-                }
-            };
-            _eventLeaderboardRecordsList.itemsSource = _controller.DisplayItems;
-
-            _eventLeaderboardRecordsScrollView = _eventLeaderboardRecordsList.Q<ScrollView>();
-            _eventLeaderboardRecordsScrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
+            var recordsScrollView = _eventLeaderboardRecordsList.Q<ScrollView>();
+            recordsScrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
 
             // Empty state elements
-            _emptyStateContainer = rootElement.Q<VisualElement>("empty-state-container");
-            _emptyStateMessage = rootElement.Q<Label>("empty-state-message");
+            _emptyStateContainer = _rootElement.Q<VisualElement>("empty-state-container");
+            _emptyStateMessage = _rootElement.Q<Label>("empty-state-message");
 
             // Event leaderboards list
-            _eventLeaderboardsList = rootElement.Q<ListView>("event-leaderboards-list");
-            _eventLeaderboardsList.makeItem = () =>
+            _eventLeaderboardsList = _rootElement.RequireElement<ListView>("event-leaderboards-list");
+            _eventLeaderboardsList.makeItem = MakeLeaderboardItem;
+            _eventLeaderboardsList.bindItem = BindLeaderboardItem;
+            _eventLeaderboardsList.itemsSource = (System.Collections.IList)_controller.EventLeaderboards;
+            _eventLeaderboardsList.selectionChanged += OnLeaderboardSelectionChanged;
+
+            var leaderboardsScrollView = _eventLeaderboardsList.Q<ScrollView>();
+            leaderboardsScrollView.verticalScrollerVisibility = ScrollerVisibility.Auto;
+        }
+
+        private VisualElement MakeRecordItem()
+        {
+            var container = new VisualElement();
+            container.style.flexGrow = 1;
+            return container;
+        }
+
+        private void BindRecordItem(VisualElement item, int index)
+        {
+            item.Clear();
+            var displayItem = _controller.DisplayItems[index];
+
+            if (displayItem.Type == LeaderboardDisplayItem.ItemType.PlayerRecord)
             {
-                var newListEntry = _eventLeaderboardEntryTemplate.Instantiate();
-                var newListEntryLogic = new EventLeaderboardView();
-                newListEntry.userData = newListEntryLogic;
-                newListEntryLogic.SetVisualElement(newListEntry);
-                return newListEntry;
-            };
-            _eventLeaderboardsList.bindItem = (item, index) =>
+                var recordElement = _eventLeaderboardRecordTemplate.Instantiate();
+                var recordView = new EventLeaderboardRecordView();
+                recordView.SetVisualElement(recordElement);
+                recordView.SetEventLeaderboardRecord(displayItem.PlayerRecord, _currentEventLeaderboard, _controller.CurrentUsername);
+                item.Add(recordElement);
+            }
+            else if (displayItem.Type == LeaderboardDisplayItem.ItemType.ZoneIndicator)
             {
-                (item.userData as EventLeaderboardView)?.SetEventLeaderboard(_controller.EventLeaderboards[index]);
-            };
-            _eventLeaderboardsList.itemsSource = _controller.EventLeaderboards;
-            _eventLeaderboardsList.selectionChanged += objects => _ = SelectEventLeaderboard();
-
-            _eventLeaderboardsScrollView = _eventLeaderboardsList.Q<ScrollView>();
-            _eventLeaderboardsScrollView.verticalScrollerVisibility = ScrollerVisibility.Auto;
+                var zoneElement = _eventLeaderboardZoneTemplate.Instantiate();
+                var zoneView = new EventLeaderboardZoneView();
+                zoneView.SetVisualElement(zoneElement);
+                zoneView.SetZone(displayItem.ZoneType);
+                item.Add(zoneElement);
+            }
         }
 
-        private void InitializeModals(VisualElement rootElement)
+        private VisualElement MakeLeaderboardItem()
         {
-            InitializeSubmitScoreModal(rootElement);
-            InitializeDebugFillModal(rootElement);
-            InitializeDebugRandomScoresModal(rootElement);
+            var newListEntry = _eventLeaderboardEntryTemplate.Instantiate();
+            var newListEntryLogic = new EventLeaderboardView();
+            newListEntry.userData = newListEntryLogic;
+            newListEntryLogic.SetVisualElement(newListEntry);
+            return newListEntry;
         }
 
-        private void InitializeSubmitScoreModal(VisualElement rootElement)
+        private void BindLeaderboardItem(VisualElement item, int index)
         {
-            _submitScoreModal = rootElement.Q<VisualElement>("submit-score-modal");
-            _scoreField = rootElement.Q<IntegerField>("submit-score-score");
-            _subScoreField = rootElement.Q<IntegerField>("submit-score-subscore");
-
-            _submitScoreModalButton = rootElement.Q<Button>("submit-score-modal-submit");
-            _submitScoreModalButton.RegisterCallback<ClickEvent>(SubmitScore);
-
-            _submitScoreModalCloseButton = rootElement.Q<Button>("submit-score-modal-close");
-            _submitScoreModalCloseButton.RegisterCallback<ClickEvent>(_ => HideSubmitScoreModal());
+            (item.userData as EventLeaderboardView)?.SetEventLeaderboard(_controller.EventLeaderboards[index]);
         }
 
-        private void InitializeDebugFillModal(VisualElement rootElement)
+        private void InitializeModals()
         {
-            _debugFillModal = rootElement.Q<VisualElement>("debug-fill-modal");
-            if (_debugFillModal == null) return;
-
-            _debugFillTargetCountField = rootElement.Q<IntegerField>("debug-fill-target-count");
-
-            _debugFillModalButton = rootElement.Q<Button>("debug-fill-modal-fill");
-            _debugFillModalButton.RegisterCallback<ClickEvent>(evt => _ = DebugFill());
-
-            _debugFillModalCloseButton = rootElement.Q<Button>("debug-fill-modal-close");
-            _debugFillModalCloseButton.RegisterCallback<ClickEvent>(_ => HideDebugFillModal());
+            InitializeSubmitScoreModal();
+            InitializeDebugFillModal();
+            InitializeDebugRandomScoresModal();
         }
 
-        private void InitializeDebugRandomScoresModal(VisualElement rootElement)
+        private void InitializeSubmitScoreModal()
         {
-            _debugRandomScoresModal = rootElement.Q<VisualElement>("debug-random-scores-modal");
-            if (_debugRandomScoresModal == null) return;
+            _submitScoreModal = _rootElement.RequireElement<VisualElement>("submit-score-modal");
+            _scoreField = _rootElement.RequireElement<IntegerField>("submit-score-score");
+            _subScoreField = _rootElement.RequireElement<IntegerField>("submit-score-subscore");
 
-            _debugMinScoreField = rootElement.Q<IntegerField>("debug-min-score");
-            _debugMaxScoreField = rootElement.Q<IntegerField>("debug-max-score");
-            _debugOperatorField = rootElement.Q<EnumField>("debug-operator");
-            _debugSubscoreMinField = rootElement.Q<IntegerField>("debug-subscore-min");
-            _debugSubscoreMaxField = rootElement.Q<IntegerField>("debug-subscore-max");
+            _submitScoreModalButton = _rootElement.RequireElement<Button>("submit-score-modal-submit");
+            _submitScoreModalButton.RegisterCallback<ClickEvent>(OnSubmitScoreModalSubmitClicked);
 
-            _debugRandomScoresModalButton = rootElement.Q<Button>("debug-random-scores-modal-submit");
-            _debugRandomScoresModalButton.RegisterCallback<ClickEvent>(evt => _ = DebugRandomScores());
-
-            _debugRandomScoresModalCloseButton = rootElement.Q<Button>("debug-random-scores-modal-close");
-            _debugRandomScoresModalCloseButton.RegisterCallback<ClickEvent>(_ => HideDebugRandomScoresModal());
+            _submitScoreModalCloseButton = _rootElement.RequireElement<Button>("submit-score-modal-close");
+            _submitScoreModalCloseButton.RegisterCallback<ClickEvent>(OnSubmitScoreModalCloseClicked);
         }
 
-        private void InitializeErrorPopup(VisualElement rootElement)
+        private void InitializeDebugFillModal()
         {
-            _errorPopup = rootElement.Q<VisualElement>("error-popup");
-            _errorMessage = rootElement.Q<Label>("error-message");
-            _errorCloseButton = rootElement.Q<Button>("error-close");
-            _errorCloseButton.RegisterCallback<ClickEvent>(_ => HideErrorPopup());
+            _debugFillModal = _rootElement.Q<VisualElement>("debug-fill-modal");
+            if (_debugFillModal == null)
+                return;
+
+            _debugFillTargetCountField = _rootElement.Q<IntegerField>("debug-fill-target-count");
+
+            _debugFillModalButton = _rootElement.Q<Button>("debug-fill-modal-fill");
+            _debugFillModalButton?.RegisterCallback<ClickEvent>(OnDebugFillModalSubmitClicked);
+
+            _debugFillModalCloseButton = _rootElement.Q<Button>("debug-fill-modal-close");
+            _debugFillModalCloseButton?.RegisterCallback<ClickEvent>(OnDebugFillModalCloseClicked);
+        }
+
+        private void InitializeDebugRandomScoresModal()
+        {
+            _debugRandomScoresModal = _rootElement.Q<VisualElement>("debug-random-scores-modal");
+            if (_debugRandomScoresModal == null)
+                return;
+
+            _debugMinScoreField = _rootElement.Q<IntegerField>("debug-min-score");
+            _debugMaxScoreField = _rootElement.Q<IntegerField>("debug-max-score");
+            _debugOperatorField = _rootElement.Q<EnumField>("debug-operator");
+            _debugSubscoreMinField = _rootElement.Q<IntegerField>("debug-subscore-min");
+            _debugSubscoreMaxField = _rootElement.Q<IntegerField>("debug-subscore-max");
+
+            _debugRandomScoresModalButton = _rootElement.Q<Button>("debug-random-scores-modal-submit");
+            _debugRandomScoresModalButton?.RegisterCallback<ClickEvent>(OnDebugRandomScoresModalSubmitClicked);
+
+            _debugRandomScoresModalCloseButton = _rootElement.Q<Button>("debug-random-scores-modal-close");
+            _debugRandomScoresModalCloseButton?.RegisterCallback<ClickEvent>(OnDebugRandomScoresModalCloseClicked);
+        }
+
+        private void InitializeErrorPopup()
+        {
+            _errorPopup = _rootElement.RequireElement<VisualElement>("error-popup");
+            _errorMessage = _rootElement.RequireElement<Label>("error-message");
+            _errorCloseButton = _rootElement.RequireElement<Button>("error-close");
+            _errorCloseButton.RegisterCallback<ClickEvent>(OnErrorCloseClicked);
 
             // Initialize event info modal
-            _eventInfoModal = rootElement.Q<VisualElement>("event-info-modal");
-            _eventInfoModalCloseButton = rootElement.Q<Button>("event-info-modal-close");
-            _eventInfoModalCloseButton?.RegisterCallback<ClickEvent>(_ => HideEventInfoModal());
+            _eventInfoModal = _rootElement.Q<VisualElement>("event-info-modal");
+            _eventInfoModalCloseButton = _rootElement.Q<Button>("event-info-modal-close");
+            _eventInfoModalCloseButton?.RegisterCallback<ClickEvent>(OnEventInfoModalCloseClicked);
 
-            _infoIdLabel = rootElement.Q<Label>("info-id");
-            _infoOperatorLabel = rootElement.Q<Label>("info-operator");
-            _infoResetScheduleLabel = rootElement.Q<Label>("info-reset-schedule");
-            _infoCohortSizeLabel = rootElement.Q<Label>("info-cohort-size");
-            _infoAscendingLabel = rootElement.Q<Label>("info-ascending");
-            _infoMaxIdleTierDropLabel = rootElement.Q<Label>("info-max-idle-tier-drop");
-            _infoChangeZonesLabel = rootElement.Q<Label>("info-change-zones");
-            _infoRewardTiersLabel = rootElement.Q<Label>("info-reward-tiers");
+            _infoIdLabel = _rootElement.Q<Label>("info-id");
+            _infoOperatorLabel = _rootElement.Q<Label>("info-operator");
+            _infoResetScheduleLabel = _rootElement.Q<Label>("info-reset-schedule");
+            _infoCohortSizeLabel = _rootElement.Q<Label>("info-cohort-size");
+            _infoAscendingLabel = _rootElement.Q<Label>("info-ascending");
+            _infoMaxIdleTierDropLabel = _rootElement.Q<Label>("info-max-idle-tier-drop");
+            _infoChangeZonesLabel = _rootElement.Q<Label>("info-change-zones");
+            _infoRewardTiersLabel = _rootElement.Q<Label>("info-reward-tiers");
         }
 
-        private void HandleInitialized(ISession session, EventLeaderboardsController controller)
+        private void SubscribeToEvents()
         {
-            _walletDisplay.StartObserving();
+            AccountSwitcher.AccountSwitched += OnAccountSwitched;
         }
 
-        private void HandleStartError(Exception e)
+        private void UnsubscribeFromEvents()
         {
-            ShowError(e.Message);
+            AccountSwitcher.AccountSwitched -= OnAccountSwitched;
+            _eventLeaderboardsList.selectionChanged -= OnLeaderboardSelectionChanged;
+        }
+
+        #endregion
+
+        #region Event Handlers
+
+        private void OnTabClicked(ClickEvent evt)
+        {
+            if (_selectedTabIndex == 0)
+                return;
+            _selectedTabIndex = 0;
+            _myEventLeaderboardsTab.AddToClassList("selected");
+            OnRefreshRequested();
+        }
+
+        private void OnSubmitScoreClicked(ClickEvent evt)
+        {
+            ShowSubmitScoreModal();
+        }
+
+        private async void OnClaimRewardsClicked(ClickEvent evt)
+        {
+            try
+            {
+                ThrowIfDisposedOrCancelled();
+                await _controller.ClaimRewardsAsync();
+                await RefreshEventLeaderboardsAsync();
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
+        }
+
+        private async void OnRollClicked(ClickEvent evt)
+        {
+            try
+            {
+                ThrowIfDisposedOrCancelled();
+                await _controller.RollEventLeaderboardAsync();
+                await RefreshEventLeaderboardsAsync();
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
+        }
+
+        private void OnRefreshClicked(ClickEvent evt)
+        {
+            OnRefreshRequested();
+        }
+
+        private async void OnRefreshRequested()
+        {
+            try
+            {
+                ThrowIfDisposedOrCancelled();
+                await RefreshEventLeaderboardsAsync();
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
+        }
+
+        private async void OnAccountSwitched()
+        {
+            try
+            {
+                ThrowIfDisposedOrCancelled();
+                await RefreshEventLeaderboardsAsync();
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
+        }
+
+        private void OnDebugFillClicked(ClickEvent evt)
+        {
+            ShowDebugFillModal();
+        }
+
+        private void OnDebugRandomScoresClicked(ClickEvent evt)
+        {
+            ShowDebugRandomScoresModal();
+        }
+
+        private void OnEventInfoClicked(ClickEvent evt)
+        {
+            ShowEventInfoModal();
+        }
+
+        private async void OnLeaderboardSelectionChanged(IEnumerable<object> selection)
+        {
+            try
+            {
+                ThrowIfDisposedOrCancelled();
+                await SelectEventLeaderboardAsync();
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
+        }
+
+        private void OnSubmitScoreModalCloseClicked(ClickEvent evt)
+        {
+            HideSubmitScoreModal();
+        }
+
+        private async void OnSubmitScoreModalSubmitClicked(ClickEvent evt)
+        {
+            try
+            {
+                ThrowIfDisposedOrCancelled();
+                await _controller.SubmitScoreAsync(_scoreField.value, _subScoreField.value);
+                HideSubmitScoreModal();
+                await RefreshEventLeaderboardsAsync();
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
+        }
+
+        private void OnDebugFillModalCloseClicked(ClickEvent evt)
+        {
+            HideDebugFillModal();
+        }
+
+        private async void OnDebugFillModalSubmitClicked(ClickEvent evt)
+        {
+            try
+            {
+                ThrowIfDisposedOrCancelled();
+                await _controller.DebugFillEventLeaderboardAsync(_debugFillTargetCountField.value);
+                HideDebugFillModal();
+                await RefreshEventLeaderboardsAsync();
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
+        }
+
+        private void OnDebugRandomScoresModalCloseClicked(ClickEvent evt)
+        {
+            HideDebugRandomScoresModal();
+        }
+
+        private async void OnDebugRandomScoresModalSubmitClicked(ClickEvent evt)
+        {
+            try
+            {
+                ThrowIfDisposedOrCancelled();
+                await _controller.DebugRandomScoresAsync(
+                    _debugMinScoreField.value,
+                    _debugMaxScoreField.value,
+                    (ApiOperator)_debugOperatorField.value,
+                    _debugSubscoreMinField.value,
+                    _debugSubscoreMaxField.value);
+                HideDebugRandomScoresModal();
+                await RefreshEventLeaderboardsAsync();
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
+        }
+
+        private void OnErrorCloseClicked(ClickEvent evt)
+        {
+            HideErrorPopup();
+        }
+
+        private void OnEventInfoModalCloseClicked(ClickEvent evt)
+        {
+            HideEventInfoModal();
         }
 
         #endregion
 
         #region Event Leaderboard List Management
 
-        public async Task RefreshEventLeaderboards()
+        private async Task RefreshEventLeaderboardsAsync()
         {
             HideAllModals();
 
-            var refreshData = await _controller.RefreshEventLeaderboards();
-
-            _eventLeaderboardsList.RefreshItems();
+            // Clear current selection state before refresh
+            _currentEventLeaderboard = null;
+            _selectedEventLeaderboardPanel.Hide();
             _eventLeaderboardsList.ClearSelection();
 
-            if (refreshData == null)
-                HideSelectedEventLeaderboardPanel();
-            else
-                _eventLeaderboardsList.SetSelection(refreshData.Item1);
-        }
-
-        private async Task SelectEventLeaderboard()
-        {
-            if (_eventLeaderboardsList.selectedItem is not IEventLeaderboard eventLeaderboard) return;
-
+            _listSpinner?.Show();
             try
             {
-                var records = await _controller.SelectEventLeaderboard(eventLeaderboard);
+                var refreshData = await _controller.RefreshEventLeaderboardsAsync();
+
+                _eventLeaderboardsList.RefreshItems();
+
+                if (refreshData != null)
+                {
+                    _eventLeaderboardsList.SetSelection(refreshData.Value.index);
+                }
+            }
+            finally
+            {
+                _listSpinner?.Hide();
+            }
+        }
+
+        private async Task SelectEventLeaderboardAsync()
+        {
+            if (_eventLeaderboardsList.selectedItem is not IEventLeaderboard eventLeaderboard)
+                return;
+
+            _recordsSpinner?.Show();
+            try
+            {
+                var records = await _controller.SelectEventLeaderboardAsync(eventLeaderboard);
 
                 _currentEventLeaderboard = eventLeaderboard;
-                _controller.SelectedEventLeaderboardRecords.Clear();
-                _controller.SelectedEventLeaderboardRecords.AddRange(records);
                 _eventLeaderboardRecordsList.RefreshItems();
 
                 UpdateEventLeaderboardButtons(records);
                 ShowSelectedEventLeaderboardPanel(eventLeaderboard);
                 UpdateEmptyState(eventLeaderboard, records);
             }
-            catch (Exception e)
+            finally
             {
-                ShowError(e.Message);
+                _recordsSpinner?.Hide();
             }
         }
 
@@ -397,14 +686,13 @@ namespace HiroEventLeaderboards
                 {
                     _emptyStateMessage.text = "No records to display";
                 }
-                _emptyStateContainer.style.display = DisplayStyle.Flex;
-                _eventLeaderboardRecordsList.style.display = DisplayStyle.None;
+                _emptyStateContainer.Show();
+                _eventLeaderboardRecordsList.Hide();
             }
             else
             {
-                // Show the list
-                _emptyStateContainer.style.display = DisplayStyle.None;
-                _eventLeaderboardRecordsList.style.display = DisplayStyle.Flex;
+                _emptyStateContainer.Hide();
+                _eventLeaderboardRecordsList.Show();
             }
         }
 
@@ -420,7 +708,7 @@ namespace HiroEventLeaderboards
                 : eventLeaderboard.Description;
 
             // Map tier to Bronze/Silver/Gold with tier number
-            var (tierName, tierColor) = GetTierNameAndColor(eventLeaderboard.Tier);
+            var (tierName, _) = GetTierNameAndColor(eventLeaderboard.Tier);
             _selectedEventLeaderboardTierLabel.text = $"Cohort: {tierName} (Tier {eventLeaderboard.Tier})";
             _selectedEventLeaderboardTierLabel.style.color = new StyleColor(Color.white);
 
@@ -435,27 +723,18 @@ namespace HiroEventLeaderboards
                 _selectedEventLeaderboardTimeRemainingLabel.text = "Ended";
             }
 
-            _selectedEventLeaderboardPanel.style.display = DisplayStyle.Flex;
+            _selectedEventLeaderboardPanel.Show();
         }
 
-        /// <summary>
-        /// Maps tier numbers to tier names and colors.
-        /// Tier 0 = Bronze, Tier 1 = Silver, Tier 2 = Gold
-        /// </summary>
         private static (string name, Color color) GetTierNameAndColor(int tier)
         {
             return tier switch
             {
-                0 => ("Bronze", new Color(0.8f, 0.5f, 0.2f)), // Bronze color
-                1 => ("Silver", new Color(0.75f, 0.75f, 0.75f)), // Silver color
-                2 => ("Gold", new Color(1f, 0.84f, 0f)), // Gold color
+                0 => ("Bronze", new Color(0.8f, 0.5f, 0.2f)),
+                1 => ("Silver", new Color(0.75f, 0.75f, 0.75f)),
+                2 => ("Gold", new Color(1f, 0.84f, 0f)),
                 _ => ($"Tier {tier}", Color.white)
             };
-        }
-
-        private void HideSelectedEventLeaderboardPanel()
-        {
-            _selectedEventLeaderboardPanel.style.display = DisplayStyle.None;
         }
 
         private void UpdateEventLeaderboardButtons(List<IEventLeaderboardScore> records)
@@ -476,117 +755,49 @@ namespace HiroEventLeaderboards
             }
 
             // Submit score is only available if the event is active and user has joined
-            _submitScoreButton.style.display = (isActive && userHasJoined) ? DisplayStyle.Flex : DisplayStyle.None;
+            _submitScoreButton.SetDisplay(isActive && userHasJoined);
 
             // Claim rewards is available if the event has ended and rewards can be claimed
-            _claimRewardsButton.style.display = canClaim ? DisplayStyle.Flex : DisplayStyle.None;
+            _claimRewardsButton.SetDisplay(canClaim);
 
             // Roll/Join button shows when:
             // 1. Event is active and user hasn't joined (to join initially)
             // 2. Event can be rolled after claiming rewards (to re-join)
-            _rollButton.style.display = ((isActive && !userHasJoined) || canRoll) ? DisplayStyle.Flex : DisplayStyle.None;
+            _rollButton.SetDisplay((isActive && !userHasJoined) || canRoll);
 
             // Debug buttons are only shown when event is active AND user has joined (developer tools)
-            if (_debugFillButton != null)
-                _debugFillButton.style.display = (isActive && userHasJoined) ? DisplayStyle.Flex : DisplayStyle.None;
-            if (_debugRandomScoresButton != null)
-                _debugRandomScoresButton.style.display = (isActive && userHasJoined) ? DisplayStyle.Flex : DisplayStyle.None;
+            _debugFillButton?.SetDisplay(isActive && userHasJoined);
+            _debugRandomScoresButton?.SetDisplay(isActive && userHasJoined);
 
             // Show dev tools section when an event is selected
-            if (_devToolsPanel != null)
-                _devToolsPanel.style.display = DisplayStyle.Flex;
+            _devToolsPanel?.Show();
         }
 
         #endregion
 
-        #region Event Leaderboard Action Handlers
-
-        private async void ClaimRewards(ClickEvent evt)
-        {
-            try
-            {
-                await _controller.ClaimRewards();
-            }
-            catch (Exception e)
-            {
-                ShowError(e.Message);
-            }
-
-            await RefreshEventLeaderboards();
-        }
-
-        private async void RollEventLeaderboard(ClickEvent evt)
-        {
-            try
-            {
-                await _controller.RollEventLeaderboard();
-            }
-            catch (Exception e)
-            {
-                ShowError(e.Message);
-            }
-
-            await RefreshEventLeaderboards();
-        }
-
-        #endregion
-
-        #region Submit Score Modal
+        #region Modal Management
 
         private void ShowSubmitScoreModal()
         {
             _scoreField.value = 0;
             _subScoreField.value = 0;
-            _submitScoreModal.style.display = DisplayStyle.Flex;
+            _submitScoreModal.Show();
         }
 
         private void HideSubmitScoreModal()
         {
-            _submitScoreModal.style.display = DisplayStyle.None;
+            _submitScoreModal.Hide();
         }
-
-        private async void SubmitScore(ClickEvent evt)
-        {
-            try
-            {
-                await _controller.SubmitScore(_scoreField.value, _subScoreField.value);
-                HideSubmitScoreModal();
-            }
-            catch (Exception e)
-            {
-                ShowError(e.Message);
-            }
-
-            await RefreshEventLeaderboards();
-        }
-
-        #endregion
-
-        #region Debug Modals
 
         private void ShowDebugFillModal()
         {
             _debugFillTargetCountField.value = 50;
-            _debugFillModal.style.display = DisplayStyle.Flex;
+            _debugFillModal?.Show();
         }
 
         private void HideDebugFillModal()
         {
-            _debugFillModal.style.display = DisplayStyle.None;
-        }
-
-        private async Task DebugFill()
-        {
-            try
-            {
-                await _controller.DebugFillEventLeaderboard(_debugFillTargetCountField.value);
-                HideDebugFillModal();
-                await RefreshEventLeaderboards();
-            }
-            catch (Exception e)
-            {
-                ShowError(e.Message);
-            }
+            _debugFillModal?.Hide();
         }
 
         private void ShowDebugRandomScoresModal()
@@ -596,52 +807,13 @@ namespace HiroEventLeaderboards
             _debugOperatorField.value = ApiOperator.SET;
             _debugSubscoreMinField.value = 1;
             _debugSubscoreMaxField.value = 100;
-            _debugRandomScoresModal.style.display = DisplayStyle.Flex;
+            _debugRandomScoresModal?.Show();
         }
 
         private void HideDebugRandomScoresModal()
         {
-            _debugRandomScoresModal.style.display = DisplayStyle.None;
+            _debugRandomScoresModal?.Hide();
         }
-
-        private async Task DebugRandomScores()
-        {
-            try
-            {
-                await _controller.DebugRandomScores(
-                    _debugMinScoreField.value,
-                    _debugMaxScoreField.value,
-                    (ApiOperator)_debugOperatorField.value,
-                    _debugSubscoreMinField.value,
-                    _debugSubscoreMaxField.value
-                );
-                HideDebugRandomScoresModal();
-                await RefreshEventLeaderboards();
-            }
-            catch (Exception e)
-            {
-                ShowError(e.Message);
-            }
-        }
-
-        #endregion
-
-        #region Error Handling
-
-        private void ShowError(string message)
-        {
-            _errorMessage.text = message;
-            _errorPopup.style.display = DisplayStyle.Flex;
-        }
-
-        private void HideErrorPopup()
-        {
-            _errorPopup.style.display = DisplayStyle.None;
-        }
-
-        #endregion
-
-        #region Event Info Modal
 
         private void ShowEventInfoModal()
         {
@@ -665,18 +837,17 @@ namespace HiroEventLeaderboards
             _infoAscendingLabel.text = $"<b>Ascending:</b> {leaderboard.Ascending} (lower scores are better)";
 
             var resetScheduleDesc = "";
-       
             if (leaderboard.AdditionalProperties.TryGetValue("reset_schedule_desc", out var property))
             {
                 resetScheduleDesc = property;
             }
-            
+
             _infoResetScheduleLabel.text = string.IsNullOrEmpty(resetScheduleDesc)
-                ? $"<b>Reset schedule:</b> N/A"
+                ? "<b>Reset schedule:</b> N/A"
                 : $"<b>Reset schedule:</b> {resetScheduleDesc}";
 
             // Calculate duration in human-readable format
-            var durationSeconds = (leaderboard.EndTimeSec - leaderboard.StartTimeSec);
+            var durationSeconds = leaderboard.EndTimeSec - leaderboard.StartTimeSec;
             var durationText = FormatDurationInSeconds(durationSeconds);
             _infoMaxIdleTierDropLabel.text = $"<b>Duration:</b> {durationText}";
 
@@ -699,7 +870,7 @@ namespace HiroEventLeaderboards
                     }
                 }
                 _infoChangeZonesLabel.text = changeZonesText.TrimEnd('\n');
-                _infoRewardTiersLabel.text = ""; // Hide reward tiers
+                _infoRewardTiersLabel.text = "";
             }
             else
             {
@@ -729,10 +900,10 @@ namespace HiroEventLeaderboards
                 {
                     _infoRewardTiersLabel.text = "";
                 }
-                _infoChangeZonesLabel.text = ""; // Hide change zones
+                _infoChangeZonesLabel.text = "";
             }
 
-            _eventInfoModal.style.display = DisplayStyle.Flex;
+            _eventInfoModal.Show();
         }
 
         private static string FormatDurationInSeconds(long seconds)
@@ -754,20 +925,32 @@ namespace HiroEventLeaderboards
 
         private void HideEventInfoModal()
         {
-            if (_eventInfoModal != null)
-            {
-                _eventInfoModal.style.display = DisplayStyle.None;
-            }
+            _eventInfoModal?.Hide();
         }
-
-        #endregion
 
         private void HideAllModals()
         {
             HideSubmitScoreModal();
-            if (_debugFillModal != null) HideDebugFillModal();
-            if (_debugRandomScoresModal != null) HideDebugRandomScoresModal();
+            HideDebugFillModal();
+            HideDebugRandomScoresModal();
             HideEventInfoModal();
         }
+
+        #endregion
+
+        #region Error Handling
+
+        private void ShowError(string message)
+        {
+            _errorMessage.text = message;
+            _errorPopup.Show();
+        }
+
+        private void HideErrorPopup()
+        {
+            _errorPopup.Hide();
+        }
+
+        #endregion
     }
 }

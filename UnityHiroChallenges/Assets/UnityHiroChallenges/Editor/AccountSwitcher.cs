@@ -50,14 +50,17 @@ namespace HiroChallenges.Editor
 
             usernamesLabel = rootVisualElement.Q<Label>("usernames");
 
-            UpdateUsernameLabels();
-
-            if (!EditorApplication.isPlaying) return;
+            if (!EditorApplication.isPlaying)
+            {
+                usernamesLabel.text = "Enter Play Mode to see accounts";
+                return;
+            }
 
             var coordinator = HiroCoordinator.Instance as HiroChallengesCoordinator;
             if (coordinator == null) return;
 
             _env = coordinator.IsLocalHost ? "local" : "heroiclabs";
+            UpdateUsernameLabels();
 
             var nakamaSystem = coordinator.GetSystem<NakamaSystem>();
             if (nakamaSystem?.Session != null)
@@ -137,15 +140,18 @@ namespace HiroChallenges.Editor
         {
             var accounts = AccountSwitcher.GetAllAccounts();
             var sb = new StringBuilder();
-            var index = 1;
 
-            foreach (var kvp in accounts)
+            // Filter and sort by index for current environment
+            for (var i = 0; i < 4; i++)
             {
-                sb.Append(index);
-                sb.Append(": ");
-                sb.Append(kvp.Value.Username);
-                sb.AppendLine();
-                index++;
+                var key = $"{_env}_{i}";
+                if (accounts.TryGetValue(key, out var account))
+                {
+                    sb.Append(i + 1);
+                    sb.Append(": ");
+                    sb.Append(account.Username);
+                    sb.AppendLine();
+                }
             }
 
             usernamesLabel.text = sb.ToString();

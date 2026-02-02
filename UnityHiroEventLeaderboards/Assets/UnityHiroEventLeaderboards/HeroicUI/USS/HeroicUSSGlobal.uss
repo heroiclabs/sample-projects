@@ -3,7 +3,7 @@
 }
 
 .unity-base-dropdown__container-outer {
-    background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/TextInput/text_input_merged_gray.png?fileID=2800000&guid=c0934a7a45f1d4937aae187c0cfbe078&type=3#text_input_merged_gray");
+    background-image: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/TextInput/text_input_merged_gray.png?fileID=2800000&guid=c0934a7a45f1d4937aae187c0cfbe078&type=3#text_input_merged_gray");
     -unity-slice-left: 25;
     -unity-slice-top: 25;
     -unity-slice-right: 25;
@@ -52,5 +52,5 @@
     height: 40px;
     margin-left: auto;
     -unity-background-image-tint-color: rgb(121, 99, 255);
-    background-image: url("project://database/Assets/UnityHiroChallenges/HeroicUI/IconPictogram/128/icon_check.png?fileID=2800000&guid=aba6f95cfca8f4b5cbff7cc9387f9e4d&type=3#icon_check");
+    background-image: url("project://database/Assets/UnityHiroEventLeaderboards/HeroicUI/IconPictogram/128/icon_check.png?fileID=2800000&guid=aba6f95cfca8f4b5cbff7cc9387f9e4d&type=3#icon_check");
 }

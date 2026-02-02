@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Text;
 using Nakama;
 using Hiro;
@@ -17,10 +16,7 @@ namespace HiroEventLeaderboards.Editor
 
         private DropdownField accountDropdown;
         private Label usernamesLabel;
-
-        private readonly SortedDictionary<string, string> accountUsernames = new();
-
-        private const string AccountUsernamesKey = "AccountSwitcher_Usernames";
+        private string _env;
 
         [MenuItem("Tools/Nakama/Account Switcher")]
         public static void ShowWindow()
@@ -31,17 +27,16 @@ namespace HiroEventLeaderboards.Editor
             window.Focus();
         }
 
-        [MenuItem("Tools/Nakama/Clear Test Accounts")]
+        [MenuItem("Tools/Nakama/Clear Saved Accounts")]
         public static void ClearSavedAccounts()
         {
-            EditorPrefs.DeleteKey(AccountUsernamesKey);
-            Debug.Log("Cleared all saved account usernames");
+            AccountSwitcher.ClearAccounts();
+            Debug.Log("Cleared all saved accounts");
 
             // Refresh any open Account Switcher windows
             var windows = Resources.FindObjectsOfTypeAll<AccountSwitcherEditor>();
             foreach (var window in windows)
             {
-                window.accountUsernames.Clear();
                 window.UpdateUsernameLabels();
             }
         }
@@ -55,76 +50,53 @@ namespace HiroEventLeaderboards.Editor
 
             usernamesLabel = rootVisualElement.Q<Label>("usernames");
 
-            // Load saved usernames on startup
-            LoadAccountUsernames();
+            if (!EditorApplication.isPlaying)
+            {
+                usernamesLabel.text = "Enter Play Mode to see accounts";
+                return;
+            }
+
+            var coordinator = HiroCoordinator.Instance as HiroEventLeaderboardsCoordinator;
+            if (coordinator == null) return;
+
+            _env = coordinator.IsLocalHost ? "local" : "heroiclabs";
             UpdateUsernameLabels();
 
-            if (!EditorApplication.isPlaying) return;
+            var nakamaSystem = coordinator.GetSystem<NakamaSystem>();
+            if (nakamaSystem?.Session != null)
+            {
+                OnCoordinatorInitialized();
+            }
+            else
+            {
+                coordinator.ReceivedStartSuccess += OnCoordinatorInitialized;
+            }
+        }
 
+        private async void OnCoordinatorInitialized()
+        {
+            var coordinator = HiroCoordinator.Instance as HiroEventLeaderboardsCoordinator;
+            if (coordinator == null)
+            {
+                Debug.LogError("HiroEventLeaderboardsCoordinator not found");
+                return;
+            }
+
+            coordinator.ReceivedStartSuccess -= OnCoordinatorInitialized;
+
+            var nakamaSystem = coordinator.GetSystem<NakamaSystem>();
             var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
             foreach (var rootGameObject in rootGameObjects)
             {
-                if (!rootGameObject.TryGetComponent<EventLeaderboardsController>(out var eventLeaderboardsController)) continue;
+                if (!rootGameObject.TryGetComponent<EventLeaderboardsViewBehaviour>(out var viewBehaviour)) continue;
+                if (viewBehaviour.Controller == null) continue;
 
-                if (HiroCoordinator.Instance.GetSystem<NakamaSystem>().Session is Session session)
-                {
-                    OnControllerInitialized(session);
-                }
-                else
-                {
-                    eventLeaderboardsController.OnInitialized += OnControllerInitialized;
-                }
-            }
-        }
-
-        private void OnControllerInitialized(ISession session, EventLeaderboardsController eventLeaderboardsController = null)
-        {
-            accountUsernames[accountDropdown.choices[0]] = session.Username;
-            UpdateUsernameLabels();
-
-            if (eventLeaderboardsController != null)
-            {
-                eventLeaderboardsController.OnInitialized -= OnControllerInitialized;
-            }
-        }
-
-        private void LoadAccountUsernames()
-        {
-            var savedUsernames = EditorPrefs.GetString(AccountUsernamesKey, "");
-            if (string.IsNullOrEmpty(savedUsernames)) return;
-
-            try
-            {
-                var usernameData = JsonUtility.FromJson<SerializableStringDictionary>(savedUsernames);
-                accountUsernames.Clear();
-
-                foreach (var item in usernameData.items)
-                {
-                    accountUsernames[item.key] = item.value;
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.LogWarning($"Failed to load saved account usernames: {ex.Message}");
-            }
-        }
-
-        private void SaveAccountUsernames()
-        {
-            try
-            {
-                var usernameData = new SerializableStringDictionary();
-                foreach (var kvp in accountUsernames)
-                {
-                    usernameData.items.Add(new SerializableKeyValuePair { key = kvp.Key, value = kvp.Value });
-                }
-
-                var json = JsonUtility.ToJson(usernameData);
-                EditorPrefs.SetString(AccountUsernamesKey, json);
-            }
-            catch (Exception ex)
-            {
-                Debug.LogWarning($"Failed to save account usernames: {ex.Message}");
+                await AccountSwitcher.EnsureAccountsExistAsync(nakamaSystem, viewBehaviour.Controller, _env);
+                // Switch back to account 0 after ensuring all accounts exist
+                await AccountSwitcher.SwitchAccountAsync(nakamaSystem, viewBehaviour.Controller, _env, 0);
+                accountDropdown.index = 0;
+                UpdateUsernameLabels();
+                return;
             }
         }
 
@@ -132,34 +104,26 @@ namespace HiroEventLeaderboards.Editor
         {
             if (!EditorApplication.isPlaying) return;
 
-            var previousValue = changeEvt.previousValue;
-            var newValue = changeEvt.newValue;
-
             var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
             foreach (var rootGameObject in rootGameObjects)
             {
-                if (!rootGameObject.TryGetComponent<EventLeaderboardsController>(out var eventLeaderboardsController)) continue;
+                if (!rootGameObject.TryGetComponent<EventLeaderboardsViewBehaviour>(out var viewBehaviour)) continue;
+                if (viewBehaviour.Controller == null) continue;
 
                 var coordinator = HiroCoordinator.Instance as HiroEventLeaderboardsCoordinator;
                 if (coordinator == null) return;
                 var nakamaSystem = coordinator.GetSystem<NakamaSystem>();
-
-                // Save username before switching
-                if (!string.IsNullOrEmpty(previousValue))
-                {
-                    accountUsernames[previousValue] = nakamaSystem.Session.Username;
-                }
+                if (nakamaSystem == null) return;
 
                 try
                 {
-                    var newSession = await HiroEventLeaderboardsCoordinator.NakamaAuthorizerFunc(accountDropdown.index)
-                        .Invoke(nakamaSystem.Client);
-                    (nakamaSystem.Session as Session)?.Update(newSession.AuthToken, newSession.RefreshToken);
-                    await nakamaSystem.RefreshAsync();
-                    accountUsernames[newValue] = newSession.Username;
-                    eventLeaderboardsController.SwitchComplete();
+                    await AccountSwitcher.SwitchAccountAsync(
+                        nakamaSystem,
+                        viewBehaviour.Controller,
+                        _env,
+                        accountDropdown.index);
 
-                    SaveAccountUsernames();
+                    Debug.Log($"Switch to account index: {accountDropdown.index}, env: {_env}");
                     break;
                 }
                 catch (ApiResponseException e)
@@ -174,32 +138,23 @@ namespace HiroEventLeaderboards.Editor
 
         private void UpdateUsernameLabels()
         {
+            var accounts = AccountSwitcher.GetAllAccounts();
             var sb = new StringBuilder();
-            var index = 1;
 
-            foreach (var kvp in accountUsernames)
+            // Filter and sort by index for current environment
+            for (var i = 0; i < 4; i++)
             {
-                sb.Append(index);
-                sb.Append(": ");
-                sb.Append(kvp.Value);
-                sb.AppendLine();
-                index++;
+                var key = $"{_env}_{i}";
+                if (accounts.TryGetValue(key, out var account))
+                {
+                    sb.Append(i + 1);
+                    sb.Append(": ");
+                    sb.Append(account.Username);
+                    sb.AppendLine();
+                }
             }
 
             usernamesLabel.text = sb.ToString();
-        }
-
-        [Serializable]
-        private class SerializableStringDictionary
-        {
-            public List<SerializableKeyValuePair> items = new();
-        }
-
-        [Serializable]
-        private class SerializableKeyValuePair
-        {
-            public string key;
-            public string value;
         }
     }
 }

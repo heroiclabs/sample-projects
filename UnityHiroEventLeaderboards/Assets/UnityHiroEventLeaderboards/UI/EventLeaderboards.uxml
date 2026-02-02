@@ -15,7 +15,10 @@
                     </ui:Button>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:ListView fixed-item-height="150" name="event-leaderboards-list" style="flex-grow: 1; margin-bottom: 10px;" />
+            <ui:VisualElement style="flex-grow: 1; margin-bottom: 10px; position: relative;">
+                <ui:ListView fixed-item-height="150" name="event-leaderboards-list" style="flex-grow: 1;" />
+                <ui:VisualElement name="event-leaderboards-list-spinner" class="spinner" style="display: none; position: absolute; top: 50%; left: 50%; translate: -50% -50%;" />
+            </ui:VisualElement>
             <ui:Button text="Refresh" name="event-leaderboards-refresh" class="heroic-button-square" style="align-self: flex-start;" />
         </ui:VisualElement>
         <ui:VisualElement name="main-right" style="width: 50%; align-self: stretch; align-items: stretch; flex-direction: column;">
@@ -43,6 +46,7 @@
                         <ui:VisualElement name="empty-state-container" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: none; align-items: center; justify-content: center; padding: 40px;">
                             <ui:Label name="empty-state-message" text="No records to display" style="font-size: 28px; color: rgb(150, 150, 150); -unity-text-align: middle-center; white-space: normal;" />
                         </ui:VisualElement>
+                        <ui:VisualElement name="event-leaderboard-records-spinner" class="spinner" style="display: none; position: absolute; top: 50%; left: 50%; translate: -50% -50%;" />
                     </ui:VisualElement>
                     <ui:VisualElement name="event-leaderboard-actions" style="padding-top: 15px; padding-right: 20px; padding-bottom: 15px; padding-left: 20px; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; display: flex; align-items: center; justify-content: center; height: 190px; flex-direction: row;">
                         <ui:Button text="Submit score" name="event-leaderboard-submit-score" class="heroic-button" style="display: none; height: 80px; padding-right: 32px; padding-left: 32px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px;" />

@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep:*)",
+      "WebFetch(domain:learn.unity.com)",
+      "Bash(/Applications/Unity/Hub/Editor/6000.2.6f2/Unity.app/Contents/MacOS/Unity:*)",
+      "Bash(defaults read:*)",
+      "WebSearch",
+      "WebFetch(domain:medium.com)",
+      "WebFetch(domain:forum.unity.com)",
+      "WebFetch(domain:discussions.unity.com)",
+      "WebFetch(domain:gamedev-resources.com)",
+      "Bash(task compile-csharp:*)",
+      "Bash(find:*)",
+      "WebFetch(domain:unity.com)"
+    ]
+  }
+}

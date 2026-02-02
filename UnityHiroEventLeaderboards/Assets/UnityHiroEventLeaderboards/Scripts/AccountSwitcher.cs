@@ -20,7 +20,7 @@ using Hiro;
 using Nakama;
 using UnityEngine;
 
-namespace HiroChallenges
+namespace HiroEventLeaderboards
 {
     public static class AccountSwitcher
     {
@@ -55,6 +55,7 @@ namespace HiroChallenges
 
         private const string PlayerPrefsAuthToken = "nakama.AuthToken";
         private const string PlayerPrefsRefreshToken = "nakama.RefreshToken";
+        private const string PlayerPrefsDeviceId = "nakama.DeviceId";
 
         public static event Action AccountSwitched;
 
@@ -82,7 +83,7 @@ namespace HiroChallenges
 
         public static async Task<ISession> SwitchAccountAsync(
             NakamaSystem nakamaSystem,
-            ChallengesController controller,
+            EventLeaderboardsController controller,
             string env,
             int accountIndex)
         {
@@ -95,7 +96,7 @@ namespace HiroChallenges
 
         public static async Task SwitchToSessionAsync(
             NakamaSystem nakamaSystem,
-            ChallengesController controller,
+            EventLeaderboardsController controller,
             ISession newSession)
         {
             await ApplySessionAsync(nakamaSystem, controller, newSession);
@@ -104,11 +105,11 @@ namespace HiroChallenges
 
         private static async Task<ISession> AuthenticateAndStoreAccountAsync(
             NakamaSystem nakamaSystem,
-            ChallengesController controller,
+            EventLeaderboardsController controller,
             string env,
             int accountIndex)
         {
-            var newSession = await HiroChallengesCoordinator.NakamaAuthorizerFunc(env, accountIndex)
+            var newSession = await HiroEventLeaderboardsCoordinator.NakamaAuthorizerFunc(env, accountIndex)
                 .Invoke(nakamaSystem.Client);
             await ApplySessionAsync(nakamaSystem, controller, newSession);
 
@@ -124,7 +125,7 @@ namespace HiroChallenges
 
         private static async Task ApplySessionAsync(
             NakamaSystem nakamaSystem,
-            ChallengesController controller,
+            EventLeaderboardsController controller,
             ISession newSession)
         {
             if (nakamaSystem.Session is not Session session)
@@ -198,6 +199,29 @@ namespace HiroChallenges
             return userIds.ToArray();
         }
 
+        public static async Task<ISession> AuthenticateDeviceAsync(IClient client, string env, int index)
+        {
+            var deviceId = GetOrCreateDeviceId(env);
+            return await client.AuthenticateDeviceAsync($"{deviceId}_{index}");
+        }
+
+        public static string GetOrCreateDeviceId(string env)
+        {
+            var key = $"{PlayerPrefsDeviceId}_{env}";
+            var deviceId = PlayerPrefs.GetString(key, "");
+
+            if (string.IsNullOrEmpty(deviceId))
+            {
+                deviceId = SystemInfo.deviceUniqueIdentifier;
+                if (deviceId == SystemInfo.unsupportedIdentifier)
+                    deviceId = Guid.NewGuid().ToString();
+                PlayerPrefs.SetString(key, deviceId);
+                PlayerPrefs.Save();
+            }
+
+            return deviceId;
+        }
+
         public static void ClearAccounts()
         {
             _accountCache = new Dictionary<string, AccountInfo>();
@@ -220,7 +244,7 @@ namespace HiroChallenges
 
         public static async Task EnsureAccountsExistAsync(
             NakamaSystem nakamaSystem,
-            ChallengesController controller,
+            EventLeaderboardsController controller,
             string env,
             int count = 4)
         {
