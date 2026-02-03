@@ -334,16 +334,7 @@ namespace HiroAchievements
                 var selectedAchievement = _controller.GetSelectedAchievement();
                 if (selectedAchievement != null)
                 {
-                    IAchievement updatedAchievement = null;
-                    foreach (var a in _controller.AllAchievements)
-                    {
-                        if (a.Id == selectedAchievement.Id)
-                        {
-                            updatedAchievement = a;
-                            break;
-                        }
-                    }
-
+                    var updatedAchievement = FindUpdatedAchievement(selectedAchievement.Id);
                     if (updatedAchievement != null)
                     {
                         ShowAchievementDetails(updatedAchievement);
@@ -375,16 +366,7 @@ namespace HiroAchievements
                 var selectedAchievement = _controller.GetSelectedAchievement();
                 if (selectedAchievement != null)
                 {
-                    IAchievement updatedAchievement = null;
-                    foreach (var a in _controller.AllAchievements)
-                    {
-                        if (a.Id == selectedAchievement.Id)
-                        {
-                            updatedAchievement = a;
-                            break;
-                        }
-                    }
-
+                    var updatedAchievement = FindUpdatedAchievement(selectedAchievement.Id);
                     if (updatedAchievement != null)
                     {
                         ShowAchievementDetails(updatedAchievement);
@@ -402,6 +384,27 @@ namespace HiroAchievements
                 ShowError(e.Message);
                 Debug.LogException(e);
             }
+        }
+
+        private IAchievement FindUpdatedAchievement(string achievementId)
+        {
+            foreach (var a in _controller.AllAchievements)
+            {
+                if (a.Id == achievementId)
+                {
+                    return a;
+                }
+            }
+
+            foreach (var a in _controller.RepeatAchievements)
+            {
+                if (a.Id == achievementId)
+                {
+                    return a;
+                }
+            }
+
+            return null;
         }
 
         #endregion
