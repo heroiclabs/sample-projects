@@ -58,10 +58,10 @@ namespace HiroChallenges
             var challengesSystem = _coordinator.GetSystem<ChallengesSystem>();
             var economySystem = _coordinator.GetSystem<EconomySystem>();
 
+            Controller = new ChallengesController(nakamaSystem, challengesSystem, economySystem);
+
             var env = _coordinator.IsLocalHost ? "local" : "heroiclabs";
             AccountSwitcher.Initialize(nakamaSystem, env);
-
-            Controller = new ChallengesController(nakamaSystem, challengesSystem, economySystem);
 
             var uiDocument = GetComponent<UIDocument>();
             _view = new ChallengesView(

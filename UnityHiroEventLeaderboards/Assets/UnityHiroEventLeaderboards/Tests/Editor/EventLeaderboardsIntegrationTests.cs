@@ -235,21 +235,21 @@ namespace HiroEventLeaderboards.Tests.Editor
         private NakamaSystem _nakamaSystem;
         private EventLeaderboardsSystem _eventLeaderboardsSystem;
         private EconomySystem _economySystem;
-        private string _testDeviceId;
 
         private async Task SetUpForEnv(string env)
         {
-            _testDeviceId = $"test-device-{Guid.NewGuid():N}";
-
             _client = env == "local"
                 ? new Client(LocalScheme, LocalHost, LocalPort, LocalServerKey)
                 : new Client(RemoteScheme, RemoteHost, RemotePort, RemoteServerKey);
 
-            // Create all 4 accounts
+            // Clear stale session tokens so NakamaAuthorizerFunc doesn't restore old sessions
+            AccountSwitcher.ClearSessionTokens(env);
+
+            // Create all 4 accounts using AccountSwitcher (same device ID logic as runtime)
             _sessions = new ISession[AccountCount];
             for (var i = 0; i < AccountCount; i++)
             {
-                _sessions[i] = await _client.AuthenticateDeviceAsync($"{_testDeviceId}_{i}");
+                _sessions[i] = await AccountSwitcher.AuthenticateDeviceAsync(_client, env, i);
             }
 
             var logger = new Hiro.Unity.Logger();
@@ -309,7 +309,6 @@ namespace HiroEventLeaderboards.Tests.Editor
                 {
                     await AccountSwitcher.SwitchAccountAsync(
                         _nakamaSystem,
-                        _controller,
                         env,
                         i);
 
@@ -326,7 +325,6 @@ namespace HiroEventLeaderboards.Tests.Editor
                 {
                     await AccountSwitcher.SwitchAccountAsync(
                         _nakamaSystem,
-                        _controller,
                         env,
                         i);
 
@@ -394,7 +392,6 @@ namespace HiroEventLeaderboards.Tests.Editor
 
                 await AccountSwitcher.SwitchAccountAsync(
                     _nakamaSystem,
-                    _controller,
                     env,
                     1);
 
@@ -430,7 +427,6 @@ namespace HiroEventLeaderboards.Tests.Editor
                 {
                     await AccountSwitcher.SwitchAccountAsync(
                         _nakamaSystem,
-                        _controller,
                         env,
                         1);
 

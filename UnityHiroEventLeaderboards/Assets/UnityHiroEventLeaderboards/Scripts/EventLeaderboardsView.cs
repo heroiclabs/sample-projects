@@ -463,6 +463,8 @@ namespace HiroEventLeaderboards
             try
             {
                 ThrowIfDisposedOrCancelled();
+                HideSelectedLeaderboardPanel();
+                await _controller.SwitchCompleteAsync();
                 await RefreshEventLeaderboardsAsync();
             }
             catch (OperationCanceledException)
@@ -699,6 +701,11 @@ namespace HiroEventLeaderboards
         #endregion
 
         #region Event Leaderboard Detail Panel
+
+        private void HideSelectedLeaderboardPanel()
+        {
+            _selectedEventLeaderboardPanel.Hide();
+        }
 
         private void ShowSelectedEventLeaderboardPanel(IEventLeaderboard eventLeaderboard)
         {

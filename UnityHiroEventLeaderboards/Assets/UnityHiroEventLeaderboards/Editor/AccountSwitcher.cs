@@ -1,11 +1,7 @@
-using System;
 using System.Text;
 using Nakama;
-using Hiro;
-using Hiro.Unity;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 namespace HiroEventLeaderboards.Editor
@@ -56,81 +52,55 @@ namespace HiroEventLeaderboards.Editor
                 return;
             }
 
-            var coordinator = HiroCoordinator.Instance as HiroEventLeaderboardsCoordinator;
-            if (coordinator == null) return;
-
-            _env = coordinator.IsLocalHost ? "local" : "heroiclabs";
-            UpdateUsernameLabels();
-
-            var nakamaSystem = coordinator.GetSystem<NakamaSystem>();
-            if (nakamaSystem?.Session != null)
+            if (AccountSwitcher.NakamaSystem != null)
             {
-                OnCoordinatorInitialized();
+                _env = AccountSwitcher.CurrentEnv;
+                UpdateUsernameLabels();
+                OnAccountSwitcherInitialized();
             }
             else
             {
-                coordinator.ReceivedStartSuccess += OnCoordinatorInitialized;
+                AccountSwitcher.Initialized += OnAccountSwitcherInitialized;
             }
         }
 
-        private async void OnCoordinatorInitialized()
+        private async void OnAccountSwitcherInitialized()
         {
-            var coordinator = HiroCoordinator.Instance as HiroEventLeaderboardsCoordinator;
-            if (coordinator == null)
-            {
-                Debug.LogError("HiroEventLeaderboardsCoordinator not found");
-                return;
-            }
+            AccountSwitcher.Initialized -= OnAccountSwitcherInitialized;
 
-            coordinator.ReceivedStartSuccess -= OnCoordinatorInitialized;
+            _env = AccountSwitcher.CurrentEnv;
+            var nakamaSystem = AccountSwitcher.NakamaSystem;
 
-            var nakamaSystem = coordinator.GetSystem<NakamaSystem>();
-            var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
-            foreach (var rootGameObject in rootGameObjects)
-            {
-                if (!rootGameObject.TryGetComponent<EventLeaderboardsViewBehaviour>(out var viewBehaviour)) continue;
-                if (viewBehaviour.Controller == null) continue;
-
-                await AccountSwitcher.EnsureAccountsExistAsync(nakamaSystem, viewBehaviour.Controller, _env);
-                // Switch back to account 0 after ensuring all accounts exist
-                await AccountSwitcher.SwitchAccountAsync(nakamaSystem, viewBehaviour.Controller, _env, 0);
-                accountDropdown.index = 0;
-                UpdateUsernameLabels();
-                return;
-            }
+            await AccountSwitcher.EnsureAccountsExistAsync(nakamaSystem, _env);
+            // Switch back to account 0 after ensuring all accounts exist
+            await AccountSwitcher.SwitchAccountAsync(nakamaSystem, _env, 0);
+            accountDropdown.index = 0;
+            UpdateUsernameLabels();
         }
 
         private async void SwitchAccount(ChangeEvent<string> changeEvt)
         {
             if (!EditorApplication.isPlaying) return;
 
-            var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
-            foreach (var rootGameObject in rootGameObjects)
+            var nakamaSystem = AccountSwitcher.NakamaSystem;
+            if (nakamaSystem == null) return;
+
+            Debug.Log($"[Editor] SwitchAccount triggered: dropdown index={accountDropdown.index}, dropdown value={changeEvt.newValue}, env={_env}");
+
+            try
             {
-                if (!rootGameObject.TryGetComponent<EventLeaderboardsViewBehaviour>(out var viewBehaviour)) continue;
-                if (viewBehaviour.Controller == null) continue;
+                Debug.Log($"[Editor] Calling SwitchAccountAsync with index={accountDropdown.index}");
+                var session = await AccountSwitcher.SwitchAccountAsync(
+                    nakamaSystem,
+                    _env,
+                    accountDropdown.index);
 
-                var coordinator = HiroCoordinator.Instance as HiroEventLeaderboardsCoordinator;
-                if (coordinator == null) return;
-                var nakamaSystem = coordinator.GetSystem<NakamaSystem>();
-                if (nakamaSystem == null) return;
-
-                try
-                {
-                    await AccountSwitcher.SwitchAccountAsync(
-                        nakamaSystem,
-                        viewBehaviour.Controller,
-                        _env,
-                        accountDropdown.index);
-
-                    Debug.Log($"Switch to account index: {accountDropdown.index}, env: {_env}");
-                    break;
-                }
-                catch (ApiResponseException e)
-                {
-                    Debug.LogWarning($"Error authenticating with Device ID: {e.Message}");
-                    return;
-                }
+                Debug.Log($"[Editor] Switch complete: index={accountDropdown.index}, user={session.Username}, userId={session.UserId}");
+            }
+            catch (ApiResponseException e)
+            {
+                Debug.LogWarning($"Error authenticating with Device ID: {e.Message}");
+                return;
             }
 
             UpdateUsernameLabels();
@@ -138,8 +108,13 @@ namespace HiroEventLeaderboards.Editor
 
         private void UpdateUsernameLabels()
         {
+            if (string.IsNullOrEmpty(_env) || usernamesLabel == null)
+                return;
+
             var accounts = AccountSwitcher.GetAllAccounts();
             var sb = new StringBuilder();
+
+            Debug.Log($"[Editor] UpdateUsernameLabels: env={_env}, total accounts in cache={accounts.Count}");
 
             // Filter and sort by index for current environment
             for (var i = 0; i < 4; i++)
@@ -147,10 +122,15 @@ namespace HiroEventLeaderboards.Editor
                 var key = $"{_env}_{i}";
                 if (accounts.TryGetValue(key, out var account))
                 {
+                    Debug.Log($"[Editor] Display: {i + 1}: {account.Username} (userId={account.UserId})");
                     sb.Append(i + 1);
                     sb.Append(": ");
                     sb.Append(account.Username);
                     sb.AppendLine();
+                }
+                else
+                {
+                    Debug.Log($"[Editor] No account for key={key}");
                 }
             }
 

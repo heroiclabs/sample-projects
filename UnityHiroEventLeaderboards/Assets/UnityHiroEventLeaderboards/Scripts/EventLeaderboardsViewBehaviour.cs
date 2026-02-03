@@ -83,10 +83,10 @@ namespace HiroEventLeaderboards
             var eventLeaderboardsSystem = _coordinator.GetSystem<EventLeaderboardsSystem>();
             var economySystem = _coordinator.GetSystem<EconomySystem>();
 
+            _controller = new EventLeaderboardsController(_nakamaSystem, eventLeaderboardsSystem, economySystem);
+
             var env = _coordinator.IsLocalHost ? "local" : "heroiclabs";
             AccountSwitcher.Initialize(_nakamaSystem, env);
-
-            _controller = new EventLeaderboardsController(_nakamaSystem, eventLeaderboardsSystem, economySystem);
 
             var rootElement = GetComponent<UIDocument>().rootVisualElement;
             _view = new EventLeaderboardsView(

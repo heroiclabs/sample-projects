@@ -76,11 +76,13 @@ namespace HiroChallenges
 
             return async client =>
             {
+                Debug.Log($"[NakamaAuth] Starting auth for env={env}, index={index}, keySuffix={keySuffix}");
+
                 // Attempt to load a previous session if it is still valid.
                 var authToken = PlayerPrefs.GetString($"{playerPrefsAuthToken}_{keySuffix}");
                 var refreshToken = PlayerPrefs.GetString($"{playerPrefsRefreshToken}_{keySuffix}");
                 var session = Session.Restore(authToken, refreshToken);
-                Debug.Log("Session:" + session);
+                Debug.Log($"[NakamaAuth] Restored session: {(session != null ? $"user={session.Username}, userId={session.UserId}" : "null")}, authToken empty={string.IsNullOrEmpty(authToken)}");
 
                 // Add an hour, so we check whether the token is within an hour of expiration to refresh it.
                 var expiredDate = DateTime.UtcNow.AddHours(1);
@@ -88,10 +90,12 @@ namespace HiroChallenges
                 {
                     try
                     {
+                        Debug.Log($"[NakamaAuth] Refreshing existing session for index={index}");
                         // Validate the session by refreshing it
                         session = await client.SessionRefreshAsync(session);
                         PlayerPrefs.SetString($"{playerPrefsAuthToken}_{keySuffix}", session.AuthToken);
                         PlayerPrefs.SetString($"{playerPrefsRefreshToken}_{keySuffix}", session.RefreshToken);
+                        Debug.Log($"[NakamaAuth] Refreshed session: user={session.Username}, userId={session.UserId}");
                         return session;
                     }
                     catch (ApiResponseException e) when (
@@ -107,13 +111,16 @@ namespace HiroChallenges
                 // Attempt to read the device ID to use for Authentication.
                 var deviceId = PlayerPrefs.GetString($"{playerPrefsDeviceId}_{env}", SystemInfo.deviceUniqueIdentifier);
                 if (deviceId == SystemInfo.unsupportedIdentifier) deviceId = Guid.NewGuid().ToString();
+                Debug.Log($"[NakamaAuth] Device auth: deviceId={deviceId}, fullId={deviceId}_{index}");
 
                 session = await client.AuthenticateDeviceAsync($"{deviceId}_{index}");
+                Debug.Log($"[NakamaAuth] Authenticated: user={session.Username}, userId={session.UserId}, created={session.Created}");
 
                 // Store tokens to avoid needing to re-authenticate next time.
                 PlayerPrefs.SetString($"{playerPrefsDeviceId}_{env}", deviceId);
                 PlayerPrefs.SetString($"{playerPrefsAuthToken}_{keySuffix}", session.AuthToken);
                 PlayerPrefs.SetString($"{playerPrefsRefreshToken}_{keySuffix}", session.RefreshToken);
+                Debug.Log($"[NakamaAuth] Stored tokens for keySuffix={keySuffix}");
 
                 if (session.Created) Debug.LogFormat("New user account '{0}' created.", session.UserId);
 

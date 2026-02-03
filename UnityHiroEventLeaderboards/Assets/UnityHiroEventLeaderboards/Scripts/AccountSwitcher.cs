@@ -53,10 +53,14 @@ namespace HiroEventLeaderboards
         private static string _currentEnv;
         private static int _currentIndex;
 
+        public static NakamaSystem NakamaSystem => _nakamaSystem;
+        public static string CurrentEnv => _currentEnv;
+
         private const string PlayerPrefsAuthToken = "nakama.AuthToken";
         private const string PlayerPrefsRefreshToken = "nakama.RefreshToken";
         private const string PlayerPrefsDeviceId = "nakama.DeviceId";
 
+        public static event Action Initialized;
         public static event Action AccountSwitched;
 
         public static void Initialize(NakamaSystem nakamaSystem, string env, int index = 0)
@@ -71,6 +75,75 @@ namespace HiroEventLeaderboards
             _currentIndex = index;
 
             _nakamaSystem.Client.ReceivedSessionUpdated += OnSessionUpdated;
+
+            // Clean up stale accounts in the background
+            _ = CleanupStaleAccountsAsync();
+
+            Initialized?.Invoke();
+        }
+
+        /// <summary>
+        /// Validates cached accounts against the server and removes any that no longer exist.
+        /// Called automatically during Initialize.
+        /// </summary>
+        private static async Task CleanupStaleAccountsAsync()
+        {
+            if (_nakamaSystem == null)
+                return;
+
+            LoadCache();
+
+            if (_accountCache == null || _accountCache.Count == 0)
+                return;
+
+            // Collect all user IDs from cache
+            var userIds = new List<string>();
+            foreach (var account in _accountCache)
+            {
+                if (!string.IsNullOrEmpty(account.Value.UserId))
+                    userIds.Add(account.Value.UserId);
+            }
+
+            if (userIds.Count == 0)
+                return;
+
+            try
+            {
+                // Query server for which users exist
+                var result = await _nakamaSystem.Client.GetUsersAsync(_nakamaSystem.Session, userIds);
+
+                var validUserIds = new HashSet<string>();
+                foreach (var user in result.Users)
+                {
+                    validUserIds.Add(user.Id);
+                }
+
+                // Remove accounts that don't exist on the server
+                var keysToRemove = new List<string>();
+                foreach (var account in _accountCache)
+                {
+                    if (!string.IsNullOrEmpty(account.Value.UserId) &&
+                        !validUserIds.Contains(account.Value.UserId))
+                    {
+                        keysToRemove.Add(account.Key);
+                        Debug.Log($"Removing stale account from cache: {account.Value.Username} ({account.Value.UserId})");
+                    }
+                }
+
+                if (keysToRemove.Count > 0)
+                {
+                    foreach (var key in keysToRemove)
+                    {
+                        _accountCache.Remove(key);
+                    }
+                    SaveCache();
+                    Debug.Log($"Cleaned up {keysToRemove.Count} stale account(s) from cache");
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"Failed to validate cached accounts: {e.Message}");
+            }
         }
 
         private static void OnSessionUpdated(ISession session)
@@ -83,37 +156,40 @@ namespace HiroEventLeaderboards
 
         public static async Task<ISession> SwitchAccountAsync(
             NakamaSystem nakamaSystem,
-            EventLeaderboardsController controller,
             string env,
             int accountIndex)
         {
-            var newSession = await AuthenticateAndStoreAccountAsync(nakamaSystem, controller, env, accountIndex);
+            Debug.Log($"[AccountSwitcher] SwitchAccountAsync: env={env}, accountIndex={accountIndex}");
+            // Set current index BEFORE authentication so OnSessionUpdated saves to correct key
             _currentEnv = env;
             _currentIndex = accountIndex;
+            var newSession = await AuthenticateAndStoreAccountAsync(nakamaSystem, env, accountIndex);
+            Debug.Log($"[AccountSwitcher] Switch complete: user={newSession.Username}, userId={newSession.UserId}");
             AccountSwitched?.Invoke();
             return newSession;
         }
 
         public static async Task SwitchToSessionAsync(
             NakamaSystem nakamaSystem,
-            EventLeaderboardsController controller,
             ISession newSession)
         {
-            await ApplySessionAsync(nakamaSystem, controller, newSession);
+            await ApplySessionAsync(nakamaSystem, newSession);
             AccountSwitched?.Invoke();
         }
 
         private static async Task<ISession> AuthenticateAndStoreAccountAsync(
             NakamaSystem nakamaSystem,
-            EventLeaderboardsController controller,
             string env,
             int accountIndex)
         {
+            Debug.Log($"[AccountSwitcher] AuthenticateAndStoreAccountAsync: env={env}, accountIndex={accountIndex}");
             var newSession = await HiroEventLeaderboardsCoordinator.NakamaAuthorizerFunc(env, accountIndex)
                 .Invoke(nakamaSystem.Client);
-            await ApplySessionAsync(nakamaSystem, controller, newSession);
+            Debug.Log($"[AccountSwitcher] Got session: user={newSession.Username}, userId={newSession.UserId}");
+            await ApplySessionAsync(nakamaSystem, newSession);
 
             var key = $"{env}_{accountIndex}";
+            Debug.Log($"[AccountSwitcher] Storing account: key={key}, user={newSession.Username}");
             StoreAccountInfo(key, new AccountInfo
             {
                 Username = newSession.Username,
@@ -125,7 +201,6 @@ namespace HiroEventLeaderboards
 
         private static async Task ApplySessionAsync(
             NakamaSystem nakamaSystem,
-            EventLeaderboardsController controller,
             ISession newSession)
         {
             if (nakamaSystem.Session is not Session session)
@@ -134,12 +209,16 @@ namespace HiroEventLeaderboards
 
             session.Update(newSession.AuthToken, newSession.RefreshToken);
             await nakamaSystem.RefreshAsync();
-            await controller.SwitchCompleteAsync();
         }
 
         public static void StoreAccountInfo(string key, AccountInfo info)
         {
             LoadCache();
+            Debug.Log($"[AccountSwitcher] StoreAccountInfo: key={key}, user={info.Username}, userId={info.UserId}");
+            if (_accountCache.TryGetValue(key, out var existing))
+            {
+                Debug.Log($"[AccountSwitcher] Overwriting existing: user={existing.Username}, userId={existing.UserId}");
+            }
             _accountCache[key] = info;
             SaveCache();
         }
@@ -222,15 +301,25 @@ namespace HiroEventLeaderboards
             return deviceId;
         }
 
+        public static void ClearSessionTokens(string env, int count = 4)
+        {
+            for (var i = 0; i < count; i++)
+            {
+                var keySuffix = $"{env}_{i}";
+                PlayerPrefs.DeleteKey($"{PlayerPrefsAuthToken}_{keySuffix}");
+                PlayerPrefs.DeleteKey($"{PlayerPrefsRefreshToken}_{keySuffix}");
+            }
+            PlayerPrefs.Save();
+        }
+
         public static void ClearAccounts()
         {
             _accountCache = new Dictionary<string, AccountInfo>();
             PlayerPrefs.DeleteKey(AccountDataKey);
 
-            // Also clear auth tokens for all environments and indices
             foreach (var env in new[] { "local", "heroiclabs" })
             {
-                PlayerPrefs.DeleteKey($"nakama.DeviceId_{env}");
+                PlayerPrefs.DeleteKey($"{PlayerPrefsDeviceId}_{env}");
                 for (var i = 0; i < 4; i++)
                 {
                     var keySuffix = $"{env}_{i}";
@@ -244,37 +333,47 @@ namespace HiroEventLeaderboards
 
         public static async Task EnsureAccountsExistAsync(
             NakamaSystem nakamaSystem,
-            EventLeaderboardsController controller,
             string env,
             int count = 4)
         {
+            Debug.Log($"[AccountSwitcher] EnsureAccountsExistAsync: env={env}, count={count}");
+
             // Unsubscribe during bulk account creation - NakamaAuthorizerFunc stores tokens correctly
             if (_nakamaSystem != null)
                 _nakamaSystem.Client.ReceivedSessionUpdated -= OnSessionUpdated;
 
+            // Clear stale session tokens to force re-authentication
+            Debug.Log($"[AccountSwitcher] Clearing session tokens for env={env}");
+            ClearSessionTokens(env, count);
+
             try
             {
-                var accountsCreated = false;
                 for (var i = 0; i < count; i++)
                 {
-                    var key = $"{env}_{i}";
-                    LoadCache();
-                    if (!_accountCache.ContainsKey(key))
-                    {
-                        _currentEnv = env;
-                        _currentIndex = i;
-                        await AuthenticateAndStoreAccountAsync(nakamaSystem, controller, env, i);
-                        accountsCreated = true;
-                    }
+                    Debug.Log($"[AccountSwitcher] === Creating account {i} ===");
+                    _currentEnv = env;
+                    _currentIndex = i;
+                    await AuthenticateAndStoreAccountAsync(nakamaSystem, env, i);
                 }
 
-                if (accountsCreated)
-                    AccountSwitched?.Invoke();
+                Debug.Log("[AccountSwitcher] All accounts created, dumping cache:");
+                DumpAccountCache();
+
+                AccountSwitched?.Invoke();
             }
             finally
             {
                 if (_nakamaSystem != null)
                     _nakamaSystem.Client.ReceivedSessionUpdated += OnSessionUpdated;
+            }
+        }
+
+        private static void DumpAccountCache()
+        {
+            LoadCache();
+            foreach (var kvp in _accountCache)
+            {
+                Debug.Log($"[AccountSwitcher] Cache: key={kvp.Key}, user={kvp.Value.Username}, userId={kvp.Value.UserId}");
             }
         }
 

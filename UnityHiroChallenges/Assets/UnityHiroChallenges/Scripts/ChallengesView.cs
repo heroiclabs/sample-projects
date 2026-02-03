@@ -142,6 +142,8 @@ namespace HiroChallenges
             {
                 ThrowIfDisposedOrCancelled();
                 _challengesListSpinner.Show();
+                HideSelectedChallengePanel();
+                await _controller.SwitchCompleteAsync();
                 await RefreshChallengesAsync();
             }
             catch (OperationCanceledException)

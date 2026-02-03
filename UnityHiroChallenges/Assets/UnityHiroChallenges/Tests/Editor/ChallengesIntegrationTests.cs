@@ -98,6 +98,50 @@ namespace HiroChallenges.Tests.Editor
             Debug.Log($"Created challenge, now have {_controller.Challenges.Count} challenges");
         }
 
+        /// <summary>
+        /// Tests that stale accounts are automatically cleaned up from the cache
+        /// when AccountSwitcher is initialized, preventing invalid user suggestions.
+        /// </summary>
+        [Test]
+        public async Task AccountSwitcher_OnInitialize_RemovesStaleAccountsFromCache()
+        {
+            // Setup: Store a fake/stale user ID in AccountSwitcher cache
+            var staleUsername = "StaleTestUser";
+            var staleUserId = Guid.NewGuid().ToString(); // Non-existent user ID
+
+            AccountSwitcher.StoreAccountInfo("stale_test", new AccountSwitcher.AccountInfo
+            {
+                Username = staleUsername,
+                UserId = staleUserId
+            });
+
+            try
+            {
+                // Verify the stale username is in the cache before re-initialization
+                var knownUsernamesBefore = new List<string>(AccountSwitcher.GetKnownUsernames());
+                Assert.Contains(staleUsername, knownUsernamesBefore,
+                    "Stale username should be in cache before re-initialization");
+
+                // Re-initialize AccountSwitcher - this triggers cleanup of stale accounts
+                AccountSwitcher.Initialize(_nakamaSystem, "test");
+
+                // Give time for async cleanup to complete
+                await Task.Delay(500);
+
+                // Verify the stale username has been removed from cache
+                var knownUsernamesAfter = new List<string>(AccountSwitcher.GetKnownUsernames());
+                Assert.IsFalse(knownUsernamesAfter.Contains(staleUsername),
+                    "Stale username should be removed from cache after re-initialization");
+
+                Debug.Log("Stale account was correctly cleaned up during initialization");
+            }
+            finally
+            {
+                // Clean up
+                AccountSwitcher.ClearAccounts();
+            }
+        }
+
         [Test]
         public async Task SelectChallengeAsync_AfterCreate_ReturnsDetails()
         {
@@ -350,12 +394,12 @@ namespace HiroChallenges.Tests.Editor
             var userIds = new string[4];
             for (var i = 0; i < 4; i++)
             {
-                var session = await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, _controller, "test", i);
+                var session = await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, "test", i);
                 userIds[i] = session.UserId;
             }
 
             // Switch to Account 0: Load templates and create challenge with 1 invitee
-            await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, _controller, "test", 0);
+            await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, "test", 0);
             var templates = await _controller.LoadChallengeTemplatesAsync();
             var templateId = templates[0].Id;
             var defaults = _controller.GetCreationDefaults();
@@ -379,7 +423,7 @@ namespace HiroChallenges.Tests.Editor
             await _controller.SubmitScoreAsync(10, 0);
 
             // Switch to Account 1, join and submit score 25
-            await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, _controller, "test", 1);
+            await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, "test", 1);
             var participants1 = await _controller.SelectChallengeAsync(challengeId);
             Assert.AreEqual(createdChallenge.Id, _controller.SelectedChallenge.Id);
             var challenge1 = _controller.SelectedChallenge;
@@ -405,13 +449,13 @@ namespace HiroChallenges.Tests.Editor
             await _controller.SubmitScoreAsync(25, 0);
 
             // Switch back to Account 0 to invite Accounts 2 and 3
-            await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, _controller, "test", 0);
+            await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, "test", 0);
             await _controller.SelectChallengeAsync(challengeId);
             Assert.AreEqual(createdChallenge.Id, _controller.SelectedChallenge.Id);
             await _controller.InviteToChallengeAsync(new[] { userIds[2], userIds[3] });
 
             // Switch to Account 2, join and submit score 50
-            await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, _controller, "test", 2);
+            await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, "test", 2);
             var participants2 = await _controller.SelectChallengeAsync(challengeId);
             Assert.AreEqual(createdChallenge.Id, _controller.SelectedChallenge.Id);
             var challenge2 = _controller.SelectedChallenge;
@@ -433,7 +477,7 @@ namespace HiroChallenges.Tests.Editor
             await _controller.SubmitScoreAsync(50, 0);
 
             // Switch to Account 3, join and submit score 75
-            await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, _controller, "test", 3);
+            await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, "test", 3);
             var participants3 = await _controller.SelectChallengeAsync(challengeId);
             Assert.AreEqual(createdChallenge.Id, _controller.SelectedChallenge.Id);
             var challenge3 = _controller.SelectedChallenge;
@@ -454,7 +498,7 @@ namespace HiroChallenges.Tests.Editor
             await _controller.SubmitScoreAsync(75, 0);
 
             // Switch back to Account 0 to verify final state
-            await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, _controller, "test", 0);
+            await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, "test", 0);
             var participants = await _controller.SelectChallengeAsync(challengeId);
             Assert.AreEqual(createdChallenge.Id, _controller.SelectedChallenge.Id);
             Assert.IsNotNull(participants);
@@ -520,7 +564,7 @@ namespace HiroChallenges.Tests.Editor
             await _controller.SubmitScoreAsync(10, 0);
 
             // Account 1 joins and submits score
-            await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, _controller, "test", 1);
+            await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, "test", 1);
             await _controller.SelectChallengeAsync(challengeId);
             await _controller.JoinChallengeAsync();
             await _controller.SubmitScoreAsync(20, 0);
@@ -529,7 +573,7 @@ namespace HiroChallenges.Tests.Editor
             // Account 0: Joined, Account 1: Joined, Account 2: Invited (not yet joined)
 
             // Switch to Account 2 (invited but not joined)
-            await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, _controller, "test", 2);
+            await AccountSwitcher.SwitchAccountAsync(_nakamaSystem, "test", 2);
             var participants = await _controller.SelectChallengeAsync(challengeId);
             var challenge = _controller.SelectedChallenge;
             var participant = _controller.GetCurrentParticipant(participants);
