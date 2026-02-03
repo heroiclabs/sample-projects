@@ -361,9 +361,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1350379564}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d09862c4a7ec4898bc057b8378ab100c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HiroChallenges.HiroChallengesController
+  m_Script: {fileID: 11500000, guid: 7488278b7ab644115bc4b27ac7b64ef7, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::HiroAchievements.AchievementsView
   achievementItemTemplate: {fileID: 9197481963319205126, guid: 8dd3c785e50de45048715a68169a3967, type: 3}
   subAchievementItemTemplate: {fileID: 9197481963319205126, guid: 7f17426476a504b17893b1f0f966e366, type: 3}
   achievementIconMappings:

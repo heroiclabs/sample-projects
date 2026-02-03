@@ -18,6 +18,7 @@
     -unity-background-image-tint-color: rgb(121, 99, 255);
     transition-property: scale;
     transition-duration: 0.1s;
+    cursor: arrow;
 }
 
 .heroic-button:hover:enabled {
@@ -727,4 +728,13 @@
 
 .heroic-button--secondary:active {
     -unity-background-image-tint-color: rgb(255, 255, 255);
+}
+
+/* Prevent runtime cursor warnings - use default arrow cursor for all interactive elements */
+Button {
+    cursor: arrow;
+}
+
+.unity-button {
+    cursor: arrow;
 }

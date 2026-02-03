@@ -10,14 +10,16 @@ namespace HiroAchievements
 {
     public class HiroAchievementsCoordinator : HiroCoordinator
     {
-        [Header("Overrides Nakama Settings")] 
+        [Header("Overrides Nakama Settings")]
         [SerializeField] private bool localHost;
 
-        [Header("Nakama Settings")] 
+        [Header("Nakama Settings")]
         [SerializeField] private string scheme = "http";
         [SerializeField] private string host = "127.0.0.1";
         [SerializeField] private int port = 7350;
         [SerializeField] private string serverKey = "defaultkey";
+
+        public bool IsLocalHost => localHost;
 
         public event Action<Exception> ReceivedStartError;
         public event Action<ISession> ReceivedStartSuccess;
@@ -66,32 +68,60 @@ namespace HiroAchievements
                 var expiredDate = DateTime.UtcNow.AddHours(1);
                 if (session != null && !session.HasRefreshExpired(expiredDate))
                 {
-                    return session;
+                    // Try to validate the session by getting account info
+                    try
+                    {
+                        // If we can get the account successfully, session is valid
+                        await client.GetAccountAsync(session);
+                        return session;
+                    }
+                    catch (ApiResponseException ex) when (ex.Message.Contains("User account not found"))
+                    {
+                        // Session is invalid, clear it and create a new one
+                        Debug.LogWarning("Invalid session detected (user account not found). Creating new session.");
+                        session = null;
+                    }
+                    catch (ApiResponseException ex) when (ex.Message.Contains("Session has expired"))
+                    {
+                        // Session has expired, clear it and create a new one
+                        Debug.LogWarning("Expired session detected. Creating new session.");
+                        session = null;
+                    }
+                    catch (Exception ex)
+                    {
+                        // Any other error in session validation, clear and recreate
+                        Debug.LogWarning($"Session validation failed: {ex.Message}. Creating new session.");
+                        session = null;
+                    }
                 }
 
-                // Attempt to read the device ID to use for Authentication.
-                var deviceId = PlayerPrefs.GetString(playerPrefsDeviceId, SystemInfo.deviceUniqueIdentifier);
-                if (deviceId == SystemInfo.unsupportedIdentifier)
+                // If we don't have a valid session, create a new one
+                if (session == null)
                 {
-                    deviceId = Guid.NewGuid().ToString();
-                }
+                    // Attempt to read the device ID to use for Authentication.
+                    var deviceId = PlayerPrefs.GetString(playerPrefsDeviceId, SystemInfo.deviceUniqueIdentifier);
+                    if (deviceId == SystemInfo.unsupportedIdentifier)
+                    {
+                        deviceId = Guid.NewGuid().ToString();
+                    }
 
-                // Due to the Account Switcher tool, we might need to logout before re-authenticating.
-                if (session is { Created: true })
-                {
-                    await client.SessionLogoutAsync(session);
-                }
+                    // Due to the Account Switcher tool, we might need to logout before re-authenticating.
+                    if (session is { Created: true })
+                    {
+                        await client.SessionLogoutAsync(session);
+                    }
 
-                session = await client.AuthenticateDeviceAsync($"{deviceId}_{index}");
+                    session = await client.AuthenticateDeviceAsync($"{deviceId}_{index}");
 
-                // Store tokens to avoid needing to re-authenticate next time.
-                PlayerPrefs.SetString(playerPrefsDeviceId, deviceId);
-                PlayerPrefs.SetString($"{playerPrefsAuthToken}_{index}", session.AuthToken);
-                PlayerPrefs.SetString($"{playerPrefsRefreshToken}_{index}", session.RefreshToken);
+                    // Store tokens to avoid needing to re-authenticate next time.
+                    PlayerPrefs.SetString(playerPrefsDeviceId, deviceId);
+                    PlayerPrefs.SetString($"{playerPrefsAuthToken}_{index}", session.AuthToken);
+                    PlayerPrefs.SetString($"{playerPrefsRefreshToken}_{index}", session.RefreshToken);
 
-                if (session.Created)
-                {
-                    Debug.LogFormat("New user account '{0}' created.", session.UserId);
+                    if (session.Created)
+                    {
+                        Debug.LogFormat("New user account '{0}' created.", session.UserId);
+                    }
                 }
 
                 return session;

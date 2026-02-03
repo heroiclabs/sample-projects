@@ -25,6 +25,13 @@ namespace HiroAchievements
         {
             stop();
 
+            // Don't start if no valid reset time
+            if (timeRemaining <= 0)
+            {
+                _resetTimeLabel.text = "";
+                return;
+            }
+
             _cts = new CancellationTokenSource();
             var token = _cts.Token;
 
@@ -46,11 +53,11 @@ namespace HiroAchievements
             }
             catch (OperationCanceledException)
             {
-                Debug.Log("Timer task was cancelled.");
+                // Expected when timer is stopped
             }
             catch (Exception e)
             {
-                Debug.LogError($"Timer Error: {e.Message}");
+                Debug.LogException(e);
             }
         }
 
@@ -69,8 +76,7 @@ namespace HiroAchievements
         private void Complete()
         {
             stop();
-            _ = _achievementsView.RefreshAchievementsList();
-            Debug.Log("Timer Reached Zero - Refreshing List");
+            _achievementsView.RefreshAchievementsList();
         }
 
         void UpdateTimerDisplay(float seconds)

@@ -39,6 +39,15 @@ namespace HiroChallenges.Editor
 
         private void CreateGUI()
         {
+            // Load the UXML file programmatically
+            var treePath = "Assets/UnityHiroChallenges/Editor/AccountSwitcher.uxml";
+            tree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(treePath);
+            if (tree == null)
+            {
+                Debug.LogError($"Failed to load AccountSwitcher UXML from {treePath}");
+                return;
+            }
+            
             tree.CloneTree(rootVisualElement);
 
             accountDropdown = rootVisualElement.Q<DropdownField>("account-dropdown");
