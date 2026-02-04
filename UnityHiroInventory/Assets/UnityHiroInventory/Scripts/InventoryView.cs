@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Hiro;
 using HeroicUI;
-using UnityEditor.UIElements;
+using HeroicUtils;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -49,18 +49,18 @@ namespace HiroInventory
         private VisualElement _numericPropertiesList;
 
         private VisualElement _grantModal;
-        private IntegerField _grantQuantityField;
+        private TextField _grantQuantityField;
         private Button _grantModalButton;
         private Button _grantModalCloseButton;
 
         private VisualElement _consumeModal;
-        private IntegerField _consumeQuantityField;
+        private TextField _consumeQuantityField;
         private Toggle _consumeOverconsumeToggle;
         private Button _consumeModalButton;
         private Button _consumeModalCloseButton;
 
         private VisualElement _removeModal;
-        private IntegerField _removeQuantityField;
+        private TextField _removeQuantityField;
         private Button _removeModalButton;
         private Button _removeModalCloseButton;
 
@@ -159,7 +159,7 @@ namespace HiroInventory
             {
                 var selectedItem = _controller.GetSelectedItem();
                 if (selectedItem == null || !selectedItem.Consumable) return;
-                _consumeQuantityField.value = 1;
+                _consumeQuantityField.value = "1";
                 _consumeOverconsumeToggle.value = false;
                 _consumeModal.style.display = DisplayStyle.Flex;
             });
@@ -168,7 +168,7 @@ namespace HiroInventory
             _removeButton.RegisterCallback<ClickEvent>(_ =>
             {
                 if (_controller.GetSelectedItem() == null) return;
-                _removeQuantityField.value = 1;
+                _removeQuantityField.value = "1";
                 _removeModal.style.display = DisplayStyle.Flex;
             });
 
@@ -202,7 +202,7 @@ namespace HiroInventory
 
             // Grant modal
             _grantModal = rootElement.Q<VisualElement>("grant-modal");
-            _grantQuantityField = rootElement.Q<IntegerField>("grant-modal-quantity");
+            _grantQuantityField = rootElement.Q<TextField>("grant-modal-quantity");
             _grantModalButton = rootElement.Q<Button>("grant-modal-grant");
             _grantModalButton.RegisterCallback<ClickEvent>(_ => OnGrantClicked());
             _grantModalCloseButton = rootElement.Q<Button>("grant-modal-close");
@@ -211,7 +211,7 @@ namespace HiroInventory
 
             // Consume modal
             _consumeModal = rootElement.Q<VisualElement>("consume-modal");
-            _consumeQuantityField = rootElement.Q<IntegerField>("consume-modal-quantity");
+            _consumeQuantityField = rootElement.Q<TextField>("consume-modal-quantity");
             _consumeOverconsumeToggle = rootElement.Q<Toggle>("consume-modal-overconsume");
             _consumeModalButton = rootElement.Q<Button>("consume-modal-consume");
             _consumeModalButton.RegisterCallback<ClickEvent>(_ => OnConsumeClicked());
@@ -221,7 +221,7 @@ namespace HiroInventory
 
             // Remove modal
             _removeModal = rootElement.Q<VisualElement>("remove-modal");
-            _removeQuantityField = rootElement.Q<IntegerField>("remove-modal-quantity");
+            _removeQuantityField = rootElement.Q<TextField>("remove-modal-quantity");
             _removeModalButton = rootElement.Q<Button>("remove-modal-remove");
             _removeModalButton.RegisterCallback<ClickEvent>(_ => OnRemoveClicked());
             _removeModalCloseButton = rootElement.Q<Button>("remove-modal-close");
@@ -311,7 +311,7 @@ namespace HiroInventory
             try
             {
                 ThrowIfDisposedOrCancelled();
-                await _controller.GrantItemAsync(_grantItemDropdown.index, _grantQuantityField.value);
+                await _controller.GrantItemAsync(_grantItemDropdown.index, int.Parse(_grantQuantityField.value));
                 _grantModal.style.display = DisplayStyle.None;
                 await RefreshInventoryAsync();
             }
@@ -336,7 +336,7 @@ namespace HiroInventory
             try
             {
                 ThrowIfDisposedOrCancelled();
-                await _controller.ConsumeItemAsync(_consumeQuantityField.value, _consumeOverconsumeToggle.value);
+                await _controller.ConsumeItemAsync(int.Parse(_consumeQuantityField.value), _consumeOverconsumeToggle.value);
                 _consumeModal.style.display = DisplayStyle.None;
                 await RefreshInventoryAsync();
             }
@@ -356,7 +356,7 @@ namespace HiroInventory
             try
             {
                 ThrowIfDisposedOrCancelled();
-                await _controller.RemoveItemAsync(_removeQuantityField.value);
+                await _controller.RemoveItemAsync(int.Parse(_removeQuantityField.value));
                 _removeModal.style.display = DisplayStyle.None;
                 await RefreshInventoryAsync();
             }

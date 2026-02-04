@@ -1,11 +1,11 @@
 using System.Text;
+using HeroicUtils;
 using Nakama;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using HiroAchievements;
 
-namespace HiroAchievements.Editor
+namespace HeroicUtils.Editor
 {
     public class AccountSwitcherEditor : EditorWindow
     {
@@ -40,15 +40,6 @@ namespace HiroAchievements.Editor
 
         private void CreateGUI()
         {
-            // Load the UXML file programmatically
-            var treePath = "Assets/UnityHiroAchievements/Editor/AccountSwitcher.uxml";
-            tree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(treePath);
-            if (tree == null)
-            {
-                Debug.LogError($"Failed to load AccountSwitcher UXML from {treePath}");
-                return;
-            }
-            
             tree.CloneTree(rootVisualElement);
 
             accountDropdown = rootVisualElement.Q<DropdownField>("account-dropdown");

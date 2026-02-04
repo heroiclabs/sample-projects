@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Hiro;
 using Hiro.Unity;
+using HeroicUtils;
 using Nakama;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -22,10 +23,6 @@ namespace HiroAchievements
     [RequireComponent(typeof(UIDocument))]
     public class AchievementsViewBehaviour : MonoBehaviour
     {
-        [Header("UI Templates")]
-        [SerializeField] private VisualTreeAsset _achievementItemTemplate;
-        [SerializeField] private VisualTreeAsset _subAchievementItemTemplate;
-
         [Header("Icons")]
         [SerializeField] private AchievementIconMapping[] _achievementIconMappings;
         [SerializeField] private Sprite _defaultIcon;
@@ -71,12 +68,15 @@ namespace HiroAchievements
             var env = _coordinator.IsLocalHost ? "local" : "heroiclabs";
             AccountSwitcher.Initialize(nakamaSystem, env);
 
+            var achievementItemTemplate = Resources.Load<VisualTreeAsset>("AchievementsItemTemplate");
+            var subAchievementItemTemplate = Resources.Load<VisualTreeAsset>("SubAchievementItemTemplate");
+
             var uiDocument = GetComponent<UIDocument>();
             _view = new AchievementsView(
                 Controller,
                 uiDocument.rootVisualElement,
-                _achievementItemTemplate,
-                _subAchievementItemTemplate,
+                achievementItemTemplate,
+                subAchievementItemTemplate,
                 BuildIconDictionary(),
                 _defaultIcon);
 

@@ -19,9 +19,9 @@ using System.Threading.Tasks;
 using Hiro;
 using Hiro.System;
 using HeroicUI;
+using HeroicUtils;
 using Nakama;
 using Nakama.TinyJson;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -96,7 +96,7 @@ namespace HiroTeams
         private TextField _searchNameField;
         private DropdownField _searchLanguageDropdown;
         private DropdownField _searchOpenFilterDropdown;
-        private IntegerField _searchMinActivityField;
+        private TextField _searchMinActivityField;
         private Button _searchModalSearchButton;
         private Button _searchModalClearButton;
         private Button _searchModalCloseButton;
@@ -298,7 +298,7 @@ namespace HiroTeams
             _searchNameField = rootElement.Q<TextField>("search-name");
             _searchLanguageDropdown = rootElement.Q<DropdownField>("search-language");
             _searchOpenFilterDropdown = rootElement.Q<DropdownField>("search-open-filter");
-            _searchMinActivityField = rootElement.Q<IntegerField>("search-min-activity");
+            _searchMinActivityField = rootElement.Q<TextField>("search-min-activity");
 
             _searchModalSearchButton = rootElement.Q<Button>("search-modal-search");
             _searchModalSearchButton.RegisterCallback<ClickEvent>(evt => _ = SearchTeamsAsync());
@@ -356,7 +356,7 @@ namespace HiroTeams
                 (item.userData as TeamView)?.SetTeam(_controller.Teams[index]);
             };
             _teamsList.itemsSource = _controller.Teams;
-            _teamsList.selectionChanged += objects => _ = SelectTeamAsync();
+            _teamsList.onSelectionChange += objects => { _ = SelectTeamAsync(); };
 
             _teamsScrollView = _teamsList.Q<ScrollView>();
             _teamsScrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
@@ -939,7 +939,7 @@ namespace HiroTeams
             {
                 ThrowIfDisposedOrCancelled();
                 var name = _searchNameField.value;
-                var minActivity = _searchMinActivityField.value;
+                int.TryParse(_searchMinActivityField.value, out var minActivity);
 
                 if (!string.IsNullOrEmpty(name) && name.Length < 3)
                 {
@@ -976,7 +976,7 @@ namespace HiroTeams
             _searchNameField.value = string.Empty;
             _searchLanguageDropdown.index = 0;
             _searchOpenFilterDropdown.index = 0;
-            _searchMinActivityField.value = 0;
+            _searchMinActivityField.value = "0";
             _ = RefreshTeamsAsync();
             HideSearchModal();
         }

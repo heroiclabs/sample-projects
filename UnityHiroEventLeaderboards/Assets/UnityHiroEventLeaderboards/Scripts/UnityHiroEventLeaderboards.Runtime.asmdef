@@ -5,7 +5,7 @@
         "NakamaRuntime",
         "UnityHiroEventLeaderboards.HeroicUI"
     ],
-    "includePlatforms": ["Editor"],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,

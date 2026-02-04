@@ -396,45 +396,57 @@ namespace HiroAchievements.Tests.Editor
         [Test]
         public async Task UpdateAchievementProgressAsync_NullId_ThrowsException()
         {
-            var ex = Assert.ThrowsAsync<Exception>(async () =>
+            try
             {
                 await _controller.UpdateAchievementProgressAsync(null, 1);
-            });
-
-            Assert.IsTrue(ex.Message.Contains("Invalid achievement ID"));
+                Assert.Fail("Expected exception was not thrown");
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(ex.Message.Contains("Invalid achievement ID"));
+            }
         }
 
         [Test]
         public async Task UpdateAchievementProgressAsync_EmptyId_ThrowsException()
         {
-            var ex = Assert.ThrowsAsync<Exception>(async () =>
+            try
             {
                 await _controller.UpdateAchievementProgressAsync("", 1);
-            });
-
-            Assert.IsTrue(ex.Message.Contains("Invalid achievement ID"));
+                Assert.Fail("Expected exception was not thrown");
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(ex.Message.Contains("Invalid achievement ID"));
+            }
         }
 
         [Test]
         public async Task UpdateAchievementProgressAsync_ZeroProgress_ThrowsException()
         {
-            var ex = Assert.ThrowsAsync<Exception>(async () =>
+            try
             {
                 await _controller.UpdateAchievementProgressAsync("some_id", 0);
-            });
-
-            Assert.IsTrue(ex.Message.Contains("Progress must be greater than 0"));
+                Assert.Fail("Expected exception was not thrown");
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(ex.Message.Contains("Progress must be greater than 0"));
+            }
         }
 
         [Test]
         public async Task UpdateAchievementProgressAsync_NegativeProgress_ThrowsException()
         {
-            var ex = Assert.ThrowsAsync<Exception>(async () =>
+            try
             {
                 await _controller.UpdateAchievementProgressAsync("some_id", -1);
-            });
-
-            Assert.IsTrue(ex.Message.Contains("Progress must be greater than 0"));
+                Assert.Fail("Expected exception was not thrown");
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(ex.Message.Contains("Progress must be greater than 0"));
+            }
         }
 
         [Test]
@@ -493,12 +505,15 @@ namespace HiroAchievements.Tests.Editor
         [Test]
         public async Task UpdateSelectedAchievementProgressAsync_NoSelection_ThrowsException()
         {
-            var ex = Assert.ThrowsAsync<Exception>(async () =>
+            try
             {
                 await _controller.UpdateSelectedAchievementProgressAsync(1);
-            });
-
-            Assert.IsTrue(ex.Message.Contains("No achievement selected"));
+                Assert.Fail("Expected exception was not thrown");
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(ex.Message.Contains("No achievement selected"));
+            }
         }
 
         [Test]
@@ -540,23 +555,29 @@ namespace HiroAchievements.Tests.Editor
         [Test]
         public async Task ClaimAchievementRewardAsync_NullId_ThrowsException()
         {
-            var ex = Assert.ThrowsAsync<Exception>(async () =>
+            try
             {
                 await _controller.ClaimAchievementRewardAsync(null);
-            });
-
-            Assert.IsTrue(ex.Message.Contains("Invalid achievement ID"));
+                Assert.Fail("Expected exception was not thrown");
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(ex.Message.Contains("Invalid achievement ID"));
+            }
         }
 
         [Test]
         public async Task ClaimAchievementRewardAsync_EmptyId_ThrowsException()
         {
-            var ex = Assert.ThrowsAsync<Exception>(async () =>
+            try
             {
                 await _controller.ClaimAchievementRewardAsync("");
-            });
-
-            Assert.IsTrue(ex.Message.Contains("Invalid achievement ID"));
+                Assert.Fail("Expected exception was not thrown");
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(ex.Message.Contains("Invalid achievement ID"));
+            }
         }
 
         #endregion
@@ -566,12 +587,15 @@ namespace HiroAchievements.Tests.Editor
         [Test]
         public async Task ClaimSelectedAchievementRewardAsync_NoSelection_ThrowsException()
         {
-            var ex = Assert.ThrowsAsync<Exception>(async () =>
+            try
             {
                 await _controller.ClaimSelectedAchievementRewardAsync();
-            });
-
-            Assert.IsTrue(ex.Message.Contains("No achievement selected"));
+                Assert.Fail("Expected exception was not thrown");
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(ex.Message.Contains("No achievement selected"));
+            }
         }
 
         #endregion

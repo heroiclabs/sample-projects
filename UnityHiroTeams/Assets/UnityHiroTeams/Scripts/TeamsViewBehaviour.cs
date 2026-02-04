@@ -15,6 +15,7 @@
 using System;
 using Hiro;
 using Hiro.Unity;
+using HeroicUtils;
 using Nakama;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -30,11 +31,6 @@ namespace HiroTeams
     {
         [Header("Team Settings")]
         [SerializeField] private int teamEntriesLimit = 100;
-
-        [Header("References")]
-        [SerializeField] private VisualTreeAsset teamEntryTemplate;
-        [SerializeField] private VisualTreeAsset teamMemberTemplate;
-        [SerializeField] private VisualTreeAsset mailboxEntryTemplate;
 
         [Header("Avatar Assets")]
         [SerializeField] private Texture2D[] avatarIcons;
@@ -98,6 +94,10 @@ namespace HiroTeams
 
             var env = _coordinator.IsLocalHost ? "local" : "heroiclabs";
             AccountSwitcher.Initialize(_nakamaSystem, env);
+
+            var teamEntryTemplate = Resources.Load<VisualTreeAsset>("Team");
+            var teamMemberTemplate = Resources.Load<VisualTreeAsset>("TeamMember");
+            var mailboxEntryTemplate = Resources.Load<VisualTreeAsset>("MailboxEntry");
 
             var rootElement = GetComponent<UIDocument>().rootVisualElement;
             _view = new TeamsView(

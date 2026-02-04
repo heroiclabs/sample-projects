@@ -19,10 +19,10 @@ using System.Threading.Tasks;
 using Hiro;
 using Hiro.System;
 using Hiro.Unity;
-using UnityEditor.UIElements;
+using HeroicUI;
+using HeroicUtils;
 using UnityEngine;
 using UnityEngine.UIElements;
-using HeroicUI;
 
 namespace HiroChallenges
 {
@@ -62,7 +62,7 @@ namespace HiroChallenges
         private VisualElement _createModal;
         private DropdownField _modalTemplateDropdown;
         private TextField _modalNameField;
-        private IntegerField _modalMaxParticipantsField;
+        private TextField _modalMaxParticipantsField;
         private TextField _modalInvitees;
         private SliderInt _modalChallengeDelay;
         private Label _modalChallengeDelayLabel;
@@ -73,8 +73,8 @@ namespace HiroChallenges
         private Button _modalCloseButton;
 
         private VisualElement _submitScoreModal;
-        private IntegerField _scoreField;
-        private IntegerField _subScoreField;
+        private TextField _scoreField;
+        private TextField _subScoreField;
         private Button _submitScoreModalButton;
         private Button _submitScoreModalCloseButton;
 
@@ -363,7 +363,7 @@ namespace HiroChallenges
             });
 
             _modalNameField = _createModal.RequireElement<TextField>("create-modal-name");
-            _modalMaxParticipantsField = _createModal.RequireElement<IntegerField>("create-modal-max-participants");
+            _modalMaxParticipantsField = _createModal.RequireElement<TextField>("create-modal-max-participants");
 
             _modalInvitees = _createModal.RequireElement<TextField>("create-modal-invitees");
             RegisterAutocompleteHandler(_modalInvitees);
@@ -395,8 +395,8 @@ namespace HiroChallenges
         {
             _submitScoreModal = rootElement.RequireElement<VisualElement>("submit-score-modal");
 
-            _scoreField = _submitScoreModal.RequireElement<IntegerField>("submit-score-score");
-            _subScoreField = _submitScoreModal.RequireElement<IntegerField>("submit-score-subscore");
+            _scoreField = _submitScoreModal.RequireElement<TextField>("submit-score-score");
+            _subScoreField = _submitScoreModal.RequireElement<TextField>("submit-score-subscore");
 
             _submitScoreModalButton = _submitScoreModal.RequireElement<Button>("submit-score-modal-submit");
             _submitScoreModalButton.RegisterCallback<ClickEvent>(_ => SubmitScore());
@@ -746,7 +746,7 @@ namespace HiroChallenges
                 if (string.IsNullOrEmpty(challengeName))
                     throw new InvalidOperationException("Please enter a challenge name.");
 
-                var maxParticipants = _modalMaxParticipantsField.value;
+                var maxParticipants = int.Parse(_modalMaxParticipantsField.value);
                 if (maxParticipants < template.Players.Min || maxParticipants > template.Players.Max)
                     throw new InvalidOperationException(
                         $"Max participants must be between {template.Players.Min} and {template.Players.Max}.");
@@ -782,7 +782,7 @@ namespace HiroChallenges
             var defaults = _controller.GetCreationDefaults();
 
             _modalNameField.value = string.Empty;
-            _modalMaxParticipantsField.value = defaults.MaxParticipants;
+            _modalMaxParticipantsField.value = defaults.MaxParticipants.ToString();
             _modalInvitees.value = string.Empty;
             _modalChallengeDelay.value = defaults.DelaySeconds;
             _modalChallengeDuration.value = defaults.DurationSeconds;
@@ -826,16 +826,16 @@ namespace HiroChallenges
                 maxDuration);
             _modalChallengeDurationLabel.text = $"{_modalChallengeDuration.value}s";
 
-            _modalMaxParticipantsField.value = (int)Mathf.Clamp(
-                _modalMaxParticipantsField.value,
+            _modalMaxParticipantsField.value = ((int)Mathf.Clamp(
+                int.Parse(_modalMaxParticipantsField.value),
                 template.Players.Min,
-                template.Players.Max);
+                template.Players.Max)).ToString();
         }
 
         private void ShowSubmitScoreModal()
         {
-            _scoreField.value = 0;
-            _subScoreField.value = 0;
+            _scoreField.value = "0";
+            _subScoreField.value = "0";
             _submitScoreModal.Show();
         }
 
@@ -852,7 +852,7 @@ namespace HiroChallenges
             try
             {
                 ThrowIfDisposedOrCancelled();
-                await _controller.SubmitScoreAsync(_scoreField.value, _subScoreField.value);
+                await _controller.SubmitScoreAsync(int.Parse(_scoreField.value), int.Parse(_subScoreField.value));
                 await SelectChallengeAsync();
             }
             catch (OperationCanceledException)

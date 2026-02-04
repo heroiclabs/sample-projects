@@ -14,10 +14,10 @@ namespace HiroAchievements
         [SerializeField] private bool localHost;
 
         [Header("Nakama Settings")]
-        [SerializeField] private string scheme = "http";
-        [SerializeField] private string host = "127.0.0.1";
-        [SerializeField] private int port = 7350;
-        [SerializeField] private string serverKey = "defaultkey";
+        [SerializeField] private string scheme = "https";
+        [SerializeField] private string host = "sample-prjcts.eu-west1-a.nakamacloud.io";
+        [SerializeField] private int port = 443;
+        [SerializeField] private string serverKey = "uNezOE3FOprj6nPs";
 
         public bool IsLocalHost => localHost;
 

@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Hiro;
 using HeroicUI;
-using UnityEditor.UIElements;
+using HeroicUtils;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -49,7 +49,7 @@ namespace HiroAchievements
         private Button _claimButton;
 
         private VisualElement _progressModal;
-        private IntegerField _progressQuantityField;
+        private TextField _progressQuantityField;
         private Button _progressModalButton;
         private Button _progressModalCloseButton;
 
@@ -182,7 +182,7 @@ namespace HiroAchievements
 
             // Progress modal
             _progressModal = rootElement.Q<VisualElement>("progress-modal");
-            _progressQuantityField = rootElement.Q<IntegerField>("progress-modal-quantity");
+            _progressQuantityField = rootElement.Q<TextField>("progress-modal-quantity");
             _progressModalButton = rootElement.Q<Button>("progress-modal-update");
             _progressModalButton.RegisterCallback<ClickEvent>(_ => OnProgressModalSubmitClicked());
             _progressModalCloseButton = rootElement.Q<Button>("progress-modal-close");
@@ -291,7 +291,7 @@ namespace HiroAchievements
         private void OnProgressButtonClicked()
         {
             if (_controller.GetSelectedAchievement() == null) return;
-            _progressQuantityField.value = 1;
+            _progressQuantityField.value = "1";
 
             _progressModal.style.display = DisplayStyle.Flex;
         }
@@ -332,7 +332,7 @@ namespace HiroAchievements
             try
             {
                 ThrowIfDisposedOrCancelled();
-                await _controller.UpdateSelectedAchievementProgressAsync(_progressQuantityField.value);
+                await _controller.UpdateSelectedAchievementProgressAsync(int.Parse(_progressQuantityField.value));
                 _progressModal.style.display = DisplayStyle.None;
                 await RefreshAchievementsListAsync();
 

@@ -2,7 +2,7 @@
     "name": "UnityHiroAchievements.HeroicUI",
     "rootNamespace": "HeroicUI",
     "references": [],
-    "includePlatforms": ["Editor"],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

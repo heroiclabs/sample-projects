@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Hiro;
 using Hiro.Unity;
+using HeroicUtils;
 using Nakama;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -22,9 +23,6 @@ namespace HiroInventory
     [RequireComponent(typeof(UIDocument))]
     public class InventoryViewBehaviour : MonoBehaviour
     {
-        [Header("UI Templates")]
-        [SerializeField] private VisualTreeAsset _inventoryItemTemplate;
-
         [Header("Icons")]
         [SerializeField] private ItemIconMapping[] _itemIconMappings;
         [SerializeField] private Sprite _defaultIcon;
@@ -70,11 +68,13 @@ namespace HiroInventory
             var env = _coordinator.IsLocalHost ? "local" : "heroiclabs";
             AccountSwitcher.Initialize(nakamaSystem, env);
 
+            var inventoryItemTemplate = Resources.Load<VisualTreeAsset>("InventoryItemTemplate");
+
             var uiDocument = GetComponent<UIDocument>();
             _view = new InventoryView(
                 Controller,
                 uiDocument.rootVisualElement,
-                _inventoryItemTemplate,
+                inventoryItemTemplate,
                 BuildIconDictionary(),
                 _defaultIcon);
 

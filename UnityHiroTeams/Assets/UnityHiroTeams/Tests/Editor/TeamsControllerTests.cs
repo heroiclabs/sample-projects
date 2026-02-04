@@ -355,7 +355,7 @@ namespace HiroTeams.Tests.Editor
         #region GetPlayerMemberState Tests
 
         [Test]
-        public async Task GetPlayerMemberState_NotMember_ReturnsNone()
+        public void GetPlayerMemberState_NotMember_ReturnsNone()
         {
             var state = _controller.GetPlayerMemberState();
             Assert.AreEqual(TeamMemberState.None, state);

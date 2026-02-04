@@ -410,7 +410,6 @@
     -unity-slice-right: 25;
     -unity-slice-bottom: 25;
     background-color: rgba(0, 0, 0, 0);
-    -unity-slice-scale: 1.5px;
 }
 
 .heroic-error-popup__background {
@@ -460,8 +459,7 @@
 
 .heroic-divider {
     background-image: url("project://database/Assets/UnityHiroTeams/HeroicUI/Frame/divider_horizontal_dotline_transparent_gray.png?fileID=2800000&guid=96adb1bf817974235bc1fc635af8b2f3&type=3#divider_horizontal_dotline_transparent_gray");
-    background-size: 20px 4px;
-    background-repeat: space no-repeat;
+    -unity-background-scale-mode: stretch-to-fill;
     height: 4px;
 }
 

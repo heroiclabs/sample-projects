@@ -13,7 +13,7 @@ OcclusionCullingSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 10
+  serializedVersion: 9
   m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
@@ -42,8 +42,8 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 13
-  m_BakeOnSceneLoad: 0
+  serializedVersion: 12
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -66,6 +66,9 @@ LightmapSettings:
     m_LightmapParameters: {fileID: 0}
     m_LightmapsBakeMode: 1
     m_TextureCompression: 1
+    m_FinalGather: 0
+    m_FinalGatherFiltering: 1
+    m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_MixedBakeMode: 2
     m_BakeBackend: 1
@@ -100,7 +103,7 @@ NavMeshSettings:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_BuildSettings:
-    serializedVersion: 3
+    serializedVersion: 2
     agentTypeID: 0
     agentRadius: 0.5
     agentHeight: 2
@@ -113,7 +116,7 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualTileSize: 0
     tileSize: 256
-    buildHeightMesh: 0
+    accuratePlacement: 0
     maxJobWorkers: 0
     preserveTilesOutsideBounds: 0
     debug:
@@ -167,19 +170,8 @@ MonoBehaviour:
   m_Dithering: 0
   m_ClearDepth: 1
   m_AllowXRRendering: 1
-  m_AllowHDROutput: 1
-  m_UseScreenCoordOverride: 0
-  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
-  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
-  m_TaaSettings:
-    m_Quality: 3
-    m_FrameInfluence: 0.1
-    m_JitterScale: 1
-    m_MipBias: 0
-    m_VarianceClampScale: 0.9
-    m_ContrastAdaptiveSharpening: 0
   m_Version: 2
 --- !u!20 &519420031
 Camera:
@@ -195,17 +187,9 @@ Camera:
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
-  m_Iso: 200
-  m_ShutterSpeed: 0.005
-  m_Aperture: 16
-  m_FocusDistance: 10
-  m_FocalLength: 50
-  m_BladeCount: 5
-  m_Curvature: {x: 2, y: 11}
-  m_BarrelClipping: 0.25
-  m_Anamorphism: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -239,13 +223,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &634194744
 GameObject:
@@ -275,7 +259,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a710c21a5dfe1478aa3368b054f607e2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HiroChallenges.HiroChallengesCoordinator
+  m_EditorClassIdentifier: 
   localHost: 0
   scheme: https
   host: sample-prjcts.eu-west1-a.nakamacloud.io
@@ -288,13 +272,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 634194744}
-  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1350379564
 GameObject:
@@ -321,13 +305,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1350379564}
-  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1350379567
 MonoBehaviour:
@@ -345,13 +329,6 @@ MonoBehaviour:
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: a403953907f4646e9baccfebb3e6871e, type: 3}
   m_SortingOrder: 0
-  m_Position: 0
-  m_WorldSpaceSizeMode: 1
-  m_WorldSpaceWidth: 1920
-  m_WorldSpaceHeight: 1080
-  m_PivotReferenceSize: 0
-  m_Pivot: 0
-  m_WorldSpaceCollider: {fileID: 0}
 --- !u!114 &1350379568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,34 +338,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1350379564}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a, type: 3}
-  m_Name:
-  m_EditorClassIdentifier: Assembly-CSharp::HiroTeams.TeamsViewBehaviour
-  _teamEntriesLimit: 100
-  _teamEntryTemplate: {fileID: 9197481963319205126, guid: 7ed290a40a01c488e9211a3cd77bc058, type: 3}
-  _teamMemberTemplate: {fileID: 9197481963319205126, guid: 65a99b96b81cb495d85421f99f6f7c34, type: 3}
-  _mailboxEntryTemplate: {fileID: 9197481963319205126, guid: b6d19f193254c4d74ba83e774952da8f, type: 3}
-  _avatarIcons:
-  - {fileID: 2800000, guid: 8176dbc9a0f7145dcbb159234f38cfac, type: 3}
-  - {fileID: 2800000, guid: 2b3c08c2b0cb8489c913a85034dc6161, type: 3}
-  - {fileID: 2800000, guid: 0675395c846da48028df6d4ff121fe72, type: 3}
-  - {fileID: 2800000, guid: a372de48cd56f4c2492c37ca1eeef0a1, type: 3}
-  - {fileID: 2800000, guid: 3f3b5e7491bff4090906b1c9aaa45b16, type: 3}
-  - {fileID: 2800000, guid: f22b89725da27406db13cc854e3519fd, type: 3}
-  - {fileID: 2800000, guid: 66d6ca0dc03934a30b6bdff7ba67d7cd, type: 3}
-  - {fileID: 2800000, guid: 705769dfd0eae469ca8892f133e530eb, type: 3}
-  - {fileID: 2800000, guid: ebf3cba3c7ec541f4b40b0630f59071c, type: 3}
-  - {fileID: 2800000, guid: 01fce9d21320b4abba53971703421bbe, type: 3}
-  - {fileID: 2800000, guid: 878a308bdd7d5464fb476ed18a2c7b6f, type: 3}
-  - {fileID: 2800000, guid: 12747fbaabceb442ca34adfa85a76c7c, type: 3}
-  _avatarBackgrounds:
-  - {fileID: 2800000, guid: d8f7fe01f3af741fb98723aef61fee8f, type: 3}
-  - {fileID: 2800000, guid: a69081eb42eb24a62941d80fea6a7d6c, type: 3}
-  - {fileID: 2800000, guid: 316031cbfa4a5493e97e41777534ddaa, type: 3}
-  - {fileID: 2800000, guid: d7a4b716e5e914e08868bbf90de56f7c, type: 3}
-  - {fileID: 2800000, guid: b9bf2743eacb24a14a408cd15eac4bf3, type: 3}
-  - {fileID: 2800000, guid: 9c64b8175de6b4d98a9096473f7d0e50, type: 3}
-  - {fileID: 2800000, guid: 8dfbd7f33225a4f3fa143f2beb4972b2, type: 3}
+  m_Script: {fileID: 11500000, guid: b470394b6b1e24e68b4e1bed576aa69a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teamEntriesLimit: 100
+  avatarIcons: []
+  avatarBackgrounds: []
 --- !u!1 &2121322951
 GameObject:
   m_ObjectHideFlags: 0
@@ -460,19 +415,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2121322951}
-  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1660057539 &9223372036854775807
-SceneRoots:
-  m_ObjectHideFlags: 0
-  m_Roots:
-  - {fileID: 519420032}
-  - {fileID: 2121322954}
-  - {fileID: 1350379565}
-  - {fileID: 634194746}

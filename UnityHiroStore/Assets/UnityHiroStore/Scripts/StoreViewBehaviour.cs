@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Hiro;
 using Hiro.Unity;
+using HeroicUtils;
 using Nakama;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -29,9 +30,6 @@ namespace HiroStore
     [RequireComponent(typeof(UIDocument))]
     public class StoreViewBehaviour : MonoBehaviour
     {
-        [Header("UI Templates")]
-        [SerializeField] private VisualTreeAsset _storeItemTemplate;
-
         [Header("Icons")]
         [SerializeField] private StoreItemIconMapping[] _itemIconMappings;
         [SerializeField] private CurrencyIconMapping[] _currencyIconMappings;
@@ -77,11 +75,13 @@ namespace HiroStore
             var env = _coordinator.IsLocalHost ? "local" : "heroiclabs";
             AccountSwitcher.Initialize(nakamaSystem, env);
 
+            var storeItemTemplate = Resources.Load<VisualTreeAsset>("StoreItemTemplate");
+
             var uiDocument = GetComponent<UIDocument>();
             _view = new StoreView(
                 Controller,
                 uiDocument.rootVisualElement,
-                _storeItemTemplate);
+                storeItemTemplate);
 
             _view.OnInitialized += () => OnInitialized?.Invoke(session, Controller);
         }

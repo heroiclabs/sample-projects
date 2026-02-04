@@ -58,15 +58,15 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement template="ErrorPopup" name="progress-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
+    <ui:VisualElement name="progress-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
         <Style src="project://database/Assets/UnityHiroAchievements/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
-        <ui:VisualElement name="progress-modal-background" class="heroic-error-popup__background">
+        <ui:VisualElement name="progress-modal-background" class="heroic-error-popup__background" style="flex-grow: 0;">
             <ui:VisualElement name="progress-modal-panel" class="heroic-main__panel" style="height: auto; width: 600px;">
                 <ui:VisualElement name="progress-modal-top" style="height: 100px; background-color: rgb(100, 180, 100); border-top-left-radius: 15px; border-top-right-radius: 15px;">
                     <ui:Label text="UPDATE PROGRESS" class="heroic-title" style="color: rgb(255, 255, 255); -unity-text-align: middle-center; flex-grow: 1;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="progress-modal-bottom" style="align-self: center; align-items: center; width: 100%; padding: 30px;">
-                    <ui:IntegerField label="Progress Amount" value="1" name="progress-modal-quantity" style="width: 100%; margin-bottom: 20px; font-size: 20px;" />
+                    <ui:TextField label="Progress Amount" value="1" name="progress-modal-quantity" style="width: 100%; margin-bottom: 20px; font-size: 20px;" />
                     <ui:Label text="Specify how much progress to add to the selected achievement." style="font-size: 18px; color: rgb(150, 150, 150); margin-bottom: 20px; white-space: normal; -unity-text-align: upper-center;" />
                     <ui:Button text="Update Progress" name="progress-modal-update" class="heroic-button" style="margin-top: 10px; padding: 15px;" />
                 </ui:VisualElement>

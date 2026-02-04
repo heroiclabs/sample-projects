@@ -2,9 +2,10 @@
     "name": "UnityHiroTeams.Runtime",
     "rootNamespace": "HiroTeams",
     "references": [
-        "NakamaRuntime"
+        "NakamaRuntime",
+        "UnityHiroTeams.HeroicUI"
     ],
-    "includePlatforms": ["Editor"],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,

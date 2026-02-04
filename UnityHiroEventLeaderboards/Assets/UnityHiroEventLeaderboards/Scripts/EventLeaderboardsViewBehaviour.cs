@@ -15,6 +15,7 @@
 using System;
 using Hiro;
 using Hiro.Unity;
+using HeroicUtils;
 using Nakama;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -28,11 +29,6 @@ namespace HiroEventLeaderboards
     [RequireComponent(typeof(UIDocument))]
     public class EventLeaderboardsViewBehaviour : MonoBehaviour
     {
-        [Header("References")]
-        [SerializeField] private VisualTreeAsset eventLeaderboardEntryTemplate;
-        [SerializeField] private VisualTreeAsset eventLeaderboardRecordTemplate;
-        [SerializeField] private VisualTreeAsset eventLeaderboardZoneTemplate;
-
         private EventLeaderboardsController _controller;
         private EventLeaderboardsView _view;
         private HiroEventLeaderboardsCoordinator _coordinator;
@@ -87,6 +83,10 @@ namespace HiroEventLeaderboards
 
             var env = _coordinator.IsLocalHost ? "local" : "heroiclabs";
             AccountSwitcher.Initialize(_nakamaSystem, env);
+
+            var eventLeaderboardEntryTemplate = Resources.Load<VisualTreeAsset>("EventLeaderboard");
+            var eventLeaderboardRecordTemplate = Resources.Load<VisualTreeAsset>("EventLeaderboardRecord");
+            var eventLeaderboardZoneTemplate = Resources.Load<VisualTreeAsset>("EventLeaderboardZone");
 
             var rootElement = GetComponent<UIDocument>().rootVisualElement;
             _view = new EventLeaderboardsView(

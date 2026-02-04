@@ -14,6 +14,7 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using HeroicUtils;
 using Nakama;
 using NUnit.Framework;
 using UnityEditor;

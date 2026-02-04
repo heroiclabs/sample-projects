@@ -1,10 +1,11 @@
 using System.Text;
+using HeroicUtils;
 using Nakama;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace HiroInventory.Editor
+namespace HeroicUtils.Editor
 {
     public class AccountSwitcherEditor : EditorWindow
     {

@@ -18,8 +18,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Hiro;
 using HeroicUI;
+using HeroicUtils;
 using Nakama;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -65,22 +65,22 @@ namespace HiroEventLeaderboards
         private Button _refreshButton;
 
         private VisualElement _submitScoreModal;
-        private IntegerField _scoreField;
-        private IntegerField _subScoreField;
+        private TextField _scoreField;
+        private TextField _subScoreField;
         private Button _submitScoreModalButton;
         private Button _submitScoreModalCloseButton;
 
         private VisualElement _debugFillModal;
-        private IntegerField _debugFillTargetCountField;
+        private TextField _debugFillTargetCountField;
         private Button _debugFillModalButton;
         private Button _debugFillModalCloseButton;
 
         private VisualElement _debugRandomScoresModal;
-        private IntegerField _debugMinScoreField;
-        private IntegerField _debugMaxScoreField;
+        private TextField _debugMinScoreField;
+        private TextField _debugMaxScoreField;
         private EnumField _debugOperatorField;
-        private IntegerField _debugSubscoreMinField;
-        private IntegerField _debugSubscoreMaxField;
+        private TextField _debugSubscoreMinField;
+        private TextField _debugSubscoreMaxField;
         private Button _debugRandomScoresModalButton;
         private Button _debugRandomScoresModalCloseButton;
 
@@ -303,8 +303,8 @@ namespace HiroEventLeaderboards
         private void InitializeSubmitScoreModal()
         {
             _submitScoreModal = _rootElement.RequireElement<VisualElement>("submit-score-modal");
-            _scoreField = _rootElement.RequireElement<IntegerField>("submit-score-score");
-            _subScoreField = _rootElement.RequireElement<IntegerField>("submit-score-subscore");
+            _scoreField = _rootElement.RequireElement<TextField>("submit-score-score");
+            _subScoreField = _rootElement.RequireElement<TextField>("submit-score-subscore");
 
             _submitScoreModalButton = _rootElement.RequireElement<Button>("submit-score-modal-submit");
             _submitScoreModalButton.RegisterCallback<ClickEvent>(OnSubmitScoreModalSubmitClicked);
@@ -319,7 +319,7 @@ namespace HiroEventLeaderboards
             if (_debugFillModal == null)
                 return;
 
-            _debugFillTargetCountField = _rootElement.Q<IntegerField>("debug-fill-target-count");
+            _debugFillTargetCountField = _rootElement.Q<TextField>("debug-fill-target-count");
 
             _debugFillModalButton = _rootElement.Q<Button>("debug-fill-modal-fill");
             _debugFillModalButton?.RegisterCallback<ClickEvent>(OnDebugFillModalSubmitClicked);
@@ -334,11 +334,11 @@ namespace HiroEventLeaderboards
             if (_debugRandomScoresModal == null)
                 return;
 
-            _debugMinScoreField = _rootElement.Q<IntegerField>("debug-min-score");
-            _debugMaxScoreField = _rootElement.Q<IntegerField>("debug-max-score");
+            _debugMinScoreField = _rootElement.Q<TextField>("debug-min-score");
+            _debugMaxScoreField = _rootElement.Q<TextField>("debug-max-score");
             _debugOperatorField = _rootElement.Q<EnumField>("debug-operator");
-            _debugSubscoreMinField = _rootElement.Q<IntegerField>("debug-subscore-min");
-            _debugSubscoreMaxField = _rootElement.Q<IntegerField>("debug-subscore-max");
+            _debugSubscoreMinField = _rootElement.Q<TextField>("debug-subscore-min");
+            _debugSubscoreMaxField = _rootElement.Q<TextField>("debug-subscore-max");
 
             _debugRandomScoresModalButton = _rootElement.Q<Button>("debug-random-scores-modal-submit");
             _debugRandomScoresModalButton?.RegisterCallback<ClickEvent>(OnDebugRandomScoresModalSubmitClicked);
@@ -522,7 +522,7 @@ namespace HiroEventLeaderboards
             try
             {
                 ThrowIfDisposedOrCancelled();
-                await _controller.SubmitScoreAsync(_scoreField.value, _subScoreField.value);
+                await _controller.SubmitScoreAsync(int.Parse(_scoreField.value), int.Parse(_subScoreField.value));
                 HideSubmitScoreModal();
                 await RefreshEventLeaderboardsAsync();
             }
@@ -547,7 +547,7 @@ namespace HiroEventLeaderboards
             try
             {
                 ThrowIfDisposedOrCancelled();
-                await _controller.DebugFillEventLeaderboardAsync(_debugFillTargetCountField.value);
+                await _controller.DebugFillEventLeaderboardAsync(int.Parse(_debugFillTargetCountField.value));
                 HideDebugFillModal();
                 await RefreshEventLeaderboardsAsync();
             }
@@ -573,11 +573,11 @@ namespace HiroEventLeaderboards
             {
                 ThrowIfDisposedOrCancelled();
                 await _controller.DebugRandomScoresAsync(
-                    _debugMinScoreField.value,
-                    _debugMaxScoreField.value,
+                    int.Parse(_debugMinScoreField.value),
+                    int.Parse(_debugMaxScoreField.value),
                     (ApiOperator)_debugOperatorField.value,
-                    _debugSubscoreMinField.value,
-                    _debugSubscoreMaxField.value);
+                    int.Parse(_debugSubscoreMinField.value),
+                    int.Parse(_debugSubscoreMaxField.value));
                 HideDebugRandomScoresModal();
                 await RefreshEventLeaderboardsAsync();
             }
@@ -787,8 +787,8 @@ namespace HiroEventLeaderboards
 
         private void ShowSubmitScoreModal()
         {
-            _scoreField.value = 0;
-            _subScoreField.value = 0;
+            _scoreField.value = "0";
+            _subScoreField.value = "0";
             _submitScoreModal.Show();
         }
 
@@ -799,7 +799,7 @@ namespace HiroEventLeaderboards
 
         private void ShowDebugFillModal()
         {
-            _debugFillTargetCountField.value = 50;
+            _debugFillTargetCountField.value = "50";
             _debugFillModal?.Show();
         }
 
@@ -810,11 +810,11 @@ namespace HiroEventLeaderboards
 
         private void ShowDebugRandomScoresModal()
         {
-            _debugMinScoreField.value = 1;
-            _debugMaxScoreField.value = 100;
+            _debugMinScoreField.value = "1";
+            _debugMaxScoreField.value = "100";
             _debugOperatorField.value = ApiOperator.SET;
-            _debugSubscoreMinField.value = 1;
-            _debugSubscoreMaxField.value = 100;
+            _debugSubscoreMinField.value = "1";
+            _debugSubscoreMaxField.value = "100";
             _debugRandomScoresModal?.Show();
         }
 

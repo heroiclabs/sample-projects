@@ -14,6 +14,7 @@
 
 using Hiro;
 using Hiro.Unity;
+using HeroicUtils;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -26,10 +27,6 @@ namespace HiroChallenges
     [RequireComponent(typeof(UIDocument))]
     public class ChallengesViewBehaviour : MonoBehaviour
     {
-        [Header("UI Templates")]
-        [SerializeField] private VisualTreeAsset _challengeEntryTemplate;
-        [SerializeField] private VisualTreeAsset _challengeParticipantTemplate;
-
         private HiroChallengesCoordinator _coordinator;
         private ChallengesView _view;
 
@@ -63,12 +60,15 @@ namespace HiroChallenges
             var env = _coordinator.IsLocalHost ? "local" : "heroiclabs";
             AccountSwitcher.Initialize(nakamaSystem, env);
 
+            var challengeEntryTemplate = Resources.Load<VisualTreeAsset>("Challenge");
+            var challengeParticipantTemplate = Resources.Load<VisualTreeAsset>("ChallengeParticipant");
+
             var uiDocument = GetComponent<UIDocument>();
             _view = new ChallengesView(
                 Controller,
                 uiDocument.rootVisualElement,
-                _challengeEntryTemplate,
-                _challengeParticipantTemplate);
+                challengeEntryTemplate,
+                challengeParticipantTemplate);
         }
 
         private void OnDestroy()

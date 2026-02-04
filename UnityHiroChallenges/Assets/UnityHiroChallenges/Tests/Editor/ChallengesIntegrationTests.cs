@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using Hiro;
 using Hiro.System;
 using Hiro.Unity;
+using HeroicUtils;
 using Nakama;
 using NUnit.Framework;
 using UnityEngine;
