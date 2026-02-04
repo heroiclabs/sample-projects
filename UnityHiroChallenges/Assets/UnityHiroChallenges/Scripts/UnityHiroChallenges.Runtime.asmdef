@@ -5,7 +5,7 @@
         "NakamaRuntime",
         "UnityHiroChallenges.HeroicUI"
     ],
-    "includePlatforms": [],
+    "includePlatforms": ["Editor"],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,

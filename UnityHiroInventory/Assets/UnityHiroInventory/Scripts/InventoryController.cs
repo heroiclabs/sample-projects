@@ -1,106 +1,43 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Hiro;
-using Hiro.Unity;
-using Nakama;
-using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace HiroInventory
 {
-    [System.Serializable]
-    public class ItemIconMapping
+    /// <summary>
+    /// Controller for the Inventory system.
+    /// Handles business logic and coordinates with Hiro systems.
+    /// Plain C# class for testability - no MonoBehaviour inheritance.
+    /// </summary>
+    public class InventoryController
     {
-        public string itemId;
-        public Sprite icon;
-    }
+        private const int MaxInventorySize = 12;
 
-    [RequireComponent(typeof(UIDocument))]
-    public class InventoryController : MonoBehaviour
-    {
+        private readonly NakamaSystem _nakamaSystem;
+        private readonly IInventorySystem _inventorySystem;
+        private readonly IEconomySystem _economySystem;
 
-        [Header("References")]
-        [SerializeField] private VisualTreeAsset inventoryItemTemplate;
-        [SerializeField] private ItemIconMapping[] itemIconMappings;
-        [SerializeField] private Sprite defaultIcon;
-
-        private NakamaSystem _nakamaSystem;
-        private IInventorySystem _inventorySystem;
-        private IEconomySystem _economySystem;
         private IInventoryItem _selectedItem;
-
-        private InventoryView _view;
 
         public string CurrentUserId => _nakamaSystem.UserId;
         public List<IInventoryItem> InventoryItems { get; } = new();
         public List<IInventoryItem> CodexItems { get; } = new();
         public Dictionary<string, IInventoryItem> CodexLookup { get; } = new();
-        public Dictionary<string, Sprite> IconDictionary { get; private set; }
-        private const int MaxInventorySize = 12;
 
-        public event Action<ISession, InventoryController> OnInitialized;
-
-        #region Initialization
-
-        private void Start()
+        public InventoryController(
+            NakamaSystem nakamaSystem,
+            IInventorySystem inventorySystem,
+            IEconomySystem economySystem)
         {
-            // Build the icon dictionary from the mappings
-            IconDictionary = new Dictionary<string, Sprite>();
-            if (itemIconMappings != null)
-            {
-                foreach (var mapping in itemIconMappings)
-                {
-                    if (!string.IsNullOrEmpty(mapping.itemId) && mapping.icon != null)
-                    {
-                        IconDictionary[mapping.itemId] = mapping.icon;
-                    }
-                }
-            }
-
-            var inventoryCoordinator = HiroCoordinator.Instance as HiroInventoryCoordinator;
-            if (inventoryCoordinator == null) return;
-
-            inventoryCoordinator.ReceivedStartError += HandleStartError;
-            inventoryCoordinator.ReceivedStartSuccess += HandleStartSuccess;
-
-            _view = new InventoryView(this, inventoryCoordinator, inventoryItemTemplate, defaultIcon);
+            _nakamaSystem = nakamaSystem ?? throw new ArgumentNullException(nameof(nakamaSystem));
+            _inventorySystem = inventorySystem ?? throw new ArgumentNullException(nameof(inventorySystem));
+            _economySystem = economySystem ?? throw new ArgumentNullException(nameof(economySystem));
         }
-
-        private void HandleStartError(Exception e)
-        {
-            Debug.LogException(e);
-            _view.ShowError(e.Message);
-        }
-
-        private async void HandleStartSuccess(ISession session)
-        {
-            // Cache Hiro systems
-            _nakamaSystem = this.GetSystem<NakamaSystem>();
-            _inventorySystem = this.GetSystem<InventorySystem>();
-            _economySystem = this.GetSystem<EconomySystem>();
-
-            _view.StartObservingWallet();
-
-            await LoadItemCodex();
-            await _view.RefreshInventory();
-
-            OnInitialized?.Invoke(session, this);
-        }
-
-        public void SwitchComplete()
-        {
-            _view.HideAllModals();
-            _ = _view.RefreshInventory();
-            _ = _economySystem.RefreshAsync();
-        }
-
-        #endregion
 
         #region Item Codex
 
-        public async Task LoadItemCodex()
+        public async Task LoadItemCodexAsync()
         {
             CodexItems.Clear();
             CodexLookup.Clear();
@@ -119,28 +56,27 @@ namespace HiroInventory
 
         #region Inventory Operations
 
-        public async Task<List<IInventoryItem>> RefreshInventory()
+        public async Task<List<IInventoryItem>> RefreshInventoryAsync()
         {
             InventoryItems.Clear();
 
             await _inventorySystem.RefreshAsync();
             await _economySystem.RefreshAsync();
 
-            foreach (var item in _inventorySystem.Items)
-            {
-                Debug.Log($"Item {item.Id}: {item.Name} - {item.Description} - {item.Count}");
-            }
-
-            Debug.Log("Item Inventory Count: " + _inventorySystem.Items.Count);
             InventoryItems.AddRange(_inventorySystem.Items);
 
             return InventoryItems;
         }
 
+        public async Task SwitchCompleteAsync()
+        {
+            _selectedItem = null;
+            await _economySystem.RefreshAsync();
+        }
+
         public void SelectItem(IInventoryItem item)
         {
             _selectedItem = item;
-            Debug.Log($"Selected item: {item?.Name ?? "None"}");
         }
 
         public IInventoryItem GetSelectedItem()
@@ -152,7 +88,7 @@ namespace HiroInventory
 
         #region Item Actions
 
-        public async Task GrantItem(int codexIndex, int quantity)
+        public async Task GrantItemAsync(int codexIndex, int quantity)
         {
             if (codexIndex < 0 || codexIndex >= CodexItems.Count)
                 throw new Exception("Please select a valid item.");
@@ -190,7 +126,16 @@ namespace HiroInventory
             if (item.Stackable)
             {
                 // For stackable items, check if adding to existing stack exceeds max
-                var existingStack = InventoryItems.FirstOrDefault(i => i.Id == item.Id);
+                IInventoryItem existingStack = null;
+                foreach (var i in InventoryItems)
+                {
+                    if (i.Id == item.Id)
+                    {
+                        existingStack = i;
+                        break;
+                    }
+                }
+
                 if (existingStack != null)
                 {
                     var newTotal = existingStack.Count + quantityToAdd;
@@ -203,7 +148,15 @@ namespace HiroInventory
             else
             {
                 // For non-stackable items, count total instances
-                var currentInstanceCount = InventoryItems.Count(i => i.Id == item.Id);
+                int currentInstanceCount = 0;
+                foreach (var i in InventoryItems)
+                {
+                    if (i.Id == item.Id)
+                    {
+                        currentInstanceCount++;
+                    }
+                }
+
                 var newInstanceCount = currentInstanceCount + quantityToAdd;
 
                 if (newInstanceCount > item.MaxCount)
@@ -219,7 +172,15 @@ namespace HiroInventory
         /// </summary>
         private void ValidateInventorySlots(IInventoryItem item, long quantityToAdd)
         {
-            var existingItem = InventoryItems.FirstOrDefault(i => i.Id == item.Id);
+            IInventoryItem existingItem = null;
+            foreach (var i in InventoryItems)
+            {
+                if (i.Id == item.Id)
+                {
+                    existingItem = i;
+                    break;
+                }
+            }
 
             if (item.Stackable)
             {
@@ -243,7 +204,7 @@ namespace HiroInventory
             }
         }
 
-        public async Task ConsumeItem(int quantity, bool overconsume)
+        public async Task ConsumeItemAsync(int quantity, bool overconsume)
         {
             if (_selectedItem == null) return;
 
@@ -262,7 +223,7 @@ namespace HiroInventory
             _selectedItem = null;
         }
 
-        public async Task RemoveItem(int quantity)
+        public async Task RemoveItemAsync(int quantity)
         {
             if (_selectedItem == null) return;
 

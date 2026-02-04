@@ -361,11 +361,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1350379564}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d09862c4a7ec4898bc057b8378ab100c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HiroChallenges.HiroChallengesController
-  storeItemTemplate: {fileID: 9197481963319205126, guid: 8dd3c785e50de45048715a68169a3967, type: 3}
-  itemIconMappings:
+  m_Script: {fileID: 11500000, guid: 7c8e9f1a2b3d4e5f6a7b8c9d0e1f2a3b, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::HiroStore.StoreViewBehaviour
+  _storeItemTemplate: {fileID: 9197481963319205126, guid: 8dd3c785e50de45048715a68169a3967, type: 3}
+  _itemIconMappings:
   - itemId: starter_pack
     icon: {fileID: -1077162195667718523, guid: 13f044dc61cb240cc9279e4aa7b6b6cc, type: 3}
   - itemId: gems_500
@@ -404,12 +404,12 @@ MonoBehaviour:
     icon: {fileID: 6795985223779720529, guid: 20ee1762fea504e5bab4723bf295eb8e, type: 3}
   - itemId: iron_shield
     icon: {fileID: 473728356293506998, guid: 0cf9f927f55bd443da92aad7ed15e7db, type: 3}
-  currencyIconMappings:
+  _currencyIconMappings:
   - currencyCode: gems
     icon: {fileID: 6521567286427641033, guid: 2f81cad22441d41269c6240c05157dd4, type: 3}
   - currencyCode: coins
     icon: {fileID: 2312241255967906428, guid: 05350d1a74b174a1ab61d06d5bb69a19, type: 3}
-  defaultItemIcon: {fileID: -7992783279482432581, guid: 970a2f6aa92b847159361b9ae59d0670, type: 3}
+  _defaultItemIcon: {fileID: -7992783279482432581, guid: 970a2f6aa92b847159361b9ae59d0670, type: 3}
 --- !u!1 &2121322951
 GameObject:
   m_ObjectHideFlags: 0

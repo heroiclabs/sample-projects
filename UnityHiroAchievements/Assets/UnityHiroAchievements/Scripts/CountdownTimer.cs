@@ -1,29 +1,29 @@
 using UnityEngine;
 using System;
 using UnityEngine.UIElements;
-using System.Threading; // Required for CancellationToken
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace HiroAchievements
 {
     public class CountdownTimer
     {
-        private float _timeRemaining = 0f;
-        private Label _resetTimeLabel;
-        private AchievementsView _achievementsView;
-        
+        private float _timeRemaining;
+        private readonly Label _resetTimeLabel;
+        private readonly Action _onComplete;
+
         private CancellationTokenSource _cts;
 
-        public CountdownTimer(AchievementsView achievementsView, Label resetTimeLabel)
+        public CountdownTimer(Label resetTimeLabel, Action onComplete)
         {
             _resetTimeLabel = resetTimeLabel;
-            _achievementsView = achievementsView;
+            _onComplete = onComplete;
             _resetTimeLabel.text = "";
         }
 
-        public async void start(float timeRemaining)
+        public async void Start(float timeRemaining)
         {
-            stop();
+            Stop();
 
             // Don't start if no valid reset time
             if (timeRemaining <= 0)
@@ -61,7 +61,7 @@ namespace HiroAchievements
             }
         }
 
-        public void stop()
+        public void Stop()
         {
             if (_cts != null)
             {
@@ -75,15 +75,15 @@ namespace HiroAchievements
 
         private void Complete()
         {
-            stop();
-            _achievementsView.RefreshAchievementsList();
+            Stop();
+            _onComplete?.Invoke();
         }
 
-        void UpdateTimerDisplay(float seconds)
+        private void UpdateTimerDisplay(float seconds)
         {
             float displaySeconds = Math.Max(0, seconds);
             TimeSpan time = TimeSpan.FromSeconds(displaySeconds);
-            _resetTimeLabel.text = string.Format("Dailies reset in: {0:D2}:{1:D2}:{2:D2}", 
+            _resetTimeLabel.text = string.Format("Dailies reset in: {0:D2}:{1:D2}:{2:D2}",
                 time.Hours, time.Minutes, time.Seconds);
         }
     }

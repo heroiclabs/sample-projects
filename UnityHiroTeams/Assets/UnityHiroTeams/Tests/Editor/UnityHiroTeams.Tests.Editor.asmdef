@@ -1,0 +1,29 @@
+{
+    "name": "UnityHiroTeams.Tests.Editor",
+    "rootNamespace": "HiroTeams.Tests.Editor",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "NakamaRuntime",
+        "UnityHiroTeams.Runtime"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll",
+        "Nakama.dll",
+        "Hiro.dll",
+        "Hiro.Unity.dll",
+        "Satori.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

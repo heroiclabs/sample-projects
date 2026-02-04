@@ -361,11 +361,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1350379564}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d09862c4a7ec4898bc057b8378ab100c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HiroChallenges.HiroChallengesController
-  inventoryItemTemplate: {fileID: 9197481963319205126, guid: 8dd3c785e50de45048715a68169a3967, type: 3}
-  itemIconMappings:
+  m_Script: {fileID: 11500000, guid: 9b4f6e3d2c5a7b8901234567890abcdf, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::HiroInventory.InventoryViewBehaviour
+  _inventoryItemTemplate: {fileID: 9197481963319205126, guid: 8dd3c785e50de45048715a68169a3967, type: 3}
+  _itemIconMappings:
   - itemId: iron_sword
     icon: {fileID: -2124102372771563869, guid: 84f404a0c8b644dbfa668c57f0c3457c, type: 3}
   - itemId: gold_stack
@@ -386,7 +386,7 @@ MonoBehaviour:
     icon: {fileID: -5502143058471085903, guid: 5ce489eb04a834e6a89e668e109041e2, type: 3}
   - itemId: evil_eye
     icon: {fileID: 6795985223779720529, guid: 20ee1762fea504e5bab4723bf295eb8e, type: 3}
-  defaultIcon: {fileID: 4572200582248954793, guid: 0b0f45dc7e62c47689da39968a4415fa, type: 3}
+  _defaultIcon: {fileID: 4572200582248954793, guid: 0b0f45dc7e62c47689da39968a4415fa, type: 3}
 --- !u!1 &2121322951
 GameObject:
   m_ObjectHideFlags: 0

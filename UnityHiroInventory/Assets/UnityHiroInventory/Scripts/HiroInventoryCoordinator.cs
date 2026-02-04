@@ -10,8 +10,10 @@ namespace HiroInventory
 {
     public class HiroInventoryCoordinator : HiroCoordinator
     {
-        [Header("Overrides Nakama Settings")] 
+        [Header("Overrides Nakama Settings")]
         [SerializeField] private bool localHost;
+
+        public bool IsLocalHost => localHost;
 
         [Header("Nakama Settings")] 
         [SerializeField] private string scheme = "http";

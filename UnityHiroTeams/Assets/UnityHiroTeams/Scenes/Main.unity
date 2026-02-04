@@ -361,14 +361,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1350379564}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b273b5565a8e4da8a2ab6c36affa404, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HiroChallenges.HiroChallengesController
-  teamEntriesLimit: 100
-  teamEntryTemplate: {fileID: 9197481963319205126, guid: 7ed290a40a01c488e9211a3cd77bc058, type: 3}
-  teamMemberTemplate: {fileID: 9197481963319205126, guid: 65a99b96b81cb495d85421f99f6f7c34, type: 3}
-  mailboxEntryTemplate: {fileID: 9197481963319205126, guid: b6d19f193254c4d74ba83e774952da8f, type: 3}
-  <AvatarIcons>k__BackingField:
+  m_Script: {fileID: 11500000, guid: 5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::HiroTeams.TeamsViewBehaviour
+  _teamEntriesLimit: 100
+  _teamEntryTemplate: {fileID: 9197481963319205126, guid: 7ed290a40a01c488e9211a3cd77bc058, type: 3}
+  _teamMemberTemplate: {fileID: 9197481963319205126, guid: 65a99b96b81cb495d85421f99f6f7c34, type: 3}
+  _mailboxEntryTemplate: {fileID: 9197481963319205126, guid: b6d19f193254c4d74ba83e774952da8f, type: 3}
+  _avatarIcons:
   - {fileID: 2800000, guid: 8176dbc9a0f7145dcbb159234f38cfac, type: 3}
   - {fileID: 2800000, guid: 2b3c08c2b0cb8489c913a85034dc6161, type: 3}
   - {fileID: 2800000, guid: 0675395c846da48028df6d4ff121fe72, type: 3}
@@ -381,7 +381,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 01fce9d21320b4abba53971703421bbe, type: 3}
   - {fileID: 2800000, guid: 878a308bdd7d5464fb476ed18a2c7b6f, type: 3}
   - {fileID: 2800000, guid: 12747fbaabceb442ca34adfa85a76c7c, type: 3}
-  <AvatarBackgrounds>k__BackingField:
+  _avatarBackgrounds:
   - {fileID: 2800000, guid: d8f7fe01f3af741fb98723aef61fee8f, type: 3}
   - {fileID: 2800000, guid: a69081eb42eb24a62941d80fea6a7d6c, type: 3}
   - {fileID: 2800000, guid: 316031cbfa4a5493e97e41777534ddaa, type: 3}

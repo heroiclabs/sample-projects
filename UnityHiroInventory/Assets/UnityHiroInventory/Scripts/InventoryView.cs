@@ -1,19 +1,29 @@
 using System;
-using System.Linq;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Hiro;
 using HeroicUI;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace HiroInventory
 {
-    public sealed class InventoryView
+    /// <summary>
+    /// View for the Inventory system.
+    /// Manages UI presentation and user interactions, delegates all business logic to Controller.
+    /// </summary>
+    public sealed class InventoryView : IDisposable
     {
         private readonly InventoryController _controller;
-        private readonly HiroInventoryCoordinator _coordinator;
         private readonly VisualTreeAsset _inventoryItemTemplate;
+        private readonly Dictionary<string, Sprite> _iconDictionary;
         private readonly Sprite _defaultIcon;
+
+        private readonly CancellationTokenSource _cts = new();
+        private readonly object _disposeLock = new();
+        private volatile bool _disposed;
 
         private WalletDisplay _walletDisplay;
 
@@ -68,26 +78,74 @@ namespace HiroInventory
         private Button _maxCountModalCloseButton;
 
         private VisualElement _selectedSlot;
-        private UIDocument _uiDocument;
 
-        public InventoryView(InventoryController controller, HiroInventoryCoordinator coordinator,
-            VisualTreeAsset inventoryItemTemplate, Sprite defaultIcon)
+        public event Action OnInitialized;
+
+        public InventoryView(
+            InventoryController controller,
+            VisualElement rootElement,
+            VisualTreeAsset inventoryItemTemplate,
+            Dictionary<string, Sprite> iconDictionary,
+            Sprite defaultIcon)
         {
             _controller = controller;
-            _coordinator = coordinator;
             _inventoryItemTemplate = inventoryItemTemplate;
+            _iconDictionary = iconDictionary;
             _defaultIcon = defaultIcon;
 
-            InitializeUI();
+            Initialize(rootElement);
+
+            _walletDisplay.StartObserving();
+            AccountSwitcher.AccountSwitched += OnAccountSwitched;
+
+            _ = InitializeAsync();
+        }
+
+        public void Dispose()
+        {
+            lock (_disposeLock)
+            {
+                if (_disposed) return;
+                _disposed = true;
+            }
+
+            _cts.Cancel();
+            _cts.Dispose();
+            AccountSwitcher.AccountSwitched -= OnAccountSwitched;
+            _walletDisplay?.Dispose();
+        }
+
+        private void ThrowIfDisposedOrCancelled()
+        {
+            if (_disposed)
+                throw new OperationCanceledException();
+            _cts.Token.ThrowIfCancellationRequested();
+        }
+
+        private async Task InitializeAsync()
+        {
+            try
+            {
+                ThrowIfDisposedOrCancelled();
+                await _controller.LoadItemCodexAsync();
+                await RefreshInventoryAsync();
+                OnInitialized?.Invoke();
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
         }
 
         #region UI Initialization
 
-        private void InitializeUI()
+        private void Initialize(VisualElement rootElement)
         {
-            _uiDocument = _controller.GetComponent<UIDocument>();
-            var rootElement = _uiDocument.rootVisualElement;
-
             _walletDisplay = new WalletDisplay(rootElement.Q<VisualElement>("wallet-display"));
 
             _grantButton = rootElement.Q<Button>("item-grant");
@@ -134,13 +192,13 @@ namespace HiroInventory
             ShowEmptyState();
 
             _refreshButton = rootElement.Q<Button>("inventory-refresh");
-            _refreshButton.RegisterCallback<ClickEvent>(evt => _ = RefreshInventory());
+            _refreshButton.RegisterCallback<ClickEvent>(_ => OnRefreshClicked());
 
             // Grant modal
             _grantModal = rootElement.Q<VisualElement>("grant-modal");
             _grantQuantityField = rootElement.Q<IntegerField>("grant-modal-quantity");
             _grantModalButton = rootElement.Q<Button>("grant-modal-grant");
-            _grantModalButton.RegisterCallback<ClickEvent>(evt => _ = HandleGrantItem());
+            _grantModalButton.RegisterCallback<ClickEvent>(_ => OnGrantClicked());
             _grantModalCloseButton = rootElement.Q<Button>("grant-modal-close");
             _grantModalCloseButton.RegisterCallback<ClickEvent>(_ =>
                 _grantModal.style.display = DisplayStyle.None);
@@ -150,7 +208,7 @@ namespace HiroInventory
             _consumeQuantityField = rootElement.Q<IntegerField>("consume-modal-quantity");
             _consumeOverconsumeToggle = rootElement.Q<Toggle>("consume-modal-overconsume");
             _consumeModalButton = rootElement.Q<Button>("consume-modal-consume");
-            _consumeModalButton.RegisterCallback<ClickEvent>(evt => _ = HandleConsumeItem());
+            _consumeModalButton.RegisterCallback<ClickEvent>(_ => OnConsumeClicked());
             _consumeModalCloseButton = rootElement.Q<Button>("consume-modal-close");
             _consumeModalCloseButton.RegisterCallback<ClickEvent>(_ =>
                 _consumeModal.style.display = DisplayStyle.None);
@@ -159,7 +217,7 @@ namespace HiroInventory
             _removeModal = rootElement.Q<VisualElement>("remove-modal");
             _removeQuantityField = rootElement.Q<IntegerField>("remove-modal-quantity");
             _removeModalButton = rootElement.Q<Button>("remove-modal-remove");
-            _removeModalButton.RegisterCallback<ClickEvent>(evt => _ = HandleRemoveItem());
+            _removeModalButton.RegisterCallback<ClickEvent>(_ => OnRemoveClicked());
             _removeModalCloseButton = rootElement.Q<Button>("remove-modal-close");
             _removeModalCloseButton.RegisterCallback<ClickEvent>(_ =>
                 _removeModal.style.display = DisplayStyle.None);
@@ -188,11 +246,6 @@ namespace HiroInventory
             UpdateActionButtons();
         }
 
-        public void StartObservingWallet()
-        {
-            _walletDisplay.StartObserving();
-        }
-
         public void HideAllModals()
         {
             _grantModal.style.display = DisplayStyle.None;
@@ -200,38 +253,144 @@ namespace HiroInventory
             _removeModal.style.display = DisplayStyle.None;
             _inventoryFullModal.style.display = DisplayStyle.None;
             _maxCountModal.style.display = DisplayStyle.None;
+            _errorPopup.style.display = DisplayStyle.None;
             ShowEmptyState();
+        }
+
+        #endregion
+
+        #region Event Handlers
+
+        private async void OnRefreshClicked()
+        {
+            try
+            {
+                ThrowIfDisposedOrCancelled();
+                await RefreshInventoryAsync();
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
+        }
+
+        private async void OnAccountSwitched()
+        {
+            try
+            {
+                ThrowIfDisposedOrCancelled();
+                HideAllModals();
+                _selectedSlot = null;
+                await _controller.SwitchCompleteAsync();
+                await RefreshInventoryAsync();
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
+        }
+
+        private async void OnGrantClicked()
+        {
+            try
+            {
+                ThrowIfDisposedOrCancelled();
+                await _controller.GrantItemAsync(_grantItemDropdown.index, _grantQuantityField.value);
+                _grantModal.style.display = DisplayStyle.None;
+                await RefreshInventoryAsync();
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
+            }
+            catch (InvalidOperationException e) when (e.Message == "INVENTORY_FULL")
+            {
+                _grantModal.style.display = DisplayStyle.None;
+                _inventoryFullModal.style.display = DisplayStyle.Flex;
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
+        }
+
+        private async void OnConsumeClicked()
+        {
+            try
+            {
+                ThrowIfDisposedOrCancelled();
+                await _controller.ConsumeItemAsync(_consumeQuantityField.value, _consumeOverconsumeToggle.value);
+                _consumeModal.style.display = DisplayStyle.None;
+                await RefreshInventoryAsync();
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
+        }
+
+        private async void OnRemoveClicked()
+        {
+            try
+            {
+                ThrowIfDisposedOrCancelled();
+                await _controller.RemoveItemAsync(_removeQuantityField.value);
+                _removeModal.style.display = DisplayStyle.None;
+                await RefreshInventoryAsync();
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
         }
 
         #endregion
 
         #region Inventory Display
 
-        public async Task RefreshInventory()
+        private async Task RefreshInventoryAsync()
         {
-            try
-            {
-                var items = await _controller.RefreshInventory();
-                
-                // Populate grant dropdown with codex items
-                var itemNames = _controller.CodexItems.Select(item => item.Name).ToList();
-                _grantItemDropdown.choices = itemNames;
+            var items = await _controller.RefreshInventoryAsync();
 
-                PopulateInventoryGrid();
-
-                // Clear selection after refresh
-                if(_controller.GetSelectedItem() == null)
-                {
-                    _controller.SelectItem(null);
-                    _selectedSlot = null;
-                    ShowEmptyState();
-                }
-                UpdateActionButtons();
-            }
-            catch (Exception e)
+            // Populate grant dropdown with codex items
+            var itemNames = new List<string>();
+            foreach (var item in _controller.CodexItems)
             {
-                ShowError(e.Message);
+                itemNames.Add(item.Name);
             }
+            _grantItemDropdown.choices = itemNames;
+
+            PopulateInventoryGrid();
+
+            // Clear selection after refresh
+            if (_controller.GetSelectedItem() == null)
+            {
+                _controller.SelectItem(null);
+                _selectedSlot = null;
+                ShowEmptyState();
+            }
+            UpdateActionButtons();
         }
 
         private void PopulateInventoryGrid()
@@ -239,9 +398,8 @@ namespace HiroInventory
             _inventoryGrid.Clear();
 
             // Sort items by owned time descending (newest items first)
-            var sortedItems = _controller.InventoryItems
-                .OrderByDescending(item => item.OwnedTimeSec)
-                .ToList();
+            var sortedItems = new List<IInventoryItem>(_controller.InventoryItems);
+            sortedItems.Sort((a, b) => b.OwnedTimeSec.CompareTo(a.OwnedTimeSec));
 
             foreach (var item in sortedItems)
             {
@@ -295,7 +453,7 @@ namespace HiroInventory
 
             _controller.SelectItem(item);
             _selectedSlot = slot;
-            ShowItemDetails(item, Vector2.zero);
+            ShowItemDetails(item);
             // Highlight selected slot with turquoise border
             SetBorderColor(slot, new Color(0.467f, 0.984f, 0.937f));
 
@@ -318,8 +476,8 @@ namespace HiroInventory
 
         private void SetItemIcon(VisualElement iconContainer, string itemId)
         {
-            if (_controller.IconDictionary != null && 
-                _controller.IconDictionary.TryGetValue(itemId, out Sprite icon) && icon != null)
+            if (_iconDictionary != null &&
+                _iconDictionary.TryGetValue(itemId, out Sprite icon) && icon != null)
             {
                 iconContainer.style.backgroundImage = new StyleBackground(icon);
             }
@@ -359,7 +517,7 @@ namespace HiroInventory
 
         #region Item Details
 
-        private void ShowItemDetails(IInventoryItem item, Vector2 mousePosition)
+        private void ShowItemDetails(IInventoryItem item)
         {
             _detailsNameLabel.text = item.Name;
             _detailsDescriptionLabel.text = string.IsNullOrEmpty(item.Description)
@@ -414,11 +572,6 @@ namespace HiroInventory
             _itemDetailsPanel.style.display = DisplayStyle.Flex;
         }
 
-        private void HideItemDetails()
-        {
-            ShowEmptyState();
-        }
-
         private void ShowEmptyState()
         {
             _detailsNameLabel.text = "No Item Selected";
@@ -440,64 +593,7 @@ namespace HiroInventory
 
         #endregion
 
-        #region Action Handlers
-
-        private async Task HandleGrantItem()
-        {
-            try
-            {
-                await _controller.GrantItem(_grantItemDropdown.index, _grantQuantityField.value);
-                _grantModal.style.display = DisplayStyle.None;
-                await RefreshInventory();
-            }
-            catch (InvalidOperationException e) when (e.Message == "INVENTORY_FULL")
-            {
-                _grantModal.style.display = DisplayStyle.None;
-                _inventoryFullModal.style.display = DisplayStyle.Flex;
-            }
-            catch (Exception e)
-            {
-                ShowError(e.Message);
-            }
-        }
-
-        /// <summary>
-        /// Displays the max count modal with details from the exception message.
-        /// </summary>
-        private void ShowMaxCountReachedModal(string exceptionMessage)
-        {
-            _maxCountMessage.text = $"You've reached the maximum limit for this item.";
-            _maxCountModal.style.display = DisplayStyle.Flex;
-        }
-
-        private async Task HandleConsumeItem()
-        {
-            try
-            {
-                await _controller.ConsumeItem(_consumeQuantityField.value, _consumeOverconsumeToggle.value);
-                _consumeModal.style.display = DisplayStyle.None;
-                await RefreshInventory();
-            }
-            catch (Exception e)
-            {
-                ShowError(e.Message);
-                Debug.LogError(e);
-            }
-        }
-
-        private async Task HandleRemoveItem()
-        {
-            try
-            {
-                await _controller.RemoveItem(_removeQuantityField.value);
-                _removeModal.style.display = DisplayStyle.None;
-                await RefreshInventory();
-            }
-            catch (Exception e)
-            {
-                ShowError(e.Message);
-            }
-        }
+        #region Error Handling
 
         public void ShowError(string message)
         {

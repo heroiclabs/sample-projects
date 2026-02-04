@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="24" result="Passed" total="24" passed="24" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-02-04 04:49:44Z" end-time="2026-02-04 04:49:52Z" duration="7.905471">
+  <test-suite type="TestSuite" id="1000" name="UnityHiroInventory" fullname="UnityHiroInventory" runstate="Runnable" testcasecount="24" result="Passed" start-time="2026-02-04 04:49:44Z" end-time="2026-02-04 04:49:52Z" duration="7.905471" total="24" passed="24" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1030" name="UnityHiroInventory.Tests.Editor.dll" fullname="/Users/andres/Developer/sample-projects/UnityHiroInventory/Library/ScriptAssemblies/UnityHiroInventory.Tests.Editor.dll" runstate="Runnable" testcasecount="24" result="Passed" start-time="2026-02-04 04:49:44Z" end-time="2026-02-04 04:49:52Z" duration="7.901943" total="24" passed="24" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="76408" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1031" name="HiroInventory" fullname="HiroInventory" runstate="Runnable" testcasecount="24" result="Passed" start-time="2026-02-04 04:49:44Z" end-time="2026-02-04 04:49:52Z" duration="7.901588" total="24" passed="24" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1032" name="Tests" fullname="HiroInventory.Tests" runstate="Runnable" testcasecount="24" result="Passed" start-time="2026-02-04 04:49:44Z" end-time="2026-02-04 04:49:52Z" duration="7.901280" total="24" passed="24" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1033" name="Editor" fullname="HiroInventory.Tests.Editor" runstate="Runnable" testcasecount="24" result="Passed" start-time="2026-02-04 04:49:44Z" end-time="2026-02-04 04:49:52Z" duration="7.900991" total="24" passed="24" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1005" name="InventoryControllerTests" fullname="HiroInventory.Tests.Editor.InventoryControllerTests" classname="HiroInventory.Tests.Editor.InventoryControllerTests" runstate="Runnable" testcasecount="24" result="Passed" start-time="2026-02-04 04:49:44Z" end-time="2026-02-04 04:49:52Z" duration="7.900278" total="24" passed="24" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1008" name="Constructor_NullEconomySystem_ThrowsArgumentNullException" fullname="HiroInventory.Tests.Editor.InventoryControllerTests.Constructor_NullEconomySystem_ThrowsArgumentNullException" methodname="Constructor_NullEconomySystem_ThrowsArgumentNullException" classname="HiroInventory.Tests.Editor.InventoryControllerTests" runstate="Runnable" seed="1057918725" result="Passed" start-time="2026-02-04 04:49:44Z" end-time="2026-02-04 04:49:44Z" duration="0.228686" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3N2VlZTAxZS1jN2I4LTQ2NjEtYjc0ZC0wNmRlM2NkYjQxZTgiLCJ1aWQiOiJhOGY5MGFjMy03MjhiLTRmMjctOTZmNS0yMDU1MjEwODY5NjciLCJ1c24iOiJQbGF5ZXIxOTU1MzU2NSIsImV4cCI6MTc3MDI2Njk4NCwiaWF0IjoxNzcwMTgwNTg0fQ.N2M06sou57J-Wjv6EbrRHWDhzxg1htrkTE3xAwPZfVg', Created=True, CreateTime=1770180584, ExpireTime=1770266984, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3N2VlZTAxZS1jN2I4LTQ2NjEtYjc0ZC0wNmRlM2NkYjQxZTgiLCJ1aWQiOiJhOGY5MGFjMy03MjhiLTRmMjctOTZmNS0yMDU1MjEwODY5NjciLCJ1c24iOiJQbGF5ZXIxOTU1MzU2NSIsImV4cCI6MTc3MDc4NTM4NCwiaWF0IjoxNzcwMTgwNTg0fQ.rBdxMQBgRzBpYILSihOQYvNDcVTLBhoRIHfBcSK_seA, RefreshExpireTime=1770785384, Variables={}, Username='Player19553565', UserId='a8f90ac3-728b-4f27-96f5-205521086967')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+InventorySystem initialized.
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1007" name="Constructor_NullInventorySystem_ThrowsArgumentNullException" fullname="HiroInventory.Tests.Editor.InventoryControllerTests.Constructor_NullInventorySystem_ThrowsArgumentNullException" methodname="Constructor_NullInventorySystem_ThrowsArgumentNullException" classname="HiroInventory.Tests.Editor.InventoryControllerTests" runstate="Runnable" seed="1827651939" result="Passed" start-time="2026-02-04 04:49:44Z" end-time="2026-02-04 04:49:44Z" duration="0.198012" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1M2ZjNjYyOC1iMTkyLTRmNGItOTc5NC1lM2ZmY2U1NGViYTYiLCJ1aWQiOiJjMTY1YmRiZi1iNTJkLTQzYjAtYmViZS0zNTUyYmY3YjgzYzEiLCJ1c24iOiJQbGF5ZXI2ODI3NjY2MiIsImV4cCI6MTc3MDI2Njk4NCwiaWF0IjoxNzcwMTgwNTg0fQ.WScQahz86TeK2JkOd8qljAXWK_m1BgBgGcsg8UVsHrg', Created=True, CreateTime=1770180584, ExpireTime=1770266984, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1M2ZjNjYyOC1iMTkyLTRmNGItOTc5NC1lM2ZmY2U1NGViYTYiLCJ1aWQiOiJjMTY1YmRiZi1iNTJkLTQzYjAtYmViZS0zNTUyYmY3YjgzYzEiLCJ1c24iOiJQbGF5ZXI2ODI3NjY2MiIsImV4cCI6MTc3MDc4NTM4NCwiaWF0IjoxNzcwMTgwNTg0fQ.AE3ECFLJobsUr1qGxFWj9ZvPDPZW_fbzVE5-tRi_JdI, RefreshExpireTime=1770785384, Variables={}, Username='Player68276662', UserId='c165bdbf-b52d-43b0-bebe-3552bf7b83c1')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+InventorySystem initialized.
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1006" name="Constructor_NullNakamaSystem_ThrowsArgumentNullException" fullname="HiroInventory.Tests.Editor.InventoryControllerTests.Constructor_NullNakamaSystem_ThrowsArgumentNullException" methodname="Constructor_NullNakamaSystem_ThrowsArgumentNullException" classname="HiroInventory.Tests.Editor.InventoryControllerTests" runstate="Runnable" seed="131740354" result="Passed" start-time="2026-02-04 04:49:44Z" end-time="2026-02-04 04:49:45Z" duration="0.200649" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1OTZkOGM0ZC05YzcyLTRmYzktOWJiNS1hNTA2YWFiYTFiYWYiLCJ1aWQiOiI3ZmI5Nzc4YS0yYzgyLTRhZDMtYjk0ZC0wMjZiNDIzNTc5NzkiLCJ1c24iOiJQbGF5ZXIyOTQ1MTYwNyIsImV4cCI6MTc3MDI2Njk4NCwiaWF0IjoxNzcwMTgwNTg0fQ.XxzXI_RHIZVERO7n6-mUvaJz4MoAqbcVisdcJVkHOpA', Created=True, CreateTime=1770180584, ExpireTime=1770266984, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1OTZkOGM0ZC05YzcyLTRmYzktOWJiNS1hNTA2YWFiYTFiYWYiLCJ1aWQiOiI3ZmI5Nzc4YS0yYzgyLTRhZDMtYjk0ZC0wMjZiNDIzNTc5NzkiLCJ1c24iOiJQbGF5ZXIyOTQ1MTYwNyIsImV4cCI6MTc3MDc4NTM4NCwiaWF0IjoxNzcwMTgwNTg0fQ.qh8DcQBgPNZuv1KBNyismLQbbazYTnJ6RFlZ76QPwyk, RefreshExpireTime=1770785384, Variables={}, Username='Player29451607', UserId='7fb9778a-2c82-4ad3-b94d-026b42357979')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+InventorySystem initialized.
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1023" name="ConsumeItemAsync_NegativeQuantity_ThrowsException" fullname="HiroInventory.Tests.Editor.InventoryControllerTests.ConsumeItemAsync_NegativeQuantity_ThrowsException" methodname="ConsumeItemAsync_NegativeQuantity_ThrowsException" classname="HiroInventory.Tests.Editor.InventoryControllerTests" runstate="Runnable" seed="1930236039" result="Passed" start-time="2026-02-04 04:49:45Z" end-time="2026-02-04 04:49:45Z" duration="0.500485" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1YmIwNjJkMS1kODliLTQxZDEtOWYzZC00MjM3ZGI5MmVhNGEiLCJ1aWQiOiI0NjFkOWFhYi03YmQ2LTQ1YzMtYmQ0Ny1kNGYzNmEzZGE2OTUiLCJ1c24iOiJQbGF5ZXIzNjgzNTc0OCIsImV4cCI6MTc3MDI2Njk4NSwiaWF0IjoxNzcwMTgwNTg1fQ.--bCV4zSU7J9Laj8TYxaPzZI_aO3MOZPOpDdzTLE_lk', Created=True, CreateTime=1770180585, ExpireTime=1770266985, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1YmIwNjJkMS1kODliLTQxZDEtOWYzZC00MjM3ZGI5MmVhNGEiLCJ1aWQiOiI0NjFkOWFhYi03YmQ2LTQ1YzMtYmQ0Ny1kNGYzNmEzZGE2OTUiLCJ1c24iOiJQbGF5ZXIzNjgzNTc0OCIsImV4cCI6MTc3MDc4NTM4NSwiaWF0IjoxNzcwMTgwNTg1fQ.vm_I_dCCdOlu1hkNLOs6Fi0jkUmthXTUh9hCbN3AnHE, RefreshExpireTime=1770785385, Variables={}, Username='Player36835748', UserId='461d9aab-7bd6-45c3-bd47-d4f36a3da695')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+InventorySystem initialized.
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST_INVENTORY', body='"{}"'
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_GRANT', body='"{\"items\":{\"bomb\":\"5\"}}"'
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST_INVENTORY', body='"{}"'
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1021" name="ConsumeItemAsync_NoSelectedItem_DoesNothing" fullname="HiroInventory.Tests.Editor.InventoryControllerTests.ConsumeItemAsync_NoSelectedItem_DoesNothing" methodname="ConsumeItemAsync_NoSelectedItem_DoesNothing" classname="HiroInventory.Tests.Editor.InventoryControllerTests" runstate="Runnable" seed="1139414135" result="Passed" start-time="2026-02-04 04:49:45Z" end-time="2026-02-04 04:49:45Z" duration="0.200386" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlMDU4ZWNlZi0wZjA2LTRjMDAtOGM3Yi1hMTIwYWNiNjhlNWYiLCJ1aWQiOiJmNmU2MWEwYS02NjM4LTQ3OTktOTc2Ny01ZmQ2MGE4OGVkOTAiLCJ1c24iOiJQbGF5ZXI1ODA4NzM4OSIsImV4cCI6MTc3MDI2Njk4NSwiaWF0IjoxNzcwMTgwNTg1fQ.j5fhwHsMMavgSP26Hip6MpkYfN1aCZStARGbfUnfMNY', Created=True, CreateTime=1770180585, ExpireTime=1770266985, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlMDU4ZWNlZi0wZjA2LTRjMDAtOGM3Yi1hMTIwYWNiNjhlNWYiLCJ1aWQiOiJmNmU2MWEwYS02NjM4LTQ3OTktOTc2Ny01ZmQ2MGE4OGVkOTAiLCJ1c24iOiJQbGF5ZXI1ODA4NzM4OSIsImV4cCI6MTc3MDc4NTM4NSwiaWF0IjoxNzcwMTgwNTg1fQ.OvMrMSnKPvlLW4kpc6Scx6jv0rtX7tAhAhh_4sb_Vi4, RefreshExpireTime=1770785385, Variables={}, Username='Player58087389', UserId='f6e61a0a-6638-4799-9767-5fd60a88ed90')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+InventorySystem initialized.
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1024" name="ConsumeItemAsync_ValidItem_ClearsSelection" fullname="HiroInventory.Tests.Editor.InventoryControllerTests.ConsumeItemAsync_ValidItem_ClearsSelection" methodname="ConsumeItemAsync_ValidItem_ClearsSelection" classname="HiroInventory.Tests.Editor.InventoryControllerTests" runstate="Runnable" seed="184841435" result="Passed" start-time="2026-02-04 04:49:45Z" end-time="2026-02-04 04:49:46Z" duration="0.600763" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0OTVlN2UwOC05NGVlLTRmNGEtOTM4NC1kYTYwNzdkNTQ1NmQiLCJ1aWQiOiJlZDA1ZDkwYS01ZTBkLTRlYTMtYWNlZC1mYjk5YzJiMTUzOTUiLCJ1c24iOiJQbGF5ZXI4MTkzMjQ5MiIsImV4cCI6MTc3MDI2Njk4NSwiaWF0IjoxNzcwMTgwNTg1fQ.WPwSoj0WUHOrsBUhBtm-HcR0NWATMgxY3jWXd8a0upU', Created=True, CreateTime=1770180585, ExpireTime=1770266985, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0OTVlN2UwOC05NGVlLTRmNGEtOTM4NC1kYTYwNzdkNTQ1NmQiLCJ1aWQiOiJlZDA1ZDkwYS01ZTBkLTRlYTMtYWNlZC1mYjk5YzJiMTUzOTUiLCJ1c24iOiJQbGF5ZXI4MTkzMjQ5MiIsImV4cCI6MTc3MDc4NTM4NSwiaWF0IjoxNzcwMTgwNTg1fQ.RHHB0PCIIGrHj4mUb-wkXreXjeJ36ieMGPEuat1oc3A, RefreshExpireTime=1770785385, Variables={}, Username='Player81932492', UserId='ed05d90a-5e0d-4ea3-aced-fb99c2b15395')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+InventorySystem initialized.
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST_INVENTORY', body='"{}"'
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_GRANT', body='"{\"items\":{\"bomb\":\"10\"}}"'
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST_INVENTORY', body='"{}"'
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_CONSUME', body='"{\"overconsume\":true,\"items\":{\"bomb\":\"1\"},\"instances\":{}}"'
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1022" name="ConsumeItemAsync_ZeroQuantity_ThrowsException" fullname="HiroInventory.Tests.Editor.InventoryControllerTests.ConsumeItemAsync_ZeroQuantity_ThrowsException" methodname="ConsumeItemAsync_ZeroQuantity_ThrowsException" classname="HiroInventory.Tests.Editor.InventoryControllerTests" runstate="Runnable" seed="1927549894" result="Passed" start-time="2026-02-04 04:49:46Z" end-time="2026-02-04 04:49:46Z" duration="0.500951" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIzNDVkMDQwYS1hYzQzLTRhYTgtYWVhMi03NTk3NzkyMWVmYTEiLCJ1aWQiOiJiMzRhMWE5Zi1lNWQ0LTQ2ODItOWVjMi0zMzYyMzYwMWJjYzUiLCJ1c24iOiJQbGF5ZXI1OTk1MDUwNiIsImV4cCI6MTc3MDI2Njk4NiwiaWF0IjoxNzcwMTgwNTg2fQ.C-dnWUrz_meAWHrf8_GvVcOAcLa6SpNHwpiILa4aA_o', Created=True, CreateTime=1770180586, ExpireTime=1770266986, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIzNDVkMDQwYS1hYzQzLTRhYTgtYWVhMi03NTk3NzkyMWVmYTEiLCJ1aWQiOiJiMzRhMWE5Zi1lNWQ0LTQ2ODItOWVjMi0zMzYyMzYwMWJjYzUiLCJ1c24iOiJQbGF5ZXI1OTk1MDUwNiIsImV4cCI6MTc3MDc4NTM4NiwiaWF0IjoxNzcwMTgwNTg2fQ.CEXpOz_8SkO3ZoxVIyM4qs6UkCq6luoxYc8ggh4y6I8, RefreshExpireTime=1770785386, Variables={}, Username='Player59950506', UserId='b34a1a9f-e5d4-4682-9ec2-33623601bcc5')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+InventorySystem initialized.
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST_INVENTORY', body='"{}"'
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_GRANT', body='"{\"items\":{\"bomb\":\"5\"}}"'
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST_INVENTORY', body='"{}"'
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1029" name="CurrentUserId_ReturnsValidUserId" fullname="HiroInventory.Tests.Editor.InventoryControllerTests.CurrentUserId_ReturnsValidUserId" methodname="CurrentUserId_ReturnsValidUserId" classname="HiroInventory.Tests.Editor.InventoryControllerTests" runstate="Runnable" seed="1412592219" result="Passed" start-time="2026-02-04 04:49:46Z" end-time="2026-02-04 04:49:47Z" duration="0.200414" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3Njc0MzdiYi0xNzI0LTRjZjItYTc4MS03MWRjNDc3MGNkNWEiLCJ1aWQiOiI2YzQ5MTM4OC1kMTQwLTRlOWMtYjY1Ny1iZjEzNjVmOTZjMTkiLCJ1c24iOiJQbGF5ZXI4ODgyMjk5MCIsImV4cCI6MTc3MDI2Njk4NiwiaWF0IjoxNzcwMTgwNTg2fQ.2TJ3RvaL392_IFMITCdQl9JyUDyT33BATqXdQuzqdbo', Created=True, CreateTime=1770180586, ExpireTime=1770266986, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3Njc0MzdiYi0xNzI0LTRjZjItYTc4MS03MWRjNDc3MGNkNWEiLCJ1aWQiOiI2YzQ5MTM4OC1kMTQwLTRlOWMtYjY1Ny1iZjEzNjVmOTZjMTkiLCJ1c24iOiJQbGF5ZXI4ODgyMjk5MCIsImV4cCI6MTc3MDc4NTM4NiwiaWF0IjoxNzcwMTgwNTg2fQ.pIy5ev9D37AfNYo4VFFST0543xA-pjhfMpipoJkYtoc, RefreshExpireTime=1770785386, Variables={}, Username='Player88822990', UserId='6c491388-d140-4e9c-b657-bf1365f96c19')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+InventorySystem initialized.
+Hiro.InventorySystem: Notifying 0 observers.
+Current user ID: 6c491388-d140-4e9c-b657-bf1365f96c19
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1015" name="GetSelectedItem_NoSelection_ReturnsNull" fullname="HiroInventory.Tests.Editor.InventoryControllerTests.GetSelectedItem_NoSelection_ReturnsNull" methodname="GetSelectedItem_NoSelection_ReturnsNull" classname="HiroInventory.Tests.Editor.InventoryControllerTests" runstate="Runnable" seed="1749815826" result="Passed" start-time="2026-02-04 04:49:47Z" end-time="2026-02-04 04:49:47Z" duration="0.200775" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmNzVmMjg4OC0xMzNhLTQzOTQtYTI5YS00OTJlNjU3MmVlYWMiLCJ1aWQiOiI0NGQ2MmVlNC0xNzVkLTRiYzYtODVkMS0wMDZlY2MyYjkyYzAiLCJ1c24iOiJQbGF5ZXIwODgwMzE4OCIsImV4cCI6MTc3MDI2Njk4NywiaWF0IjoxNzcwMTgwNTg3fQ.PrBP7BSk7o955nO4fN4OYpQZZbcrGygQ8FeRFyoCPM8', Created=True, CreateTime=1770180587, ExpireTime=1770266987, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmNzVmMjg4OC0xMzNhLTQzOTQtYTI5YS00OTJlNjU3MmVlYWMiLCJ1aWQiOiI0NGQ2MmVlNC0xNzVkLTRiYzYtODVkMS0wMDZlY2MyYjkyYzAiLCJ1c24iOiJQbGF5ZXIwODgwMzE4OCIsImV4cCI6MTc3MDc4NTM4NywiaWF0IjoxNzcwMTgwNTg3fQ.zOV3hSyKd2ErlsAJG7YXaHPOCKgaRwVQVo6piEzueqg, RefreshExpireTime=1770785387, Variables={}, Username='Player08803188', UserId='44d62ee4-175d-4bc6-85d1-006ecc2b92c0')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+InventorySystem initialized.
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1018" name="GrantItemAsync_IndexOutOfRange_ThrowsException" fullname="HiroInventory.Tests.Editor.InventoryControllerTests.GrantItemAsync_IndexOutOfRange_ThrowsException" methodname="GrantItemAsync_IndexOutOfRange_ThrowsException" classname="HiroInventory.Tests.Editor.InventoryControllerTests" runstate="Runnable" seed="2144904192" result="Passed" start-time="2026-02-04 04:49:47Z" end-time="2026-02-04 04:49:47Z" duration="0.250183" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIxNmM1N2VlNS05MDc3LTQ5MGUtOTllNC05YTg2NjM0Yjc3ZGEiLCJ1aWQiOiJmZWMzNzVlYy1lYjdjLTRhZmUtODIzMS1lODJjMTFmMTg4NTgiLCJ1c24iOiJQbGF5ZXI5NzQ4NjAwOSIsImV4cCI6MTc3MDI2Njk4NywiaWF0IjoxNzcwMTgwNTg3fQ.tUUlfAEWxWTCRMq_sCeB85XidY8d2HpIMze1M_fbvME', Created=True, CreateTime=1770180587, ExpireTime=1770266987, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIxNmM1N2VlNS05MDc3LTQ5MGUtOTllNC05YTg2NjM0Yjc3ZGEiLCJ1aWQiOiJmZWMzNzVlYy1lYjdjLTRhZmUtODIzMS1lODJjMTFmMTg4NTgiLCJ1c24iOiJQbGF5ZXI5NzQ4NjAwOSIsImV4cCI6MTc3MDc4NTM4NywiaWF0IjoxNzcwMTgwNTg3fQ.ttjBTDzZ2OEPnXWetCPwV1iyxGHdH60o1QFqxW_0ysU, RefreshExpireTime=1770785387, Variables={}, Username='Player97486009', UserId='fec375ec-eb7c-4afe-8231-e82c11f18858')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+InventorySystem initialized.
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1017" name="GrantItemAsync_InvalidIndex_ThrowsException" fullname="HiroInventory.Tests.Editor.InventoryControllerTests.GrantItemAsync_InvalidIndex_ThrowsException" methodname="GrantItemAsync_InvalidIndex_ThrowsException" classname="HiroInventory.Tests.Editor.InventoryControllerTests" runstate="Runnable" seed="1119442830" result="Passed" start-time="2026-02-04 04:49:47Z" end-time="2026-02-04 04:49:47Z" duration="0.250340" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0NmQwODhiZi01ZDc2LTQ5YmQtYTY3Ny00NTZiMGIwZjBhNzciLCJ1aWQiOiI4ZDQyOTc0MC1mZjc4LTRjNDItOTM2MC1iZjBjN2IwNjFhYjAiLCJ1c24iOiJQbGF5ZXIxMzE4NjE3OCIsImV4cCI6MTc3MDI2Njk4NywiaWF0IjoxNzcwMTgwNTg3fQ.Wf9XNvqJoWBHdIb6Nf9cfJS9pkS84PQEumpLN3L0KPw', Created=True, CreateTime=1770180587, ExpireTime=1770266987, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0NmQwODhiZi01ZDc2LTQ5YmQtYTY3Ny00NTZiMGIwZjBhNzciLCJ1aWQiOiI4ZDQyOTc0MC1mZjc4LTRjNDItOTM2MC1iZjBjN2IwNjFhYjAiLCJ1c24iOiJQbGF5ZXIxMzE4NjE3OCIsImV4cCI6MTc3MDc4NTM4NywiaWF0IjoxNzcwMTgwNTg3fQ.if-rZ6AiIUU15YCmEW4N8yDAD7xWQtNYmSNiHXfKlOY, RefreshExpireTime=1770785387, Variables={}, Username='Player13186178', UserId='8d429740-ff78-4c42-9360-bf0c7b061ab0')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+InventorySystem initialized.
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1020" name="GrantItemAsync_MultipleItems_IncreasesCount" fullname="HiroInventory.Tests.Editor.InventoryControllerTests.GrantItemAsync_MultipleItems_IncreasesCount" methodname="GrantItemAsync_MultipleItems_IncreasesCount" classname="HiroInventory.Tests.Editor.InventoryControllerTests" runstate="Runnable" seed="84960888" result="Passed" start-time="2026-02-04 04:49:47Z" end-time="2026-02-04 04:49:48Z" duration="0.501381" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmYWYzY2Q5NS00NGY1LTQzYzYtYTlmZi1kMDc4NTU2ZmVlYzgiLCJ1aWQiOiJjYmQ1NDFlMy05ZDM2LTRmZTUtOTY2OS00NDRhNDVjNzNmNTEiLCJ1c24iOiJQbGF5ZXIzODc3Mzg5MCIsImV4cCI6MTc3MDI2Njk4NywiaWF0IjoxNzcwMTgwNTg3fQ.Z9DsqhZ-ugi3-SR2e5_WP75Rkf-rqEiHGfXqN0xW1LQ', Created=True, CreateTime=1770180587, ExpireTime=1770266987, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmYWYzY2Q5NS00NGY1LTQzYzYtYTlmZi1kMDc4NTU2ZmVlYzgiLCJ1aWQiOiJjYmQ1NDFlMy05ZDM2LTRmZTUtOTY2OS00NDRhNDVjNzNmNTEiLCJ1c24iOiJQbGF5ZXIzODc3Mzg5MCIsImV4cCI6MTc3MDc4NTM4NywiaWF0IjoxNzcwMTgwNTg3fQ.M2ZZKB0r3tfXw3jlVJbcaSqilq8JfnO9NcI8Z4w057U, RefreshExpireTime=1770785387, Variables={}, Username='Player38773890', UserId='cbd541e3-9d36-4fe5-9669-444a45c73f51')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+InventorySystem initialized.
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST_INVENTORY', body='"{}"'
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_GRANT', body='"{\"items\":{\"bomb\":\"5\"}}"'
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST_INVENTORY', body='"{}"'
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1016" name="GrantItemAsync_ValidItem_IncreasesInventoryCount" fullname="HiroInventory.Tests.Editor.InventoryControllerTests.GrantItemAsync_ValidItem_IncreasesInventoryCount" methodname="GrantItemAsync_ValidItem_IncreasesInventoryCount" classname="HiroInventory.Tests.Editor.InventoryControllerTests" runstate="Runnable" seed="2141694265" result="Passed" start-time="2026-02-04 04:49:48Z" end-time="2026-02-04 04:49:48Z" duration="0.500851" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkOTA0NDJlYS1iN2Y4LTRhNWMtYjVhMi1jYTEyNDZlYTE5MjUiLCJ1aWQiOiI0MDA0ZTZkNC0yNmZmLTRkYjUtOWQzZC0xOWQ2ZjMwYjE1NjUiLCJ1c24iOiJQbGF5ZXIzMjIzMTQ3OCIsImV4cCI6MTc3MDI2Njk4OCwiaWF0IjoxNzcwMTgwNTg4fQ.lUuwevUbckTj80LOiYzvatgdvLsnN4VXdJq5k6nboCE', Created=True, CreateTime=1770180588, ExpireTime=1770266988, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkOTA0NDJlYS1iN2Y4LTRhNWMtYjVhMi1jYTEyNDZlYTE5MjUiLCJ1aWQiOiI0MDA0ZTZkNC0yNmZmLTRkYjUtOWQzZC0xOWQ2ZjMwYjE1NjUiLCJ1c24iOiJQbGF5ZXIzMjIzMTQ3OCIsImV4cCI6MTc3MDc4NTM4OCwiaWF0IjoxNzcwMTgwNTg4fQ.6IJXHC5xYVEFf7dy44fhosaoEOV09xXf2FKcLZ53gYc, RefreshExpireTime=1770785388, Variables={}, Username='Player32231478', UserId='4004e6d4-26ff-4db5-9d3d-19d6f30b1565')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+InventorySystem initialized.
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST_INVENTORY', body='"{}"'
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_GRANT', body='"{\"items\":{\"bomb\":\"1\"}}"'
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST_INVENTORY', body='"{}"'
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Inventory count: before=0, after=1
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1019" name="GrantItemAsync_ZeroQuantity_ThrowsException" fullname="HiroInventory.Tests.Editor.InventoryControllerTests.GrantItemAsync_ZeroQuantity_ThrowsException" methodname="GrantItemAsync_ZeroQuantity_ThrowsException" classname="HiroInventory.Tests.Editor.InventoryControllerTests" runstate="Runnable" seed="1644677636" result="Passed" start-time="2026-02-04 04:49:48Z" end-time="2026-02-04 04:49:49Z" duration="0.250559" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1MjAxNWE0OS1kMWQ3LTQwY2YtYWU2NC0wZDQxYWUzZGVjMjgiLCJ1aWQiOiJmZWViYzNiOS1mN2Q0LTQ2MjQtYWVlOS1mNmY0NTk2ZjY5MzciLCJ1c24iOiJQbGF5ZXIzNzUzNzY0MSIsImV4cCI6MTc3MDI2Njk4OCwiaWF0IjoxNzcwMTgwNTg4fQ.4FTLwPfFcvPVHbEHLDTASDAEkJ2gp5_F752Hlsi0AOw', Created=True, CreateTime=1770180588, ExpireTime=1770266988, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1MjAxNWE0OS1kMWQ3LTQwY2YtYWU2NC0wZDQxYWUzZGVjMjgiLCJ1aWQiOiJmZWViYzNiOS1mN2Q0LTQ2MjQtYWVlOS1mNmY0NTk2ZjY5MzciLCJ1c24iOiJQbGF5ZXIzNzUzNzY0MSIsImV4cCI6MTc3MDc4NTM4OCwiaWF0IjoxNzcwMTgwNTg4fQ.6IX_UhfxOgsYCrUwoLbOLJk2WJV0WXXoxqExQ-Fwrdo, RefreshExpireTime=1770785388, Variables={}, Username='Player37537641', UserId='feebc3b9-f7d4-4624-aee9-f6f4596f6937')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+InventorySystem initialized.
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1010" name="LoadItemCodexAsync_PopulatesCodexLookup" fullname="HiroInventory.Tests.Editor.InventoryControllerTests.LoadItemCodexAsync_PopulatesCodexLookup" methodname="LoadItemCodexAsync_PopulatesCodexLookup" classname="HiroInventory.Tests.Editor.InventoryControllerTests" runstate="Runnable" seed="302284320" result="Passed" start-time="2026-02-04 04:49:49Z" end-time="2026-02-04 04:49:49Z" duration="0.250407" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkMzU1MTJkYS1hYjRhLTQxZTEtYjcxMC1hZjA0MTY2MDE5ZDEiLCJ1aWQiOiJhYjUwMmEwNS04YTVlLTRlMmMtYjA0Ny03OGVjYTU1ZGNiNzEiLCJ1c24iOiJQbGF5ZXI5MDAzNTk0MSIsImV4cCI6MTc3MDI2Njk4OSwiaWF0IjoxNzcwMTgwNTg5fQ.gi9efFjsnBGfbA6Zvka9vhAO1t-J73ZRAtBjVOmkFuk', Created=True, CreateTime=1770180589, ExpireTime=1770266989, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkMzU1MTJkYS1hYjRhLTQxZTEtYjcxMC1hZjA0MTY2MDE5ZDEiLCJ1aWQiOiJhYjUwMmEwNS04YTVlLTRlMmMtYjA0Ny03OGVjYTU1ZGNiNzEiLCJ1c24iOiJQbGF5ZXI5MDAzNTk0MSIsImV4cCI6MTc3MDc4NTM4OSwiaWF0IjoxNzcwMTgwNTg5fQ.4l7Z3-2cwTCpkLOwdMwHNy0ONcOBYX-4MwI-3YOOUco, RefreshExpireTime=1770785389, Variables={}, Username='Player90035941', UserId='ab502a05-8a5e-4e2c-b047-78eca55dcb71')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+InventorySystem initialized.
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1009" name="LoadItemCodexAsync_ReturnsItemCodex" fullname="HiroInventory.Tests.Editor.InventoryControllerTests.LoadItemCodexAsync_ReturnsItemCodex" methodname="LoadItemCodexAsync_ReturnsItemCodex" classname="HiroInventory.Tests.Editor.InventoryControllerTests" runstate="Runnable" seed="1815038086" result="Passed" start-time="2026-02-04 04:49:49Z" end-time="2026-02-04 04:49:49Z" duration="0.250377" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIzNGFhODRkNC03OTA5LTRlYzQtOTI3Yi0yNDIzMmZkMmY1ZTUiLCJ1aWQiOiJhYjkwZDVkZS1hMTEwLTRiMzQtOTI2ZS02MWM4Zjk1ZmExMjkiLCJ1c24iOiJQbGF5ZXI2NzcwMDM3NiIsImV4cCI6MTc3MDI2Njk4OSwiaWF0IjoxNzcwMTgwNTg5fQ.nd8J8X45GmVbfh1Np9NygEQtczP9vpENw9_HAe9WF6s', Created=True, CreateTime=1770180589, ExpireTime=1770266989, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIzNGFhODRkNC03OTA5LTRlYzQtOTI3Yi0yNDIzMmZkMmY1ZTUiLCJ1aWQiOiJhYjkwZDVkZS1hMTEwLTRiMzQtOTI2ZS02MWM4Zjk1ZmExMjkiLCJ1c24iOiJQbGF5ZXI2NzcwMDM3NiIsImV4cCI6MTc3MDc4NTM4OSwiaWF0IjoxNzcwMTgwNTg5fQ.PIJq3YVbmej0SjgMLbGa_uG3sof_63wcqH-Y7girSkk, RefreshExpireTime=1770785389, Variables={}, Username='Player67700376', UserId='ab90d5de-a110-4b34-926e-61c8f95fa129')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+InventorySystem initialized.
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+Found 11 codex items
+Codex Item: Bomb (bomb), Stackable: True, MaxCount: 99
+Codex Item: Eye of Sauron (evil_eye), Stackable: False, MaxCount: 1
+Codex Item: Gold Stack (gold_stack), Stackable: True, MaxCount: 99
+Codex Item: Golden Key (golden_key), Stackable: False, MaxCount: 9
+Codex Item: Iron Shield (iron_shield), Stackable: False, MaxCount: 99
+Codex Item: Iron Sword (iron_sword), Stackable: False, MaxCount: 99
+Codex Item: Lucky Charm (lucky_charm), Stackable: True, MaxCount: 5
+Codex Item: Magic Gem (magic_gem), Stackable: True, MaxCount: 5
+Codex Item: Mana Potion (mana_potion), Stackable: True, MaxCount: 99
+Codex Item: Small Crafting Bag (small_crafting_bag), Stackable: False, MaxCount: 99
+Codex Item: Wooden Shield (wooden_shield), Stackable: False, MaxCount: 99
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1012" name="RefreshInventoryAsync_NewAccount_ReturnsEmptyOrStarterItems" fullname="HiroInventory.Tests.Editor.InventoryControllerTests.RefreshInventoryAsync_NewAccount_ReturnsEmptyOrStarterItems" methodname="RefreshInventoryAsync_NewAccount_ReturnsEmptyOrStarterItems" classname="HiroInventory.Tests.Editor.InventoryControllerTests" runstate="Runnable" seed="1800223170" result="Passed" start-time="2026-02-04 04:49:49Z" end-time="2026-02-04 04:49:49Z" duration="0.300419" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1NDI5YmQyOC00YWIxLTRmMTgtYjg5NC0yZWQ3YTA4OGFhZDEiLCJ1aWQiOiI0MzU1ZjZiZS1jOGUwLTQ4MTItYjJjYy1kZTFjNmMyYjIwOTkiLCJ1c24iOiJQbGF5ZXI5MzQxNjE5MCIsImV4cCI6MTc3MDI2Njk4OSwiaWF0IjoxNzcwMTgwNTg5fQ.zgoIu6IP3eNXzCXfc7q62Jd5KNs5pmsZXhVa8G8hIqk', Created=True, CreateTime=1770180589, ExpireTime=1770266989, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1NDI5YmQyOC00YWIxLTRmMTgtYjg5NC0yZWQ3YTA4OGFhZDEiLCJ1aWQiOiI0MzU1ZjZiZS1jOGUwLTQ4MTItYjJjYy1kZTFjNmMyYjIwOTkiLCJ1c24iOiJQbGF5ZXI5MzQxNjE5MCIsImV4cCI6MTc3MDc4NTM4OSwiaWF0IjoxNzcwMTgwNTg5fQ.OnGfDpTsrfebC3deqMNteRa5iEjpAFwSyUbbFhH3yFw, RefreshExpireTime=1770785389, Variables={}, Username='Player93416190', UserId='4355f6be-c8e0-4812-b2cc-de1c6c2b2099')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+InventorySystem initialized.
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST_INVENTORY', body='"{}"'
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+New account has 0 inventory items
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1011" name="RefreshInventoryAsync_ReturnsInventoryItems" fullname="HiroInventory.Tests.Editor.InventoryControllerTests.RefreshInventoryAsync_ReturnsInventoryItems" methodname="RefreshInventoryAsync_ReturnsInventoryItems" classname="HiroInventory.Tests.Editor.InventoryControllerTests" runstate="Runnable" seed="1257868909" result="Passed" start-time="2026-02-04 04:49:49Z" end-time="2026-02-04 04:49:50Z" duration="0.300588" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiNWE5NDFlOC03OTQ1LTQyZjQtYTcwYi05YzdiYTQ5ODNmNjciLCJ1aWQiOiI2YmZiMjkwZC1mNzc2LTQ2MGQtODA3Mi00NDc0YTE4YjI0ZjAiLCJ1c24iOiJQbGF5ZXI1Njc2ODI0NCIsImV4cCI6MTc3MDI2Njk4OSwiaWF0IjoxNzcwMTgwNTg5fQ.3qHkbBL0FUgd4sRj9jZDVlsVz_3w6AZe-T80-WbmSIc', Created=True, CreateTime=1770180589, ExpireTime=1770266989, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiNWE5NDFlOC03OTQ1LTQyZjQtYTcwYi05YzdiYTQ5ODNmNjciLCJ1aWQiOiI2YmZiMjkwZC1mNzc2LTQ2MGQtODA3Mi00NDc0YTE4YjI0ZjAiLCJ1c24iOiJQbGF5ZXI1Njc2ODI0NCIsImV4cCI6MTc3MDc4NTM4OSwiaWF0IjoxNzcwMTgwNTg5fQ.lzkD9tohgC6-mUXgvPpfumnB1_MAG46D0YL4GNC2ZeY, RefreshExpireTime=1770785389, Variables={}, Username='Player56768244', UserId='6bfb290d-f776-460d-8072-4474a18b24f0')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+InventorySystem initialized.
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST_INVENTORY', body='"{}"'
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Found 0 inventory items
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1025" name="RemoveItemAsync_NoSelectedItem_DoesNothing" fullname="HiroInventory.Tests.Editor.InventoryControllerTests.RemoveItemAsync_NoSelectedItem_DoesNothing" methodname="RemoveItemAsync_NoSelectedItem_DoesNothing" classname="HiroInventory.Tests.Editor.InventoryControllerTests" runstate="Runnable" seed="146871159" result="Passed" start-time="2026-02-04 04:49:50Z" end-time="2026-02-04 04:49:50Z" duration="0.199981" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI5YTE0MTI4YS0zYzdmLTQ2ZDMtODU1Zi00YmFmNzAwYjFhYjAiLCJ1aWQiOiJjYWQ0ODJkYi1hNTA2LTRmMGMtYmIwOC0xZmMwYWQ2YjIwMWMiLCJ1c24iOiJQbGF5ZXIwODI2MTQyMyIsImV4cCI6MTc3MDI2Njk5MCwiaWF0IjoxNzcwMTgwNTkwfQ.n5Kh7n2_jIRMQsOHCscUijzCqTuyCfH8nW3TJSkZYdI', Created=True, CreateTime=1770180590, ExpireTime=1770266990, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI5YTE0MTI4YS0zYzdmLTQ2ZDMtODU1Zi00YmFmNzAwYjFhYjAiLCJ1aWQiOiJjYWQ0ODJkYi1hNTA2LTRmMGMtYmIwOC0xZmMwYWQ2YjIwMWMiLCJ1c24iOiJQbGF5ZXIwODI2MTQyMyIsImV4cCI6MTc3MDc4NTM5MCwiaWF0IjoxNzcwMTgwNTkwfQ.6s5_Z-TZsNyiLDuAag_JgO2ygqsLBcIgGZvfjAMrw8k, RefreshExpireTime=1770785390, Variables={}, Username='Player08261423', UserId='cad482db-a506-4f0c-bb08-1fc0ad6b201c')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+InventorySystem initialized.
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1027" name="RemoveItemAsync_ValidItem_ClearsSelection" fullname="HiroInventory.Tests.Editor.InventoryControllerTests.RemoveItemAsync_ValidItem_ClearsSelection" methodname="RemoveItemAsync_ValidItem_ClearsSelection" classname="HiroInventory.Tests.Editor.InventoryControllerTests" runstate="Runnable" seed="409708335" result="Passed" start-time="2026-02-04 04:49:50Z" end-time="2026-02-04 04:49:50Z" duration="0.551282" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkYzdhZjA5MS1kYzdjLTQyZTAtOTc0MS00MTg0YzUyZGM0MzAiLCJ1aWQiOiI3MDY1M2UzZC1jYTE0LTQ4YWUtOTM4YS05MGQ4MGNmZDNiZTEiLCJ1c24iOiJQbGF5ZXI3MDcxNjAxMiIsImV4cCI6MTc3MDI2Njk5MCwiaWF0IjoxNzcwMTgwNTkwfQ.kR2MUixOY_ypcmRp4uw73PvIoiKHCc_Y_Bl8C-VsSfQ', Created=True, CreateTime=1770180590, ExpireTime=1770266990, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkYzdhZjA5MS1kYzdjLTQyZTAtOTc0MS00MTg0YzUyZGM0MzAiLCJ1aWQiOiI3MDY1M2UzZC1jYTE0LTQ4YWUtOTM4YS05MGQ4MGNmZDNiZTEiLCJ1c24iOiJQbGF5ZXI3MDcxNjAxMiIsImV4cCI6MTc3MDc4NTM5MCwiaWF0IjoxNzcwMTgwNTkwfQ.mRz8jyLYP_hAx7vPz9Uf3ihr05OGlbL_pBw2cgB9qfo, RefreshExpireTime=1770785390, Variables={}, Username='Player70716012', UserId='70653e3d-ca14-48ae-938a-90d80cfd3be1')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+InventorySystem initialized.
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST_INVENTORY', body='"{}"'
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_GRANT', body='"{\"items\":{\"bomb\":\"10\"}}"'
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST_INVENTORY', body='"{}"'
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_GRANT', body='"{\"items\":{\"bomb\":\"-1\"}}"'
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1026" name="RemoveItemAsync_ZeroQuantity_ThrowsException" fullname="HiroInventory.Tests.Editor.InventoryControllerTests.RemoveItemAsync_ZeroQuantity_ThrowsException" methodname="RemoveItemAsync_ZeroQuantity_ThrowsException" classname="HiroInventory.Tests.Editor.InventoryControllerTests" runstate="Runnable" seed="381631776" result="Passed" start-time="2026-02-04 04:49:50Z" end-time="2026-02-04 04:49:51Z" duration="0.501007" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1NWYyOGQ1OS1iMWVkLTQ0YzUtODg5ZC0xOGNmYmI4NzE3NjQiLCJ1aWQiOiJiODY3ZWYxMS04ODkzLTQ3MGYtOTJjZC1hNDliN2YxMzg3YzUiLCJ1c24iOiJQbGF5ZXI1NzIzOTE2NCIsImV4cCI6MTc3MDI2Njk5MCwiaWF0IjoxNzcwMTgwNTkwfQ.aLBLnMYX4AZNa78AMHV2vKwIDesrHzDu9yoUWitw3Dk', Created=True, CreateTime=1770180590, ExpireTime=1770266990, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1NWYyOGQ1OS1iMWVkLTQ0YzUtODg5ZC0xOGNmYmI4NzE3NjQiLCJ1aWQiOiJiODY3ZWYxMS04ODkzLTQ3MGYtOTJjZC1hNDliN2YxMzg3YzUiLCJ1c24iOiJQbGF5ZXI1NzIzOTE2NCIsImV4cCI6MTc3MDc4NTM5MCwiaWF0IjoxNzcwMTgwNTkwfQ.b4mfT4a09DZXxDjZ-NTo_EgZ65A8Zuk-_M16SjCc5Xg, RefreshExpireTime=1770785390, Variables={}, Username='Player57239164', UserId='b867ef11-8893-470f-92cd-a49b7f1387c5')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+InventorySystem initialized.
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST_INVENTORY', body='"{}"'
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_GRANT', body='"{\"items\":{\"bomb\":\"5\"}}"'
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST_INVENTORY', body='"{}"'
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1014" name="SelectItem_Null_ClearsSelection" fullname="HiroInventory.Tests.Editor.InventoryControllerTests.SelectItem_Null_ClearsSelection" methodname="SelectItem_Null_ClearsSelection" classname="HiroInventory.Tests.Editor.InventoryControllerTests" runstate="Runnable" seed="1782637750" result="Passed" start-time="2026-02-04 04:49:51Z" end-time="2026-02-04 04:49:51Z" duration="0.200190" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0Njg0ZDdlNC1hN2FmLTRjYzYtYTY5MC0zMTBlMzFlMjY0YWUiLCJ1aWQiOiI1N2E4YzUyMS05NWEzLTQwMDItYmIzOC1lOWU4MTkyMWU1ZjYiLCJ1c24iOiJQbGF5ZXIxMjYyNzM0NCIsImV4cCI6MTc3MDI2Njk5MSwiaWF0IjoxNzcwMTgwNTkxfQ.tgNTSedr-2-sM4Nnkv2YvIRmQIgJSDahnJo4uHnlKFc', Created=True, CreateTime=1770180591, ExpireTime=1770266991, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0Njg0ZDdlNC1hN2FmLTRjYzYtYTY5MC0zMTBlMzFlMjY0YWUiLCJ1aWQiOiI1N2E4YzUyMS05NWEzLTQwMDItYmIzOC1lOWU4MTkyMWU1ZjYiLCJ1c24iOiJQbGF5ZXIxMjYyNzM0NCIsImV4cCI6MTc3MDc4NTM5MSwiaWF0IjoxNzcwMTgwNTkxfQ.ueIIeBWInILMKCeHka4TH5zuiOxUVrx9WTCV9E8cJdk, RefreshExpireTime=1770785391, Variables={}, Username='Player12627344', UserId='57a8c521-95a3-4002-bb38-e9e81921e5f6')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+InventorySystem initialized.
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1013" name="SelectItem_ValidItem_SetsSelectedItem" fullname="HiroInventory.Tests.Editor.InventoryControllerTests.SelectItem_ValidItem_SetsSelectedItem" methodname="SelectItem_ValidItem_SetsSelectedItem" classname="HiroInventory.Tests.Editor.InventoryControllerTests" runstate="Runnable" seed="1841800857" result="Passed" start-time="2026-02-04 04:49:51Z" end-time="2026-02-04 04:49:51Z" duration="0.350979" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiMzdiMjY2OC1kMDM2LTRkMTMtYTIwMi1mNjk0ZDRhMWRjNzEiLCJ1aWQiOiIyYTdlNDQ3ZS1lNWUwLTQ3ODMtYWFiZi0xYzE2MjRmYzgzODEiLCJ1c24iOiJQbGF5ZXIzNDgzMzg5NSIsImV4cCI6MTc3MDI2Njk5MSwiaWF0IjoxNzcwMTgwNTkxfQ.9ZgbGUHxVi1wOpHu9YlwP_Onn7Yi7xfeVz8_aBAMJ_o', Created=True, CreateTime=1770180591, ExpireTime=1770266991, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiMzdiMjY2OC1kMDM2LTRkMTMtYTIwMi1mNjk0ZDRhMWRjNzEiLCJ1aWQiOiIyYTdlNDQ3ZS1lNWUwLTQ3ODMtYWFiZi0xYzE2MjRmYzgzODEiLCJ1c24iOiJQbGF5ZXIzNDgzMzg5NSIsImV4cCI6MTc3MDc4NTM5MSwiaWF0IjoxNzcwMTgwNTkxfQ.9Rfa9iLUeJrb-m5Pf1O-q-SmE3XIL7tiYs5D2oUgfxE, RefreshExpireTime=1770785391, Variables={}, Username='Player34833895', UserId='2a7e447e-e5e0-4783-aabf-1c1624fc8381')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+InventorySystem initialized.
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST_INVENTORY', body='"{}"'
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1028" name="SwitchCompleteAsync_ClearsSelectedItem" fullname="HiroInventory.Tests.Editor.InventoryControllerTests.SwitchCompleteAsync_ClearsSelectedItem" methodname="SwitchCompleteAsync_ClearsSelectedItem" classname="HiroInventory.Tests.Editor.InventoryControllerTests" runstate="Runnable" seed="1043755071" result="Passed" start-time="2026-02-04 04:49:51Z" end-time="2026-02-04 04:49:52Z" duration="0.401046" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2ODQ5YTdmMi1mNmUzLTRlODQtOGRlZC1iOTRlMGZmMjJhNzQiLCJ1aWQiOiJkMWU0MjdmZi05ZDYwLTQyMzEtYTlkNy1kNDhmYmViY2I4YTgiLCJ1c24iOiJQbGF5ZXI3OTg2NTU2MyIsImV4cCI6MTc3MDI2Njk5MSwiaWF0IjoxNzcwMTgwNTkxfQ.y0O_pzJFr1NQ3VE8clrQ2PqQqph9g6s0zgIDydXDHrw', Created=True, CreateTime=1770180591, ExpireTime=1770266991, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2ODQ5YTdmMi1mNmUzLTRlODQtOGRlZC1iOTRlMGZmMjJhNzQiLCJ1aWQiOiJkMWU0MjdmZi05ZDYwLTQyMzEtYTlkNy1kNDhmYmViY2I4YTgiLCJ1c24iOiJQbGF5ZXI3OTg2NTU2MyIsImV4cCI6MTc3MDc4NTM5MSwiaWF0IjoxNzcwMTgwNTkxfQ.EfmNqHKSVUDoseEuSC9d6Nwdt692LmJCMMg5_AotGn4, RefreshExpireTime=1770785391, Variables={}, Username='Player79865563', UserId='d1e427ff-9d60-4231-a9d7-d48fbebcb8a8')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+InventorySystem initialized.
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST', body='"{\"item_category\":\"\"}"'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_INVENTORY_LIST_INVENTORY', body='"{}"'
+Hiro.InventorySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+Saving results to: /Users/andres/Library/Application Support/DefaultCompany/UnityHiroInventory/TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

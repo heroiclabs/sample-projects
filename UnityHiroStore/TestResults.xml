@@ -1,0 +1,584 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="32" result="Passed" total="32" passed="32" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-02-04 04:50:22Z" end-time="2026-02-04 04:50:28Z" duration="6.9084781">
+  <test-suite type="TestSuite" id="1000" name="UnityHiroChallenges" fullname="UnityHiroChallenges" runstate="Runnable" testcasecount="32" result="Passed" start-time="2026-02-04 04:50:22Z" end-time="2026-02-04 04:50:28Z" duration="6.908478" total="32" passed="32" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1038" name="UnityHiroStore.Tests.Editor.dll" fullname="/Users/andres/Developer/sample-projects/UnityHiroStore/Library/ScriptAssemblies/UnityHiroStore.Tests.Editor.dll" runstate="Runnable" testcasecount="32" result="Passed" start-time="2026-02-04 04:50:22Z" end-time="2026-02-04 04:50:28Z" duration="6.904978" total="32" passed="32" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="76904" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1039" name="HiroStore" fullname="HiroStore" runstate="Runnable" testcasecount="32" result="Passed" start-time="2026-02-04 04:50:22Z" end-time="2026-02-04 04:50:28Z" duration="6.904518" total="32" passed="32" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1040" name="Tests" fullname="HiroStore.Tests" runstate="Runnable" testcasecount="32" result="Passed" start-time="2026-02-04 04:50:22Z" end-time="2026-02-04 04:50:28Z" duration="6.904220" total="32" passed="32" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1041" name="Editor" fullname="HiroStore.Tests.Editor" runstate="Runnable" testcasecount="32" result="Passed" start-time="2026-02-04 04:50:22Z" end-time="2026-02-04 04:50:28Z" duration="6.904016" total="32" passed="32" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1005" name="StoreControllerTests" fullname="HiroStore.Tests.Editor.StoreControllerTests" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" testcasecount="32" result="Passed" start-time="2026-02-04 04:50:22Z" end-time="2026-02-04 04:50:28Z" duration="6.903236" total="32" passed="32" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1030" name="CanAffordItem_NullItem_ReturnsFalse" fullname="HiroStore.Tests.Editor.StoreControllerTests.CanAffordItem_NullItem_ReturnsFalse" methodname="CanAffordItem_NullItem_ReturnsFalse" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="1888201927" result="Passed" start-time="2026-02-04 04:50:22Z" end-time="2026-02-04 04:50:22Z" duration="0.179247" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0Zjk4M2RlYi1lY2NlLTQ0NjgtOWMwYi04M2RlMWQwNDdmOTgiLCJ1aWQiOiJkODE0M2UzMC01MTYyLTRjZTItOTcwMy1iZTJiZTAxMTc2OTIiLCJ1c24iOiJQbGF5ZXI5MjUyNjY5NSIsImV4cCI6MTc3MDI2NzAyMiwiaWF0IjoxNzcwMTgwNjIyfQ.2TZREqs4EHweGObeFqBoMWkibHxy-y7g5zSwm7y-lFo', Created=True, CreateTime=1770180622, ExpireTime=1770267022, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0Zjk4M2RlYi1lY2NlLTQ0NjgtOWMwYi04M2RlMWQwNDdmOTgiLCJ1aWQiOiJkODE0M2UzMC01MTYyLTRjZTItOTcwMy1iZTJiZTAxMTc2OTIiLCJ1c24iOiJQbGF5ZXI5MjUyNjY5NSIsImV4cCI6MTc3MDc4NTQyMiwiaWF0IjoxNzcwMTgwNjIyfQ.zoRiLtAULxZ2lCroCCctNm5PpOAeM6RK7zCIv9Srhmw, RefreshExpireTime=1770785422, Variables={}, Username='Player92526695', UserId='d8143e30-5162-4ce2-9703-be2be0117692')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1031" name="CanAffordItem_SufficientFunds_ReturnsTrue" fullname="HiroStore.Tests.Editor.StoreControllerTests.CanAffordItem_SufficientFunds_ReturnsTrue" methodname="CanAffordItem_SufficientFunds_ReturnsTrue" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="82681497" result="Passed" start-time="2026-02-04 04:50:22Z" end-time="2026-02-04 04:50:22Z" duration="0.248688" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmZmEyMDE5Yi01ZmMyLTQzNmQtODk3Ni1lNTU3NWM3NTdmNzIiLCJ1aWQiOiIwZWI1YTE2OC0yZTYzLTQ0M2QtOWJhNC01MDAwNmY4ZWNiODUiLCJ1c24iOiJQbGF5ZXI0Mjc4MDA5NyIsImV4cCI6MTc3MDI2NzAyMiwiaWF0IjoxNzcwMTgwNjIyfQ.EK1FphxntL2epzhzcX9WaFeVBU3gsov56V6QMzZln_M', Created=True, CreateTime=1770180622, ExpireTime=1770267022, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmZmEyMDE5Yi01ZmMyLTQzNmQtODk3Ni1lNTU3NWM3NTdmNzIiLCJ1aWQiOiIwZWI1YTE2OC0yZTYzLTQ0M2QtOWJhNC01MDAwNmY4ZWNiODUiLCJ1c24iOiJQbGF5ZXI0Mjc4MDA5NyIsImV4cCI6MTc3MDc4NTQyMiwiaWF0IjoxNzcwMTgwNjIyfQ.GT1ec4Ic4zyooDmmF-GWPUvjrL4f-oRQQoNqnmmS-5g, RefreshExpireTime=1770785422, Variables={}, Username='Player42780097', UserId='0eb5a168-2e63-443d-9ba4-50006f8ecb85')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Item coins_1000: CanAfford=False
+Item lucky_charm: CanAfford=False
+Item coins_2000: CanAfford=False
+Item golden_key: CanAfford=False
+Item gems_500: CanAfford=True
+Item coins_500: CanAfford=True
+Item mana_potion: CanAfford=False
+Item iron_shield: CanAfford=False
+Item evil_eye: CanAfford=False
+Item loot_box: CanAfford=False
+Item bomb: CanAfford=False
+Item iron_sword: CanAfford=False
+Item gems_2000: CanAfford=False
+Item wooden_shield: CanAfford=False
+Item gems_5000: CanAfford=False
+Item coins_5000: CanAfford=False
+Item starter_pack: CanAfford=False
+Item gems_1000: CanAfford=False
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1007" name="Constructor_NullEconomySystem_ThrowsArgumentNullException" fullname="HiroStore.Tests.Editor.StoreControllerTests.Constructor_NullEconomySystem_ThrowsArgumentNullException" methodname="Constructor_NullEconomySystem_ThrowsArgumentNullException" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="1260225622" result="Passed" start-time="2026-02-04 04:50:22Z" end-time="2026-02-04 04:50:22Z" duration="0.150262" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlOTczN2IwNi0wMDRlLTRmYmItYTQ4MC1kYzJiMTI3YzEzN2UiLCJ1aWQiOiI5MTRjOWFiZC1hMTcxLTQ1OGYtYTM1My0yMzk3NWVmNmRkYWEiLCJ1c24iOiJQbGF5ZXIyMjc4MzU0MiIsImV4cCI6MTc3MDI2NzAyMiwiaWF0IjoxNzcwMTgwNjIyfQ.ebFCEDGrJxmCMKK-leUpxqDfKJ2OgkW4N8Dii7wVSiM', Created=True, CreateTime=1770180622, ExpireTime=1770267022, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlOTczN2IwNi0wMDRlLTRmYmItYTQ4MC1kYzJiMTI3YzEzN2UiLCJ1aWQiOiI5MTRjOWFiZC1hMTcxLTQ1OGYtYTM1My0yMzk3NWVmNmRkYWEiLCJ1c24iOiJQbGF5ZXIyMjc4MzU0MiIsImV4cCI6MTc3MDc4NTQyMiwiaWF0IjoxNzcwMTgwNjIyfQ.ha9iqtn6cQB7tWkZolGPHzqyTVDujwlZ9IB4PXbiFgY, RefreshExpireTime=1770785422, Variables={}, Username='Player22783542', UserId='914c9abd-a171-458f-a353-23975ef6ddaa')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1008" name="Constructor_NullIconDictionaries_DoesNotThrow" fullname="HiroStore.Tests.Editor.StoreControllerTests.Constructor_NullIconDictionaries_DoesNotThrow" methodname="Constructor_NullIconDictionaries_DoesNotThrow" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="1299088319" result="Passed" start-time="2026-02-04 04:50:22Z" end-time="2026-02-04 04:50:22Z" duration="0.150400" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIzYzQ1OWQ1MC0wNTYxLTRmMDktYmM5OS1hOGY4ZjU4ZGQxOTkiLCJ1aWQiOiJhYmE0MjhiZC1iYWRlLTQ3YWUtYjhhZS00NzVjMmM1ZGY5YTgiLCJ1c24iOiJQbGF5ZXI0MzEzMDQ0MyIsImV4cCI6MTc3MDI2NzAyMiwiaWF0IjoxNzcwMTgwNjIyfQ.P2UkJcoA8FMu6CmGgMw9mltNkKfMIYhy9xSyKkwnL9k', Created=True, CreateTime=1770180622, ExpireTime=1770267022, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIzYzQ1OWQ1MC0wNTYxLTRmMDktYmM5OS1hOGY4ZjU4ZGQxOTkiLCJ1aWQiOiJhYmE0MjhiZC1iYWRlLTQ3YWUtYjhhZS00NzVjMmM1ZGY5YTgiLCJ1c24iOiJQbGF5ZXI0MzEzMDQ0MyIsImV4cCI6MTc3MDc4NTQyMiwiaWF0IjoxNzcwMTgwNjIyfQ.8TTpOwU0bAiv6eiZKy0wW9nh-xLBUN1LRm3TFkQNNxU, RefreshExpireTime=1770785422, Variables={}, Username='Player43130443', UserId='aba428bd-bade-47ae-b8ae-475c2c5df9a8')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1006" name="Constructor_NullNakamaSystem_ThrowsArgumentNullException" fullname="HiroStore.Tests.Editor.StoreControllerTests.Constructor_NullNakamaSystem_ThrowsArgumentNullException" methodname="Constructor_NullNakamaSystem_ThrowsArgumentNullException" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="1226613262" result="Passed" start-time="2026-02-04 04:50:22Z" end-time="2026-02-04 04:50:22Z" duration="0.150134" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJjOTgxZDU5ZS1jZWEyLTQxNjUtYTQ2ZC0xNzcyNmJkYmQ2NjAiLCJ1aWQiOiI2NWJlZDRkOC0yNWVjLTQ4NDctODkzNy01NGE0YTAzOGMwYzMiLCJ1c24iOiJQbGF5ZXI1NTYxMDE5NiIsImV4cCI6MTc3MDI2NzAyMiwiaWF0IjoxNzcwMTgwNjIyfQ.DmcXL05xSYuhYaQ_03_0nnbIRAsl8c00iUrc2UqrFAA', Created=True, CreateTime=1770180622, ExpireTime=1770267022, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJjOTgxZDU5ZS1jZWEyLTQxNjUtYTQ2ZC0xNzcyNmJkYmQ2NjAiLCJ1aWQiOiI2NWJlZDRkOC0yNWVjLTQ4NDctODkzNy01NGE0YTAzOGMwYzMiLCJ1c24iOiJQbGF5ZXI1NTYxMDE5NiIsImV4cCI6MTc3MDc4NTQyMiwiaWF0IjoxNzcwMTgwNjIyfQ.shcV_-kBhOUhlANkjvjAc7oxPmo9vIBlByHkEBTol84, RefreshExpireTime=1770785422, Variables={}, Username='Player55610196', UserId='65bed4d8-25ec-4847-8937-54a4a038c0c3')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1036" name="CurrentUserId_ReturnsValidUserId" fullname="HiroStore.Tests.Editor.StoreControllerTests.CurrentUserId_ReturnsValidUserId" methodname="CurrentUserId_ReturnsValidUserId" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="1722805933" result="Passed" start-time="2026-02-04 04:50:22Z" end-time="2026-02-04 04:50:23Z" duration="0.150300" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIzMDE4MTUzZi0yMjVlLTQ3ZTEtOTgzNS05ZjliZTllZjY2MDciLCJ1aWQiOiIxMzdkZWE3Yy01MzNkLTQzMTUtYTlkOC1jMWZjOTRkNzhmZTYiLCJ1c24iOiJQbGF5ZXI1ODMzNTg4MSIsImV4cCI6MTc3MDI2NzAyMiwiaWF0IjoxNzcwMTgwNjIyfQ.vqZTqPaWZUPY-iojrPbLfM9V0eqsLZeFJscUU7Q2bOA', Created=True, CreateTime=1770180622, ExpireTime=1770267022, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIzMDE4MTUzZi0yMjVlLTQ3ZTEtOTgzNS05ZjliZTllZjY2MDciLCJ1aWQiOiIxMzdkZWE3Yy01MzNkLTQzMTUtYTlkOC1jMWZjOTRkNzhmZTYiLCJ1c24iOiJQbGF5ZXI1ODMzNTg4MSIsImV4cCI6MTc3MDc4NTQyMiwiaWF0IjoxNzcwMTgwNjIyfQ.tsI-V7KHcgr3XuUiTbidJlDkuS3Vv2NqCsbPH30LDsM, RefreshExpireTime=1770785422, Variables={}, Username='Player58335881', UserId='137dea7c-533d-4315-a9d8-c1fc94d78fe6')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1035" name="GetCurrencyIcon_UnknownCurrency_ReturnsNull" fullname="HiroStore.Tests.Editor.StoreControllerTests.GetCurrencyIcon_UnknownCurrency_ReturnsNull" methodname="GetCurrencyIcon_UnknownCurrency_ReturnsNull" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="1058661480" result="Passed" start-time="2026-02-04 04:50:23Z" end-time="2026-02-04 04:50:23Z" duration="0.150159" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlNjYxMzEzYS1iNGQzLTRjNmUtOWI2ZS1lNTMyZWUwNzBhNTAiLCJ1aWQiOiIzNjJmMmE5Zi00M2U0LTQyZmUtOWRiOC0wMmYwNTNiMjEzOWUiLCJ1c24iOiJQbGF5ZXIwODg0OTQ0MyIsImV4cCI6MTc3MDI2NzAyMywiaWF0IjoxNzcwMTgwNjIzfQ.sM-GBhLKVLoHV17k5yqam26fGiEHEmzJ5sFk1BQE_GI', Created=True, CreateTime=1770180623, ExpireTime=1770267023, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlNjYxMzEzYS1iNGQzLTRjNmUtOWI2ZS1lNTMyZWUwNzBhNTAiLCJ1aWQiOiIzNjJmMmE5Zi00M2U0LTQyZmUtOWRiOC0wMmYwNTNiMjEzOWUiLCJ1c24iOiJQbGF5ZXIwODg0OTQ0MyIsImV4cCI6MTc3MDc4NTQyMywiaWF0IjoxNzcwMTgwNjIzfQ.OOEcCOO_JzArCjDg-_dEKGw1R5IPU6LVkFbVsjDdipY, RefreshExpireTime=1770785423, Variables={}, Username='Player08849443', UserId='362f2a9f-43e4-42fe-9db8-02f053b2139e')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1019" name="GetCurrentCategory_CurrencyTab_ReturnsCurrency" fullname="HiroStore.Tests.Editor.StoreControllerTests.GetCurrentCategory_CurrencyTab_ReturnsCurrency" methodname="GetCurrentCategory_CurrencyTab_ReturnsCurrency" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="1059888471" result="Passed" start-time="2026-02-04 04:50:23Z" end-time="2026-02-04 04:50:23Z" duration="0.150228" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIyODJjNTMyNy04MDkyLTRlZjAtYjkyNS0yMTJkMzFlYzc2NTMiLCJ1aWQiOiJiZTUzOGZlMS1hYTNjLTQzZjctYWJmNy02MDAzMTAzZTE1MWQiLCJ1c24iOiJQbGF5ZXIxMTg1OTM2NyIsImV4cCI6MTc3MDI2NzAyMywiaWF0IjoxNzcwMTgwNjIzfQ.Vnrt1fFzeBvoRZgkwpbzk96aL9-W8iCGToS9L3JtA0A', Created=True, CreateTime=1770180623, ExpireTime=1770267023, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIyODJjNTMyNy04MDkyLTRlZjAtYjkyNS0yMTJkMzFlYzc2NTMiLCJ1aWQiOiJiZTUzOGZlMS1hYTNjLTQzZjctYWJmNy02MDAzMTAzZTE1MWQiLCJ1c24iOiJQbGF5ZXIxMTg1OTM2NyIsImV4cCI6MTc3MDc4NTQyMywiaWF0IjoxNzcwMTgwNjIzfQ.b_l8WE2sTF_26St0_IIbmSwKWtMZ8t_WBb3-tB-b53A, RefreshExpireTime=1770785423, Variables={}, Username='Player11859367', UserId='be538fe1-aa3c-43f7-abf7-6003103e151d')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1020" name="GetCurrentCategory_ItemsTab_ReturnsItems" fullname="HiroStore.Tests.Editor.StoreControllerTests.GetCurrentCategory_ItemsTab_ReturnsItems" methodname="GetCurrentCategory_ItemsTab_ReturnsItems" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="124386972" result="Passed" start-time="2026-02-04 04:50:23Z" end-time="2026-02-04 04:50:23Z" duration="0.150260" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI5YzNkYjU3OC1mNzhiLTQyOTUtODg0Yi1lMWYxYTQxOTE1NjgiLCJ1aWQiOiIxMjRmNTZkYS1iZDExLTRjMzEtYjRhZS0wZGM5MzBjNWFkYTMiLCJ1c24iOiJQbGF5ZXI5ODQ5NjI1OCIsImV4cCI6MTc3MDI2NzAyMywiaWF0IjoxNzcwMTgwNjIzfQ.PftnkZ0jwe-rWUCSnPtxZhEr4BElSxXmrG71TOq8uN8', Created=True, CreateTime=1770180623, ExpireTime=1770267023, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI5YzNkYjU3OC1mNzhiLTQyOTUtODg0Yi1lMWYxYTQxOTE1NjgiLCJ1aWQiOiIxMjRmNTZkYS1iZDExLTRjMzEtYjRhZS0wZGM5MzBjNWFkYTMiLCJ1c24iOiJQbGF5ZXI5ODQ5NjI1OCIsImV4cCI6MTc3MDc4NTQyMywiaWF0IjoxNzcwMTgwNjIzfQ.y7-kkJBaaXmHM-mwJPR5QtV90Vn1TiAD6G9HTtQRj-Q, RefreshExpireTime=1770785423, Variables={}, Username='Player98496258', UserId='124f56da-bd11-4c31-b4ae-0dc930c5ada3')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1025" name="GetFeaturedItemForCategory_ReturnsFeaturedItem" fullname="HiroStore.Tests.Editor.StoreControllerTests.GetFeaturedItemForCategory_ReturnsFeaturedItem" methodname="GetFeaturedItemForCategory_ReturnsFeaturedItem" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="849870730" result="Passed" start-time="2026-02-04 04:50:23Z" end-time="2026-02-04 04:50:23Z" duration="0.250606" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJhNjNjNGQyZC1iZGZjLTRjOWItOWNjMy05NTJlNjIwNGEwZjkiLCJ1aWQiOiIzZDU3NDAzYS00YWY5LTQ0MTQtYmU4MS1mMmNlYjUwNTcwMDIiLCJ1c24iOiJQbGF5ZXIzODk5Mzk0OCIsImV4cCI6MTc3MDI2NzAyMywiaWF0IjoxNzcwMTgwNjIzfQ.0pOmuC-luq-QmeR4kPdtmDPnnwxz6ccU_xBNDaIcyFc', Created=True, CreateTime=1770180623, ExpireTime=1770267023, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJhNjNjNGQyZC1iZGZjLTRjOWItOWNjMy05NTJlNjIwNGEwZjkiLCJ1aWQiOiIzZDU3NDAzYS00YWY5LTQ0MTQtYmU4MS1mMmNlYjUwNTcwMDIiLCJ1c24iOiJQbGF5ZXIzODk5Mzk0OCIsImV4cCI6MTc3MDc4NTQyMywiaWF0IjoxNzcwMTgwNjIzfQ.3DUCGIEkZ8qKCehgOl22zH2CvtwulaYufkD0d06EqaI, RefreshExpireTime=1770785423, Variables={}, Username='Player38993948', UserId='3d57403a-4af9-4414-be81-f2ceb5057002')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Found featured currency item: starter_pack
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1024" name="GetFeaturedItemForCategory_ReturnsNullIfNoFeatured" fullname="HiroStore.Tests.Editor.StoreControllerTests.GetFeaturedItemForCategory_ReturnsNullIfNoFeatured" methodname="GetFeaturedItemForCategory_ReturnsNullIfNoFeatured" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="292709703" result="Passed" start-time="2026-02-04 04:50:23Z" end-time="2026-02-04 04:50:24Z" duration="0.251916" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI4MmE2Nzg1YS1hNzk4LTQ0YmEtODljYS05MDlhODgxMzlkOTgiLCJ1aWQiOiIxMzAxZDNhYy01NDA0LTQxZTctYWM5MC00OWVhZmI5YTk3NjMiLCJ1c24iOiJQbGF5ZXI3MTM0NDYwOCIsImV4cCI6MTc3MDI2NzAyMywiaWF0IjoxNzcwMTgwNjIzfQ.gQ9oHjliONNaKlCtoWORBJ1gzvEGbYRoK-_Amuke6Po', Created=True, CreateTime=1770180623, ExpireTime=1770267023, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI4MmE2Nzg1YS1hNzk4LTQ0YmEtODljYS05MDlhODgxMzlkOTgiLCJ1aWQiOiIxMzAxZDNhYy01NDA0LTQxZTctYWM5MC00OWVhZmI5YTk3NjMiLCJ1c24iOiJQbGF5ZXI3MTM0NDYwOCIsImV4cCI6MTc3MDc4NTQyMywiaWF0IjoxNzcwMTgwNjIzfQ.kHu5mYrFTH66sLWKo-5TSkI9R9bPVydagTv223th2cY, RefreshExpireTime=1770785423, Variables={}, Username='Player71344608', UserId='1301d3ac-5404-41e7-ac90-49eafb9a9763')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Featured item for nonexistent category: null
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1034" name="GetItemIcon_UnknownItem_ReturnsDefaultOrNull" fullname="HiroStore.Tests.Editor.StoreControllerTests.GetItemIcon_UnknownItem_ReturnsDefaultOrNull" methodname="GetItemIcon_UnknownItem_ReturnsDefaultOrNull" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="389544910" result="Passed" start-time="2026-02-04 04:50:24Z" end-time="2026-02-04 04:50:24Z" duration="0.150207" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1MDkzZDRiYi1hYWJmLTQ1MmEtOTEzYy0zMTFlMzcwNTRhOGIiLCJ1aWQiOiIzZmFlN2NlNC0yYTE5LTQxNDQtYmRhMS1jM2JkMTFlNzRjY2QiLCJ1c24iOiJQbGF5ZXIzODU1Mzc3MSIsImV4cCI6MTc3MDI2NzAyNCwiaWF0IjoxNzcwMTgwNjI0fQ.K2G4xBGv3dysvNoVlnNEHs2_n8Seewkr-SBJ7GRJ1NM', Created=True, CreateTime=1770180624, ExpireTime=1770267024, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1MDkzZDRiYi1hYWJmLTQ1MmEtOTEzYy0zMTFlMzcwNTRhOGIiLCJ1aWQiOiIzZmFlN2NlNC0yYTE5LTQxNDQtYmRhMS1jM2JkMTFlNzRjY2QiLCJ1c24iOiJQbGF5ZXIzODU1Mzc3MSIsImV4cCI6MTc3MDc4NTQyNCwiaWF0IjoxNzcwMTgwNjI0fQ.bdT6O9_a-9YkMKdwAsf8GFRgxelGiFAwHKPKStH1xLo, RefreshExpireTime=1770785424, Variables={}, Username='Player38553771', UserId='3fae7ce4-2a19-4144-bda1-c3bd11e74ccd')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1013" name="GetItemsForCategory_Currency_ReturnsFilteredItems" fullname="HiroStore.Tests.Editor.StoreControllerTests.GetItemsForCategory_Currency_ReturnsFilteredItems" methodname="GetItemsForCategory_Currency_ReturnsFilteredItems" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="167169332" result="Passed" start-time="2026-02-04 04:50:24Z" end-time="2026-02-04 04:50:24Z" duration="0.250278" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkYjg5YTk3OS04YTI0LTQ5ZWUtODhlZi1iM2FmZjBjMDNiMTciLCJ1aWQiOiJhNDY2NDgzZC1iODg5LTQwNDQtOTY1ZC01ZWI2NGFkYTc2MDUiLCJ1c24iOiJQbGF5ZXIzMTQzNDMwNSIsImV4cCI6MTc3MDI2NzAyNCwiaWF0IjoxNzcwMTgwNjI0fQ.avEKwampY9ztz2vtyiGA00iaP4_d5W8TiPTY4mKH-4k', Created=True, CreateTime=1770180624, ExpireTime=1770267024, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkYjg5YTk3OS04YTI0LTQ5ZWUtODhlZi1iM2FmZjBjMDNiMTciLCJ1aWQiOiJhNDY2NDgzZC1iODg5LTQwNDQtOTY1ZC01ZWI2NGFkYTc2MDUiLCJ1c24iOiJQbGF5ZXIzMTQzNDMwNSIsImV4cCI6MTc3MDc4NTQyNCwiaWF0IjoxNzcwMTgwNjI0fQ.8Xi8jf-x_mWaz0o3YVWZ8plABMmYlJhRowce_PPglTY, RefreshExpireTime=1770785424, Variables={}, Username='Player31434305', UserId='a466483d-b889-4044-965d-5eb64ada7605')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Found 8 currency items
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1015" name="GetItemsForCategory_EmptyCategory_ReturnsEmptyList" fullname="HiroStore.Tests.Editor.StoreControllerTests.GetItemsForCategory_EmptyCategory_ReturnsEmptyList" methodname="GetItemsForCategory_EmptyCategory_ReturnsEmptyList" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="998618753" result="Passed" start-time="2026-02-04 04:50:24Z" end-time="2026-02-04 04:50:24Z" duration="0.250613" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIwNDA1NWM4Yi1kZDMzLTQ1MTEtODFkMC0yZTE5ZmQ5Nzg2MmQiLCJ1aWQiOiI1YmRhMzRhMy1mOWFlLTQ3ZDktOTZkNS1mNzMzM2QyNWRiNDgiLCJ1c24iOiJQbGF5ZXI2MTgxMjM4OCIsImV4cCI6MTc3MDI2NzAyNCwiaWF0IjoxNzcwMTgwNjI0fQ.V-be6LYlqedFzkrAj_y0WSl7-_j--QdE8SiaQScvL2c', Created=True, CreateTime=1770180624, ExpireTime=1770267024, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIwNDA1NWM4Yi1kZDMzLTQ1MTEtODFkMC0yZTE5ZmQ5Nzg2MmQiLCJ1aWQiOiI1YmRhMzRhMy1mOWFlLTQ3ZDktOTZkNS1mNzMzM2QyNWRiNDgiLCJ1c24iOiJQbGF5ZXI2MTgxMjM4OCIsImV4cCI6MTc3MDc4NTQyNCwiaWF0IjoxNzcwMTgwNjI0fQ.7jm0QHkn63bPvnlVVPUN2ewJ7OUUppwZmFYnxkQE74I, RefreshExpireTime=1770785424, Variables={}, Username='Player61812388', UserId='5bda34a3-f9ae-47d9-96d5-f7333d25db48')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1014" name="GetItemsForCategory_Items_ReturnsFilteredItems" fullname="HiroStore.Tests.Editor.StoreControllerTests.GetItemsForCategory_Items_ReturnsFilteredItems" methodname="GetItemsForCategory_Items_ReturnsFilteredItems" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="1046082489" result="Passed" start-time="2026-02-04 04:50:24Z" end-time="2026-02-04 04:50:24Z" duration="0.250226" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1ODRjMTExMi0xMDFhLTQwZGMtOGE3YS04YjUzYTUyMWUwNDkiLCJ1aWQiOiIyZmJlNzYyNi03MTRmLTQ3NWYtOGM5ZS03OWYxYWI2ZGU1NGYiLCJ1c24iOiJQbGF5ZXI3MDg3MDc0OSIsImV4cCI6MTc3MDI2NzAyNCwiaWF0IjoxNzcwMTgwNjI0fQ.kf6z7L1m-npnUMmeifvjEXrz_qusDzDyeJhq2F9U4jo', Created=True, CreateTime=1770180624, ExpireTime=1770267024, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1ODRjMTExMi0xMDFhLTQwZGMtOGE3YS04YjUzYTUyMWUwNDkiLCJ1aWQiOiIyZmJlNzYyNi03MTRmLTQ3NWYtOGM5ZS03OWYxYWI2ZGU1NGYiLCJ1c24iOiJQbGF5ZXI3MDg3MDc0OSIsImV4cCI6MTc3MDc4NTQyNCwiaWF0IjoxNzcwMTgwNjI0fQ.RVSZ4R5kiRUEFRMEoabRKK8s_H9Se_OZ0NtbazRLwEw, RefreshExpireTime=1770785424, Variables={}, Username='Player70870749', UserId='2fbe7626-714f-475f-8c9e-79f1ab6de54f')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Found 8 items in 'items' category
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1016" name="GetItemsForCategory_ItemsAreSorted" fullname="HiroStore.Tests.Editor.StoreControllerTests.GetItemsForCategory_ItemsAreSorted" methodname="GetItemsForCategory_ItemsAreSorted" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="1109653508" result="Passed" start-time="2026-02-04 04:50:24Z" end-time="2026-02-04 04:50:25Z" duration="0.250393" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI5MDQ5YjllNy1iMTMwLTQ3NWYtODUzMS1lOTcyOTQ2YWJjNmIiLCJ1aWQiOiJkYjIwOGIyOS03YzMwLTRlYjYtODJjNS1hMjE5N2JiNzdiNjciLCJ1c24iOiJQbGF5ZXIwOTQ5NDI2NyIsImV4cCI6MTc3MDI2NzAyNCwiaWF0IjoxNzcwMTgwNjI0fQ.I6_S2vkuW1RKTAm5ceRKXLg4e9S10w6LsRXVzjuOarA', Created=True, CreateTime=1770180624, ExpireTime=1770267024, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI5MDQ5YjllNy1iMTMwLTQ3NWYtODUzMS1lOTcyOTQ2YWJjNmIiLCJ1aWQiOiJkYjIwOGIyOS03YzMwLTRlYjYtODJjNS1hMjE5N2JiNzdiNjciLCJ1c24iOiJQbGF5ZXIwOTQ5NDI2NyIsImV4cCI6MTc3MDc4NTQyNCwiaWF0IjoxNzcwMTgwNjI0fQ.ow1oQnNoL-qnsUKdeG6lvVbkV4X14K2Ygua6wWNx_qg, RefreshExpireTime=1770785424, Variables={}, Username='Player09494267', UserId='db208b29-7c30-4eb6-82c5-a2197bb77b67')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1026" name="GetItemTheme_NoTheme_ReturnsPrimary" fullname="HiroStore.Tests.Editor.StoreControllerTests.GetItemTheme_NoTheme_ReturnsPrimary" methodname="GetItemTheme_NoTheme_ReturnsPrimary" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="32055096" result="Passed" start-time="2026-02-04 04:50:25Z" end-time="2026-02-04 04:50:25Z" duration="0.250712" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkMTcyYmZkMi0xZTVlLTQ3NmYtOGE1Mi1lMDdiMmViZmVkNWYiLCJ1aWQiOiIzNGQ5NzA3Mi01MWE1LTRjNjktOTc0NS0wM2FmMTJkNDdkY2IiLCJ1c24iOiJQbGF5ZXIwNTQ4OTMxMSIsImV4cCI6MTc3MDI2NzAyNSwiaWF0IjoxNzcwMTgwNjI1fQ.XoTYgIKdCynzxc_rG3BmM_nYfZTzLqUkf0dQujd_cZs', Created=True, CreateTime=1770180625, ExpireTime=1770267025, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkMTcyYmZkMi0xZTVlLTQ3NmYtOGE1Mi1lMDdiMmViZmVkNWYiLCJ1aWQiOiIzNGQ5NzA3Mi01MWE1LTRjNjktOTc0NS0wM2FmMTJkNDdkY2IiLCJ1c24iOiJQbGF5ZXIwNTQ4OTMxMSIsImV4cCI6MTc3MDc4NTQyNSwiaWF0IjoxNzcwMTgwNjI1fQ.qEH59pFfh18r6R-h5vGTINWWLriSsZge5QPYN7jvkXE, RefreshExpireTime=1770785425, Variables={}, Username='Player05489311', UserId='34d97072-51a5-4c69-9745-03af12d47dcb')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Item theme: secondary
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1027" name="GetItemTheme_NullItem_ReturnsPrimary" fullname="HiroStore.Tests.Editor.StoreControllerTests.GetItemTheme_NullItem_ReturnsPrimary" methodname="GetItemTheme_NullItem_ReturnsPrimary" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="199910975" result="Passed" start-time="2026-02-04 04:50:25Z" end-time="2026-02-04 04:50:25Z" duration="0.150111" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkYzUxMTBhNi0xNDg4LTQ1NWEtYTkyYi1iMDA4MjAwMDFiNzAiLCJ1aWQiOiI2OTRmZDYzMS05OTQzLTQyY2QtYmExNS1hYzBmZmU3MjU2ZGUiLCJ1c24iOiJQbGF5ZXI1OTQwNDExMiIsImV4cCI6MTc3MDI2NzAyNSwiaWF0IjoxNzcwMTgwNjI1fQ.q0wjDGjNe5R9z5UwvSTxcuOkzsBVZ6Up5d_D45O02AM', Created=True, CreateTime=1770180625, ExpireTime=1770267025, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkYzUxMTBhNi0xNDg4LTQ1NWEtYTkyYi1iMDA4MjAwMDFiNzAiLCJ1aWQiOiI2OTRmZDYzMS05OTQzLTQyY2QtYmExNS1hYzBmZmU3MjU2ZGUiLCJ1c24iOiJQbGF5ZXI1OTQwNDExMiIsImV4cCI6MTc3MDc4NTQyNSwiaWF0IjoxNzcwMTgwNjI1fQ.csKU2tjs3WwRerYQNJlgmGvU8ANSMoV2T16M4miPrdw, RefreshExpireTime=1770785425, Variables={}, Username='Player59404112', UserId='694fd631-9943-42cd-ba15-ac0ffe7256de')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1032" name="GetPrimaryCurrency_ValidItem_ReturnsCurrencyKey" fullname="HiroStore.Tests.Editor.StoreControllerTests.GetPrimaryCurrency_ValidItem_ReturnsCurrencyKey" methodname="GetPrimaryCurrency_ValidItem_ReturnsCurrencyKey" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="1316206601" result="Passed" start-time="2026-02-04 04:50:25Z" end-time="2026-02-04 04:50:25Z" duration="0.250482" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2ZTE3ZDFmYy0wNjRhLTQwYzQtODVjYS00OWQ4MThlYjVjMTYiLCJ1aWQiOiIyNjVjODc4Ny03Yzc1LTRkOTYtOGZiYy0wZmY2MTZiNTM4MmUiLCJ1c24iOiJQbGF5ZXI5ODA1MzI5NiIsImV4cCI6MTc3MDI2NzAyNSwiaWF0IjoxNzcwMTgwNjI1fQ.ZVEkLxOXbDSIeUDzuSFtdID30R6wm5U7fkg5O8nVtUY', Created=True, CreateTime=1770180625, ExpireTime=1770267025, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2ZTE3ZDFmYy0wNjRhLTQwYzQtODVjYS00OWQ4MThlYjVjMTYiLCJ1aWQiOiIyNjVjODc4Ny03Yzc1LTRkOTYtOGZiYy0wZmY2MTZiNTM4MmUiLCJ1c24iOiJQbGF5ZXI5ODA1MzI5NiIsImV4cCI6MTc3MDc4NTQyNSwiaWF0IjoxNzcwMTgwNjI1fQ.S6vEpAkGdN0Ax5TSsHV1vOJzjzbK4DqooToIvww1P0o, RefreshExpireTime=1770785425, Variables={}, Username='Player98053296', UserId='265c8787-7c75-4d96-8fbc-0ff616b5382e')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Primary currency for gems_5000: coins
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1033" name="GetPrimaryCurrencyAmount_ValidItem_ReturnsAmount" fullname="HiroStore.Tests.Editor.StoreControllerTests.GetPrimaryCurrencyAmount_ValidItem_ReturnsAmount" methodname="GetPrimaryCurrencyAmount_ValidItem_ReturnsAmount" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="579638802" result="Passed" start-time="2026-02-04 04:50:25Z" end-time="2026-02-04 04:50:26Z" duration="0.250596" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3Mzg2YzEzYy1kM2YyLTRiN2UtYmIzYi0zZWRjZTYzMjUwNDUiLCJ1aWQiOiIwODMyZjQ1Mi1iMjMwLTQ1NzMtOGJmOS01NDFmYmM0MGVlZjciLCJ1c24iOiJQbGF5ZXI5MTU0NTQyMCIsImV4cCI6MTc3MDI2NzAyNSwiaWF0IjoxNzcwMTgwNjI1fQ.Wz-iK7ObRz3uxQsr0Y7d9yOhZMP4wWwyIa6reUIGyAI', Created=True, CreateTime=1770180625, ExpireTime=1770267025, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3Mzg2YzEzYy1kM2YyLTRiN2UtYmIzYi0zZWRjZTYzMjUwNDUiLCJ1aWQiOiIwODMyZjQ1Mi1iMjMwLTQ1NzMtOGJmOS01NDFmYmM0MGVlZjciLCJ1c24iOiJQbGF5ZXI5MTU0NTQyMCIsImV4cCI6MTc3MDc4NTQyNSwiaWF0IjoxNzcwMTgwNjI1fQ.aJeqpdQJNyQeAP4kLb5mihGX3aLBM1MFfpGkYksdDzM, RefreshExpireTime=1770785425, Variables={}, Username='Player91545420', UserId='0832f452-b230-4573-8bf9-541fbc40eef7')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Primary currency amount: 1000
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1028" name="PurchaseItemAsync_NullItem_ThrowsException" fullname="HiroStore.Tests.Editor.StoreControllerTests.PurchaseItemAsync_NullItem_ThrowsException" methodname="PurchaseItemAsync_NullItem_ThrowsException" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="124825694" result="Passed" start-time="2026-02-04 04:50:26Z" end-time="2026-02-04 04:50:26Z" duration="0.150299" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlOGFjNDk0NC1kNDc2LTQxYjMtODllMy01YTVhMzZhN2Y1NDgiLCJ1aWQiOiI5MzZjNTNlZi02NzY1LTQyODQtOTAzZS1mOTBlMjhmMjgwOWIiLCJ1c24iOiJQbGF5ZXI4NTk3NjkzMiIsImV4cCI6MTc3MDI2NzAyNiwiaWF0IjoxNzcwMTgwNjI2fQ.5b_dyAYJn8KPPocqr4dno4BVQ1URS2RQLy82QHMFU24', Created=True, CreateTime=1770180626, ExpireTime=1770267026, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlOGFjNDk0NC1kNDc2LTQxYjMtODllMy01YTVhMzZhN2Y1NDgiLCJ1aWQiOiI5MzZjNTNlZi02NzY1LTQyODQtOTAzZS1mOTBlMjhmMjgwOWIiLCJ1c24iOiJQbGF5ZXI4NTk3NjkzMiIsImV4cCI6MTc3MDc4NTQyNiwiaWF0IjoxNzcwMTgwNjI2fQ.s3DlBuug4-R5IGLPf_p3Eh8ndzpHjQWSbq7wS5OSNbo, RefreshExpireTime=1770785426, Variables={}, Username='Player85976932', UserId='936c53ef-6765-4284-903e-f90e28f2809b')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1029" name="PurchaseItemAsync_ValidItem_ReturnsPurchaseAck" fullname="HiroStore.Tests.Editor.StoreControllerTests.PurchaseItemAsync_ValidItem_ReturnsPurchaseAck" methodname="PurchaseItemAsync_ValidItem_ReturnsPurchaseAck" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="764705001" result="Passed" start-time="2026-02-04 04:50:26Z" end-time="2026-02-04 04:50:26Z" duration="0.300486" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2ZDE5MmVmOC04MjNkLTQ2YTEtOTYxNC04NzIzYTJjNGZiN2QiLCJ1aWQiOiI3Zjg5ODFjNi0yZTVlLTQwZjQtYWI4ZS00NDcwYWZlNmNiNDQiLCJ1c24iOiJQbGF5ZXIyNTY5NjgwNSIsImV4cCI6MTc3MDI2NzAyNiwiaWF0IjoxNzcwMTgwNjI2fQ.QY5lwiLTRpNTf8kCjI66d1seclqYpcGH9ezYEQn5tJU', Created=True, CreateTime=1770180626, ExpireTime=1770267026, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2ZDE5MmVmOC04MjNkLTQ2YTEtOTYxNC04NzIzYTJjNGZiN2QiLCJ1aWQiOiI3Zjg5ODFjNi0yZTVlLTQwZjQtYWI4ZS00NDcwYWZlNmNiNDQiLCJ1c24iOiJQbGF5ZXIyNTY5NjgwNSIsImV4cCI6MTc3MDc4NTQyNiwiaWF0IjoxNzcwMTgwNjI2fQ._Fq0TXpn2pZQ_cdeikVZg3Bp1vkwZUlzEMuIddQADWo, RefreshExpireTime=1770785426, Variables={}, Username='Player25696805', UserId='7f8981c6-2e5e-40f4-ab8e-4470afe6cb44')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_PURCHASE_ITEM', body='"{\"item_id\":\"gems_500\",\"receipt\":\"\",\"store_type\":0}"'
+Hiro.EconomySystem: Notifying 0 observers.
+Purchased item: gems_500
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1010" name="RefreshStoreAsync_PopulatesWallet" fullname="HiroStore.Tests.Editor.StoreControllerTests.RefreshStoreAsync_PopulatesWallet" methodname="RefreshStoreAsync_PopulatesWallet" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="1624174105" result="Passed" start-time="2026-02-04 04:50:26Z" end-time="2026-02-04 04:50:26Z" duration="0.250285" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkZmJhM2EyZi04ZGIwLTQ0ZGUtOTU2MC1lNWFjZGQ0N2NmNzUiLCJ1aWQiOiIxOTZlM2U2YS05M2E2LTRkZDUtOWU5ZS05YjkzNGU5YmE4MWUiLCJ1c24iOiJQbGF5ZXI1NDcwMDYxNyIsImV4cCI6MTc3MDI2NzAyNiwiaWF0IjoxNzcwMTgwNjI2fQ.bk0IzJ7PJfcz3ge2a3sKSpslBNhC6b0NOFxW3OSpWZ8', Created=True, CreateTime=1770180626, ExpireTime=1770267026, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkZmJhM2EyZi04ZGIwLTQ0ZGUtOTU2MC1lNWFjZGQ0N2NmNzUiLCJ1aWQiOiIxOTZlM2U2YS05M2E2LTRkZDUtOWU5ZS05YjkzNGU5YmE4MWUiLCJ1c24iOiJQbGF5ZXI1NDcwMDYxNyIsImV4cCI6MTc3MDc4NTQyNiwiaWF0IjoxNzcwMTgwNjI2fQ.nLCpWzNB_a9Azk_CZUaDiITCdikZ3M3U62kgNjK2DI4, RefreshExpireTime=1770785426, Variables={}, Username='Player54700617', UserId='196e3e6a-93a6-4dd5-9e9e-9b934e9ba81e')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Wallet has 2 currencies
+Currency: gems = 10
+Currency: coins = 100
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1009" name="RefreshStoreAsync_ReturnsStoreItems" fullname="HiroStore.Tests.Editor.StoreControllerTests.RefreshStoreAsync_ReturnsStoreItems" methodname="RefreshStoreAsync_ReturnsStoreItems" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="1460819031" result="Passed" start-time="2026-02-04 04:50:26Z" end-time="2026-02-04 04:50:27Z" duration="0.250207" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIyYmVhMDZmOC1mZTM4LTQ2ZDAtODJlNi05NGJjMDg5NTEzMTUiLCJ1aWQiOiJkM2JlZTg0Yi01MzM0LTQxN2MtOTg0OC1jZWNjMGVjZjBjZDYiLCJ1c24iOiJQbGF5ZXIwNTgzODcwMCIsImV4cCI6MTc3MDI2NzAyNiwiaWF0IjoxNzcwMTgwNjI2fQ.lLtT8eetv_6gtkw-R-5mBrJv21WBQxVkRVDMIXuTRuw', Created=True, CreateTime=1770180626, ExpireTime=1770267026, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIyYmVhMDZmOC1mZTM4LTQ2ZDAtODJlNi05NGJjMDg5NTEzMTUiLCJ1aWQiOiJkM2JlZTg0Yi01MzM0LTQxN2MtOTg0OC1jZWNjMGVjZjBjZDYiLCJ1c24iOiJQbGF5ZXIwNTgzODcwMCIsImV4cCI6MTc3MDc4NTQyNiwiaWF0IjoxNzcwMTgwNjI2fQ.M-vrE1413jdQEK2kuQ0wrKfPT6PKivDan1b1fculuY8, RefreshExpireTime=1770785426, Variables={}, Username='Player05838700', UserId='d3bee84b-5334-417c-9848-cecc0ecf0cd6')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Found 18 store items
+Store Item: Lucky Charm (lucky_charm), Category: items
+Store Item: Iron Shield (iron_shield), Category: items
+Store Item: Golden Key (golden_key), Category: items
+Store Item: Bomb (bomb), Category: items
+Store Item: 500 Coins (coins_500), Category: currency
+Store Item: Iron Sword (iron_sword), Category: items
+Store Item: 2000 Gems (gems_2000), Category: currency
+Store Item: Wooden Shield (wooden_shield), Category: items
+Store Item: Eye of Sauron (evil_eye), Category: items
+Store Item: 5000 Gems (gems_5000), Category: currency
+Store Item: Loot Box (loot_box), Category: items
+Store Item: 1000 Coins (coins_1000), Category: currency
+Store Item: 500 Gems (gems_500), Category: currency
+Store Item: 1000 Gems (gems_1000), Category: currency
+Store Item: Mana Potion (mana_potion), Category: items
+Store Item: 2000 Coins (coins_2000), Category: currency
+Store Item: 5000 Coins (coins_5000), Category: currency
+Store Item: Starter Pack (starter_pack), Category: currency
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1023" name="SelectItem_FiresOnItemSelectedEvent" fullname="HiroStore.Tests.Editor.StoreControllerTests.SelectItem_FiresOnItemSelectedEvent" methodname="SelectItem_FiresOnItemSelectedEvent" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="1047294899" result="Passed" start-time="2026-02-04 04:50:27Z" end-time="2026-02-04 04:50:27Z" duration="0.250427" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2M2EzNzNiYS01ZTEzLTQ2ZWUtYmY2Mi1jNzllY2MxNmVkZjgiLCJ1aWQiOiJjMTI5Yjc1OS0xNGJlLTQyNTctOGYyYi1iNzk0YTA1MWUxZWQiLCJ1c24iOiJQbGF5ZXI1MTk0NzAwMSIsImV4cCI6MTc3MDI2NzAyNywiaWF0IjoxNzcwMTgwNjI3fQ.8vbQcfM4oT0XhSY0VUEgEs48KTVJB5x6Y_vurrFsUZk', Created=True, CreateTime=1770180627, ExpireTime=1770267027, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2M2EzNzNiYS01ZTEzLTQ2ZWUtYmY2Mi1jNzllY2MxNmVkZjgiLCJ1aWQiOiJjMTI5Yjc1OS0xNGJlLTQyNTctOGYyYi1iNzk0YTA1MWUxZWQiLCJ1c24iOiJQbGF5ZXI1MTk0NzAwMSIsImV4cCI6MTc3MDc4NTQyNywiaWF0IjoxNzcwMTgwNjI3fQ.bd1ipant9EPdsgLsBzNCgYc2I0M3fUDa5o6my88HmTU, RefreshExpireTime=1770785427, Variables={}, Username='Player51947001', UserId='c129b759-14be-4257-8f2b-b794a051e1ed')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1022" name="SelectItem_Null_ClearsSelection" fullname="HiroStore.Tests.Editor.StoreControllerTests.SelectItem_Null_ClearsSelection" methodname="SelectItem_Null_ClearsSelection" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="617845694" result="Passed" start-time="2026-02-04 04:50:27Z" end-time="2026-02-04 04:50:27Z" duration="0.150365" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmZGIwZDE0NC03MzMwLTRiMGEtODcwNC01N2NjNzhlNDdhNzAiLCJ1aWQiOiJhNTIxNjc1Ni0wOTVkLTQxN2EtYTRmNi00NGE2Y2U3YjA5NjUiLCJ1c24iOiJQbGF5ZXI0NTUxMjIxNSIsImV4cCI6MTc3MDI2NzAyNywiaWF0IjoxNzcwMTgwNjI3fQ.LqIBm5YN50pO4BKhB_uKUzfG7QzurPGHIV98Wd7lEew', Created=True, CreateTime=1770180627, ExpireTime=1770267027, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmZGIwZDE0NC03MzMwLTRiMGEtODcwNC01N2NjNzhlNDdhNzAiLCJ1aWQiOiJhNTIxNjc1Ni0wOTVkLTQxN2EtYTRmNi00NGE2Y2U3YjA5NjUiLCJ1c24iOiJQbGF5ZXI0NTUxMjIxNSIsImV4cCI6MTc3MDc4NTQyNywiaWF0IjoxNzcwMTgwNjI3fQ.m5ceynvwk5EOpZCgELWdWynvF38dyEiDWdcm_vsAkGo, RefreshExpireTime=1770785427, Variables={}, Username='Player45512215', UserId='a5216756-095d-417a-a4f6-44a6ce7b0965')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1021" name="SelectItem_ValidItem_SetsSelectedItem" fullname="HiroStore.Tests.Editor.StoreControllerTests.SelectItem_ValidItem_SetsSelectedItem" methodname="SelectItem_ValidItem_SetsSelectedItem" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="680411286" result="Passed" start-time="2026-02-04 04:50:27Z" end-time="2026-02-04 04:50:27Z" duration="0.251623" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkYWVlZTgxYS00NTc2LTQ0ZjgtOWQ4OS03OGMzODg5MDMzNzAiLCJ1aWQiOiI2MzZlMWJlMi1mZmJkLTRhMDktOWZiNi04NWUwOTAxMGIyNTQiLCJ1c24iOiJQbGF5ZXI3NjcyNTM0OSIsImV4cCI6MTc3MDI2NzAyNywiaWF0IjoxNzcwMTgwNjI3fQ.xAj5Z3sbsM7GGek8aIr8WB9zJ0SZse3JiTvbvyXWPXw', Created=True, CreateTime=1770180627, ExpireTime=1770267027, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkYWVlZTgxYS00NTc2LTQ0ZjgtOWQ4OS03OGMzODg5MDMzNzAiLCJ1aWQiOiI2MzZlMWJlMi1mZmJkLTRhMDktOWZiNi04NWUwOTAxMGIyNTQiLCJ1c24iOiJQbGF5ZXI3NjcyNTM0OSIsImV4cCI6MTc3MDc4NTQyNywiaWF0IjoxNzcwMTgwNjI3fQ.pLirhWyEvaLg5Jc6COoTPrcdQTQ21yyd4dwDCcmcCHk, RefreshExpireTime=1770785427, Variables={}, Username='Player76725349', UserId='636e1be2-ffbd-4a09-9fb6-85e09010b254')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1011" name="SwitchCompleteAsync_ClearsSelectedItem" fullname="HiroStore.Tests.Editor.StoreControllerTests.SwitchCompleteAsync_ClearsSelectedItem" methodname="SwitchCompleteAsync_ClearsSelectedItem" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="1841853200" result="Passed" start-time="2026-02-04 04:50:27Z" end-time="2026-02-04 04:50:28Z" duration="0.350609" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkNmIyOWI1OS02OGIwLTQ1OTktOWJmZi02MDlkMTgxZTBhNGYiLCJ1aWQiOiIxMGExMDJlMC0wZWE2LTRjZDMtYTY5Yy0zNzJhNDcxYWY0OGYiLCJ1c24iOiJQbGF5ZXIzOTUwNDc3MyIsImV4cCI6MTc3MDI2NzAyNywiaWF0IjoxNzcwMTgwNjI3fQ.Nv00lYUxxXHvEMp-4E-oh3zmvfeIou7WC2Cv-dCirZE', Created=True, CreateTime=1770180627, ExpireTime=1770267027, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkNmIyOWI1OS02OGIwLTQ1OTktOWJmZi02MDlkMTgxZTBhNGYiLCJ1aWQiOiIxMGExMDJlMC0wZWE2LTRjZDMtYTY5Yy0zNzJhNDcxYWY0OGYiLCJ1c24iOiJQbGF5ZXIzOTUwNDc3MyIsImV4cCI6MTc3MDc4NTQyNywiaWF0IjoxNzcwMTgwNjI3fQ.sjjx-G7qlcgDT3D2tCNHg4eQ0de8DbddR32NkIsNEVs, RefreshExpireTime=1770785427, Variables={}, Username='Player39504773', UserId='10a102e0-0ea6-4cd3-a69c-372a471af48f')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1012" name="SwitchCompleteAsync_RefreshesStore" fullname="HiroStore.Tests.Editor.StoreControllerTests.SwitchCompleteAsync_RefreshesStore" methodname="SwitchCompleteAsync_RefreshesStore" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="20879467" result="Passed" start-time="2026-02-04 04:50:28Z" end-time="2026-02-04 04:50:28Z" duration="0.350644" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2MzM0NDRiZS00OWY3LTQwMDYtYjM0ZC0wZDhlYTRmYjc2N2MiLCJ1aWQiOiI3NDU4ZDE3MS1lMDA4LTQ3NGYtYmMxMS00YTZmZTVhMWY0NDQiLCJ1c24iOiJQbGF5ZXI2MzU4MTYxNiIsImV4cCI6MTc3MDI2NzAyOCwiaWF0IjoxNzcwMTgwNjI4fQ.pGIoIy94Q6vHNHPcFDPtedzCPdAO7j9ToPoLh3t8rjM', Created=True, CreateTime=1770180628, ExpireTime=1770267028, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2MzM0NDRiZS00OWY3LTQwMDYtYjM0ZC0wZDhlYTRmYjc2N2MiLCJ1aWQiOiI3NDU4ZDE3MS1lMDA4LTQ3NGYtYmMxMS00YTZmZTVhMWY0NDQiLCJ1c24iOiJQbGF5ZXI2MzU4MTYxNiIsImV4cCI6MTc3MDc4NTQyOCwiaWF0IjoxNzcwMTgwNjI4fQ.rL34U1CnqMoN6dW15STbGmW4HsxEOKqaaFGqiLRclPU, RefreshExpireTime=1770785428, Variables={}, Username='Player63581616', UserId='7458d171-e008-474f-bc11-4a6fe5a1f444')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1017" name="SwitchTab_Currency_UpdatesCurrentTab" fullname="HiroStore.Tests.Editor.StoreControllerTests.SwitchTab_Currency_UpdatesCurrentTab" methodname="SwitchTab_Currency_UpdatesCurrentTab" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="1301686161" result="Passed" start-time="2026-02-04 04:50:28Z" end-time="2026-02-04 04:50:28Z" duration="0.150076" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1MzUwZjJiNS1lNzc3LTQ5OTUtYTE4Yi1lYTMxYWY2ZWMyMTQiLCJ1aWQiOiIwMGVhOWZkZC00YzYzLTRhZWEtYWUzNC1kOWY3M2RhOGE4MTkiLCJ1c24iOiJQbGF5ZXI0OTA2NzkxNCIsImV4cCI6MTc3MDI2NzAyOCwiaWF0IjoxNzcwMTgwNjI4fQ.qnnmu36rLXHjfeGZhfT3tyzKiP8q-WWY0hj0PBG3a_8', Created=True, CreateTime=1770180628, ExpireTime=1770267028, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1MzUwZjJiNS1lNzc3LTQ5OTUtYTE4Yi1lYTMxYWY2ZWMyMTQiLCJ1aWQiOiIwMGVhOWZkZC00YzYzLTRhZWEtYWUzNC1kOWY3M2RhOGE4MTkiLCJ1c24iOiJQbGF5ZXI0OTA2NzkxNCIsImV4cCI6MTc3MDc4NTQyOCwiaWF0IjoxNzcwMTgwNjI4fQ.XeLhEJLEUiOIMBsqsfZqCTklIwlBeDAWaYBq6TrWFFs, RefreshExpireTime=1770785428, Variables={}, Username='Player49067914', UserId='00ea9fdd-4c63-4aea-ae34-d9f73da8a819')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1018" name="SwitchTab_Items_UpdatesCurrentTab" fullname="HiroStore.Tests.Editor.StoreControllerTests.SwitchTab_Items_UpdatesCurrentTab" methodname="SwitchTab_Items_UpdatesCurrentTab" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="276236433" result="Passed" start-time="2026-02-04 04:50:28Z" end-time="2026-02-04 04:50:28Z" duration="0.150213" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI4ODM5NzQ2Ny00MWU1LTQ0OGYtYmZmMy0xNDZlZGMxYjYyMGMiLCJ1aWQiOiJmYjYzYmY0My1iYjVlLTQyYjktOTEzOC00ZTcwM2Q2OGNiMDUiLCJ1c24iOiJQbGF5ZXI4NDM4MjAxNyIsImV4cCI6MTc3MDI2NzAyOCwiaWF0IjoxNzcwMTgwNjI4fQ.iDNtq0_nAZpEfYmuOZ3M6J3_gbZ95gAbBCO6LbfUMcY', Created=True, CreateTime=1770180628, ExpireTime=1770267028, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI4ODM5NzQ2Ny00MWU1LTQ0OGYtYmZmMy0xNDZlZGMxYjYyMGMiLCJ1aWQiOiJmYjYzYmY0My1iYjVlLTQyYjktOTEzOC00ZTcwM2Q2OGNiMDUiLCJ1c24iOiJQbGF5ZXI4NDM4MjAxNyIsImV4cCI6MTc3MDc4NTQyOCwiaWF0IjoxNzcwMTgwNjI4fQ.Br1N4LSWwbRy3WwziAlW60BwPnosE3X4xFPVwtdC5jo, RefreshExpireTime=1770785428, Variables={}, Username='Player84382017', UserId='fb63bf43-bb5e-42b9-9138-4e703d68cb05')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1037" name="Wallet_AfterRefresh_ReturnsWalletDictionary" fullname="HiroStore.Tests.Editor.StoreControllerTests.Wallet_AfterRefresh_ReturnsWalletDictionary" methodname="Wallet_AfterRefresh_ReturnsWalletDictionary" classname="HiroStore.Tests.Editor.StoreControllerTests" runstate="Runnable" seed="1775917524" result="Passed" start-time="2026-02-04 04:50:28Z" end-time="2026-02-04 04:50:28Z" duration="0.250476" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJhMTFiYzdlMC03M2U2LTQ2ZDItYjhhZS0wZTExOGQ3YWFjYWUiLCJ1aWQiOiI4NWE3NjIwZi1hMDc5LTQ5ZDYtOTQ1Zi03YzI1ZDQ0NmViMzEiLCJ1c24iOiJQbGF5ZXIyMTg3OTI4OCIsImV4cCI6MTc3MDI2NzAyOCwiaWF0IjoxNzcwMTgwNjI4fQ.Sqbnkt6oo5ZyxTfBhuEPLh6JAah5B7wzC6i_dXnc8H8', Created=True, CreateTime=1770180628, ExpireTime=1770267028, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJhMTFiYzdlMC03M2U2LTQ2ZDItYjhhZS0wZTExOGQ3YWFjYWUiLCJ1aWQiOiI4NWE3NjIwZi1hMDc5LTQ5ZDYtOTQ1Zi03YzI1ZDQ0NmViMzEiLCJ1c24iOiJQbGF5ZXIyMTg3OTI4OCIsImV4cCI6MTc3MDc4NTQyOCwiaWF0IjoxNzcwMTgwNjI4fQ.5JOZpaz1P_QLDLtzTGvLVEKh_ajw9VzP5BrweKO68y0, RefreshExpireTime=1770785428, Variables={}, Username='Player21879288', UserId='85a7620f-a079-49d6-945f-7c25d446eb31')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Wallet contains 2 currencies
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+Saving results to: /Users/andres/Library/Application Support/DefaultCompany/UnityHiroChallenges/TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

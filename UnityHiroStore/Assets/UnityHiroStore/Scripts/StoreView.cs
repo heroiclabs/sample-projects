@@ -1,5 +1,5 @@
 using System;
-using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Hiro;
 using HeroicUI;
@@ -8,18 +8,22 @@ using UnityEngine.UIElements;
 
 namespace HiroStore
 {
-    public sealed class StoreView
+    /// <summary>
+    /// View for the Store system.
+    /// Manages UI presentation and user interactions, delegates all business logic to Controller.
+    /// </summary>
+    public sealed class StoreView : IDisposable
     {
         private readonly StoreController _controller;
-        private readonly HiroStoreCoordinator _coordinator;
         private readonly VisualTreeAsset _storeItemTemplate;
-        private readonly Sprite _defaultIcon;
+
+        private readonly CancellationTokenSource _cts = new();
+        private readonly object _disposeLock = new();
+        private volatile bool _disposed;
 
         private WalletDisplay _walletDisplay;
-        private UIDocument _uiDocument;
 
         // UI Elements
-        private Button _backButton;
         private Button _refreshButton;
         private Button _tabCurrency;
         private Button _tabItems;
@@ -58,38 +62,81 @@ namespace HiroStore
         // Toast
         private VisualElement _toast;
         private Label _toastMessage;
-        private System.Threading.CancellationTokenSource _toastCts;
+        private CancellationTokenSource _toastCts;
 
         private IEconomyListStoreItem _pendingPurchaseItem;
 
-        public StoreView(StoreController controller, HiroStoreCoordinator coordinator,
-            VisualTreeAsset storeItemTemplate, Sprite defaultIcon)
+        public event Action OnInitialized;
+
+        public StoreView(
+            StoreController controller,
+            VisualElement rootElement,
+            VisualTreeAsset storeItemTemplate)
         {
             _controller = controller;
-            _coordinator = coordinator;
             _storeItemTemplate = storeItemTemplate;
-            _defaultIcon = defaultIcon;
 
-            InitializeUI();
+            Initialize(rootElement);
+
+            _walletDisplay.StartObserving();
+            AccountSwitcher.AccountSwitched += OnAccountSwitched;
+
+            _ = InitializeAsync();
+        }
+
+        public void Dispose()
+        {
+            lock (_disposeLock)
+            {
+                if (_disposed) return;
+                _disposed = true;
+            }
+
+            _toastCts?.Cancel();
+            _toastCts?.Dispose();
+            _cts.Cancel();
+            _cts.Dispose();
+            AccountSwitcher.AccountSwitched -= OnAccountSwitched;
+            _walletDisplay?.Dispose();
+        }
+
+        private void ThrowIfDisposedOrCancelled()
+        {
+            if (_disposed)
+                throw new OperationCanceledException();
+            _cts.Token.ThrowIfCancellationRequested();
+        }
+
+        private async Task InitializeAsync()
+        {
+            try
+            {
+                ThrowIfDisposedOrCancelled();
+                await _controller.RefreshStoreAsync();
+                await RefreshStoreDisplayAsync();
+                OnInitialized?.Invoke();
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
         }
 
         #region UI Initialization
 
-        private void InitializeUI()
+        private void Initialize(VisualElement root)
         {
-            _uiDocument = _controller.GetComponent<UIDocument>();
-            var root = _uiDocument.rootVisualElement;
-
             // Wallet
             _walletDisplay = new WalletDisplay(root.Q<VisualElement>("wallet-display"));
 
             // Refresh
             _refreshButton = root.Q<Button>("refresh-button");
-            _refreshButton.RegisterCallback<ClickEvent>(async evt =>
-            {
-                await _controller.RefreshStore();
-                ShowToast("Store and wallet synced");
-            });
+            _refreshButton.RegisterCallback<ClickEvent>(_ => OnRefreshClicked());
 
             // Tabs
             _tabCurrency = root.Q<Button>("tab-currency");
@@ -100,7 +147,7 @@ namespace HiroStore
 
             // Store Grid
             _storeGrid = root.Q<VisualElement>("store-grid");
-            
+
             // Featured Item
             _featuredItem = root.Q<VisualElement>("featured-item");
             _featuredIcon = root.Q<VisualElement>("featured-icon");
@@ -128,7 +175,7 @@ namespace HiroStore
             _purchaseModalCancel = root.Q<Button>("purchase-modal-cancel");
             _purchaseModalClose = root.Q<Button>("purchase-modal-close");
 
-            _purchaseModalConfirm.RegisterCallback<ClickEvent>(async evt => await HandlePurchaseConfirm());
+            _purchaseModalConfirm.RegisterCallback<ClickEvent>(_ => OnPurchaseConfirmClicked());
             _purchaseModalCancel.RegisterCallback<ClickEvent>(_ => HidePurchaseModal());
             _purchaseModalClose.RegisterCallback<ClickEvent>(_ => HidePurchaseModal());
 
@@ -151,26 +198,87 @@ namespace HiroStore
             UpdateTabButtons();
         }
 
-        public void StartObservingWallet()
+        #endregion
+
+        #region Event Handlers
+
+        private async void OnRefreshClicked()
         {
-            _walletDisplay.StartObserving();
+            try
+            {
+                ThrowIfDisposedOrCancelled();
+                await _controller.RefreshStoreAsync();
+                await RefreshStoreDisplayAsync();
+                ShowToast("Store and wallet synced");
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
+        }
+
+        private async void OnAccountSwitched()
+        {
+            try
+            {
+                ThrowIfDisposedOrCancelled();
+                HideAllModals();
+                await _controller.SwitchCompleteAsync();
+                await RefreshStoreDisplayAsync();
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
+        }
+
+        private async void OnPurchaseConfirmClicked()
+        {
+            if (_pendingPurchaseItem == null) return;
+
+            var purchasedItem = _pendingPurchaseItem;
+
+            try
+            {
+                ThrowIfDisposedOrCancelled();
+                var result = await _controller.PurchaseItemAsync(_pendingPurchaseItem);
+
+                HidePurchaseModal();
+                ShowRewardModal(purchasedItem, result?.Reward);
+
+                await RefreshStoreDisplayAsync();
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
         }
 
         #endregion
 
         #region Store Display
 
-        public Task RefreshStoreDisplay()
+        public Task RefreshStoreDisplayAsync()
         {
-            UpdateFeaturedDisplay();
+            PopulateFeaturedItem();
             PopulateStoreGrid();
             UpdateTabButtons();
             return Task.CompletedTask;
-        }
-
-        private void UpdateFeaturedDisplay()
-        {
-            PopulateFeaturedItem();
         }
 
         private void PopulateFeaturedItem()
@@ -309,13 +417,13 @@ namespace HiroStore
             {
                 _featuredCurrencyIcon.style.display = DisplayStyle.None;
             }
-            
+
             // Soft currency purchase
             if (featured.Cost.Currencies.Count > 0)
             {
                 var primaryCurrency = _controller.GetPrimaryCurrency(featured);
                 var amount = _controller.GetPrimaryCurrencyAmount(featured);
-                
+
                 // Set currency icon if available
                 if (_featuredCurrencyIcon != null)
                 {
@@ -326,7 +434,7 @@ namespace HiroStore
                         _featuredCurrencyIcon.style.display = DisplayStyle.Flex;
                     }
                 }
-                
+
                 _featuredPrice.text = amount.ToString();
             }
             // Free
@@ -374,6 +482,7 @@ namespace HiroStore
         private void SwitchTab(StoreController.StoreTab tab)
         {
             _controller.SwitchTab(tab);
+            _ = RefreshStoreDisplayAsync();
             UpdateTabButtons();
         }
 
@@ -419,12 +528,12 @@ namespace HiroStore
             // Soft currency purchase
             if (item.Cost.Currencies.Count > 0)
             {
-                var primaryCurrency = item.Cost.Currencies.FirstOrDefault();
+                var primaryCurrency = GetFirstCurrencyKey(item);
                 var amount = _controller.GetPrimaryCurrencyAmount(item);
-                
+
                 _modalCostAmount.text = amount.ToString();
-                
-                var currencyIcon = _controller.GetCurrencyIcon(primaryCurrency.Key);
+
+                var currencyIcon = _controller.GetCurrencyIcon(primaryCurrency);
                 if (currencyIcon != null)
                 {
                     _modalCostIcon.style.backgroundImage = new StyleBackground(currencyIcon);
@@ -443,31 +552,19 @@ namespace HiroStore
             }
         }
 
+        private string GetFirstCurrencyKey(IEconomyListStoreItem item)
+        {
+            foreach (var currency in item.Cost.Currencies)
+            {
+                return currency.Key;
+            }
+            return "";
+        }
+
         private void HidePurchaseModal()
         {
             _purchaseModal.style.display = DisplayStyle.None;
             _pendingPurchaseItem = null;
-        }
-
-        private async Task HandlePurchaseConfirm()
-        {
-            if (_pendingPurchaseItem == null) return;
-
-            var purchasedItem = _pendingPurchaseItem;
-
-            try
-            {
-                var result = await _controller.PurchaseItem(_pendingPurchaseItem);
-
-                HidePurchaseModal();
-                ShowRewardModal(purchasedItem, result?.Reward);
-
-                await RefreshStoreDisplay();
-            }
-            catch (Exception e)
-            {
-                ShowError(e.Message);
-            }
         }
 
         #endregion
@@ -506,7 +603,7 @@ namespace HiroStore
                     }
                 }
             }
-            
+
             _rewardModal.style.display = DisplayStyle.Flex;
         }
 
@@ -536,6 +633,14 @@ namespace HiroStore
             _rewardModal.style.display = DisplayStyle.None;
         }
 
+        private void HideAllModals()
+        {
+            _purchaseModal.style.display = DisplayStyle.None;
+            _rewardModal.style.display = DisplayStyle.None;
+            _errorPopup.style.display = DisplayStyle.None;
+            _pendingPurchaseItem = null;
+        }
+
         #endregion
 
         #region Error Handling
@@ -553,7 +658,7 @@ namespace HiroStore
         private async void ShowToast(string message)
         {
             _toastCts?.Cancel();
-            _toastCts = new System.Threading.CancellationTokenSource();
+            _toastCts = new CancellationTokenSource();
             var token = _toastCts.Token;
 
             _toastMessage.text = message;
@@ -564,7 +669,7 @@ namespace HiroStore
                 await Task.Delay(2500, token);
                 _toast.style.display = DisplayStyle.None;
             }
-            catch (System.OperationCanceledException)
+            catch (OperationCanceledException)
             {
                 // Toast was replaced by another, ignore
             }

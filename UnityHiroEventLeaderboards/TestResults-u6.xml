@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="16" result="Passed" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-02-04 04:46:13Z" end-time="2026-02-04 04:46:30Z" duration="17.166155">
+  <test-suite type="TestSuite" id="1000" name="UnityHiroChallenges" fullname="UnityHiroChallenges" runstate="Runnable" testcasecount="16" result="Passed" start-time="2026-02-04 04:46:13Z" end-time="2026-02-04 04:46:30Z" duration="17.166155" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1029" name="UnityHiroEventLeaderboards.Tests.Editor.dll" fullname="/Users/andres/Developer/sample-projects/UnityHiroEventLeaderboards/Library/ScriptAssemblies/UnityHiroEventLeaderboards.Tests.Editor.dll" runstate="Runnable" testcasecount="16" result="Passed" start-time="2026-02-04 04:46:13Z" end-time="2026-02-04 04:46:30Z" duration="17.162796" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="72366" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1030" name="HiroEventLeaderboards" fullname="HiroEventLeaderboards" runstate="Runnable" testcasecount="16" result="Passed" start-time="2026-02-04 04:46:13Z" end-time="2026-02-04 04:46:30Z" duration="17.162380" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1031" name="Tests" fullname="HiroEventLeaderboards.Tests" runstate="Runnable" testcasecount="16" result="Passed" start-time="2026-02-04 04:46:13Z" end-time="2026-02-04 04:46:30Z" duration="17.162151" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1032" name="Editor" fullname="HiroEventLeaderboards.Tests.Editor" runstate="Runnable" testcasecount="16" result="Passed" start-time="2026-02-04 04:46:13Z" end-time="2026-02-04 04:46:30Z" duration="17.161822" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1005" name="AccountSwitcherTests" fullname="HiroEventLeaderboards.Tests.Editor.AccountSwitcherTests" classname="HiroEventLeaderboards.Tests.Editor.AccountSwitcherTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-02-04 04:46:13Z" end-time="2026-02-04 04:46:13Z" duration="0.586767" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1006" name="AccountSwitcher_HasFourAccounts_AllExistOnServer" fullname="HiroEventLeaderboards.Tests.Editor.AccountSwitcherTests.AccountSwitcher_HasFourAccounts_AllExistOnServer" methodname="AccountSwitcher_HasFourAccounts_AllExistOnServer" classname="HiroEventLeaderboards.Tests.Editor.AccountSwitcherTests" runstate="Runnable" seed="576911124" result="Passed" start-time="2026-02-04 04:46:13Z" end-time="2026-02-04 04:46:13Z" duration="0.286831" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Account 0: UserId=77243574-3bb2-418c-a040-9fbd489385be, Username=Player19610986
+Account 1: UserId=fb7d5ea2-3df0-416f-96fd-a09a81165116, Username=Player85383843
+Account 2: UserId=6b751833-9738-4f00-bbbe-d6901eda017d, Username=Player32851968
+Account 3: UserId=8d52b202-4165-433c-9868-e70f865031bc, Username=Player12023790
+Verified user: fb7d5ea2-3df0-416f-96fd-a09a81165116, Username: Player85383843
+Verified user: 6b751833-9738-4f00-bbbe-d6901eda017d, Username: Player32851968
+Verified user: 8d52b202-4165-433c-9868-e70f865031bc, Username: Player12023790
+Verified user: 77243574-3bb2-418c-a040-9fbd489385be, Username: Player19610986
+Saved 4 account usernames to EditorPrefs
+]]></output>
+              </test-case>
+              <test-case id="1007" name="AccountSwitcher_StoredAccounts_MatchServerAccounts" fullname="HiroEventLeaderboards.Tests.Editor.AccountSwitcherTests.AccountSwitcher_StoredAccounts_MatchServerAccounts" methodname="AccountSwitcher_StoredAccounts_MatchServerAccounts" classname="HiroEventLeaderboards.Tests.Editor.AccountSwitcherTests" runstate="Runnable" seed="2099058297" result="Passed" start-time="2026-02-04 04:46:13Z" end-time="2026-02-04 04:46:13Z" duration="0.093432" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Verified stored user: Player85383843
+Verified stored user: Player32851968
+Verified stored user: Player12023790
+Verified stored user: Player19610986
+]]></output>
+              </test-case>
+              <test-case id="1008" name="AccountSwitcher_SwitchBetweenAccounts_SessionsAreDistinct" fullname="HiroEventLeaderboards.Tests.Editor.AccountSwitcherTests.AccountSwitcher_SwitchBetweenAccounts_SessionsAreDistinct" methodname="AccountSwitcher_SwitchBetweenAccounts_SessionsAreDistinct" classname="HiroEventLeaderboards.Tests.Editor.AccountSwitcherTests" runstate="Runnable" seed="931111210" result="Passed" start-time="2026-02-04 04:46:13Z" end-time="2026-02-04 04:46:13Z" duration="0.199600" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Account 0: Unique UserId=77243574-3bb2-418c-a040-9fbd489385be
+Account 1: Unique UserId=fb7d5ea2-3df0-416f-96fd-a09a81165116
+Account 2: Unique UserId=6b751833-9738-4f00-bbbe-d6901eda017d
+Account 3: Unique UserId=8d52b202-4165-433c-9868-e70f865031bc
+]]></output>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1016" name="AccountSwitchingIntegrationTests" fullname="HiroEventLeaderboards.Tests.Editor.AccountSwitchingIntegrationTests" classname="HiroEventLeaderboards.Tests.Editor.AccountSwitchingIntegrationTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-02-04 04:46:13Z" end-time="2026-02-04 04:46:29Z" duration="15.372666" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="ParameterizedMethod" id="1025" name="SwitchAccountAsync_ChangesCurrentUserId" fullname="HiroEventLeaderboards.Tests.Editor.AccountSwitchingIntegrationTests.SwitchAccountAsync_ChangesCurrentUserId" classname="HiroEventLeaderboards.Tests.Editor.AccountSwitchingIntegrationTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-02-04 04:46:13Z" end-time="2026-02-04 04:46:17Z" duration="3.153635" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1023" name="SwitchAccountAsync_ChangesCurrentUserId(&quot;local&quot;)" fullname="HiroEventLeaderboards.Tests.Editor.AccountSwitchingIntegrationTests.SwitchAccountAsync_ChangesCurrentUserId(&quot;local&quot;)" methodname="SwitchAccountAsync_ChangesCurrentUserId" classname="HiroEventLeaderboards.Tests.Editor.AccountSwitchingIntegrationTests" runstate="Runnable" seed="1866914093" result="Passed" start-time="2026-02-04 04:46:13Z" end-time="2026-02-04 04:46:14Z" duration="0.548828" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlODhiODVjYS1mZGNlLTRiMzQtODY2Yi1jOTQwYzkyMmE0NzYiLCJ1aWQiOiI3NzI0MzU3NC0zYmIyLTQxOGMtYTA0MC05ZmJkNDg5Mzg1YmUiLCJ1c24iOiJQbGF5ZXIxOTYxMDk4NiIsImV4cCI6MTc3MDI2Njc3MywiaWF0IjoxNzcwMTgwMzczfQ.Gm_ahJXnQRZnDKcPquehvbDzI4Q6ST7gnfIJ9QUWMBE', Created=False, CreateTime=1770180373, ExpireTime=1770266773, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlODhiODVjYS1mZGNlLTRiMzQtODY2Yi1jOTQwYzkyMmE0NzYiLCJ1aWQiOiI3NzI0MzU3NC0zYmIyLTQxOGMtYTA0MC05ZmJkNDg5Mzg1YmUiLCJ1c24iOiJQbGF5ZXIxOTYxMDk4NiIsImV4cCI6MTc3MDc4NTE3MywiaWF0IjoxNzcwMTgwMzczfQ.joQxEEY8TckFT1QoyMkKCJZ0UVlyM__CH0dKSvRM0uo, RefreshExpireTime=1770785173, Variables={}, Username='Player19610986', UserId='77243574-3bb2-418c-a040-9fbd489385be')
+[local] Initial user: 77243574-3bb2-418c-a040-9fbd489385be
+[AccountSwitcher] SwitchAccountAsync: env=local, accountIndex=1
+[AccountSwitcher] AuthenticateAndStoreAccountAsync: env=local, accountIndex=1
+Session:
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/authenticate/device?create=true&', body='{"id":"AFA8485C-E6FB-52B5-9A66-FCF44D28C699_1"}'
+[AccountSwitcher] Got session: user=Player85383843, userId=fb7d5ea2-3df0-416f-96fd-a09a81165116
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+[AccountSwitcher] Storing account: key=local_1, user=Player85383843
+[AccountSwitcher] StoreAccountInfo: key=local_1, user=Player85383843, userId=fb7d5ea2-3df0-416f-96fd-a09a81165116
+[AccountSwitcher] Switch complete: user=Player85383843, userId=fb7d5ea2-3df0-416f-96fd-a09a81165116
+[local] After switch: fb7d5ea2-3df0-416f-96fd-a09a81165116
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+                </test-case>
+                <test-case id="1024" name="SwitchAccountAsync_ChangesCurrentUserId(&quot;heroiclabs&quot;)" fullname="HiroEventLeaderboards.Tests.Editor.AccountSwitchingIntegrationTests.SwitchAccountAsync_ChangesCurrentUserId(&quot;heroiclabs&quot;)" methodname="SwitchAccountAsync_ChangesCurrentUserId" classname="HiroEventLeaderboards.Tests.Editor.AccountSwitchingIntegrationTests" runstate="Runnable" seed="638793273" result="Passed" start-time="2026-02-04 04:46:14Z" end-time="2026-02-04 04:46:17Z" duration="2.604219" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Send: method='GET', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2OWMwOTFkNi01M2M4LTQ0ZjEtYTliMS05ZWFhNjJkYWUxZjciLCJ1aWQiOiI1MGJiNzgyMi0yYmRlLTRmMWYtODlkMi0xZWVkMjdlY2ZiZGMiLCJ1c24iOiJQbGF5ZXIwNTgwMjc2MyIsImV4cCI6MTc3MDI2Njc3NSwiaWF0IjoxNzcwMTgwMzc1fQ.hG7iChM0CwHJai7L3wfsJOXdy1SOj90zJKJXdGcc7HY', Created=False, CreateTime=1770180375, ExpireTime=1770266775, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2OWMwOTFkNi01M2M4LTQ0ZjEtYTliMS05ZWFhNjJkYWUxZjciLCJ1aWQiOiI1MGJiNzgyMi0yYmRlLTRmMWYtODlkMi0xZWVkMjdlY2ZiZGMiLCJ1c24iOiJQbGF5ZXIwNTgwMjc2MyIsImV4cCI6MTc3MDc4NTE3NSwiaWF0IjoxNzcwMTgwMzc1fQ.jWimhYCjdZ-NrCJePMZlxfzeUUQyVgvhX4AwhcG8LIE, RefreshExpireTime=1770785175, Variables={}, Username='Player05802763', UserId='50bb7822-2bde-4f1f-89d2-1eed27ecfbdc')
+[heroiclabs] Initial user: 50bb7822-2bde-4f1f-89d2-1eed27ecfbdc
+[AccountSwitcher] SwitchAccountAsync: env=heroiclabs, accountIndex=1
+[AccountSwitcher] AuthenticateAndStoreAccountAsync: env=heroiclabs, accountIndex=1
+Session:
+Send: method='POST', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account/authenticate/device?create=true&', body='{"id":"AFA8485C-E6FB-52B5-9A66-FCF44D28C699_1"}'
+[AccountSwitcher] Got session: user=Player33892372, userId=4e54998f-a5a6-4b38-9172-935d00e7b873
+Send: method='GET', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+[AccountSwitcher] Storing account: key=heroiclabs_1, user=Player33892372
+[AccountSwitcher] StoreAccountInfo: key=heroiclabs_1, user=Player33892372, userId=4e54998f-a5a6-4b38-9172-935d00e7b873
+[AccountSwitcher] Switch complete: user=Player33892372, userId=4e54998f-a5a6-4b38-9172-935d00e7b873
+[heroiclabs] After switch: 4e54998f-a5a6-4b38-9172-935d00e7b873
+Send: method='DELETE', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Send: method='DELETE', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Failed to delete account 4e54998f-a5a6-4b38-9172-935d00e7b873: Auth token invalid
+Send: method='DELETE', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Send: method='DELETE', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+]]></output>
+                </test-case>
+              </test-suite>
+              <test-suite type="ParameterizedMethod" id="1028" name="SwitchAccountAsync_FiresAccountSwitchedEvent" fullname="HiroEventLeaderboards.Tests.Editor.AccountSwitchingIntegrationTests.SwitchAccountAsync_FiresAccountSwitchedEvent" classname="HiroEventLeaderboards.Tests.Editor.AccountSwitchingIntegrationTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-02-04 04:46:17Z" end-time="2026-02-04 04:46:19Z" duration="2.804300" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1026" name="SwitchAccountAsync_FiresAccountSwitchedEvent(&quot;local&quot;)" fullname="HiroEventLeaderboards.Tests.Editor.AccountSwitchingIntegrationTests.SwitchAccountAsync_FiresAccountSwitchedEvent(&quot;local&quot;)" methodname="SwitchAccountAsync_FiresAccountSwitchedEvent" classname="HiroEventLeaderboards.Tests.Editor.AccountSwitchingIntegrationTests" runstate="Runnable" seed="1661278225" result="Passed" start-time="2026-02-04 04:46:17Z" end-time="2026-02-04 04:46:17Z" duration="0.550421" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIxMThmYTcxMi00NzAwLTQ2OGUtYTcxNC01OWUwMTAzOWNiOGEiLCJ1aWQiOiI3NzI0MzU3NC0zYmIyLTQxOGMtYTA0MC05ZmJkNDg5Mzg1YmUiLCJ1c24iOiJQbGF5ZXIxOTYxMDk4NiIsImV4cCI6MTc3MDI2Njc3NywiaWF0IjoxNzcwMTgwMzc3fQ.xfNheWK9wNp3KR6wOW170ycnZA_3PC-BzVXEIxjH6b8', Created=False, CreateTime=1770180377, ExpireTime=1770266777, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIxMThmYTcxMi00NzAwLTQ2OGUtYTcxNC01OWUwMTAzOWNiOGEiLCJ1aWQiOiI3NzI0MzU3NC0zYmIyLTQxOGMtYTA0MC05ZmJkNDg5Mzg1YmUiLCJ1c24iOiJQbGF5ZXIxOTYxMDk4NiIsImV4cCI6MTc3MDc4NTE3NywiaWF0IjoxNzcwMTgwMzc3fQ.Eq4ZTSoWFbqkILdn-4doL1z9tGhJ2RbsaQlM5rjv8LE, RefreshExpireTime=1770785177, Variables={}, Username='Player19610986', UserId='77243574-3bb2-418c-a040-9fbd489385be')
+[AccountSwitcher] SwitchAccountAsync: env=local, accountIndex=1
+[AccountSwitcher] AuthenticateAndStoreAccountAsync: env=local, accountIndex=1
+Session:
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/authenticate/device?create=true&', body='{"id":"AFA8485C-E6FB-52B5-9A66-FCF44D28C699_1"}'
+[AccountSwitcher] Got session: user=Player44298778, userId=ceb7fcd6-0b25-42e0-8853-f5491415d0d3
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+[AccountSwitcher] Storing account: key=local_1, user=Player44298778
+[AccountSwitcher] StoreAccountInfo: key=local_1, user=Player44298778, userId=ceb7fcd6-0b25-42e0-8853-f5491415d0d3
+[AccountSwitcher] Overwriting existing: user=Player85383843, userId=fb7d5ea2-3df0-416f-96fd-a09a81165116
+[AccountSwitcher] Switch complete: user=Player44298778, userId=ceb7fcd6-0b25-42e0-8853-f5491415d0d3
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+                </test-case>
+                <test-case id="1027" name="SwitchAccountAsync_FiresAccountSwitchedEvent(&quot;heroiclabs&quot;)" fullname="HiroEventLeaderboards.Tests.Editor.AccountSwitchingIntegrationTests.SwitchAccountAsync_FiresAccountSwitchedEvent(&quot;heroiclabs&quot;)" methodname="SwitchAccountAsync_FiresAccountSwitchedEvent" classname="HiroEventLeaderboards.Tests.Editor.AccountSwitchingIntegrationTests" runstate="Runnable" seed="190402135" result="Passed" start-time="2026-02-04 04:46:17Z" end-time="2026-02-04 04:46:19Z" duration="2.253348" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Send: method='GET', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI5ZDM4ZDMzMy0yM2I5LTRjNTgtODM4Zi0wYTljY2E2Njg1NjYiLCJ1aWQiOiI1MGJiNzgyMi0yYmRlLTRmMWYtODlkMi0xZWVkMjdlY2ZiZGMiLCJ1c24iOiJQbGF5ZXIwNTgwMjc2MyIsImV4cCI6MTc3MDI2Njc3NywiaWF0IjoxNzcwMTgwMzc3fQ.PIehLAGj-NABI4BUkF3_D7pRUNFslWc1EwU0quo8Nl0', Created=False, CreateTime=1770180377, ExpireTime=1770266777, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI5ZDM4ZDMzMy0yM2I5LTRjNTgtODM4Zi0wYTljY2E2Njg1NjYiLCJ1aWQiOiI1MGJiNzgyMi0yYmRlLTRmMWYtODlkMi0xZWVkMjdlY2ZiZGMiLCJ1c24iOiJQbGF5ZXIwNTgwMjc2MyIsImV4cCI6MTc3MDc4NTE3NywiaWF0IjoxNzcwMTgwMzc3fQ.cD15bIDhzXhBYRenSdX7WGPYfQOmlU9biIaV7BkMfmY, RefreshExpireTime=1770785177, Variables={}, Username='Player05802763', UserId='50bb7822-2bde-4f1f-89d2-1eed27ecfbdc')
+[AccountSwitcher] SwitchAccountAsync: env=heroiclabs, accountIndex=1
+[AccountSwitcher] AuthenticateAndStoreAccountAsync: env=heroiclabs, accountIndex=1
+Session:
+Send: method='POST', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account/authenticate/device?create=true&', body='{"id":"AFA8485C-E6FB-52B5-9A66-FCF44D28C699_1"}'
+[AccountSwitcher] Got session: user=Player06808930, userId=042be164-7db0-45ee-a4ba-61694b924887
+Send: method='GET', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+[AccountSwitcher] Storing account: key=heroiclabs_1, user=Player06808930
+[AccountSwitcher] StoreAccountInfo: key=heroiclabs_1, user=Player06808930, userId=042be164-7db0-45ee-a4ba-61694b924887
+[AccountSwitcher] Overwriting existing: user=Player33892372, userId=4e54998f-a5a6-4b38-9172-935d00e7b873
+[AccountSwitcher] Switch complete: user=Player06808930, userId=042be164-7db0-45ee-a4ba-61694b924887
+Send: method='DELETE', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Send: method='DELETE', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Failed to delete account 042be164-7db0-45ee-a4ba-61694b924887: Auth token invalid
+Send: method='DELETE', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Send: method='DELETE', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+]]></output>
+                </test-case>
+              </test-suite>
+              <test-suite type="ParameterizedMethod" id="1019" name="SwitchAccountAsync_FourAccounts_UsernamesAreConsistent" fullname="HiroEventLeaderboards.Tests.Editor.AccountSwitchingIntegrationTests.SwitchAccountAsync_FourAccounts_UsernamesAreConsistent" classname="HiroEventLeaderboards.Tests.Editor.AccountSwitchingIntegrationTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-02-04 04:46:19Z" end-time="2026-02-04 04:46:26Z" duration="6.310549" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1017" name="SwitchAccountAsync_FourAccounts_UsernamesAreConsistent(&quot;local&quot;)" fullname="HiroEventLeaderboards.Tests.Editor.AccountSwitchingIntegrationTests.SwitchAccountAsync_FourAccounts_UsernamesAreConsistent(&quot;local&quot;)" methodname="SwitchAccountAsync_FourAccounts_UsernamesAreConsistent" classname="HiroEventLeaderboards.Tests.Editor.AccountSwitchingIntegrationTests" runstate="Runnable" seed="311302067" result="Passed" start-time="2026-02-04 04:46:19Z" end-time="2026-02-04 04:46:21Z" duration="1.251385" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiYmI3YzY2OS1mMjMxLTQ4YmEtOGMxZS0wNGRhMTEyOGQzN2MiLCJ1aWQiOiI3NzI0MzU3NC0zYmIyLTQxOGMtYTA0MC05ZmJkNDg5Mzg1YmUiLCJ1c24iOiJQbGF5ZXIxOTYxMDk4NiIsImV4cCI6MTc3MDI2Njc3OSwiaWF0IjoxNzcwMTgwMzc5fQ.AJ48aqtYFNyopNeEE2n3WydJhgqFP_eQKrbbWzv7OaY', Created=False, CreateTime=1770180379, ExpireTime=1770266779, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiYmI3YzY2OS1mMjMxLTQ4YmEtOGMxZS0wNGRhMTEyOGQzN2MiLCJ1aWQiOiI3NzI0MzU3NC0zYmIyLTQxOGMtYTA0MC05ZmJkNDg5Mzg1YmUiLCJ1c24iOiJQbGF5ZXIxOTYxMDk4NiIsImV4cCI6MTc3MDc4NTE3OSwiaWF0IjoxNzcwMTgwMzc5fQ.RlLQBYujY3cZTBVizNdePL5XH_uAEcjFXJnwGJ26a1U, RefreshExpireTime=1770785179, Variables={}, Username='Player19610986', UserId='77243574-3bb2-418c-a040-9fbd489385be')
+[local] Account 0: Player19610986
+[local] Account 1: Player72283254
+[local] Account 2: Player39320387
+[local] Account 3: Player08611626
+[AccountSwitcher] SwitchAccountAsync: env=local, accountIndex=0
+[AccountSwitcher] AuthenticateAndStoreAccountAsync: env=local, accountIndex=0
+Session:
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/authenticate/device?create=true&', body='{"id":"AFA8485C-E6FB-52B5-9A66-FCF44D28C699_0"}'
+[AccountSwitcher] Got session: user=Player19610986, userId=77243574-3bb2-418c-a040-9fbd489385be
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+[AccountSwitcher] Storing account: key=local_0, user=Player19610986
+[AccountSwitcher] StoreAccountInfo: key=local_0, user=Player19610986, userId=77243574-3bb2-418c-a040-9fbd489385be
+[AccountSwitcher] Switch complete: user=Player19610986, userId=77243574-3bb2-418c-a040-9fbd489385be
+[local] Switched to account 0: expected=Player19610986, actual=Player19610986
+[AccountSwitcher] SwitchAccountAsync: env=local, accountIndex=1
+[AccountSwitcher] AuthenticateAndStoreAccountAsync: env=local, accountIndex=1
+Session:
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/authenticate/device?create=true&', body='{"id":"AFA8485C-E6FB-52B5-9A66-FCF44D28C699_1"}'
+[AccountSwitcher] Got session: user=Player72283254, userId=ea7ace45-dd44-4508-95ba-eb1a08874060
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+[AccountSwitcher] Storing account: key=local_1, user=Player72283254
+[AccountSwitcher] StoreAccountInfo: key=local_1, user=Player72283254, userId=ea7ace45-dd44-4508-95ba-eb1a08874060
+[AccountSwitcher] Overwriting existing: user=Player44298778, userId=ceb7fcd6-0b25-42e0-8853-f5491415d0d3
+[AccountSwitcher] Switch complete: user=Player72283254, userId=ea7ace45-dd44-4508-95ba-eb1a08874060
+[local] Switched to account 1: expected=Player72283254, actual=Player72283254
+[AccountSwitcher] SwitchAccountAsync: env=local, accountIndex=2
+[AccountSwitcher] AuthenticateAndStoreAccountAsync: env=local, accountIndex=2
+Session:
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/authenticate/device?create=true&', body='{"id":"AFA8485C-E6FB-52B5-9A66-FCF44D28C699_2"}'
+[AccountSwitcher] Got session: user=Player39320387, userId=393c654d-6d6d-41be-bb22-51831a16e7a4
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+[AccountSwitcher] Storing account: key=local_2, user=Player39320387
+[AccountSwitcher] StoreAccountInfo: key=local_2, user=Player39320387, userId=393c654d-6d6d-41be-bb22-51831a16e7a4
+[AccountSwitcher] Switch complete: user=Player39320387, userId=393c654d-6d6d-41be-bb22-51831a16e7a4
+[local] Switched to account 2: expected=Player39320387, actual=Player39320387
+[AccountSwitcher] SwitchAccountAsync: env=local, accountIndex=3
+[AccountSwitcher] AuthenticateAndStoreAccountAsync: env=local, accountIndex=3
+Session:
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/authenticate/device?create=true&', body='{"id":"AFA8485C-E6FB-52B5-9A66-FCF44D28C699_3"}'
+[AccountSwitcher] Got session: user=Player08611626, userId=c8353af9-0cf5-4408-9430-68768abbecb4
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+[AccountSwitcher] Storing account: key=local_3, user=Player08611626
+[AccountSwitcher] StoreAccountInfo: key=local_3, user=Player08611626, userId=c8353af9-0cf5-4408-9430-68768abbecb4
+[AccountSwitcher] Switch complete: user=Player08611626, userId=c8353af9-0cf5-4408-9430-68768abbecb4
+[local] Switched to account 3: expected=Player08611626, actual=Player08611626
+[local] Second pass - verifying consistency:
+[AccountSwitcher] SwitchAccountAsync: env=local, accountIndex=0
+[AccountSwitcher] AuthenticateAndStoreAccountAsync: env=local, accountIndex=0
+Session:Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIwNDM1ZDQ1Ny05ZjQzLTRhNzYtYWM3Yy1lMzViN2YwYjhkNDkiLCJ1aWQiOiI3NzI0MzU3NC0zYmIyLTQxOGMtYTA0MC05ZmJkNDg5Mzg1YmUiLCJ1c24iOiJQbGF5ZXIxOTYxMDk4NiIsImV4cCI6MTc3MDI2Njc4MCwiaWF0IjoxNzcwMTgwMzgwfQ.-DjRiIrXXXj9jLjMvCOFDKbS8YdsmRrzG5aW_ZZr4RY', Created=False, CreateTime=1770180380, ExpireTime=1770266780, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIwNDM1ZDQ1Ny05ZjQzLTRhNzYtYWM3Yy1lMzViN2YwYjhkNDkiLCJ1aWQiOiI3NzI0MzU3NC0zYmIyLTQxOGMtYTA0MC05ZmJkNDg5Mzg1YmUiLCJ1c24iOiJQbGF5ZXIxOTYxMDk4NiIsImV4cCI6MTc3MDc4NTE4MCwiaWF0IjoxNzcwMTgwMzgwfQ.1eXrYBsc2pqwswrVQ6FZ5Sr3oidW7NhehMvAms22pkM, RefreshExpireTime=1770785180, Variables={}, Username='Player19610986', UserId='77243574-3bb2-418c-a040-9fbd489385be')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIwNDM1ZDQ1Ny05ZjQzLTRhNzYtYWM3Yy1lMzViN2YwYjhkNDkiLCJ1aWQiOiI3NzI0MzU3NC0zYmIyLTQxOGMtYTA0MC05ZmJkNDg5Mzg1YmUiLCJ1c24iOiJQbGF5ZXIxOTYxMDk4NiIsImV4cCI6MTc3MDc4NTE4MCwiaWF0IjoxNzcwMTgwMzgwfQ.1eXrYBsc2pqwswrVQ6FZ5Sr3oidW7NhehMvAms22pkM"}'
+[AccountSwitcher] Got session: user=Player19610986, userId=77243574-3bb2-418c-a040-9fbd489385be
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+[AccountSwitcher] Storing account: key=local_0, user=Player19610986
+[AccountSwitcher] StoreAccountInfo: key=local_0, user=Player19610986, userId=77243574-3bb2-418c-a040-9fbd489385be
+[AccountSwitcher] Overwriting existing: user=Player19610986, userId=77243574-3bb2-418c-a040-9fbd489385be
+[AccountSwitcher] Switch complete: user=Player19610986, userId=77243574-3bb2-418c-a040-9fbd489385be
+[local] Second switch to account 0: expected=Player19610986, actual=Player19610986
+[AccountSwitcher] SwitchAccountAsync: env=local, accountIndex=1
+[AccountSwitcher] AuthenticateAndStoreAccountAsync: env=local, accountIndex=1
+Session:Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI4NjcxZmY2MC1jZTJhLTQxZTAtOTVhNy0wN2JlZTBhN2ZjNTIiLCJ1aWQiOiJlYTdhY2U0NS1kZDQ0LTQ1MDgtOTViYS1lYjFhMDg4NzQwNjAiLCJ1c24iOiJQbGF5ZXI3MjI4MzI1NCIsImV4cCI6MTc3MDI2Njc4MCwiaWF0IjoxNzcwMTgwMzgwfQ.9WJNCdJyTMQLoqDnaS0bVA7jhm9bgFt6mnl5irKj2Q8', Created=False, CreateTime=1770180380, ExpireTime=1770266780, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI4NjcxZmY2MC1jZTJhLTQxZTAtOTVhNy0wN2JlZTBhN2ZjNTIiLCJ1aWQiOiJlYTdhY2U0NS1kZDQ0LTQ1MDgtOTViYS1lYjFhMDg4NzQwNjAiLCJ1c24iOiJQbGF5ZXI3MjI4MzI1NCIsImV4cCI6MTc3MDc4NTE4MCwiaWF0IjoxNzcwMTgwMzgwfQ.IDcgx2wtmnG87NkSZ2JqfeH8zPcKueWee9dpfae3JYc, RefreshExpireTime=1770785180, Variables={}, Username='Player72283254', UserId='ea7ace45-dd44-4508-95ba-eb1a08874060')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI4NjcxZmY2MC1jZTJhLTQxZTAtOTVhNy0wN2JlZTBhN2ZjNTIiLCJ1aWQiOiJlYTdhY2U0NS1kZDQ0LTQ1MDgtOTViYS1lYjFhMDg4NzQwNjAiLCJ1c24iOiJQbGF5ZXI3MjI4MzI1NCIsImV4cCI6MTc3MDc4NTE4MCwiaWF0IjoxNzcwMTgwMzgwfQ.IDcgx2wtmnG87NkSZ2JqfeH8zPcKueWee9dpfae3JYc"}'
+[AccountSwitcher] Got session: user=Player72283254, userId=ea7ace45-dd44-4508-95ba-eb1a08874060
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+[AccountSwitcher] Storing account: key=local_1, user=Player72283254
+[AccountSwitcher] StoreAccountInfo: key=local_1, user=Player72283254, userId=ea7ace45-dd44-4508-95ba-eb1a08874060
+[AccountSwitcher] Overwriting existing: user=Player72283254, userId=ea7ace45-dd44-4508-95ba-eb1a08874060
+[AccountSwitcher] Switch complete: user=Player72283254, userId=ea7ace45-dd44-4508-95ba-eb1a08874060
+[local] Second switch to account 1: expected=Player72283254, actual=Player72283254
+[AccountSwitcher] SwitchAccountAsync: env=local, accountIndex=2
+[AccountSwitcher] AuthenticateAndStoreAccountAsync: env=local, accountIndex=2
+Session:Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0ZGM3YmZkMi1kYzlkLTQyODAtODI0My05NmI2NGM5NDdkMTQiLCJ1aWQiOiIzOTNjNjU0ZC02ZDZkLTQxYmUtYmIyMi01MTgzMWExNmU3YTQiLCJ1c24iOiJQbGF5ZXIzOTMyMDM4NyIsImV4cCI6MTc3MDI2Njc4MCwiaWF0IjoxNzcwMTgwMzgwfQ.Ew_agB2NA-IeEDvnaJWqaSYJ2exRVXfR-a52uZsuFto', Created=False, CreateTime=1770180380, ExpireTime=1770266780, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0ZGM3YmZkMi1kYzlkLTQyODAtODI0My05NmI2NGM5NDdkMTQiLCJ1aWQiOiIzOTNjNjU0ZC02ZDZkLTQxYmUtYmIyMi01MTgzMWExNmU3YTQiLCJ1c24iOiJQbGF5ZXIzOTMyMDM4NyIsImV4cCI6MTc3MDc4NTE4MCwiaWF0IjoxNzcwMTgwMzgwfQ.zTwfYMX5DC6rCS4NBU5i9KiMnaAWWNoWgV09UL-FSYk, RefreshExpireTime=1770785180, Variables={}, Username='Player39320387', UserId='393c654d-6d6d-41be-bb22-51831a16e7a4')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0ZGM3YmZkMi1kYzlkLTQyODAtODI0My05NmI2NGM5NDdkMTQiLCJ1aWQiOiIzOTNjNjU0ZC02ZDZkLTQxYmUtYmIyMi01MTgzMWExNmU3YTQiLCJ1c24iOiJQbGF5ZXIzOTMyMDM4NyIsImV4cCI6MTc3MDc4NTE4MCwiaWF0IjoxNzcwMTgwMzgwfQ.zTwfYMX5DC6rCS4NBU5i9KiMnaAWWNoWgV09UL-FSYk"}'
+[AccountSwitcher] Got session: user=Player39320387, userId=393c654d-6d6d-41be-bb22-51831a16e7a4
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+[AccountSwitcher] Storing account: key=local_2, user=Player39320387
+[AccountSwitcher] StoreAccountInfo: key=local_2, user=Player39320387, userId=393c654d-6d6d-41be-bb22-51831a16e7a4
+[AccountSwitcher] Overwriting existing: user=Player39320387, userId=393c654d-6d6d-41be-bb22-51831a16e7a4
+[AccountSwitcher] Switch complete: user=Player39320387, userId=393c654d-6d6d-41be-bb22-51831a16e7a4
+[local] Second switch to account 2: expected=Player39320387, actual=Player39320387
+[AccountSwitcher] SwitchAccountAsync: env=local, accountIndex=3
+[AccountSwitcher] AuthenticateAndStoreAccountAsync: env=local, accountIndex=3
+Session:Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIwMmNmMzA5Yy0yZjkzLTRiMzItYWJkZC1hMWFhMDcwZjUyMGUiLCJ1aWQiOiJjODM1M2FmOS0wY2Y1LTQ0MDgtOTQzMC02ODc2OGFiYmVjYjQiLCJ1c24iOiJQbGF5ZXIwODYxMTYyNiIsImV4cCI6MTc3MDI2Njc4MCwiaWF0IjoxNzcwMTgwMzgwfQ.Yknv2piNPVJgDLXYnmgwR8WNnLI0xh--u-DWDfqlyVo', Created=False, CreateTime=1770180380, ExpireTime=1770266780, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIwMmNmMzA5Yy0yZjkzLTRiMzItYWJkZC1hMWFhMDcwZjUyMGUiLCJ1aWQiOiJjODM1M2FmOS0wY2Y1LTQ0MDgtOTQzMC02ODc2OGFiYmVjYjQiLCJ1c24iOiJQbGF5ZXIwODYxMTYyNiIsImV4cCI6MTc3MDc4NTE4MCwiaWF0IjoxNzcwMTgwMzgwfQ.JsCWyC4PEHneEqKn8N5g1MfPZnYJ27mmsYbg9dKF-lQ, RefreshExpireTime=1770785180, Variables={}, Username='Player08611626', UserId='c8353af9-0cf5-4408-9430-68768abbecb4')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIwMmNmMzA5Yy0yZjkzLTRiMzItYWJkZC1hMWFhMDcwZjUyMGUiLCJ1aWQiOiJjODM1M2FmOS0wY2Y1LTQ0MDgtOTQzMC02ODc2OGFiYmVjYjQiLCJ1c24iOiJQbGF5ZXIwODYxMTYyNiIsImV4cCI6MTc3MDc4NTE4MCwiaWF0IjoxNzcwMTgwMzgwfQ.JsCWyC4PEHneEqKn8N5g1MfPZnYJ27mmsYbg9dKF-lQ"}'
+[AccountSwitcher] Got session: user=Player08611626, userId=c8353af9-0cf5-4408-9430-68768abbecb4
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+[AccountSwitcher] Storing account: key=local_3, user=Player08611626
+[AccountSwitcher] StoreAccountInfo: key=local_3, user=Player08611626, userId=c8353af9-0cf5-4408-9430-68768abbecb4
+[AccountSwitcher] Overwriting existing: user=Player08611626, userId=c8353af9-0cf5-4408-9430-68768abbecb4
+[AccountSwitcher] Switch complete: user=Player08611626, userId=c8353af9-0cf5-4408-9430-68768abbecb4
+[local] Second switch to account 3: expected=Player08611626, actual=Player08611626
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+                </test-case>
+                <test-case id="1018" name="SwitchAccountAsync_FourAccounts_UsernamesAreConsistent(&quot;heroiclabs&quot;)" fullname="HiroEventLeaderboards.Tests.Editor.AccountSwitchingIntegrationTests.SwitchAccountAsync_FourAccounts_UsernamesAreConsistent(&quot;heroiclabs&quot;)" methodname="SwitchAccountAsync_FourAccounts_UsernamesAreConsistent" classname="HiroEventLeaderboards.Tests.Editor.AccountSwitchingIntegrationTests" runstate="Runnable" seed="1886828456" result="Passed" start-time="2026-02-04 04:46:21Z" end-time="2026-02-04 04:46:26Z" duration="5.058370" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Send: method='GET', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIxNjYzMmI0NS0wOTUwLTQ3ZjMtOGIzYS04ZjQ1MjVlM2NiZTQiLCJ1aWQiOiI1MGJiNzgyMi0yYmRlLTRmMWYtODlkMi0xZWVkMjdlY2ZiZGMiLCJ1c24iOiJQbGF5ZXIwNTgwMjc2MyIsImV4cCI6MTc3MDI2Njc4MSwiaWF0IjoxNzcwMTgwMzgxfQ.3VDRHf2QYmuFT2dwiAnKGO_xdwS0YPuysr82VQAwwL8', Created=False, CreateTime=1770180381, ExpireTime=1770266781, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIxNjYzMmI0NS0wOTUwLTQ3ZjMtOGIzYS04ZjQ1MjVlM2NiZTQiLCJ1aWQiOiI1MGJiNzgyMi0yYmRlLTRmMWYtODlkMi0xZWVkMjdlY2ZiZGMiLCJ1c24iOiJQbGF5ZXIwNTgwMjc2MyIsImV4cCI6MTc3MDc4NTE4MSwiaWF0IjoxNzcwMTgwMzgxfQ.ztR1kqh-Phlwt9-EK4aUxIpU2qvh-CriMFVxwZxDIB0, RefreshExpireTime=1770785181, Variables={}, Username='Player05802763', UserId='50bb7822-2bde-4f1f-89d2-1eed27ecfbdc')
+[heroiclabs] Account 0: Player05802763
+[heroiclabs] Account 1: Player96828353
+[heroiclabs] Account 2: Player41766468
+[heroiclabs] Account 3: Player68085603
+[AccountSwitcher] SwitchAccountAsync: env=heroiclabs, accountIndex=0
+[AccountSwitcher] AuthenticateAndStoreAccountAsync: env=heroiclabs, accountIndex=0
+Session:
+Send: method='POST', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account/authenticate/device?create=true&', body='{"id":"AFA8485C-E6FB-52B5-9A66-FCF44D28C699_0"}'
+[AccountSwitcher] Got session: user=Player05802763, userId=50bb7822-2bde-4f1f-89d2-1eed27ecfbdc
+Send: method='GET', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+[AccountSwitcher] Storing account: key=heroiclabs_0, user=Player05802763
+[AccountSwitcher] StoreAccountInfo: key=heroiclabs_0, user=Player05802763, userId=50bb7822-2bde-4f1f-89d2-1eed27ecfbdc
+[AccountSwitcher] Switch complete: user=Player05802763, userId=50bb7822-2bde-4f1f-89d2-1eed27ecfbdc
+[heroiclabs] Switched to account 0: expected=Player05802763, actual=Player05802763
+[AccountSwitcher] SwitchAccountAsync: env=heroiclabs, accountIndex=1
+[AccountSwitcher] AuthenticateAndStoreAccountAsync: env=heroiclabs, accountIndex=1
+Session:
+Send: method='POST', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account/authenticate/device?create=true&', body='{"id":"AFA8485C-E6FB-52B5-9A66-FCF44D28C699_1"}'
+[AccountSwitcher] Got session: user=Player96828353, userId=86bd358b-d8d7-4fbe-8a31-b13cce2eba02
+Send: method='GET', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+[AccountSwitcher] Storing account: key=heroiclabs_1, user=Player96828353
+[AccountSwitcher] StoreAccountInfo: key=heroiclabs_1, user=Player96828353, userId=86bd358b-d8d7-4fbe-8a31-b13cce2eba02
+[AccountSwitcher] Overwriting existing: user=Player06808930, userId=042be164-7db0-45ee-a4ba-61694b924887
+[AccountSwitcher] Switch complete: user=Player96828353, userId=86bd358b-d8d7-4fbe-8a31-b13cce2eba02
+[heroiclabs] Switched to account 1: expected=Player96828353, actual=Player96828353
+[AccountSwitcher] SwitchAccountAsync: env=heroiclabs, accountIndex=2
+[AccountSwitcher] AuthenticateAndStoreAccountAsync: env=heroiclabs, accountIndex=2
+Session:
+Send: method='POST', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account/authenticate/device?create=true&', body='{"id":"AFA8485C-E6FB-52B5-9A66-FCF44D28C699_2"}'
+[AccountSwitcher] Got session: user=Player41766468, userId=bfd0ef76-bfab-4346-b433-9854454d84ed
+Send: method='GET', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+[AccountSwitcher] Storing account: key=heroiclabs_2, user=Player41766468
+[AccountSwitcher] StoreAccountInfo: key=heroiclabs_2, user=Player41766468, userId=bfd0ef76-bfab-4346-b433-9854454d84ed
+[AccountSwitcher] Switch complete: user=Player41766468, userId=bfd0ef76-bfab-4346-b433-9854454d84ed
+[heroiclabs] Switched to account 2: expected=Player41766468, actual=Player41766468
+[AccountSwitcher] SwitchAccountAsync: env=heroiclabs, accountIndex=3
+[AccountSwitcher] AuthenticateAndStoreAccountAsync: env=heroiclabs, accountIndex=3
+Session:
+Send: method='POST', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account/authenticate/device?create=true&', body='{"id":"AFA8485C-E6FB-52B5-9A66-FCF44D28C699_3"}'
+[AccountSwitcher] Got session: user=Player68085603, userId=0a4f83e2-0582-40fc-8b80-92c2bd770ead
+Send: method='GET', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+[AccountSwitcher] Storing account: key=heroiclabs_3, user=Player68085603
+[AccountSwitcher] StoreAccountInfo: key=heroiclabs_3, user=Player68085603, userId=0a4f83e2-0582-40fc-8b80-92c2bd770ead
+[AccountSwitcher] Switch complete: user=Player68085603, userId=0a4f83e2-0582-40fc-8b80-92c2bd770ead
+[heroiclabs] Switched to account 3: expected=Player68085603, actual=Player68085603
+[heroiclabs] Second pass - verifying consistency:
+[AccountSwitcher] SwitchAccountAsync: env=heroiclabs, accountIndex=0
+[AccountSwitcher] AuthenticateAndStoreAccountAsync: env=heroiclabs, accountIndex=0
+Session:Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2NzAwMDFjZC0yYzE2LTQ2OGItYjk5MC1hOGM1YjU1YThmZGUiLCJ1aWQiOiI1MGJiNzgyMi0yYmRlLTRmMWYtODlkMi0xZWVkMjdlY2ZiZGMiLCJ1c24iOiJQbGF5ZXIwNTgwMjc2MyIsImV4cCI6MTc3MDI2Njc4MiwiaWF0IjoxNzcwMTgwMzgyfQ.CEQl95-VU0JprT5QQbx79MAdQj7l8TG7WNk_C7CDJBw', Created=False, CreateTime=1770180382, ExpireTime=1770266782, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2NzAwMDFjZC0yYzE2LTQ2OGItYjk5MC1hOGM1YjU1YThmZGUiLCJ1aWQiOiI1MGJiNzgyMi0yYmRlLTRmMWYtODlkMi0xZWVkMjdlY2ZiZGMiLCJ1c24iOiJQbGF5ZXIwNTgwMjc2MyIsImV4cCI6MTc3MDc4NTE4MiwiaWF0IjoxNzcwMTgwMzgyfQ.Hn0QKbbAbiMprSlvspmC-Q_L0SkMHgVbeANMcpfInRY, RefreshExpireTime=1770785182, Variables={}, Username='Player05802763', UserId='50bb7822-2bde-4f1f-89d2-1eed27ecfbdc')
+Send: method='POST', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2NzAwMDFjZC0yYzE2LTQ2OGItYjk5MC1hOGM1YjU1YThmZGUiLCJ1aWQiOiI1MGJiNzgyMi0yYmRlLTRmMWYtODlkMi0xZWVkMjdlY2ZiZGMiLCJ1c24iOiJQbGF5ZXIwNTgwMjc2MyIsImV4cCI6MTc3MDc4NTE4MiwiaWF0IjoxNzcwMTgwMzgyfQ.Hn0QKbbAbiMprSlvspmC-Q_L0SkMHgVbeANMcpfInRY"}'
+[AccountSwitcher] Got session: user=Player05802763, userId=50bb7822-2bde-4f1f-89d2-1eed27ecfbdc
+Send: method='GET', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+[AccountSwitcher] Storing account: key=heroiclabs_0, user=Player05802763
+[AccountSwitcher] StoreAccountInfo: key=heroiclabs_0, user=Player05802763, userId=50bb7822-2bde-4f1f-89d2-1eed27ecfbdc
+[AccountSwitcher] Overwriting existing: user=Player05802763, userId=50bb7822-2bde-4f1f-89d2-1eed27ecfbdc
+[AccountSwitcher] Switch complete: user=Player05802763, userId=50bb7822-2bde-4f1f-89d2-1eed27ecfbdc
+[heroiclabs] Second switch to account 0: expected=Player05802763, actual=Player05802763
+[AccountSwitcher] SwitchAccountAsync: env=heroiclabs, accountIndex=1
+[AccountSwitcher] AuthenticateAndStoreAccountAsync: env=heroiclabs, accountIndex=1
+Session:Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI4ZmEyMTU5NS04NTI1LTQ1YWEtOTAzNi0zODE5ZTA3MzVlNTYiLCJ1aWQiOiI4NmJkMzU4Yi1kOGQ3LTRmYmUtOGEzMS1iMTNjY2UyZWJhMDIiLCJ1c24iOiJQbGF5ZXI5NjgyODM1MyIsImV4cCI6MTc3MDI2Njc4MiwiaWF0IjoxNzcwMTgwMzgyfQ.C6l7QtVmiIXbL28Psuud2mIt_cThpnUYhv0D4amrKec', Created=False, CreateTime=1770180382, ExpireTime=1770266782, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI4ZmEyMTU5NS04NTI1LTQ1YWEtOTAzNi0zODE5ZTA3MzVlNTYiLCJ1aWQiOiI4NmJkMzU4Yi1kOGQ3LTRmYmUtOGEzMS1iMTNjY2UyZWJhMDIiLCJ1c24iOiJQbGF5ZXI5NjgyODM1MyIsImV4cCI6MTc3MDc4NTE4MiwiaWF0IjoxNzcwMTgwMzgyfQ.YchA0mHUUgrYdgFIhjNRQXGgpZQAHRiW-JG0SUBof18, RefreshExpireTime=1770785182, Variables={}, Username='Player96828353', UserId='86bd358b-d8d7-4fbe-8a31-b13cce2eba02')
+Send: method='POST', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI4ZmEyMTU5NS04NTI1LTQ1YWEtOTAzNi0zODE5ZTA3MzVlNTYiLCJ1aWQiOiI4NmJkMzU4Yi1kOGQ3LTRmYmUtOGEzMS1iMTNjY2UyZWJhMDIiLCJ1c24iOiJQbGF5ZXI5NjgyODM1MyIsImV4cCI6MTc3MDc4NTE4MiwiaWF0IjoxNzcwMTgwMzgyfQ.YchA0mHUUgrYdgFIhjNRQXGgpZQAHRiW-JG0SUBof18"}'
+[AccountSwitcher] Got session: user=Player96828353, userId=86bd358b-d8d7-4fbe-8a31-b13cce2eba02
+Send: method='GET', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+[AccountSwitcher] Storing account: key=heroiclabs_1, user=Player96828353
+[AccountSwitcher] StoreAccountInfo: key=heroiclabs_1, user=Player96828353, userId=86bd358b-d8d7-4fbe-8a31-b13cce2eba02
+[AccountSwitcher] Overwriting existing: user=Player96828353, userId=86bd358b-d8d7-4fbe-8a31-b13cce2eba02
+[AccountSwitcher] Switch complete: user=Player96828353, userId=86bd358b-d8d7-4fbe-8a31-b13cce2eba02
+[heroiclabs] Second switch to account 1: expected=Player96828353, actual=Player96828353
+[AccountSwitcher] SwitchAccountAsync: env=heroiclabs, accountIndex=2
+[AccountSwitcher] AuthenticateAndStoreAccountAsync: env=heroiclabs, accountIndex=2
+Session:Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIzMmFlMThjOS1jMTA5LTQwMDYtOTM5ZS0yN2Q2NTA3MTNmZGEiLCJ1aWQiOiJiZmQwZWY3Ni1iZmFiLTQzNDYtYjQzMy05ODU0NDU0ZDg0ZWQiLCJ1c24iOiJQbGF5ZXI0MTc2NjQ2OCIsImV4cCI6MTc3MDI2Njc4MywiaWF0IjoxNzcwMTgwMzgzfQ.qmXbgPuEXNujiraL-0fo-0v1rnbvC5jP7cV6ibEAVsI', Created=False, CreateTime=1770180383, ExpireTime=1770266783, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIzMmFlMThjOS1jMTA5LTQwMDYtOTM5ZS0yN2Q2NTA3MTNmZGEiLCJ1aWQiOiJiZmQwZWY3Ni1iZmFiLTQzNDYtYjQzMy05ODU0NDU0ZDg0ZWQiLCJ1c24iOiJQbGF5ZXI0MTc2NjQ2OCIsImV4cCI6MTc3MDc4NTE4MywiaWF0IjoxNzcwMTgwMzgzfQ.Sy1rhBey8rzDTBASwZWLUjsDnsfKP0mlWt68eSL3dDU, RefreshExpireTime=1770785183, Variables={}, Username='Player41766468', UserId='bfd0ef76-bfab-4346-b433-9854454d84ed')
+Send: method='POST', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIzMmFlMThjOS1jMTA5LTQwMDYtOTM5ZS0yN2Q2NTA3MTNmZGEiLCJ1aWQiOiJiZmQwZWY3Ni1iZmFiLTQzNDYtYjQzMy05ODU0NDU0ZDg0ZWQiLCJ1c24iOiJQbGF5ZXI0MTc2NjQ2OCIsImV4cCI6MTc3MDc4NTE4MywiaWF0IjoxNzcwMTgwMzgzfQ.Sy1rhBey8rzDTBASwZWLUjsDnsfKP0mlWt68eSL3dDU"}'
+[AccountSwitcher] Got session: user=Player41766468, userId=bfd0ef76-bfab-4346-b433-9854454d84ed
+Send: method='GET', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+[AccountSwitcher] Storing account: key=heroiclabs_2, user=Player41766468
+[AccountSwitcher] StoreAccountInfo: key=heroiclabs_2, user=Player41766468, userId=bfd0ef76-bfab-4346-b433-9854454d84ed
+[AccountSwitcher] Overwriting existing: user=Player41766468, userId=bfd0ef76-bfab-4346-b433-9854454d84ed
+[AccountSwitcher] Switch complete: user=Player41766468, userId=bfd0ef76-bfab-4346-b433-9854454d84ed
+[heroiclabs] Second switch to account 2: expected=Player41766468, actual=Player41766468
+[AccountSwitcher] SwitchAccountAsync: env=heroiclabs, accountIndex=3
+[AccountSwitcher] AuthenticateAndStoreAccountAsync: env=heroiclabs, accountIndex=3
+Session:Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiMzlhOWFmMC03NjY1LTRiMWItOTZhNy1kMjI2YzY2ZGJiNTQiLCJ1aWQiOiIwYTRmODNlMi0wNTgyLTQwZmMtOGI4MC05MmMyYmQ3NzBlYWQiLCJ1c24iOiJQbGF5ZXI2ODA4NTYwMyIsImV4cCI6MTc3MDI2Njc4MywiaWF0IjoxNzcwMTgwMzgzfQ.AlJWmRBDRVILZbsppV3J1GAaZRA8CpxlVS2cs-VQEI4', Created=False, CreateTime=1770180383, ExpireTime=1770266783, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiMzlhOWFmMC03NjY1LTRiMWItOTZhNy1kMjI2YzY2ZGJiNTQiLCJ1aWQiOiIwYTRmODNlMi0wNTgyLTQwZmMtOGI4MC05MmMyYmQ3NzBlYWQiLCJ1c24iOiJQbGF5ZXI2ODA4NTYwMyIsImV4cCI6MTc3MDc4NTE4MywiaWF0IjoxNzcwMTgwMzgzfQ.uJ5Pv09Qg_u_xCUGCWjI4XE-y8pSZ_V0O0_C1kQyNr4, RefreshExpireTime=1770785183, Variables={}, Username='Player68085603', UserId='0a4f83e2-0582-40fc-8b80-92c2bd770ead')
+Send: method='POST', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiMzlhOWFmMC03NjY1LTRiMWItOTZhNy1kMjI2YzY2ZGJiNTQiLCJ1aWQiOiIwYTRmODNlMi0wNTgyLTQwZmMtOGI4MC05MmMyYmQ3NzBlYWQiLCJ1c24iOiJQbGF5ZXI2ODA4NTYwMyIsImV4cCI6MTc3MDc4NTE4MywiaWF0IjoxNzcwMTgwMzgzfQ.uJ5Pv09Qg_u_xCUGCWjI4XE-y8pSZ_V0O0_C1kQyNr4"}'
+[AccountSwitcher] Got session: user=Player68085603, userId=0a4f83e2-0582-40fc-8b80-92c2bd770ead
+Send: method='GET', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+[AccountSwitcher] Storing account: key=heroiclabs_3, user=Player68085603
+[AccountSwitcher] StoreAccountInfo: key=heroiclabs_3, user=Player68085603, userId=0a4f83e2-0582-40fc-8b80-92c2bd770ead
+[AccountSwitcher] Overwriting existing: user=Player68085603, userId=0a4f83e2-0582-40fc-8b80-92c2bd770ead
+[AccountSwitcher] Switch complete: user=Player68085603, userId=0a4f83e2-0582-40fc-8b80-92c2bd770ead
+[heroiclabs] Second switch to account 3: expected=Player68085603, actual=Player68085603
+Send: method='DELETE', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Send: method='DELETE', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Send: method='DELETE', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Send: method='DELETE', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Failed to delete account 0a4f83e2-0582-40fc-8b80-92c2bd770ead: Auth token invalid
+]]></output>
+                </test-case>
+              </test-suite>
+              <test-suite type="ParameterizedMethod" id="1022" name="SwitchCompleteAsync_ClearsSelectedLeaderboard" fullname="HiroEventLeaderboards.Tests.Editor.AccountSwitchingIntegrationTests.SwitchCompleteAsync_ClearsSelectedLeaderboard" classname="HiroEventLeaderboards.Tests.Editor.AccountSwitchingIntegrationTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-02-04 04:46:26Z" end-time="2026-02-04 04:46:29Z" duration="3.103622" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1020" name="SwitchCompleteAsync_ClearsSelectedLeaderboard(&quot;local&quot;)" fullname="HiroEventLeaderboards.Tests.Editor.AccountSwitchingIntegrationTests.SwitchCompleteAsync_ClearsSelectedLeaderboard(&quot;local&quot;)" methodname="SwitchCompleteAsync_ClearsSelectedLeaderboard" classname="HiroEventLeaderboards.Tests.Editor.AccountSwitchingIntegrationTests" runstate="Runnable" seed="1414142951" result="Passed" start-time="2026-02-04 04:46:26Z" end-time="2026-02-04 04:46:26Z" duration="0.599810" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIwYWM5ZDQyZi1iNWY4LTQyMjEtYmJkZi00OWVjNzFmYzdlZTQiLCJ1aWQiOiI3NzI0MzU3NC0zYmIyLTQxOGMtYTA0MC05ZmJkNDg5Mzg1YmUiLCJ1c24iOiJQbGF5ZXIxOTYxMDk4NiIsImV4cCI6MTc3MDI2Njc4NiwiaWF0IjoxNzcwMTgwMzg2fQ.Qdezz-TQkR9QHqSAyXJKDC-Bid7E6CfmuLHZmpZNmKM', Created=False, CreateTime=1770180386, ExpireTime=1770266786, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIwYWM5ZDQyZi1iNWY4LTQyMjEtYmJkZi00OWVjNzFmYzdlZTQiLCJ1aWQiOiI3NzI0MzU3NC0zYmIyLTQxOGMtYTA0MC05ZmJkNDg5Mzg1YmUiLCJ1c24iOiJQbGF5ZXIxOTYxMDk4NiIsImV4cCI6MTc3MDc4NTE4NiwiaWF0IjoxNzcwMTgwMzg2fQ.T-0RpvR9k0ijtUb4wBfsnOllF8EZY2bxJ0Hf8HaWZP0, RefreshExpireTime=1770785186, Variables={}, Username='Player19610986', UserId='77243574-3bb2-418c-a040-9fbd489385be')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_EVENT_LEADERBOARD_LIST', body='"{\"with_scores\":true,\"categories\":[]}"'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_EVENT_LEADERBOARD_GET', body='"{\"id\":\"desire_for_speed\"}"'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+                </test-case>
+                <test-case id="1021" name="SwitchCompleteAsync_ClearsSelectedLeaderboard(&quot;heroiclabs&quot;)" fullname="HiroEventLeaderboards.Tests.Editor.AccountSwitchingIntegrationTests.SwitchCompleteAsync_ClearsSelectedLeaderboard(&quot;heroiclabs&quot;)" methodname="SwitchCompleteAsync_ClearsSelectedLeaderboard" classname="HiroEventLeaderboards.Tests.Editor.AccountSwitchingIntegrationTests" runstate="Runnable" seed="1461143475" result="Passed" start-time="2026-02-04 04:46:26Z" end-time="2026-02-04 04:46:29Z" duration="2.503268" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Send: method='GET', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0NDU3YmZkOS01YTZlLTRiNzQtYWY2NS0zODAxMGFiNDE5ODgiLCJ1aWQiOiI1MGJiNzgyMi0yYmRlLTRmMWYtODlkMi0xZWVkMjdlY2ZiZGMiLCJ1c24iOiJQbGF5ZXIwNTgwMjc2MyIsImV4cCI6MTc3MDI2Njc4NywiaWF0IjoxNzcwMTgwMzg3fQ.k5mJfce2008Y3xThyA8-EnyUm9iEWqWFouFBvBZBpp8', Created=False, CreateTime=1770180387, ExpireTime=1770266787, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0NDU3YmZkOS01YTZlLTRiNzQtYWY2NS0zODAxMGFiNDE5ODgiLCJ1aWQiOiI1MGJiNzgyMi0yYmRlLTRmMWYtODlkMi0xZWVkMjdlY2ZiZGMiLCJ1c24iOiJQbGF5ZXIwNTgwMjc2MyIsImV4cCI6MTc3MDc4NTE4NywiaWF0IjoxNzcwMTgwMzg3fQ.mNXPE2E7uzMUfzH2ffN62IfqzWnIsV-Lnttb8M6QdmU, RefreshExpireTime=1770785187, Variables={}, Username='Player05802763', UserId='50bb7822-2bde-4f1f-89d2-1eed27ecfbdc')
+Send: method='POST', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/rpc/RPC_ID_EVENT_LEADERBOARD_LIST', body='"{\"with_scores\":true,\"categories\":[]}"'
+Send: method='POST', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/rpc/RPC_ID_EVENT_LEADERBOARD_GET', body='"{\"id\":\"desire_for_speed\"}"'
+Send: method='POST', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='DELETE', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Send: method='DELETE', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Send: method='DELETE', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+Send: method='DELETE', uri='https://sample-prjcts.eu-west1-a.nakamacloud.io/v2/account'
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+            <test-suite type="TestFixture" id="1014" name="EventLeaderboardsControllerConstructorTests" fullname="HiroEventLeaderboards.Tests.Editor.EventLeaderboardsControllerConstructorTests" classname="HiroEventLeaderboards.Tests.Editor.EventLeaderboardsControllerConstructorTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-02-04 04:46:29Z" end-time="2026-02-04 04:46:29Z" duration="0.002064" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1015" name="Constructor_NullNakamaSystem_ThrowsArgumentNullException" fullname="HiroEventLeaderboards.Tests.Editor.EventLeaderboardsControllerConstructorTests.Constructor_NullNakamaSystem_ThrowsArgumentNullException" methodname="Constructor_NullNakamaSystem_ThrowsArgumentNullException" classname="HiroEventLeaderboards.Tests.Editor.EventLeaderboardsControllerConstructorTests" runstate="Runnable" seed="43805191" result="Passed" start-time="2026-02-04 04:46:29Z" end-time="2026-02-04 04:46:29Z" duration="0.001588" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1009" name="EventLeaderboardsControllerTests" fullname="HiroEventLeaderboards.Tests.Editor.EventLeaderboardsControllerTests" classname="HiroEventLeaderboards.Tests.Editor.EventLeaderboardsControllerTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-02-04 04:46:29Z" end-time="2026-02-04 04:46:30Z" duration="1.199313" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1010" name="RefreshEventLeaderboardsAsync_ReturnsLeaderboards" fullname="HiroEventLeaderboards.Tests.Editor.EventLeaderboardsControllerTests.RefreshEventLeaderboardsAsync_ReturnsLeaderboards" methodname="RefreshEventLeaderboardsAsync_ReturnsLeaderboards" classname="HiroEventLeaderboards.Tests.Editor.EventLeaderboardsControllerTests" runstate="Runnable" seed="1726832833" result="Passed" start-time="2026-02-04 04:46:29Z" end-time="2026-02-04 04:46:29Z" duration="0.197318" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIyZmJiOTdmMy04MmNlLTQzMDYtYWM5YS05MTAyM2IxZjhkMmYiLCJ1aWQiOiI2YTMxMDI5Ny05ZDU1LTQ4MjAtOGE4Yy0xZTNhZWZkOGM3NTEiLCJ1c24iOiJQbGF5ZXIyNDkyNDg0NiIsImV4cCI6MTc3MDI2Njc4OSwiaWF0IjoxNzcwMTgwMzg5fQ.SBG-ZrmPjFjXuKbvwyeiV77Rqk5u24iVWY9UzklnBs4', Created=True, CreateTime=1770180389, ExpireTime=1770266789, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIyZmJiOTdmMy04MmNlLTQzMDYtYWM5YS05MTAyM2IxZjhkMmYiLCJ1aWQiOiI2YTMxMDI5Ny05ZDU1LTQ4MjAtOGE4Yy0xZTNhZWZkOGM3NTEiLCJ1c24iOiJQbGF5ZXIyNDkyNDg0NiIsImV4cCI6MTc3MDc4NTE4OSwiaWF0IjoxNzcwMTgwMzg5fQ.fkYPQJXhoMSnr2nokiJBuq6eIr2j7DxuKxZjeGvGb9U, RefreshExpireTime=1770785189, Variables={}, Username='Player24924846', UserId='6a310297-9d55-4820-8a8c-1e3aefd8c751')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_EVENT_LEADERBOARD_LIST', body='"{\"with_scores\":true,\"categories\":[]}"'
+Found 3 event leaderboards
+Leaderboard: Desire for Speed (desire_for_speed), Active: True
+Leaderboard: Food Battles! (food_battles), Active: True
+Leaderboard: Puzzle and Monsters (puzzle_and_monsters), Active: True
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1012" name="RollEventLeaderboardAsync_WhenCanRoll_JoinsLeaderboard" fullname="HiroEventLeaderboards.Tests.Editor.EventLeaderboardsControllerTests.RollEventLeaderboardAsync_WhenCanRoll_JoinsLeaderboard" methodname="RollEventLeaderboardAsync_WhenCanRoll_JoinsLeaderboard" classname="HiroEventLeaderboards.Tests.Editor.EventLeaderboardsControllerTests" runstate="Runnable" seed="1190025197" result="Passed" start-time="2026-02-04 04:46:29Z" end-time="2026-02-04 04:46:29Z" duration="0.350423" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIwZTVkMWJkOS1jYzRkLTRiNTctOTgyMC04NzIwODQwMjgzYTAiLCJ1aWQiOiJkMTU1MmIwNS02MTU0LTQ0NDQtYTg1NC00MzljMWY3NGQzOTciLCJ1c24iOiJQbGF5ZXI2NDE0MDk0NiIsImV4cCI6MTc3MDI2Njc4OSwiaWF0IjoxNzcwMTgwMzg5fQ.NnSZ83kNO4i1Pzyf1U14srbndJEQDQgDrReAlvooOCM', Created=True, CreateTime=1770180389, ExpireTime=1770266789, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIwZTVkMWJkOS1jYzRkLTRiNTctOTgyMC04NzIwODQwMjgzYTAiLCJ1aWQiOiJkMTU1MmIwNS02MTU0LTQ0NDQtYTg1NC00MzljMWY3NGQzOTciLCJ1c24iOiJQbGF5ZXI2NDE0MDk0NiIsImV4cCI6MTc3MDc4NTE4OSwiaWF0IjoxNzcwMTgwMzg5fQ.FcO6jxhYQ_YuHIqFMIaGMoy7CG1bPcLILEc1EXf8aTk, RefreshExpireTime=1770785189, Variables={}, Username='Player64140946', UserId='d1552b05-6154-4444-a854-439c1f74d397')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_EVENT_LEADERBOARD_LIST', body='"{\"with_scores\":true,\"categories\":[]}"'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_EVENT_LEADERBOARD_GET', body='"{\"id\":\"desire_for_speed\"}"'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_EVENT_LEADERBOARD_ROLL', body='"{\"id\":\"desire_for_speed\"}"'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_EVENT_LEADERBOARD_GET', body='"{\"id\":\"desire_for_speed\"}"'
+After roll, leaderboard has 1 records
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1011" name="SelectEventLeaderboardAsync_AfterRefresh_ReturnsRecords" fullname="HiroEventLeaderboards.Tests.Editor.EventLeaderboardsControllerTests.SelectEventLeaderboardAsync_AfterRefresh_ReturnsRecords" methodname="SelectEventLeaderboardAsync_AfterRefresh_ReturnsRecords" classname="HiroEventLeaderboards.Tests.Editor.EventLeaderboardsControllerTests" runstate="Runnable" seed="1760555884" result="Passed" start-time="2026-02-04 04:46:29Z" end-time="2026-02-04 04:46:30Z" duration="0.250109" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIxOTg2MDE1Ni1iOTU5LTQwOWQtYWZjOS1iODUwZDRhOWRkOTMiLCJ1aWQiOiI1NTlmZmUyMC05OTZiLTQ4OWYtODVmMy1iY2RiOWJhNDY3YTUiLCJ1c24iOiJQbGF5ZXIzOTQxMzI4MCIsImV4cCI6MTc3MDI2Njc4OSwiaWF0IjoxNzcwMTgwMzg5fQ.rDpkIGpflvbYbs7A4jjsOd38YYoAJQAe3phxP68iFR8', Created=True, CreateTime=1770180389, ExpireTime=1770266789, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIxOTg2MDE1Ni1iOTU5LTQwOWQtYWZjOS1iODUwZDRhOWRkOTMiLCJ1aWQiOiI1NTlmZmUyMC05OTZiLTQ4OWYtODVmMy1iY2RiOWJhNDY3YTUiLCJ1c24iOiJQbGF5ZXIzOTQxMzI4MCIsImV4cCI6MTc3MDc4NTE4OSwiaWF0IjoxNzcwMTgwMzg5fQ.KvLviG7_myvIbRE0tJibNhaL_jo_11V6hbIKvCPTp1A, RefreshExpireTime=1770785189, Variables={}, Username='Player39413280', UserId='559ffe20-996b-489f-85f3-bcdb9ba467a5')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_EVENT_LEADERBOARD_LIST', body='"{\"with_scores\":true,\"categories\":[]}"'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_EVENT_LEADERBOARD_GET', body='"{\"id\":\"desire_for_speed\"}"'
+Leaderboard 'Desire for Speed' has 0 records
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1013" name="SubmitScoreAsync_AfterJoining_UpdatesScore" fullname="HiroEventLeaderboards.Tests.Editor.EventLeaderboardsControllerTests.SubmitScoreAsync_AfterJoining_UpdatesScore" methodname="SubmitScoreAsync_AfterJoining_UpdatesScore" classname="HiroEventLeaderboards.Tests.Editor.EventLeaderboardsControllerTests" runstate="Runnable" seed="220162686" result="Passed" start-time="2026-02-04 04:46:30Z" end-time="2026-02-04 04:46:30Z" duration="0.400501" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3ZjkyYjNmMi0zY2UyLTQ3MDQtOThjMi04ZjVkYWYzMjAwYjQiLCJ1aWQiOiJlNTY5NGU2OS1lODJjLTQzMzctODliNi0wYWM4ZjJlODkyMjIiLCJ1c24iOiJQbGF5ZXIwMjIxMzQwNiIsImV4cCI6MTc3MDI2Njc5MCwiaWF0IjoxNzcwMTgwMzkwfQ.ZQ3xaAdPaf8dLzBF2It_MygeC2_p31IL8gQpGcWXbyc', Created=True, CreateTime=1770180390, ExpireTime=1770266790, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3ZjkyYjNmMi0zY2UyLTQ3MDQtOThjMi04ZjVkYWYzMjAwYjQiLCJ1aWQiOiJlNTY5NGU2OS1lODJjLTQzMzctODliNi0wYWM4ZjJlODkyMjIiLCJ1c24iOiJQbGF5ZXIwMjIxMzQwNiIsImV4cCI6MTc3MDc4NTE5MCwiaWF0IjoxNzcwMTgwMzkwfQ.PCO7AUWHG_Z1rBgKpAb8iVzCofC9AFS52NSZZ2HT20s, RefreshExpireTime=1770785190, Variables={}, Username='Player02213406', UserId='e5694e69-e82c-4337-89b6-0ac8f2e89222')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_EVENT_LEADERBOARD_LIST', body='"{\"with_scores\":true,\"categories\":[]}"'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_EVENT_LEADERBOARD_GET', body='"{\"id\":\"desire_for_speed\"}"'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_EVENT_LEADERBOARD_ROLL', body='"{\"id\":\"desire_for_speed\"}"'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_EVENT_LEADERBOARD_UPDATE', body='"{\"id\":\"desire_for_speed\",\"score\":\"100\",\"subscore\":\"50\",\"conditional_metadata_update\":false}"'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_EVENT_LEADERBOARD_GET', body='"{\"id\":\"desire_for_speed\"}"'
+Found our score: 100, subscore: 50
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+Saving results to: /Users/andres/Library/Application Support/DefaultCompany/UnityHiroChallenges/TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

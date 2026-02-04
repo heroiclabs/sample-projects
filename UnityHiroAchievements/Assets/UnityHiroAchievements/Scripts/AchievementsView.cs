@@ -3,39 +3,29 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Hiro;
-using Hiro.Unity;
 using HeroicUI;
-using Nakama;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace HiroAchievements
 {
-    [Serializable]
-    public class AchievementIconMapping
-    {
-        public string achievementId;
-        public Sprite icon;
-    }
-
     /// <summary>
-    /// MonoBehaviour that manages the Achievements UI and lifecycle.
-    /// Creates and owns the Controller, handles Unity lifecycle events.
+    /// View for the Achievements system.
+    /// Manages UI presentation and user interactions, delegates all business logic to Controller.
     /// </summary>
-    [RequireComponent(typeof(UIDocument))]
-    public sealed class AchievementsView : MonoBehaviour
+    public sealed class AchievementsView : IDisposable
     {
-        [Header("References")]
-        [SerializeField] private VisualTreeAsset achievementItemTemplate;
-        [SerializeField] private VisualTreeAsset subAchievementItemTemplate;
-        [SerializeField] private AchievementIconMapping[] achievementIconMappings;
-        [SerializeField] private Sprite defaultIcon;
+        private readonly AchievementsController _controller;
+        private readonly VisualTreeAsset _achievementItemTemplate;
+        private readonly VisualTreeAsset _subAchievementItemTemplate;
+        private readonly Dictionary<string, Sprite> _iconDictionary;
+        private readonly Sprite _defaultIcon;
 
-        private AchievementsController _controller;
-        private HiroAchievementsCoordinator _coordinator;
-        private CancellationTokenSource _cts;
+        private readonly CancellationTokenSource _cts = new();
+        private readonly object _disposeLock = new();
+        private volatile bool _disposed;
 
-        private Dictionary<string, Sprite> _iconDictionary;
         private WalletDisplay _walletDisplay;
 
         private Button _dailiesTabButton;
@@ -72,85 +62,61 @@ namespace HiroAchievements
         private SubAchievementItemView _selectedSubAchievementView;
         private readonly Dictionary<VisualElement, SubAchievementItemView> _subAchievementViews = new();
 
-        public AchievementsController Controller => _controller;
-        public event Action<ISession, AchievementsController> OnInitialized;
+        public event Action OnInitialized;
 
-        private void Start()
+        public AchievementsView(
+            AchievementsController controller,
+            VisualElement rootElement,
+            VisualTreeAsset achievementItemTemplate,
+            VisualTreeAsset subAchievementItemTemplate,
+            Dictionary<string, Sprite> iconDictionary,
+            Sprite defaultIcon)
         {
-            _cts = new CancellationTokenSource();
+            _controller = controller;
+            _achievementItemTemplate = achievementItemTemplate;
+            _subAchievementItemTemplate = subAchievementItemTemplate;
+            _iconDictionary = iconDictionary;
+            _defaultIcon = defaultIcon;
 
-            BuildIconDictionary();
+            Initialize(rootElement);
 
-            _coordinator = HiroCoordinator.Instance as HiroAchievementsCoordinator;
-            if (_coordinator == null)
-            {
-                Debug.LogError("HiroAchievementsCoordinator not found");
-                return;
-            }
+            _walletDisplay.StartObserving();
+            AccountSwitcher.AccountSwitched += OnAccountSwitched;
 
-            _coordinator.ReceivedStartError += HandleStartError;
-            _coordinator.ReceivedStartSuccess += HandleStartSuccess;
+            _ = InitializeAsync();
         }
 
-        private void OnDestroy()
+        public void Dispose()
         {
-            if (_coordinator != null)
+            lock (_disposeLock)
             {
-                _coordinator.ReceivedStartError -= HandleStartError;
-                _coordinator.ReceivedStartSuccess -= HandleStartSuccess;
+                if (_disposed) return;
+                _disposed = true;
             }
 
+            _timer?.Stop();
+            _cts.Cancel();
+            _cts.Dispose();
             AccountSwitcher.AccountSwitched -= OnAccountSwitched;
-
-            _cts?.Cancel();
-            _cts?.Dispose();
-
             _walletDisplay?.Dispose();
         }
 
-        private void BuildIconDictionary()
+        private void ThrowIfDisposedOrCancelled()
         {
-            _iconDictionary = new Dictionary<string, Sprite>();
-            if (achievementIconMappings != null)
-            {
-                foreach (var mapping in achievementIconMappings)
-                {
-                    if (!string.IsNullOrEmpty(mapping.achievementId) && mapping.icon != null)
-                    {
-                        _iconDictionary[mapping.achievementId] = mapping.icon;
-                    }
-                }
-            }
+            if (_disposed)
+                throw new OperationCanceledException();
+            _cts.Token.ThrowIfCancellationRequested();
         }
 
-        private void HandleStartError(Exception e)
+        private async Task InitializeAsync()
         {
-            Debug.LogException(e);
-            ShowError(e.Message);
-        }
-
-        private async void HandleStartSuccess(ISession session)
-        {
-            var nakamaSystem = _coordinator.GetSystem<NakamaSystem>();
-            var achievementsSystem = _coordinator.GetSystem<AchievementsSystem>();
-            var economySystem = _coordinator.GetSystem<EconomySystem>();
-
-            _controller = new AchievementsController(nakamaSystem, achievementsSystem, economySystem);
-
-            var env = _coordinator.IsLocalHost ? "local" : "heroiclabs";
-            AccountSwitcher.Initialize(nakamaSystem, env);
-            AccountSwitcher.AccountSwitched += OnAccountSwitched;
-
-            InitializeUI();
-
-            _walletDisplay.StartObserving();
-            _controller.SetCurrentCategory("quest");
-
             try
             {
+                ThrowIfDisposedOrCancelled();
+                _controller.SetCurrentCategory("quest");
                 await _controller.LoadAchievementsAsync();
                 await RefreshAchievementsListAsync();
-                OnInitialized?.Invoke(session, _controller);
+                OnInitialized?.Invoke();
             }
             catch (OperationCanceledException)
             {
@@ -165,10 +131,8 @@ namespace HiroAchievements
 
         #region UI Initialization
 
-        private void InitializeUI()
+        private void Initialize(VisualElement rootElement)
         {
-            var rootElement = GetComponent<UIDocument>().rootVisualElement;
-
             _walletDisplay = new WalletDisplay(rootElement.Q<VisualElement>("wallet-display"));
 
             // Tab buttons
@@ -180,7 +144,7 @@ namespace HiroAchievements
             _questsTabButton.RegisterCallback<ClickEvent>(_ => SwitchTab("quest"));
             _achievementsTabButton.RegisterCallback<ClickEvent>(_ => SwitchTab("achievement"));
             _resetTimeLabel = rootElement.Q<Label>("reset-time");
-            _timer = new CountdownTimer(this, _resetTimeLabel);
+            _timer = new CountdownTimer(_resetTimeLabel, RefreshAchievementsList);
 
             // Achievements list
             _achievementsList = rootElement.Q<VisualElement>("achievements-list");
@@ -234,7 +198,7 @@ namespace HiroAchievements
         {
             try
             {
-                _cts.Token.ThrowIfCancellationRequested();
+                ThrowIfDisposedOrCancelled();
                 _controller.SetCurrentCategory(category);
                 UpdateTabButtons();
                 await RefreshAchievementsListAsync();
@@ -280,7 +244,7 @@ namespace HiroAchievements
         {
             try
             {
-                _cts.Token.ThrowIfCancellationRequested();
+                ThrowIfDisposedOrCancelled();
                 await RefreshAchievementsListAsync();
             }
             catch (OperationCanceledException)
@@ -298,7 +262,7 @@ namespace HiroAchievements
         {
             try
             {
-                _cts.Token.ThrowIfCancellationRequested();
+                ThrowIfDisposedOrCancelled();
                 HideAllModals();
                 ShowEmptyState();
                 await _controller.SwitchCompleteAsync();
@@ -327,7 +291,7 @@ namespace HiroAchievements
         {
             try
             {
-                _cts.Token.ThrowIfCancellationRequested();
+                ThrowIfDisposedOrCancelled();
                 await _controller.ClaimSelectedAchievementRewardAsync(claimTotal: true);
                 await RefreshAchievementsListAsync();
 
@@ -358,7 +322,7 @@ namespace HiroAchievements
         {
             try
             {
-                _cts.Token.ThrowIfCancellationRequested();
+                ThrowIfDisposedOrCancelled();
                 await _controller.UpdateSelectedAchievementProgressAsync(_progressQuantityField.value);
                 _progressModal.style.display = DisplayStyle.None;
                 await RefreshAchievementsListAsync();
@@ -418,7 +382,7 @@ namespace HiroAchievements
         {
             try
             {
-                _cts.Token.ThrowIfCancellationRequested();
+                ThrowIfDisposedOrCancelled();
                 await RefreshAchievementsListAsync();
             }
             catch (OperationCanceledException)
@@ -437,7 +401,7 @@ namespace HiroAchievements
             UpdateTabButtons();
             var achievements = await _controller.RefreshAchievementsAsync();
             PopulateAchievementsList(achievements);
-            _timer.start(_controller.GetResetTime());
+            _timer.Start(_controller.GetResetTime());
         }
 
         private void PopulateAchievementsList(List<IAchievement> achievements)
@@ -446,7 +410,7 @@ namespace HiroAchievements
 
             foreach (var achievement in achievements)
             {
-                var achievementElement = achievementItemTemplate.Instantiate();
+                var achievementElement = _achievementItemTemplate.Instantiate();
                 var container = achievementElement.Q<VisualElement>("achievement-item-container");
 
                 var iconContainer = container.Q<VisualElement>("achievement-icon");
@@ -549,9 +513,9 @@ namespace HiroAchievements
             {
                 iconContainer.style.backgroundImage = new StyleBackground(icon);
             }
-            else if (defaultIcon != null)
+            else if (_defaultIcon != null)
             {
-                iconContainer.style.backgroundImage = new StyleBackground(defaultIcon);
+                iconContainer.style.backgroundImage = new StyleBackground(_defaultIcon);
             }
             else
             {
@@ -593,9 +557,9 @@ namespace HiroAchievements
             {
                 iconImage.style.backgroundImage = new StyleBackground(rewardIcon);
             }
-            else if (defaultIcon != null)
+            else if (_defaultIcon != null)
             {
-                iconImage.style.backgroundImage = new StyleBackground(defaultIcon);
+                iconImage.style.backgroundImage = new StyleBackground(_defaultIcon);
             }
             iconContainer.Add(iconImage);
             tile.Add(iconContainer);
@@ -701,7 +665,7 @@ namespace HiroAchievements
 
         private VisualElement CreateSubAchievementElement(ISubAchievement subAchievement, IAchievement parent, string key)
         {
-            var subAchievementElement = subAchievementItemTemplate.Instantiate();
+            var subAchievementElement = _subAchievementItemTemplate.Instantiate();
 
             var subAchievementView = new SubAchievementItemView();
             subAchievementView.SetVisualElement(subAchievementElement);
