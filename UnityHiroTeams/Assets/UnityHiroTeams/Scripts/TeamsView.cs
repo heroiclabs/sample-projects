@@ -18,6 +18,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Hiro;
 using Hiro.System;
+using HeroicUI;
 using Nakama;
 using Nakama.TinyJson;
 using UnityEditor.UIElements;
@@ -70,6 +71,10 @@ namespace HiroTeams
         private ScrollView _teamsScrollView;
         private ScrollView _teamMembersScrollView;
         private VisualElement _mailboxEmptyState;
+
+        // Spinners
+        private LoadingSpinner _teamsListSpinner;
+        private LoadingSpinner _selectedTeamSpinner;
 
         // Create modal
         private VisualElement _createModal;
@@ -190,6 +195,7 @@ namespace HiroTeams
             InitializeSearch(_rootElement);
             InitializeSelectedTeamPanel(_rootElement);
             InitializeLists(_rootElement);
+            InitializeSpinners(_rootElement);
             InitializeCreateModal(_rootElement);
             InitializeErrorPopup(_rootElement);
             InitializeTeamTabs(_rootElement);
@@ -214,6 +220,8 @@ namespace HiroTeams
             AccountSwitcher.AccountSwitched -= OnAccountSwitched;
             _cts.Cancel();
             _cts.Dispose();
+            _teamsListSpinner?.Dispose();
+            _selectedTeamSpinner?.Dispose();
         }
 
         private void ThrowIfDisposedOrCancelled()
@@ -371,6 +379,17 @@ namespace HiroTeams
             _mailboxList.itemsSource = _controller.MailboxEntries;
         }
 
+        private void InitializeSpinners(VisualElement rootElement)
+        {
+            var teamsListSpinnerElement = rootElement.Q<VisualElement>("teams-list-spinner");
+            if (teamsListSpinnerElement != null)
+                _teamsListSpinner = new LoadingSpinner(teamsListSpinnerElement);
+
+            var selectedTeamSpinnerElement = rootElement.Q<VisualElement>("selected-team-spinner");
+            if (selectedTeamSpinnerElement != null)
+                _selectedTeamSpinner = new LoadingSpinner(selectedTeamSpinnerElement);
+        }
+
         private void InitializeCreateModal(VisualElement rootElement)
         {
             _createModal = rootElement.Q<VisualElement>("create-modal");
@@ -521,6 +540,7 @@ namespace HiroTeams
         public async Task RefreshTeamsAsync()
         {
             HideAllModals();
+            _teamsListSpinner?.Show();
 
             try
             {
@@ -548,11 +568,16 @@ namespace HiroTeams
                 ShowError(e.Message);
                 Debug.LogException(e);
             }
+            finally
+            {
+                _teamsListSpinner?.Hide();
+            }
         }
 
         private async Task SelectTeamAsync()
         {
             if (_teamsList.selectedItem is not ITeam team) return;
+            _selectedTeamSpinner?.Show();
 
             try
             {
@@ -568,6 +593,10 @@ namespace HiroTeams
             {
                 ShowError(e.Message);
                 Debug.LogException(e);
+            }
+            finally
+            {
+                _selectedTeamSpinner?.Hide();
             }
         }
 

@@ -62,6 +62,9 @@ namespace HiroAchievements
         private SubAchievementItemView _selectedSubAchievementView;
         private readonly Dictionary<VisualElement, SubAchievementItemView> _subAchievementViews = new();
 
+        private LoadingSpinner _achievementsListSpinner;
+        private LoadingSpinner _achievementDetailsSpinner;
+
         public event Action OnInitialized;
 
         public AchievementsView(
@@ -99,6 +102,8 @@ namespace HiroAchievements
             _cts.Dispose();
             AccountSwitcher.AccountSwitched -= OnAccountSwitched;
             _walletDisplay?.Dispose();
+            _achievementsListSpinner?.Dispose();
+            _achievementDetailsSpinner?.Dispose();
         }
 
         private void ThrowIfDisposedOrCancelled()
@@ -148,6 +153,10 @@ namespace HiroAchievements
 
             // Achievements list
             _achievementsList = rootElement.Q<VisualElement>("achievements-list");
+
+            // Spinners
+            _achievementsListSpinner = new LoadingSpinner(rootElement.Q<VisualElement>("achievements-list-spinner"));
+            _achievementDetailsSpinner = new LoadingSpinner(rootElement.Q<VisualElement>("achievement-details-spinner"));
 
             // Achievement details panel
             _achievementDetailsPanel = rootElement.Q<VisualElement>("achievement-details");
@@ -398,10 +407,18 @@ namespace HiroAchievements
 
         private async Task RefreshAchievementsListAsync()
         {
-            UpdateTabButtons();
-            var achievements = await _controller.RefreshAchievementsAsync();
-            PopulateAchievementsList(achievements);
-            _timer.Start(_controller.GetResetTime());
+            _achievementsListSpinner?.Show();
+            try
+            {
+                UpdateTabButtons();
+                var achievements = await _controller.RefreshAchievementsAsync();
+                PopulateAchievementsList(achievements);
+                _timer.Start(_controller.GetResetTime());
+            }
+            finally
+            {
+                _achievementsListSpinner?.Hide();
+            }
         }
 
         private void PopulateAchievementsList(List<IAchievement> achievements)

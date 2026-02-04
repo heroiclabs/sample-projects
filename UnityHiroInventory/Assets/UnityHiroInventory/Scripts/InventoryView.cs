@@ -79,6 +79,8 @@ namespace HiroInventory
 
         private VisualElement _selectedSlot;
 
+        private LoadingSpinner _inventoryListSpinner;
+
         public event Action OnInitialized;
 
         public InventoryView(
@@ -113,6 +115,7 @@ namespace HiroInventory
             _cts.Dispose();
             AccountSwitcher.AccountSwitched -= OnAccountSwitched;
             _walletDisplay?.Dispose();
+            _inventoryListSpinner?.Dispose();
         }
 
         private void ThrowIfDisposedOrCancelled()
@@ -174,6 +177,9 @@ namespace HiroInventory
             // Inventory grid
             _inventoryGrid = rootElement.Q<VisualElement>("inventory-grid");
             _itemBorderDefaultColor = new Color(1f, 0.84f, 0f, 0f);
+
+            // Spinner
+            _inventoryListSpinner = new LoadingSpinner(rootElement.Q<VisualElement>("inventory-list-spinner"));
 
             // Item details panel
             _itemDetailsPanel = rootElement.Q<VisualElement>("item-details");
@@ -371,26 +377,34 @@ namespace HiroInventory
 
         private async Task RefreshInventoryAsync()
         {
-            var items = await _controller.RefreshInventoryAsync();
-
-            // Populate grant dropdown with codex items
-            var itemNames = new List<string>();
-            foreach (var item in _controller.CodexItems)
+            _inventoryListSpinner?.Show();
+            try
             {
-                itemNames.Add(item.Name);
+                var items = await _controller.RefreshInventoryAsync();
+
+                // Populate grant dropdown with codex items
+                var itemNames = new List<string>();
+                foreach (var item in _controller.CodexItems)
+                {
+                    itemNames.Add(item.Name);
+                }
+                _grantItemDropdown.choices = itemNames;
+
+                PopulateInventoryGrid();
+
+                // Clear selection after refresh
+                if (_controller.GetSelectedItem() == null)
+                {
+                    _controller.SelectItem(null);
+                    _selectedSlot = null;
+                    ShowEmptyState();
+                }
+                UpdateActionButtons();
             }
-            _grantItemDropdown.choices = itemNames;
-
-            PopulateInventoryGrid();
-
-            // Clear selection after refresh
-            if (_controller.GetSelectedItem() == null)
+            finally
             {
-                _controller.SelectItem(null);
-                _selectedSlot = null;
-                ShowEmptyState();
+                _inventoryListSpinner?.Hide();
             }
-            UpdateActionButtons();
         }
 
         private void PopulateInventoryGrid()

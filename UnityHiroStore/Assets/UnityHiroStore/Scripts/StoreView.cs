@@ -66,6 +66,8 @@ namespace HiroStore
 
         private IEconomyListStoreItem _pendingPurchaseItem;
 
+        private LoadingSpinner _storeListSpinner;
+
         public event Action OnInitialized;
 
         public StoreView(
@@ -98,6 +100,7 @@ namespace HiroStore
             _cts.Dispose();
             AccountSwitcher.AccountSwitched -= OnAccountSwitched;
             _walletDisplay?.Dispose();
+            _storeListSpinner?.Dispose();
         }
 
         private void ThrowIfDisposedOrCancelled()
@@ -147,6 +150,9 @@ namespace HiroStore
 
             // Store Grid
             _storeGrid = root.Q<VisualElement>("store-grid");
+
+            // Spinner
+            _storeListSpinner = new LoadingSpinner(root.Q<VisualElement>("store-list-spinner"));
 
             // Featured Item
             _featuredItem = root.Q<VisualElement>("featured-item");
@@ -204,6 +210,7 @@ namespace HiroStore
 
         private async void OnRefreshClicked()
         {
+            _storeListSpinner?.Show();
             try
             {
                 ThrowIfDisposedOrCancelled();
@@ -219,6 +226,10 @@ namespace HiroStore
             {
                 ShowError(e.Message);
                 Debug.LogException(e);
+            }
+            finally
+            {
+                _storeListSpinner?.Hide();
             }
         }
 
