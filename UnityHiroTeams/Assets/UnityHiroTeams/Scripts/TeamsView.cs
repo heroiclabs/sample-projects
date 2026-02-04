@@ -14,21 +14,34 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Hiro;
+using Hiro.System;
 using Nakama;
 using Nakama.TinyJson;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace HiroTeams
 {
-    public sealed class TeamsView
+    /// <summary>
+    /// View for the Teams system.
+    /// Manages UI presentation and user interactions, delegates all business logic to Controller.
+    /// </summary>
+    public sealed class TeamsView : IDisposable
     {
-        private readonly HiroTeamsController _controller;
+        private readonly TeamsController _controller;
+        private readonly NakamaSystem _nakamaSystem;
+        private readonly VisualElement _rootElement;
         private readonly VisualTreeAsset _teamEntryTemplate;
         private readonly VisualTreeAsset _teamMemberTemplate;
         private readonly VisualTreeAsset _mailboxEntryTemplate;
+
+        private readonly CancellationTokenSource _cts = new();
+        private readonly object _disposeLock = new();
+        private volatile bool _disposed;
 
         // Main tabs
         private Button _allTab;
@@ -82,7 +95,7 @@ namespace HiroTeams
         private Button _searchModalSearchButton;
         private Button _searchModalClearButton;
         private Button _searchModalCloseButton;
-        private Button _searchButton; // Icon button to open modal
+        private Button _searchButton;
 
         // Error popup
         private VisualElement _errorPopup;
@@ -154,42 +167,81 @@ namespace HiroTeams
         private int _selectedAvatarBackgroundIndex;
         private int _selectedAvatarIconIndex;
 
-        #region Initialization
-
         public TeamsView(
-            HiroTeamsController controller,
-            HiroTeamsCoordinator coordinator,
+            TeamsController controller,
+            NakamaSystem nakamaSystem,
+            VisualElement rootElement,
             VisualTreeAsset teamEntryTemplate,
             VisualTreeAsset teamMemberTemplate,
             VisualTreeAsset mailboxEntryTemplate)
         {
-            _controller = controller;
+            _controller = controller ?? throw new ArgumentNullException(nameof(controller));
+            _nakamaSystem = nakamaSystem ?? throw new ArgumentNullException(nameof(nakamaSystem));
+            _rootElement = rootElement ?? throw new ArgumentNullException(nameof(rootElement));
             _teamEntryTemplate = teamEntryTemplate;
             _teamMemberTemplate = teamMemberTemplate;
             _mailboxEntryTemplate = mailboxEntryTemplate;
+        }
 
-            Initialize(controller.GetComponent<UIDocument>().rootVisualElement);
+        public void Initialize()
+        {
+            InitializeTabs(_rootElement);
+            InitializeButtons(_rootElement);
+            InitializeSearch(_rootElement);
+            InitializeSelectedTeamPanel(_rootElement);
+            InitializeLists(_rootElement);
+            InitializeCreateModal(_rootElement);
+            InitializeErrorPopup(_rootElement);
+            InitializeTeamTabs(_rootElement);
+            InitializeTeamTabContents(_rootElement);
+            InitializeActionButtons(_rootElement);
+            InitializeDebugModal(_rootElement);
             HideSelectedTeamPanel();
 
-            // Subscribe to events after UI is ready
-            controller.OnInitialized += HandleInitialized;
-            coordinator.ReceivedStartError += HandleStartError;
+            AccountSwitcher.AccountSwitched += OnAccountSwitched;
+
+            _ = RefreshTeamsAsync();
         }
 
-        private void Initialize(VisualElement rootElement)
+        public void Dispose()
         {
-            InitializeTabs(rootElement);
-            InitializeButtons(rootElement);
-            InitializeSearch(rootElement);
-            InitializeSelectedTeamPanel(rootElement);
-            InitializeLists(rootElement);
-            InitializeCreateModal(rootElement);
-            InitializeErrorPopup(rootElement);
-            InitializeTeamTabs(rootElement);
-            InitializeTeamTabContents(rootElement);
-            InitializeActionButtons(rootElement);
-            InitializeDebugModal(rootElement);
+            lock (_disposeLock)
+            {
+                if (_disposed) return;
+                _disposed = true;
+            }
+
+            AccountSwitcher.AccountSwitched -= OnAccountSwitched;
+            _cts.Cancel();
+            _cts.Dispose();
         }
+
+        private void ThrowIfDisposedOrCancelled()
+        {
+            if (_disposed) throw new ObjectDisposedException(nameof(TeamsView));
+            _cts.Token.ThrowIfCancellationRequested();
+        }
+
+        private async void OnAccountSwitched()
+        {
+            try
+            {
+                ThrowIfDisposedOrCancelled();
+                await _controller.SwitchCompleteAsync();
+                await RefreshTeamsAsync();
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
+        }
+
+        #region Initialization
 
         private void InitializeTabs(VisualElement rootElement)
         {
@@ -200,7 +252,7 @@ namespace HiroTeams
                 _selectedTabIndex = 0;
                 _allTab.AddToClassList("selected");
                 _myTeamTab.RemoveFromClassList("selected");
-                _ = RefreshTeams();
+                _ = RefreshTeamsAsync();
             });
 
             _myTeamTab = rootElement.Q<Button>("my-team-tab");
@@ -210,7 +262,7 @@ namespace HiroTeams
                 _selectedTabIndex = 1;
                 _myTeamTab.AddToClassList("selected");
                 _allTab.RemoveFromClassList("selected");
-                _ = RefreshTeams();
+                _ = RefreshTeamsAsync();
             });
         }
 
@@ -220,22 +272,20 @@ namespace HiroTeams
             _createButton.RegisterCallback<ClickEvent>(_ => ShowCreateModal());
 
             _deleteButton = rootElement.Q<Button>("team-delete");
-            _deleteButton.RegisterCallback<ClickEvent>(evt => _ = DeleteTeam());
+            _deleteButton.RegisterCallback<ClickEvent>(evt => _ = DeleteTeamAsync());
 
             _joinButton = rootElement.Q<Button>("team-join");
-            _joinButton.RegisterCallback<ClickEvent>(evt => _ = JoinTeam());
+            _joinButton.RegisterCallback<ClickEvent>(evt => _ = JoinTeamAsync());
 
             _leaveButton = rootElement.Q<Button>("team-leave");
-            _leaveButton.RegisterCallback<ClickEvent>(evt => _ = LeaveTeam());
+            _leaveButton.RegisterCallback<ClickEvent>(evt => _ = LeaveTeamAsync());
         }
 
         private void InitializeSearch(VisualElement rootElement)
         {
-            // Search icon button to open modal
             _searchButton = rootElement.Q<Button>("team-search");
             _searchButton.RegisterCallback<ClickEvent>(_ => ShowSearchModal());
 
-            // Search modal elements
             _searchModal = rootElement.Q<VisualElement>("search-modal");
             _searchNameField = rootElement.Q<TextField>("search-name");
             _searchLanguageDropdown = rootElement.Q<DropdownField>("search-language");
@@ -243,7 +293,7 @@ namespace HiroTeams
             _searchMinActivityField = rootElement.Q<IntegerField>("search-min-activity");
 
             _searchModalSearchButton = rootElement.Q<Button>("search-modal-search");
-            _searchModalSearchButton.RegisterCallback<ClickEvent>(evt => _ = SearchTeams());
+            _searchModalSearchButton.RegisterCallback<ClickEvent>(evt => _ = SearchTeamsAsync());
 
             _searchModalClearButton = rootElement.Q<Button>("search-modal-clear");
             _searchModalClearButton.RegisterCallback<ClickEvent>(_ => ClearSearch());
@@ -265,14 +315,13 @@ namespace HiroTeams
 
         private void InitializeLists(VisualElement rootElement)
         {
-            // Team users list
             _teamMembersList = rootElement.Q<ListView>("team-members-list");
             _teamMembersList.makeItem = () =>
             {
                 var newListEntry = _teamMemberTemplate.Instantiate();
                 var newListEntryLogic = new TeamMemberView();
                 newListEntry.userData = newListEntryLogic;
-                newListEntryLogic.SetVisualElement(newListEntry, _controller, this);
+                newListEntryLogic.SetVisualElement(newListEntry, _controller, _nakamaSystem, this);
                 return newListEntry;
             };
             _teamMembersList.bindItem = (item, index) =>
@@ -285,7 +334,6 @@ namespace HiroTeams
             _teamMembersScrollView = _teamMembersList.Q<ScrollView>();
             _teamMembersScrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
 
-            // Teams list
             _teamsList = rootElement.Q<ListView>("teams-list");
             _teamsList.makeItem = () =>
             {
@@ -300,32 +348,21 @@ namespace HiroTeams
                 (item.userData as TeamView)?.SetTeam(_controller.Teams[index]);
             };
             _teamsList.itemsSource = _controller.Teams;
-            _teamsList.selectionChanged += objects => _ = SelectTeam();
+            _teamsList.selectionChanged += objects => _ = SelectTeamAsync();
 
             _teamsScrollView = _teamsList.Q<ScrollView>();
             _teamsScrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
 
-            // Chat Messages
             _chatMessages = rootElement.Q<ListView>("chat-messages");
-            _chatMessages.makeItem = () =>
-            {
-                var label = new Label();
-                return label;
-            };
+            _chatMessages.makeItem = () => new Label();
             _chatMessages.bindItem = (item, index) =>
             {
                 if (item.userData is Label data) data.text = "";
             };
-            _chatMessages.itemsSource = _controller.TeamMessages;
 
-            // Mailbox entries
             _mailboxEmptyState = rootElement.Q<VisualElement>("mailbox-empty-state");
             _mailboxList = rootElement.Q<ListView>("mailbox-list");
-            _mailboxList.makeItem = () =>
-            {
-                var newListEntry = _mailboxEntryTemplate.Instantiate();
-                return newListEntry;
-            };
+            _mailboxList.makeItem = () => _mailboxEntryTemplate.Instantiate();
             _mailboxList.bindItem = (item, index) =>
             {
                 var entry = _controller.MailboxEntries[index];
@@ -349,9 +386,7 @@ namespace HiroTeams
             {
                 _selectedAvatarBackgroundIndex--;
                 if (_selectedAvatarBackgroundIndex < 0)
-                {
                     _selectedAvatarBackgroundIndex = _controller.AvatarBackgrounds.Length - 1;
-                }
                 UpdateCreateModalAvatar();
             });
 
@@ -360,9 +395,7 @@ namespace HiroTeams
             {
                 _selectedAvatarBackgroundIndex++;
                 if (_selectedAvatarBackgroundIndex == _controller.AvatarBackgrounds.Length)
-                {
                     _selectedAvatarBackgroundIndex = 0;
-                }
                 UpdateCreateModalAvatar();
             });
 
@@ -371,9 +404,7 @@ namespace HiroTeams
             {
                 _selectedAvatarIconIndex--;
                 if (_selectedAvatarIconIndex < 0)
-                {
                     _selectedAvatarIconIndex = _controller.AvatarIcons.Length - 1;
-                }
                 UpdateCreateModalAvatar();
             });
 
@@ -382,14 +413,12 @@ namespace HiroTeams
             {
                 _selectedAvatarIconIndex++;
                 if (_selectedAvatarIconIndex == _controller.AvatarIcons.Length)
-                {
                     _selectedAvatarIconIndex = 0;
-                }
                 UpdateCreateModalAvatar();
             });
 
             _modalCreateButton = rootElement.Q<Button>("create-modal-create");
-            _modalCreateButton.RegisterCallback<ClickEvent>(evt => _ = CreateTeam());
+            _modalCreateButton.RegisterCallback<ClickEvent>(evt => _ = CreateTeamAsync());
 
             _modalCloseButton = rootElement.Q<Button>("create-modal-close");
             _modalCloseButton.RegisterCallback<ClickEvent>(_ => HideCreateModal());
@@ -431,7 +460,6 @@ namespace HiroTeams
             _contentAbout = rootElement.Q<VisualElement>("content-about");
             _tabContents = new[] { _contentMembers, _contentGifts, _contentChat, _contentMailbox, _contentAbout };
 
-            // Preview content for non-members
             _contentPreview = rootElement.Q<VisualElement>("content-preview");
             _previewLanguageValue = rootElement.Q<Label>("preview-language-value");
             _previewAccessValue = rootElement.Q<Label>("preview-access-value");
@@ -439,7 +467,6 @@ namespace HiroTeams
             _previewPointsValue = rootElement.Q<Label>("preview-points-value");
             _previewPendingMessage = rootElement.Q<VisualElement>("preview-pending-message");
 
-            // About tab elements
             _aboutLanguageValue = rootElement.Q<Label>("about-language-value");
             _aboutAccessValue = rootElement.Q<Label>("about-access-value");
             _aboutStatsList = rootElement.Q<VisualElement>("about-stats-list");
@@ -457,61 +484,48 @@ namespace HiroTeams
             _btnBan = rootElement.Q<Button>("btn-ban");
 
             _btnClaimAll = rootElement.Q<Button>("btn-claim-all");
-            _btnClaimAll.RegisterCallback<ClickEvent>(evt => _ = ClaimAllMailbox());
+            _btnClaimAll.RegisterCallback<ClickEvent>(evt => _ = ClaimAllMailboxAsync());
         }
 
         private void InitializeDebugModal(VisualElement rootElement)
         {
             _debugModal = rootElement.Q<VisualElement>("debug-modal");
 
-            // Value labels
             _debugLevelValue = rootElement.Q<Label>("debug-level-value");
             _debugWinsValue = rootElement.Q<Label>("debug-wins-value");
             _debugPointsValue = rootElement.Q<Label>("debug-points-value");
 
-            // Level buttons
             _debugLevelInc = rootElement.Q<Button>("debug-level-inc");
-            _debugLevelInc.RegisterCallback<ClickEvent>(evt => { _ = AdjustStat("level", 1, MinLevel, MaxLevel); });
+            _debugLevelInc.RegisterCallback<ClickEvent>(evt => { _ = AdjustStatAsync("level", 1, MinLevel, MaxLevel); });
             _debugLevelDec = rootElement.Q<Button>("debug-level-dec");
-            _debugLevelDec.RegisterCallback<ClickEvent>(evt => { _ = AdjustStat("level", -1, MinLevel, MaxLevel); });
+            _debugLevelDec.RegisterCallback<ClickEvent>(evt => { _ = AdjustStatAsync("level", -1, MinLevel, MaxLevel); });
 
-            // Wins buttons
             _debugWinsInc = rootElement.Q<Button>("debug-wins-inc");
-            _debugWinsInc.RegisterCallback<ClickEvent>(evt => { _ = AdjustStat("wins", 1, MinStat, MaxWins); });
+            _debugWinsInc.RegisterCallback<ClickEvent>(evt => { _ = AdjustStatAsync("wins", 1, MinStat, MaxWins); });
             _debugWinsDec = rootElement.Q<Button>("debug-wins-dec");
-            _debugWinsDec.RegisterCallback<ClickEvent>(evt => { _ = AdjustStat("wins", -1, MinStat, MaxWins); });
+            _debugWinsDec.RegisterCallback<ClickEvent>(evt => { _ = AdjustStatAsync("wins", -1, MinStat, MaxWins); });
 
-            // Points buttons (increment by 50 since milestones are at 100, 250, 500)
             _debugPointsInc = rootElement.Q<Button>("debug-points-inc");
-            _debugPointsInc.RegisterCallback<ClickEvent>(evt => { _ = AdjustStat("points", 50, MinStat, MaxPoints); });
+            _debugPointsInc.RegisterCallback<ClickEvent>(evt => { _ = AdjustStatAsync("points", 50, MinStat, MaxPoints); });
             _debugPointsDec = rootElement.Q<Button>("debug-points-dec");
-            _debugPointsDec.RegisterCallback<ClickEvent>(evt => { _ = AdjustStat("points", -50, MinStat, MaxPoints); });
+            _debugPointsDec.RegisterCallback<ClickEvent>(evt => { _ = AdjustStatAsync("points", -50, MinStat, MaxPoints); });
 
             _debugModalClose = rootElement.Q<Button>("debug-modal-close");
             _debugModalClose.RegisterCallback<ClickEvent>(_ => HideDebugModal());
-        }
-
-        private void HandleInitialized(ISession session, HiroTeamsController controller)
-        {
-            _ = RefreshTeams();
-        }
-
-        private void HandleStartError(Exception e)
-        {
-            ShowError(e.Message);
         }
 
         #endregion
 
         #region Teams List Management
 
-        public async Task RefreshTeams()
+        public async Task RefreshTeamsAsync()
         {
             HideAllModals();
 
             try
             {
-                var reselectedTeamIndex = await _controller.RefreshTeams(_selectedTabIndex);
+                ThrowIfDisposedOrCancelled();
+                var reselectedTeamIndex = await _controller.RefreshTeamsAsync(_selectedTabIndex);
 
                 _teamsList.RefreshItems();
                 _teamsList.ClearSelection();
@@ -525,24 +539,35 @@ namespace HiroTeams
                     HideSelectedTeamPanel();
                 }
             }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
+            }
             catch (Exception e)
             {
                 ShowError(e.Message);
+                Debug.LogException(e);
             }
         }
 
-        private async Task SelectTeam()
+        private async Task SelectTeamAsync()
         {
             if (_teamsList.selectedItem is not ITeam team) return;
 
             try
             {
-                await _controller.SelectTeam(team);
+                ThrowIfDisposedOrCancelled();
+                await _controller.SelectTeamAsync(team);
                 UpdateSelectedTeamPanel();
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
             }
             catch (Exception e)
             {
                 ShowError(e.Message);
+                Debug.LogException(e);
             }
         }
 
@@ -559,65 +584,47 @@ namespace HiroTeams
                 return;
             }
 
-            // Update avatar
             try
             {
                 var avatarData = JsonUtility.FromJson<AvatarData>(team.AvatarUrl);
                 if (avatarData.iconIndex >= 0 && avatarData.iconIndex < _controller.AvatarIcons.Length)
-                {
                     _selectedTeamAvatarIcon.style.backgroundImage = _controller.AvatarIcons[avatarData.iconIndex];
-                }
                 if (avatarData.backgroundIndex >= 0 && avatarData.backgroundIndex < _controller.AvatarBackgrounds.Length)
-                {
                     _selectedTeamAvatarBackground.style.backgroundImage = _controller.AvatarBackgrounds[avatarData.backgroundIndex];
-                }
             }
             catch
             {
-                // Avatar URL might not be valid JSON, use defaults
+                // Avatar URL might not be valid JSON
             }
 
             _selectedTeamNameLabel.text = team.Name;
             _selectedTeamDescriptionLabel.text = team.Description ?? "No description set.";
-
-            // Update header stats
             UpdateHeaderStats(team);
-
             _teamMembersList.RefreshItems();
 
-            // Determine membership state
             var viewerState = _controller.GetPlayerMemberState();
             bool isOwnTeam = viewerState != TeamMemberState.None && viewerState != TeamMemberState.JoinRequest;
-            bool isAdmin = viewerState == TeamMemberState.Admin || viewerState == TeamMemberState.SuperAdmin;
 
-            // Show Join button if team is not full and user is not a member
             _joinButton.style.display = team.EdgeCount < team.MaxCount && viewerState == TeamMemberState.None
                 ? DisplayStyle.Flex
                 : DisplayStyle.None;
 
-            // Show/hide team tabs container - only visible for own team
             _teamTabsContainer.style.display = isOwnTeam ? DisplayStyle.Flex : DisplayStyle.None;
 
-            // Show preview for non-members, tab content for members
             if (isOwnTeam)
             {
                 _contentPreview.style.display = DisplayStyle.None;
                 ResetToDefaultTab();
                 UpdateActionButtonsVisibility();
-                _ = RefreshAboutTab();
+                _ = RefreshAboutTabAsync();
             }
             else
             {
-                // Non-member: show preview, hide all tab contents
                 _contentPreview.style.display = DisplayStyle.Flex;
                 foreach (var content in _tabContents)
-                {
                     content.AddToClassList("heroic-tab-content--hidden");
-                }
                 PopulatePreview();
                 HideAllActionButtons();
-
-                // Show pending message if user has a pending join request
                 _previewPendingMessage.style.display = viewerState == TeamMemberState.JoinRequest
                     ? DisplayStyle.Flex
                     : DisplayStyle.None;
@@ -640,11 +647,8 @@ namespace HiroTeams
         {
             if (_selectedTeamTabIndex == tabIndex) return;
 
-            // Update tab styling
             _teamTabs[_selectedTeamTabIndex].RemoveFromClassList("selected");
             _teamTabs[tabIndex].AddToClassList("selected");
-
-            // Show/hide content
             _tabContents[_selectedTeamTabIndex].AddToClassList("heroic-tab-content--hidden");
             _tabContents[tabIndex].RemoveFromClassList("heroic-tab-content--hidden");
 
@@ -656,7 +660,7 @@ namespace HiroTeams
 
         private void ResetToDefaultTab()
         {
-            int defaultTab = 0; // Members tab
+            int defaultTab = 0;
             if (_selectedTeamTabIndex != defaultTab)
             {
                 _teamTabs[_selectedTeamTabIndex].RemoveFromClassList("selected");
@@ -675,146 +679,106 @@ namespace HiroTeams
         {
             switch (_selectedTeamTabIndex)
             {
-                case 1: // Gifts
-                    RefreshGiftsTab();
-                    break;
-                case 2: // Chat
-                    RefreshChatTab();
-                    break;
-                case 3: // Mailbox
-                    RefreshMailboxTab();
-                    break;
-                case 4: // About
-                    _ = RefreshAboutTab();
-                    break;
+                case 1: RefreshGiftsTab(); break;
+                case 2: RefreshChatTab(); break;
+                case 3: RefreshMailboxTab(); break;
+                case 4: _ = RefreshAboutTabAsync(); break;
             }
         }
 
-        private async Task RefreshAboutTab()
+        private async Task RefreshAboutTabAsync()
         {
             PopulateAboutTeamInfo();
-            await PopulateStatsList();
-            await PopulateWalletList();
+            await PopulateStatsListAsync();
+            await PopulateWalletListAsync();
         }
 
         private void PopulateAboutTeamInfo()
         {
             var team = _controller.SelectedTeam;
             if (team == null) return;
-
             _aboutLanguageValue.text = GetLanguageDisplayName(team.LangTag);
             _aboutAccessValue.text = team.Open ? "Open" : "Invite Only";
         }
 
-        private static string GetLanguageDisplayName(string langTag)
+        private static string GetLanguageDisplayName(string langTag) => langTag switch
         {
-            return langTag switch
-            {
-                "en" => "English",
-                "fr" => "French",
-                "pt" => "Portuguese",
-                _ => langTag ?? "Unknown"
-            };
-        }
+            "en" => "English",
+            "fr" => "French",
+            "pt" => "Portuguese",
+            _ => langTag ?? "Unknown"
+        };
 
-        private async Task PopulateStatsList()
+        private async Task PopulateStatsListAsync()
         {
             _aboutStatsList.Clear();
-
             var stats = await _controller.GetStatsAsync();
             if (stats == null) return;
 
-            // Public stats
             foreach (var stat in stats.Public)
-            {
                 AddDataRow(_aboutStatsList, FormatStatName(stat.Key), stat.Value.Value.ToString());
-            }
-
-            // Private stats (visible to all team members, not non-members)
             foreach (var stat in stats.Private)
-            {
                 AddDataRow(_aboutStatsList, FormatStatName(stat.Key), stat.Value.Value.ToString());
-            }
         }
 
-        private async Task PopulateWalletList()
+        private async Task PopulateWalletListAsync()
         {
             _aboutWalletList.Clear();
-
             var wallet = await _controller.GetWalletAsync();
             if (wallet == null) return;
 
             foreach (var currency in wallet)
-            {
                 AddDataRow(_aboutWalletList, FormatCurrencyName(currency.Key), currency.Value.ToString("N0"));
-            }
         }
 
         private void AddDataRow(VisualElement container, string label, string value)
         {
             var row = new VisualElement();
             row.AddToClassList("heroic-data-row");
-
             var labelElement = new Label(label);
             labelElement.AddToClassList("heroic-data-row__label");
             row.Add(labelElement);
-
             var valueElement = new Label(value);
             valueElement.AddToClassList("heroic-data-row__value");
             row.Add(valueElement);
-
             container.Add(row);
         }
 
-        private string FormatStatName(string key)
+        private static string FormatStatName(string key) => key switch
         {
-            return key switch
-            {
-                "wins" => "Wins",
-                "level" => "Level",
-                "points" => "Points",
-                "private_rating" => "Private Rating",
-                _ => key
-            };
-        }
+            "wins" => "Wins",
+            "level" => "Level",
+            "points" => "Points",
+            "private_rating" => "Private Rating",
+            _ => key
+        };
 
-        private string FormatCurrencyName(string key)
+        private static string FormatCurrencyName(string key) => key switch
         {
-            return key switch
-            {
-                "team_coins" => "Team Coins",
-                "team_gems" => "Team Gems",
-                "raid_tokens" => "Raid Tokens",
-                _ => key
-            };
-        }
+            "team_coins" => "Team Coins",
+            "team_gems" => "Team Gems",
+            "raid_tokens" => "Raid Tokens",
+            _ => key
+        };
 
-        private void RefreshGiftsTab()
-        {
-            // TODO: Implement gifts display
-        }
-
-        private void RefreshChatTab()
-        {
-            // TODO: Implement chat refresh - load team chat messages
-            _chatMessages.RefreshItems();
-        }
+        private void RefreshGiftsTab() { }
+        private void RefreshChatTab() { }
 
         private async void RefreshMailboxTab()
         {
             try
             {
+                ThrowIfDisposedOrCancelled();
                 await _controller.GetMailboxEntriesAsync();
                 _mailboxList.RefreshItems();
-
-                // Show/hide empty state
                 bool hasEntries = _controller.MailboxEntries.Count > 0;
                 _mailboxEmptyState.style.display = hasEntries ? DisplayStyle.None : DisplayStyle.Flex;
                 _mailboxList.style.display = hasEntries ? DisplayStyle.Flex : DisplayStyle.None;
             }
+            catch (OperationCanceledException) { }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to refresh mailbox: {e.Message}");
+                Debug.LogException(e);
             }
         }
 
@@ -824,36 +788,34 @@ namespace HiroTeams
             var rewardText = item.Q<Label>("entry-reward-text");
             var claimButton = item.Q<Button>("entry-claim");
 
-            // Set the name - use the entry ID or a generic name
             nameLabel.text = "Level Reward";
 
-            // Build reward text from the reward object
             var rewardParts = new List<string>();
             if (entry.Reward?.Currencies != null)
             {
                 foreach (var currency in entry.Reward.Currencies)
-                {
                     rewardParts.Add($"+{currency.Value} {FormatCurrencyName(currency.Key)}");
-                }
             }
             rewardText.text = rewardParts.Count > 0 ? string.Join(", ", rewardParts) : "Reward";
 
-            // Set up claim button
             claimButton.SetEnabled(entry.CanClaim);
-            claimButton.clickable = new Clickable(() => _ = ClaimMailboxEntry(entry.Id));
+            claimButton.clickable = new Clickable(() => _ = ClaimMailboxEntryAsync(entry.Id));
         }
 
-        private async Task ClaimMailboxEntry(string entryId)
+        private async Task ClaimMailboxEntryAsync(string entryId)
         {
             try
             {
-                await _controller.ClaimMailboxEntry(entryId);
+                ThrowIfDisposedOrCancelled();
+                await _controller.ClaimMailboxEntryAsync(entryId);
                 RefreshMailboxTab();
-                _ = RefreshAboutTab(); // Refresh wallet display
+                _ = RefreshAboutTabAsync();
             }
+            catch (OperationCanceledException) { }
             catch (Exception e)
             {
                 ShowError(e.Message);
+                Debug.LogException(e);
             }
         }
 
@@ -863,11 +825,8 @@ namespace HiroTeams
 
         private void UpdateHeaderStats(ITeam team)
         {
-            // Update member slots display (e.g., "5/30" showing open positions)
             int openPositions = team.MaxCount - team.EdgeCount;
             _headerMemberSlots.text = $"{openPositions}/{team.MaxCount}";
-
-            // Update team level from public stats (default to 1 if not set)
             var level = GetStatValueFromMetadata(team.Metadata, "level");
             _headerTeamLevel.text = (level > 0 ? level : 1).ToString();
         }
@@ -876,22 +835,15 @@ namespace HiroTeams
         {
             var team = _controller.SelectedTeam;
             if (team == null) return;
-
-            // Team info
             _previewLanguageValue.text = GetLanguageDisplayName(team.LangTag);
             _previewAccessValue.text = team.Open ? "Open" : "Invite Only";
-
-            // Team stats (available from metadata)
-            var wins = GetStatValueFromMetadata(team.Metadata, "wins");
-            var points = GetStatValueFromMetadata(team.Metadata, "points");
-            _previewWinsValue.text = wins.ToString("N0");
-            _previewPointsValue.text = points.ToString("N0");
+            _previewWinsValue.text = GetStatValueFromMetadata(team.Metadata, "wins").ToString("N0");
+            _previewPointsValue.text = GetStatValueFromMetadata(team.Metadata, "points").ToString("N0");
         }
 
         private static long GetStatValueFromMetadata(string metadata, string statKey)
         {
             if (string.IsNullOrEmpty(metadata)) return 0;
-
             var data = metadata.FromJson<Dictionary<string, object>>();
             if (data?.TryGetValue("stats", out var statsObj) == true &&
                 statsObj is Dictionary<string, object> stats &&
@@ -923,7 +875,6 @@ namespace HiroTeams
         private void UpdateActionButtonsVisibility()
         {
             HideAllActionButtons();
-
             var viewerState = _controller.GetPlayerMemberState();
             bool isOwnTeam = viewerState != TeamMemberState.None && viewerState != TeamMemberState.JoinRequest;
             bool isAdmin = viewerState == TeamMemberState.Admin || viewerState == TeamMemberState.SuperAdmin;
@@ -931,23 +882,16 @@ namespace HiroTeams
 
             switch (_selectedTeamTabIndex)
             {
-                case 0: // Members - per-row buttons in TeamMemberView handle member actions
-                    break;
-                case 3: // Mailbox - show Claim All
+                case 0: break;
+                case 3:
                     _btnClaimAll.style.display = DisplayStyle.Flex;
                     break;
-                case 4: // About - show Leave, Delete (super admin), Debug (admin)
+                case 4:
                     if (isOwnTeam)
                     {
                         _leaveButton.style.display = DisplayStyle.Flex;
-                        if (isSuperAdmin)
-                        {
-                            _deleteButton.style.display = DisplayStyle.Flex;
-                        }
-                        if (isAdmin)
-                        {
-                            _btnDebug.style.display = DisplayStyle.Flex;
-                        }
+                        if (isSuperAdmin) _deleteButton.style.display = DisplayStyle.Flex;
+                        if (isAdmin) _btnDebug.style.display = DisplayStyle.Flex;
                     }
                     break;
             }
@@ -957,35 +901,26 @@ namespace HiroTeams
 
         #region Search
 
-        private void ShowSearchModal()
-        {
-            _searchModal.style.display = DisplayStyle.Flex;
-        }
+        private void ShowSearchModal() => _searchModal.style.display = DisplayStyle.Flex;
+        private void HideSearchModal() => _searchModal.style.display = DisplayStyle.None;
 
-        private void HideSearchModal()
-        {
-            _searchModal.style.display = DisplayStyle.None;
-        }
-
-        private async Task SearchTeams()
+        private async Task SearchTeamsAsync()
         {
             try
             {
+                ThrowIfDisposedOrCancelled();
                 var name = _searchNameField.value;
                 var minActivity = _searchMinActivityField.value;
 
-                // Validate name length if provided
                 if (!string.IsNullOrEmpty(name) && name.Length < 3)
                 {
                     ShowError("Team name search requires at least 3 characters.");
                     return;
                 }
 
-                // Get language code from dropdown value, null for "Any"
                 var languageValue = _searchLanguageDropdown.value;
                 string language = languageValue == "Any" ? null : GetLanguageCode(languageValue);
 
-                // Get open/closed filter: null = any, true = open only, false = invite only
                 bool? openFilter = _searchOpenFilterDropdown.value switch
                 {
                     "Open" => true,
@@ -993,15 +928,17 @@ namespace HiroTeams
                     _ => null
                 };
 
-                await _controller.SearchTeams(name, language, minActivity, openFilter);
+                await _controller.SearchTeamsAsync(name, language, minActivity, openFilter);
                 _teamsList.RefreshItems();
                 _teamsList.ClearSelection();
                 HideSelectedTeamPanel();
                 HideSearchModal();
             }
+            catch (OperationCanceledException) { }
             catch (Exception e)
             {
                 ShowError(e.Message);
+                Debug.LogException(e);
             }
         }
 
@@ -1011,7 +948,7 @@ namespace HiroTeams
             _searchLanguageDropdown.index = 0;
             _searchOpenFilterDropdown.index = 0;
             _searchMinActivityField.value = 0;
-            _ = RefreshTeams();
+            _ = RefreshTeamsAsync();
             HideSearchModal();
         }
 
@@ -1019,25 +956,27 @@ namespace HiroTeams
 
         #region Team Actions
 
-        private async Task CreateTeam()
+        private async Task CreateTeamAsync()
         {
             try
             {
+                ThrowIfDisposedOrCancelled();
                 var language = GetLanguageCode(_modalLanguageDropdown.value);
-                await _controller.CreateTeam(
+                await _controller.CreateTeamAsync(
                     _modalNameField.value,
                     _modalDescriptionField.value,
                     _modalOpenToggle.value,
                     _selectedAvatarBackgroundIndex,
                     _selectedAvatarIconIndex,
-                    language
-                );
+                    language);
                 HideCreateModal();
-                await RefreshTeams();
+                await RefreshTeamsAsync();
             }
+            catch (OperationCanceledException) { }
             catch (Exception e)
             {
                 ShowError(e.Message);
+                Debug.LogException(e);
             }
         }
 
@@ -1048,49 +987,56 @@ namespace HiroTeams
             { "Portuguese", "pt" }
         };
 
-        private static string GetLanguageCode(string displayName)
-        {
-            return LanguageCodes.GetValueOrDefault(displayName, "en");
-        }
+        private static string GetLanguageCode(string displayName) =>
+            LanguageCodes.GetValueOrDefault(displayName, "en");
 
-        private async Task DeleteTeam()
+        private async Task DeleteTeamAsync()
         {
             try
             {
-                await _controller.DeleteTeam();
+                ThrowIfDisposedOrCancelled();
+                await _controller.DeleteTeamAsync();
                 _teamsList.ClearSelection();
-                await RefreshTeams();
+                await RefreshTeamsAsync();
             }
+            catch (OperationCanceledException) { }
             catch (Exception e)
             {
                 ShowError(e.Message);
+                Debug.LogException(e);
             }
         }
 
-        private async Task JoinTeam()
+        private async Task JoinTeamAsync()
         {
             try
             {
-                await _controller.JoinTeam();
-                await RefreshTeams();
+                ThrowIfDisposedOrCancelled();
+                await _controller.JoinTeamAsync();
+                await RefreshTeamsAsync();
             }
+            catch (OperationCanceledException) { }
             catch (Exception e)
             {
                 ShowError(e.Message);
+                Debug.LogException(e);
             }
         }
 
-        private async Task LeaveTeam()
+        private async Task LeaveTeamAsync()
         {
             try
             {
-                await _controller.LeaveTeam();
+                ThrowIfDisposedOrCancelled();
+                await _controller.LeaveTeamAsync();
                 _teamsList.ClearSelection();
-                await RefreshTeams();
+                await RefreshTeamsAsync();
             }
+            catch (OperationCanceledException) { }
             catch (Exception e)
             {
                 ShowError(e.Message);
+                Debug.LogException(e);
             }
         }
 
@@ -1105,26 +1051,19 @@ namespace HiroTeams
             _modalNameField.value = string.Empty;
             _modalDescriptionField.value = string.Empty;
             _modalOpenToggle.value = true;
-            _modalLanguageDropdown.index = 0; // Default to English
+            _modalLanguageDropdown.index = 0;
             UpdateCreateModalAvatar();
             _createModal.style.display = DisplayStyle.Flex;
         }
 
-        private void HideCreateModal()
-        {
-            _createModal.style.display = DisplayStyle.None;
-        }
+        private void HideCreateModal() => _createModal.style.display = DisplayStyle.None;
 
         private void UpdateCreateModalAvatar()
         {
             if (_selectedAvatarBackgroundIndex >= 0 && _selectedAvatarBackgroundIndex < _controller.AvatarBackgrounds.Length)
-            {
                 _modalAvatarBackground.style.backgroundImage = _controller.AvatarBackgrounds[_selectedAvatarBackgroundIndex];
-            }
             if (_selectedAvatarIconIndex >= 0 && _selectedAvatarIconIndex < _controller.AvatarIcons.Length)
-            {
                 _modalAvatarIcon.style.backgroundImage = _controller.AvatarIcons[_selectedAvatarIconIndex];
-            }
         }
 
         #endregion
@@ -1133,44 +1072,38 @@ namespace HiroTeams
 
         private async void ShowDebugModal()
         {
-            // Load current stats and display them
             try
             {
+                ThrowIfDisposedOrCancelled();
                 var stats = await _controller.GetStatsAsync();
                 if (stats != null)
                 {
-                    // Get current values from public stats
                     long level = 1, wins = 0, points = 0;
-                    if (stats.Public.TryGetValue("level", out var levelStat))
-                        level = levelStat.Value;
-                    if (stats.Public.TryGetValue("wins", out var winsStat))
-                        wins = winsStat.Value;
-                    if (stats.Public.TryGetValue("points", out var pointsStat))
-                        points = pointsStat.Value;
+                    if (stats.Public.TryGetValue("level", out var levelStat)) level = levelStat.Value;
+                    if (stats.Public.TryGetValue("wins", out var winsStat)) wins = winsStat.Value;
+                    if (stats.Public.TryGetValue("points", out var pointsStat)) points = pointsStat.Value;
 
                     _debugLevelValue.text = level.ToString();
                     _debugWinsValue.text = wins.ToString();
                     _debugPointsValue.text = points.ToString();
                 }
             }
+            catch (OperationCanceledException) { return; }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to load stats for debug modal: {e.Message}");
+                Debug.LogException(e);
             }
 
             _debugModal.style.display = DisplayStyle.Flex;
         }
 
-        private void HideDebugModal()
-        {
-            _debugModal.style.display = DisplayStyle.None;
-        }
+        private void HideDebugModal() => _debugModal.style.display = DisplayStyle.None;
 
-        private async Task AdjustStat(string statKey, int delta, int minValue, int maxValue)
+        private async Task AdjustStatAsync(string statKey, int delta, int minValue, int maxValue)
         {
             try
             {
-                // Get current value
+                ThrowIfDisposedOrCancelled();
                 var stats = await _controller.GetStatsAsync();
                 if (stats == null) return;
 
@@ -1178,35 +1111,25 @@ namespace HiroTeams
                 if (stats.Public.TryGetValue(statKey, out var stat))
                     currentValue = stat.Value;
 
-                // Calculate new value with limits
                 long newValue = Math.Clamp(currentValue + delta, minValue, maxValue);
-
-                // Don't update if value hasn't changed
                 if (newValue == currentValue) return;
 
-                // Update the stat
-                await _controller.DebugUpdateStat(statKey, (int)newValue, false);
+                await _controller.DebugUpdateStatAsync(statKey, (int)newValue, false);
 
-                // Update the display
                 switch (statKey)
                 {
-                    case "level":
-                        _debugLevelValue.text = newValue.ToString();
-                        break;
-                    case "wins":
-                        _debugWinsValue.text = newValue.ToString();
-                        break;
-                    case "points":
-                        _debugPointsValue.text = newValue.ToString();
-                        break;
+                    case "level": _debugLevelValue.text = newValue.ToString(); break;
+                    case "wins": _debugWinsValue.text = newValue.ToString(); break;
+                    case "points": _debugPointsValue.text = newValue.ToString(); break;
                 }
 
-                // Refresh the about tab to show updated stats
-                _ = RefreshAboutTab();
+                _ = RefreshAboutTabAsync();
             }
+            catch (OperationCanceledException) { }
             catch (Exception e)
             {
                 ShowError(e.Message);
+                Debug.LogException(e);
             }
         }
 
@@ -1214,17 +1137,20 @@ namespace HiroTeams
 
         #region Mailbox
 
-        private async Task ClaimAllMailbox()
+        private async Task ClaimAllMailboxAsync()
         {
             try
             {
-                await _controller.ClaimAllMailbox();
+                ThrowIfDisposedOrCancelled();
+                await _controller.ClaimAllMailboxAsync();
                 RefreshMailboxTab();
-                _ = RefreshAboutTab(); // Refresh wallet display
+                _ = RefreshAboutTabAsync();
             }
+            catch (OperationCanceledException) { }
             catch (Exception e)
             {
                 ShowError(e.Message);
+                Debug.LogException(e);
             }
         }
 
@@ -1243,10 +1169,7 @@ namespace HiroTeams
             _errorPopup.style.display = DisplayStyle.Flex;
         }
 
-        private void HideErrorPopup()
-        {
-            _errorPopup.style.display = DisplayStyle.None;
-        }
+        private void HideErrorPopup() => _errorPopup.style.display = DisplayStyle.None;
 
         #endregion
 

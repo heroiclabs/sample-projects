@@ -25,11 +25,11 @@ namespace HiroTeams
         private Label _nameLabel;
         private Label _countLabel;
 
-        private HiroTeamsController _controller;
+        private TeamsController _controller;
 
-        public void SetVisualElement(HiroTeamsController parent, VisualElement visualElement)
+        public void SetVisualElement(TeamsController controller, VisualElement visualElement)
         {
-            _controller = parent;
+            _controller = controller;
 
             _avatarBackground = visualElement.Q<VisualElement>("avatar-background");
             _avatarIcon = visualElement.Q<VisualElement>("avatar-icon");
@@ -39,7 +39,6 @@ namespace HiroTeams
 
         public void SetTeam(ITeam team)
         {
-            // Parse the AvatarUrl string into a JSON object containing the separate parts that make up a Team's avatar
             try
             {
                 var avatarData = JsonUtility.FromJson<AvatarData>(team.AvatarUrl);

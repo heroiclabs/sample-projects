@@ -20,6 +20,7 @@ using Hiro.Unity;
 using Nakama;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.TestTools;
 
 namespace HiroTeams.Tests.Editor
 {
@@ -226,6 +227,7 @@ namespace HiroTeams.Tests.Editor
         [Test]
         public async Task RefreshTeamsAsync_InvalidTab_ReturnsNull()
         {
+            LogAssert.Expect(LogType.Error, "Unhandled Tab Index");
             var result = await _controller.RefreshTeamsAsync(99);
 
             Assert.IsNull(result);
@@ -557,7 +559,7 @@ namespace HiroTeams.Tests.Editor
             await _controller.SelectTeamAsync(null);
 
             // Should not throw
-            await _controller.DebugUpdateStatAsync("test_stat", 100, false);
+            await _controller.DebugUpdateStatAsync("wins", 100, false);
         }
 
         [Test]
@@ -568,8 +570,8 @@ namespace HiroTeams.Tests.Editor
             await _controller.RefreshTeamsAsync(1);
             await _controller.SelectTeamAsync(_controller.Teams[0]);
 
-            // Should not throw
-            await _controller.DebugUpdateStatAsync("test_stat", 100, false);
+            // Uses "wins" stat defined in base-teams.json
+            await _controller.DebugUpdateStatAsync("wins", 100, false);
         }
 
         [Test]
@@ -580,8 +582,8 @@ namespace HiroTeams.Tests.Editor
             await _controller.RefreshTeamsAsync(1);
             await _controller.SelectTeamAsync(_controller.Teams[0]);
 
-            // Should not throw
-            await _controller.DebugUpdateStatAsync("test_private_stat", 50, true);
+            // Uses "private_rating" stat defined in base-teams.json
+            await _controller.DebugUpdateStatAsync("private_rating", 1500, true);
         }
 
         #endregion
@@ -664,7 +666,8 @@ namespace HiroTeams.Tests.Editor
         {
             var teamName = $"TestTeam_{Guid.NewGuid():N}".Substring(0, 20);
             await _controller.CreateTeamAsync(teamName, "Test description", true, 0, 0);
-            await _controller.RefreshAsync();
+            await _controller.RefreshTeamsAsync(1);
+            await _controller.SelectTeamAsync(_controller.Teams[0]);
 
             Assert.IsTrue(_controller.IsAdmin);
         }

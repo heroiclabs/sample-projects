@@ -22,6 +22,23 @@ using UnityEngine;
 
 namespace HiroTeams
 {
+    public enum TeamMemberState
+    {
+        None = -1,
+        SuperAdmin = 0,
+        Admin = 1,
+        Member = 2,
+        JoinRequest = 3,
+        Banned = 4
+    }
+
+    [Serializable]
+    public struct AvatarData
+    {
+        public int iconIndex;
+        public int backgroundIndex;
+    }
+
     /// <summary>
     /// Controller for the Teams system.
     /// Plain C# class for testability - no MonoBehaviour inheritance.
@@ -43,7 +60,14 @@ namespace HiroTeams
         public List<IGroupUserListGroupUser> SelectedTeamMembers { get; } = new();
         public List<IRewardMailboxEntry> MailboxEntries { get; } = new();
 
-        public bool IsAdmin => _teamsSystem?.IsAdmin ?? false;
+        public bool IsAdmin
+        {
+            get
+            {
+                var state = GetPlayerMemberState();
+                return state == TeamMemberState.SuperAdmin || state == TeamMemberState.Admin;
+            }
+        }
 
         public TeamsController(
             NakamaSystem nakamaSystem,
@@ -138,16 +162,31 @@ namespace HiroTeams
         {
             Teams.Clear();
 
-            var results = await _teamsSystem.SearchTeamsAsync(
-                name: teamName ?? "",
-                langTag: language ?? "",
-                limit: _teamEntriesLimit,
-                minActivity: minActivity
-            );
+            ITeamList results;
+
+            // SearchTeamsAsync requires a name; use ListTeamsAsync for empty searches
+            if (string.IsNullOrEmpty(teamName))
+            {
+                results = await _teamsSystem.ListTeamsAsync(location: "", limit: _teamEntriesLimit);
+            }
+            else
+            {
+                results = await _teamsSystem.SearchTeamsAsync(
+                    name: teamName,
+                    langTag: language ?? "",
+                    limit: _teamEntriesLimit,
+                    minActivity: minActivity
+                );
+            }
 
             foreach (var team in results.Teams)
             {
+                // Apply client-side filters
                 if (openFilter.HasValue && team.Open != openFilter.Value)
+                    continue;
+
+                // Apply language filter for ListTeamsAsync (which doesn't filter server-side)
+                if (!string.IsNullOrEmpty(language) && team.LangTag != language)
                     continue;
 
                 Teams.Add(team);
