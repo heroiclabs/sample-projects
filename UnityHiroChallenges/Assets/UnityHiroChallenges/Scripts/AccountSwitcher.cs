@@ -269,7 +269,15 @@ namespace HeroicUtils
         public static async Task<ISession> AuthenticateDeviceAsync(IClient client, string env, int index)
         {
             var deviceId = GetOrCreateDeviceId(env);
-            return await client.AuthenticateDeviceAsync($"{deviceId}_{index}");
+            try
+            {
+                return await client.AuthenticateDeviceAsync($"{deviceId}_{index}");
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+                throw;
+            }
         }
 
         public static string GetOrCreateDeviceId(string env)

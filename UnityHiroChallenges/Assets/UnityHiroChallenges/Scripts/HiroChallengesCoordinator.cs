@@ -113,7 +113,15 @@ namespace HiroChallenges
                 if (deviceId == SystemInfo.unsupportedIdentifier) deviceId = Guid.NewGuid().ToString();
                 Debug.Log($"[NakamaAuth] Device auth: deviceId={deviceId}, fullId={deviceId}_{index}");
 
-                session = await client.AuthenticateDeviceAsync($"{deviceId}_{index}");
+                try
+                {
+                    session = await client.AuthenticateDeviceAsync($"{deviceId}_{index}");
+                }
+                catch (Exception e)
+                {
+                   Debug.LogException(e);
+                   throw;
+                }
                 Debug.Log($"[NakamaAuth] Authenticated: user={session.Username}, userId={session.UserId}, created={session.Created}");
 
                 // Store tokens to avoid needing to re-authenticate next time.
