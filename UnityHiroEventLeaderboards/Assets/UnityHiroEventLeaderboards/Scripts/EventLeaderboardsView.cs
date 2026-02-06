@@ -661,7 +661,7 @@ namespace HiroEventLeaderboards
             if (_emptyStateContainer == null || _emptyStateMessage == null)
                 return;
 
-            var isActive = eventLeaderboard.IsActive && EventLeaderboardTimeUtility.HasStarted(eventLeaderboard);
+            var isActive = eventLeaderboard.IsActive;
 
             // Check if the user has joined the event
             var userHasJoined = false;
@@ -747,7 +747,7 @@ namespace HiroEventLeaderboards
 
         private void UpdateEventLeaderboardButtons(List<IEventLeaderboardScore> records)
         {
-            var isActive = _currentEventLeaderboard.IsActive && EventLeaderboardTimeUtility.HasStarted(_currentEventLeaderboard);
+            var isActive = _currentEventLeaderboard.IsActive;
             var canClaim = _currentEventLeaderboard.CanClaim;
             var canRoll = _currentEventLeaderboard.CanRoll;
 
