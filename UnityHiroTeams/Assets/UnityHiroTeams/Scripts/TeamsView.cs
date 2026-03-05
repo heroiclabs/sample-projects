@@ -356,7 +356,7 @@ namespace HiroTeams
                 (item.userData as TeamView)?.SetTeam(_controller.Teams[index]);
             };
             _teamsList.itemsSource = _controller.Teams;
-            _teamsList.onSelectionChange += objects => { _ = SelectTeamAsync(); };
+            _teamsList.selectionChanged += objects => { _ = SelectTeamAsync(); };
 
             _teamsScrollView = _teamsList.Q<ScrollView>();
             _teamsScrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
