@@ -14,6 +14,7 @@ Ready-to-use templates for **Nakama** game development. Download, play, and copy
 
 **Hiro Templates**
 
+-   [Achievements](./UnityHiroAchievements/) - Track and reward players for completing missions or reaching milestones.
 -   [Challenges](./UnityHiroChallenges/) - Compete against friends in different game modes.
 -   [Achievements](./UnityHiroAchievements/) - Track and reward players for completing missions or reaching milestones.
 -   [Event Leaderboards](./UnityHiroEventLeaderboards/) - Create cohort-based leaderboards with tiered progression.
