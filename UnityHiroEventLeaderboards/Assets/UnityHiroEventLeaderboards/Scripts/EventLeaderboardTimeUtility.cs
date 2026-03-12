@@ -30,10 +30,10 @@ namespace HiroEventLeaderboards
                 return TimeSpan.Zero;
             }
 
-            var nowUnix = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-            var endUnix = eventLeaderboard.EndTimeSec;
+            var currentTime = eventLeaderboard.CurrentTimeSec;
+            var endTime = eventLeaderboard.EndTimeSec;
 
-            var secondsRemaining = System.Math.Max(0, endUnix - nowUnix);
+            var secondsRemaining = System.Math.Max(0, endTime - currentTime);
 
             return TimeSpan.FromSeconds(secondsRemaining);
         }
@@ -60,23 +60,6 @@ namespace HiroEventLeaderboards
             }
 
             return $"{duration.Minutes}m";
-        }
-        
-        public static DateTimeOffset GetStartTime(IEventLeaderboard eventLeaderboard)
-        {
-            return DateTimeOffset.FromUnixTimeSeconds(eventLeaderboard.StartTimeSec);
-        }
-
-        public static DateTimeOffset GetEndTime(IEventLeaderboard eventLeaderboard)
-        {
-            return DateTimeOffset.FromUnixTimeSeconds(eventLeaderboard.EndTimeSec);
-        }
-
-        public static bool HasStarted(IEventLeaderboard eventLeaderboard)
-        {
-            var nowUnix = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-            var startUnix = eventLeaderboard.StartTimeSec;
-            return nowUnix >= startUnix;
         }
 
         /// <summary>

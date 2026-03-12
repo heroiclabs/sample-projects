@@ -1,20 +1,30 @@
 using System;
-using System.Linq;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Hiro;
 using HeroicUI;
+using HeroicUtils;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace HiroAchievements
 {
-    public sealed class AchievementsView
+    /// <summary>
+    /// View for the Achievements system.
+    /// Manages UI presentation and user interactions, delegates all business logic to Controller.
+    /// </summary>
+    public sealed class AchievementsView : IDisposable
     {
         private readonly AchievementsController _controller;
-        private readonly HiroAchievementsCoordinator _coordinator;
         private readonly VisualTreeAsset _achievementItemTemplate;
         private readonly VisualTreeAsset _subAchievementItemTemplate;
+        private readonly Dictionary<string, Sprite> _iconDictionary;
         private readonly Sprite _defaultIcon;
+
+        private readonly CancellationTokenSource _cts = new();
+        private readonly object _disposeLock = new();
+        private volatile bool _disposed;
 
         private WalletDisplay _walletDisplay;
 
@@ -39,7 +49,7 @@ namespace HiroAchievements
         private Button _claimButton;
 
         private VisualElement _progressModal;
-        private IntegerField _progressQuantityField;
+        private TextField _progressQuantityField;
         private Button _progressModalButton;
         private Button _progressModalCloseButton;
 
@@ -50,28 +60,84 @@ namespace HiroAchievements
         private VisualElement _selectedAchievementElement;
         private VisualElement _selectedSubAchievementElement;
         private SubAchievementItemView _selectedSubAchievementView;
-        private System.Collections.Generic.Dictionary<VisualElement, SubAchievementItemView> _subAchievementViews = new System.Collections.Generic.Dictionary<VisualElement, SubAchievementItemView>();
-        private UIDocument _uiDocument;
+        private readonly Dictionary<VisualElement, SubAchievementItemView> _subAchievementViews = new();
 
-        public AchievementsView(AchievementsController controller, HiroAchievementsCoordinator coordinator,
-            VisualTreeAsset achievementItemTemplate, VisualTreeAsset subAchievementItemTemplate, Sprite defaultIcon)
+        private LoadingSpinner _achievementsListSpinner;
+        private LoadingSpinner _achievementDetailsSpinner;
+
+        public event Action OnInitialized;
+
+        public AchievementsView(
+            AchievementsController controller,
+            VisualElement rootElement,
+            VisualTreeAsset achievementItemTemplate,
+            VisualTreeAsset subAchievementItemTemplate,
+            Dictionary<string, Sprite> iconDictionary,
+            Sprite defaultIcon)
         {
             _controller = controller;
-            _coordinator = coordinator;
             _achievementItemTemplate = achievementItemTemplate;
             _subAchievementItemTemplate = subAchievementItemTemplate;
+            _iconDictionary = iconDictionary;
             _defaultIcon = defaultIcon;
 
-            _ = InitializeUI();
+            Initialize(rootElement);
+
+            _walletDisplay.StartObserving();
+            AccountSwitcher.AccountSwitched += OnAccountSwitched;
+
+            _ = InitializeAsync();
+        }
+
+        public void Dispose()
+        {
+            lock (_disposeLock)
+            {
+                if (_disposed) return;
+                _disposed = true;
+            }
+
+            _timer?.Stop();
+            _cts.Cancel();
+            _cts.Dispose();
+            AccountSwitcher.AccountSwitched -= OnAccountSwitched;
+            _walletDisplay?.Dispose();
+            _achievementsListSpinner?.Dispose();
+            _achievementDetailsSpinner?.Dispose();
+        }
+
+        private void ThrowIfDisposedOrCancelled()
+        {
+            if (_disposed)
+                throw new OperationCanceledException();
+            _cts.Token.ThrowIfCancellationRequested();
+        }
+
+        private async Task InitializeAsync()
+        {
+            try
+            {
+                ThrowIfDisposedOrCancelled();
+                _controller.SetCurrentCategory("quest");
+                await _controller.LoadAchievementsAsync();
+                await RefreshAchievementsListAsync();
+                OnInitialized?.Invoke();
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
         }
 
         #region UI Initialization
 
-        private async Task InitializeUI()
+        private void Initialize(VisualElement rootElement)
         {
-            _uiDocument = _controller.GetComponent<UIDocument>();
-            var rootElement = _uiDocument.rootVisualElement;
-
             _walletDisplay = new WalletDisplay(rootElement.Q<VisualElement>("wallet-display"));
 
             // Tab buttons
@@ -83,10 +149,14 @@ namespace HiroAchievements
             _questsTabButton.RegisterCallback<ClickEvent>(_ => SwitchTab("quest"));
             _achievementsTabButton.RegisterCallback<ClickEvent>(_ => SwitchTab("achievement"));
             _resetTimeLabel = rootElement.Q<Label>("reset-time");
-            _timer = new CountdownTimer(this, _resetTimeLabel);
+            _timer = new CountdownTimer(_resetTimeLabel, RefreshAchievementsList);
 
             // Achievements list
             _achievementsList = rootElement.Q<VisualElement>("achievements-list");
+
+            // Spinners
+            _achievementsListSpinner = new LoadingSpinner(rootElement.Q<VisualElement>("achievements-list-spinner"));
+            _achievementDetailsSpinner = new LoadingSpinner(rootElement.Q<VisualElement>("achievement-details-spinner"));
 
             // Achievement details panel
             _achievementDetailsPanel = rootElement.Q<VisualElement>("achievement-details");
@@ -100,38 +170,21 @@ namespace HiroAchievements
             _detailsRewardsContainer = rootElement.Q<VisualElement>("details-rewards");
 
             _progressButton = rootElement.Q<Button>("progress-button");
-            _progressButton.RegisterCallback<ClickEvent>(_ =>
-            {
-                if (_controller.GetSelectedAchievement() == null) return;
-                _progressQuantityField.value = 1;
-                
-                // Show which achievement will be updated in debug log
-                var subAch = _controller.GetSelectedSubAchievement();
-                if (subAch != null)
-                {
-                    Debug.Log($"Opening progress modal for sub-achievement: {subAch.Name}");
-                }
-                else
-                {
-                    Debug.Log($"Opening progress modal for achievement: {_controller.GetSelectedAchievement().Name}");
-                }
-                
-                _progressModal.style.display = DisplayStyle.Flex;
-            });
+            _progressButton.RegisterCallback<ClickEvent>(_ => OnProgressButtonClicked());
 
             _claimButton = rootElement.Q<Button>("claim-button");
-            _claimButton.RegisterCallback<ClickEvent>(evt => _ = HandleClaimReward());
+            _claimButton.RegisterCallback<ClickEvent>(_ => OnClaimButtonClicked());
 
             ShowEmptyState();
 
             _refreshButton = rootElement.Q<Button>("achievements-refresh");
-            _refreshButton.RegisterCallback<ClickEvent>(evt => _ = RefreshAchievementsList());
+            _refreshButton.RegisterCallback<ClickEvent>(_ => OnRefreshClicked());
 
             // Progress modal
             _progressModal = rootElement.Q<VisualElement>("progress-modal");
-            _progressQuantityField = rootElement.Q<IntegerField>("progress-modal-quantity");
+            _progressQuantityField = rootElement.Q<TextField>("progress-modal-quantity");
             _progressModalButton = rootElement.Q<Button>("progress-modal-update");
-            _progressModalButton.RegisterCallback<ClickEvent>(evt => _ = HandleUpdateProgress());
+            _progressModalButton.RegisterCallback<ClickEvent>(_ => OnProgressModalSubmitClicked());
             _progressModalCloseButton = rootElement.Q<Button>("progress-modal-close");
             _progressModalCloseButton.RegisterCallback<ClickEvent>(_ =>
                 _progressModal.style.display = DisplayStyle.None);
@@ -143,12 +196,7 @@ namespace HiroAchievements
             _errorCloseButton.RegisterCallback<ClickEvent>(_ => _errorPopup.style.display = DisplayStyle.None);
 
             UpdateTabButtons();
-            await UpdateActionButtons();
-        }
-
-        public void StartObservingWallet()
-        {
-          _walletDisplay.StartObserving();
+            UpdateActionButtons();
         }
 
         #endregion
@@ -157,21 +205,32 @@ namespace HiroAchievements
 
         private async void SwitchTab(string category)
         {
-            _controller.SetCurrentCategory(category);
-            UpdateTabButtons();
-            await RefreshAchievementsList();
+            try
+            {
+                ThrowIfDisposedOrCancelled();
+                _controller.SetCurrentCategory(category);
+                UpdateTabButtons();
+                await RefreshAchievementsListAsync();
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
         }
 
         private void UpdateTabButtons()
         {
             var currentCategory = _controller.GetCurrentCategory();
 
-            // Remove selected class from all tabs
             _dailiesTabButton.RemoveFromClassList("selected");
             _questsTabButton.RemoveFromClassList("selected");
             _achievementsTabButton.RemoveFromClassList("selected");
 
-            // Add selected class to current tab
             switch (currentCategory)
             {
                 case "daily":
@@ -188,43 +247,195 @@ namespace HiroAchievements
 
         #endregion
 
-        #region Achievement List Display
+        #region Event Handlers
 
-        public async Task RefreshAchievementsList()
+        private async void OnRefreshClicked()
         {
             try
             {
-                UpdateTabButtons();
-                var achievements = await _controller.RefreshAchievements();
-                PopulateAchievementsList(achievements);
-                _timer.start(_controller.GetResetTime());
+                ThrowIfDisposedOrCancelled();
+                await RefreshAchievementsListAsync();
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
             }
             catch (Exception e)
             {
-                Debug.LogException(e);
                 ShowError(e.Message);
+                Debug.LogException(e);
             }
         }
 
-        private void PopulateAchievementsList(System.Collections.Generic.List<IAchievement> achievements)
+        private async void OnAccountSwitched()
+        {
+            try
+            {
+                ThrowIfDisposedOrCancelled();
+                HideAllModals();
+                ShowEmptyState();
+                await _controller.SwitchCompleteAsync();
+                await RefreshAchievementsListAsync();
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
+        }
+
+        private void OnProgressButtonClicked()
+        {
+            if (_controller.GetSelectedAchievement() == null) return;
+            _progressQuantityField.value = "1";
+
+            _progressModal.style.display = DisplayStyle.Flex;
+        }
+
+        private async void OnClaimButtonClicked()
+        {
+            try
+            {
+                ThrowIfDisposedOrCancelled();
+                await _controller.ClaimSelectedAchievementRewardAsync(claimTotal: true);
+                await RefreshAchievementsListAsync();
+
+                var selectedAchievement = _controller.GetSelectedAchievement();
+                if (selectedAchievement != null)
+                {
+                    var updatedAchievement = FindUpdatedAchievement(selectedAchievement.Id);
+                    if (updatedAchievement != null)
+                    {
+                        ShowAchievementDetails(updatedAchievement);
+                    }
+                }
+
+                UpdateActionButtons();
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
+        }
+
+        private async void OnProgressModalSubmitClicked()
+        {
+            try
+            {
+                ThrowIfDisposedOrCancelled();
+                await _controller.UpdateSelectedAchievementProgressAsync(int.Parse(_progressQuantityField.value));
+                _progressModal.style.display = DisplayStyle.None;
+                await RefreshAchievementsListAsync();
+
+                var selectedAchievement = _controller.GetSelectedAchievement();
+                if (selectedAchievement != null)
+                {
+                    var updatedAchievement = FindUpdatedAchievement(selectedAchievement.Id);
+                    if (updatedAchievement != null)
+                    {
+                        ShowAchievementDetails(updatedAchievement);
+                    }
+                }
+
+                UpdateActionButtons();
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
+        }
+
+        private IAchievement FindUpdatedAchievement(string achievementId)
+        {
+            foreach (var a in _controller.AllAchievements)
+            {
+                if (a.Id == achievementId)
+                {
+                    return a;
+                }
+            }
+
+            foreach (var a in _controller.RepeatAchievements)
+            {
+                if (a.Id == achievementId)
+                {
+                    return a;
+                }
+            }
+
+            return null;
+        }
+
+        #endregion
+
+        #region Achievement List Display
+
+        /// <summary>
+        /// Public refresh method for external callers (e.g., CountdownTimer).
+        /// </summary>
+        public async void RefreshAchievementsList()
+        {
+            try
+            {
+                ThrowIfDisposedOrCancelled();
+                await RefreshAchievementsListAsync();
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on dispose
+            }
+            catch (Exception e)
+            {
+                ShowError(e.Message);
+                Debug.LogException(e);
+            }
+        }
+
+        private async Task RefreshAchievementsListAsync()
+        {
+            _achievementsListSpinner?.Show();
+            try
+            {
+                UpdateTabButtons();
+                var achievements = await _controller.RefreshAchievementsAsync();
+                PopulateAchievementsList(achievements);
+                _timer.Start(_controller.GetResetTime());
+            }
+            finally
+            {
+                _achievementsListSpinner?.Hide();
+            }
+        }
+
+        private void PopulateAchievementsList(List<IAchievement> achievements)
         {
             _achievementsList.Clear();
-            Debug.Log(achievements.Count);
+
             foreach (var achievement in achievements)
             {
-              Debug.Log("Adding Achievement");
                 var achievementElement = _achievementItemTemplate.Instantiate();
                 var container = achievementElement.Q<VisualElement>("achievement-item-container");
 
-                // Set achievement icon
                 var iconContainer = container.Q<VisualElement>("achievement-icon");
                 SetAchievementIcon(iconContainer, achievement.Id);
 
-                // Set achievement name
                 var nameLabel = container.Q<Label>("achievement-name");
                 nameLabel.text = achievement.Name;
 
-                // Set sub-achievements count
                 var subAchievementsLabel = container.Q<Label>("sub-achievements-text");
                 if (subAchievementsLabel != null)
                 {
@@ -247,7 +458,6 @@ namespace HiroAchievements
                     }
                 }
 
-                // Set status badge
                 var statusBadge = container.Q<VisualElement>("status-badge");
                 var statusLabel = statusBadge.Q<Label>("status-text");
                 bool isLocked = _controller.IsAchievementLocked(achievement);
@@ -259,11 +469,9 @@ namespace HiroAchievements
                 }
                 else if (isLocked)
                 {
-                    // Get incomplete prerequisites count
                     var incompletePrereqs = _controller.GetIncompletePrerequisiteNames(achievement);
                     int incompleteCount = incompletePrereqs.Count;
 
-                    // Show locked with count of remaining prerequisites
                     if (incompleteCount > 0)
                     {
                         statusLabel.text = $"{AchievementsUIConstants.StatusLocked} ({incompleteCount})";
@@ -274,14 +482,8 @@ namespace HiroAchievements
                     }
                     statusBadge.style.backgroundColor = AchievementsUIConstants.StatusLockedColor;
 
-                    // Locked achievements are clickable to view prerequisites
-                    if (incompleteCount > 0)
-                    {
-                        var prerequisitesText = string.Join(", ", incompletePrereqs);
-                        Debug.Log($"Locked achievement '{achievement.Name}' requires: {prerequisitesText}");
-                    }
                 }
-                else if(_controller.IsAchievementClaimable(achievement))
+                else if (_controller.IsAchievementClaimable(achievement))
                 {
                     statusLabel.text = AchievementsUIConstants.StatusToClaim;
                     statusBadge.style.backgroundColor = AchievementsUIConstants.StatusToClaimColor;
@@ -292,17 +494,14 @@ namespace HiroAchievements
                     statusBadge.style.backgroundColor = AchievementsUIConstants.StatusInProgressColor;
                 }
 
-                // Set progress using helper
                 var progressBar = container.Q<VisualElement>("achievement-progress-bar");
                 var progressFill = container.Q<VisualElement>("achievement-progress-fill");
                 float progressPercent = AchievementProgressHelper.CalculateProgressPercent(achievement);
                 progressFill.style.width = Length.Percent(Mathf.Clamp(progressPercent, 0f, 100f));
 
-                // Register click event for ALL achievements (including locked)
-                // Locked achievements can be viewed to see prerequisites, just not progressed
-                container.RegisterCallback<ClickEvent>(async evt =>
+                container.RegisterCallback<ClickEvent>(evt =>
                 {
-                    await SelectAchievement(achievement, container);
+                    SelectAchievement(achievement, container);
                     evt.StopPropagation();
                 });
 
@@ -310,26 +509,24 @@ namespace HiroAchievements
             }
         }
 
-        private async Task SelectAchievement(IAchievement achievement, VisualElement element)
+        private void SelectAchievement(IAchievement achievement, VisualElement element)
         {
-            // Deselect previous
             if (_selectedAchievementElement != null)
             {
                 _selectedAchievementElement.RemoveFromClassList("achievement-item--selected");
             }
 
-            // Select new
             _controller.SelectAchievement(achievement);
             _selectedAchievementElement = element;
             _selectedAchievementElement.AddToClassList("achievement-item--selected");
 
-            await ShowAchievementDetailsAsync(achievement);
-            await UpdateActionButtons();
+            ShowAchievementDetails(achievement);
+            UpdateActionButtons();
         }
 
         private void SetAchievementIcon(VisualElement iconContainer, string achievementId)
         {
-            if (_controller.IconDictionary.TryGetValue(achievementId, out var icon))
+            if (_iconDictionary.TryGetValue(achievementId, out var icon))
             {
                 iconContainer.style.backgroundImage = new StyleBackground(icon);
             }
@@ -344,19 +541,17 @@ namespace HiroAchievements
             }
         }
 
-        private static readonly System.Collections.Generic.Dictionary<string, string> ItemRarities = new()
+        private static readonly Dictionary<string, string> ItemRarities = new()
         {
-            // Currencies
             { "coins", "common" },
             { "gems", "rare" },
-            // Items from inventory
             { "iron_sword", "common" },
             { "mana_potion", "uncommon" },
             { "golden_key", "rare" },
             { "lucky_charm", "epic" }
         };
 
-        private string GetRarity(string itemId)
+        private static string GetRarity(string itemId)
         {
             return ItemRarities.TryGetValue(itemId.ToLower(), out var rarity) ? rarity : "common";
         }
@@ -369,16 +564,13 @@ namespace HiroAchievements
             var rarity = GetRarity(rewardType);
             tile.AddToClassList($"reward-tile--{rarity}");
 
-            // Icon container (colored background based on rarity)
             var iconContainer = new VisualElement();
             iconContainer.AddToClassList("reward-tile__icon-container");
 
-            // Icon image (smaller, inside container)
             var iconImage = new VisualElement();
             iconImage.AddToClassList("reward-tile__icon");
 
-            // Set icon based on reward type
-            if (_controller.IconDictionary.TryGetValue(rewardType, out var rewardIcon))
+            if (_iconDictionary.TryGetValue(rewardType, out var rewardIcon))
             {
                 iconImage.style.backgroundImage = new StyleBackground(rewardIcon);
             }
@@ -400,13 +592,12 @@ namespace HiroAchievements
 
         #region Achievement Details
 
-        private async Task ShowAchievementDetailsAsync(IAchievement achievement)
+        private void ShowAchievementDetails(IAchievement achievement)
         {
             bool isLocked = _controller.IsAchievementLocked(achievement);
-            
+
             _detailsNameLabel.text = achievement.Name;
-            
-            // Add locked indicator to description if achievement is locked
+
             if (isLocked)
             {
                 var prerequisites = _controller.GetPrerequisiteAchievements(achievement);
@@ -424,29 +615,27 @@ namespace HiroAchievements
                 _detailsDescriptionLabel.text = string.IsNullOrEmpty(achievement.Description)
                     ? "No description available."
                     : achievement.Description;
-                _detailsDescriptionLabel.style.color = new StyleColor(StyleKeyword.Null); // Reset to default
+                _detailsDescriptionLabel.style.color = new StyleColor(StyleKeyword.Null);
             }
-            
+
             _detailsCategoryLabel.text = achievement.Category ?? "Uncategorized";
 
-            // Progress - use helper to calculate
             var (currentProgress, maxProgress) = AchievementProgressHelper.GetProgressValues(achievement);
             float progressPercent = AchievementProgressHelper.CalculateProgressPercent(achievement);
-            
-            _detailsProgressLabel.text = string.Format(AchievementsUIConstants.ProgressFormat, 
+
+            _detailsProgressLabel.text = string.Format(AchievementsUIConstants.ProgressFormat,
                 currentProgress, maxProgress, progressPercent);
             _detailsProgressFill.style.width = Length.Percent(Mathf.Clamp(progressPercent, 0f, 100f));
 
-            // Sub-Achievements
             if (_detailsSubAchievementsContainer != null)
             {
                 _detailsSubAchievementsContainer.Clear();
-                _subAchievementViews.Clear(); // Clear the views dictionary
-                
+                _subAchievementViews.Clear();
+
                 if (achievement.SubAchievements != null && achievement.SubAchievements.Count > 0)
                 {
                     _detailsSubAchievementsContainer.style.display = DisplayStyle.Flex;
-                    
+
                     foreach (var subAchievementPair in achievement.SubAchievements)
                     {
                         var subAchievementElement = CreateSubAchievementElement(subAchievementPair.Value, achievement, subAchievementPair.Key);
@@ -459,11 +648,9 @@ namespace HiroAchievements
                 }
             }
 
-            // Rewards - displayed as colored tile icons
             _detailsRewardsContainer.Clear();
             if (achievement.HasAvailableReward() && achievement.AvailableRewards != null)
             {
-                // Display currency rewards as colored tiles
                 if (achievement.AvailableRewards.Guaranteed?.Currencies != null)
                 {
                     foreach (var currencyPair in achievement.AvailableRewards.Guaranteed.Currencies)
@@ -473,7 +660,6 @@ namespace HiroAchievements
                     }
                 }
 
-                // Display item rewards if any
                 if (achievement.AvailableRewards.Guaranteed?.Items != null)
                 {
                     foreach (var itemPair in achievement.AvailableRewards.Guaranteed.Items)
@@ -492,25 +678,20 @@ namespace HiroAchievements
             }
 
             _achievementDetailsPanel.style.display = DisplayStyle.Flex;
-            await UpdateActionButtons();
         }
 
         private VisualElement CreateSubAchievementElement(ISubAchievement subAchievement, IAchievement parent, string key)
         {
-            // Instantiate the template
             var subAchievementElement = _subAchievementItemTemplate.Instantiate();
-            
-            // Create view and set data
+
             var subAchievementView = new SubAchievementItemView();
             subAchievementView.SetVisualElement(subAchievementElement);
             subAchievementView.SetSubAchievement(subAchievement);
-            
+
             var container = subAchievementView.GetContainer();
-            
-            // Store view for later access
+
             _subAchievementViews[container] = subAchievementView;
 
-            // Add hover effect
             container.RegisterCallback<MouseEnterEvent>(_ =>
             {
                 if (_selectedSubAchievementElement != container)
@@ -520,7 +701,6 @@ namespace HiroAchievements
             });
             container.RegisterCallback<MouseLeaveEvent>(_ =>
             {
-                // Only reset if not selected
                 if (_selectedSubAchievementElement != container)
                 {
                     subAchievementView.SetHovered(false);
@@ -528,17 +708,16 @@ namespace HiroAchievements
                 }
             });
 
-            // Make clickable - pass sub-achievement, parent, and key
-            container.RegisterCallback<ClickEvent>(async evt =>
+            container.RegisterCallback<ClickEvent>(evt =>
             {
-                await SelectSubAchievement(subAchievement, parent, key, container);
+                SelectSubAchievement(subAchievement, parent, key, container);
                 evt.StopPropagation();
             });
 
             return subAchievementElement;
         }
 
-        private async Task SelectSubAchievement(ISubAchievement subAchievement, IAchievement parent, string key, VisualElement element)
+        private void SelectSubAchievement(ISubAchievement subAchievement, IAchievement parent, string key, VisualElement element)
         {
             if (subAchievement == null)
             {
@@ -546,27 +725,21 @@ namespace HiroAchievements
                 return;
             }
 
-            Debug.Log($"VIEW: SelectSubAchievement called with: {subAchievement.Name} (ID: {subAchievement.Id})");
-
-            // Deselect previous sub-achievement
             if (_selectedSubAchievementView != null && _selectedSubAchievementElement != null)
             {
                 _selectedSubAchievementView.SetSelected(false);
             }
 
-            // Select new sub-achievement
             _controller.SelectSubAchievement(subAchievement, parent, key);
             _selectedSubAchievementElement = element;
-            
-            // Get the view from dictionary and mark as selected
+
             if (_subAchievementViews.TryGetValue(element, out var view))
             {
                 _selectedSubAchievementView = view;
                 _selectedSubAchievementView.SetSelected(true);
             }
 
-            Debug.Log($"VIEW: Sub-achievement UI updated");
-            await UpdateActionButtons();
+            UpdateActionButtons();
         }
 
         private void ShowEmptyState()
@@ -590,9 +763,12 @@ namespace HiroAchievements
 
         #region Action Buttons
 
-        private async Task UpdateActionButtons()
+        /// <summary>
+        /// Updates the action buttons based on current selection state.
+        /// Does NOT refresh data from the server - just updates UI based on current controller state.
+        /// </summary>
+        private void UpdateActionButtons()
         {
-            await _controller.RefreshAchievements();
             var selectedAchievement = _controller.GetSelectedAchievement();
             var selectedSubAchievement = _controller.GetSelectedSubAchievement();
 
@@ -603,101 +779,35 @@ namespace HiroAchievements
                 return;
             }
 
-            // Check if main achievement is locked - if so, disable all buttons
             bool isLocked = _controller.IsAchievementLocked(selectedAchievement);
             if (isLocked)
             {
                 _progressButton.SetEnabled(false);
                 _claimButton.SetEnabled(false);
-                Debug.Log("Achievement is locked - buttons disabled");
                 return;
             }
 
-            // Check if a sub-achievement is selected
             if (selectedSubAchievement != null)
             {
-                // Use sub-achievement overloads
                 bool isCompleted = _controller.IsAchievementCompleted(selectedSubAchievement);
                 _progressButton.SetEnabled(!isCompleted);
 
                 bool canClaim = _controller.CanClaimReward(selectedSubAchievement);
-                Debug.Log($"Sub-achievement can claim: {canClaim}");
                 _claimButton.SetEnabled(canClaim);
             }
             else
             {
-                // Use main achievement overloads
                 bool isCompleted = _controller.IsAchievementCompleted(selectedAchievement);
                 _progressButton.SetEnabled(!isCompleted);
 
                 bool canClaim = _controller.CanClaimReward(selectedAchievement);
-                Debug.Log($"Main achievement can claim: {canClaim}");
                 _claimButton.SetEnabled(canClaim);
             }
         }
 
         #endregion
 
-        #region Action Handlers
-
-        private async Task HandleUpdateProgress()
-        {
-            try
-            {
-                await _controller.UpdateAchievementProgress(_progressQuantityField.value);
-                _progressModal.style.display = DisplayStyle.None;
-                await RefreshAchievementsList();
-
-                // Re-select and show updated details
-                var selectedAchievement = _controller.GetSelectedAchievement();
-                if (selectedAchievement != null)
-                {
-                    // Refresh achievement data
-                    var updatedAchievement = _controller.AllAchievements
-                        .FirstOrDefault(a => a.Id == selectedAchievement.Id);
-                    if (updatedAchievement != null)
-                    {
-                        await ShowAchievementDetailsAsync(updatedAchievement);
-                    }
-                }
-
-                await UpdateActionButtons();
-                await RefreshAchievementsList();
-            }
-            catch (Exception e)
-            {
-                ShowError(e.Message);
-                Debug.LogError(e);
-            }
-        }
-
-        private async Task HandleClaimReward()
-        {
-            try
-            {
-                await _controller.ClaimAchievementReward(claimTotal: true);
-                await RefreshAchievementsList();
-
-                // Re-select and show updated details
-                var selectedAchievement = _controller.GetSelectedAchievement();
-                if (selectedAchievement != null)
-                {
-                    var updatedAchievement = _controller.AllAchievements
-                        .FirstOrDefault(a => a.Id == selectedAchievement.Id);
-                    if (updatedAchievement != null)
-                    {
-                        await ShowAchievementDetailsAsync(updatedAchievement);
-                    }
-                }
-
-                await UpdateActionButtons();
-            }
-            catch (Exception e)
-            {
-                ShowError(e.Message);
-                Debug.LogError(e);
-            }
-        }
+        #region Modal Management
 
         public void ShowError(string message)
         {

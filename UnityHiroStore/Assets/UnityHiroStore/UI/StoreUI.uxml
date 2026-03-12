@@ -9,6 +9,7 @@
     <ui:VisualElement name="store-main" class="heroic-main__background" style="padding: 30px; align-items: stretch; justify-content: flex-start; flex-direction: column; width: 100%; height: 100%;">
         <ui:VisualElement name="store-container" class="heroic-main__panel" style="flex-grow: 1; padding: 20px; border-radius: 15px; background-image: none; align-items: stretch; padding-left: 40px; padding-right: 40px;">
             <ui:VisualElement name="store-items" style="flex-direction: row; margin-bottom: 20px; min-height: 400px; height: 80%; flex-grow: 1; align-self: auto; align-items: stretch; padding-left: 20px;">
+                <ui:VisualElement name="store-list-spinner" class="spinner" style="display: none; position: absolute; top: 50%; left: 50%; translate: -50% -50%; z-index: 100;" />
                 <ui:VisualElement name="featured-item" class="featured-item--primary" style="width: 380px; border-radius: 20px; align-items: center; justify-content: space-between; position: relative; margin-right: 20px; padding-top: 20px; overflow: visible;">
                     <ui:Label name="featured-badge" text="SALE" class="featured-badge" />
                     <ui:VisualElement name="featured-content" style="align-items: center; padding: 20px; width: 100%; margin-bottom: 20px;">

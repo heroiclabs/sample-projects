@@ -1,0 +1,1215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="50" result="Failed(Child)" total="50" passed="43" failed="7" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-02-04 12:21:57Z" end-time="2026-02-04 12:22:20Z" duration="22.4849853">
+  <test-suite type="TestSuite" id="1000" name="UnityHiroChallenges" fullname="UnityHiroChallenges" runstate="Runnable" testcasecount="50" result="Failed" site="Child" start-time="2026-02-04 12:21:57Z" end-time="2026-02-04 12:22:20Z" duration="22.484985" total="50" passed="43" failed="7" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1058" name="UnityHiroTeams.Tests.Editor.dll" fullname="/Users/andres/Developer/sample-projects/UnityHiroTeams/Library/ScriptAssemblies/UnityHiroTeams.Tests.Editor.dll" runstate="Runnable" testcasecount="50" result="Failed" site="Child" start-time="2026-02-04 12:21:57Z" end-time="2026-02-04 12:22:20Z" duration="22.481957" total="50" passed="43" failed="7" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="24063" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="1059" name="HiroTeams" fullname="HiroTeams" runstate="Runnable" testcasecount="50" result="Failed" site="Child" start-time="2026-02-04 12:21:57Z" end-time="2026-02-04 12:22:20Z" duration="22.481740" total="50" passed="43" failed="7" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="1060" name="Tests" fullname="HiroTeams.Tests" runstate="Runnable" testcasecount="50" result="Failed" site="Child" start-time="2026-02-04 12:21:57Z" end-time="2026-02-04 12:22:20Z" duration="22.481541" total="50" passed="43" failed="7" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestSuite" id="1061" name="Editor" fullname="HiroTeams.Tests.Editor" runstate="Runnable" testcasecount="50" result="Failed" site="Child" start-time="2026-02-04 12:21:57Z" end-time="2026-02-04 12:22:20Z" duration="22.481296" total="50" passed="43" failed="7" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-suite type="TestFixture" id="1056" name="TeamsControllerLifecycleTests" fullname="HiroTeams.Tests.Editor.TeamsControllerLifecycleTests" classname="HiroTeams.Tests.Editor.TeamsControllerLifecycleTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-02-04 12:21:57Z" end-time="2026-02-04 12:21:58Z" duration="0.736092" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1057" name="TeamLifecycle_CreateSearchSelectDelete_CompletesSuccessfully" fullname="HiroTeams.Tests.Editor.TeamsControllerLifecycleTests.TeamLifecycle_CreateSearchSelectDelete_CompletesSuccessfully" methodname="TeamLifecycle_CreateSearchSelectDelete_CompletesSuccessfully" classname="HiroTeams.Tests.Editor.TeamsControllerLifecycleTests" runstate="Runnable" seed="181585094" result="Passed" start-time="2026-02-04 12:21:57Z" end-time="2026-02-04 12:21:58Z" duration="0.730069" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlODEzYTJlNC0wN2JmLTQ4MmItYjRiMy01YjY5YTRjNDBhNDciLCJ1aWQiOiI0MTE0NTllMC1jMjE5LTQyYzAtOTI1OC1jMDc2YzE3NzJjZTIiLCJ1c24iOiJQbGF5ZXIzNTc1ODkxOCIsImV4cCI6MTc3MDI5NDExNywiaWF0IjoxNzcwMjA3NzE3fQ.x2gErk9zpOKjDIIhYhSdSi4leUGUO91pxyfZywY-62k', Created=True, CreateTime=1770207717, ExpireTime=1770294117, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlODEzYTJlNC0wN2JmLTQ4MmItYjRiMy01YjY5YTRjNDBhNDciLCJ1aWQiOiI0MTE0NTllMC1jMjE5LTQyYzAtOTI1OC1jMDc2YzE3NzJjZTIiLCJ1c24iOiJQbGF5ZXIzNTc1ODkxOCIsImV4cCI6MTc3MDgxMjUxNywiaWF0IjoxNzcwMjA3NzE3fQ.aXEGpvNxMBbjMDrO1b-mHsKVE1u7opwq0zaAQkQCkZA, RefreshExpireTime=1770812517, Variables={}, Username='Player35758918', UserId='411459e0-c219-42c0-9258-c076c1772ce2')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_CREATE', body='"{\"name\":\"Lifecycle_71b63367db\",\"desc\":\"Lifecycle test\",\"open\":true,\"avatar_url\":\"{\\\"iconIndex\\\":0,\\\"backgroundIndex\\\":0}\",\"lang_tag\":\"en\",\"setup_metadata\":\"{}\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/411459e0-c219-42c0-9258-c076c1772ce2/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/bd53b0f6-66fe-4425-b92b-c9b381f152d2/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.bd53b0f6-66fe-4425-b92b-c9b381f152d2..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/411459e0-c219-42c0-9258-c076c1772ce2/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/bd53b0f6-66fe-4425-b92b-c9b381f152d2/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.bd53b0f6-66fe-4425-b92b-c9b381f152d2..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_SEARCH', body='"{\"input\":\"Lifecycle\",\"limit\":20,\"lang_tag\":\"\",\"min_activity\":\"0\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/bd53b0f6-66fe-4425-b92b-c9b381f152d2/user?limit=100&'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/group/bd53b0f6-66fe-4425-b92b-c9b381f152d2'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/411459e0-c219-42c0-9258-c076c1772ce2/group?limit=1&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1050" name="TeamsControllerMultiUserTests" fullname="HiroTeams.Tests.Editor.TeamsControllerMultiUserTests" classname="HiroTeams.Tests.Editor.TeamsControllerMultiUserTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-02-04 12:21:58Z" end-time="2026-02-04 12:22:05Z" duration="7.218687" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1053" name="AcceptJoinRequest_ValidRequest_UserBecomesMember" fullname="HiroTeams.Tests.Editor.TeamsControllerMultiUserTests.AcceptJoinRequest_ValidRequest_UserBecomesMember" methodname="AcceptJoinRequest_ValidRequest_UserBecomesMember" classname="HiroTeams.Tests.Editor.TeamsControllerMultiUserTests" runstate="Runnable" seed="1440287377" result="Passed" start-time="2026-02-04 12:21:58Z" end-time="2026-02-04 12:22:00Z" duration="1.649467" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0N2Y4Mzg0Ny00YmEyLTQ5ZTUtYmFhZi0zZjRiYzdhZDgzYzQiLCJ1aWQiOiJlNDMzYTc4OC05MDg0LTRlZjMtOGJjYi0wOTYzNWEzZGE1MmUiLCJ1c24iOiJQbGF5ZXI0NzQzOTMwNiIsImV4cCI6MTc3MDI5NDExOCwiaWF0IjoxNzcwMjA3NzE4fQ.tEeAZme5NtD9WKQCdGsChB0COpcnGX7VCCyC8G-2_HU', Created=True, CreateTime=1770207718, ExpireTime=1770294118, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0N2Y4Mzg0Ny00YmEyLTQ5ZTUtYmFhZi0zZjRiYzdhZDgzYzQiLCJ1aWQiOiJlNDMzYTc4OC05MDg0LTRlZjMtOGJjYi0wOTYzNWEzZGE1MmUiLCJ1c24iOiJQbGF5ZXI0NzQzOTMwNiIsImV4cCI6MTc3MDgxMjUxOCwiaWF0IjoxNzcwMjA3NzE4fQ.PYVlYCzgDw-6eWJ9O-J89J9cLRuztMIX17v8rLPvyd0, RefreshExpireTime=1770812518, Variables={}, Username='Player47439306', UserId='e433a788-9084-4ef3-8bcb-09635a3da52e')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/authenticate/device?create=true&', body='{"id":"test-device-696882b15e164035abf1121e398a0737_1"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI4YjNhYWFmZC0zMDQ3LTRlNTgtOGZiZS1kYjlkZWZjMGIxYTYiLCJ1aWQiOiI4ZDQzZDZjZi0yMmU0LTQyYWYtODIyOS1lYjEwNjRhZjZiYWUiLCJ1c24iOiJQbGF5ZXIxNjc2OTUzMCIsImV4cCI6MTc3MDI5NDExOCwiaWF0IjoxNzcwMjA3NzE4fQ.sbGLCzEJxbZx68P8pjbpPmxkhfJzWqEiPohqp3KHThQ', Created=True, CreateTime=1770207718, ExpireTime=1770294118, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI4YjNhYWFmZC0zMDQ3LTRlNTgtOGZiZS1kYjlkZWZjMGIxYTYiLCJ1aWQiOiI4ZDQzZDZjZi0yMmU0LTQyYWYtODIyOS1lYjEwNjRhZjZiYWUiLCJ1c24iOiJQbGF5ZXIxNjc2OTUzMCIsImV4cCI6MTc3MDgxMjUxOCwiaWF0IjoxNzcwMjA3NzE4fQ.NtMFuNSO-Tm43BYKs_a25-2mN6HqcDyT-k6MrZzmCc0, RefreshExpireTime=1770812518, Variables={}, Username='Player16769530', UserId='8d43d6cf-22e4-42af-8229-eb1064af6bae')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_CREATE', body='"{\"name\":\"ClosedTeam_80a944287\",\"desc\":\"Closed team\",\"open\":false,\"avatar_url\":\"{\\\"iconIndex\\\":0,\\\"backgroundIndex\\\":0}\",\"lang_tag\":\"en\",\"setup_metadata\":\"{}\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/e433a788-9084-4ef3-8bcb-09635a3da52e/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/5a7cef5a-da13-4316-92ba-7a7f1716d29e/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.5a7cef5a-da13-4316-92ba-7a7f1716d29e..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/e433a788-9084-4ef3-8bcb-09635a3da52e/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/5a7cef5a-da13-4316-92ba-7a7f1716d29e/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.5a7cef5a-da13-4316-92ba-7a7f1716d29e..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/5a7cef5a-da13-4316-92ba-7a7f1716d29e/user?limit=100&'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_SEARCH', body='"{\"input\":\"ClosedTeam\",\"limit\":20,\"lang_tag\":\"\",\"min_activity\":\"0\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/5a7cef5a-da13-4316-92ba-7a7f1716d29e/user?limit=100&'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/5a7cef5a-da13-4316-92ba-7a7f1716d29e/join'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/8d43d6cf-22e4-42af-8229-eb1064af6bae/group?limit=1&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/5a7cef5a-da13-4316-92ba-7a7f1716d29e/user?limit=100&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/5a7cef5a-da13-4316-92ba-7a7f1716d29e/user?limit=100&'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/5a7cef5a-da13-4316-92ba-7a7f1716d29e/add?user_ids=8d43d6cf-22e4-42af-8229-eb1064af6bae&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/e433a788-9084-4ef3-8bcb-09635a3da52e/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/5a7cef5a-da13-4316-92ba-7a7f1716d29e/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/8d43d6cf-22e4-42af-8229-eb1064af6bae/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/5a7cef5a-da13-4316-92ba-7a7f1716d29e/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.5a7cef5a-da13-4316-92ba-7a7f1716d29e..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/8d43d6cf-22e4-42af-8229-eb1064af6bae/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/5a7cef5a-da13-4316-92ba-7a7f1716d29e/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.5a7cef5a-da13-4316-92ba-7a7f1716d29e..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/5a7cef5a-da13-4316-92ba-7a7f1716d29e/user?limit=100&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/5a7cef5a-da13-4316-92ba-7a7f1716d29e/user?limit=100&'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/5a7cef5a-da13-4316-92ba-7a7f1716d29e/leave'
+Cleanup warning for account 0: Cannot leave group when you are the last superadmin.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/5a7cef5a-da13-4316-92ba-7a7f1716d29e/leave'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1052" name="JoinTeam_ClosedTeam_SendsJoinRequest" fullname="HiroTeams.Tests.Editor.TeamsControllerMultiUserTests.JoinTeam_ClosedTeam_SendsJoinRequest" methodname="JoinTeam_ClosedTeam_SendsJoinRequest" classname="HiroTeams.Tests.Editor.TeamsControllerMultiUserTests" runstate="Runnable" seed="1837785235" result="Passed" start-time="2026-02-04 12:22:00Z" end-time="2026-02-04 12:22:01Z" duration="1.001503" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmMWQzNWUxMS1iNjM5LTQ3NTAtOTA3My1iODMxYzFkODVkMTkiLCJ1aWQiOiJhYWYwNWNiNy1hYWUxLTQ1OGItOTc1Ni1jZGI4YTRmNzJjODMiLCJ1c24iOiJQbGF5ZXI5MDUyNDY5MCIsImV4cCI6MTc3MDI5NDEyMCwiaWF0IjoxNzcwMjA3NzIwfQ.Z_8fFjOh-BcOf0WkoTnABLyixOz7MfjHCiRpzUCpHh4', Created=True, CreateTime=1770207720, ExpireTime=1770294120, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmMWQzNWUxMS1iNjM5LTQ3NTAtOTA3My1iODMxYzFkODVkMTkiLCJ1aWQiOiJhYWYwNWNiNy1hYWUxLTQ1OGItOTc1Ni1jZGI4YTRmNzJjODMiLCJ1c24iOiJQbGF5ZXI5MDUyNDY5MCIsImV4cCI6MTc3MDgxMjUyMCwiaWF0IjoxNzcwMjA3NzIwfQ.G0m2HWSDTFJW8VKGmVWOsNfe1YL2fR6e9bdRHYkJfKc, RefreshExpireTime=1770812520, Variables={}, Username='Player90524690', UserId='aaf05cb7-aae1-458b-9756-cdb8a4f72c83')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/authenticate/device?create=true&', body='{"id":"test-device-7ad456ef437a4193a93e05ce0b738201_1"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIxZjNiMTEwMC02OWQ4LTQ1OTItYjQ1ZC0wYTRhZjE4ZDZlODYiLCJ1aWQiOiJkYmM4MzU1NC1iNDJiLTRhN2ItYjE5MS02Y2FiNGNiMTY5ZTEiLCJ1c24iOiJQbGF5ZXI3MTM5ODM5MyIsImV4cCI6MTc3MDI5NDEyMCwiaWF0IjoxNzcwMjA3NzIwfQ.dj1oO47CxoDK44F983rcW0iT_TEzm9fO3tOVxGaij_0', Created=True, CreateTime=1770207720, ExpireTime=1770294120, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIxZjNiMTEwMC02OWQ4LTQ1OTItYjQ1ZC0wYTRhZjE4ZDZlODYiLCJ1aWQiOiJkYmM4MzU1NC1iNDJiLTRhN2ItYjE5MS02Y2FiNGNiMTY5ZTEiLCJ1c24iOiJQbGF5ZXI3MTM5ODM5MyIsImV4cCI6MTc3MDgxMjUyMCwiaWF0IjoxNzcwMjA3NzIwfQ.JM8fUKQOZvZQOk32CY11hIgwWL_Q8qUN7g7ASFjgQtE, RefreshExpireTime=1770812520, Variables={}, Username='Player71398393', UserId='dbc83554-b42b-4a7b-b191-6cab4cb169e1')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_CREATE', body='"{\"name\":\"ClosedTeam_02d9edaca\",\"desc\":\"Closed team\",\"open\":false,\"avatar_url\":\"{\\\"iconIndex\\\":0,\\\"backgroundIndex\\\":0}\",\"lang_tag\":\"en\",\"setup_metadata\":\"{}\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/aaf05cb7-aae1-458b-9756-cdb8a4f72c83/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/f3a2020d-76ca-4147-9d46-c827350c1585/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.f3a2020d-76ca-4147-9d46-c827350c1585..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/aaf05cb7-aae1-458b-9756-cdb8a4f72c83/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/f3a2020d-76ca-4147-9d46-c827350c1585/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.f3a2020d-76ca-4147-9d46-c827350c1585..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_SEARCH', body='"{\"input\":\"ClosedTeam\",\"limit\":20,\"lang_tag\":\"\",\"min_activity\":\"0\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/f3a2020d-76ca-4147-9d46-c827350c1585/user?limit=100&'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/f3a2020d-76ca-4147-9d46-c827350c1585/join'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/dbc83554-b42b-4a7b-b191-6cab4cb169e1/group?limit=1&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/dbc83554-b42b-4a7b-b191-6cab4cb169e1/group?limit=1&'
+Hiro.TeamsSystem: Notifying 0 observers.
+User 1 member state after join request: None
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/dbc83554-b42b-4a7b-b191-6cab4cb169e1/group?limit=1&'
+Hiro.TeamsSystem: Notifying 0 observers.
+User 1 teams count: 0
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/f3a2020d-76ca-4147-9d46-c827350c1585/leave'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1051" name="JoinTeam_OpenTeam_UserJoinsSuccessfully" fullname="HiroTeams.Tests.Editor.TeamsControllerMultiUserTests.JoinTeam_OpenTeam_UserJoinsSuccessfully" methodname="JoinTeam_OpenTeam_UserJoinsSuccessfully" classname="HiroTeams.Tests.Editor.TeamsControllerMultiUserTests" runstate="Runnable" seed="1613650909" result="Passed" start-time="2026-02-04 12:22:01Z" end-time="2026-02-04 12:22:02Z" duration="1.410788" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI4ZTdhN2U0Mi1iNzIwLTQ5ZTItOWRjZC1lYTJlNWQxMDU0ZWUiLCJ1aWQiOiJlOTA3NTlhMC1kNTg1LTQyZDMtYTdkZC0zNzc5ZDljYzNmYTIiLCJ1c24iOiJQbGF5ZXI3NTAwMDU1NiIsImV4cCI6MTc3MDI5NDEyMSwiaWF0IjoxNzcwMjA3NzIxfQ.diWxHfpvlbQXbbbpDe6YVPccSjJMfIPrAxA-ugEECuI', Created=True, CreateTime=1770207721, ExpireTime=1770294121, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI4ZTdhN2U0Mi1iNzIwLTQ5ZTItOWRjZC1lYTJlNWQxMDU0ZWUiLCJ1aWQiOiJlOTA3NTlhMC1kNTg1LTQyZDMtYTdkZC0zNzc5ZDljYzNmYTIiLCJ1c24iOiJQbGF5ZXI3NTAwMDU1NiIsImV4cCI6MTc3MDgxMjUyMSwiaWF0IjoxNzcwMjA3NzIxfQ.Sqbg4NDM4vb2O1YQj-E8PRSEdxQ9Y7irqKR-0gKbZ44, RefreshExpireTime=1770812521, Variables={}, Username='Player75000556', UserId='e90759a0-d585-42d3-a7dd-3779d9cc3fa2')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/authenticate/device?create=true&', body='{"id":"test-device-5c2dc5b8f28441478ee9662b364db187_1"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI4NzI5MjY3NS0wOTY0LTRmYWMtYjRkNy01YTNiZTUxY2IxNmIiLCJ1aWQiOiIyMmQ3NmM2Ny0yMjEwLTQwYTctYTM1MC1iZGM4MGUxNTU2ODciLCJ1c24iOiJQbGF5ZXI3NDcxODI0OCIsImV4cCI6MTc3MDI5NDEyMSwiaWF0IjoxNzcwMjA3NzIxfQ.6GydMnRXGRpgriyBWZj-7RxrMb-YKxWZVezFd4-qp7A', Created=True, CreateTime=1770207721, ExpireTime=1770294121, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI4NzI5MjY3NS0wOTY0LTRmYWMtYjRkNy01YTNiZTUxY2IxNmIiLCJ1aWQiOiIyMmQ3NmM2Ny0yMjEwLTQwYTctYTM1MC1iZGM4MGUxNTU2ODciLCJ1c24iOiJQbGF5ZXI3NDcxODI0OCIsImV4cCI6MTc3MDgxMjUyMSwiaWF0IjoxNzcwMjA3NzIxfQ.kw0jnedPeVJQqQXlqF98qKXCsITfxBhORkIj6cBAVkc, RefreshExpireTime=1770812521, Variables={}, Username='Player74718248', UserId='22d76c67-2210-40a7-a350-bdc80e155687')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_CREATE', body='"{\"name\":\"OpenTeam_f4bb75e3506\",\"desc\":\"Open team\",\"open\":true,\"avatar_url\":\"{\\\"iconIndex\\\":0,\\\"backgroundIndex\\\":0}\",\"lang_tag\":\"en\",\"setup_metadata\":\"{}\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/e90759a0-d585-42d3-a7dd-3779d9cc3fa2/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/5e2594f3-ef3a-4855-8354-5056394dd3a1/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.5e2594f3-ef3a-4855-8354-5056394dd3a1..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/e90759a0-d585-42d3-a7dd-3779d9cc3fa2/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/5e2594f3-ef3a-4855-8354-5056394dd3a1/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.5e2594f3-ef3a-4855-8354-5056394dd3a1..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_SEARCH', body='"{\"input\":\"OpenTeam\",\"limit\":20,\"lang_tag\":\"\",\"min_activity\":\"0\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/5e2594f3-ef3a-4855-8354-5056394dd3a1/user?limit=100&'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/5e2594f3-ef3a-4855-8354-5056394dd3a1/join'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/22d76c67-2210-40a7-a350-bdc80e155687/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/5e2594f3-ef3a-4855-8354-5056394dd3a1/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.5e2594f3-ef3a-4855-8354-5056394dd3a1..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/22d76c67-2210-40a7-a350-bdc80e155687/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/5e2594f3-ef3a-4855-8354-5056394dd3a1/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.5e2594f3-ef3a-4855-8354-5056394dd3a1..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/22d76c67-2210-40a7-a350-bdc80e155687/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/5e2594f3-ef3a-4855-8354-5056394dd3a1/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.5e2594f3-ef3a-4855-8354-5056394dd3a1..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/5e2594f3-ef3a-4855-8354-5056394dd3a1/user?limit=100&'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/5e2594f3-ef3a-4855-8354-5056394dd3a1/leave'
+Cleanup warning for account 0: Cannot leave group when you are the last superadmin.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/5e2594f3-ef3a-4855-8354-5056394dd3a1/leave'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1055" name="KickUser_ValidMember_RemovesFromTeam" fullname="HiroTeams.Tests.Editor.TeamsControllerMultiUserTests.KickUser_ValidMember_RemovesFromTeam" methodname="KickUser_ValidMember_RemovesFromTeam" classname="HiroTeams.Tests.Editor.TeamsControllerMultiUserTests" runstate="Runnable" seed="1788130292" result="Passed" start-time="2026-02-04 12:22:02Z" end-time="2026-02-04 12:22:04Z" duration="1.501898" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIyMmE5YWY4OC1kNWQ5LTRhZjAtYTU1ZC1hN2ZkYzNiOGE2YTEiLCJ1aWQiOiIyNTNiMjM4NC0yYTE2LTQ3YjktOWE1My1iNTFiNWY3OThhYjIiLCJ1c24iOiJQbGF5ZXI1MDgyMDYxMiIsImV4cCI6MTc3MDI5NDEyMiwiaWF0IjoxNzcwMjA3NzIyfQ.H3wBcXyagPqWIVf8KS3ty2uMfuAhcdoxVqCEouvR8kI', Created=True, CreateTime=1770207722, ExpireTime=1770294122, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIyMmE5YWY4OC1kNWQ5LTRhZjAtYTU1ZC1hN2ZkYzNiOGE2YTEiLCJ1aWQiOiIyNTNiMjM4NC0yYTE2LTQ3YjktOWE1My1iNTFiNWY3OThhYjIiLCJ1c24iOiJQbGF5ZXI1MDgyMDYxMiIsImV4cCI6MTc3MDgxMjUyMiwiaWF0IjoxNzcwMjA3NzIyfQ.vBU5GveC_6FpARm7gIHau2HRwQYGviygLibSHgO-Lqw, RefreshExpireTime=1770812522, Variables={}, Username='Player50820612', UserId='253b2384-2a16-47b9-9a53-b51b5f798ab2')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/authenticate/device?create=true&', body='{"id":"test-device-27f6aae26a374e3bac3efa7e6b015246_1"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2NWFkNWJjMy0yM2IzLTQ1OTItYTBkNi02MmIyNzExN2ZhNDgiLCJ1aWQiOiI0MGQzYWFkNC1hNDUyLTQwMTctYmUxNC0wNGU3MWE1Y2U4ZWQiLCJ1c24iOiJQbGF5ZXI1NjAxODQwOSIsImV4cCI6MTc3MDI5NDEyMiwiaWF0IjoxNzcwMjA3NzIyfQ.XaZbpNRZMu30abz2cV1dZRiKnJUA_-jR-8OSfkf6qOY', Created=True, CreateTime=1770207722, ExpireTime=1770294122, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2NWFkNWJjMy0yM2IzLTQ1OTItYTBkNi02MmIyNzExN2ZhNDgiLCJ1aWQiOiI0MGQzYWFkNC1hNDUyLTQwMTctYmUxNC0wNGU3MWE1Y2U4ZWQiLCJ1c24iOiJQbGF5ZXI1NjAxODQwOSIsImV4cCI6MTc3MDgxMjUyMiwiaWF0IjoxNzcwMjA3NzIyfQ.MchM2aUwsktECnTYlMPWYOIo1VMZG66977HKeODUJlE, RefreshExpireTime=1770812522, Variables={}, Username='Player56018409', UserId='40d3aad4-a452-4017-be14-04e71a5ce8ed')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_CREATE', body='"{\"name\":\"KickTest_9f31396be72\",\"desc\":\"Test\",\"open\":true,\"avatar_url\":\"{\\\"iconIndex\\\":0,\\\"backgroundIndex\\\":0}\",\"lang_tag\":\"en\",\"setup_metadata\":\"{}\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/253b2384-2a16-47b9-9a53-b51b5f798ab2/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/6da6109b-a538-4eea-989a-31301ca18a61/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.6da6109b-a538-4eea-989a-31301ca18a61..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/253b2384-2a16-47b9-9a53-b51b5f798ab2/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/6da6109b-a538-4eea-989a-31301ca18a61/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.6da6109b-a538-4eea-989a-31301ca18a61..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_SEARCH', body='"{\"input\":\"KickTest\",\"limit\":20,\"lang_tag\":\"\",\"min_activity\":\"0\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/6da6109b-a538-4eea-989a-31301ca18a61/user?limit=100&'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/6da6109b-a538-4eea-989a-31301ca18a61/join'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/40d3aad4-a452-4017-be14-04e71a5ce8ed/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/6da6109b-a538-4eea-989a-31301ca18a61/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.6da6109b-a538-4eea-989a-31301ca18a61..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/40d3aad4-a452-4017-be14-04e71a5ce8ed/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/6da6109b-a538-4eea-989a-31301ca18a61/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.6da6109b-a538-4eea-989a-31301ca18a61..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/6da6109b-a538-4eea-989a-31301ca18a61/user?limit=100&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/6da6109b-a538-4eea-989a-31301ca18a61/user?limit=100&'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/6da6109b-a538-4eea-989a-31301ca18a61/kick?user_ids=40d3aad4-a452-4017-be14-04e71a5ce8ed&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/253b2384-2a16-47b9-9a53-b51b5f798ab2/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/6da6109b-a538-4eea-989a-31301ca18a61/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/40d3aad4-a452-4017-be14-04e71a5ce8ed/group?limit=1&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/40d3aad4-a452-4017-be14-04e71a5ce8ed/group?limit=1&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/6da6109b-a538-4eea-989a-31301ca18a61/leave'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1054" name="PromoteUser_MemberToAdmin_ChangesState" fullname="HiroTeams.Tests.Editor.TeamsControllerMultiUserTests.PromoteUser_MemberToAdmin_ChangesState" methodname="PromoteUser_MemberToAdmin_ChangesState" classname="HiroTeams.Tests.Editor.TeamsControllerMultiUserTests" runstate="Runnable" seed="1295741585" result="Passed" start-time="2026-02-04 12:22:04Z" end-time="2026-02-04 12:22:05Z" duration="1.653699" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIyM2U3YTRkZi1mNzhjLTQwNGItOWUzNC1iMWIwMjE2NjlhZmIiLCJ1aWQiOiIyMmYyN2NlNy0wMzczLTQ3OTctYTJkZC03OWMyODE0MDU5MjUiLCJ1c24iOiJQbGF5ZXI2MTMyMTU3OSIsImV4cCI6MTc3MDI5NDEyNCwiaWF0IjoxNzcwMjA3NzI0fQ.gFCMAiz08pqlDIpGAiWqHSQ8tVktt8nM7fw3GTh4swc', Created=True, CreateTime=1770207724, ExpireTime=1770294124, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIyM2U3YTRkZi1mNzhjLTQwNGItOWUzNC1iMWIwMjE2NjlhZmIiLCJ1aWQiOiIyMmYyN2NlNy0wMzczLTQ3OTctYTJkZC03OWMyODE0MDU5MjUiLCJ1c24iOiJQbGF5ZXI2MTMyMTU3OSIsImV4cCI6MTc3MDgxMjUyNCwiaWF0IjoxNzcwMjA3NzI0fQ.VkuO8HWuSjZ9cmqeXh_dZGWBHQKHavsxog9MfeqfmrM, RefreshExpireTime=1770812524, Variables={}, Username='Player61321579', UserId='22f27ce7-0373-4797-a2dd-79c281405925')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/authenticate/device?create=true&', body='{"id":"test-device-10db46bc1a56455ea5574adc2b221c01_1"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlZGIzZDdmMi03NjAxLTQ0ZTMtYjE5NS05ZjNiOGU1MmY2MDkiLCJ1aWQiOiIyZjczYzJkOC01OTc3LTRmMjUtYjk1Yi1hYTBlZTNhZGMxYzAiLCJ1c24iOiJQbGF5ZXI0NDk3OTgxNiIsImV4cCI6MTc3MDI5NDEyNCwiaWF0IjoxNzcwMjA3NzI0fQ.MrttL4Rl2J8fU3XiPUoYJQnenuN83LbmPtKKd-1oc-4', Created=True, CreateTime=1770207724, ExpireTime=1770294124, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlZGIzZDdmMi03NjAxLTQ0ZTMtYjE5NS05ZjNiOGU1MmY2MDkiLCJ1aWQiOiIyZjczYzJkOC01OTc3LTRmMjUtYjk1Yi1hYTBlZTNhZGMxYzAiLCJ1c24iOiJQbGF5ZXI0NDk3OTgxNiIsImV4cCI6MTc3MDgxMjUyNCwiaWF0IjoxNzcwMjA3NzI0fQ.02uUL0nDDuk3YzBMkGRJE5zygQm7tVP90-hAGMALWME, RefreshExpireTime=1770812524, Variables={}, Username='Player44979816', UserId='2f73c2d8-5977-4f25-b95b-aa0ee3adc1c0')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_CREATE', body='"{\"name\":\"PromoteTest_b449abf9\",\"desc\":\"Test\",\"open\":true,\"avatar_url\":\"{\\\"iconIndex\\\":0,\\\"backgroundIndex\\\":0}\",\"lang_tag\":\"en\",\"setup_metadata\":\"{}\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/22f27ce7-0373-4797-a2dd-79c281405925/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/c7eb66ed-88ae-45a0-b37e-5da910af8cef/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.c7eb66ed-88ae-45a0-b37e-5da910af8cef..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/22f27ce7-0373-4797-a2dd-79c281405925/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/c7eb66ed-88ae-45a0-b37e-5da910af8cef/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.c7eb66ed-88ae-45a0-b37e-5da910af8cef..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_SEARCH', body='"{\"input\":\"PromoteTes\",\"limit\":20,\"lang_tag\":\"\",\"min_activity\":\"0\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/c7eb66ed-88ae-45a0-b37e-5da910af8cef/user?limit=100&'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/c7eb66ed-88ae-45a0-b37e-5da910af8cef/join'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/2f73c2d8-5977-4f25-b95b-aa0ee3adc1c0/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/c7eb66ed-88ae-45a0-b37e-5da910af8cef/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.c7eb66ed-88ae-45a0-b37e-5da910af8cef..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/c7eb66ed-88ae-45a0-b37e-5da910af8cef/user?limit=100&'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/c7eb66ed-88ae-45a0-b37e-5da910af8cef/promote?user_ids=2f73c2d8-5977-4f25-b95b-aa0ee3adc1c0&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/22f27ce7-0373-4797-a2dd-79c281405925/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/c7eb66ed-88ae-45a0-b37e-5da910af8cef/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/2f73c2d8-5977-4f25-b95b-aa0ee3adc1c0/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/c7eb66ed-88ae-45a0-b37e-5da910af8cef/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.c7eb66ed-88ae-45a0-b37e-5da910af8cef..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/2f73c2d8-5977-4f25-b95b-aa0ee3adc1c0/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/c7eb66ed-88ae-45a0-b37e-5da910af8cef/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.c7eb66ed-88ae-45a0-b37e-5da910af8cef..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/c7eb66ed-88ae-45a0-b37e-5da910af8cef/user?limit=100&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/c7eb66ed-88ae-45a0-b37e-5da910af8cef/user?limit=100&'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/c7eb66ed-88ae-45a0-b37e-5da910af8cef/leave'
+Cleanup warning for account 0: Cannot leave group when you are the last superadmin.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/group/c7eb66ed-88ae-45a0-b37e-5da910af8cef'
+Cleanup warning for account 1: Group not found or you're not allowed to delete.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1005" name="TeamsControllerTests" fullname="HiroTeams.Tests.Editor.TeamsControllerTests" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" testcasecount="44" result="Failed" site="Child" start-time="2026-02-04 12:22:05Z" end-time="2026-02-04 12:22:20Z" duration="14.525650" total="44" passed="37" failed="7" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <failure>
+                <message><![CDATA[One or more child tests had errors]]></message>
+              </failure>
+              <test-case id="1034" name="AcceptJoinRequestAsync_NoSelectedTeam_DoesNothing" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.AcceptJoinRequestAsync_NoSelectedTeam_DoesNothing" methodname="AcceptJoinRequestAsync_NoSelectedTeam_DoesNothing" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="901780027" result="Passed" start-time="2026-02-04 12:22:05Z" end-time="2026-02-04 12:22:05Z" duration="0.148299" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiM2NmYmMwNi0yMDdjLTRmYjgtYWFjMS00ZTlmMjYyZGI3M2MiLCJ1aWQiOiJhNzJkY2NkYS0zMWQxLTQ5MDMtOGQzNS02YmQzNDlmOGNjNjYiLCJ1c24iOiJQbGF5ZXIxMTM4NDMyNyIsImV4cCI6MTc3MDI5NDEyNSwiaWF0IjoxNzcwMjA3NzI1fQ.9L5OCwI6lOGjgbZuOx4SwIA7zU9RBakig4HCg8rOUbY', Created=True, CreateTime=1770207725, ExpireTime=1770294125, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiM2NmYmMwNi0yMDdjLTRmYjgtYWFjMS00ZTlmMjYyZGI3M2MiLCJ1aWQiOiJhNzJkY2NkYS0zMWQxLTQ5MDMtOGQzNS02YmQzNDlmOGNjNjYiLCJ1c24iOiJQbGF5ZXIxMTM4NDMyNyIsImV4cCI6MTc3MDgxMjUyNSwiaWF0IjoxNzcwMjA3NzI1fQ.cK7wav1WWCfTNn93tcgeZ_UHSjXk5U5mr8V1oWpLbu8, RefreshExpireTime=1770812525, Variables={}, Username='Player11384327', UserId='a72dccda-31d1-4903-8d35-6bd349f8cc66')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1039" name="BanUserAsync_NoSelectedTeam_DoesNothing" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.BanUserAsync_NoSelectedTeam_DoesNothing" methodname="BanUserAsync_NoSelectedTeam_DoesNothing" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="53663935" result="Passed" start-time="2026-02-04 12:22:05Z" end-time="2026-02-04 12:22:06Z" duration="0.149951" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJhM2MwMzhjNS04NTIzLTQwZjktODQyZS1iMDA0M2MxMTFiNmMiLCJ1aWQiOiJmMzRhYjI2My0zZDY1LTQ1NDktYWUzZS1iMTFlNTVjYzJjNDciLCJ1c24iOiJQbGF5ZXIwMzk2NzQ2NCIsImV4cCI6MTc3MDI5NDEyNSwiaWF0IjoxNzcwMjA3NzI1fQ.ZoxwALjCz-WKG-oFtUvVwP8l8ktEQIRITJbtAQGNJWY', Created=True, CreateTime=1770207725, ExpireTime=1770294125, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJhM2MwMzhjNS04NTIzLTQwZjktODQyZS1iMDA0M2MxMTFiNmMiLCJ1aWQiOiJmMzRhYjI2My0zZDY1LTQ1NDktYWUzZS1iMTFlNTVjYzJjNDciLCJ1c24iOiJQbGF5ZXIwMzk2NzQ2NCIsImV4cCI6MTc3MDgxMjUyNSwiaWF0IjoxNzcwMjA3NzI1fQ.-dSjZKZQXL6_crJa-BOR6-RFEMIEqVqyAKqZhkR2Nnc, RefreshExpireTime=1770812525, Variables={}, Username='Player03967464', UserId='f34ab263-3d65-4549-ae3e-b11e55cc2c47')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1047" name="ClaimAllMailboxAsync_NoSelectedTeam_DoesNothing" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.ClaimAllMailboxAsync_NoSelectedTeam_DoesNothing" methodname="ClaimAllMailboxAsync_NoSelectedTeam_DoesNothing" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="2146869518" result="Passed" start-time="2026-02-04 12:22:06Z" end-time="2026-02-04 12:22:06Z" duration="0.150187" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1OGY1ODMzMy02ZWIwLTQxZTYtYTUwNC0wMTI3OTE1ZDZlZTYiLCJ1aWQiOiIwOWJiYWM1OC00ZjAxLTRjYzYtYjdjNS1hNDVlYmVjZjNmNWYiLCJ1c24iOiJQbGF5ZXI4NDA2ODEyMSIsImV4cCI6MTc3MDI5NDEyNiwiaWF0IjoxNzcwMjA3NzI2fQ.4uAqMHbX36lE41tX1XsOqLxmRFvKcwTtOadTxYQ0qKM', Created=True, CreateTime=1770207726, ExpireTime=1770294126, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1OGY1ODMzMy02ZWIwLTQxZTYtYTUwNC0wMTI3OTE1ZDZlZTYiLCJ1aWQiOiIwOWJiYWM1OC00ZjAxLTRjYzYtYjdjNS1hNDVlYmVjZjNmNWYiLCJ1c24iOiJQbGF5ZXI4NDA2ODEyMSIsImV4cCI6MTc3MDgxMjUyNiwiaWF0IjoxNzcwMjA3NzI2fQ.s3x_wPBSPUmqzVIqY_Ehz1CPqMQhi9yYoRkF10irNlg, RefreshExpireTime=1770812526, Variables={}, Username='Player84068121', UserId='09bbac58-4f01-4cc6-b7c5-a45ebecf3f5f')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1046" name="ClaimMailboxEntryAsync_NoSelectedTeam_ReturnsNull" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.ClaimMailboxEntryAsync_NoSelectedTeam_ReturnsNull" methodname="ClaimMailboxEntryAsync_NoSelectedTeam_ReturnsNull" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="300859716" result="Passed" start-time="2026-02-04 12:22:06Z" end-time="2026-02-04 12:22:06Z" duration="0.150070" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkN2RkZDA3Ny1lZDRmLTQ1NDYtODE1OS0wOWMyYjIyOGE0OGQiLCJ1aWQiOiJmYjM5MzdiYy03MjdmLTRkZTQtYTE5ZS04MDYwMzE3YWRjZjUiLCJ1c24iOiJQbGF5ZXIxOTU2Nzc2NSIsImV4cCI6MTc3MDI5NDEyNiwiaWF0IjoxNzcwMjA3NzI2fQ.2hKpKULzp7k_6M-C-baIyd0zrWRt2e9SmkPAuLMOBEg', Created=True, CreateTime=1770207726, ExpireTime=1770294126, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkN2RkZDA3Ny1lZDRmLTQ1NDYtODE1OS0wOWMyYjIyOGE0OGQiLCJ1aWQiOiJmYjM5MzdiYy03MjdmLTRkZTQtYTE5ZS04MDYwMzE3YWRjZjUiLCJ1c24iOiJQbGF5ZXIxOTU2Nzc2NSIsImV4cCI6MTc3MDgxMjUyNiwiaWF0IjoxNzcwMjA3NzI2fQ.RtH8xlXnbJ04KYUCBKp5JgXDU_wpK9RPwPpeUZxGx2A, RefreshExpireTime=1770812526, Variables={}, Username='Player19567765', UserId='fb3937bc-727f-4de4-a19e-8060317adcf5')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1008" name="Constructor_NullAvatarArrays_SetsEmptyArrays" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.Constructor_NullAvatarArrays_SetsEmptyArrays" methodname="Constructor_NullAvatarArrays_SetsEmptyArrays" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="310310018" result="Passed" start-time="2026-02-04 12:22:06Z" end-time="2026-02-04 12:22:06Z" duration="0.150105" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJhMWZhNmFjZi1iZDU4LTQ5YTktYTMwMS0zMjVmNGFjNjQxOTgiLCJ1aWQiOiJkZjM2OTJjYy02MWZiLTQwZTYtYjVkMC0wMWYwYjYxNTQ3NDciLCJ1c24iOiJQbGF5ZXIwMTg3NTIzMyIsImV4cCI6MTc3MDI5NDEyNiwiaWF0IjoxNzcwMjA3NzI2fQ.Iq6bT05bIKcs7GhDnQYfbcptaE6QyU8waTFFYQVvIQQ', Created=True, CreateTime=1770207726, ExpireTime=1770294126, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJhMWZhNmFjZi1iZDU4LTQ5YTktYTMwMS0zMjVmNGFjNjQxOTgiLCJ1aWQiOiJkZjM2OTJjYy02MWZiLTQwZTYtYjVkMC0wMWYwYjYxNTQ3NDciLCJ1c24iOiJQbGF5ZXIwMTg3NTIzMyIsImV4cCI6MTc3MDgxMjUyNiwiaWF0IjoxNzcwMjA3NzI2fQ.luVEHgwov7cvJYEFLueC4-GVyeM_Vi6YUytPXw-Ld_8, RefreshExpireTime=1770812526, Variables={}, Username='Player01875233', UserId='df3692cc-61fb-40e6-b5d0-01f0b6154747')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1006" name="Constructor_NullNakamaSystem_ThrowsArgumentNullException" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.Constructor_NullNakamaSystem_ThrowsArgumentNullException" methodname="Constructor_NullNakamaSystem_ThrowsArgumentNullException" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="114398543" result="Passed" start-time="2026-02-04 12:22:06Z" end-time="2026-02-04 12:22:06Z" duration="0.150072" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0OTc3NzRhNy04YmRiLTRjNjQtODhjOS1hNzgyZjFhZjA5ODkiLCJ1aWQiOiJiNzQ5ZTU0Yy1jODg2LTQ0MTItYmNhMi1jZTU2MDNkM2Q0OWEiLCJ1c24iOiJQbGF5ZXIxNzQ4NDIxNCIsImV4cCI6MTc3MDI5NDEyNiwiaWF0IjoxNzcwMjA3NzI2fQ.WTNwX3GxcVUmxzoIfqWnqAjqxJIEGn-LwJW4EW-C-BM', Created=True, CreateTime=1770207726, ExpireTime=1770294126, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0OTc3NzRhNy04YmRiLTRjNjQtODhjOS1hNzgyZjFhZjA5ODkiLCJ1aWQiOiJiNzQ5ZTU0Yy1jODg2LTQ0MTItYmNhMi1jZTU2MDNkM2Q0OWEiLCJ1c24iOiJQbGF5ZXIxNzQ4NDIxNCIsImV4cCI6MTc3MDgxMjUyNiwiaWF0IjoxNzcwMjA3NzI2fQ.7Shtni-7J8eR8L2P9A0CYogvsonx4_f2AEkQTQysN0I, RefreshExpireTime=1770812526, Variables={}, Username='Player17484214', UserId='b749e54c-c886-4412-bca2-ce5603d3d49a')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1007" name="Constructor_NullTeamsSystem_ThrowsArgumentNullException" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.Constructor_NullTeamsSystem_ThrowsArgumentNullException" methodname="Constructor_NullTeamsSystem_ThrowsArgumentNullException" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="1442011839" result="Passed" start-time="2026-02-04 12:22:06Z" end-time="2026-02-04 12:22:06Z" duration="0.150140" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkMzkwNDRjMi04NzYyLTQzNjUtYmQ0OS02YWNlYTA3NjczYmUiLCJ1aWQiOiI3MDViN2MwYS1iNDY1LTQ1MjYtYTcwMC1mMDNjYzZjMWIwMTMiLCJ1c24iOiJQbGF5ZXI3OTI3ODI1OCIsImV4cCI6MTc3MDI5NDEyNiwiaWF0IjoxNzcwMjA3NzI2fQ.DdipF_C69WyW6f9Mq9JF2jzWGetXCSxBoFv8A_vL_tU', Created=True, CreateTime=1770207726, ExpireTime=1770294126, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkMzkwNDRjMi04NzYyLTQzNjUtYmQ0OS02YWNlYTA3NjczYmUiLCJ1aWQiOiI3MDViN2MwYS1iNDY1LTQ1MjYtYTcwMC1mMDNjYzZjMWIwMTMiLCJ1c24iOiJQbGF5ZXI3OTI3ODI1OCIsImV4cCI6MTc3MDgxMjUyNiwiaWF0IjoxNzcwMjA3NzI2fQ.swGfs4eVmu8p_4QwyyyvTi-qo7A9oGDngTgJ5vRQhtw, RefreshExpireTime=1770812526, Variables={}, Username='Player79278258', UserId='705b7c0a-b465-4526-a700-f03cc6c1b013')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1029" name="CreateTeamAsync_ClosedTeam_TeamIsClosed" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.CreateTeamAsync_ClosedTeam_TeamIsClosed" methodname="CreateTeamAsync_ClosedTeam_TeamIsClosed" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="27773425" result="Passed" start-time="2026-02-04 12:22:06Z" end-time="2026-02-04 12:22:07Z" duration="0.550764" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI4NTM4ZWJlMC1mZWQ3LTQ2M2UtODhjYi1kYjIxMjM5MjNhOWMiLCJ1aWQiOiIwOGNmMTU4OC1mMGRiLTQyZDYtOGNhMS01YTFkOTRlOGZhZmMiLCJ1c24iOiJQbGF5ZXI5MzkxMzQ5NyIsImV4cCI6MTc3MDI5NDEyNiwiaWF0IjoxNzcwMjA3NzI2fQ.K2JfKSUTlkAIA-5k_2u9HCW-ZlZINBpt621LNbI_xUU', Created=True, CreateTime=1770207726, ExpireTime=1770294126, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI4NTM4ZWJlMC1mZWQ3LTQ2M2UtODhjYi1kYjIxMjM5MjNhOWMiLCJ1aWQiOiIwOGNmMTU4OC1mMGRiLTQyZDYtOGNhMS01YTFkOTRlOGZhZmMiLCJ1c24iOiJQbGF5ZXI5MzkxMzQ5NyIsImV4cCI6MTc3MDgxMjUyNiwiaWF0IjoxNzcwMjA3NzI2fQ.llWKaHemiCioYD_BpiYew49hzOpI6zFRR3Fv4TCiMtU, RefreshExpireTime=1770812526, Variables={}, Username='Player93913497', UserId='08cf1588-f0db-42d6-8ca1-5a1d94e8fafc')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_CREATE', body='"{\"name\":\"TestTeam_e42cc67fa33\",\"desc\":\"Test description\",\"open\":false,\"avatar_url\":\"{\\\"iconIndex\\\":0,\\\"backgroundIndex\\\":0}\",\"lang_tag\":\"en\",\"setup_metadata\":\"{}\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/08cf1588-f0db-42d6-8ca1-5a1d94e8fafc/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/856f7acb-d2b1-4f6b-97ca-bf2fd1ded0a8/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.856f7acb-d2b1-4f6b-97ca-bf2fd1ded0a8..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/08cf1588-f0db-42d6-8ca1-5a1d94e8fafc/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/856f7acb-d2b1-4f6b-97ca-bf2fd1ded0a8/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.856f7acb-d2b1-4f6b-97ca-bf2fd1ded0a8..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/856f7acb-d2b1-4f6b-97ca-bf2fd1ded0a8/leave'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1028" name="CreateTeamAsync_OpenTeam_TeamIsOpen" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.CreateTeamAsync_OpenTeam_TeamIsOpen" methodname="CreateTeamAsync_OpenTeam_TeamIsOpen" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="536069424" result="Passed" start-time="2026-02-04 12:22:07Z" end-time="2026-02-04 12:22:07Z" duration="0.550578" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2Yzk0MDkzNy03OGE3LTQ3NTMtOTc1NS1jNzEwNDA2YjJhOWUiLCJ1aWQiOiIxOTkzYWE5Yy1kZmEzLTQzMGEtODBiNi0wZjNiMDUzMDc2MmMiLCJ1c24iOiJQbGF5ZXI5NDk3Mzg3MyIsImV4cCI6MTc3MDI5NDEyNywiaWF0IjoxNzcwMjA3NzI3fQ.6OhlTd-bH5UmkqEkcDGycpp2zDL3XWsh1vX4c3m77Vo', Created=True, CreateTime=1770207727, ExpireTime=1770294127, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2Yzk0MDkzNy03OGE3LTQ3NTMtOTc1NS1jNzEwNDA2YjJhOWUiLCJ1aWQiOiIxOTkzYWE5Yy1kZmEzLTQzMGEtODBiNi0wZjNiMDUzMDc2MmMiLCJ1c24iOiJQbGF5ZXI5NDk3Mzg3MyIsImV4cCI6MTc3MDgxMjUyNywiaWF0IjoxNzcwMjA3NzI3fQ.46hzezpkfBOJ3a-gmqlZvU16EiuZReEcnyfUukvh-8U, RefreshExpireTime=1770812527, Variables={}, Username='Player94973873', UserId='1993aa9c-dfa3-430a-80b6-0f3b0530762c')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_CREATE', body='"{\"name\":\"TestTeam_d1e456d5c8a\",\"desc\":\"Test description\",\"open\":true,\"avatar_url\":\"{\\\"iconIndex\\\":0,\\\"backgroundIndex\\\":0}\",\"lang_tag\":\"en\",\"setup_metadata\":\"{}\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/1993aa9c-dfa3-430a-80b6-0f3b0530762c/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/7e2194b0-abcb-47f3-8e54-8fcac4798162/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.7e2194b0-abcb-47f3-8e54-8fcac4798162..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/1993aa9c-dfa3-430a-80b6-0f3b0530762c/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/7e2194b0-abcb-47f3-8e54-8fcac4798162/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.7e2194b0-abcb-47f3-8e54-8fcac4798162..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/7e2194b0-abcb-47f3-8e54-8fcac4798162/leave'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1027" name="CreateTeamAsync_ValidParams_CreatesTeam" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.CreateTeamAsync_ValidParams_CreatesTeam" methodname="CreateTeamAsync_ValidParams_CreatesTeam" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="1215555890" result="Passed" start-time="2026-02-04 12:22:07Z" end-time="2026-02-04 12:22:08Z" duration="0.550569" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlNGUxZmJiOS0wNGMyLTQ1YTYtYmNmNC0wZWZhNDg1OTBmYjIiLCJ1aWQiOiI5ZDY0Y2M3NC1lZmU5LTRmMTItYjEyMC0zNzBjMWRlNzdjOGYiLCJ1c24iOiJQbGF5ZXI3NjIyMjI0NiIsImV4cCI6MTc3MDI5NDEyNywiaWF0IjoxNzcwMjA3NzI3fQ.6Gap6yDGGYBi--qzJACxyjTlW9hDf_-NY_jQRffpVfE', Created=True, CreateTime=1770207727, ExpireTime=1770294127, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlNGUxZmJiOS0wNGMyLTQ1YTYtYmNmNC0wZWZhNDg1OTBmYjIiLCJ1aWQiOiI5ZDY0Y2M3NC1lZmU5LTRmMTItYjEyMC0zNzBjMWRlNzdjOGYiLCJ1c24iOiJQbGF5ZXI3NjIyMjI0NiIsImV4cCI6MTc3MDgxMjUyNywiaWF0IjoxNzcwMjA3NzI3fQ.28rYpxIUpY9Sw9gyNjk--Pb2jwIeNHoUwYdpqnAXtMA, RefreshExpireTime=1770812527, Variables={}, Username='Player76222246', UserId='9d64cc74-efe9-4f12-b120-370c1de77c8f')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_CREATE', body='"{\"name\":\"TestTeam_56958bcc9fc\",\"desc\":\"Test description\",\"open\":true,\"avatar_url\":\"{\\\"iconIndex\\\":0,\\\"backgroundIndex\\\":0}\",\"lang_tag\":\"en\",\"setup_metadata\":\"{}\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/9d64cc74-efe9-4f12-b120-370c1de77c8f/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/3bea4e4e-676f-44d1-a2a6-b9f366d77440/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.3bea4e4e-676f-44d1-a2a6-b9f366d77440..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/9d64cc74-efe9-4f12-b120-370c1de77c8f/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/3bea4e4e-676f-44d1-a2a6-b9f366d77440/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.3bea4e4e-676f-44d1-a2a6-b9f366d77440..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/3bea4e4e-676f-44d1-a2a6-b9f366d77440/leave'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1040" name="DebugUpdateStatAsync_NoSelectedTeam_DoesNothing" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.DebugUpdateStatAsync_NoSelectedTeam_DoesNothing" methodname="DebugUpdateStatAsync_NoSelectedTeam_DoesNothing" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="288370058" result="Passed" start-time="2026-02-04 12:22:08Z" end-time="2026-02-04 12:22:08Z" duration="0.150044" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI5YTlkYzNhMi0yMTdhLTRjYWUtYTMwZi0yNzI5MmYwMzEwYjEiLCJ1aWQiOiJkMDAxZDNhZS1iNDQ0LTRmNDYtYWY2ZS00OWU2MTk2MTM1NTAiLCJ1c24iOiJQbGF5ZXI5OTkxNzA4MSIsImV4cCI6MTc3MDI5NDEyOCwiaWF0IjoxNzcwMjA3NzI4fQ.4EH7YLvHZbbGg6jIbiBdmbzevC46bCFhFoUYwpRVe50', Created=True, CreateTime=1770207728, ExpireTime=1770294128, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI5YTlkYzNhMi0yMTdhLTRjYWUtYTMwZi0yNzI5MmYwMzEwYjEiLCJ1aWQiOiJkMDAxZDNhZS1iNDQ0LTRmNDYtYWY2ZS00OWU2MTk2MTM1NTAiLCJ1c24iOiJQbGF5ZXI5OTkxNzA4MSIsImV4cCI6MTc3MDgxMjUyOCwiaWF0IjoxNzcwMjA3NzI4fQ.e7qXoB0HP6MzP-DH1CooiDGEBXD_3RJKG8hSQrZlqSM, RefreshExpireTime=1770812528, Variables={}, Username='Player99917081', UserId='d001d3ae-b444-4f46-af6e-49e619613550')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1042" name="DebugUpdateStatAsync_PrivateStat_UpdatesStat" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.DebugUpdateStatAsync_PrivateStat_UpdatesStat" methodname="DebugUpdateStatAsync_PrivateStat_UpdatesStat" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="355704011" result="Failed" label="Error" start-time="2026-02-04 12:22:08Z" end-time="2026-02-04 12:22:09Z" duration="0.651111" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[Nakama.ApiResponseException : stats not found]]></message>
+                  <stack-trace><![CDATA[  at Nakama.HttpRequestAdapter.SendAsync (System.String method, System.Uri uri, System.Collections.Generic.IDictionary`2[TKey,TValue] headers, System.Byte[] body, System.Int32 timeout, System.Nullable`1[T] userCancelToken) [0x0035c] in <21167d1e8226474193adf06be8ebb336>:0 
+  at Nakama.ApiClient.RpcFuncAsync (System.String bearerToken, System.String basicAuthUsername, System.String basicAuthPassword, System.String id, System.String payload, System.String httpKey, System.Nullable`1[T] cancellationToken) [0x001d6] in <21167d1e8226474193adf06be8ebb336>:0 
+  at Nakama.RetryInvoker.InvokeWithRetry[T] (System.Func`1[TResult] request, Nakama.RetryHistory history) [0x00198] in <21167d1e8226474193adf06be8ebb336>:0 
+  at Nakama.Client.RpcAsync (Nakama.ISession session, System.String id, System.String payload, Nakama.RetryConfiguration retryConfiguration, System.Threading.CancellationToken canceller) [0x001da] in <21167d1e8226474193adf06be8ebb336>:0 
+  at Hiro.HiroApi.TeamsStatsUpdateAsync (Nakama.IClient client, Nakama.ISession session, Hiro.TeamStatUpdateRequest request, System.Threading.CancellationToken canceller) [0x0007d] in <855855024ba34a5f88cf107a2908ae1b>:0 
+  at HiroTeams.TeamsController.DebugUpdateStatAsync (System.String statKey, System.Int32 value, System.Boolean isPrivate) [0x0006c] in /Users/andres/Developer/sample-projects/UnityHiroTeams/Assets/UnityHiroTeams/Scripts/TeamsController.cs:288 
+  at HiroTeams.Tests.Editor.TeamsControllerTests.DebugUpdateStatAsync_PrivateStat_UpdatesStat () [0x0019e] in /Users/andres/Developer/sample-projects/UnityHiroTeams/Assets/UnityHiroTeams/Tests/Editor/TeamsControllerTests.cs:584 
+  at UnityEngine.TestTools.TestRunner.TestTaskWrapper+<Execute>d__2.MoveNext () [0x00063] in ./Library/PackageCache/com.unity.test-framework@40b8da2bd3e9/UnityEngine.TestRunner/TestRunner/TestTaskWrapper.cs:31 
+  at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in ./Library/PackageCache/com.unity.test-framework@40b8da2bd3e9/UnityEngine.TestRunner/NUnitExtensions/Attributes/TestEnumerator.cs:44 ]]></stack-trace>
+                </failure>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkYzc3Zjg0Zi1hZGZmLTQ3YTgtYmYxZC00OGE0ZDBlODQ3OTgiLCJ1aWQiOiJlZjZkZjk3My04YjhkLTQ5YjktODZkMy1mYjM2MGRmZjBhYmEiLCJ1c24iOiJQbGF5ZXI3MDU1Nzg2NyIsImV4cCI6MTc3MDI5NDEyOCwiaWF0IjoxNzcwMjA3NzI4fQ.KMk1xkUvnurDYLQmlDQvgXho4FLRFJ3cFt5NyaPSH-M', Created=True, CreateTime=1770207728, ExpireTime=1770294128, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkYzc3Zjg0Zi1hZGZmLTQ3YTgtYmYxZC00OGE0ZDBlODQ3OTgiLCJ1aWQiOiJlZjZkZjk3My04YjhkLTQ5YjktODZkMy1mYjM2MGRmZjBhYmEiLCJ1c24iOiJQbGF5ZXI3MDU1Nzg2NyIsImV4cCI6MTc3MDgxMjUyOCwiaWF0IjoxNzcwMjA3NzI4fQ.ub8MH77_hx4zcpPtd9GVwrl50wCWsp75i9SzxZJwMZs, RefreshExpireTime=1770812528, Variables={}, Username='Player70557867', UserId='ef6df973-8b8d-49b9-86d3-fb360dff0aba')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_CREATE', body='"{\"name\":\"TestTeam_01ccde93bb7\",\"desc\":\"Test description\",\"open\":true,\"avatar_url\":\"{\\\"iconIndex\\\":0,\\\"backgroundIndex\\\":0}\",\"lang_tag\":\"en\",\"setup_metadata\":\"{}\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/ef6df973-8b8d-49b9-86d3-fb360dff0aba/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/e1f34ea9-2343-4c86-9496-d827403cd3d8/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.e1f34ea9-2343-4c86-9496-d827403cd3d8..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/ef6df973-8b8d-49b9-86d3-fb360dff0aba/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/e1f34ea9-2343-4c86-9496-d827403cd3d8/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.e1f34ea9-2343-4c86-9496-d827403cd3d8..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/e1f34ea9-2343-4c86-9496-d827403cd3d8/user?limit=100&'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_STATS_UPDATE', body='"{\"id\":\"e1f34ea9-2343-4c86-9496-d827403cd3d8\",\"public\":[],\"private\":[{\"name\":\"test_private_stat\",\"value\":\"50\",\"operator\":1}]}"'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/e1f34ea9-2343-4c86-9496-d827403cd3d8/leave'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1041" name="DebugUpdateStatAsync_PublicStat_UpdatesStat" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.DebugUpdateStatAsync_PublicStat_UpdatesStat" methodname="DebugUpdateStatAsync_PublicStat_UpdatesStat" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="91965498" result="Failed" label="Error" start-time="2026-02-04 12:22:09Z" end-time="2026-02-04 12:22:09Z" duration="0.650836" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[Nakama.ApiResponseException : stats not found]]></message>
+                  <stack-trace><![CDATA[  at Nakama.HttpRequestAdapter.SendAsync (System.String method, System.Uri uri, System.Collections.Generic.IDictionary`2[TKey,TValue] headers, System.Byte[] body, System.Int32 timeout, System.Nullable`1[T] userCancelToken) [0x0035c] in <21167d1e8226474193adf06be8ebb336>:0 
+  at Nakama.ApiClient.RpcFuncAsync (System.String bearerToken, System.String basicAuthUsername, System.String basicAuthPassword, System.String id, System.String payload, System.String httpKey, System.Nullable`1[T] cancellationToken) [0x001d6] in <21167d1e8226474193adf06be8ebb336>:0 
+  at Nakama.RetryInvoker.InvokeWithRetry[T] (System.Func`1[TResult] request, Nakama.RetryHistory history) [0x00198] in <21167d1e8226474193adf06be8ebb336>:0 
+  at Nakama.Client.RpcAsync (Nakama.ISession session, System.String id, System.String payload, Nakama.RetryConfiguration retryConfiguration, System.Threading.CancellationToken canceller) [0x001da] in <21167d1e8226474193adf06be8ebb336>:0 
+  at Hiro.HiroApi.TeamsStatsUpdateAsync (Nakama.IClient client, Nakama.ISession session, Hiro.TeamStatUpdateRequest request, System.Threading.CancellationToken canceller) [0x0007d] in <855855024ba34a5f88cf107a2908ae1b>:0 
+  at HiroTeams.TeamsController.DebugUpdateStatAsync (System.String statKey, System.Int32 value, System.Boolean isPrivate) [0x000db] in /Users/andres/Developer/sample-projects/UnityHiroTeams/Assets/UnityHiroTeams/Scripts/TeamsController.cs:292 
+  at HiroTeams.Tests.Editor.TeamsControllerTests.DebugUpdateStatAsync_PublicStat_UpdatesStat () [0x0019e] in /Users/andres/Developer/sample-projects/UnityHiroTeams/Assets/UnityHiroTeams/Tests/Editor/TeamsControllerTests.cs:572 
+  at UnityEngine.TestTools.TestRunner.TestTaskWrapper+<Execute>d__2.MoveNext () [0x00063] in ./Library/PackageCache/com.unity.test-framework@40b8da2bd3e9/UnityEngine.TestRunner/TestRunner/TestTaskWrapper.cs:31 
+  at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in ./Library/PackageCache/com.unity.test-framework@40b8da2bd3e9/UnityEngine.TestRunner/NUnitExtensions/Attributes/TestEnumerator.cs:44 ]]></stack-trace>
+                </failure>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIyMzRhODgxMi1iMTY2LTQ0ZGYtOWMzNy05YTkwYjVjZGYzY2QiLCJ1aWQiOiJhNDYxNGJlMi0zODdhLTQ0MmEtYmY5YS03Nzg1YjY1NGY5MzciLCJ1c24iOiJQbGF5ZXI2MTE1MDM1NiIsImV4cCI6MTc3MDI5NDEyOSwiaWF0IjoxNzcwMjA3NzI5fQ.IoBKCsBUFs0_01KiniM4tscrtJaO1txSlbpVUsfOee8', Created=True, CreateTime=1770207729, ExpireTime=1770294129, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIyMzRhODgxMi1iMTY2LTQ0ZGYtOWMzNy05YTkwYjVjZGYzY2QiLCJ1aWQiOiJhNDYxNGJlMi0zODdhLTQ0MmEtYmY5YS03Nzg1YjY1NGY5MzciLCJ1c24iOiJQbGF5ZXI2MTE1MDM1NiIsImV4cCI6MTc3MDgxMjUyOSwiaWF0IjoxNzcwMjA3NzI5fQ.mCC3mbbPt2avsQzbD4SRv3cYMlkeltfrwZIPg5kjNfo, RefreshExpireTime=1770812529, Variables={}, Username='Player61150356', UserId='a4614be2-387a-442a-bf9a-7785b654f937')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_CREATE', body='"{\"name\":\"TestTeam_76210184e79\",\"desc\":\"Test description\",\"open\":true,\"avatar_url\":\"{\\\"iconIndex\\\":0,\\\"backgroundIndex\\\":0}\",\"lang_tag\":\"en\",\"setup_metadata\":\"{}\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/a4614be2-387a-442a-bf9a-7785b654f937/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/ee5c6e5f-0b1d-452f-9160-7b8a431ffc3c/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.ee5c6e5f-0b1d-452f-9160-7b8a431ffc3c..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/a4614be2-387a-442a-bf9a-7785b654f937/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/ee5c6e5f-0b1d-452f-9160-7b8a431ffc3c/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.ee5c6e5f-0b1d-452f-9160-7b8a431ffc3c..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/ee5c6e5f-0b1d-452f-9160-7b8a431ffc3c/user?limit=100&'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_STATS_UPDATE', body='"{\"id\":\"ee5c6e5f-0b1d-452f-9160-7b8a431ffc3c\",\"public\":[{\"name\":\"test_stat\",\"value\":\"100\",\"operator\":1}],\"private\":[]}"'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/ee5c6e5f-0b1d-452f-9160-7b8a431ffc3c/leave'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1031" name="DeleteTeamAsync_IsSuperAdmin_DeletesTeam" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.DeleteTeamAsync_IsSuperAdmin_DeletesTeam" methodname="DeleteTeamAsync_IsSuperAdmin_DeletesTeam" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="1204874899" result="Passed" start-time="2026-02-04 12:22:09Z" end-time="2026-02-04 12:22:10Z" duration="0.654338" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJhMWJlMzE3Yy1kZjQ0LTRjOTEtOTczZS03OTI3MGZjOTk4YjUiLCJ1aWQiOiIxYzBlMTZiZS1iNDA1LTQzM2QtYmZkMC1jZGViMjVkYWUzZTQiLCJ1c24iOiJQbGF5ZXI2NzY5MzQyMiIsImV4cCI6MTc3MDI5NDEyOSwiaWF0IjoxNzcwMjA3NzI5fQ.K0-eRbWabXzcYwTvtezkzGTb16X2h-i8rLDlukWhC04', Created=True, CreateTime=1770207729, ExpireTime=1770294129, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJhMWJlMzE3Yy1kZjQ0LTRjOTEtOTczZS03OTI3MGZjOTk4YjUiLCJ1aWQiOiIxYzBlMTZiZS1iNDA1LTQzM2QtYmZkMC1jZGViMjVkYWUzZTQiLCJ1c24iOiJQbGF5ZXI2NzY5MzQyMiIsImV4cCI6MTc3MDgxMjUyOSwiaWF0IjoxNzcwMjA3NzI5fQ.PbR9r9OrFgWpTpjoXwvM6ixesh-HUGQS1xY_OmdIUOA, RefreshExpireTime=1770812529, Variables={}, Username='Player67693422', UserId='1c0e16be-b405-433d-bfd0-cdeb25dae3e4')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_CREATE', body='"{\"name\":\"TestTeam_83f5f8dc24f\",\"desc\":\"Test description\",\"open\":true,\"avatar_url\":\"{\\\"iconIndex\\\":0,\\\"backgroundIndex\\\":0}\",\"lang_tag\":\"en\",\"setup_metadata\":\"{}\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/1c0e16be-b405-433d-bfd0-cdeb25dae3e4/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/efd060c4-66fd-4589-a9ae-c552a57a315b/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.efd060c4-66fd-4589-a9ae-c552a57a315b..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/1c0e16be-b405-433d-bfd0-cdeb25dae3e4/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/efd060c4-66fd-4589-a9ae-c552a57a315b/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.efd060c4-66fd-4589-a9ae-c552a57a315b..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/efd060c4-66fd-4589-a9ae-c552a57a315b/user?limit=100&'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/group/efd060c4-66fd-4589-a9ae-c552a57a315b'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/1c0e16be-b405-433d-bfd0-cdeb25dae3e4/group?limit=1&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1030" name="DeleteTeamAsync_NoSelectedTeam_DoesNothing" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.DeleteTeamAsync_NoSelectedTeam_DoesNothing" methodname="DeleteTeamAsync_NoSelectedTeam_DoesNothing" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="1110532185" result="Passed" start-time="2026-02-04 12:22:10Z" end-time="2026-02-04 12:22:10Z" duration="0.150192" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIyZTMzODU0Ni1kODcyLTRhOTAtOTZiNy00YTQzY2VhNjUzZGYiLCJ1aWQiOiJmNmIwZjRmMy1mMzFkLTRmYWItYTA0NS03ZTQyMjM4ZjQyOTQiLCJ1c24iOiJQbGF5ZXI1MzU0NDUxNSIsImV4cCI6MTc3MDI5NDEzMCwiaWF0IjoxNzcwMjA3NzMwfQ.Du-8JNdmgiH782rNr0sGnXQc9mNBN_cjWIsDNKU83xk', Created=True, CreateTime=1770207730, ExpireTime=1770294130, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIyZTMzODU0Ni1kODcyLTRhOTAtOTZiNy00YTQzY2VhNjUzZGYiLCJ1aWQiOiJmNmIwZjRmMy1mMzFkLTRmYWItYTA0NS03ZTQyMjM4ZjQyOTQiLCJ1c24iOiJQbGF5ZXI1MzU0NDUxNSIsImV4cCI6MTc3MDgxMjUzMCwiaWF0IjoxNzcwMjA3NzMwfQ.TP8wpeOwAsaoSvmPvZqXAYuo31jqJnw7iw_tIBn5eKY, RefreshExpireTime=1770812530, Variables={}, Username='Player53544515', UserId='f6b0f4f3-f31d-4fab-a045-7e42238f4294')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1037" name="DemoteUserAsync_NoSelectedTeam_DoesNothing" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.DemoteUserAsync_NoSelectedTeam_DoesNothing" methodname="DemoteUserAsync_NoSelectedTeam_DoesNothing" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="1967194656" result="Passed" start-time="2026-02-04 12:22:10Z" end-time="2026-02-04 12:22:10Z" duration="0.150127" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJhMTgxZWJkNS1kNWVjLTQ2ZWEtOTE2Ny1lZDBhODU4ZWNkMTEiLCJ1aWQiOiI0NDM2MmZhMi01Yjc3LTQ2N2QtYTIzNC02ZTE3YWM0NTU4MDAiLCJ1c24iOiJQbGF5ZXI0ODc4NTMzNiIsImV4cCI6MTc3MDI5NDEzMCwiaWF0IjoxNzcwMjA3NzMwfQ.INm6p4ssq69vryTtYQeHbJ633SKWhR1UBT6LmTbAlwU', Created=True, CreateTime=1770207730, ExpireTime=1770294130, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJhMTgxZWJkNS1kNWVjLTQ2ZWEtOTE2Ny1lZDBhODU4ZWNkMTEiLCJ1aWQiOiI0NDM2MmZhMi01Yjc3LTQ2N2QtYTIzNC02ZTE3YWM0NTU4MDAiLCJ1c24iOiJQbGF5ZXI0ODc4NTMzNiIsImV4cCI6MTc3MDgxMjUzMCwiaWF0IjoxNzcwMjA3NzMwfQ.IpPu6VVu4TuoSLHnyhPVwy-TeqhfMLEGCgtkmYIviAU, RefreshExpireTime=1770812530, Variables={}, Username='Player48785336', UserId='44362fa2-5b77-467d-a234-6e17ac455800')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1043" name="GetChatHistory_ReturnsCollection" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.GetChatHistory_ReturnsCollection" methodname="GetChatHistory_ReturnsCollection" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="1697790351" result="Passed" start-time="2026-02-04 12:22:10Z" end-time="2026-02-04 12:22:11Z" duration="0.150044" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0OGY5YWU4Zi03MDY0LTRjMDItYjJiNi00NzllY2M3NzJkYjgiLCJ1aWQiOiI5OGQ0MjdlMy02ZDdiLTQ1ODktOGU2My0zNTYzMDZlZGM0YzYiLCJ1c24iOiJQbGF5ZXI5ODU2MjQ5NCIsImV4cCI6MTc3MDI5NDEzMCwiaWF0IjoxNzcwMjA3NzMwfQ.V9PErYGPVHs8_Aq2xYGODqZInLWaodjqjcBxKzq_CZc', Created=True, CreateTime=1770207730, ExpireTime=1770294130, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0OGY5YWU4Zi03MDY0LTRjMDItYjJiNi00NzllY2M3NzJkYjgiLCJ1aWQiOiI5OGQ0MjdlMy02ZDdiLTQ1ODktOGU2My0zNTYzMDZlZGM0YzYiLCJ1c24iOiJQbGF5ZXI5ODU2MjQ5NCIsImV4cCI6MTc3MDgxMjUzMCwiaWF0IjoxNzcwMjA3NzMwfQ.c5CdC0FMidKC1fw8uiF_x5D6D8bhW2VPeqGQTiLyJC8, RefreshExpireTime=1770812530, Variables={}, Username='Player98562494', UserId='98d427e3-6d7b-4589-8e63-356306edc4c6')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1045" name="GetMailboxEntriesAsync_HasTeam_ReturnsEntries" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.GetMailboxEntriesAsync_HasTeam_ReturnsEntries" methodname="GetMailboxEntriesAsync_HasTeam_ReturnsEntries" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="1873371409" result="Passed" start-time="2026-02-04 12:22:11Z" end-time="2026-02-04 12:22:11Z" duration="0.600722" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2ZGZlMGQ2Mi04YWUxLTQzM2MtOTNlMC1iMGZkNzEwNGQ5NTYiLCJ1aWQiOiIyMTQ0ZDdkMy04MmU3LTQ2Y2QtYjQ5MS0wM2NkYWMwMWViZjkiLCJ1c24iOiJQbGF5ZXIzMTQ0MTk0OSIsImV4cCI6MTc3MDI5NDEzMSwiaWF0IjoxNzcwMjA3NzMxfQ.tUHmDC702A3EUTnQmuiZKLoDKkRgd7N4lP-j8GpkzVo', Created=True, CreateTime=1770207731, ExpireTime=1770294131, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2ZGZlMGQ2Mi04YWUxLTQzM2MtOTNlMC1iMGZkNzEwNGQ5NTYiLCJ1aWQiOiIyMTQ0ZDdkMy04MmU3LTQ2Y2QtYjQ5MS0wM2NkYWMwMWViZjkiLCJ1c24iOiJQbGF5ZXIzMTQ0MTk0OSIsImV4cCI6MTc3MDgxMjUzMSwiaWF0IjoxNzcwMjA3NzMxfQ.uQc4apiwY0YqU284hBKGphihpqrJ8yURi2vc_c3tOec, RefreshExpireTime=1770812531, Variables={}, Username='Player31441949', UserId='2144d7d3-82e7-46cd-b491-03cdac01ebf9')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_CREATE', body='"{\"name\":\"TestTeam_9875f9f7e24\",\"desc\":\"Test description\",\"open\":true,\"avatar_url\":\"{\\\"iconIndex\\\":0,\\\"backgroundIndex\\\":0}\",\"lang_tag\":\"en\",\"setup_metadata\":\"{}\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/2144d7d3-82e7-46cd-b491-03cdac01ebf9/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/7d7dd70e-a2b0-4e03-a88e-b4bc06c34af1/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.7d7dd70e-a2b0-4e03-a88e-b4bc06c34af1..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/2144d7d3-82e7-46cd-b491-03cdac01ebf9/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/7d7dd70e-a2b0-4e03-a88e-b4bc06c34af1/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.7d7dd70e-a2b0-4e03-a88e-b4bc06c34af1..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_REWARD_MAILBOX_LIST', body='"{\"id\":\"7d7dd70e-a2b0-4e03-a88e-b4bc06c34af1\",\"limit\":\"100\",\"cursor\":\"\"}"'
+Mailbox has 0 claimable entries
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/7d7dd70e-a2b0-4e03-a88e-b4bc06c34af1/leave'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1044" name="GetMailboxEntriesAsync_NoTeam_ReturnsEmptyList" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.GetMailboxEntriesAsync_NoTeam_ReturnsEmptyList" methodname="GetMailboxEntriesAsync_NoTeam_ReturnsEmptyList" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="1051507923" result="Passed" start-time="2026-02-04 12:22:11Z" end-time="2026-02-04 12:22:11Z" duration="0.150203" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0Zjg2MjQ5Ny04MzA3LTRiN2EtODFkOS1iZTExNDQ0NjkxNWEiLCJ1aWQiOiJlMDAxYzlmOC0wZjgxLTQ1ZDQtYjg3My05MDk5YjU3NDcxOGYiLCJ1c24iOiJQbGF5ZXIxOTI2ODQxOSIsImV4cCI6MTc3MDI5NDEzMSwiaWF0IjoxNzcwMjA3NzMxfQ.g1nKtxl3zEPbfD9PMVc15OIlb9dInee-KbhmFXth224', Created=True, CreateTime=1770207731, ExpireTime=1770294131, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0Zjg2MjQ5Ny04MzA3LTRiN2EtODFkOS1iZTExNDQ0NjkxNWEiLCJ1aWQiOiJlMDAxYzlmOC0wZjgxLTQ1ZDQtYjg3My05MDk5YjU3NDcxOGYiLCJ1c24iOiJQbGF5ZXIxOTI2ODQxOSIsImV4cCI6MTc3MDgxMjUzMSwiaWF0IjoxNzcwMjA3NzMxfQ.zrzWcg0B2SEpU973rVqXNFovgyQw3B2MBhILd7BAvWE, RefreshExpireTime=1770812531, Variables={}, Username='Player19268419', UserId='e001c9f8-0f81-45d4-b873-9099b574718f')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1026" name="GetPlayerMemberState_IsOwner_ReturnsSuperAdmin" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.GetPlayerMemberState_IsOwner_ReturnsSuperAdmin" methodname="GetPlayerMemberState_IsOwner_ReturnsSuperAdmin" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="1118875787" result="Passed" start-time="2026-02-04 12:22:11Z" end-time="2026-02-04 12:22:12Z" duration="0.600749" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmMDc5MDI4NS0yN2FiLTRlMjUtYWRjYi1hNThkNzIxM2FlNzIiLCJ1aWQiOiJmZDQ4ODQzYi00MTY4LTQ5NTctOTUwMi05N2VjY2FhOTMwMTMiLCJ1c24iOiJQbGF5ZXI2NDAxODI3NCIsImV4cCI6MTc3MDI5NDEzMSwiaWF0IjoxNzcwMjA3NzMxfQ.XxSZFc2K4pOnpe7_d3-66MTjK7fSHuopiFbrv4-TTC4', Created=True, CreateTime=1770207731, ExpireTime=1770294131, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmMDc5MDI4NS0yN2FiLTRlMjUtYWRjYi1hNThkNzIxM2FlNzIiLCJ1aWQiOiJmZDQ4ODQzYi00MTY4LTQ5NTctOTUwMi05N2VjY2FhOTMwMTMiLCJ1c24iOiJQbGF5ZXI2NDAxODI3NCIsImV4cCI6MTc3MDgxMjUzMSwiaWF0IjoxNzcwMjA3NzMxfQ.D9RLnYPtxYjlGzTFfbt9F4OveU_R31-rs71bkjSxEmk, RefreshExpireTime=1770812531, Variables={}, Username='Player64018274', UserId='fd48843b-4168-4957-9502-97eccaa93013')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_CREATE', body='"{\"name\":\"TestTeam_595c518eb8d\",\"desc\":\"Test description\",\"open\":true,\"avatar_url\":\"{\\\"iconIndex\\\":0,\\\"backgroundIndex\\\":0}\",\"lang_tag\":\"en\",\"setup_metadata\":\"{}\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/fd48843b-4168-4957-9502-97eccaa93013/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/4ef5c42e-61be-40b1-bdab-fd830a22fc62/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.4ef5c42e-61be-40b1-bdab-fd830a22fc62..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/fd48843b-4168-4957-9502-97eccaa93013/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/4ef5c42e-61be-40b1-bdab-fd830a22fc62/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.4ef5c42e-61be-40b1-bdab-fd830a22fc62..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/4ef5c42e-61be-40b1-bdab-fd830a22fc62/user?limit=100&'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/4ef5c42e-61be-40b1-bdab-fd830a22fc62/leave'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1025" name="GetPlayerMemberState_NotMember_ReturnsNone" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.GetPlayerMemberState_NotMember_ReturnsNone" methodname="GetPlayerMemberState_NotMember_ReturnsNone" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="991459751" result="Passed" start-time="2026-02-04 12:22:12Z" end-time="2026-02-04 12:22:12Z" duration="0.150185" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmNzUwN2Y0ZS0yOTRjLTQ1MmQtODUzZi1mZTU3NjhlNjg3OGIiLCJ1aWQiOiIyYWQ3MzdmMC0yOWIzLTRiM2YtYTJhZC01ZTEzZTYxNmU1ZmQiLCJ1c24iOiJQbGF5ZXIwOTExNTMxMiIsImV4cCI6MTc3MDI5NDEzMiwiaWF0IjoxNzcwMjA3NzMyfQ.Ubsi01tgTypOx3nOjD2YRqJ0pCpkUU_SYkkL-7u6ATo', Created=True, CreateTime=1770207732, ExpireTime=1770294132, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmNzUwN2Y0ZS0yOTRjLTQ1MmQtODUzZi1mZTU3NjhlNjg3OGIiLCJ1aWQiOiIyYWQ3MzdmMC0yOWIzLTRiM2YtYTJhZC01ZTEzZTYxNmU1ZmQiLCJ1c24iOiJQbGF5ZXIwOTExNTMxMiIsImV4cCI6MTc3MDgxMjUzMiwiaWF0IjoxNzcwMjA3NzMyfQ.pZ9PvCQOCGH_MhvvbnSLBp3dZ7sYz7n3cSnjAMdhR1A, RefreshExpireTime=1770812532, Variables={}, Username='Player09115312', UserId='2ad737f0-29b3-4b3f-a2ad-5e13e616e5fd')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1010" name="GetStatsAsync_HasTeam_ReturnsStats" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.GetStatsAsync_HasTeam_ReturnsStats" methodname="GetStatsAsync_HasTeam_ReturnsStats" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="1933253158" result="Passed" start-time="2026-02-04 12:22:12Z" end-time="2026-02-04 12:22:13Z" duration="0.600823" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJhZjJiZDcyMC0xZjZhLTQyMDctOGNjNS0zYWUxODIxYzA4ZGMiLCJ1aWQiOiIwODFkYzhkNi1lZjFmLTQyNmItOTU4Ny1jOWYzODkxODQyOTEiLCJ1c24iOiJQbGF5ZXI5NTg1OTc1NSIsImV4cCI6MTc3MDI5NDEzMiwiaWF0IjoxNzcwMjA3NzMyfQ.dePeE0O-MI5NHPDfvU8UHE333AbRfron5omPva10MH8', Created=True, CreateTime=1770207732, ExpireTime=1770294132, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJhZjJiZDcyMC0xZjZhLTQyMDctOGNjNS0zYWUxODIxYzA4ZGMiLCJ1aWQiOiIwODFkYzhkNi1lZjFmLTQyNmItOTU4Ny1jOWYzODkxODQyOTEiLCJ1c24iOiJQbGF5ZXI5NTg1OTc1NSIsImV4cCI6MTc3MDgxMjUzMiwiaWF0IjoxNzcwMjA3NzMyfQ.C_1yMJqzcDzY-kb_yTQBklY3uPUhXfcHQwHfrVJqDn8, RefreshExpireTime=1770812532, Variables={}, Username='Player95859755', UserId='081dc8d6-ef1f-426b-9587-c9f389184291')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_CREATE', body='"{\"name\":\"TestTeam_31713304ba0\",\"desc\":\"Test description\",\"open\":true,\"avatar_url\":\"{\\\"iconIndex\\\":0,\\\"backgroundIndex\\\":0}\",\"lang_tag\":\"en\",\"setup_metadata\":\"{}\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/081dc8d6-ef1f-426b-9587-c9f389184291/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/e3af8263-2169-49f6-bf6b-7d6470cc74cb/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.e3af8263-2169-49f6-bf6b-7d6470cc74cb..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/081dc8d6-ef1f-426b-9587-c9f389184291/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/e3af8263-2169-49f6-bf6b-7d6470cc74cb/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.e3af8263-2169-49f6-bf6b-7d6470cc74cb..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_STATS_GET', body='"{\"id\":\"e3af8263-2169-49f6-bf6b-7d6470cc74cb\"}"'
+Team stats: received
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/e3af8263-2169-49f6-bf6b-7d6470cc74cb/leave'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1009" name="GetStatsAsync_NoTeam_ReturnsNull" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.GetStatsAsync_NoTeam_ReturnsNull" methodname="GetStatsAsync_NoTeam_ReturnsNull" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="159719433" result="Passed" start-time="2026-02-04 12:22:13Z" end-time="2026-02-04 12:22:13Z" duration="0.150194" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJjNWQyYTJjMS0wOGU1LTQ5MzYtOGFjZi1hZmRhOWRmZGM0ZWYiLCJ1aWQiOiIzNWI3Y2RlOC0wNGEzLTRlOGUtYjY4NC1lODVkMzAxNDVmNzAiLCJ1c24iOiJQbGF5ZXI2ODUyMTYyOCIsImV4cCI6MTc3MDI5NDEzMywiaWF0IjoxNzcwMjA3NzMzfQ.UJ4fdY4mavqcHOuPCsWFJ3IcPF5IaPfbmAu2WGnfq-g', Created=True, CreateTime=1770207733, ExpireTime=1770294133, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJjNWQyYTJjMS0wOGU1LTQ5MzYtOGFjZi1hZmRhOWRmZGM0ZWYiLCJ1aWQiOiIzNWI3Y2RlOC0wNGEzLTRlOGUtYjY4NC1lODVkMzAxNDVmNzAiLCJ1c24iOiJQbGF5ZXI2ODUyMTYyOCIsImV4cCI6MTc3MDgxMjUzMywiaWF0IjoxNzcwMjA3NzMzfQ.J7LjcjO905ZGQQPNS-QViaBrHaaTIG8PMrw73pfPJh0, RefreshExpireTime=1770812533, Variables={}, Username='Player68521628', UserId='35b7cde8-04a3-4e8e-b684-e85d30145f70')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1012" name="GetWalletAsync_HasTeam_ReturnsWallet" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.GetWalletAsync_HasTeam_ReturnsWallet" methodname="GetWalletAsync_HasTeam_ReturnsWallet" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="171667862" result="Passed" start-time="2026-02-04 12:22:13Z" end-time="2026-02-04 12:22:13Z" duration="0.601295" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0Mjk3M2QwNC04MGNkLTQxMzItYjMxOS1jZWMwNDgxOWZmNGIiLCJ1aWQiOiI3YzNlMDE3Mi1hMDNjLTRiMmMtOWFkMC1iODMwM2Q0ZGEzYTUiLCJ1c24iOiJQbGF5ZXI3NTc3NDE3MCIsImV4cCI6MTc3MDI5NDEzMywiaWF0IjoxNzcwMjA3NzMzfQ.0-4ZdNUkW1sfQPHYYXRbCVT6d33SQKpu7LXKxQvjT98', Created=True, CreateTime=1770207733, ExpireTime=1770294133, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0Mjk3M2QwNC04MGNkLTQxMzItYjMxOS1jZWMwNDgxOWZmNGIiLCJ1aWQiOiI3YzNlMDE3Mi1hMDNjLTRiMmMtOWFkMC1iODMwM2Q0ZGEzYTUiLCJ1c24iOiJQbGF5ZXI3NTc3NDE3MCIsImV4cCI6MTc3MDgxMjUzMywiaWF0IjoxNzcwMjA3NzMzfQ.r6uztK7vrj4YWllUDfCP5DnMVxwPmvdr4QEhGXrbezs, RefreshExpireTime=1770812533, Variables={}, Username='Player75774170', UserId='7c3e0172-a03c-4b2c-9ad0-b8303d4da3a5')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_CREATE', body='"{\"name\":\"TestTeam_62424ca12df\",\"desc\":\"Test description\",\"open\":true,\"avatar_url\":\"{\\\"iconIndex\\\":0,\\\"backgroundIndex\\\":0}\",\"lang_tag\":\"en\",\"setup_metadata\":\"{}\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/7c3e0172-a03c-4b2c-9ad0-b8303d4da3a5/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/e5c23031-0dad-436c-9950-fc898058e78a/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.e5c23031-0dad-436c-9950-fc898058e78a..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/7c3e0172-a03c-4b2c-9ad0-b8303d4da3a5/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/e5c23031-0dad-436c-9950-fc898058e78a/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.e5c23031-0dad-436c-9950-fc898058e78a..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_WALLET_GET', body='"{\"id\":\"e5c23031-0dad-436c-9950-fc898058e78a\"}"'
+Team wallet: 3 currencies
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/e5c23031-0dad-436c-9950-fc898058e78a/leave'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1011" name="GetWalletAsync_NoTeam_ReturnsNull" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.GetWalletAsync_NoTeam_ReturnsNull" methodname="GetWalletAsync_NoTeam_ReturnsNull" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="767443715" result="Passed" start-time="2026-02-04 12:22:13Z" end-time="2026-02-04 12:22:14Z" duration="0.149912" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0ZjllODliOS1hNzAwLTQzMmMtYTZmMS0wYmM0ZmVlMmMzZmUiLCJ1aWQiOiJhYzc5MGE3Ni0wZWI2LTQzMjEtYTc1Zi05MjRmOWQwZTgwNGYiLCJ1c24iOiJQbGF5ZXI4MDE4MzMzNyIsImV4cCI6MTc3MDI5NDEzMywiaWF0IjoxNzcwMjA3NzMzfQ.3aHTb1owzEtsmwKuIeUHYwjqvtp1SwgCM-NDbEg4Yp4', Created=True, CreateTime=1770207733, ExpireTime=1770294133, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0ZjllODliOS1hNzAwLTQzMmMtYTZmMS0wYmM0ZmVlMmMzZmUiLCJ1aWQiOiJhYzc5MGE3Ni0wZWI2LTQzMjEtYTc1Zi05MjRmOWQwZTgwNGYiLCJ1c24iOiJQbGF5ZXI4MDE4MzMzNyIsImV4cCI6MTc3MDgxMjUzMywiaWF0IjoxNzcwMjA3NzMzfQ.uNebVPV5hiAbMaV7guELKaGqnR3lU7ZtcmEcYDFczGM, RefreshExpireTime=1770812533, Variables={}, Username='Player80183337', UserId='ac790a76-0eb6-4321-a75f-924f9d0e804f')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1049" name="IsAdmin_IsOwner_ReturnsTrue" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.IsAdmin_IsOwner_ReturnsTrue" methodname="IsAdmin_IsOwner_ReturnsTrue" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="61218298" result="Failed" start-time="2026-02-04 12:22:14Z" end-time="2026-02-04 12:22:14Z" duration="0.550985" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[  Expected: True
+  But was:  False
+]]></message>
+                  <stack-trace><![CDATA[at HiroTeams.Tests.Editor.TeamsControllerTests.IsAdmin_IsOwner_ReturnsTrue () [0x00100] in /Users/andres/Developer/sample-projects/UnityHiroTeams/Assets/UnityHiroTeams/Tests/Editor/TeamsControllerTests.cs:669
+at UnityEngine.TestTools.TestRunner.TestTaskWrapper+<Execute>d__2.MoveNext () [0x00063] in ./Library/PackageCache/com.unity.test-framework@40b8da2bd3e9/UnityEngine.TestRunner/TestRunner/TestTaskWrapper.cs:31
+at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in ./Library/PackageCache/com.unity.test-framework@40b8da2bd3e9/UnityEngine.TestRunner/NUnitExtensions/Attributes/TestEnumerator.cs:44
+]]></stack-trace>
+                </failure>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2YjdkMjgwZC01MTNjLTQwNmMtODg2OS1jYmU1MzZlODVhZmUiLCJ1aWQiOiIzYmRjOWVlYS1hZDY3LTRiYjItOGZhMC1hODFhM2Y1MzgwOWEiLCJ1c24iOiJQbGF5ZXIyNzY0MDQzMiIsImV4cCI6MTc3MDI5NDEzNCwiaWF0IjoxNzcwMjA3NzM0fQ.0x8hnfoDPURwFSNHFdlxUBwfL7CvV5r_13rUd_eijUE', Created=True, CreateTime=1770207734, ExpireTime=1770294134, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2YjdkMjgwZC01MTNjLTQwNmMtODg2OS1jYmU1MzZlODVhZmUiLCJ1aWQiOiIzYmRjOWVlYS1hZDY3LTRiYjItOGZhMC1hODFhM2Y1MzgwOWEiLCJ1c24iOiJQbGF5ZXIyNzY0MDQzMiIsImV4cCI6MTc3MDgxMjUzNCwiaWF0IjoxNzcwMjA3NzM0fQ.AmcD6QOaZiIQmsCSC1Ru5bXZRMhcBwWyZyI7t9aLs2E, RefreshExpireTime=1770812534, Variables={}, Username='Player27640432', UserId='3bdc9eea-ad67-4bb2-8fa0-a81a3f53809a')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_CREATE', body='"{\"name\":\"TestTeam_1132f01335b\",\"desc\":\"Test description\",\"open\":true,\"avatar_url\":\"{\\\"iconIndex\\\":0,\\\"backgroundIndex\\\":0}\",\"lang_tag\":\"en\",\"setup_metadata\":\"{}\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/3bdc9eea-ad67-4bb2-8fa0-a81a3f53809a/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/99250f3a-7f2b-4155-a30d-8f487c0f0935/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.99250f3a-7f2b-4155-a30d-8f487c0f0935..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/3bdc9eea-ad67-4bb2-8fa0-a81a3f53809a/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/99250f3a-7f2b-4155-a30d-8f487c0f0935/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.99250f3a-7f2b-4155-a30d-8f487c0f0935..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/99250f3a-7f2b-4155-a30d-8f487c0f0935/leave'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1048" name="IsAdmin_NoTeam_ReturnsFalse" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.IsAdmin_NoTeam_ReturnsFalse" methodname="IsAdmin_NoTeam_ReturnsFalse" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="702933075" result="Passed" start-time="2026-02-04 12:22:14Z" end-time="2026-02-04 12:22:14Z" duration="0.150005" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIzMDk3NDczNi1kNzIyLTQ0NjgtYWMwMC1lYTNhM2ZkNTNhMzkiLCJ1aWQiOiI3ZDA1MzcwZS0yYjA2LTQ4NmMtOTkwNi1iYmJhMTI0MGQxYmMiLCJ1c24iOiJQbGF5ZXI0MTI3MTMwMiIsImV4cCI6MTc3MDI5NDEzNCwiaWF0IjoxNzcwMjA3NzM0fQ.2wwX0ooUiU4gd5Cdstrj44ESsrvyR01M7KEXr1yY1qs', Created=True, CreateTime=1770207734, ExpireTime=1770294134, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIzMDk3NDczNi1kNzIyLTQ0NjgtYWMwMC1lYTNhM2ZkNTNhMzkiLCJ1aWQiOiI3ZDA1MzcwZS0yYjA2LTQ4NmMtOTkwNi1iYmJhMTI0MGQxYmMiLCJ1c24iOiJQbGF5ZXI0MTI3MTMwMiIsImV4cCI6MTc3MDgxMjUzNCwiaWF0IjoxNzcwMjA3NzM0fQ.PUXh8WARHfgVOuMOv_pEKGiovWKd_WoLIHBpZeKcvec, RefreshExpireTime=1770812534, Variables={}, Username='Player41271302', UserId='7d05370e-2b06-486c-9906-bbba1240d1bc')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1032" name="JoinTeamAsync_NoSelectedTeam_DoesNothing" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.JoinTeamAsync_NoSelectedTeam_DoesNothing" methodname="JoinTeamAsync_NoSelectedTeam_DoesNothing" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="343460298" result="Passed" start-time="2026-02-04 12:22:14Z" end-time="2026-02-04 12:22:14Z" duration="0.149982" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3ZjZhMzdjYS04YTAzLTQ3NzItYWUwZS04MzdjYjlmODY4ZDQiLCJ1aWQiOiJhODI1MzQ1Yi1jMDk5LTQ0YzItYTk0Yy00YTYyZWM1ZDQzNDYiLCJ1c24iOiJQbGF5ZXIxNTI5NDA2MyIsImV4cCI6MTc3MDI5NDEzNCwiaWF0IjoxNzcwMjA3NzM0fQ.A593sfhgT1nd6NK_cLD_SB08531woiMK-2ovzxIqpQU', Created=True, CreateTime=1770207734, ExpireTime=1770294134, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3ZjZhMzdjYS04YTAzLTQ3NzItYWUwZS04MzdjYjlmODY4ZDQiLCJ1aWQiOiJhODI1MzQ1Yi1jMDk5LTQ0YzItYTk0Yy00YTYyZWM1ZDQzNDYiLCJ1c24iOiJQbGF5ZXIxNTI5NDA2MyIsImV4cCI6MTc3MDgxMjUzNCwiaWF0IjoxNzcwMjA3NzM0fQ.3E2KzkztCCgpDwQ2wkjPyh8OemhNVUtpXxSMXa8y6u0, RefreshExpireTime=1770812534, Variables={}, Username='Player15294063', UserId='a825345b-c099-44c2-a94c-4a62ec5d4346')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1038" name="KickUserAsync_NoSelectedTeam_DoesNothing" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.KickUserAsync_NoSelectedTeam_DoesNothing" methodname="KickUserAsync_NoSelectedTeam_DoesNothing" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="1630083294" result="Passed" start-time="2026-02-04 12:22:14Z" end-time="2026-02-04 12:22:15Z" duration="0.150028" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkYjMxMjIyOS0xNDIzLTQ5OGYtOTYxOC1hMWY1NmFjMDVmZjciLCJ1aWQiOiIxMTkwZjljNS1kODU1LTQ1YzEtYjgzNi03NWI4YjFhN2RjM2UiLCJ1c24iOiJQbGF5ZXI3OTAwMTMwNSIsImV4cCI6MTc3MDI5NDEzNCwiaWF0IjoxNzcwMjA3NzM0fQ.L4bkMshcyFYFnbV-UgFQFDL1Aq-iRgqPI_MfUKRCuBE', Created=True, CreateTime=1770207734, ExpireTime=1770294134, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkYjMxMjIyOS0xNDIzLTQ5OGYtOTYxOC1hMWY1NmFjMDVmZjciLCJ1aWQiOiIxMTkwZjljNS1kODU1LTQ1YzEtYjgzNi03NWI4YjFhN2RjM2UiLCJ1c24iOiJQbGF5ZXI3OTAwMTMwNSIsImV4cCI6MTc3MDgxMjUzNCwiaWF0IjoxNzcwMjA3NzM0fQ.eY5FPjUxPXZW9Iio7j_K5hMbIk5hX_gd1d1NxNQMyUA, RefreshExpireTime=1770812534, Variables={}, Username='Player79001305', UserId='1190f9c5-d855-45c1-b836-75b8b1a7dc3e')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1033" name="LeaveTeamAsync_NoSelectedTeam_DoesNothing" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.LeaveTeamAsync_NoSelectedTeam_DoesNothing" methodname="LeaveTeamAsync_NoSelectedTeam_DoesNothing" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="1626963410" result="Passed" start-time="2026-02-04 12:22:15Z" end-time="2026-02-04 12:22:15Z" duration="0.150163" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJjOTI4MWE2Yi04MDZjLTRjNDctYjg1My1hN2RjY2U3MmEzOTkiLCJ1aWQiOiI1ZGNlY2QwNy0zZjdjLTRhODktODAyYy03ZDE1YzI4NWQ4NGUiLCJ1c24iOiJQbGF5ZXIyNzcyOTM2MSIsImV4cCI6MTc3MDI5NDEzNSwiaWF0IjoxNzcwMjA3NzM1fQ.skvkUk3Wyp0vw4Qz7Dd_qayc7NSRku2cuK0UnSobzrI', Created=True, CreateTime=1770207735, ExpireTime=1770294135, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJjOTI4MWE2Yi04MDZjLTRjNDctYjg1My1hN2RjY2U3MmEzOTkiLCJ1aWQiOiI1ZGNlY2QwNy0zZjdjLTRhODktODAyYy03ZDE1YzI4NWQ4NGUiLCJ1c24iOiJQbGF5ZXIyNzcyOTM2MSIsImV4cCI6MTc3MDgxMjUzNSwiaWF0IjoxNzcwMjA3NzM1fQ.86qVjhT0TKUAWhOFFFotPwHN37THF7nKbEFmRW7GDiI, RefreshExpireTime=1770812535, Variables={}, Username='Player27729361', UserId='5dcecd07-3f7c-4a89-802c-7d15c285d84e')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1036" name="PromoteUserAsync_NoSelectedTeam_DoesNothing" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.PromoteUserAsync_NoSelectedTeam_DoesNothing" methodname="PromoteUserAsync_NoSelectedTeam_DoesNothing" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="1587983100" result="Passed" start-time="2026-02-04 12:22:15Z" end-time="2026-02-04 12:22:15Z" duration="0.150197" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIxMWY5ZDA4ZC0wY2UxLTQzNjgtYTZjNC0yNzliNDVlZWMwMTMiLCJ1aWQiOiIwNGZiNDNjMy1mM2M5LTQ4MGUtYjFkMy1iZmU2NDMwNTAwY2EiLCJ1c24iOiJQbGF5ZXIzMzIxOTA4OCIsImV4cCI6MTc3MDI5NDEzNSwiaWF0IjoxNzcwMjA3NzM1fQ.3ZXsTk2CnAX0AxuLuploZPmhUpT93AJyKmnCnLYcn4w', Created=True, CreateTime=1770207735, ExpireTime=1770294135, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIxMWY5ZDA4ZC0wY2UxLTQzNjgtYTZjNC0yNzliNDVlZWMwMTMiLCJ1aWQiOiIwNGZiNDNjMy1mM2M5LTQ4MGUtYjFkMy1iZmU2NDMwNTAwY2EiLCJ1c24iOiJQbGF5ZXIzMzIxOTA4OCIsImV4cCI6MTc3MDgxMjUzNSwiaWF0IjoxNzcwMjA3NzM1fQ.V04BefP81VGkXvv8dYfIiQRvk89YyKs6D1fnfbqrYLc, RefreshExpireTime=1770812535, Variables={}, Username='Player33219088', UserId='04fb43c3-f3c9-480e-b1d3-bfe6430500ca')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1013" name="RefreshAsync_Success_RefreshesTeamsSystem" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.RefreshAsync_Success_RefreshesTeamsSystem" methodname="RefreshAsync_Success_RefreshesTeamsSystem" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="1181983604" result="Passed" start-time="2026-02-04 12:22:15Z" end-time="2026-02-04 12:22:15Z" duration="0.200130" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <reason>
+                  <message><![CDATA[RefreshAsync completed successfully]]></message>
+                </reason>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIxYjdiMWI0YS1jMWY0LTQzZDQtYWE5MC04YzA5NzNhYTU4MzAiLCJ1aWQiOiJlYThlNTRjMi04YzlmLTRmOTctYTQzMi04MWU0MDE1ZDc3NTQiLCJ1c24iOiJQbGF5ZXIwNzMzNTU4NyIsImV4cCI6MTc3MDI5NDEzNSwiaWF0IjoxNzcwMjA3NzM1fQ.N8efPKztLvHQCOSKUawHl08dF1Tws5W_RQiLW7lRaEM', Created=True, CreateTime=1770207735, ExpireTime=1770294135, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIxYjdiMWI0YS1jMWY0LTQzZDQtYWE5MC04YzA5NzNhYTU4MzAiLCJ1aWQiOiJlYThlNTRjMi04YzlmLTRmOTctYTQzMi04MWU0MDE1ZDc3NTQiLCJ1c24iOiJQbGF5ZXIwNzMzNTU4NyIsImV4cCI6MTc3MDgxMjUzNSwiaWF0IjoxNzcwMjA3NzM1fQ.8KWVIvbRf6gYJH6SjY5Un_-tD53nxJwnDqxEiZhhlbM, RefreshExpireTime=1770812535, Variables={}, Username='Player07335587', UserId='ea8e54c2-8c9f-4f97-a432-81e4015d7754')
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/ea8e54c2-8c9f-4f97-a432-81e4015d7754/group?limit=1&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1017" name="RefreshTeamsAsync_InvalidTab_ReturnsNull" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.RefreshTeamsAsync_InvalidTab_ReturnsNull" methodname="RefreshTeamsAsync_InvalidTab_ReturnsNull" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="731853692" result="Failed" start-time="2026-02-04 12:22:15Z" end-time="2026-02-04 12:22:15Z" duration="0.200203" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[Unhandled log message: '[Error] Unhandled Tab Index'. Use UnityEngine.TestTools.LogAssert.Expect]]></message>
+                  <stack-trace><![CDATA[HiroTeams.TeamsController/<RefreshTeamsAsync>d__30:MoveNext () (at Assets/UnityHiroTeams/Scripts/TeamsController.cs:114)
+System.Runtime.CompilerServices.AsyncTaskMethodBuilder:SetResult ()
+Hiro.TeamsSystem/<RefreshAsync>d__57:MoveNext ()
+System.Runtime.CompilerServices.AsyncTaskMethodBuilder:SetResult ()
+Hiro.TeamsSystem/<RefreshTeamMembershipsStatusAsync>d__58:MoveNext ()
+System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<Nakama.IApiUserGroupList>:SetResult (Nakama.IApiUserGroupList)
+Nakama.Client/<ListUserGroupsAsync>d__99:MoveNext ()
+System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<Nakama.IApiUserGroupList>:SetResult (Nakama.IApiUserGroupList)
+Nakama.RetryInvoker/<InvokeWithRetry>d__2`1<Nakama.IApiUserGroupList>:MoveNext ()
+System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1<Nakama.IApiUserGroupList>:SetResult (Nakama.IApiUserGroupList)
+Nakama.ApiClient/<ListUserGroupsAsync>d__93:MoveNext ()
+UnityEngine.UnitySynchronizationContext:ExecuteTasks () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/UnitySynchronizationContext.cs:110)
+
+]]></stack-trace>
+                </failure>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIyZDNkOGE2Ny0wMDY5LTQ5ZDgtODdlMy1hOGUyNTdhODUzZDciLCJ1aWQiOiJiYWIyNjBlYS04NGQ3LTRhOTctYWMyZC0zNWRiZTY0MWRjMmUiLCJ1c24iOiJQbGF5ZXI0NzcyNDUzNSIsImV4cCI6MTc3MDI5NDEzNSwiaWF0IjoxNzcwMjA3NzM1fQ.1CDtKqmOgImeLiVWGHN9NlaL5WN-cLyuVF_erEU_Di8', Created=True, CreateTime=1770207735, ExpireTime=1770294135, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIyZDNkOGE2Ny0wMDY5LTQ5ZDgtODdlMy1hOGUyNTdhODUzZDciLCJ1aWQiOiJiYWIyNjBlYS04NGQ3LTRhOTctYWMyZC0zNWRiZTY0MWRjMmUiLCJ1c24iOiJQbGF5ZXI0NzcyNDUzNSIsImV4cCI6MTc3MDgxMjUzNSwiaWF0IjoxNzcwMjA3NzM1fQ.ZQwvHKUVuODTQniKPFYeGcv4RI7W9n5Ll0g83cArmXI, RefreshExpireTime=1770812535, Variables={}, Username='Player47724535', UserId='bab260ea-84d7-4a97-ac2d-35dbe641dc2e')
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/bab260ea-84d7-4a97-ac2d-35dbe641dc2e/group?limit=1&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Unhandled Tab Index
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1014" name="RefreshTeamsAsync_Tab0_ListsAllTeams" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.RefreshTeamsAsync_Tab0_ListsAllTeams" methodname="RefreshTeamsAsync_Tab0_ListsAllTeams" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="1561542357" result="Passed" start-time="2026-02-04 12:22:15Z" end-time="2026-02-04 12:22:16Z" duration="0.250152" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI5ZjM3NjliMS1jNDMwLTQ5OWYtYTZhYi05YjlhMmIyZGI0YTkiLCJ1aWQiOiJkZjM5MzlhNS1iYjQwLTQ2NmItYmVhYi03NDRjODI5ZDQ4N2IiLCJ1c24iOiJQbGF5ZXI1NTIzMjA5MiIsImV4cCI6MTc3MDI5NDEzNSwiaWF0IjoxNzcwMjA3NzM1fQ.M7eNXuMM2WYGf67Bwj8oaYibxbQv3_f4qN6dLvTEsrU', Created=True, CreateTime=1770207735, ExpireTime=1770294135, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI5ZjM3NjliMS1jNDMwLTQ5OWYtYTZhYi05YjlhMmIyZGI0YTkiLCJ1aWQiOiJkZjM5MzlhNS1iYjQwLTQ2NmItYmVhYi03NDRjODI5ZDQ4N2IiLCJ1c24iOiJQbGF5ZXI1NTIzMjA5MiIsImV4cCI6MTc3MDgxMjUzNSwiaWF0IjoxNzcwMjA3NzM1fQ.RPmhHaJy1GJmWWdXp9eSFHnRfOzGuBw6_7sx-AtYywI, RefreshExpireTime=1770812535, Variables={}, Username='Player55232092', UserId='df3939a5-bb40-466b-beab-744c829d487b')
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/df3939a5-bb40-466b-beab-744c829d487b/group?limit=1&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_LIST', body='"{\"cursor\":\"\",\"location\":\"\",\"limit\":20}"'
+Found 0 teams in tab 0
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1016" name="RefreshTeamsAsync_Tab1_HasTeam_ShowsUserTeam" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.RefreshTeamsAsync_Tab1_HasTeam_ShowsUserTeam" methodname="RefreshTeamsAsync_Tab1_HasTeam_ShowsUserTeam" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="1210734106" result="Passed" start-time="2026-02-04 12:22:16Z" end-time="2026-02-04 12:22:16Z" duration="0.550701" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI4OTdkMDhmNy05MTgwLTQ0MzAtYTliMi1lYWMxNWE5YThmNjAiLCJ1aWQiOiI3Mjg0YTQ3Ni1hNGJjLTRiMWYtOWRlNC0zOGNjZmQyMGViMDAiLCJ1c24iOiJQbGF5ZXIyNzU1NDA2NiIsImV4cCI6MTc3MDI5NDEzNiwiaWF0IjoxNzcwMjA3NzM2fQ.lm1zxUPDf-i5eMxoflbBca-fNpLsOFCtyBMZhfVD07g', Created=True, CreateTime=1770207736, ExpireTime=1770294136, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI4OTdkMDhmNy05MTgwLTQ0MzAtYTliMi1lYWMxNWE5YThmNjAiLCJ1aWQiOiI3Mjg0YTQ3Ni1hNGJjLTRiMWYtOWRlNC0zOGNjZmQyMGViMDAiLCJ1c24iOiJQbGF5ZXIyNzU1NDA2NiIsImV4cCI6MTc3MDgxMjUzNiwiaWF0IjoxNzcwMjA3NzM2fQ.JVAkyg6mU9_Mv98G6AI0N0y031MC-fdxewVio4wGjhQ, RefreshExpireTime=1770812536, Variables={}, Username='Player27554066', UserId='7284a476-a4bc-4b1f-9de4-38ccfd20eb00')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_CREATE', body='"{\"name\":\"TestTeam_94c7fed267f\",\"desc\":\"Test description\",\"open\":true,\"avatar_url\":\"{\\\"iconIndex\\\":0,\\\"backgroundIndex\\\":0}\",\"lang_tag\":\"en\",\"setup_metadata\":\"{}\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/7284a476-a4bc-4b1f-9de4-38ccfd20eb00/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/207dd10e-236b-4085-85e0-4e5fe997ad26/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.207dd10e-236b-4085-85e0-4e5fe997ad26..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/7284a476-a4bc-4b1f-9de4-38ccfd20eb00/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/207dd10e-236b-4085-85e0-4e5fe997ad26/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.207dd10e-236b-4085-85e0-4e5fe997ad26..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/207dd10e-236b-4085-85e0-4e5fe997ad26/leave'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1015" name="RefreshTeamsAsync_Tab1_NoTeam_ReturnsEmptyList" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.RefreshTeamsAsync_Tab1_NoTeam_ReturnsEmptyList" methodname="RefreshTeamsAsync_Tab1_NoTeam_ReturnsEmptyList" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="907001335" result="Passed" start-time="2026-02-04 12:22:16Z" end-time="2026-02-04 12:22:16Z" duration="0.199985" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI4ZmEwNDE5OC03YmFlLTQ0YzAtODQzNS1iZDM3YzliOWMxNGMiLCJ1aWQiOiI1Y2RlNTZmYi0wZGIwLTRiNzctYmE2YS04ZGUyNzRkMTYwY2IiLCJ1c24iOiJQbGF5ZXIyMTc2NzM1MyIsImV4cCI6MTc3MDI5NDEzNiwiaWF0IjoxNzcwMjA3NzM2fQ.h0tqYhBb95hXNRDk93_GC2k3Ex_q9Y7lUYhnCRpQlJ8', Created=True, CreateTime=1770207736, ExpireTime=1770294136, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI4ZmEwNDE5OC03YmFlLTQ0YzAtODQzNS1iZDM3YzliOWMxNGMiLCJ1aWQiOiI1Y2RlNTZmYi0wZGIwLTRiNzctYmE2YS04ZGUyNzRkMTYwY2IiLCJ1c24iOiJQbGF5ZXIyMTc2NzM1MyIsImV4cCI6MTc3MDgxMjUzNiwiaWF0IjoxNzcwMjA3NzM2fQ.ySw_gAXuXC6UezZdmTSGBV5LrMSlBEUjmSDscp326oU, RefreshExpireTime=1770812536, Variables={}, Username='Player21767353', UserId='5cde56fb-0db0-4b77-ba6a-8de274d160cb')
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/5cde56fb-0db0-4b77-ba6a-8de274d160cb/group?limit=1&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1035" name="RejectJoinRequestAsync_NoSelectedTeam_DoesNothing" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.RejectJoinRequestAsync_NoSelectedTeam_DoesNothing" methodname="RejectJoinRequestAsync_NoSelectedTeam_DoesNothing" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="1794805254" result="Passed" start-time="2026-02-04 12:22:16Z" end-time="2026-02-04 12:22:16Z" duration="0.150098" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1MTE3OTQwNy1kODYxLTQyMTItOTcwOS1iMTJmYzJmMjQwZTEiLCJ1aWQiOiI0MjUwMTdiMS0wZWJkLTQyMDAtOGFhMy02YjAxZjI2YzE3NmEiLCJ1c24iOiJQbGF5ZXI2OTU0MjM5OSIsImV4cCI6MTc3MDI5NDEzNiwiaWF0IjoxNzcwMjA3NzM2fQ.cJF8n4BtyJYvS0Z6OcCDZ9usAVMnY-8wP54CJwOjpM8', Created=True, CreateTime=1770207736, ExpireTime=1770294136, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1MTE3OTQwNy1kODYxLTQyMTItOTcwOS1iMTJmYzJmMjQwZTEiLCJ1aWQiOiI0MjUwMTdiMS0wZWJkLTQyMDAtOGFhMy02YjAxZjI2YzE3NmEiLCJ1c24iOiJQbGF5ZXI2OTU0MjM5OSIsImV4cCI6MTc3MDgxMjUzNiwiaWF0IjoxNzcwMjA3NzM2fQ.ZyaZZyUx4THIVyjAOEFRmFritR-ilAW1Rbrj9Yk2D5E, RefreshExpireTime=1770812536, Variables={}, Username='Player69542399', UserId='425017b1-0ebd-4200-8aa3-6b01f26c176a')
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1019" name="SearchTeamsAsync_ByName_ReturnsMatchingTeams" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.SearchTeamsAsync_ByName_ReturnsMatchingTeams" methodname="SearchTeamsAsync_ByName_ReturnsMatchingTeams" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="424108711" result="Passed" start-time="2026-02-04 12:22:16Z" end-time="2026-02-04 12:22:17Z" duration="0.450261" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0NmI2ZmUwMC0yOWQzLTRhZGQtOWFiNy05ODEyZmY2ODQ5MjUiLCJ1aWQiOiJlYzQwNzNmYi1kNmExLTQwNDMtYmQyMy01MGEwYWUyNjUwNTYiLCJ1c24iOiJQbGF5ZXI4NzU5NjIzNSIsImV4cCI6MTc3MDI5NDEzNiwiaWF0IjoxNzcwMjA3NzM2fQ.UEu0B2RtZJ1hcDRGtseXRC5ASFOoVBvtZ1AjvYUcOfM', Created=True, CreateTime=1770207736, ExpireTime=1770294136, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0NmI2ZmUwMC0yOWQzLTRhZGQtOWFiNy05ODEyZmY2ODQ5MjUiLCJ1aWQiOiJlYzQwNzNmYi1kNmExLTQwNDMtYmQyMy01MGEwYWUyNjUwNTYiLCJ1c24iOiJQbGF5ZXI4NzU5NjIzNSIsImV4cCI6MTc3MDgxMjUzNiwiaWF0IjoxNzcwMjA3NzM2fQ.Wxff9qsKc0cY9ZSCDS-8F2OskX5jZNuImejcuYieoCU, RefreshExpireTime=1770812536, Variables={}, Username='Player87596235', UserId='ec4073fb-d6a1-4043-bd23-50a0ae265056')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_CREATE', body='"{\"name\":\"SearchTest_5d118f647\",\"desc\":\"Test description\",\"open\":true,\"avatar_url\":\"{\\\"iconIndex\\\":0,\\\"backgroundIndex\\\":0}\",\"lang_tag\":\"en\",\"setup_metadata\":\"{}\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/ec4073fb-d6a1-4043-bd23-50a0ae265056/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/53256104-2d78-4092-aa92-87af9f1ff4d5/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.53256104-2d78-4092-aa92-87af9f1ff4d5..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_SEARCH', body='"{\"input\":\"SearchTest\",\"limit\":20,\"lang_tag\":\"\",\"min_activity\":\"0\"}"'
+Search for 'SearchTest' returned 1 teams
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/53256104-2d78-4092-aa92-87af9f1ff4d5/leave'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1021" name="SearchTeamsAsync_ClearsSelection" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.SearchTeamsAsync_ClearsSelection" methodname="SearchTeamsAsync_ClearsSelection" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="72524711" result="Failed" label="Error" start-time="2026-02-04 12:22:17Z" end-time="2026-02-04 12:22:18Z" duration="0.700832" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[Nakama.ApiResponseException : payload is invalid]]></message>
+                  <stack-trace><![CDATA[  at Nakama.HttpRequestAdapter.SendAsync (System.String method, System.Uri uri, System.Collections.Generic.IDictionary`2[TKey,TValue] headers, System.Byte[] body, System.Int32 timeout, System.Nullable`1[T] userCancelToken) [0x0035c] in <21167d1e8226474193adf06be8ebb336>:0 
+  at Nakama.ApiClient.RpcFuncAsync (System.String bearerToken, System.String basicAuthUsername, System.String basicAuthPassword, System.String id, System.String payload, System.String httpKey, System.Nullable`1[T] cancellationToken) [0x001d6] in <21167d1e8226474193adf06be8ebb336>:0 
+  at Nakama.RetryInvoker.InvokeWithRetry[T] (System.Func`1[TResult] request, Nakama.RetryHistory history) [0x00198] in <21167d1e8226474193adf06be8ebb336>:0 
+  at Nakama.Client.RpcAsync (Nakama.ISession session, System.String id, System.String payload, Nakama.RetryConfiguration retryConfiguration, System.Threading.CancellationToken canceller) [0x001da] in <21167d1e8226474193adf06be8ebb336>:0 
+  at Hiro.HiroApi.TeamsSearchAsync (Nakama.IClient client, Nakama.ISession session, Hiro.TeamSearchRequest request, System.Threading.CancellationToken canceller) [0x0007d] in <855855024ba34a5f88cf107a2908ae1b>:0 
+  at HiroTeams.TeamsController.SearchTeamsAsync (System.String teamName, System.String language, System.Int32 minActivity, System.Nullable`1[T] openFilter) [0x00068] in /Users/andres/Developer/sample-projects/UnityHiroTeams/Assets/UnityHiroTeams/Scripts/TeamsController.cs:141 
+  at HiroTeams.Tests.Editor.TeamsControllerTests.SearchTeamsAsync_ClearsSelection () [0x001d1] in /Users/andres/Developer/sample-projects/UnityHiroTeams/Assets/UnityHiroTeams/Tests/Editor/TeamsControllerTests.cs:284 
+  at UnityEngine.TestTools.TestRunner.TestTaskWrapper+<Execute>d__2.MoveNext () [0x00063] in ./Library/PackageCache/com.unity.test-framework@40b8da2bd3e9/UnityEngine.TestRunner/TestRunner/TestTaskWrapper.cs:31 
+  at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in ./Library/PackageCache/com.unity.test-framework@40b8da2bd3e9/UnityEngine.TestRunner/NUnitExtensions/Attributes/TestEnumerator.cs:44 ]]></stack-trace>
+                </failure>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiODhlOTliOS05MWRiLTQzZTQtYTU5Ni00MGU4YWYxMjlkMjMiLCJ1aWQiOiIyZWQ0NjI4MC0zN2NhLTRkNTktODYxZi01MjQ4ZTMzYTFhYjEiLCJ1c24iOiJQbGF5ZXI1NzY5NjA5MCIsImV4cCI6MTc3MDI5NDEzNywiaWF0IjoxNzcwMjA3NzM3fQ.p5UCCKogKcNQo16yG6A_kXxK6RTwDDgCZJwglRkamRA', Created=True, CreateTime=1770207737, ExpireTime=1770294137, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiODhlOTliOS05MWRiLTQzZTQtYTU5Ni00MGU4YWYxMjlkMjMiLCJ1aWQiOiIyZWQ0NjI4MC0zN2NhLTRkNTktODYxZi01MjQ4ZTMzYTFhYjEiLCJ1c24iOiJQbGF5ZXI1NzY5NjA5MCIsImV4cCI6MTc3MDgxMjUzNywiaWF0IjoxNzcwMjA3NzM3fQ.pRPCXCp7nSmcJFhr3IQq4IUvFawT1j7JFkiF3xP6YgE, RefreshExpireTime=1770812537, Variables={}, Username='Player57696090', UserId='2ed46280-37ca-4d59-861f-5248e33a1ab1')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_CREATE', body='"{\"name\":\"TestTeam_ae8c8605cb4\",\"desc\":\"Test description\",\"open\":true,\"avatar_url\":\"{\\\"iconIndex\\\":0,\\\"backgroundIndex\\\":0}\",\"lang_tag\":\"en\",\"setup_metadata\":\"{}\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/2ed46280-37ca-4d59-861f-5248e33a1ab1/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/706c00fa-a07e-4b03-937c-56744cf58c18/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.706c00fa-a07e-4b03-937c-56744cf58c18..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/2ed46280-37ca-4d59-861f-5248e33a1ab1/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/706c00fa-a07e-4b03-937c-56744cf58c18/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.706c00fa-a07e-4b03-937c-56744cf58c18..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_LIST', body='"{\"cursor\":\"\",\"location\":\"\",\"limit\":20}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/706c00fa-a07e-4b03-937c-56744cf58c18/user?limit=100&'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_SEARCH', body='"{\"input\":\"\",\"limit\":20,\"lang_tag\":\"\",\"min_activity\":\"0\"}"'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/706c00fa-a07e-4b03-937c-56744cf58c18/leave'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1018" name="SearchTeamsAsync_EmptySearch_ReturnsTeams" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.SearchTeamsAsync_EmptySearch_ReturnsTeams" methodname="SearchTeamsAsync_EmptySearch_ReturnsTeams" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="677673839" result="Failed" label="Error" start-time="2026-02-04 12:22:18Z" end-time="2026-02-04 12:22:18Z" duration="0.200240" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[Nakama.ApiResponseException : payload is invalid]]></message>
+                  <stack-trace><![CDATA[  at Nakama.HttpRequestAdapter.SendAsync (System.String method, System.Uri uri, System.Collections.Generic.IDictionary`2[TKey,TValue] headers, System.Byte[] body, System.Int32 timeout, System.Nullable`1[T] userCancelToken) [0x0035c] in <21167d1e8226474193adf06be8ebb336>:0 
+  at Nakama.ApiClient.RpcFuncAsync (System.String bearerToken, System.String basicAuthUsername, System.String basicAuthPassword, System.String id, System.String payload, System.String httpKey, System.Nullable`1[T] cancellationToken) [0x001d6] in <21167d1e8226474193adf06be8ebb336>:0 
+  at Nakama.RetryInvoker.InvokeWithRetry[T] (System.Func`1[TResult] request, Nakama.RetryHistory history) [0x00198] in <21167d1e8226474193adf06be8ebb336>:0 
+  at Nakama.Client.RpcAsync (Nakama.ISession session, System.String id, System.String payload, Nakama.RetryConfiguration retryConfiguration, System.Threading.CancellationToken canceller) [0x001da] in <21167d1e8226474193adf06be8ebb336>:0 
+  at Hiro.HiroApi.TeamsSearchAsync (Nakama.IClient client, Nakama.ISession session, Hiro.TeamSearchRequest request, System.Threading.CancellationToken canceller) [0x0007d] in <855855024ba34a5f88cf107a2908ae1b>:0 
+  at HiroTeams.TeamsController.SearchTeamsAsync (System.String teamName, System.String language, System.Int32 minActivity, System.Nullable`1[T] openFilter) [0x00068] in /Users/andres/Developer/sample-projects/UnityHiroTeams/Assets/UnityHiroTeams/Scripts/TeamsController.cs:141 
+  at HiroTeams.Tests.Editor.TeamsControllerTests.SearchTeamsAsync_EmptySearch_ReturnsTeams () [0x00036] in /Users/andres/Developer/sample-projects/UnityHiroTeams/Assets/UnityHiroTeams/Tests/Editor/TeamsControllerTests.cs:241 
+  at UnityEngine.TestTools.TestRunner.TestTaskWrapper+<Execute>d__2.MoveNext () [0x00063] in ./Library/PackageCache/com.unity.test-framework@40b8da2bd3e9/UnityEngine.TestRunner/TestRunner/TestTaskWrapper.cs:31 
+  at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in ./Library/PackageCache/com.unity.test-framework@40b8da2bd3e9/UnityEngine.TestRunner/NUnitExtensions/Attributes/TestEnumerator.cs:44 ]]></stack-trace>
+                </failure>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlNWY4N2U5My04OTJjLTQzNTYtOTM5YS1lM2U5NWU2YjgzZmIiLCJ1aWQiOiJlZmVkMDBhYi1iMzBmLTQyYTMtYTg0Yy03YWIyYmUxNDFiM2MiLCJ1c24iOiJQbGF5ZXI4OTc0NDk3NiIsImV4cCI6MTc3MDI5NDEzOCwiaWF0IjoxNzcwMjA3NzM4fQ.sJLbQsfa__9Gqv1zxiKl1fw4Cmg26uSv03fsoWLkw10', Created=True, CreateTime=1770207738, ExpireTime=1770294138, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlNWY4N2U5My04OTJjLTQzNTYtOTM5YS1lM2U5NWU2YjgzZmIiLCJ1aWQiOiJlZmVkMDBhYi1iMzBmLTQyYTMtYTg0Yy03YWIyYmUxNDFiM2MiLCJ1c24iOiJQbGF5ZXI4OTc0NDk3NiIsImV4cCI6MTc3MDgxMjUzOCwiaWF0IjoxNzcwMjA3NzM4fQ.h1dS-WRQhwChoC-YuEnQem2X_4Or2hAqoqAn0-ruUtQ, RefreshExpireTime=1770812538, Variables={}, Username='Player89744976', UserId='efed00ab-b30f-42a3-a84c-7ab2be141b3c')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_SEARCH', body='"{\"input\":\"\",\"limit\":20,\"lang_tag\":\"\",\"min_activity\":\"0\"}"'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1020" name="SearchTeamsAsync_OpenFilter_True_ReturnsOpenTeams" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.SearchTeamsAsync_OpenFilter_True_ReturnsOpenTeams" methodname="SearchTeamsAsync_OpenFilter_True_ReturnsOpenTeams" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="1947958371" result="Failed" label="Error" start-time="2026-02-04 12:22:18Z" end-time="2026-02-04 12:22:18Z" duration="0.200388" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[Nakama.ApiResponseException : payload is invalid]]></message>
+                  <stack-trace><![CDATA[  at Nakama.HttpRequestAdapter.SendAsync (System.String method, System.Uri uri, System.Collections.Generic.IDictionary`2[TKey,TValue] headers, System.Byte[] body, System.Int32 timeout, System.Nullable`1[T] userCancelToken) [0x0035c] in <21167d1e8226474193adf06be8ebb336>:0 
+  at Nakama.ApiClient.RpcFuncAsync (System.String bearerToken, System.String basicAuthUsername, System.String basicAuthPassword, System.String id, System.String payload, System.String httpKey, System.Nullable`1[T] cancellationToken) [0x001d6] in <21167d1e8226474193adf06be8ebb336>:0 
+  at Nakama.RetryInvoker.InvokeWithRetry[T] (System.Func`1[TResult] request, Nakama.RetryHistory history) [0x00198] in <21167d1e8226474193adf06be8ebb336>:0 
+  at Nakama.Client.RpcAsync (Nakama.ISession session, System.String id, System.String payload, Nakama.RetryConfiguration retryConfiguration, System.Threading.CancellationToken canceller) [0x001da] in <21167d1e8226474193adf06be8ebb336>:0 
+  at Hiro.HiroApi.TeamsSearchAsync (Nakama.IClient client, Nakama.ISession session, Hiro.TeamSearchRequest request, System.Threading.CancellationToken canceller) [0x0007d] in <855855024ba34a5f88cf107a2908ae1b>:0 
+  at HiroTeams.TeamsController.SearchTeamsAsync (System.String teamName, System.String language, System.Int32 minActivity, System.Nullable`1[T] openFilter) [0x00068] in /Users/andres/Developer/sample-projects/UnityHiroTeams/Assets/UnityHiroTeams/Scripts/TeamsController.cs:141 
+  at HiroTeams.Tests.Editor.TeamsControllerTests.SearchTeamsAsync_OpenFilter_True_ReturnsOpenTeams () [0x00033] in /Users/andres/Developer/sample-projects/UnityHiroTeams/Assets/UnityHiroTeams/Tests/Editor/TeamsControllerTests.cs:262 
+  at UnityEngine.TestTools.TestRunner.TestTaskWrapper+<Execute>d__2.MoveNext () [0x00063] in ./Library/PackageCache/com.unity.test-framework@40b8da2bd3e9/UnityEngine.TestRunner/TestRunner/TestTaskWrapper.cs:31 
+  at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in ./Library/PackageCache/com.unity.test-framework@40b8da2bd3e9/UnityEngine.TestRunner/NUnitExtensions/Attributes/TestEnumerator.cs:44 ]]></stack-trace>
+                </failure>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiY2RkNGIxZC0xNWIxLTQ0ZGItYjI0Yy01NzcwMjk1ZGU1MjEiLCJ1aWQiOiJjZDNiNDYzYy0yZjVlLTQyMzktOGQ3Ni0yOWIxNDdmOGNlZjgiLCJ1c24iOiJQbGF5ZXI3NzIzODQ1MSIsImV4cCI6MTc3MDI5NDEzOCwiaWF0IjoxNzcwMjA3NzM4fQ.fBUhK_e_CyZ8K0AaDPSRua1d7Hwg2S7iwdOG8OvEtDg', Created=True, CreateTime=1770207738, ExpireTime=1770294138, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiY2RkNGIxZC0xNWIxLTQ0ZGItYjI0Yy01NzcwMjk1ZGU1MjEiLCJ1aWQiOiJjZDNiNDYzYy0yZjVlLTQyMzktOGQ3Ni0yOWIxNDdmOGNlZjgiLCJ1c24iOiJQbGF5ZXI3NzIzODQ1MSIsImV4cCI6MTc3MDgxMjUzOCwiaWF0IjoxNzcwMjA3NzM4fQ.YoxidWU6tIFN_eCxH73yMHn9YqH11aP0aLilXDkQv_A, RefreshExpireTime=1770812538, Variables={}, Username='Player77238451', UserId='cd3b463c-2f5e-4239-8d76-29b147f8cef8')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_SEARCH', body='"{\"input\":\"\",\"limit\":20,\"lang_tag\":\"\",\"min_activity\":\"0\"}"'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1023" name="SelectTeamAsync_LoadsMembers" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.SelectTeamAsync_LoadsMembers" methodname="SelectTeamAsync_LoadsMembers" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="530135181" result="Passed" start-time="2026-02-04 12:22:18Z" end-time="2026-02-04 12:22:19Z" duration="0.600717" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlODU2MjNkYy1hOTQ5LTRiNDktYjI4Ni1mNzY3M2I2OWY4YTMiLCJ1aWQiOiIzMTBkYTZjOS0zNTM0LTQ3ZGItOGFkYi1iYWVmNzViNWEzZmQiLCJ1c24iOiJQbGF5ZXI0MDA0MjQwNyIsImV4cCI6MTc3MDI5NDEzOCwiaWF0IjoxNzcwMjA3NzM4fQ.oqA3O0W-vFtBLjD2tdbJUmn-_tB1f0kQrQTriBFXMP0', Created=True, CreateTime=1770207738, ExpireTime=1770294138, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlODU2MjNkYy1hOTQ5LTRiNDktYjI4Ni1mNzY3M2I2OWY4YTMiLCJ1aWQiOiIzMTBkYTZjOS0zNTM0LTQ3ZGItOGFkYi1iYWVmNzViNWEzZmQiLCJ1c24iOiJQbGF5ZXI0MDA0MjQwNyIsImV4cCI6MTc3MDgxMjUzOCwiaWF0IjoxNzcwMjA3NzM4fQ.6k8GtxoWuTflHxOiG3ed-b74W8eRCnwVTD4JRB8u7-Q, RefreshExpireTime=1770812538, Variables={}, Username='Player40042407', UserId='310da6c9-3534-47db-8adb-baef75b5a3fd')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_CREATE', body='"{\"name\":\"TestTeam_34ca41feef2\",\"desc\":\"Test description\",\"open\":true,\"avatar_url\":\"{\\\"iconIndex\\\":0,\\\"backgroundIndex\\\":0}\",\"lang_tag\":\"en\",\"setup_metadata\":\"{}\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/310da6c9-3534-47db-8adb-baef75b5a3fd/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/c287fb92-bf38-41bc-83c2-9b63474784f3/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.c287fb92-bf38-41bc-83c2-9b63474784f3..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/310da6c9-3534-47db-8adb-baef75b5a3fd/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/c287fb92-bf38-41bc-83c2-9b63474784f3/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.c287fb92-bf38-41bc-83c2-9b63474784f3..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/c287fb92-bf38-41bc-83c2-9b63474784f3/user?limit=100&'
+Team has 1 members
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/c287fb92-bf38-41bc-83c2-9b63474784f3/leave'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1024" name="SelectTeamAsync_Null_ClearsSelection" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.SelectTeamAsync_Null_ClearsSelection" methodname="SelectTeamAsync_Null_ClearsSelection" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="1829922843" result="Passed" start-time="2026-02-04 12:22:19Z" end-time="2026-02-04 12:22:19Z" duration="0.600775" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIxYmU5ZDBiZS1lNDg2LTQxNjgtYmExMC0yZmRiM2FiZGE3MWMiLCJ1aWQiOiIyMGQ1ZWI0NS04MzRkLTQyNjMtOTcyYS01ZjU0MzQwOTExMWEiLCJ1c24iOiJQbGF5ZXI1MTk5NDI5NyIsImV4cCI6MTc3MDI5NDEzOSwiaWF0IjoxNzcwMjA3NzM5fQ.T6peKouc58ENoqO9m3bqODSSkaa5qDB9zMFVjXUQ-ZA', Created=True, CreateTime=1770207739, ExpireTime=1770294139, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIxYmU5ZDBiZS1lNDg2LTQxNjgtYmExMC0yZmRiM2FiZGE3MWMiLCJ1aWQiOiIyMGQ1ZWI0NS04MzRkLTQyNjMtOTcyYS01ZjU0MzQwOTExMWEiLCJ1c24iOiJQbGF5ZXI1MTk5NDI5NyIsImV4cCI6MTc3MDgxMjUzOSwiaWF0IjoxNzcwMjA3NzM5fQ.NsyF79TZ8-gY2nnsJNeYhuW70Dev-q-ZZe1EG1ify5o, RefreshExpireTime=1770812539, Variables={}, Username='Player51994297', UserId='20d5eb45-834d-4263-972a-5f543409111a')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_CREATE', body='"{\"name\":\"TestTeam_379bab60083\",\"desc\":\"Test description\",\"open\":true,\"avatar_url\":\"{\\\"iconIndex\\\":0,\\\"backgroundIndex\\\":0}\",\"lang_tag\":\"en\",\"setup_metadata\":\"{}\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/20d5eb45-834d-4263-972a-5f543409111a/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/dab019f3-48ee-4353-be52-f43d8857c1ff/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.dab019f3-48ee-4353-be52-f43d8857c1ff..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/20d5eb45-834d-4263-972a-5f543409111a/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/dab019f3-48ee-4353-be52-f43d8857c1ff/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.dab019f3-48ee-4353-be52-f43d8857c1ff..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/dab019f3-48ee-4353-be52-f43d8857c1ff/user?limit=100&'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/dab019f3-48ee-4353-be52-f43d8857c1ff/leave'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1022" name="SelectTeamAsync_ValidTeam_SetsSelected" fullname="HiroTeams.Tests.Editor.TeamsControllerTests.SelectTeamAsync_ValidTeam_SetsSelected" methodname="SelectTeamAsync_ValidTeam_SetsSelected" classname="HiroTeams.Tests.Editor.TeamsControllerTests" runstate="Runnable" seed="854292576" result="Passed" start-time="2026-02-04 12:22:19Z" end-time="2026-02-04 12:22:20Z" duration="0.650804" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIwZGVlM2IyZS0xN2Q2LTRmZGQtYWM4OC05NGZlOWM4YjA0OWUiLCJ1aWQiOiIwNjcyODk1ZC1hZGE0LTQ2YWQtYWM5Mi1lYTU5MTM4NGNiZjUiLCJ1c24iOiJQbGF5ZXI2NTAxOTg5MCIsImV4cCI6MTc3MDI5NDEzOSwiaWF0IjoxNzcwMjA3NzM5fQ.GnqE64gHZc9fG3DX0fKrX99STDb3StCBReCK0J19n0M', Created=True, CreateTime=1770207739, ExpireTime=1770294139, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIwZGVlM2IyZS0xN2Q2LTRmZGQtYWM4OC05NGZlOWM4YjA0OWUiLCJ1aWQiOiIwNjcyODk1ZC1hZGE0LTQ2YWQtYWM5Mi1lYTU5MTM4NGNiZjUiLCJ1c24iOiJQbGF5ZXI2NTAxOTg5MCIsImV4cCI6MTc3MDgxMjUzOSwiaWF0IjoxNzcwMjA3NzM5fQ.3z5E9ncOoNxzj7AX8LbUbeTjiRuP3KOQDjXtHW49uPo, RefreshExpireTime=1770812539, Variables={}, Username='Player65019890', UserId='0672895d-ada4-46ad-ac92-ea591384cbf5')
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_CREATE', body='"{\"name\":\"TestTeam_98df28a8698\",\"desc\":\"Test description\",\"open\":true,\"avatar_url\":\"{\\\"iconIndex\\\":0,\\\"backgroundIndex\\\":0}\",\"lang_tag\":\"en\",\"setup_metadata\":\"{}\"}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/0672895d-ada4-46ad-ac92-ea591384cbf5/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/06b9d699-36bc-4f9e-a4e2-19467f878968/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.06b9d699-36bc-4f9e-a4e2-19467f878968..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/user/0672895d-ada4-46ad-ac92-ea591384cbf5/group?limit=1&'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/06b9d699-36bc-4f9e-a4e2-19467f878968/user?limit=100&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/channel/3.06b9d699-36bc-4f9e-a4e2-19467f878968..?limit=100&forward=false&'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_TEAMS_LIST', body='"{\"cursor\":\"\",\"location\":\"\",\"limit\":20}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/group/06b9d699-36bc-4f9e-a4e2-19467f878968/user?limit=100&'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/group/06b9d699-36bc-4f9e-a4e2-19467f878968/leave'
+Hiro.TeamsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+Saving results to: /Users/andres/Library/Application Support/DefaultCompany/UnityHiroChallenges/TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

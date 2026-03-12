@@ -17,10 +17,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Hiro;
 using Hiro.System;
-using Hiro.Unity;
 using Nakama;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace HiroTeams
 {
@@ -41,38 +39,51 @@ namespace HiroTeams
         public int backgroundIndex;
     }
 
-    [RequireComponent(typeof(UIDocument))]
-    public class HiroTeamsController : MonoBehaviour
+    /// <summary>
+    /// Controller for the Teams system.
+    /// Plain C# class for testability - no MonoBehaviour inheritance.
+    /// Handles business logic and coordinates with Hiro systems.
+    /// </summary>
+    public class TeamsController
     {
-        [Header("Team Settings")]
-        [SerializeField]
-        private int teamEntriesLimit = 100;
-
-        [Header("References")]
-        [SerializeField]
-        private VisualTreeAsset teamEntryTemplate;
-        [SerializeField]
-        private VisualTreeAsset teamMemberTemplate;
-        [SerializeField]
-        private VisualTreeAsset mailboxEntryTemplate;
-        [field: SerializeField]
-        public Texture2D[] AvatarIcons { get; private set; }
-        [field: SerializeField]
-        public Texture2D[] AvatarBackgrounds { get; private set; }
-
-        private TeamsSystem _teamsSystem;
-        private NakamaSystem _nakamaSystem;
-        private TeamsView _view;
+        private readonly NakamaSystem _nakamaSystem;
+        private readonly TeamsSystem _teamsSystem;
+        private readonly int _teamEntriesLimit;
 
         private string _selectedTeamId;
+
+        public Texture2D[] AvatarIcons { get; }
+        public Texture2D[] AvatarBackgrounds { get; }
 
         public ITeam SelectedTeam { get; private set; }
         public List<ITeam> Teams { get; } = new();
         public List<IGroupUserListGroupUser> SelectedTeamMembers { get; } = new();
-        public List<IUserChannelMessage> TeamMessages { get; } = new();
+        public List<IRewardMailboxEntry> MailboxEntries { get; } = new();
 
-        // About tab data accessors
-        public bool IsAdmin => _teamsSystem?.IsAdmin ?? false;
+        public bool IsAdmin
+        {
+            get
+            {
+                var state = GetPlayerMemberState();
+                return state == TeamMemberState.SuperAdmin || state == TeamMemberState.Admin;
+            }
+        }
+
+        public TeamsController(
+            NakamaSystem nakamaSystem,
+            TeamsSystem teamsSystem,
+            int teamEntriesLimit,
+            Texture2D[] avatarIcons,
+            Texture2D[] avatarBackgrounds)
+        {
+            _nakamaSystem = nakamaSystem ?? throw new ArgumentNullException(nameof(nakamaSystem));
+            _teamsSystem = teamsSystem ?? throw new ArgumentNullException(nameof(teamsSystem));
+            _teamEntriesLimit = teamEntriesLimit;
+            AvatarIcons = avatarIcons ?? Array.Empty<Texture2D>();
+            AvatarBackgrounds = avatarBackgrounds ?? Array.Empty<Texture2D>();
+        }
+
+        #region Stats and Wallet
 
         public async Task<IStatList> GetStatsAsync()
         {
@@ -86,51 +97,21 @@ namespace HiroTeams
             return await _teamsSystem.GetWalletAsync();
         }
 
-        public event Action<ISession, HiroTeamsController> OnInitialized;
-
-        #region Initialization
-
-        private void Start()
-        {
-            var coordinator = HiroCoordinator.Instance as HiroTeamsCoordinator;
-            if (coordinator == null)
-            {
-                Debug.LogError("HiroTeamsCoordinator not found!");
-                return;
-            }
-
-            coordinator.ReceivedStartError += HandleStartError;
-            coordinator.ReceivedStartSuccess += HandleStartSuccess;
-
-            _view = new TeamsView(this, coordinator, teamEntryTemplate, teamMemberTemplate, mailboxEntryTemplate);
-        }
-
-        private static void HandleStartError(Exception e)
-        {
-            Debug.LogException(e);
-        }
-
-        private async void HandleStartSuccess(ISession session)
-        {
-            _teamsSystem = HiroCoordinator.Instance.GetSystem<TeamsSystem>();
-            _nakamaSystem = HiroCoordinator.Instance.GetSystem<NakamaSystem>();
-
-            await _view.RefreshTeams();
-
-            OnInitialized?.Invoke(session, this);
-        }
-
-        public void SwitchComplete()
-        {
-            _ = _teamsSystem.RefreshAsync();
-            _ = _view.RefreshTeams();
-        }
-
         #endregion
 
-        #region Team Discovery Operations
+        #region Refresh Operations
 
-        public async Task<int?> RefreshTeams(int tabIndex)
+        public async Task RefreshAsync()
+        {
+            await _teamsSystem.RefreshAsync();
+        }
+
+        public async Task SwitchCompleteAsync()
+        {
+            await _teamsSystem.RefreshAsync();
+        }
+
+        public async Task<int?> RefreshTeamsAsync(int tabIndex)
         {
             Teams.Clear();
 
@@ -140,7 +121,7 @@ namespace HiroTeams
             {
                 case 0:
                     // List all Teams
-                    var teamList = await _teamsSystem.ListTeamsAsync(location: "", limit: teamEntriesLimit);
+                    var teamList = await _teamsSystem.ListTeamsAsync(location: "", limit: _teamEntriesLimit);
                     foreach (var team in teamList.Teams)
                     {
                         Teams.Add(team);
@@ -163,7 +144,7 @@ namespace HiroTeams
             {
                 if (Teams[i].Id != _selectedTeamId) continue;
 
-                await SelectTeam(Teams[i]);
+                await SelectTeamAsync(Teams[i]);
                 return i;
             }
 
@@ -173,34 +154,50 @@ namespace HiroTeams
             return null;
         }
 
-        public async Task SearchTeams(string teamName, string language, int minActivity, bool? openFilter = null)
+        #endregion
+
+        #region Search and Selection
+
+        public async Task SearchTeamsAsync(string teamName, string language, int minActivity, bool? openFilter = null)
         {
             Teams.Clear();
 
-            // SearchTeamsAsync supports server-side filtering for langTag and minActivity
-            var results = await _teamsSystem.SearchTeamsAsync(
-                name: teamName ?? "",
-                langTag: language ?? "",
-                limit: teamEntriesLimit,
-                minActivity: minActivity
-            );
+            ITeamList results;
 
-            // Apply open/closed filter client-side
+            // SearchTeamsAsync requires a name; use ListTeamsAsync for empty searches
+            if (string.IsNullOrEmpty(teamName))
+            {
+                results = await _teamsSystem.ListTeamsAsync(location: "", limit: _teamEntriesLimit);
+            }
+            else
+            {
+                results = await _teamsSystem.SearchTeamsAsync(
+                    name: teamName,
+                    langTag: language ?? "",
+                    limit: _teamEntriesLimit,
+                    minActivity: minActivity
+                );
+            }
+
             foreach (var team in results.Teams)
             {
+                // Apply client-side filters
                 if (openFilter.HasValue && team.Open != openFilter.Value)
+                    continue;
+
+                // Apply language filter for ListTeamsAsync (which doesn't filter server-side)
+                if (!string.IsNullOrEmpty(language) && team.LangTag != language)
                     continue;
 
                 Teams.Add(team);
             }
 
-            // Clear selection after search
             SelectedTeam = null;
             _selectedTeamId = string.Empty;
             SelectedTeamMembers.Clear();
         }
 
-        public async Task SelectTeam(ITeam team)
+        public async Task SelectTeamAsync(ITeam team)
         {
             if (team == null)
             {
@@ -213,7 +210,6 @@ namespace HiroTeams
             SelectedTeam = team;
             _selectedTeamId = team.Id;
 
-            // Get team members
             var teamMembers = await _teamsSystem.GetTeamMembersAsync(team.Id);
             SelectedTeamMembers.Clear();
             SelectedTeamMembers.AddRange(teamMembers.GroupUsers);
@@ -237,7 +233,7 @@ namespace HiroTeams
 
         #region Team Lifecycle Operations
 
-        public async Task CreateTeam(string teamName, string description, bool isOpen, int backgroundIndex, int iconIndex, string language = "en")
+        public async Task CreateTeamAsync(string teamName, string description, bool isOpen, int backgroundIndex, int iconIndex, string language = "en")
         {
             var avatarDataJson = JsonUtility.ToJson(new AvatarData
             {
@@ -255,19 +251,19 @@ namespace HiroTeams
             );
         }
 
-        public async Task DeleteTeam()
+        public async Task DeleteTeamAsync()
         {
             if (SelectedTeam == null) return;
             await _teamsSystem.DeleteTeamAsync(SelectedTeam.Id);
         }
 
-        public async Task JoinTeam()
+        public async Task JoinTeamAsync()
         {
             if (SelectedTeam == null) return;
             await _teamsSystem.JoinTeamAsync(SelectedTeam.Id);
         }
 
-        public async Task LeaveTeam()
+        public async Task LeaveTeamAsync()
         {
             if (SelectedTeam == null) return;
             await _teamsSystem.LeaveTeamAsync(SelectedTeam.Id);
@@ -277,37 +273,37 @@ namespace HiroTeams
 
         #region Team Member Operations
 
-        public async Task AcceptJoinRequest(string userId)
+        public async Task AcceptJoinRequestAsync(string userId)
         {
             if (SelectedTeam == null) return;
             await _teamsSystem.ApproveJoinRequestAsync(SelectedTeam.Id, userId);
         }
 
-        public async Task RejectJoinRequest(string userId)
+        public async Task RejectJoinRequestAsync(string userId)
         {
             if (SelectedTeam == null) return;
             await _teamsSystem.RejectJoinRequestAsync(SelectedTeam.Id, userId);
         }
 
-        public async Task PromoteUser(string userId)
+        public async Task PromoteUserAsync(string userId)
         {
             if (SelectedTeam == null) return;
             await _teamsSystem.PromoteUsersAsync(SelectedTeam.Id, new[] { userId });
         }
 
-        public async Task DemoteUser(string userId)
+        public async Task DemoteUserAsync(string userId)
         {
             if (SelectedTeam == null) return;
             await _teamsSystem.DemoteUsersAsync(SelectedTeam.Id, new[] { userId });
         }
 
-        public async Task KickUser(string userId)
+        public async Task KickUserAsync(string userId)
         {
             if (SelectedTeam == null) return;
             await _teamsSystem.KickUsersAsync(SelectedTeam.Id, new[] { userId });
         }
 
-        public async Task BanUser(string userId)
+        public async Task BanUserAsync(string userId)
         {
             if (SelectedTeam == null) return;
             await _nakamaSystem.Client.BanGroupUsersAsync(_nakamaSystem.Session, SelectedTeam.Id, new[] { userId });
@@ -317,7 +313,7 @@ namespace HiroTeams
 
         #region Debug Operations
 
-        public async Task DebugUpdateStat(string statKey, int value, bool isPrivate)
+        public async Task DebugUpdateStatAsync(string statKey, int value, bool isPrivate)
         {
             if (SelectedTeam == null) return;
 
@@ -346,10 +342,8 @@ namespace HiroTeams
         }
 
         #endregion
-        
-        #region Mailbox Operations
 
-        public List<IRewardMailboxEntry> MailboxEntries { get; } = new();
+        #region Mailbox Operations
 
         public async Task<List<IRewardMailboxEntry>> GetMailboxEntriesAsync()
         {
@@ -369,7 +363,7 @@ namespace HiroTeams
             return MailboxEntries;
         }
 
-        public async Task<IRewardMailboxEntry> ClaimMailboxEntry(string entryId)
+        public async Task<IRewardMailboxEntry> ClaimMailboxEntryAsync(string entryId)
         {
             if (SelectedTeam == null) return null;
 
@@ -377,7 +371,7 @@ namespace HiroTeams
             return result;
         }
 
-        public async Task ClaimAllMailbox()
+        public async Task ClaimAllMailboxAsync()
         {
             if (SelectedTeam == null) return;
 

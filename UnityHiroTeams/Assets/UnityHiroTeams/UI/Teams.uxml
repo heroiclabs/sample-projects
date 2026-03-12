@@ -25,9 +25,11 @@
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:ListView fixed-item-height="150" name="teams-list" style="flex-grow: 1;" />
+            <ui:VisualElement name="teams-list-spinner" class="spinner" style="display: none; position: absolute; top: 50%; left: 50%; translate: -50% -50%;" />
         </ui:VisualElement>
         <ui:VisualElement name="main-right" style="width: 55%;">
             <ui:VisualElement style="margin-top: 30px; margin-right: 30px; margin-bottom: 30px; flex-grow: 1;">
+                <ui:VisualElement name="selected-team-spinner" class="spinner" style="display: none; position: absolute; top: 50%; left: 50%; translate: -50% -50%; z-index: 100;" />
                 <ui:VisualElement name="selected-team-panel" class="heroic-main__panel" style="flex-grow: 1; flex-shrink: 0;">
                     <ui:VisualElement name="team-header" style="background-color: rgb(132, 154, 255); border-top-left-radius: 15px; border-top-right-radius: 15px; flex-direction: row; padding: 10px 15px; align-items: center; min-height: auto; padding-top: 10px; padding-right: 20px; padding-bottom: 10px; padding-left: 20px; height: 150px;">
                         <ui:VisualElement name="header-avatar" style="width: 92px; min-width: 92px; height: 120px; flex-shrink: 0;">
@@ -163,7 +165,7 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement template="ErrorPopup" name="create-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
+    <ui:VisualElement name="create-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
         <Style src="project://database/Assets/UnityHiroTeams/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
         <ui:VisualElement name="create-modal-background" class="heroic-error-popup__background" style="flex-grow: 0;">
             <ui:VisualElement name="create-modal-panel" class="heroic-main__panel" style="height: auto; width: 974px;">
@@ -225,7 +227,7 @@
                         <ui:DropdownField label="Team Type" name="search-open-filter" index="0" choices="All,Open,Invite Only" style="width: 100%; overflow: visible;" />
                     </ui:VisualElement>
                     <ui:VisualElement style="margin-bottom: 20px;">
-                        <ui:IntegerField label="Minimum Activity" value="0" name="search-min-activity" style="width: 100%;" />
+                        <ui:TextField label="Minimum Activity" value="0" name="search-min-activity" style="width: 100%;" />
                         <ui:Label text="Activity is measured by team member count" name="Label" style="font-size: 18px; color: rgb(150, 150, 150); margin-top: 5px;" />
                     </ui:VisualElement>
                     <ui:VisualElement style="flex-direction: row; justify-content: space-between;">

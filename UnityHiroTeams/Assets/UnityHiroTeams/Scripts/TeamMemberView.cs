@@ -15,7 +15,7 @@
 using System;
 using System.Threading.Tasks;
 using Hiro;
-using Hiro.Unity;
+using Hiro.System;
 using Nakama;
 using UnityEngine.UIElements;
 
@@ -33,34 +33,36 @@ namespace HiroTeams
         private Button _banButton;
 
         private string _userId;
-        private HiroTeamsController _controller;
+        private TeamsController _controller;
+        private NakamaSystem _nakamaSystem;
         private TeamsView _teamsView;
 
-        public void SetVisualElement(VisualElement visualElement, HiroTeamsController controller, TeamsView teamsView)
+        public void SetVisualElement(VisualElement visualElement, TeamsController controller, NakamaSystem nakamaSystem, TeamsView teamsView)
         {
             _controller = controller;
+            _nakamaSystem = nakamaSystem;
             _teamsView = teamsView;
 
             _usernameLabel = visualElement.Q<Label>("username");
             _roleLabel = visualElement.Q<Label>("role");
 
             _acceptButton = visualElement.Q<Button>("accept");
-            _acceptButton.RegisterCallback<ClickEvent>(evt => _ = AcceptUser());
+            _acceptButton.RegisterCallback<ClickEvent>(evt => _ = AcceptUserAsync());
 
             _declineButton = visualElement.Q<Button>("decline");
-            _declineButton.RegisterCallback<ClickEvent>(evt => _ = RejectUser());
+            _declineButton.RegisterCallback<ClickEvent>(evt => _ = RejectUserAsync());
 
             _promoteButton = visualElement.Q<Button>("promote");
-            _promoteButton.RegisterCallback<ClickEvent>(evt => _ = PromoteUser());
+            _promoteButton.RegisterCallback<ClickEvent>(evt => _ = PromoteUserAsync());
 
             _demoteButton = visualElement.Q<Button>("demote");
-            _demoteButton.RegisterCallback<ClickEvent>(evt => _ = DemoteUser());
+            _demoteButton.RegisterCallback<ClickEvent>(evt => _ = DemoteUserAsync());
 
             _kickButton = visualElement.Q<Button>("kick");
-            _kickButton.RegisterCallback<ClickEvent>(evt => _ = KickUser());
+            _kickButton.RegisterCallback<ClickEvent>(evt => _ = KickUserAsync());
 
             _banButton = visualElement.Q<Button>("ban");
-            _banButton.RegisterCallback<ClickEvent>(evt => _ = BanUser());
+            _banButton.RegisterCallback<ClickEvent>(evt => _ = BanUserAsync());
         }
 
         public void SetTeamMember(TeamMemberState playerMemberState, IGroupUserListGroupUser teamMember)
@@ -71,8 +73,7 @@ namespace HiroTeams
             _usernameLabel.text = teamMember.User.Username;
             _roleLabel.text = userState.ToString();
 
-            // Get current user session to check if this is self
-            var session = HiroCoordinator.Instance.GetSystem<NakamaSystem>().Session;
+            var session = _nakamaSystem.Session;
 
             // Hide all buttons if member is self
             if (session.UserId == teamMember.User.Id)
@@ -88,7 +89,6 @@ namespace HiroTeams
 
             switch (playerMemberState)
             {
-                // We don't have permissions to manage the team
                 case TeamMemberState.None:
                 case TeamMemberState.JoinRequest:
                 case TeamMemberState.Member:
@@ -100,7 +100,6 @@ namespace HiroTeams
                     _banButton.style.display = DisplayStyle.None;
                     break;
 
-                // We can manage non-ADMIN or non-SUPERADMIN users, including accepting join requests
                 case TeamMemberState.Admin:
                     _acceptButton.style.display =
                         userState == TeamMemberState.JoinRequest ? DisplayStyle.Flex : DisplayStyle.None;
@@ -117,7 +116,6 @@ namespace HiroTeams
                         : DisplayStyle.None;
                     break;
 
-                // We have all possible privileges
                 case TeamMemberState.SuperAdmin:
                     _acceptButton.style.display =
                         userState == TeamMemberState.JoinRequest ? DisplayStyle.Flex : DisplayStyle.None;
@@ -144,12 +142,12 @@ namespace HiroTeams
             }
         }
 
-        private async Task AcceptUser()
-        { 
+        private async Task AcceptUserAsync()
+        {
             try
             {
-                await _controller.AcceptJoinRequest(_userId);
-                await _teamsView.RefreshTeams();
+                await _controller.AcceptJoinRequestAsync(_userId);
+                await _teamsView.RefreshTeamsAsync();
             }
             catch (Exception e)
             {
@@ -157,12 +155,12 @@ namespace HiroTeams
             }
         }
 
-        private async Task RejectUser()
+        private async Task RejectUserAsync()
         {
             try
             {
-                await _controller.RejectJoinRequest(_userId);
-                await _teamsView.RefreshTeams();
+                await _controller.RejectJoinRequestAsync(_userId);
+                await _teamsView.RefreshTeamsAsync();
             }
             catch (Exception e)
             {
@@ -170,12 +168,12 @@ namespace HiroTeams
             }
         }
 
-        private async Task PromoteUser()
+        private async Task PromoteUserAsync()
         {
             try
             {
-                await _controller.PromoteUser(_userId);
-                await _teamsView.RefreshTeams();
+                await _controller.PromoteUserAsync(_userId);
+                await _teamsView.RefreshTeamsAsync();
             }
             catch (Exception e)
             {
@@ -183,12 +181,12 @@ namespace HiroTeams
             }
         }
 
-        private async Task DemoteUser()
+        private async Task DemoteUserAsync()
         {
             try
             {
-                await _controller.DemoteUser(_userId);
-                await _teamsView.RefreshTeams();
+                await _controller.DemoteUserAsync(_userId);
+                await _teamsView.RefreshTeamsAsync();
             }
             catch (Exception e)
             {
@@ -196,12 +194,12 @@ namespace HiroTeams
             }
         }
 
-        private async Task KickUser()
+        private async Task KickUserAsync()
         {
             try
             {
-                await _controller.KickUser(_userId);
-                await _teamsView.RefreshTeams();
+                await _controller.KickUserAsync(_userId);
+                await _teamsView.RefreshTeamsAsync();
             }
             catch (Exception e)
             {
@@ -209,12 +207,12 @@ namespace HiroTeams
             }
         }
 
-        private async Task BanUser()
+        private async Task BanUserAsync()
         {
             try
             {
-                await _controller.BanUser(_userId);
-                await _teamsView.RefreshTeams();
+                await _controller.BanUserAsync(_userId);
+                await _teamsView.RefreshTeamsAsync();
             }
             catch (Exception e)
             {

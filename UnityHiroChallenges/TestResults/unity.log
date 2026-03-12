@@ -1,0 +1,39 @@
+Unity Editor version:    6000.2.6f2 (4a4dcaec6541)
+Branch:                  6000.2/respin/6000.2.6f2-cc51a95c03
+Build type:              Release
+Batch mode:              YES
+macOS version:           Version 26.2 (Build 25C56)
+Darwin version:          25.2.0
+Architecture:            arm64
+Running under Rosetta:   NO
+Available memory:        49152 MB
+Date:                    2026-01-27T19:25:06Z
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-andres" at "2026-01-27T19:25:06.095831Z"
+Launching external process: /Applications/Unity/Hub/Editor/6000.2.6f2/Unity.app/Contents/Resources/PackageManager/Server/UnityPackageManager
+
+COMMAND LINE ARGUMENTS:
+/Applications/Unity/Hub/Editor/6000.2.6f2/Unity.app/Contents/MacOS/Unity
+-runTests
+-batchmode
+-projectPath
+/Users/andres/Developer/sample-projects/UnityHiroChallenges
+-testPlatform
+EditMode
+-testResults
+/Users/andres/Developer/sample-projects/UnityHiroChallenges/TestResults/test-results.xml
+-logFile
+/Users/andres/Developer/sample-projects/UnityHiroChallenges/TestResults/unity.log
+Successfully changed project path to: /Users/andres/Developer/sample-projects/UnityHiroChallenges
+/Users/andres/Developer/sample-projects/UnityHiroChallenges
+It looks like another Unity instance is running with this project open.
+
+Multiple Unity instances cannot open the same project.
+
+Project: /Users/andres/Developer/sample-projects/UnityHiroChallenges
+Fatal Error! It looks like another Unity instance is running with this project open.
+
+Multiple Unity instances cannot open the same project.
+
+Project: /Users/andres/Developer/sample-projects/UnityHiroChallenges
+[Package Manager] Server process was shutdown

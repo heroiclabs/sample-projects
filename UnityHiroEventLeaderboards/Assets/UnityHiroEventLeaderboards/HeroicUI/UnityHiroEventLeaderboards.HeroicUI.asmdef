@@ -1,0 +1,17 @@
+{
+    "name": "UnityHiroEventLeaderboards.HeroicUI",
+    "rootNamespace": "HeroicUI",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Hiro.dll",
+        "Hiro.Unity.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -18,6 +18,7 @@
     -unity-background-image-tint-color: rgb(121, 99, 255);
     transition-property: scale;
     transition-duration: 0.1s;
+    cursor: arrow;
 }
 
 .heroic-button:hover:enabled {
@@ -728,3 +729,28 @@
 .heroic-button--secondary:active {
     -unity-background-image-tint-color: rgb(255, 255, 255);
 }
+
+/* Prevent runtime cursor warnings - use default arrow cursor for all interactive elements */
+Button {
+    cursor: arrow;
+}
+
+.unity-button {
+    cursor: arrow;
+}
+
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border-top-width: 4px;
+    border-right-width: 4px;
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+    border-top-color: rgb(121, 99, 255);
+    border-right-color: rgba(121, 99, 255, 0.3);
+    border-bottom-color: rgba(121, 99, 255, 0.3);
+    border-left-color: rgba(121, 99, 255, 0.3);
+}
+

@@ -21,6 +21,11 @@ namespace HiroEventLeaderboards
 {
     public sealed class EventLeaderboardView
     {
+        private static readonly Color ActiveTint = new Color(0.078f, 0.827f, 0.761f, 1f);
+        private static readonly Color JoinTint = new Color(0f, 0.675f, 0.957f, 1f);
+        private static readonly Color WarningTint = new Color(1f, 0.8f, 0.3f, 1f);
+        private static readonly Color EndedTint = new Color(0.882f, 0.196f, 0.2f, 1f);
+
         private Label _nameLabel;
         private Label _categoryLabel;
         private Label _statusLabel;
@@ -45,92 +50,81 @@ namespace HiroEventLeaderboards
             _nameLabel.text = eventLeaderboard.Name;
             _categoryLabel.text = eventLeaderboard.Category;
 
-            // Set icon for event leaderboard
-            if (_iconElement != null)
-            {
-                string iconName = "icon_trophy"; // default fallback
-                if (eventLeaderboard.AdditionalProperties.TryGetValue("icon", out var iconValue))
-                {
-                    iconName = iconValue;
-                }
+            SetIcon(eventLeaderboard);
+            SetStatus(eventLeaderboard);
+            SetTimeRemaining(eventLeaderboard);
+        }
 
-                var iconTexture = Resources.Load<Texture2D>($"EventIcons/{iconName}");
-                if (iconTexture != null)
-                {
-                    _iconElement.style.backgroundImage = new StyleBackground(iconTexture);
-                }
+        private void SetIcon(IEventLeaderboard eventLeaderboard)
+        {
+            if (_iconElement == null) return;
+
+            var iconName = "icon_trophy";
+            if (eventLeaderboard.AdditionalProperties.TryGetValue("icon", out var iconValue))
+            {
+                iconName = iconValue;
             }
 
-            // Display status of event
-            var currentTime = DateTimeOffset.UtcNow;
-            var startTime = EventLeaderboardTimeUtility.GetStartTime(eventLeaderboard);
-
-            if (eventLeaderboard.IsActive)
+            var iconTexture = Resources.Load<Texture2D>($"EventIcons/{iconName}");
+            if (iconTexture != null)
             {
-                if (EventLeaderboardTimeUtility.HasStarted(eventLeaderboard))
-                {
-                    _statusLabel.text = "Active";
-                    _statusLabel.style.color = new StyleColor(Color.white);
-                    _statusLabel.style.unityBackgroundImageTintColor = new StyleColor(new Color(0.078f, 0.827f, 0.761f, 1f));
-                }
-                else
-                {
-                    var difference = startTime - currentTime;
-                    _statusLabel.text = $"Starts in {EventLeaderboardTimeUtility.FormatTimeDuration(difference)}";
-                    _statusLabel.style.color = new StyleColor(Color.white);
-                    _statusLabel.style.unityBackgroundImageTintColor = new StyleColor(new Color(1f, 0.8f, 0.3f, 1f));
-                }
+                _iconElement.style.backgroundImage = new StyleBackground(iconTexture);
+            }
+        }
+
+        private void SetStatus(IEventLeaderboard eventLeaderboard)
+        {
+            if (eventLeaderboard.CanClaim)
+            {
+                SetStatusLabel("Claim reward", WarningTint);
+            }
+            else if (eventLeaderboard.CanRoll)
+            {
+                SetStatusLabel("Can join", JoinTint);
+            }
+            else if (eventLeaderboard.IsActive)
+            {
+                SetStatusLabel("Active", ActiveTint);
             }
             else
             {
-                _statusLabel.text = "Ended";
-                _statusLabel.style.color = new StyleColor(Color.white);
-                _statusLabel.style.unityBackgroundImageTintColor = new StyleColor(new Color(0.882f, 0.196f, 0.2f, 1f));
+                SetStatusLabel("Ended", EndedTint);
             }
+        }
 
-            // Display time remaining or time until next start
+        private void SetStatusLabel(string text, Color tintColor)
+        {
+            _statusLabel.text = text;
+            _statusLabel.style.color = new StyleColor(Color.white);
+            _statusLabel.style.unityBackgroundImageTintColor = new StyleColor(tintColor);
+        }
+
+        private void SetTimeRemaining(IEventLeaderboard eventLeaderboard)
+        {
+            
             if (eventLeaderboard.IsActive)
             {
-                // Event is active - show time remaining
                 if (_timeRemainingPrefixLabel != null)
-                {
                     _timeRemainingPrefixLabel.text = "Time Left:";
-                }
 
                 var timeRemaining = EventLeaderboardTimeUtility.GetTimeRemaining(eventLeaderboard);
                 _timeRemainingLabel.text = EventLeaderboardTimeUtility.FormatTimeDuration(timeRemaining);
+                _timeRemainingContainer?.Show();
+                return;
+            }
 
-                if (_timeRemainingContainer != null)
-                {
-                    _timeRemainingContainer.style.display = DisplayStyle.Flex;
-                }
+            var timeUntilNextStart = EventLeaderboardTimeUtility.GetTimeUntilNextStart(eventLeaderboard);
+            if (timeUntilNextStart > TimeSpan.Zero)
+            {
+                if (_timeRemainingPrefixLabel != null)
+                    _timeRemainingPrefixLabel.text = "Begins in:";
+
+                _timeRemainingLabel.text = EventLeaderboardTimeUtility.FormatTimeDuration(timeUntilNextStart);
+                _timeRemainingContainer?.Show();
             }
             else
             {
-                // Event has ended - check if we can show when it begins again
-                var timeUntilNextStart = EventLeaderboardTimeUtility.GetTimeUntilNextStart(eventLeaderboard);
-                if (timeUntilNextStart > TimeSpan.Zero)
-                {
-                    if (_timeRemainingPrefixLabel != null)
-                    {
-                        _timeRemainingPrefixLabel.text = "Begins in:";
-                    }
-
-                    _timeRemainingLabel.text = EventLeaderboardTimeUtility.FormatTimeDuration(timeUntilNextStart);
-
-                    if (_timeRemainingContainer != null)
-                    {
-                        _timeRemainingContainer.style.display = DisplayStyle.Flex;
-                    }
-                }
-                else
-                {
-                    // Can't calculate next start time, hide the container
-                    if (_timeRemainingContainer != null)
-                    {
-                        _timeRemainingContainer.style.display = DisplayStyle.None;
-                    }
-                }
+                _timeRemainingContainer?.Hide();
             }
         }
     }

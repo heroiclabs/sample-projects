@@ -1,0 +1,920 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="54" result="Passed" total="54" passed="53" failed="0" inconclusive="1" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-02-04 04:50:37Z" end-time="2026-02-04 04:50:47Z" duration="10.2135988">
+  <test-suite type="TestSuite" id="1000" name="UnityHiroChallenges" fullname="UnityHiroChallenges" runstate="Runnable" testcasecount="54" result="Passed" start-time="2026-02-04 04:50:37Z" end-time="2026-02-04 04:50:47Z" duration="10.213599" total="54" passed="53" failed="0" inconclusive="1" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1062" name="UnityHiroAchievements.Tests.Editor.dll" fullname="/Users/andres/Developer/sample-projects/UnityHiroAchievements/Library/ScriptAssemblies/UnityHiroAchievements.Tests.Editor.dll" runstate="Runnable" testcasecount="54" result="Passed" start-time="2026-02-04 04:50:37Z" end-time="2026-02-04 04:50:47Z" duration="10.210359" total="54" passed="53" failed="0" inconclusive="1" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="77353" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1063" name="HiroAchievements" fullname="HiroAchievements" runstate="Runnable" testcasecount="54" result="Passed" start-time="2026-02-04 04:50:37Z" end-time="2026-02-04 04:50:47Z" duration="10.209765" total="54" passed="53" failed="0" inconclusive="1" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1064" name="Tests" fullname="HiroAchievements.Tests" runstate="Runnable" testcasecount="54" result="Passed" start-time="2026-02-04 04:50:37Z" end-time="2026-02-04 04:50:47Z" duration="10.209519" total="54" passed="53" failed="0" inconclusive="1" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1065" name="Editor" fullname="HiroAchievements.Tests.Editor" runstate="Runnable" testcasecount="54" result="Passed" start-time="2026-02-04 04:50:37Z" end-time="2026-02-04 04:50:47Z" duration="10.209294" total="54" passed="53" failed="0" inconclusive="1" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1048" name="AchievementProgressHelperTests" fullname="HiroAchievements.Tests.Editor.AchievementProgressHelperTests" classname="HiroAchievements.Tests.Editor.AchievementProgressHelperTests" runstate="Runnable" testcasecount="11" result="Passed" start-time="2026-02-04 04:50:37Z" end-time="2026-02-04 04:50:39Z" duration="2.241285" total="11" passed="10" failed="0" inconclusive="1" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1058" name="AreAllSubAchievementsCompleted_NoSubs_ReturnsFalse" fullname="HiroAchievements.Tests.Editor.AchievementProgressHelperTests.AreAllSubAchievementsCompleted_NoSubs_ReturnsFalse" methodname="AreAllSubAchievementsCompleted_NoSubs_ReturnsFalse" classname="HiroAchievements.Tests.Editor.AchievementProgressHelperTests" runstate="Runnable" seed="1262421448" result="Passed" start-time="2026-02-04 04:50:37Z" end-time="2026-02-04 04:50:37Z" duration="0.231518" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIwOTEyOTIwZS00ZDNkLTRjZGEtODkwZi05Y2IzZjQ3N2QzNjQiLCJ1aWQiOiIxNWU2MzhjMC0wNzAyLTQxNWEtOWQwMi1jNzk5ODk1YWVhNTIiLCJ1c24iOiJQbGF5ZXI4OTY5MjQzNCIsImV4cCI6MTc3MDI2NzAzNywiaWF0IjoxNzcwMTgwNjM3fQ.TkIL50K7UNZ4PTW-hrEff6EpIJFoz3cuEdLK0J-WSXE', Created=True, CreateTime=1770180637, ExpireTime=1770267037, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIwOTEyOTIwZS00ZDNkLTRjZGEtODkwZi05Y2IzZjQ3N2QzNjQiLCJ1aWQiOiIxNWU2MzhjMC0wNzAyLTQxNWEtOWQwMi1jNzk5ODk1YWVhNTIiLCJ1c24iOiJQbGF5ZXI4OTY5MjQzNCIsImV4cCI6MTc3MDc4NTQzNywiaWF0IjoxNzcwMTgwNjM3fQ.ZNFuvCHuhWoon7LKrBDcZRLIi5w75F8102LELZR-H2A, RefreshExpireTime=1770785437, Variables={}, Username='Player89692434', UserId='15e638c0-0702-415a-9d02-c799895aea52')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1059" name="AreAllSubAchievementsCompleted_WithSubs_ReturnsCorrectStatus" fullname="HiroAchievements.Tests.Editor.AchievementProgressHelperTests.AreAllSubAchievementsCompleted_WithSubs_ReturnsCorrectStatus" methodname="AreAllSubAchievementsCompleted_WithSubs_ReturnsCorrectStatus" classname="HiroAchievements.Tests.Editor.AchievementProgressHelperTests" runstate="Runnable" seed="1411070543" result="Passed" start-time="2026-02-04 04:50:37Z" end-time="2026-02-04 04:50:38Z" duration="0.197901" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkNGNmZGYyNy00NDc3LTQyMmItOTM3ZC00ZGNkNWZmMTg5OTYiLCJ1aWQiOiI1Y2IxMjg2Ny05OWVmLTQyOGEtOTAzZS0zMzQyY2M3NmRiOGYiLCJ1c24iOiJQbGF5ZXI1NTA2NjYwNSIsImV4cCI6MTc3MDI2NzAzNywiaWF0IjoxNzcwMTgwNjM3fQ.FGPjgcbCbeninbaigU0wj2Nh-DB30niRlUh__-t79fw', Created=True, CreateTime=1770180637, ExpireTime=1770267037, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkNGNmZGYyNy00NDc3LTQyMmItOTM3ZC00ZGNkNWZmMTg5OTYiLCJ1aWQiOiI1Y2IxMjg2Ny05OWVmLTQyOGEtOTAzZS0zMzQyY2M3NmRiOGYiLCJ1c24iOiJQbGF5ZXI1NTA2NjYwNSIsImV4cCI6MTc3MDc4NTQzNywiaWF0IjoxNzcwMTgwNjM3fQ.pDLBBGce149FZHjrtejMVv3YMxX_Wc4b-ABVnSv4nxo, RefreshExpireTime=1770785437, Variables={}, Username='Player55066605', UserId='5cb12867-99ef-428a-903e-3342cc76db8f')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Achievement Combat Veteran: AllCompleted=False (0/5)
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1053" name="CalculateProgressPercent_MaxCountZero_ReturnsZero" fullname="HiroAchievements.Tests.Editor.AchievementProgressHelperTests.CalculateProgressPercent_MaxCountZero_ReturnsZero" methodname="CalculateProgressPercent_MaxCountZero_ReturnsZero" classname="HiroAchievements.Tests.Editor.AchievementProgressHelperTests" runstate="Runnable" seed="527210942" result="Passed" start-time="2026-02-04 04:50:38Z" end-time="2026-02-04 04:50:38Z" duration="0.200495" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <reason>
+                  <message><![CDATA[No achievement with MaxCount=0 found (expected).]]></message>
+                </reason>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiZDhjNDViOS1kNGI3LTRjZjktODUwMi1kMzUzOWY0YzdmZDQiLCJ1aWQiOiIxZTRlZTVjZS0yOWI5LTRkZWYtOTg5OS1hODllZTRlZWM5NTciLCJ1c24iOiJQbGF5ZXI2ODE2OTE0NCIsImV4cCI6MTc3MDI2NzAzOCwiaWF0IjoxNzcwMTgwNjM4fQ.sayvyFLnLUWVz-WTOqLyjH9TpCLwQj0NJlfwgII3-sM', Created=True, CreateTime=1770180638, ExpireTime=1770267038, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiZDhjNDViOS1kNGI3LTRjZjktODUwMi1kMzUzOWY0YzdmZDQiLCJ1aWQiOiIxZTRlZTVjZS0yOWI5LTRkZWYtOTg5OS1hODllZTRlZWM5NTciLCJ1c24iOiJQbGF5ZXI2ODE2OTE0NCIsImV4cCI6MTc3MDc4NTQzOCwiaWF0IjoxNzcwMTgwNjM4fQ.mocsyQfPPo27fB_cpBZnW5Q3jsffAJRYVf106Nl7vf0, RefreshExpireTime=1770785438, Variables={}, Username='Player68169144', UserId='1e4ee5ce-29b9-4def-9899-a89ee4eec957')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1052" name="CalculateProgressPercent_PartialProgress_ReturnsCorrectPercent" fullname="HiroAchievements.Tests.Editor.AchievementProgressHelperTests.CalculateProgressPercent_PartialProgress_ReturnsCorrectPercent" methodname="CalculateProgressPercent_PartialProgress_ReturnsCorrectPercent" classname="HiroAchievements.Tests.Editor.AchievementProgressHelperTests" runstate="Runnable" seed="1465674094" result="Inconclusive" start-time="2026-02-04 04:50:38Z" end-time="2026-02-04 04:50:38Z" duration="0.199911" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <reason>
+                  <message><![CDATA[No achievement with partial progress found.]]></message>
+                </reason>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJjZmUxZDIyYy03OWMyLTQyZTktYWY0Yi00ZDY3ODI4OTkxMzIiLCJ1aWQiOiI2MWIyNTIxNS03YmRkLTQ3YmQtOWJkMy04Y2VjN2Y4YmM4MDgiLCJ1c24iOiJQbGF5ZXI5MDQ5NTU0MSIsImV4cCI6MTc3MDI2NzAzOCwiaWF0IjoxNzcwMTgwNjM4fQ.bDw9OeqWok9QV2mkEeLwlSiMGhDkCqkFjoSH3d5rHgk', Created=True, CreateTime=1770180638, ExpireTime=1770267038, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJjZmUxZDIyYy03OWMyLTQyZTktYWY0Yi00ZDY3ODI4OTkxMzIiLCJ1aWQiOiI2MWIyNTIxNS03YmRkLTQ3YmQtOWJkMy04Y2VjN2Y4YmM4MDgiLCJ1c24iOiJQbGF5ZXI5MDQ5NTU0MSIsImV4cCI6MTc3MDc4NTQzOCwiaWF0IjoxNzcwMTgwNjM4fQ.nq4Y8JysEXdrK_PcXYR7nKEpqldWVeekKQSwGRuJFn0, RefreshExpireTime=1770785438, Variables={}, Username='Player90495541', UserId='61b25215-7bdd-47bd-9bd3-8cec7f8bc808')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1051" name="CalculateProgressPercent_ZeroProgress_ReturnsZero" fullname="HiroAchievements.Tests.Editor.AchievementProgressHelperTests.CalculateProgressPercent_ZeroProgress_ReturnsZero" methodname="CalculateProgressPercent_ZeroProgress_ReturnsZero" classname="HiroAchievements.Tests.Editor.AchievementProgressHelperTests" runstate="Runnable" seed="895515236" result="Passed" start-time="2026-02-04 04:50:38Z" end-time="2026-02-04 04:50:38Z" duration="0.200124" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1MGMwNTY4Yi0zNDRiLTRkMDItYmY4Mi03M2NmZmIyNzliZjAiLCJ1aWQiOiI0NzZhMTkxNC01N2U2LTQxOWMtODQyOC01ZTkxOWQ4Yzk2ZmUiLCJ1c24iOiJQbGF5ZXI0MjMxNzEwNSIsImV4cCI6MTc3MDI2NzAzOCwiaWF0IjoxNzcwMTgwNjM4fQ.g_nkiV3WZWT_NGO8eYMTzlXfyvgmGf07gF09wGTUdV0', Created=True, CreateTime=1770180638, ExpireTime=1770267038, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1MGMwNTY4Yi0zNDRiLTRkMDItYmY4Mi03M2NmZmIyNzliZjAiLCJ1aWQiOiI0NzZhMTkxNC01N2U2LTQxOWMtODQyOC01ZTkxOWQ4Yzk2ZmUiLCJ1c24iOiJQbGF5ZXI0MjMxNzEwNSIsImV4cCI6MTc3MDc4NTQzOCwiaWF0IjoxNzcwMTgwNjM4fQ.DQwCEyT-nDD3nPCvT93ZveCN8xDUcRoql4QpcSR1uYs, RefreshExpireTime=1770785438, Variables={}, Username='Player42317105', UserId='476a1914-57e6-419c-8428-5e919d8c96fe')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Achievement Clear the Goblin Camp: 0%
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1054" name="CountCompletedSubAchievements_NoSubs_ReturnsZero" fullname="HiroAchievements.Tests.Editor.AchievementProgressHelperTests.CountCompletedSubAchievements_NoSubs_ReturnsZero" methodname="CountCompletedSubAchievements_NoSubs_ReturnsZero" classname="HiroAchievements.Tests.Editor.AchievementProgressHelperTests" runstate="Runnable" seed="1597133066" result="Passed" start-time="2026-02-04 04:50:38Z" end-time="2026-02-04 04:50:38Z" duration="0.200307" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0YzFiMzNjMi0wMmU4LTQ4YTAtODI4NS1kN2YyYzkyOWViZmIiLCJ1aWQiOiI0YzE4YzhkNS1hZWI4LTRkOGYtYmY0Yy0yMWM0ZWRkMDE3NjUiLCJ1c24iOiJQbGF5ZXIyMTUzODA0MSIsImV4cCI6MTc3MDI2NzAzOCwiaWF0IjoxNzcwMTgwNjM4fQ.RhDK7HJdDrfOIFXrMqIqIiJiHYj4xfgKedDciK0Suk8', Created=True, CreateTime=1770180638, ExpireTime=1770267038, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0YzFiMzNjMi0wMmU4LTQ4YTAtODI4NS1kN2YyYzkyOWViZmIiLCJ1aWQiOiI0YzE4YzhkNS1hZWI4LTRkOGYtYmY0Yy0yMWM0ZWRkMDE3NjUiLCJ1c24iOiJQbGF5ZXIyMTUzODA0MSIsImV4cCI6MTc3MDc4NTQzOCwiaWF0IjoxNzcwMTgwNjM4fQ.-LDXFuDaeuP0xJKGOOmw0cIbRCE8qjzNk9kTzRc3KK8, RefreshExpireTime=1770785438, Variables={}, Username='Player21538041', UserId='4c18c8d5-aeb8-4d8f-bf4c-21c4edd01765')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1055" name="CountCompletedSubAchievements_WithSubs_ReturnsCorrectCount" fullname="HiroAchievements.Tests.Editor.AchievementProgressHelperTests.CountCompletedSubAchievements_WithSubs_ReturnsCorrectCount" methodname="CountCompletedSubAchievements_WithSubs_ReturnsCorrectCount" classname="HiroAchievements.Tests.Editor.AchievementProgressHelperTests" runstate="Runnable" seed="625878001" result="Passed" start-time="2026-02-04 04:50:38Z" end-time="2026-02-04 04:50:39Z" duration="0.200634" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJhOGMzNjliNS1hZmM1LTRjZWEtYmRiYy0xNjg1MWYwZGRlZjQiLCJ1aWQiOiJkNTE2N2E5OC0wYTM1LTQ0M2YtOGMyOC0wNzM1ODcxNzI3OGEiLCJ1c24iOiJQbGF5ZXIzMDQ0Mzg2OCIsImV4cCI6MTc3MDI2NzAzOCwiaWF0IjoxNzcwMTgwNjM4fQ.z9NUpHK7LC73YXqpiV4_U1ZuWbAX2My8qhAzkXU4epc', Created=True, CreateTime=1770180638, ExpireTime=1770267038, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJhOGMzNjliNS1hZmM1LTRjZWEtYmRiYy0xNjg1MWYwZGRlZjQiLCJ1aWQiOiJkNTE2N2E5OC0wYTM1LTQ0M2YtOGMyOC0wNzM1ODcxNzI3OGEiLCJ1c24iOiJQbGF5ZXIzMDQ0Mzg2OCIsImV4cCI6MTc3MDc4NTQzOCwiaWF0IjoxNzcwMTgwNjM4fQ.c1BmLGcevA93WLnQLyHxuUITGBuNZIXwYwUJesrGio0, RefreshExpireTime=1770785438, Variables={}, Username='Player30443868', UserId='d5167a98-0a35-443f-8c28-07358717278a')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Achievement Combat Veteran: 0/5 sub-achievements completed
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1056" name="GetProgressValues_RegularAchievement_ReturnsCountAndMax" fullname="HiroAchievements.Tests.Editor.AchievementProgressHelperTests.GetProgressValues_RegularAchievement_ReturnsCountAndMax" methodname="GetProgressValues_RegularAchievement_ReturnsCountAndMax" classname="HiroAchievements.Tests.Editor.AchievementProgressHelperTests" runstate="Runnable" seed="1931878334" result="Passed" start-time="2026-02-04 04:50:39Z" end-time="2026-02-04 04:50:39Z" duration="0.200196" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI5YTI3NGU5OC0xNzQ3LTQxOTYtYjAyZi1jZmJjNDdjM2JmNTMiLCJ1aWQiOiI3YzMyZDBlYS01OTFlLTQ2OWMtOTJlYi1hMTcwMjgxOTk0ZTQiLCJ1c24iOiJQbGF5ZXI1MTM2OTIwNyIsImV4cCI6MTc3MDI2NzAzOSwiaWF0IjoxNzcwMTgwNjM5fQ.3EnAwUbBpADIQD5YrViSMofvgyl7yGTMldP0nhSqEqg', Created=True, CreateTime=1770180639, ExpireTime=1770267039, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI5YTI3NGU5OC0xNzQ3LTQxOTYtYjAyZi1jZmJjNDdjM2JmNTMiLCJ1aWQiOiI3YzMyZDBlYS01OTFlLTQ2OWMtOTJlYi1hMTcwMjgxOTk0ZTQiLCJ1c24iOiJQbGF5ZXI1MTM2OTIwNyIsImV4cCI6MTc3MDc4NTQzOSwiaWF0IjoxNzcwMTgwNjM5fQ.9Dz7kzYkpOfALvIwrk9ZwQ9H0ieM695PhOjWwVHLzvs, RefreshExpireTime=1770785439, Variables={}, Username='Player51369207', UserId='7c32d0ea-591e-469c-92eb-a170281994e4')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Achievement Clear the Goblin Camp: 0/25
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1057" name="GetProgressValues_WithSubAchievements_ReturnsSubProgress" fullname="HiroAchievements.Tests.Editor.AchievementProgressHelperTests.GetProgressValues_WithSubAchievements_ReturnsSubProgress" methodname="GetProgressValues_WithSubAchievements_ReturnsSubProgress" classname="HiroAchievements.Tests.Editor.AchievementProgressHelperTests" runstate="Runnable" seed="1165791806" result="Passed" start-time="2026-02-04 04:50:39Z" end-time="2026-02-04 04:50:39Z" duration="0.200094" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiODE4ZDZiOS00YWRhLTRjYWMtYjcyNS1lNmNkMWE4ODI0M2EiLCJ1aWQiOiJiNDM4MGNjYy0wOGM1LTQxYmEtOTVjNy1iN2IxNTgyZDYxNjYiLCJ1c24iOiJQbGF5ZXI3OTcxNDg5OSIsImV4cCI6MTc3MDI2NzAzOSwiaWF0IjoxNzcwMTgwNjM5fQ.mN7Mr8PHecnIvQKhix8r0ycVxj4hXDaz5XKFH0F0og0', Created=True, CreateTime=1770180639, ExpireTime=1770267039, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiODE4ZDZiOS00YWRhLTRjYWMtYjcyNS1lNmNkMWE4ODI0M2EiLCJ1aWQiOiJiNDM4MGNjYy0wOGM1LTQxYmEtOTVjNy1iN2IxNTgyZDYxNjYiLCJ1c24iOiJQbGF5ZXI3OTcxNDg5OSIsImV4cCI6MTc3MDc4NTQzOSwiaWF0IjoxNzcwMTgwNjM5fQ.YfQ4EyrsC3APf3XQ4TfldY3fsS9vJGcM-PpNGi66YCo, RefreshExpireTime=1770785439, Variables={}, Username='Player79714899', UserId='b4380ccc-08c5-41ba-95c7-b7b1582d6166')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Achievement Combat Veteran: 0/5 sub-achievements
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1050" name="HasSubAchievements_WithoutSubs_ReturnsFalse" fullname="HiroAchievements.Tests.Editor.AchievementProgressHelperTests.HasSubAchievements_WithoutSubs_ReturnsFalse" methodname="HasSubAchievements_WithoutSubs_ReturnsFalse" classname="HiroAchievements.Tests.Editor.AchievementProgressHelperTests" runstate="Runnable" seed="54901559" result="Passed" start-time="2026-02-04 04:50:39Z" end-time="2026-02-04 04:50:39Z" duration="0.200613" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJjZDdmYmM1Zi05Y2UwLTRkN2UtODE5Yy1kODNhNTIxZTM5MWQiLCJ1aWQiOiI0YTk3NWY3NS03ZmYxLTRlMTktOGEyMS02YjU4NDEzNzY1ZjkiLCJ1c24iOiJQbGF5ZXI4MjkxNjQ5OCIsImV4cCI6MTc3MDI2NzAzOSwiaWF0IjoxNzcwMTgwNjM5fQ.Jdo841-FcBPUYf5BeooS2mLxpx02a8xOZ9EwUblZVao', Created=True, CreateTime=1770180639, ExpireTime=1770267039, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJjZDdmYmM1Zi05Y2UwLTRkN2UtODE5Yy1kODNhNTIxZTM5MWQiLCJ1aWQiOiI0YTk3NWY3NS03ZmYxLTRlMTktOGEyMS02YjU4NDEzNzY1ZjkiLCJ1c24iOiJQbGF5ZXI4MjkxNjQ5OCIsImV4cCI6MTc3MDc4NTQzOSwiaWF0IjoxNzcwMTgwNjM5fQ.W_sAOeahf7bLngSUsHVrgHJ7lnHVOzMK6mhiI75QHSU, RefreshExpireTime=1770785439, Variables={}, Username='Player82916498', UserId='4a975f75-7ff1-4e19-8a21-6b58413765f9')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Achievement Clear the Goblin Camp has no sub-achievements
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1049" name="HasSubAchievements_WithSubs_ReturnsTrue" fullname="HiroAchievements.Tests.Editor.AchievementProgressHelperTests.HasSubAchievements_WithSubs_ReturnsTrue" methodname="HasSubAchievements_WithSubs_ReturnsTrue" classname="HiroAchievements.Tests.Editor.AchievementProgressHelperTests" runstate="Runnable" seed="160133042" result="Passed" start-time="2026-02-04 04:50:39Z" end-time="2026-02-04 04:50:39Z" duration="0.200311" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJhNDgwODk1Zi1hMGIwLTQ4YTUtOWY3NS01MjE2NWI1NWE0NGMiLCJ1aWQiOiJiYzk4ZGQyNi0yZmNmLTRiZGQtOTFkMi04YzkyNDAwMTNhODIiLCJ1c24iOiJQbGF5ZXI1MTQ4MDYzNCIsImV4cCI6MTc3MDI2NzAzOSwiaWF0IjoxNzcwMTgwNjM5fQ.8an-Lxv0q9qES-gaOh8sD7562mljBw429skJZBNR2Qs', Created=True, CreateTime=1770180639, ExpireTime=1770267039, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJhNDgwODk1Zi1hMGIwLTQ4YTUtOWY3NS01MjE2NWI1NWE0NGMiLCJ1aWQiOiJiYzk4ZGQyNi0yZmNmLTRiZGQtOTFkMi04YzkyNDAwMTNhODIiLCJ1c24iOiJQbGF5ZXI1MTQ4MDYzNCIsImV4cCI6MTc3MDc4NTQzOSwiaWF0IjoxNzcwMTgwNjM5fQ.OPmrV0_5SnRKGz2xSbfvpvJw4VIHbQ2Ytl_tJVxTeVk, RefreshExpireTime=1770785439, Variables={}, Username='Player51480634', UserId='bc98dd26-2fcf-4bdd-91d2-8c9240013a82')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Achievement Combat Veteran has 5 sub-achievements
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1060" name="AchievementsControllerLifecycleTests" fullname="HiroAchievements.Tests.Editor.AchievementsControllerLifecycleTests" classname="HiroAchievements.Tests.Editor.AchievementsControllerLifecycleTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-02-04 04:50:39Z" end-time="2026-02-04 04:50:40Z" duration="0.299370" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1061" name="AchievementLifecycle_ProgressAndCheckStatus_WorksCorrectly" fullname="HiroAchievements.Tests.Editor.AchievementsControllerLifecycleTests.AchievementLifecycle_ProgressAndCheckStatus_WorksCorrectly" methodname="AchievementLifecycle_ProgressAndCheckStatus_WorksCorrectly" classname="HiroAchievements.Tests.Editor.AchievementsControllerLifecycleTests" runstate="Runnable" seed="1599575900" result="Passed" start-time="2026-02-04 04:50:39Z" end-time="2026-02-04 04:50:40Z" duration="0.298709" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0ZTE4YjA5OC1mNGQ0LTQzNmEtODk1Yy1iYjVmNmJkYmJhMjAiLCJ1aWQiOiJlZDQ1YWNlZC1mYWJkLTRhYmYtYmUyMS05M2U1N2NjM2RmYTMiLCJ1c24iOiJQbGF5ZXIxNzkwNDIxNSIsImV4cCI6MTc3MDI2NzAzOSwiaWF0IjoxNzcwMTgwNjM5fQ.RNIN1Cf6L4AKohZlx5rGbMJaSupifyCMqs7Ls0x2K-A', Created=True, CreateTime=1770180639, ExpireTime=1770267039, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0ZTE4YjA5OC1mNGQ0LTQzNmEtODk1Yy1iYjVmNmJkYmJhMjAiLCJ1aWQiOiJlZDQ1YWNlZC1mYWJkLTRhYmYtYmUyMS05M2U1N2NjM2RmYTMiLCJ1c24iOiJQbGF5ZXIxNzkwNDIxNSIsImV4cCI6MTc3MDc4NTQzOSwiaWF0IjoxNzcwMTgwNjM5fQ.QoTcfoUqNLZG_Bx52Gmd95eVl0mXKNNpuIPiMILPduI, RefreshExpireTime=1770785439, Variables={}, Username='Player17904215', UserId='ed45aced-fabd-4abf-be21-93e57cc3dfa3')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Testing with achievement: Clear the Goblin Camp (0/25)
+Initial state: CanClaim=False, IsCompleted=False
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_UPDATE', body='"{\"achievements\":{\"clearGoblinCamp\":\"1\"}}"'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+After progress: Count=1/25
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1005" name="AchievementsControllerTests" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" testcasecount="42" result="Passed" start-time="2026-02-04 04:50:40Z" end-time="2026-02-04 04:50:47Z" duration="7.667635" total="42" passed="42" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1040" name="CanClaimReward_Achievement_LogsStatus" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.CanClaimReward_Achievement_LogsStatus" methodname="CanClaimReward_Achievement_LogsStatus" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="73604677" result="Passed" start-time="2026-02-04 04:50:40Z" end-time="2026-02-04 04:50:40Z" duration="0.198711" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2NzViMzAyOS05Nzg1LTQ0ZDItYTIyMC01MDIxZTY5ZTA5NDQiLCJ1aWQiOiIzNzZjYTI0Ny02ZDMwLTQ3OTEtOWJlYS0wNjk0NjJhNGM2ZjQiLCJ1c24iOiJQbGF5ZXIxNzk0MTE0MSIsImV4cCI6MTc3MDI2NzA0MCwiaWF0IjoxNzcwMTgwNjQwfQ.3gITxTui9LfCRc5DZPi6h-Ejc7COzQg1QOlJczUSwJ0', Created=True, CreateTime=1770180640, ExpireTime=1770267040, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2NzViMzAyOS05Nzg1LTQ0ZDItYTIyMC01MDIxZTY5ZTA5NDQiLCJ1aWQiOiIzNzZjYTI0Ny02ZDMwLTQ3OTEtOWJlYS0wNjk0NjJhNGM2ZjQiLCJ1c24iOiJQbGF5ZXIxNzk0MTE0MSIsImV4cCI6MTc3MDc4NTQ0MCwiaWF0IjoxNzcwMTgwNjQwfQ.gPZqF89m6qcIJvnQv3-1_0krvNqxj0wCJjJ1AXYP3Ew, RefreshExpireTime=1770785440, Variables={}, Username='Player17941141', UserId='376ca247-6d30-4791-9bea-069462a4c6f4')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Achievement Clear the Goblin Camp: CanClaim=False, Count=0/25, IsClaimed=False
+Achievement Combat Veteran: CanClaim=False, Count=0/1, IsClaimed=False
+Achievement Crafting Master: CanClaim=False, Count=0/1, IsClaimed=False
+Achievement Defend the Village: CanClaim=False, Count=0/30, IsClaimed=False
+Achievement The Dungeon Delver: CanClaim=False, Count=0/5, IsClaimed=False
+Achievement Gather Supplies for the Blacksmith: CanClaim=False, Count=0/20, IsClaimed=False
+Achievement Master Explorer: CanClaim=False, Count=0/1, IsClaimed=False
+Achievement The Lost Artifact: CanClaim=False, Count=0/5, IsClaimed=False
+Achievement Bringer of a Thousand Deaths: CanClaim=False, Count=0/1000, IsClaimed=False
+Achievement Daily Combat: CanClaim=False, Count=0/10, IsClaimed=False
+Achievement Daily Craft: CanClaim=False, Count=0/1, IsClaimed=False
+Achievement Login Reward: CanClaim=False, Count=0/1, IsClaimed=False
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1036" name="ClaimAchievementRewardAsync_EmptyId_ThrowsException" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.ClaimAchievementRewardAsync_EmptyId_ThrowsException" methodname="ClaimAchievementRewardAsync_EmptyId_ThrowsException" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="928662707" result="Passed" start-time="2026-02-04 04:50:40Z" end-time="2026-02-04 04:50:40Z" duration="0.150282" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0NDdhNzg5Ni04NzhkLTQwZDUtOGU2Zi1kODRlNzRkMzY0ZGYiLCJ1aWQiOiI3NjBjMWY0NC1kOWNkLTRiYWEtYTAxYy04YTY3MmJhNDViY2QiLCJ1c24iOiJQbGF5ZXIxNzg1NDQ1NiIsImV4cCI6MTc3MDI2NzA0MCwiaWF0IjoxNzcwMTgwNjQwfQ.yklIhKOaA1cg_Al4Zsa_AosVGZTAlEGYtETO9yeVD9c', Created=True, CreateTime=1770180640, ExpireTime=1770267040, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0NDdhNzg5Ni04NzhkLTQwZDUtOGU2Zi1kODRlNzRkMzY0ZGYiLCJ1aWQiOiI3NjBjMWY0NC1kOWNkLTRiYWEtYTAxYy04YTY3MmJhNDViY2QiLCJ1c24iOiJQbGF5ZXIxNzg1NDQ1NiIsImV4cCI6MTc3MDc4NTQ0MCwiaWF0IjoxNzcwMTgwNjQwfQ.DjAYaY7JleLps_F8HDvhSVB8qKeIOUfYrCH53xEFRoo, RefreshExpireTime=1770785440, Variables={}, Username='Player17854456', UserId='760c1f44-d9cd-4baa-a01c-8a672ba45bcd')
+AchievementsSystem initialized.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1035" name="ClaimAchievementRewardAsync_NullId_ThrowsException" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.ClaimAchievementRewardAsync_NullId_ThrowsException" methodname="ClaimAchievementRewardAsync_NullId_ThrowsException" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="94094655" result="Passed" start-time="2026-02-04 04:50:40Z" end-time="2026-02-04 04:50:40Z" duration="0.150197" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIzZmMwMWYyMC1kOWQzLTQwNTAtODdiOC02MmY1MjgzNTNjM2MiLCJ1aWQiOiIxNDdiZjBlOS0yMzZhLTQ4ZGEtYmIyMC1hNzhiZmIxOGE1MjYiLCJ1c24iOiJQbGF5ZXI3MTcwNTE2MCIsImV4cCI6MTc3MDI2NzA0MCwiaWF0IjoxNzcwMTgwNjQwfQ.U1QxY7RIp-q8TUAO4V2by3ZcQyMR1nop0Pb18sjozis', Created=True, CreateTime=1770180640, ExpireTime=1770267040, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIzZmMwMWYyMC1kOWQzLTQwNTAtODdiOC02MmY1MjgzNTNjM2MiLCJ1aWQiOiIxNDdiZjBlOS0yMzZhLTQ4ZGEtYmIyMC1hNzhiZmIxOGE1MjYiLCJ1c24iOiJQbGF5ZXI3MTcwNTE2MCIsImV4cCI6MTc3MDc4NTQ0MCwiaWF0IjoxNzcwMTgwNjQwfQ.7VGeotV-cFvwT3KINWM7XIAt5MS25kMYS0qn2A3oRlE, RefreshExpireTime=1770785440, Variables={}, Username='Player71705160', UserId='147bf0e9-236a-48da-bb20-a78bfb18a526')
+AchievementsSystem initialized.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1037" name="ClaimSelectedAchievementRewardAsync_NoSelection_ThrowsException" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.ClaimSelectedAchievementRewardAsync_NoSelection_ThrowsException" methodname="ClaimSelectedAchievementRewardAsync_NoSelection_ThrowsException" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="32164058" result="Passed" start-time="2026-02-04 04:50:40Z" end-time="2026-02-04 04:50:40Z" duration="0.150112" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkYmYyYTgyNS1iZjg5LTQxZjktOTE1My1lZmM5NzllNDU0ZmYiLCJ1aWQiOiJkNGIxMmY4MC01NWFkLTQ5OGYtYmE4Yy0zNWM0YzEyOGExMDkiLCJ1c24iOiJQbGF5ZXI0ODI5MzQ4MiIsImV4cCI6MTc3MDI2NzA0MCwiaWF0IjoxNzcwMTgwNjQwfQ.h88Hti7yJX0rgHhD5Pl2M12KVHWFUFru6EyMWXBbrhM', Created=True, CreateTime=1770180640, ExpireTime=1770267040, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkYmYyYTgyNS1iZjg5LTQxZjktOTE1My1lZmM5NzllNDU0ZmYiLCJ1aWQiOiJkNGIxMmY4MC01NWFkLTQ5OGYtYmE4Yy0zNWM0YzEyOGExMDkiLCJ1c24iOiJQbGF5ZXI0ODI5MzQ4MiIsImV4cCI6MTc3MDc4NTQ0MCwiaWF0IjoxNzcwMTgwNjQwfQ.UASd3-BF74EyXWiM2J9odhnl5I3NjA5EualcDpqECTE, RefreshExpireTime=1770785440, Variables={}, Username='Player48293482', UserId='d4b12f80-55ad-498f-ba8c-35c4c128a109')
+AchievementsSystem initialized.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1020" name="ClearSubAchievementSelection_ClearsAll" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.ClearSubAchievementSelection_ClearsAll" methodname="ClearSubAchievementSelection_ClearsAll" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="515395024" result="Passed" start-time="2026-02-04 04:50:40Z" end-time="2026-02-04 04:50:41Z" duration="0.200433" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2NTBhMDQ5OC1jZDJlLTQyNmEtOGIyNy0zMjIwMmM1MDA4OGIiLCJ1aWQiOiIyY2Q1MzY5Ni1lYmVjLTQxM2ItYTIzOC01MTc0NGZjZDZjMmQiLCJ1c24iOiJQbGF5ZXI4NDkxODM2NyIsImV4cCI6MTc3MDI2NzA0MCwiaWF0IjoxNzcwMTgwNjQwfQ.GkE0scmnqLIwdyOfwNRHEj4adZ38UgGQMorlX5nava0', Created=True, CreateTime=1770180640, ExpireTime=1770267040, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2NTBhMDQ5OC1jZDJlLTQyNmEtOGIyNy0zMjIwMmM1MDA4OGIiLCJ1aWQiOiIyY2Q1MzY5Ni1lYmVjLTQxM2ItYTIzOC01MTc0NGZjZDZjMmQiLCJ1c24iOiJQbGF5ZXI4NDkxODM2NyIsImV4cCI6MTc3MDc4NTQ0MCwiaWF0IjoxNzcwMTgwNjQwfQ.aiw9mJQkx7NnVsj6gmIWY31JS1rYpL57lA6c3GXp5n0, RefreshExpireTime=1770785440, Variables={}, Username='Player84918367', UserId='2cd53696-ebec-413b-a238-51744fcd6c2d')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1007" name="Constructor_NullAchievementsSystem_ThrowsArgumentNullException" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.Constructor_NullAchievementsSystem_ThrowsArgumentNullException" methodname="Constructor_NullAchievementsSystem_ThrowsArgumentNullException" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="1000479197" result="Passed" start-time="2026-02-04 04:50:41Z" end-time="2026-02-04 04:50:41Z" duration="0.150313" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI4NzM0ZTc2NS0yYTAzLTQxMTctYTRjZC1mZjZjODRjM2FhMGMiLCJ1aWQiOiI5ZmY4NWRmYy1kZDI2LTQyMDAtOTM2Zi00Yzc4MmRlYzVlYTUiLCJ1c24iOiJQbGF5ZXI1NjM5NjMxNiIsImV4cCI6MTc3MDI2NzA0MSwiaWF0IjoxNzcwMTgwNjQxfQ.OHxSCKNfWpDUPCdS5Pszjhc9snvQDQ_nfQxgt08HzJI', Created=True, CreateTime=1770180641, ExpireTime=1770267041, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI4NzM0ZTc2NS0yYTAzLTQxMTctYTRjZC1mZjZjODRjM2FhMGMiLCJ1aWQiOiI5ZmY4NWRmYy1kZDI2LTQyMDAtOTM2Zi00Yzc4MmRlYzVlYTUiLCJ1c24iOiJQbGF5ZXI1NjM5NjMxNiIsImV4cCI6MTc3MDc4NTQ0MSwiaWF0IjoxNzcwMTgwNjQxfQ.Z45GE_Ml6Dc2DygCoJcmTnupR99hWve9JpdBSONW__I, RefreshExpireTime=1770785441, Variables={}, Username='Player56396316', UserId='9ff85dfc-dd26-4200-936f-4c782dec5ea5')
+AchievementsSystem initialized.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1008" name="Constructor_NullEconomySystem_ThrowsArgumentNullException" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.Constructor_NullEconomySystem_ThrowsArgumentNullException" methodname="Constructor_NullEconomySystem_ThrowsArgumentNullException" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="783125882" result="Passed" start-time="2026-02-04 04:50:41Z" end-time="2026-02-04 04:50:41Z" duration="0.150210" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3MDJhZjIwZS00MjlhLTQxMGEtODY0NS05ODE1YTE4MTQxYzgiLCJ1aWQiOiI0ZjNiZTk4ZC03ODMxLTQzZGUtOGM5MC1hZDMwYThiYzA0YjkiLCJ1c24iOiJQbGF5ZXI3NDA5NTYxNSIsImV4cCI6MTc3MDI2NzA0MSwiaWF0IjoxNzcwMTgwNjQxfQ.frQog8Ct0xNbznXjBAlSvuZudapJTRhiogdJrfiJ7dc', Created=True, CreateTime=1770180641, ExpireTime=1770267041, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3MDJhZjIwZS00MjlhLTQxMGEtODY0NS05ODE1YTE4MTQxYzgiLCJ1aWQiOiI0ZjNiZTk4ZC03ODMxLTQzZGUtOGM5MC1hZDMwYThiYzA0YjkiLCJ1c24iOiJQbGF5ZXI3NDA5NTYxNSIsImV4cCI6MTc3MDc4NTQ0MSwiaWF0IjoxNzcwMTgwNjQxfQ.4OJkMMLc-pEO1do9QIWRLe7s2mxRn9plMtEQb9Asyfk, RefreshExpireTime=1770785441, Variables={}, Username='Player74095615', UserId='4f3be98d-7831-43de-8c90-ad30a8bc04b9')
+AchievementsSystem initialized.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1006" name="Constructor_NullNakamaSystem_ThrowsArgumentNullException" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.Constructor_NullNakamaSystem_ThrowsArgumentNullException" methodname="Constructor_NullNakamaSystem_ThrowsArgumentNullException" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="180562611" result="Passed" start-time="2026-02-04 04:50:41Z" end-time="2026-02-04 04:50:41Z" duration="0.150237" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1Y2M0ZmYwMC0yNzhiLTRmMmEtYjU5YS0xZjJiYjUxYjk0NTEiLCJ1aWQiOiIzMWU1N2JiMS0xMTJlLTRhNDItYmJmNS0zYWYxN2E2OGU0NmIiLCJ1c24iOiJQbGF5ZXIwMDE4NDc4NSIsImV4cCI6MTc3MDI2NzA0MSwiaWF0IjoxNzcwMTgwNjQxfQ.BP3AtLZtnSy7R77oAbcWFPN8i1uYowCn8bZzt9FTSYg', Created=True, CreateTime=1770180641, ExpireTime=1770267041, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1Y2M0ZmYwMC0yNzhiLTRmMmEtYjU5YS0xZjJiYjUxYjk0NTEiLCJ1aWQiOiIzMWU1N2JiMS0xMTJlLTRhNDItYmJmNS0zYWYxN2E2OGU0NmIiLCJ1c24iOiJQbGF5ZXIwMDE4NDc4NSIsImV4cCI6MTc3MDc4NTQ0MSwiaWF0IjoxNzcwMTgwNjQxfQ.wUvIXLO8I84Dj0IxHuJEvWZPAhZszdt9aLiDNlIh6ho, RefreshExpireTime=1770785441, Variables={}, Username='Player00184785', UserId='31e57bb1-112e-4a42-bbf5-3af17a68e46b')
+AchievementsSystem initialized.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1047" name="CurrentUserId_ReturnsValidUserId" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.CurrentUserId_ReturnsValidUserId" methodname="CurrentUserId_ReturnsValidUserId" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="223166451" result="Passed" start-time="2026-02-04 04:50:41Z" end-time="2026-02-04 04:50:41Z" duration="0.150102" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlOThmNGVlMi1jNTk4LTQzNWUtOWQ1NC04ZjBiMmM5Yjg2MmYiLCJ1aWQiOiJhOTliYTg2Yi03OWJjLTQ2MWUtYjMxOS05YzY2OWYwZmEzOWEiLCJ1c24iOiJQbGF5ZXI0MDcyNjg2MSIsImV4cCI6MTc3MDI2NzA0MSwiaWF0IjoxNzcwMTgwNjQxfQ.fHRqzLl-xz2J691MObgqCyhoNOcxUiw-SAFJYVaK_CA', Created=True, CreateTime=1770180641, ExpireTime=1770267041, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlOThmNGVlMi1jNTk4LTQzNWUtOWQ1NC04ZjBiMmM5Yjg2MmYiLCJ1aWQiOiJhOTliYTg2Yi03OWJjLTQ2MWUtYjMxOS05YzY2OWYwZmEzOWEiLCJ1c24iOiJQbGF5ZXI0MDcyNjg2MSIsImV4cCI6MTc3MDc4NTQ0MSwiaWF0IjoxNzcwMTgwNjQxfQ.FPw2uORNVPdQJesv8Ymy6ZosRfx-LtV1VVAzsucCNjo, RefreshExpireTime=1770785441, Variables={}, Username='Player40726861', UserId='a99ba86b-79bc-461e-b319-9c669f0fa39a')
+AchievementsSystem initialized.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1009" name="GetCurrentCategory_Default_ReturnsQuest" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.GetCurrentCategory_Default_ReturnsQuest" methodname="GetCurrentCategory_Default_ReturnsQuest" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="244246824" result="Passed" start-time="2026-02-04 04:50:41Z" end-time="2026-02-04 04:50:41Z" duration="0.150100" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0YjZjM2NhMi1jZDQyLTQ0YjQtYTc5Yy1iZDZhYzA0YzUxZTkiLCJ1aWQiOiJkMjdiZDA1MS0xYzNjLTRkNDgtYTY4MC1iN2U0Y2Q5NTkxNzMiLCJ1c24iOiJQbGF5ZXI1MTg0MDMyMyIsImV4cCI6MTc3MDI2NzA0MSwiaWF0IjoxNzcwMTgwNjQxfQ._QWLRNcJQqN_dnTwBvtFIKU3RCxWSWnPyUP30OKq3yc', Created=True, CreateTime=1770180641, ExpireTime=1770267041, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0YjZjM2NhMi1jZDQyLTQ0YjQtYTc5Yy1iZDZhYzA0YzUxZTkiLCJ1aWQiOiJkMjdiZDA1MS0xYzNjLTRkNDgtYTY4MC1iN2U0Y2Q5NTkxNzMiLCJ1c24iOiJQbGF5ZXI1MTg0MDMyMyIsImV4cCI6MTc3MDc4NTQ0MSwiaWF0IjoxNzcwMTgwNjQxfQ.Hk6Jhn6zVB5Zfmv3IrmKyCKuJkrHpyv5YydVgLXOeJc, RefreshExpireTime=1770785441, Variables={}, Username='Player51840323', UserId='d27bd051-1c3c-4d48-a680-b7e4cd959173')
+AchievementsSystem initialized.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1026" name="GetFilteredAchievements_ReturnsCurrentCategoryAchievements" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.GetFilteredAchievements_ReturnsCurrentCategoryAchievements" methodname="GetFilteredAchievements_ReturnsCurrentCategoryAchievements" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="1761586041" result="Passed" start-time="2026-02-04 04:50:41Z" end-time="2026-02-04 04:50:42Z" duration="0.200584" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1M2NkZWZlMi03OWQ3LTRiNWEtYjhkMS05NGQyYTM3N2MzYWEiLCJ1aWQiOiIwZTBmYTUzNy1iOWMwLTQwZTEtODgwMC0zMjM5NWJiMjhkMWQiLCJ1c24iOiJQbGF5ZXIxMjQwNjQ2OCIsImV4cCI6MTc3MDI2NzA0MSwiaWF0IjoxNzcwMTgwNjQxfQ.L4NE2xBSsOn8wPPFGoBZSZWFlW3HPOlrP4T0N7PSH-o', Created=True, CreateTime=1770180641, ExpireTime=1770267041, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1M2NkZWZlMi03OWQ3LTRiNWEtYjhkMS05NGQyYTM3N2MzYWEiLCJ1aWQiOiIwZTBmYTUzNy1iOWMwLTQwZTEtODgwMC0zMjM5NWJiMjhkMWQiLCJ1c24iOiJQbGF5ZXIxMjQwNjQ2OCIsImV4cCI6MTc3MDc4NTQ0MSwiaWF0IjoxNzcwMTgwNjQxfQ.uhdSZsIxzwWoj7aFA-11bWY5pa9t_C_ZodWc23OnmLk, RefreshExpireTime=1770785441, Variables={}, Username='Player12406468', UserId='0e0fa537-b9c0-40e1-8800-32395bb28d1d')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Filtered achievements count: 5
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1046" name="GetIncompletePrerequisiteNames_LogsStatus" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.GetIncompletePrerequisiteNames_LogsStatus" methodname="GetIncompletePrerequisiteNames_LogsStatus" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="692366846" result="Passed" start-time="2026-02-04 04:50:42Z" end-time="2026-02-04 04:50:42Z" duration="0.200413" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlZWE0ODZmNy04NjFlLTQ1ZmUtOTNmMS1lMmQzNzc3ZjZhMjEiLCJ1aWQiOiJhNmE4Y2MwZC01ZmViLTQ0OGItYmFjZC0zODhlMGFjYTIyNzAiLCJ1c24iOiJQbGF5ZXIyMDc5MTAxMCIsImV4cCI6MTc3MDI2NzA0MiwiaWF0IjoxNzcwMTgwNjQyfQ.Mbb_9rHkSBHgFbxOwq-4I1HQWtkVBVKF5H-5JSGx9Zc', Created=True, CreateTime=1770180642, ExpireTime=1770267042, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlZWE0ODZmNy04NjFlLTQ1ZmUtOTNmMS1lMmQzNzc3ZjZhMjEiLCJ1aWQiOiJhNmE4Y2MwZC01ZmViLTQ0OGItYmFjZC0zODhlMGFjYTIyNzAiLCJ1c24iOiJQbGF5ZXIyMDc5MTAxMCIsImV4cCI6MTc3MDc4NTQ0MiwiaWF0IjoxNzcwMTgwNjQyfQ.Z6txXIU1bB10NdULHsbQHG4fJkoTh1v4MlxNt4KKq-4, RefreshExpireTime=1770785442, Variables={}, Username='Player20791010', UserId='a6a8cc0d-5feb-448b-bacd-388e0aca2270')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Achievement Defend the Village has 1 incomplete prerequisites:
+  - Clear the Goblin Camp
+Achievement The Lost Artifact has 1 incomplete prerequisites:
+  - Defend the Village
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1017" name="GetParentAchievement_NoSelection_ReturnsNull" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.GetParentAchievement_NoSelection_ReturnsNull" methodname="GetParentAchievement_NoSelection_ReturnsNull" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="1909759455" result="Passed" start-time="2026-02-04 04:50:42Z" end-time="2026-02-04 04:50:42Z" duration="0.150112" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0MTkwMjIwYy04M2ZiLTQyYzctODA2NS03ZjY2MDQzNGFlYzgiLCJ1aWQiOiIzYzg3ODU5MC05MmVkLTQ4NmYtODZhNS0zOGRlY2E2YjQwODUiLCJ1c24iOiJQbGF5ZXI1ODY2MDE1MyIsImV4cCI6MTc3MDI2NzA0MiwiaWF0IjoxNzcwMTgwNjQyfQ.RCznKYqt3hpZBIdCP7Nl5hmsQpl6JOwrvxiCgivy2nA', Created=True, CreateTime=1770180642, ExpireTime=1770267042, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0MTkwMjIwYy04M2ZiLTQyYzctODA2NS03ZjY2MDQzNGFlYzgiLCJ1aWQiOiIzYzg3ODU5MC05MmVkLTQ4NmYtODZhNS0zOGRlY2E2YjQwODUiLCJ1c24iOiJQbGF5ZXI1ODY2MDE1MyIsImV4cCI6MTc3MDc4NTQ0MiwiaWF0IjoxNzcwMTgwNjQyfQ.ps0_Fo1OihhlrND_huy5yz4ji9vnzlrMo-67FcvEf5Q, RefreshExpireTime=1770785442, Variables={}, Username='Player58660153', UserId='3c878590-92ed-486f-86a5-38deca6b4085')
+AchievementsSystem initialized.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1045" name="GetPrerequisiteAchievements_HasPrereqs_ReturnsList" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.GetPrerequisiteAchievements_HasPrereqs_ReturnsList" methodname="GetPrerequisiteAchievements_HasPrereqs_ReturnsList" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="214842347" result="Passed" start-time="2026-02-04 04:50:42Z" end-time="2026-02-04 04:50:42Z" duration="0.200490" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <reason>
+                  <message><![CDATA[Found achievement with prerequisites]]></message>
+                </reason>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmMjZmMGU5Ni01MGI4LTRiNzEtOTdlNC0zMWQzNjI1YzNlNGQiLCJ1aWQiOiJlODA2OGE0Zi0yY2QwLTRjODMtOWQ5YS0xZWY1MGUyZGIxMGYiLCJ1c24iOiJQbGF5ZXIyNDAyMzc3MCIsImV4cCI6MTc3MDI2NzA0MiwiaWF0IjoxNzcwMTgwNjQyfQ.1oRPEZQC0BAlyh_-UOm8UuVxQxKExXRsn9u9ZtGkly8', Created=True, CreateTime=1770180642, ExpireTime=1770267042, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmMjZmMGU5Ni01MGI4LTRiNzEtOTdlNC0zMWQzNjI1YzNlNGQiLCJ1aWQiOiJlODA2OGE0Zi0yY2QwLTRjODMtOWQ5YS0xZWY1MGUyZGIxMGYiLCJ1c24iOiJQbGF5ZXIyNDAyMzc3MCIsImV4cCI6MTc3MDc4NTQ0MiwiaWF0IjoxNzcwMTgwNjQyfQ.Z-NKR6dflN43rnORJUeYXIqVEdpw9tQSTaszeAfR-D4, RefreshExpireTime=1770785442, Variables={}, Username='Player24023770', UserId='e8068a4f-2cd0-4c83-9d9a-1ef50e2db10f')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Achievement Defend the Village has 1 prerequisites:
+  - Clear the Goblin Camp
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1044" name="GetPrerequisiteAchievements_NoPrereqs_ReturnsEmptyList" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.GetPrerequisiteAchievements_NoPrereqs_ReturnsEmptyList" methodname="GetPrerequisiteAchievements_NoPrereqs_ReturnsEmptyList" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="163884000" result="Passed" start-time="2026-02-04 04:50:42Z" end-time="2026-02-04 04:50:42Z" duration="0.200282" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlMTgxZjYxMy1hMmYzLTQ1ZGQtODcwYS01OWM2ZjQ3OTRjNzciLCJ1aWQiOiIyMGNiYjI5Yi1mZDA4LTRiYTEtODk2Yi1iMDdhNGY4NjhmMjEiLCJ1c24iOiJQbGF5ZXI0MTk3NTAzNSIsImV4cCI6MTc3MDI2NzA0MiwiaWF0IjoxNzcwMTgwNjQyfQ.1HRPFpEN5-Rd61Vr2VXLBCDa6a8sP2RqBjgAmYLbca8', Created=True, CreateTime=1770180642, ExpireTime=1770267042, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlMTgxZjYxMy1hMmYzLTQ1ZGQtODcwYS01OWM2ZjQ3OTRjNzciLCJ1aWQiOiIyMGNiYjI5Yi1mZDA4LTRiYTEtODk2Yi1iMDdhNGY4NjhmMjEiLCJ1c24iOiJQbGF5ZXI0MTk3NTAzNSIsImV4cCI6MTc3MDc4NTQ0MiwiaWF0IjoxNzcwMTgwNjQyfQ.GrFQfOkzqD0I70YOvcZ80_PwII26INd954elhu5d4ds, RefreshExpireTime=1770785442, Variables={}, Username='Player41975035', UserId='20cbb29b-fd08-4ba1-896b-b07a4f868f21')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Achievement Clear the Goblin Camp: Prerequisites count=0
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1027" name="GetResetTime_NoResettableAchievements_ReturnsNegativeOne" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.GetResetTime_NoResettableAchievements_ReturnsNegativeOne" methodname="GetResetTime_NoResettableAchievements_ReturnsNegativeOne" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="324065079" result="Passed" start-time="2026-02-04 04:50:42Z" end-time="2026-02-04 04:50:42Z" duration="0.200099" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkYzEzNmQ4OS1lMzg3LTQwYWMtODA3Yy1kMTE2ZGZhMjk0ZGUiLCJ1aWQiOiJmZTNlYWYyOC03ZjQwLTQwNjAtOTI3ZC1jZGI5ODVkODQ1MjIiLCJ1c24iOiJQbGF5ZXI0NTI3MTM3MSIsImV4cCI6MTc3MDI2NzA0MiwiaWF0IjoxNzcwMTgwNjQyfQ.uCpwBYSdDgze1tu7Ng1_6HNfQ2u3svCTP_y2bCRUTCg', Created=True, CreateTime=1770180642, ExpireTime=1770267042, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkYzEzNmQ4OS1lMzg3LTQwYWMtODA3Yy1kMTE2ZGZhMjk0ZGUiLCJ1aWQiOiJmZTNlYWYyOC03ZjQwLTQwNjAtOTI3ZC1jZGI5ODVkODQ1MjIiLCJ1c24iOiJQbGF5ZXI0NTI3MTM3MSIsImV4cCI6MTc3MDc4NTQ0MiwiaWF0IjoxNzcwMTgwNjQyfQ.ZJRsn0moAkzG0cShsbD_XZiX2cQc11O6KO2_ysUovao, RefreshExpireTime=1770785442, Variables={}, Username='Player45271371', UserId='fe3eaf28-7f40-4060-927d-cdb985d84522')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Reset time: -1
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1012" name="GetSelectedAchievement_NoSelection_ReturnsNull" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.GetSelectedAchievement_NoSelection_ReturnsNull" methodname="GetSelectedAchievement_NoSelection_ReturnsNull" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="1978728325" result="Passed" start-time="2026-02-04 04:50:42Z" end-time="2026-02-04 04:50:43Z" duration="0.150210" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiY2ZhNDBlNi1iNTU2LTRkMDgtYjgxNC1jMTAxODYwYjljNzIiLCJ1aWQiOiI5YTFhNTkyYi0wZDVkLTQwMWEtOGM4Ny1lNzY3NjBkYTE1YjUiLCJ1c24iOiJQbGF5ZXI5NjMyMDUxMyIsImV4cCI6MTc3MDI2NzA0MiwiaWF0IjoxNzcwMTgwNjQyfQ.ujeu-xEQo4POrTQixAa3k07-997bhVN0Oxw18ft53tE', Created=True, CreateTime=1770180642, ExpireTime=1770267042, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiY2ZhNDBlNi1iNTU2LTRkMDgtYjgxNC1jMTAxODYwYjljNzIiLCJ1aWQiOiI5YTFhNTkyYi0wZDVkLTQwMWEtOGM4Ny1lNzY3NjBkYTE1YjUiLCJ1c24iOiJQbGF5ZXI5NjMyMDUxMyIsImV4cCI6MTc3MDc4NTQ0MiwiaWF0IjoxNzcwMTgwNjQyfQ.wbNaiDv2xYH65G-lViA9EtOYc88cBc-JzH6CkRQqd00, RefreshExpireTime=1770785442, Variables={}, Username='Player96320513', UserId='9a1a592b-0d5d-401a-8c87-e76760da15b5')
+AchievementsSystem initialized.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1016" name="GetSelectedSubAchievement_NoSelection_ReturnsNull" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.GetSelectedSubAchievement_NoSelection_ReturnsNull" methodname="GetSelectedSubAchievement_NoSelection_ReturnsNull" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="17101082" result="Passed" start-time="2026-02-04 04:50:43Z" end-time="2026-02-04 04:50:43Z" duration="0.150192" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJjOTZlNDkyNy00Y2YyLTQ0MzYtYmFjMS02NTY0MjBlN2Q4YWMiLCJ1aWQiOiI4ODE1NGRjZC01MWQzLTRiYTMtOTFhNi0xMTNjZDI0ZGE1MTUiLCJ1c24iOiJQbGF5ZXIwMTQ1MDA1MSIsImV4cCI6MTc3MDI2NzA0MywiaWF0IjoxNzcwMTgwNjQzfQ.XyvnyZ25KcTgAj6dXujkzVcqoS6aHo-fzeD9_JtuuOA', Created=True, CreateTime=1770180643, ExpireTime=1770267043, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJjOTZlNDkyNy00Y2YyLTQ0MzYtYmFjMS02NTY0MjBlN2Q4YWMiLCJ1aWQiOiI4ODE1NGRjZC01MWQzLTRiYTMtOTFhNi0xMTNjZDI0ZGE1MTUiLCJ1c24iOiJQbGF5ZXIwMTQ1MDA1MSIsImV4cCI6MTc3MDc4NTQ0MywiaWF0IjoxNzcwMTgwNjQzfQ.6fFFPQb03lGGxqAbJ2UP4_IxBXdzOZwnpn5MZMQ2H1c, RefreshExpireTime=1770785443, Variables={}, Username='Player01450051', UserId='88154dcd-51d3-4ba3-91a6-113cd24da515')
+AchievementsSystem initialized.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1018" name="GetSelectedSubAchievementKey_NoSelection_ReturnsNull" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.GetSelectedSubAchievementKey_NoSelection_ReturnsNull" methodname="GetSelectedSubAchievementKey_NoSelection_ReturnsNull" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="783976398" result="Passed" start-time="2026-02-04 04:50:43Z" end-time="2026-02-04 04:50:43Z" duration="0.150397" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlNzRlMGNiZi00MmZlLTQzOWItOTBlZi04MjY1NTIzMzM1ODQiLCJ1aWQiOiI4NTY2ODUxYy03MjJiLTQ5ZjUtOWRhMC1jMTc5MWRhOTBkNzIiLCJ1c24iOiJQbGF5ZXIxNzQwNTUxNyIsImV4cCI6MTc3MDI2NzA0MywiaWF0IjoxNzcwMTgwNjQzfQ.FU6uctUf7zaT3Y_gsRNMh--rycSeTzZultz3CRwg9co', Created=True, CreateTime=1770180643, ExpireTime=1770267043, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlNzRlMGNiZi00MmZlLTQzOWItOTBlZi04MjY1NTIzMzM1ODQiLCJ1aWQiOiI4NTY2ODUxYy03MjJiLTQ5ZjUtOWRhMC1jMTc5MWRhOTBkNzIiLCJ1c24iOiJQbGF5ZXIxNzQwNTUxNyIsImV4cCI6MTc3MDc4NTQ0MywiaWF0IjoxNzcwMTgwNjQzfQ.BeIb_DmXEST4aA9Ci2Mafnu9Qnh4wozuZ2y3drIJoN0, RefreshExpireTime=1770785443, Variables={}, Username='Player17405517', UserId='8566851c-722b-49f5-9da0-c1791da90d72')
+AchievementsSystem initialized.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1042" name="IsAchievementClaimable_LogsStatus" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.IsAchievementClaimable_LogsStatus" methodname="IsAchievementClaimable_LogsStatus" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="588922410" result="Passed" start-time="2026-02-04 04:50:43Z" end-time="2026-02-04 04:50:43Z" duration="0.200502" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIxN2UxZjg3Mi01NDQ2LTQ4MWYtYWU1Mi0zYmY0MmJiYWIxNDIiLCJ1aWQiOiI4N2Y5OGZkMS1mNTQ4LTQ4MjctOTVhMy00M2U4NDllOTkxYzAiLCJ1c24iOiJQbGF5ZXIwODk0NzY5NyIsImV4cCI6MTc3MDI2NzA0MywiaWF0IjoxNzcwMTgwNjQzfQ.uxTpQh6HPTfzcFG-9lgwwB30RPLSMmGl2K_NSpGJw0Y', Created=True, CreateTime=1770180643, ExpireTime=1770267043, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIxN2UxZjg3Mi01NDQ2LTQ4MWYtYWU1Mi0zYmY0MmJiYWIxNDIiLCJ1aWQiOiI4N2Y5OGZkMS1mNTQ4LTQ4MjctOTVhMy00M2U4NDllOTkxYzAiLCJ1c24iOiJQbGF5ZXIwODk0NzY5NyIsImV4cCI6MTc3MDc4NTQ0MywiaWF0IjoxNzcwMTgwNjQzfQ.mvvvySQXYigAJxDLNzTqwwoxGrEURhPN_pNQp5XLzu0, RefreshExpireTime=1770785443, Variables={}, Username='Player08947697', UserId='87f98fd1-f548-4827-95a3-43e849e991c0')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Achievement Clear the Goblin Camp: IsClaimable=False
+Achievement Combat Veteran: IsClaimable=False
+Achievement Crafting Master: IsClaimable=False
+Achievement Defend the Village: IsClaimable=False
+Achievement The Dungeon Delver: IsClaimable=False
+Achievement Gather Supplies for the Blacksmith: IsClaimable=False
+Achievement Master Explorer: IsClaimable=False
+Achievement The Lost Artifact: IsClaimable=False
+Achievement Bringer of a Thousand Deaths: IsClaimable=False
+Achievement Daily Combat: IsClaimable=False
+Achievement Daily Craft: IsClaimable=False
+Achievement Login Reward: IsClaimable=False
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1041" name="IsAchievementCompleted_LogsStatus" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.IsAchievementCompleted_LogsStatus" methodname="IsAchievementCompleted_LogsStatus" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="1855052465" result="Passed" start-time="2026-02-04 04:50:43Z" end-time="2026-02-04 04:50:43Z" duration="0.200298" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0MTNlNWNmMS1lN2ZjLTRiYTAtYTM2OS0zZmRmODAwMGQ4NDkiLCJ1aWQiOiIzZThhYzZhNi00OWRlLTQ5MTEtODI5Ny04NmQzMDI0NDRlOTUiLCJ1c24iOiJQbGF5ZXIxNzc5NzYzOCIsImV4cCI6MTc3MDI2NzA0MywiaWF0IjoxNzcwMTgwNjQzfQ.je50K1O37qHf6cTQv5KVfp0vgXjlRCZtFy9dIcvuG9U', Created=True, CreateTime=1770180643, ExpireTime=1770267043, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0MTNlNWNmMS1lN2ZjLTRiYTAtYTM2OS0zZmRmODAwMGQ4NDkiLCJ1aWQiOiIzZThhYzZhNi00OWRlLTQ5MTEtODI5Ny04NmQzMDI0NDRlOTUiLCJ1c24iOiJQbGF5ZXIxNzc5NzYzOCIsImV4cCI6MTc3MDc4NTQ0MywiaWF0IjoxNzcwMTgwNjQzfQ.K4od9HLjdSpnyK1k4SySa4dIkBhHbuavCkJW3rr6szA, RefreshExpireTime=1770785443, Variables={}, Username='Player17797638', UserId='3e8ac6a6-49de-4911-8297-86d302444e95')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Achievement Clear the Goblin Camp: IsCompleted=False
+Achievement Combat Veteran: IsCompleted=False
+Achievement Crafting Master: IsCompleted=False
+Achievement Defend the Village: IsCompleted=False
+Achievement The Dungeon Delver: IsCompleted=False
+Achievement Gather Supplies for the Blacksmith: IsCompleted=False
+Achievement Master Explorer: IsCompleted=False
+Achievement The Lost Artifact: IsCompleted=False
+Achievement Bringer of a Thousand Deaths: IsCompleted=False
+Achievement Daily Combat: IsCompleted=False
+Achievement Daily Craft: IsCompleted=False
+Achievement Login Reward: IsCompleted=False
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1043" name="IsAchievementLocked_LogsStatus" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.IsAchievementLocked_LogsStatus" methodname="IsAchievementLocked_LogsStatus" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="397725279" result="Passed" start-time="2026-02-04 04:50:43Z" end-time="2026-02-04 04:50:44Z" duration="0.200382" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlYzBiZGE4My1jM2Q1LTQ5MzctYmFjMS1jYmE5YjBhY2ExM2UiLCJ1aWQiOiI5ZWY4NjhhMC1kMGQ1LTQyNTAtYWUwNS05OGFmYWUyNGVkOTAiLCJ1c24iOiJQbGF5ZXI3MjI1NTc2MyIsImV4cCI6MTc3MDI2NzA0MywiaWF0IjoxNzcwMTgwNjQzfQ.wNLcZK_t7rt2FMFCTbfcHhs9ScFJ0WGsIm4NvhG_6I4', Created=True, CreateTime=1770180643, ExpireTime=1770267043, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlYzBiZGE4My1jM2Q1LTQ5MzctYmFjMS1jYmE5YjBhY2ExM2UiLCJ1aWQiOiI5ZWY4NjhhMC1kMGQ1LTQyNTAtYWUwNS05OGFmYWUyNGVkOTAiLCJ1c24iOiJQbGF5ZXI3MjI1NTc2MyIsImV4cCI6MTc3MDc4NTQ0MywiaWF0IjoxNzcwMTgwNjQzfQ.BNbnkjYgnba8GHEwCzFzAEHQLAMWe8wpVe-wd6zgSbY, RefreshExpireTime=1770785443, Variables={}, Username='Player72255763', UserId='9ef868a0-d0d5-4250-ae05-98afae24ed90')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Achievement Clear the Goblin Camp: IsLocked=False
+Achievement Combat Veteran: IsLocked=False
+Achievement Crafting Master: IsLocked=False
+Achievement Defend the Village: IsLocked=True
+Achievement The Dungeon Delver: IsLocked=False
+Achievement Gather Supplies for the Blacksmith: IsLocked=False
+Achievement Master Explorer: IsLocked=False
+Achievement The Lost Artifact: IsLocked=True
+Achievement Bringer of a Thousand Deaths: IsLocked=False
+Achievement Daily Combat: IsLocked=False
+Achievement Daily Craft: IsLocked=False
+Achievement Login Reward: IsLocked=False
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1023" name="LoadAchievementsAsync_CalledTwice_ClearsAndReloads" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.LoadAchievementsAsync_CalledTwice_ClearsAndReloads" methodname="LoadAchievementsAsync_CalledTwice_ClearsAndReloads" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="1571126911" result="Passed" start-time="2026-02-04 04:50:44Z" end-time="2026-02-04 04:50:44Z" duration="0.250379" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIzZTlhM2EzZC03MzkyLTRjOWItYjg2MC1iNWU4NzRjZjY1NDkiLCJ1aWQiOiIwMTkwMWIyOC02YWNiLTRjZWUtYjBmNC0wZGRkMGU1YWIxMmIiLCJ1c24iOiJQbGF5ZXI3NjE2NzMwOSIsImV4cCI6MTc3MDI2NzA0NCwiaWF0IjoxNzcwMTgwNjQ0fQ.SSKLQhXBENVyR2Q30bmPyV9xAfMnTVyEwlAyjcFX1qQ', Created=True, CreateTime=1770180644, ExpireTime=1770267044, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIzZTlhM2EzZC03MzkyLTRjOWItYjg2MC1iNWU4NzRjZjY1NDkiLCJ1aWQiOiIwMTkwMWIyOC02YWNiLTRjZWUtYjBmNC0wZGRkMGU1YWIxMmIiLCJ1c24iOiJQbGF5ZXI3NjE2NzMwOSIsImV4cCI6MTc3MDc4NTQ0NCwiaWF0IjoxNzcwMTgwNjQ0fQ.74hiMu6HjutYnloFr6apAQOOul8LwkBSPryDiJrj65s, RefreshExpireTime=1770785444, Variables={}, Username='Player76167309', UserId='01901b28-6acb-4cee-b0f4-0ddd0e5ab12b')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1021" name="LoadAchievementsAsync_Success_PopulatesAllAchievements" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.LoadAchievementsAsync_Success_PopulatesAllAchievements" methodname="LoadAchievementsAsync_Success_PopulatesAllAchievements" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="1710729779" result="Passed" start-time="2026-02-04 04:50:44Z" end-time="2026-02-04 04:50:44Z" duration="0.200286" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmNjJiNDMwNC0xZWJmLTQ0Y2EtOTg1MC00YzBhYmE3OWI2NjIiLCJ1aWQiOiI0MzEyZjVmZC01NTVlLTQ1N2QtYTBmYi0xM2MxMDM0NjU5NzgiLCJ1c24iOiJQbGF5ZXIyNzEwNTIxNiIsImV4cCI6MTc3MDI2NzA0NCwiaWF0IjoxNzcwMTgwNjQ0fQ.OY27klerNJKZKuRqQNqyM3-ys3ztgg0ByaW0i_RRNyQ', Created=True, CreateTime=1770180644, ExpireTime=1770267044, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmNjJiNDMwNC0xZWJmLTQ0Y2EtOTg1MC00YzBhYmE3OWI2NjIiLCJ1aWQiOiI0MzEyZjVmZC01NTVlLTQ1N2QtYTBmYi0xM2MxMDM0NjU5NzgiLCJ1c24iOiJQbGF5ZXIyNzEwNTIxNiIsImV4cCI6MTc3MDc4NTQ0NCwiaWF0IjoxNzcwMTgwNjQ0fQ.gNNt9eHQ_iC1Tgh-SPsqffp6DFlAEiHukPKXtXqqgXY, RefreshExpireTime=1770785444, Variables={}, Username='Player27105216', UserId='4312f5fd-555e-457d-a0fb-13c103465978')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Loaded 12 achievements
+Achievement: Clear the Goblin Camp (clearGoblinCamp), Count: 0/25
+Achievement: Combat Veteran (combatVeteran), Count: 0/1
+Achievement: Crafting Master (craftingMaster), Count: 0/1
+Achievement: Defend the Village (defendTheVillage), Count: 0/30
+Achievement: The Dungeon Delver (dungeonDelver), Count: 0/5
+Achievement: Gather Supplies for the Blacksmith (gatherSupplies), Count: 0/20
+Achievement: Master Explorer (masterExplorer), Count: 0/1
+Achievement: The Lost Artifact (theLostArtifact), Count: 0/5
+Achievement: Bringer of a Thousand Deaths (thousandDeaths), Count: 0/1000
+Achievement: Daily Combat (dailyCombat), Count: 0/10
+Achievement: Daily Craft (dailyCraft), Count: 0/1
+Achievement: Login Reward (dailyLogin), Count: 0/1
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1022" name="LoadAchievementsAsync_Success_PopulatesRepeatAchievements" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.LoadAchievementsAsync_Success_PopulatesRepeatAchievements" methodname="LoadAchievementsAsync_Success_PopulatesRepeatAchievements" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="1148905475" result="Passed" start-time="2026-02-04 04:50:44Z" end-time="2026-02-04 04:50:44Z" duration="0.200392" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmYzRmNzM0Yy1lYjIyLTQ0ZmEtYjc5NS03OTZjMTg1NmE0N2UiLCJ1aWQiOiJiODVjZjgxNC1lMmJiLTQ1NjQtYjE1Yy1mM2IyMDFiZDU3ZWMiLCJ1c24iOiJQbGF5ZXI2NDc4NjkwMCIsImV4cCI6MTc3MDI2NzA0NCwiaWF0IjoxNzcwMTgwNjQ0fQ.EsYleMU1UfiySJGXWohSibLzdgdckehRgCfFSXye-QA', Created=True, CreateTime=1770180644, ExpireTime=1770267044, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmYzRmNzM0Yy1lYjIyLTQ0ZmEtYjc5NS03OTZjMTg1NmE0N2UiLCJ1aWQiOiJiODVjZjgxNC1lMmJiLTQ1NjQtYjE1Yy1mM2IyMDFiZDU3ZWMiLCJ1c24iOiJQbGF5ZXI2NDc4NjkwMCIsImV4cCI6MTc3MDc4NTQ0NCwiaWF0IjoxNzcwMTgwNjQ0fQ.Vx8DMob-zWfHmceQeWU-YCHx0SBcEI-NHBIUU0V2bgc, RefreshExpireTime=1770785444, Variables={}, Username='Player64786900', UserId='b85cf814-e2bb-4564-b15c-f3b201bd57ec')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Loaded 3 repeat achievements
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1024" name="RefreshAchievementsAsync_Success_ReturnsFilteredList" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.RefreshAchievementsAsync_Success_ReturnsFilteredList" methodname="RefreshAchievementsAsync_Success_ReturnsFilteredList" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="1659801923" result="Passed" start-time="2026-02-04 04:50:44Z" end-time="2026-02-04 04:50:44Z" duration="0.200391" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIxM2NjNWRiZC0yMzAzLTQ2OTMtYjk3Ny04MzRjZWJhODk2MDkiLCJ1aWQiOiI4MGE3MjgxMi0yYTE3LTRlNGItODc1YS0xOGJmMmUyYWUxMjIiLCJ1c24iOiJQbGF5ZXIwNDkzMjkxMiIsImV4cCI6MTc3MDI2NzA0NCwiaWF0IjoxNzcwMTgwNjQ0fQ.0_tML6t7iJDFxgUydYht7mbPw5bxMiWvec9NqRJ2ZiM', Created=True, CreateTime=1770180644, ExpireTime=1770267044, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIxM2NjNWRiZC0yMzAzLTQ2OTMtYjk3Ny04MzRjZWJhODk2MDkiLCJ1aWQiOiI4MGE3MjgxMi0yYTE3LTRlNGItODc1YS0xOGJmMmUyYWUxMjIiLCJ1c24iOiJQbGF5ZXIwNDkzMjkxMiIsImV4cCI6MTc3MDc4NTQ0NCwiaWF0IjoxNzcwMTgwNjQ0fQ.RA6Hx08c5IIh8hsP_ZohuyHtQtVANIFG5s91J05WKE0, RefreshExpireTime=1770785444, Variables={}, Username='Player04932912', UserId='80a72812-2a17-4e4b-875a-18bf2e2ae122')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Refreshed 5 achievements for 'quest' category
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1025" name="RefreshAchievementsAsync_UpdatesAllAchievements" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.RefreshAchievementsAsync_UpdatesAllAchievements" methodname="RefreshAchievementsAsync_UpdatesAllAchievements" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="267853123" result="Passed" start-time="2026-02-04 04:50:44Z" end-time="2026-02-04 04:50:45Z" duration="0.200383" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJjMjg2ODIyOC1lYmZhLTQyYjQtOWQ1Mi04YWZiZTU1ODUxOTciLCJ1aWQiOiJlODQ2MzYwOS1lMjZhLTQ4NmEtODlkYy0xN2FlZTdlZGExZjEiLCJ1c24iOiJQbGF5ZXI3Nzc2NjY2MCIsImV4cCI6MTc3MDI2NzA0NCwiaWF0IjoxNzcwMTgwNjQ0fQ.sw6ySHoZ8NZPgS9Phs8sBTb18RYuFEI_h4-cc0tVS10', Created=True, CreateTime=1770180644, ExpireTime=1770267044, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJjMjg2ODIyOC1lYmZhLTQyYjQtOWQ1Mi04YWZiZTU1ODUxOTciLCJ1aWQiOiJlODQ2MzYwOS1lMjZhLTQ4NmEtODlkYy0xN2FlZTdlZGExZjEiLCJ1c24iOiJQbGF5ZXI3Nzc2NjY2MCIsImV4cCI6MTc3MDc4NTQ0NCwiaWF0IjoxNzcwMTgwNjQ0fQ.ht59VidkX1TBl5JViAMwp3yVuYskE5T6QhcQwckVngU, RefreshExpireTime=1770785444, Variables={}, Username='Player77766660', UserId='e8463609-e26a-486a-89dc-17aee7eda1f1')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1038" name="RefreshEconomyAsync_Success_RefreshesEconomy" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.RefreshEconomyAsync_Success_RefreshesEconomy" methodname="RefreshEconomyAsync_Success_RefreshesEconomy" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="1804881669" result="Passed" start-time="2026-02-04 04:50:45Z" end-time="2026-02-04 04:50:45Z" duration="0.200370" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <reason>
+                  <message><![CDATA[Economy refreshed successfully]]></message>
+                </reason>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkZjIxZGFhZi0wMmZkLTQxNDQtYWY5Mi1mYjM1ZjIyNDc1MDUiLCJ1aWQiOiIzYTNlYTcxNi05YjM5LTQ0ZTQtOWE5Ni0zOTA4NDc3MGQzMWMiLCJ1c24iOiJQbGF5ZXI5MzgzNjc4MiIsImV4cCI6MTc3MDI2NzA0NSwiaWF0IjoxNzcwMTgwNjQ1fQ.uqjWYBLqeTuVNOa2WpuoPLicZysfb8R4V-fGECVmJ2s', Created=True, CreateTime=1770180645, ExpireTime=1770267045, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJkZjIxZGFhZi0wMmZkLTQxNDQtYWY5Mi1mYjM1ZjIyNDc1MDUiLCJ1aWQiOiIzYTNlYTcxNi05YjM5LTQ0ZTQtOWE5Ni0zOTA4NDc3MGQzMWMiLCJ1c24iOiJQbGF5ZXI5MzgzNjc4MiIsImV4cCI6MTc3MDc4NTQ0NSwiaWF0IjoxNzcwMTgwNjQ1fQ.vNelwOCbkV6NIDEUlVah5zPqaWpsKqFnKJMXfL5TBM0, RefreshExpireTime=1770785445, Variables={}, Username='Player93836782', UserId='3a3ea716-9b39-44e4-9a96-39084770d31c')
+AchievementsSystem initialized.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1015" name="SelectAchievement_ClearsSubAchievementSelection" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.SelectAchievement_ClearsSubAchievementSelection" methodname="SelectAchievement_ClearsSubAchievementSelection" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="1706379982" result="Passed" start-time="2026-02-04 04:50:45Z" end-time="2026-02-04 04:50:45Z" duration="0.200292" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI5MTJmYzYwMi05MjQ2LTQyMDQtOGRjNS0zODVmYTM5NjBlZjUiLCJ1aWQiOiIyODNhOWY0ZC03ODhjLTRkNjQtOTM3Mi01M2UyODU1YjdiZGMiLCJ1c24iOiJQbGF5ZXI5ODY5MTc1OCIsImV4cCI6MTc3MDI2NzA0NSwiaWF0IjoxNzcwMTgwNjQ1fQ.rM9e96_QgCtxnBs5VnvTXfP6Cm8kxRvabTfsYs5PIvQ', Created=True, CreateTime=1770180645, ExpireTime=1770267045, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI5MTJmYzYwMi05MjQ2LTQyMDQtOGRjNS0zODVmYTM5NjBlZjUiLCJ1aWQiOiIyODNhOWY0ZC03ODhjLTRkNjQtOTM3Mi01M2UyODU1YjdiZGMiLCJ1c24iOiJQbGF5ZXI5ODY5MTc1OCIsImV4cCI6MTc3MDc4NTQ0NSwiaWF0IjoxNzcwMTgwNjQ1fQ.NnDyAwdX5Z0W7GObEepKuc-MsqTueV1IzCNPaBMI8uM, RefreshExpireTime=1770785445, Variables={}, Username='Player98691758', UserId='283a9f4d-788c-4d64-9372-53e2855b7bdc')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1014" name="SelectAchievement_Null_ClearsSelection" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.SelectAchievement_Null_ClearsSelection" methodname="SelectAchievement_Null_ClearsSelection" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="531364403" result="Passed" start-time="2026-02-04 04:50:45Z" end-time="2026-02-04 04:50:45Z" duration="0.150198" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlNjRmOWVjMy05NzMwLTQ4M2MtYmI1MS00ZGNjNWFlYzMwODciLCJ1aWQiOiJhMmYzOWViYy1mZjBiLTQ0ZWYtOGFjMy1iNzg2MWY2NjNmMWUiLCJ1c24iOiJQbGF5ZXI2MjIzNDA2NiIsImV4cCI6MTc3MDI2NzA0NSwiaWF0IjoxNzcwMTgwNjQ1fQ.2kAzXzdEXwgz7CJOeGDU2shkNauPibYB1AmINuHp_SY', Created=True, CreateTime=1770180645, ExpireTime=1770267045, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlNjRmOWVjMy05NzMwLTQ4M2MtYmI1MS00ZGNjNWFlYzMwODciLCJ1aWQiOiJhMmYzOWViYy1mZjBiLTQ0ZWYtOGFjMy1iNzg2MWY2NjNmMWUiLCJ1c24iOiJQbGF5ZXI2MjIzNDA2NiIsImV4cCI6MTc3MDc4NTQ0NSwiaWF0IjoxNzcwMTgwNjQ1fQ.6bFx1riDkS9ONWL6OShkYK4_lVY9seDp-XlAJctaGcE, RefreshExpireTime=1770785445, Variables={}, Username='Player62234066', UserId='a2f39ebc-ff0b-44ef-8ac3-b7861f663f1e')
+AchievementsSystem initialized.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1013" name="SelectAchievement_ValidAchievement_SetsSelected" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.SelectAchievement_ValidAchievement_SetsSelected" methodname="SelectAchievement_ValidAchievement_SetsSelected" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="1196726645" result="Passed" start-time="2026-02-04 04:50:45Z" end-time="2026-02-04 04:50:45Z" duration="0.200159" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIwZmY0YmU4Yy03MTY1LTQ4MmItYTE3YS1jZjUzMzcwYmZhNDQiLCJ1aWQiOiI2MzhlNDhmYi01NjRmLTRkNGItOTQ5YS05NzgyZDk2OGU4MzYiLCJ1c24iOiJQbGF5ZXI1OTY4OTg5NyIsImV4cCI6MTc3MDI2NzA0NSwiaWF0IjoxNzcwMTgwNjQ1fQ.6A809k4_0z5I97fCoVtxOA4wl9Tz8hSC1Mk5B9J26Nc', Created=True, CreateTime=1770180645, ExpireTime=1770267045, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIwZmY0YmU4Yy03MTY1LTQ4MmItYTE3YS1jZjUzMzcwYmZhNDQiLCJ1aWQiOiI2MzhlNDhmYi01NjRmLTRkNGItOTQ5YS05NzgyZDk2OGU4MzYiLCJ1c24iOiJQbGF5ZXI1OTY4OTg5NyIsImV4cCI6MTc3MDc4NTQ0NSwiaWF0IjoxNzcwMTgwNjQ1fQ.DxLkWpBUglebHErbR3XJpaI3-L0aI5-sBVy5-gKgUts, RefreshExpireTime=1770785445, Variables={}, Username='Player59689897', UserId='638e48fb-564f-4d4b-949a-9782d968e836')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1019" name="SelectSubAchievement_ValidSub_SetsAllFields" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.SelectSubAchievement_ValidSub_SetsAllFields" methodname="SelectSubAchievement_ValidSub_SetsAllFields" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="674084727" result="Passed" start-time="2026-02-04 04:50:45Z" end-time="2026-02-04 04:50:46Z" duration="0.200345" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2OTU0MWFhNC1iZTRiLTRiZWQtODBkNi00MDA3ZDZkMzQ3NjgiLCJ1aWQiOiJkNDY1NDc4Yy1lYWJlLTRlZmEtODI4OC02Yzk3YTNlM2MxNTgiLCJ1c24iOiJQbGF5ZXI3ODY4NDk3MyIsImV4cCI6MTc3MDI2NzA0NSwiaWF0IjoxNzcwMTgwNjQ1fQ.3RZPbFiMu-LyNjTo8hhT9lhHoTF2H0UxyCyqouYGp7A', Created=True, CreateTime=1770180645, ExpireTime=1770267045, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2OTU0MWFhNC1iZTRiLTRiZWQtODBkNi00MDA3ZDZkMzQ3NjgiLCJ1aWQiOiJkNDY1NDc4Yy1lYWJlLTRlZmEtODI4OC02Yzk3YTNlM2MxNTgiLCJ1c24iOiJQbGF5ZXI3ODY4NDk3MyIsImV4cCI6MTc3MDc4NTQ0NSwiaWF0IjoxNzcwMTgwNjQ1fQ.NgaE2hokQ6dUIkL4D4Vo-9PCUUcCjpGfzvM6LP621t8, RefreshExpireTime=1770785445, Variables={}, Username='Player78684973', UserId='d465478c-eabe-4efa-8288-6c97a3e3c158')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1011" name="SetCurrentCategory_EmptyString_SetsEmpty" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.SetCurrentCategory_EmptyString_SetsEmpty" methodname="SetCurrentCategory_EmptyString_SetsEmpty" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="1965359844" result="Passed" start-time="2026-02-04 04:50:46Z" end-time="2026-02-04 04:50:46Z" duration="0.150069" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJhNmNiN2Q5Ni0yNzJlLTRlODUtYWUwNC00YjIyOTAwN2Y2MjkiLCJ1aWQiOiJhMzg0Y2IxNS01NThiLTQxYzYtOTdiMC00OWNkODM0NzVkODciLCJ1c24iOiJQbGF5ZXI2MTUwNTIzNyIsImV4cCI6MTc3MDI2NzA0NiwiaWF0IjoxNzcwMTgwNjQ2fQ.lSnLIP9IqOy5wHRDs3cxH7M8n8Z8MKlPAzUX95coazY', Created=True, CreateTime=1770180646, ExpireTime=1770267046, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJhNmNiN2Q5Ni0yNzJlLTRlODUtYWUwNC00YjIyOTAwN2Y2MjkiLCJ1aWQiOiJhMzg0Y2IxNS01NThiLTQxYzYtOTdiMC00OWNkODM0NzVkODciLCJ1c24iOiJQbGF5ZXI2MTUwNTIzNyIsImV4cCI6MTc3MDc4NTQ0NiwiaWF0IjoxNzcwMTgwNjQ2fQ.kWtkX98bgPpzcTcS4A9CCThzzK2PWsCIf0Ae9vrbB70, RefreshExpireTime=1770785446, Variables={}, Username='Player61505237', UserId='a384cb15-558b-41c6-97b0-49cd83475d87')
+AchievementsSystem initialized.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1010" name="SetCurrentCategory_ValidCategory_UpdatesCategory" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.SetCurrentCategory_ValidCategory_UpdatesCategory" methodname="SetCurrentCategory_ValidCategory_UpdatesCategory" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="954140020" result="Passed" start-time="2026-02-04 04:50:46Z" end-time="2026-02-04 04:50:46Z" duration="0.150417" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1ZDkwYWFmYS0wNGEzLTQyZmItYTAyYi05YmM4NWIyOWY0NzMiLCJ1aWQiOiJiNjljYjFlYS0xZWQ0LTRjN2YtOWRjZC0yZTgxZmYyMWJjZGEiLCJ1c24iOiJQbGF5ZXIxOTAxNDQ3MCIsImV4cCI6MTc3MDI2NzA0NiwiaWF0IjoxNzcwMTgwNjQ2fQ.y_mEShzjc7GZvvJJQLNSGKBcJNIzRtYwC9YjGDPUwag', Created=True, CreateTime=1770180646, ExpireTime=1770267046, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1ZDkwYWFmYS0wNGEzLTQyZmItYTAyYi05YmM4NWIyOWY0NzMiLCJ1aWQiOiJiNjljYjFlYS0xZWQ0LTRjN2YtOWRjZC0yZTgxZmYyMWJjZGEiLCJ1c24iOiJQbGF5ZXIxOTAxNDQ3MCIsImV4cCI6MTc3MDc4NTQ0NiwiaWF0IjoxNzcwMTgwNjQ2fQ.U-25UyFnZLgduT2GynlmxlNjIq1DZ3-PpxCrkFXrM5E, RefreshExpireTime=1770785446, Variables={}, Username='Player19014470', UserId='b69cb1ea-1ed4-4c7f-9dcd-2e81ff21bcda')
+AchievementsSystem initialized.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1039" name="SwitchCompleteAsync_ClearsAllSelections" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.SwitchCompleteAsync_ClearsAllSelections" methodname="SwitchCompleteAsync_ClearsAllSelections" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="1761570936" result="Passed" start-time="2026-02-04 04:50:46Z" end-time="2026-02-04 04:50:46Z" duration="0.250453" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIwOTJhMWFhZi0yYmZkLTQ0NjItYjNjYi1mOTMzMWJmYWYyMTEiLCJ1aWQiOiI1MzE0Mjg3My1iZGJlLTQ4ZTUtODc4MC1kNDJjZGQ1ZThiMDQiLCJ1c24iOiJQbGF5ZXIzOTA0MzYwNyIsImV4cCI6MTc3MDI2NzA0NiwiaWF0IjoxNzcwMTgwNjQ2fQ.Xc-MlpNxQIQ8HXyINl3QfadTkjTWWI1LqlzZu6bwtHY', Created=True, CreateTime=1770180646, ExpireTime=1770267046, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIwOTJhMWFhZi0yYmZkLTQ0NjItYjNjYi1mOTMzMWJmYWYyMTEiLCJ1aWQiOiI1MzE0Mjg3My1iZGJlLTQ4ZTUtODc4MC1kNDJjZGQ1ZThiMDQiLCJ1c24iOiJQbGF5ZXIzOTA0MzYwNyIsImV4cCI6MTc3MDc4NTQ0NiwiaWF0IjoxNzcwMTgwNjQ2fQ.whYDoRLCC6Q5cWup_boBKKvVGvE-U2QPDrmbP1MIMTk, RefreshExpireTime=1770785446, Variables={}, Username='Player39043607', UserId='53142873-bdbe-48e5-8780-d42cdd5e8b04')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1029" name="UpdateAchievementProgressAsync_EmptyId_ThrowsException" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.UpdateAchievementProgressAsync_EmptyId_ThrowsException" methodname="UpdateAchievementProgressAsync_EmptyId_ThrowsException" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="39304769" result="Passed" start-time="2026-02-04 04:50:46Z" end-time="2026-02-04 04:50:46Z" duration="0.149972" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2YWU2MjdhZS1mZTk1LTQ1Y2EtYmFhMS03YmRiODQzYTQ1YTAiLCJ1aWQiOiJhNWYzYTE4NC1jOWEwLTRkOTEtODdiOS01ZjhkYjRhMGZhYzgiLCJ1c24iOiJQbGF5ZXIxNjMzODU0OSIsImV4cCI6MTc3MDI2NzA0NiwiaWF0IjoxNzcwMTgwNjQ2fQ.kcwo5xNhzsfK0ItyM6HxNxT3rjbb86Rf1wRJIugRLHQ', Created=True, CreateTime=1770180646, ExpireTime=1770267046, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2YWU2MjdhZS1mZTk1LTQ1Y2EtYmFhMS03YmRiODQzYTQ1YTAiLCJ1aWQiOiJhNWYzYTE4NC1jOWEwLTRkOTEtODdiOS01ZjhkYjRhMGZhYzgiLCJ1c24iOiJQbGF5ZXIxNjMzODU0OSIsImV4cCI6MTc3MDc4NTQ0NiwiaWF0IjoxNzcwMTgwNjQ2fQ.cTeoMShIkN7CtBmsMBgHm6lAy9QpWG-5sNAbaSUBbCw, RefreshExpireTime=1770785446, Variables={}, Username='Player16338549', UserId='a5f3a184-c9a0-4d91-87b9-5f8db4a0fac8')
+AchievementsSystem initialized.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1031" name="UpdateAchievementProgressAsync_NegativeProgress_ThrowsException" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.UpdateAchievementProgressAsync_NegativeProgress_ThrowsException" methodname="UpdateAchievementProgressAsync_NegativeProgress_ThrowsException" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="1131476510" result="Passed" start-time="2026-02-04 04:50:46Z" end-time="2026-02-04 04:50:46Z" duration="0.150183" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2NWY5YjRjOS0zY2QzLTQ2M2YtOWE3OC1hMTYzOWViYTliMzAiLCJ1aWQiOiIxODU4ZjYyZS00MzQyLTQ3OTQtOGQzMS05YmJkMjFlNzMxN2MiLCJ1c24iOiJQbGF5ZXI5NDQ0NzgwNyIsImV4cCI6MTc3MDI2NzA0NiwiaWF0IjoxNzcwMTgwNjQ2fQ.2H5-4zvi1Hrwdr_prtWBoKixnJrc9-hRXOFrNH_pEaQ', Created=True, CreateTime=1770180646, ExpireTime=1770267046, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2NWY5YjRjOS0zY2QzLTQ2M2YtOWE3OC1hMTYzOWViYTliMzAiLCJ1aWQiOiIxODU4ZjYyZS00MzQyLTQ3OTQtOGQzMS05YmJkMjFlNzMxN2MiLCJ1c24iOiJQbGF5ZXI5NDQ0NzgwNyIsImV4cCI6MTc3MDc4NTQ0NiwiaWF0IjoxNzcwMTgwNjQ2fQ.YByRBtNQ-lVHuPnZqfUKQ_1EA5MNw0xJGfDmE18NgpU, RefreshExpireTime=1770785446, Variables={}, Username='Player94447807', UserId='1858f62e-4342-4794-8d31-9bbd21e7317c')
+AchievementsSystem initialized.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1028" name="UpdateAchievementProgressAsync_NullId_ThrowsException" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.UpdateAchievementProgressAsync_NullId_ThrowsException" methodname="UpdateAchievementProgressAsync_NullId_ThrowsException" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="1050999266" result="Passed" start-time="2026-02-04 04:50:46Z" end-time="2026-02-04 04:50:47Z" duration="0.150393" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2YzcyNmMyYi1jOTdkLTQ1NzUtOTk2NC04ZjE1NWE1NzQzNDEiLCJ1aWQiOiIwMGIwZjk2OS1jZDZmLTQ3NDItOTBhNC02M2FkZTAwMGJmYWQiLCJ1c24iOiJQbGF5ZXI5Nzk5NTAwOSIsImV4cCI6MTc3MDI2NzA0NiwiaWF0IjoxNzcwMTgwNjQ2fQ.hAHwZ7gGbeEFwcuihSHn_tSmEZAGWnsrwHPOux0bojM', Created=True, CreateTime=1770180646, ExpireTime=1770267046, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2YzcyNmMyYi1jOTdkLTQ1NzUtOTk2NC04ZjE1NWE1NzQzNDEiLCJ1aWQiOiIwMGIwZjk2OS1jZDZmLTQ3NDItOTBhNC02M2FkZTAwMGJmYWQiLCJ1c24iOiJQbGF5ZXI5Nzk5NTAwOSIsImV4cCI6MTc3MDc4NTQ0NiwiaWF0IjoxNzcwMTgwNjQ2fQ.AheGc4ivNWBY_BGqc9oxviG8IlbTGx4w1B-t540pWPA, RefreshExpireTime=1770785446, Variables={}, Username='Player97995009', UserId='00b0f969-cd6f-4742-90a4-63ade000bfad')
+AchievementsSystem initialized.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1032" name="UpdateAchievementProgressAsync_ValidId_UpdatesProgress" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.UpdateAchievementProgressAsync_ValidId_UpdatesProgress" methodname="UpdateAchievementProgressAsync_ValidId_UpdatesProgress" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="353098990" result="Passed" start-time="2026-02-04 04:50:47Z" end-time="2026-02-04 04:50:47Z" duration="0.300701" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2ZTg3NDQ3MC0zNjZjLTQ4NjEtYjljOC00YTM1ZmU0ZDQzMTUiLCJ1aWQiOiI5ZjQxZjczMC0zMDFlLTQ1YjEtOGEzZS04YTZmYjk4MWQxYmUiLCJ1c24iOiJQbGF5ZXI0MTU1MTc0MyIsImV4cCI6MTc3MDI2NzA0NywiaWF0IjoxNzcwMTgwNjQ3fQ.1i9tWhFIZTNid-EUmCIgTUx3RrECwfHFQR5LzknsaDU', Created=True, CreateTime=1770180647, ExpireTime=1770267047, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2ZTg3NDQ3MC0zNjZjLTQ4NjEtYjljOC00YTM1ZmU0ZDQzMTUiLCJ1aWQiOiI5ZjQxZjczMC0zMDFlLTQ1YjEtOGEzZS04YTZmYjk4MWQxYmUiLCJ1c24iOiJQbGF5ZXI0MTU1MTc0MyIsImV4cCI6MTc3MDc4NTQ0NywiaWF0IjoxNzcwMTgwNjQ3fQ.3oEg5WiJDy-fXYyKdH6cIeAIUL55dPgktpNOi1O5zrU, RefreshExpireTime=1770785447, Variables={}, Username='Player41551743', UserId='9f41f730-301e-45b1-8a3e-8a6fb981d1be')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_UPDATE', body='"{\"achievements\":{\"clearGoblinCamp\":\"1\"}}"'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1030" name="UpdateAchievementProgressAsync_ZeroProgress_ThrowsException" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.UpdateAchievementProgressAsync_ZeroProgress_ThrowsException" methodname="UpdateAchievementProgressAsync_ZeroProgress_ThrowsException" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="739020827" result="Passed" start-time="2026-02-04 04:50:47Z" end-time="2026-02-04 04:50:47Z" duration="0.150146" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmOGFjZTZhMC04NmM4LTQ0YzItODhlYy0zMDlmNmI4MDI1MmMiLCJ1aWQiOiI1M2ViNzZhZC03YWMxLTQ1OTctYTEwNy1mMThlMGQ5YThkZGIiLCJ1c24iOiJQbGF5ZXI5MTM4MjM4OCIsImV4cCI6MTc3MDI2NzA0NywiaWF0IjoxNzcwMTgwNjQ3fQ.4ULqlLAJ4zpBTgvlNzE0FSjlGYy5DMQVWmd4jmqjcI0', Created=True, CreateTime=1770180647, ExpireTime=1770267047, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmOGFjZTZhMC04NmM4LTQ0YzItODhlYy0zMDlmNmI4MDI1MmMiLCJ1aWQiOiI1M2ViNzZhZC03YWMxLTQ1OTctYTEwNy1mMThlMGQ5YThkZGIiLCJ1c24iOiJQbGF5ZXI5MTM4MjM4OCIsImV4cCI6MTc3MDc4NTQ0NywiaWF0IjoxNzcwMTgwNjQ3fQ.roLZdFeNxWHL8ynBWY1yUzhJ1LgrBykTDPhZICk-ZYo, RefreshExpireTime=1770785447, Variables={}, Username='Player91382388', UserId='53eb76ad-7ac1-4597-a107-f18e0d9a8ddb')
+AchievementsSystem initialized.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1034" name="UpdateSelectedAchievementProgressAsync_AchievementSelected_UpdatesProgress" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.UpdateSelectedAchievementProgressAsync_AchievementSelected_UpdatesProgress" methodname="UpdateSelectedAchievementProgressAsync_AchievementSelected_UpdatesProgress" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="1886415041" result="Passed" start-time="2026-02-04 04:50:47Z" end-time="2026-02-04 04:50:47Z" duration="0.250383" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <reason>
+                  <message><![CDATA[Progress updated successfully]]></message>
+                </reason>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmYjcwODUyYS0xYWQ5LTQxOTAtYWFmMC03ZjMxMDViZGI1ZjYiLCJ1aWQiOiJkNzIzNTVmZS0zZTAxLTQzZmMtYTU3Zi04ZGYyZTNjN2IxNTQiLCJ1c24iOiJQbGF5ZXI1NTU1ODIzNiIsImV4cCI6MTc3MDI2NzA0NywiaWF0IjoxNzcwMTgwNjQ3fQ.3pK8_mmmoX3Gj5qmUC9-b8WwgjdVHdE8P67miA0c-M4', Created=True, CreateTime=1770180647, ExpireTime=1770267047, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmYjcwODUyYS0xYWQ5LTQxOTAtYWFmMC03ZjMxMDViZGI1ZjYiLCJ1aWQiOiJkNzIzNTVmZS0zZTAxLTQzZmMtYTU3Zi04ZGYyZTNjN2IxNTQiLCJ1c24iOiJQbGF5ZXI1NTU1ODIzNiIsImV4cCI6MTc3MDc4NTQ0NywiaWF0IjoxNzcwMTgwNjQ3fQ.YevpMP59famq-4b3U7MXaYZObSWEOCC7fP1_Y2jGJTI, RefreshExpireTime=1770785447, Variables={}, Username='Player55558236', UserId='d72355fe-3e01-43fc-a57f-8df2e3c7b154')
+AchievementsSystem initialized.
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_UPDATE', body='"{\"achievements\":{\"clearGoblinCamp\":\"1\"}}"'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1033" name="UpdateSelectedAchievementProgressAsync_NoSelection_ThrowsException" fullname="HiroAchievements.Tests.Editor.AchievementsControllerTests.UpdateSelectedAchievementProgressAsync_NoSelection_ThrowsException" methodname="UpdateSelectedAchievementProgressAsync_NoSelection_ThrowsException" classname="HiroAchievements.Tests.Editor.AchievementsControllerTests" runstate="Runnable" seed="1073886496" result="Passed" start-time="2026-02-04 04:50:47Z" end-time="2026-02-04 04:50:47Z" duration="0.150239" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2YzhiNDg0NS05MGMzLTRkZjctODgwOS0yNDE2ZDcwY2Q4NTgiLCJ1aWQiOiI5OTg5ZjMxYi0yN2ZkLTQ2YWMtYjY4NC1kZjNiZTU5YmViMWUiLCJ1c24iOiJQbGF5ZXI4MTQ5NzQxNiIsImV4cCI6MTc3MDI2NzA0NywiaWF0IjoxNzcwMTgwNjQ3fQ.WA-aZkUgqvaEn1IA0Z1Z24d0jsfM6YiE2eVxcaA3WTc', Created=True, CreateTime=1770180647, ExpireTime=1770267047, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2YzhiNDg0NS05MGMzLTRkZjctODgwOS0yNDE2ZDcwY2Q4NTgiLCJ1aWQiOiI5OTg5ZjMxYi0yN2ZkLTQ2YWMtYjY4NC1kZjNiZTU5YmViMWUiLCJ1c24iOiJQbGF5ZXI4MTQ5NzQxNiIsImV4cCI6MTc3MDc4NTQ0NywiaWF0IjoxNzcwMTgwNjQ3fQ.0Jq5mf5eMOGGkuP2oeo3zPvCan7uLxK2o-Zw8x_cB28, RefreshExpireTime=1770785447, Variables={}, Username='Player81497416', UserId='9989f31b-27fd-46ac-b684-df3be59beb1e')
+AchievementsSystem initialized.
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+Saving results to: /Users/andres/Library/Application Support/DefaultCompany/UnityHiroChallenges/TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

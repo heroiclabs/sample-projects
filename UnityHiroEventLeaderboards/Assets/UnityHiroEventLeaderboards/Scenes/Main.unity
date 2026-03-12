@@ -361,9 +361,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1350379564}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a331e098f557e49af95eb66a008e913a, type: 3}
+  m_Script: {fileID: 11500000, guid: 0517815741ab64302b66d86345e59ad7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HiroChallenges.HiroChallengesController
+  m_EditorClassIdentifier: Assembly-CSharp::HiroEventLeaderboards.EventLeaderboardsViewBehaviour
   eventLeaderboardEntryTemplate: {fileID: 9197481963319205126, guid: 7f2d3bbe277224287bcb00ffc778b404, type: 3}
   eventLeaderboardRecordTemplate: {fileID: 9197481963319205126, guid: 3b1430e8390154d66bcf08444c83fa76, type: 3}
   eventLeaderboardZoneTemplate: {fileID: 9197481963319205126, guid: f665d0c9be32f422789af3de8b2f8f5e, type: 3}

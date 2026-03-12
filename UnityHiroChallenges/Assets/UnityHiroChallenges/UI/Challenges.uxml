@@ -20,10 +20,12 @@
                 <ui:Button name="challenge-create" text="Start Challenge" class="heroic-button" style="align-self: center; width: 339px; height: 80px;" />
             </ui:VisualElement>
             <ui:ListView fixed-item-height="150" name="challenges-list" style="flex-grow: 1; margin-bottom: 10px;" />
+            <ui:VisualElement name="challenges-list-spinner" class="spinner" style="display: none; position: absolute; top: 50%; left: 50%; translate: -50% -50%;" />
             <ui:Button text="Refresh" name="challenges-refresh" class="heroic-button-square" style="align-self: flex-start;" />
         </ui:VisualElement>
         <ui:VisualElement name="main-right" style="width: 50%; align-self: stretch; align-items: stretch; flex-direction: column;">
             <ui:VisualElement style="margin-top: 30px; margin-right: 30px; margin-bottom: 30px; flex-grow: 1;">
+                <ui:VisualElement name="selected-challenge-spinner" class="spinner" style="display: none; position: absolute; top: 50%; left: 50%; translate: -50% -50%; z-index: 100;" />
                 <ui:VisualElement name="selected-challenge-panel" class="heroic-main__panel" style="height: 30%; flex-grow: 1;">
                     <ui:VisualElement style="height: 30%; background-color: rgb(132, 154, 255); border-top-left-radius: 15px; border-top-right-radius: 15px; padding-top: 20px; padding-bottom: 20px;">
                         <ui:Label text="Challenge Name" name="selected-challenge-name" class="heroic-title" style="color: rgb(255, 255, 255); height: 40%; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: middle-center;" />
@@ -45,7 +47,7 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement template="ErrorPopup" name="create-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
+    <ui:VisualElement name="create-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
         <Style src="project://database/Assets/UnityHiroChallenges/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
         <ui:VisualElement name="create-modal-background" class="heroic-error-popup__background">
             <ui:VisualElement name="create-modal-panel" class="heroic-main__panel" style="height: auto; width: 60%;">
@@ -64,10 +66,10 @@
                             <ui:TextField label="Invitees" placeholder-text="Player1, Player2" name="create-modal-invitees" style="width: 100%;" />
                         </ui:VisualElement>
                         <ui:VisualElement style="width: 100%; margin-bottom: 15px;">
-                            <ui:IntegerField label="Max Participants" value="100" name="create-modal-max-participants" style="width: 100%;" />
+                            <ui:TextField label="Max Participants" value="100" name="create-modal-max-participants" style="width: 100%;" />
                         </ui:VisualElement>
                         <ui:VisualElement style="width: 100%; margin-bottom: 15px;">
-                            <ui:IntegerField label="Max Score Submissions" value="10" name="create-modal-max-submissions" style="width: 100%; display: none;" />
+                            <ui:TextField label="Max Score Submissions" value="10" name="create-modal-max-submissions" style="width: 100%; display: none;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                     <ui:VisualElement style="width: 50%; padding-left: 15px;">
@@ -95,7 +97,7 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement template="ErrorPopup" name="submit-score-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
+    <ui:VisualElement name="submit-score-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
         <Style src="project://database/Assets/UnityHiroChallenges/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
         <ui:VisualElement name="submit-score-modal-background" class="heroic-error-popup__background" style="flex-grow: 0;">
             <ui:VisualElement name="submit-score-modal-panel" class="heroic-main__panel" style="height: auto; width: 700px;">
@@ -103,15 +105,15 @@
                     <ui:Label text="SUBMIT SCORE" class="heroic-title" style="color: rgb(255, 255, 255); -unity-text-align: middle-center; flex-grow: 1;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="submit-score-modal-bottom" style="height: 85%; align-self: center; align-items: center; width: 100%; padding-left: 30px; padding-right: 30px; padding-top: 30px; padding-bottom: 30px; margin-bottom: 30px;">
-                    <ui:IntegerField label="Score" value="0" name="submit-score-score" style="width: 100%; margin-bottom: 15px;" />
-                    <ui:IntegerField label="Subscore" value="0" name="submit-score-subscore" style="width: 100%; margin-bottom: 15px;" />
+                    <ui:TextField label="Score" value="0" name="submit-score-score" style="width: 100%; margin-bottom: 15px;" />
+                    <ui:TextField label="Subscore" value="0" name="submit-score-subscore" style="width: 100%; margin-bottom: 15px;" />
                     <ui:Button text="Submit" name="submit-score-modal-submit" class="heroic-button" style="margin-top: 20px;" />
                 </ui:VisualElement>
                 <ui:Button name="submit-score-modal-close" class="heroic-close-button" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement template="ErrorPopup" name="invite-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
+    <ui:VisualElement name="invite-modal" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none;">
         <Style src="project://database/Assets/UnityHiroChallenges/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
         <ui:VisualElement name="invite-modal-background" class="heroic-error-popup__background">
             <ui:VisualElement name="invite-modal-panel" class="heroic-main__panel" style="height: auto; width: 700px;">

@@ -1,29 +1,11 @@
-// Copyright 2025 The Nakama Authors
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
-using System;
-using System.Collections.Generic;
 using System.Text;
+using HeroicUtils;
 using Nakama;
-using Hiro;
-using Hiro.Unity;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-namespace HiroTeams.Editor
+namespace HeroicUtils.Editor
 {
     public class AccountSwitcherEditor : EditorWindow
     {
@@ -31,10 +13,7 @@ namespace HiroTeams.Editor
 
         private DropdownField accountDropdown;
         private Label usernamesLabel;
-
-        private readonly SortedDictionary<string, string> accountUsernames = new();
-
-        private const string AccountUsernamesKey = "AccountSwitcher_Usernames";
+        private string _env;
 
         [MenuItem("Tools/Nakama/Account Switcher")]
         public static void ShowWindow()
@@ -45,17 +24,16 @@ namespace HiroTeams.Editor
             window.Focus();
         }
 
-        [MenuItem("Tools/Nakama/Clear Test Accounts")]
+        [MenuItem("Tools/Nakama/Clear Saved Accounts")]
         public static void ClearSavedAccounts()
         {
-            EditorPrefs.DeleteKey(AccountUsernamesKey);
-            Debug.Log("Cleared all saved account usernames");
+            AccountSwitcher.ClearAccounts();
+            Debug.Log("Cleared all saved accounts");
 
             // Refresh any open Account Switcher windows
             var windows = Resources.FindObjectsOfTypeAll<AccountSwitcherEditor>();
             foreach (var window in windows)
             {
-                window.accountUsernames.Clear();
                 window.UpdateUsernameLabels();
             }
         }
@@ -69,118 +47,61 @@ namespace HiroTeams.Editor
 
             usernamesLabel = rootVisualElement.Q<Label>("usernames");
 
-            // Load saved usernames on startup
-            LoadAccountUsernames();
+            if (!EditorApplication.isPlaying)
+            {
+                usernamesLabel.text = "Enter Play Mode to see accounts";
+                return;
+            }
+
+            if (AccountSwitcher.NakamaSystem != null)
+            {
+                _env = AccountSwitcher.CurrentEnv;
+                UpdateUsernameLabels();
+                OnAccountSwitcherInitialized();
+            }
+            else
+            {
+                AccountSwitcher.Initialized += OnAccountSwitcherInitialized;
+            }
+        }
+
+        private async void OnAccountSwitcherInitialized()
+        {
+            AccountSwitcher.Initialized -= OnAccountSwitcherInitialized;
+
+            _env = AccountSwitcher.CurrentEnv;
+            var nakamaSystem = AccountSwitcher.NakamaSystem;
+
+            await AccountSwitcher.EnsureAccountsExistAsync(nakamaSystem, _env);
+            // Switch back to account 0 after ensuring all accounts exist
+            await AccountSwitcher.SwitchAccountAsync(nakamaSystem, _env, 0);
+            accountDropdown.index = 0;
             UpdateUsernameLabels();
-
-            if (!EditorApplication.isPlaying) return;
-
-            var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
-            foreach (var rootGameObject in rootGameObjects)
-            {
-                if (!rootGameObject.TryGetComponent<HiroTeamsController>(out var teamsController)) continue;
-
-                if (HiroCoordinator.Instance.GetSystem<NakamaSystem>().Session is Session session)
-                {
-                    OnControllerInitialized(session);
-                }
-                else
-                {
-                    teamsController.OnInitialized += OnControllerInitialized;
-                }
-            }
-        }
-
-        private void OnControllerInitialized(ISession session, HiroTeamsController teamsController = null)
-        {
-            accountUsernames[accountDropdown.choices[0]] = session.Username;
-            UpdateUsernameLabels();
-
-            if (teamsController != null)
-            {
-                teamsController.OnInitialized -= OnControllerInitialized;
-            }
-        }
-
-        private void LoadAccountUsernames()
-        {
-            var savedUsernames = EditorPrefs.GetString(AccountUsernamesKey, "");
-            if (string.IsNullOrEmpty(savedUsernames)) return;
-
-            try
-            {
-                var usernameData = JsonUtility.FromJson<SerializableStringDictionary>(savedUsernames);
-                accountUsernames.Clear();
-
-                foreach (var item in usernameData.items)
-                {
-                    accountUsernames[item.key] = item.value;
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.LogWarning($"Failed to load saved account usernames: {ex.Message}");
-            }
-        }
-
-        private void SaveAccountUsernames()
-        {
-            try
-            {
-                var usernameData = new SerializableStringDictionary();
-                foreach (var kvp in accountUsernames)
-                {
-                    usernameData.items.Add(new SerializableKeyValuePair { key = kvp.Key, value = kvp.Value });
-                }
-
-                var json = JsonUtility.ToJson(usernameData);
-                EditorPrefs.SetString(AccountUsernamesKey, json);
-            }
-            catch (Exception ex)
-            {
-                Debug.LogWarning($"Failed to save account usernames: {ex.Message}");
-            }
         }
 
         private async void SwitchAccount(ChangeEvent<string> changeEvt)
         {
             if (!EditorApplication.isPlaying) return;
 
-            var previousValue = changeEvt.previousValue;
-            var newValue = changeEvt.newValue;
+            var nakamaSystem = AccountSwitcher.NakamaSystem;
+            if (nakamaSystem == null) return;
 
-            var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
-            foreach (var rootGameObject in rootGameObjects)
+            Debug.Log($"[Editor] SwitchAccount triggered: dropdown index={accountDropdown.index}, dropdown value={changeEvt.newValue}, env={_env}");
+
+            try
             {
-                if (!rootGameObject.TryGetComponent<HiroTeamsController>(out var teamsController)) continue;
+                Debug.Log($"[Editor] Calling SwitchAccountAsync with index={accountDropdown.index}");
+                var session = await AccountSwitcher.SwitchAccountAsync(
+                    nakamaSystem,
+                    _env,
+                    accountDropdown.index);
 
-                var coordinator = HiroCoordinator.Instance as HiroTeamsCoordinator;
-                if (coordinator == null) return;
-                var nakamaSystem = coordinator.GetSystem<NakamaSystem>();
-
-                // Save username before switching
-                if (!string.IsNullOrEmpty(previousValue))
-                {
-                    accountUsernames[previousValue] = nakamaSystem.Session.Username;
-                }
-
-                try
-                {
-                    var newSession = await HiroTeamsCoordinator.NakamaAuthorizerFunc(accountDropdown.index)
-                        .Invoke(nakamaSystem.Client);
-                    (nakamaSystem.Session as Session)?.Update(newSession.AuthToken, newSession.RefreshToken);
-                    await nakamaSystem.RefreshAsync();
-                    accountUsernames[newValue] = newSession.Username;
-                    teamsController.SwitchComplete();
-
-                    SaveAccountUsernames();
-                    break;
-                }
-                catch (ApiResponseException e)
-                {
-                    Debug.LogWarning($"Error authenticating with Device ID: {e.Message}");
-                    return;
-                }
+                Debug.Log($"[Editor] Switch complete: index={accountDropdown.index}, user={session.Username}, userId={session.UserId}");
+            }
+            catch (ApiResponseException e)
+            {
+                Debug.LogWarning($"Error authenticating with Device ID: {e.Message}");
+                return;
             }
 
             UpdateUsernameLabels();
@@ -188,32 +109,33 @@ namespace HiroTeams.Editor
 
         private void UpdateUsernameLabels()
         {
-            var sb = new StringBuilder();
-            var index = 1;
+            if (string.IsNullOrEmpty(_env) || usernamesLabel == null)
+                return;
 
-            foreach (var kvp in accountUsernames)
+            var accounts = AccountSwitcher.GetAllAccounts();
+            var sb = new StringBuilder();
+
+            Debug.Log($"[Editor] UpdateUsernameLabels: env={_env}, total accounts in cache={accounts.Count}");
+
+            // Filter and sort by index for current environment
+            for (var i = 0; i < 4; i++)
             {
-                sb.Append(index);
-                sb.Append(": ");
-                sb.Append(kvp.Value);
-                sb.AppendLine();
-                index++;
+                var key = $"{_env}_{i}";
+                if (accounts.TryGetValue(key, out var account))
+                {
+                    Debug.Log($"[Editor] Display: {i + 1}: {account.Username} (userId={account.UserId})");
+                    sb.Append(i + 1);
+                    sb.Append(": ");
+                    sb.Append(account.Username);
+                    sb.AppendLine();
+                }
+                else
+                {
+                    Debug.Log($"[Editor] No account for key={key}");
+                }
             }
 
             usernamesLabel.text = sb.ToString();
-        }
-
-        [Serializable]
-        private class SerializableStringDictionary
-        {
-            public List<SerializableKeyValuePair> items = new();
-        }
-
-        [Serializable]
-        private class SerializableKeyValuePair
-        {
-            public string key;
-            public string value;
         }
     }
 }
