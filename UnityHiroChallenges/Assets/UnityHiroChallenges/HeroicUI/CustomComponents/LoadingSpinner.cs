@@ -50,7 +50,7 @@ namespace HeroicUI
 
         public void Dispose()
         {
-            StopSpinning();
+            Hide();
         }
     }
 }

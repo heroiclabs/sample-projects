@@ -14,7 +14,6 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using HeroicUtils;
 using Nakama;
 using NUnit.Framework;
 using UnityEditor;
@@ -54,10 +53,7 @@ namespace HiroChallenges.Tests.Editor
             if (string.IsNullOrEmpty(deviceId))
             {
                 deviceId = SystemInfo.deviceUniqueIdentifier;
-                if (deviceId == SystemInfo.unsupportedIdentifier)
-                {
-                    deviceId = System.Guid.NewGuid().ToString();
-                }
+                if (deviceId == SystemInfo.unsupportedIdentifier) deviceId = System.Guid.NewGuid().ToString();
                 PlayerPrefs.SetString(PlayerPrefsDeviceId, deviceId);
             }
 
@@ -96,7 +92,8 @@ namespace HiroChallenges.Tests.Editor
 
             if (string.IsNullOrEmpty(savedUsernames))
             {
-                Assert.Inconclusive("No stored accounts found. Run AccountSwitcher_HasFourAccounts_AllExistOnServer first.");
+                Assert.Inconclusive(
+                    "No stored accounts found. Run AccountSwitcher_HasFourAccounts_AllExistOnServer first.");
                 return;
             }
 
@@ -109,10 +106,7 @@ namespace HiroChallenges.Tests.Editor
 
             // Verify each stored username exists on server
             var usernames = new List<string>();
-            foreach (var item in usernameData.items)
-            {
-                usernames.Add(item.value);
-            }
+            foreach (var item in usernameData.items) usernames.Add(item.value);
 
             var deviceId = PlayerPrefs.GetString(PlayerPrefsDeviceId, "");
             var session = await _client.AuthenticateDeviceAsync($"{deviceId}_0");
@@ -163,13 +157,11 @@ namespace HiroChallenges.Tests.Editor
             var usernameData = new SerializableStringDictionary();
 
             for (var i = 0; i < sessions.Count; i++)
-            {
                 usernameData.items.Add(new SerializableKeyValuePair
                 {
                     key = $"ACCOUNT {i + 1}",
                     value = sessions[i].Username
                 });
-            }
 
             var json = JsonUtility.ToJson(usernameData);
             EditorPrefs.SetString(AccountUsernamesKey, json);

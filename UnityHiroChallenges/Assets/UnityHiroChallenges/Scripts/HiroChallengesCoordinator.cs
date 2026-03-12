@@ -76,37 +76,24 @@ namespace HiroChallenges
 
             return async client =>
             {
+                client.ReceivedSessionUpdated += session =>
+                {
+                    PlayerPrefs.SetString($"{playerPrefsAuthToken}_{keySuffix}", session.AuthToken);
+                    PlayerPrefs.SetString($"{playerPrefsRefreshToken}_{keySuffix}", session.RefreshToken);
+                };
+
                 Debug.Log($"[NakamaAuth] Starting auth for env={env}, index={index}, keySuffix={keySuffix}");
 
                 // Attempt to load a previous session if it is still valid.
                 var authToken = PlayerPrefs.GetString($"{playerPrefsAuthToken}_{keySuffix}");
                 var refreshToken = PlayerPrefs.GetString($"{playerPrefsRefreshToken}_{keySuffix}");
                 var session = Session.Restore(authToken, refreshToken);
-                Debug.Log($"[NakamaAuth] Restored session: {(session != null ? $"user={session.Username}, userId={session.UserId}" : "null")}, authToken empty={string.IsNullOrEmpty(authToken)}");
+                Debug.Log(
+                    $"[NakamaAuth] Restored session: {(session != null ? $"user={session.Username}, userId={session.UserId}" : "null")}, authToken empty={string.IsNullOrEmpty(authToken)}");
 
                 // Add an hour, so we check whether the token is within an hour of expiration to refresh it.
                 var expiredDate = DateTime.UtcNow.AddHours(1);
-                if (session != null && !session.HasRefreshExpired(expiredDate))
-                {
-                    try
-                    {
-                        Debug.Log($"[NakamaAuth] Refreshing existing session for index={index}");
-                        // Validate the session by refreshing it
-                        session = await client.SessionRefreshAsync(session);
-                        PlayerPrefs.SetString($"{playerPrefsAuthToken}_{keySuffix}", session.AuthToken);
-                        PlayerPrefs.SetString($"{playerPrefsRefreshToken}_{keySuffix}", session.RefreshToken);
-                        Debug.Log($"[NakamaAuth] Refreshed session: user={session.Username}, userId={session.UserId}");
-                        return session;
-                    }
-                    catch (ApiResponseException e) when (
-                        e.Message.Contains("Refresh token invalid or expired") ||
-                        e.Message.Contains("User account not found"))
-                    {
-                        Debug.LogWarning($"Stored session invalid ({e.Message}), clearing tokens and re-authenticating...");
-                        PlayerPrefs.DeleteKey($"{playerPrefsAuthToken}_{keySuffix}");
-                        PlayerPrefs.DeleteKey($"{playerPrefsRefreshToken}_{keySuffix}");
-                    }
-                }
+                if (session != null && !session.HasRefreshExpired(expiredDate)) return session;
 
                 // Attempt to read the device ID to use for Authentication.
                 var deviceId = PlayerPrefs.GetString($"{playerPrefsDeviceId}_{env}", SystemInfo.deviceUniqueIdentifier);
@@ -119,10 +106,12 @@ namespace HiroChallenges
                 }
                 catch (Exception e)
                 {
-                   Debug.LogException(e);
-                   throw;
+                    Debug.LogException(e);
+                    throw;
                 }
-                Debug.Log($"[NakamaAuth] Authenticated: user={session.Username}, userId={session.UserId}, created={session.Created}");
+
+                Debug.Log(
+                    $"[NakamaAuth] Authenticated: user={session.Username}, userId={session.UserId}, created={session.Created}");
 
                 // Store tokens to avoid needing to re-authenticate next time.
                 PlayerPrefs.SetString($"{playerPrefsDeviceId}_{env}", deviceId);
@@ -138,7 +127,6 @@ namespace HiroChallenges
 
         protected override void SystemsInitializeCompleted()
         {
-            var nakamaSystem = this.GetSystem<NakamaSystem>();
             ReceivedStartSuccess?.Invoke();
         }
 

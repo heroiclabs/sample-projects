@@ -276,7 +276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ee968291b9ba4af6b816e987267b47d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HiroChallenges.HiroChallengesCoordinator
-  localHost: 1
+  localHost: 0
   scheme: https
   host: sample-prjcts.eu-west1-a.nakamacloud.io
   port: 443
@@ -364,8 +364,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc4d4a88eef054e9e966e47cadc3ffda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HiroChallenges.ChallengesViewBehaviour
-  _challengeEntryTemplate: {fileID: 9197481963319205126, guid: 8dd3c785e50de45048715a68169a3967, type: 3}
-  _challengeParticipantTemplate: {fileID: 9197481963319205126, guid: 1b43f002f8c6f4d02973ddbd956d1939, type: 3}
 --- !u!1 &2121322951
 GameObject:
   m_ObjectHideFlags: 0

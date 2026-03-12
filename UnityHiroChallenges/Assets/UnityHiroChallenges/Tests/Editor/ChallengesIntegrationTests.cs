@@ -17,9 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Hiro;
-using Hiro.System;
-using Hiro.Unity;
-using HeroicUtils;
+using HiroChallenges.Tools;
 using Nakama;
 using NUnit.Framework;
 using UnityEngine;
@@ -228,10 +226,7 @@ namespace HiroChallenges.Tests.Editor
             Assert.IsTrue(templates.Count > 0, "No challenge templates found on server");
             Debug.Log($"Found {templates.Count} templates");
 
-            foreach (var template in templates)
-            {
-                Debug.Log($"Template: {template.DisplayName} ({template.Id})");
-            }
+            foreach (var template in templates) Debug.Log($"Template: {template.DisplayName} ({template.Id})");
         }
 
         [Test]
@@ -265,7 +260,7 @@ namespace HiroChallenges.Tests.Editor
         [Test]
         public async Task RefreshChallengesAsync_ReturnsChallengesList()
         {
-            var result = await _controller.RefreshChallengesAsync();
+            await _controller.RefreshChallengesAsync();
 
             Assert.IsNotNull(_controller.Challenges);
             Debug.Log($"Found {_controller.Challenges.Count} challenges");
@@ -304,7 +299,8 @@ namespace HiroChallenges.Tests.Editor
             var participants = await _controller.SelectChallengeAsync(challenge.Id);
             var participant = _controller.GetCurrentParticipant(participants);
 
-            Debug.Log($"Permissions: CanJoin={challenge.CanJoin(participant)}, CanSubmitScore={challenge.CanSubmitScore(participant)}, CanClaim={challenge.CanClaimReward(participant)}");
+            Debug.Log(
+                $"Permissions: CanJoin={challenge.CanJoin(participant)}, CanSubmitScore={challenge.CanSubmitScore(participant)}, CanClaim={challenge.CanClaimReward(participant)}");
         }
 
         [Test]
@@ -351,7 +347,8 @@ namespace HiroChallenges.Tests.Editor
             var logger = new Hiro.Unity.Logger();
 
             // Initialize with account 0
-            _nakamaSystem = new NakamaSystem(logger, _client, HiroChallengesCoordinator.NakamaAuthorizerFunc("test", 0));
+            _nakamaSystem =
+                new NakamaSystem(logger, _client, HiroChallengesCoordinator.NakamaAuthorizerFunc("test"));
             await _nakamaSystem.InitializeAsync();
 
             _challengesSystem = new ChallengesSystem(logger, _nakamaSystem);
@@ -431,21 +428,25 @@ namespace HiroChallenges.Tests.Editor
             var participant1 = _controller.GetCurrentParticipant(participants1);
 
             Assert.IsNotNull(participant1, "Account 1 should be a participant (was invited)");
-            Assert.AreEqual(ChallengeState.Invited, participant1.State, "Account 1 should be in Invited state before joining");
+            Assert.AreEqual(ChallengeState.Invited, participant1.State,
+                "Account 1 should be in Invited state before joining");
             Assert.IsTrue(challenge1.IsActive, "Challenge should be active");
             Assert.IsTrue(challenge1.Size < challenge1.MaxSize, "Challenge should have room for more participants");
             Assert.AreEqual(2, participants1.Count, "Challenge should have 2 participants (owner + 1 invitee)");
             Assert.IsTrue(challenge1.CanJoin(participant1), "Account 1 should be able to join");
-            Assert.IsFalse(challenge1.CanSubmitScore(participant1), "Account 1 should not be able to submit score before joining");
+            Assert.IsFalse(challenge1.CanSubmitScore(participant1),
+                "Account 1 should not be able to submit score before joining");
 
             await _controller.JoinChallengeAsync();
             participants1 = await _controller.SelectChallengeAsync(challengeId);
             Assert.AreEqual(createdChallenge.Id, _controller.SelectedChallenge.Id);
             challenge1 = _controller.SelectedChallenge;
             participant1 = _controller.GetCurrentParticipant(participants1);
-            Assert.AreEqual(ChallengeState.Joined, participant1.State, "Account 1 should be in Joined state after joining");
+            Assert.AreEqual(ChallengeState.Joined, participant1.State,
+                "Account 1 should be in Joined state after joining");
             Assert.IsFalse(challenge1.CanJoin(participant1), "Account 1 should not be able to join after joining");
-            Assert.IsTrue(challenge1.CanSubmitScore(participant1), "Account 1 should be able to submit score after joining");
+            Assert.IsTrue(challenge1.CanSubmitScore(participant1),
+                "Account 1 should be able to submit score after joining");
 
             await _controller.SubmitScoreAsync(25, 0);
 
@@ -463,17 +464,21 @@ namespace HiroChallenges.Tests.Editor
             var participant2 = _controller.GetCurrentParticipant(participants2);
             Assert.IsNotNull(participant2, "Account 2 should be a participant (was invited)");
             Assert.AreEqual(4, participants2.Count, "Challenge should have 4 participants (owner + 3 invitees)");
-            Assert.AreEqual(ChallengeState.Invited, participant2.State, "Account 2 should be in Invited state before joining");
+            Assert.AreEqual(ChallengeState.Invited, participant2.State,
+                "Account 2 should be in Invited state before joining");
             Assert.IsTrue(challenge2.CanJoin(participant2), "Account 2 should be able to join");
-            Assert.IsFalse(challenge2.CanSubmitScore(participant2), "Account 2 should not be able to submit score before joining");
+            Assert.IsFalse(challenge2.CanSubmitScore(participant2),
+                "Account 2 should not be able to submit score before joining");
 
             await _controller.JoinChallengeAsync();
             participants2 = await _controller.SelectChallengeAsync(challengeId);
             Assert.AreEqual(createdChallenge.Id, _controller.SelectedChallenge.Id);
             challenge2 = _controller.SelectedChallenge;
             participant2 = _controller.GetCurrentParticipant(participants2);
-            Assert.AreEqual(ChallengeState.Joined, participant2.State, "Account 2 should be in Joined state after joining");
-            Assert.IsTrue(challenge2.CanSubmitScore(participant2), "Account 2 should be able to submit score after joining");
+            Assert.AreEqual(ChallengeState.Joined, participant2.State,
+                "Account 2 should be in Joined state after joining");
+            Assert.IsTrue(challenge2.CanSubmitScore(participant2),
+                "Account 2 should be able to submit score after joining");
 
             await _controller.SubmitScoreAsync(50, 0);
 
@@ -485,16 +490,20 @@ namespace HiroChallenges.Tests.Editor
             var participant3 = _controller.GetCurrentParticipant(participants3);
             Assert.IsNotNull(participant3, "Account 3 should be a participant (was invited)");
             Assert.AreEqual(4, participants3.Count, "Challenge should have 4 participants (owner + 3 invitees)");
-            Assert.AreEqual(ChallengeState.Invited, participant3.State, "Account 3 should be in Invited state before joining");
+            Assert.AreEqual(ChallengeState.Invited, participant3.State,
+                "Account 3 should be in Invited state before joining");
             Assert.IsTrue(challenge3.CanJoin(participant3), "Account 3 should be able to join");
-            Assert.IsFalse(challenge3.CanSubmitScore(participant3), "Account 3 should not be able to submit score before joining");
+            Assert.IsFalse(challenge3.CanSubmitScore(participant3),
+                "Account 3 should not be able to submit score before joining");
 
             await _controller.JoinChallengeAsync();
             participants3 = await _controller.SelectChallengeAsync(challengeId);
             challenge3 = _controller.SelectedChallenge;
             participant3 = _controller.GetCurrentParticipant(participants3);
-            Assert.AreEqual(ChallengeState.Joined, participant3.State, "Account 3 should be in Joined state after joining");
-            Assert.IsTrue(challenge3.CanSubmitScore(participant3), "Account 3 should be able to submit score after joining");
+            Assert.AreEqual(ChallengeState.Joined, participant3.State,
+                "Account 3 should be in Joined state after joining");
+            Assert.IsTrue(challenge3.CanSubmitScore(participant3),
+                "Account 3 should be able to submit score after joining");
 
             await _controller.SubmitScoreAsync(75, 0);
 
@@ -507,9 +516,7 @@ namespace HiroChallenges.Tests.Editor
 
             // Verify all participants are in Joined state
             foreach (var p in participants)
-            {
                 Assert.AreEqual(ChallengeState.Joined, p.State, $"Participant {p.Username} should be in Joined state");
-            }
 
             // Verify scores are sorted by rank (highest score = rank 1)
             Assert.AreEqual(1, participants[0].Rank, "First should be rank 1");
@@ -584,7 +591,6 @@ namespace HiroChallenges.Tests.Editor
             Assert.AreEqual(ChallengeState.Invited, participant.State, "Account 2 should be in Invited state");
             Assert.AreEqual(challenge.Size, challenge.MaxSize, "Challenge should be at max size");
 
-            // BUG: CanJoin returns false even though participant is invited and should be able to join
             // The invited participant is already counted in size, so they should be able to join
             Assert.IsTrue(challenge.CanJoin(participant),
                 $"Invited participant should be able to join even when size({challenge.Size}) == max_size({challenge.MaxSize}). " +

@@ -14,7 +14,7 @@
 
 using Hiro;
 using Hiro.Unity;
-using HeroicUtils;
+using HiroChallenges.Tools;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -30,7 +30,7 @@ namespace HiroChallenges
         private HiroChallengesCoordinator _coordinator;
         private ChallengesView _view;
 
-        public ChallengesController Controller { get; private set; }
+        private ChallengesController Controller { get; set; }
 
         private void Start()
         {

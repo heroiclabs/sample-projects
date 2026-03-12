@@ -19,7 +19,7 @@ using Hiro;
 using Nakama;
 using UnityEngine;
 
-namespace HeroicUtils
+namespace HiroChallenges.Tools
 {
     public static class AccountSwitcher
     {
@@ -64,10 +64,7 @@ namespace HeroicUtils
 
         public static void Initialize(NakamaSystem nakamaSystem, string env, int index = 0)
         {
-            if (_nakamaSystem != null)
-            {
-                _nakamaSystem.Client.ReceivedSessionUpdated -= OnSessionUpdated;
-            }
+            if (_nakamaSystem != null) _nakamaSystem.Client.ReceivedSessionUpdated -= OnSessionUpdated;
 
             _nakamaSystem = nakamaSystem;
             _currentEnv = env;
@@ -98,10 +95,8 @@ namespace HeroicUtils
             // Collect all user IDs from cache
             var userIds = new List<string>();
             foreach (var account in _accountCache)
-            {
                 if (!string.IsNullOrEmpty(account.Value.UserId))
                     userIds.Add(account.Value.UserId);
-            }
 
             if (userIds.Count == 0)
                 return;
@@ -112,29 +107,22 @@ namespace HeroicUtils
                 var result = await _nakamaSystem.Client.GetUsersAsync(_nakamaSystem.Session, userIds);
 
                 var validUserIds = new HashSet<string>();
-                foreach (var user in result.Users)
-                {
-                    validUserIds.Add(user.Id);
-                }
+                foreach (var user in result.Users) validUserIds.Add(user.Id);
 
                 // Remove accounts that don't exist on the server
                 var keysToRemove = new List<string>();
                 foreach (var account in _accountCache)
-                {
                     if (!string.IsNullOrEmpty(account.Value.UserId) &&
                         !validUserIds.Contains(account.Value.UserId))
                     {
                         keysToRemove.Add(account.Key);
-                        Debug.Log($"Removing stale account from cache: {account.Value.Username} ({account.Value.UserId})");
+                        Debug.Log(
+                            $"Removing stale account from cache: {account.Value.Username} ({account.Value.UserId})");
                     }
-                }
 
                 if (keysToRemove.Count > 0)
                 {
-                    foreach (var key in keysToRemove)
-                    {
-                        _accountCache.Remove(key);
-                    }
+                    foreach (var key in keysToRemove) _accountCache.Remove(key);
                     SaveCache();
                     Debug.Log($"Cleaned up {keysToRemove.Count} stale account(s) from cache");
                 }
@@ -198,7 +186,7 @@ namespace HeroicUtils
         {
             if (nakamaSystem.Session is not Session session)
                 throw new InvalidOperationException(
-                    $"Cannot switch account: NakamaSystem.Session is {nakamaSystem.Session?.GetType().Name ?? "null"}, expected Session");
+                    $"Cannot switch account: NakamaSystem.Session is {nakamaSystem.Session.GetType().Name}, expected Session");
 
             session.Update(newSession.AuthToken, newSession.RefreshToken);
             await nakamaSystem.RefreshAsync();
@@ -217,14 +205,12 @@ namespace HeroicUtils
             return _accountCache;
         }
 
-        public static string GetUserIdByUsername(string username)
+        private static string GetUserIdByUsername(string username)
         {
             LoadCache();
             foreach (var kvp in _accountCache)
-            {
                 if (string.Equals(kvp.Value.Username, username, StringComparison.OrdinalIgnoreCase))
                     return kvp.Value.UserId;
-            }
             return null;
         }
 
@@ -239,6 +225,7 @@ namespace HeroicUtils
                 if (!string.IsNullOrEmpty(kvp.Value.Username))
                     usernames.Add(kvp.Value.Username);
             }
+
             return usernames;
         }
 
@@ -266,7 +253,7 @@ namespace HeroicUtils
             return userIds.ToArray();
         }
 
-        public static async Task<ISession> AuthenticateDeviceAsync(IClient client, string env, int index)
+        private static async Task<ISession> AuthenticateDeviceAsync(IClient client, string env, int index)
         {
             var deviceId = GetOrCreateDeviceId(env);
             try
@@ -280,24 +267,23 @@ namespace HeroicUtils
             }
         }
 
-        public static string GetOrCreateDeviceId(string env)
+        private static string GetOrCreateDeviceId(string env)
         {
             var key = $"{PlayerPrefsDeviceId}_{env}";
             var deviceId = PlayerPrefs.GetString(key, "");
 
-            if (string.IsNullOrEmpty(deviceId))
-            {
-                deviceId = SystemInfo.deviceUniqueIdentifier;
-                if (deviceId == SystemInfo.unsupportedIdentifier)
-                    deviceId = Guid.NewGuid().ToString();
-                PlayerPrefs.SetString(key, deviceId);
-                PlayerPrefs.Save();
-            }
+            if (!string.IsNullOrEmpty(deviceId)) return deviceId;
+
+            deviceId = SystemInfo.deviceUniqueIdentifier;
+            if (deviceId == SystemInfo.unsupportedIdentifier)
+                deviceId = Guid.NewGuid().ToString();
+            PlayerPrefs.SetString(key, deviceId);
+            PlayerPrefs.Save();
 
             return deviceId;
         }
 
-        public static void ClearSessionTokens(string env, int count = 4)
+        private static void ClearSessionTokens(string env, int count = 4)
         {
             for (var i = 0; i < count; i++)
             {
@@ -305,6 +291,7 @@ namespace HeroicUtils
                 PlayerPrefs.DeleteKey($"{PlayerPrefsAuthToken}_{keySuffix}");
                 PlayerPrefs.DeleteKey($"{PlayerPrefsRefreshToken}_{keySuffix}");
             }
+
             PlayerPrefs.Save();
         }
 
@@ -371,13 +358,11 @@ namespace HeroicUtils
             {
                 var data = JsonUtility.FromJson<AccountDataStorage>(json);
                 foreach (var entry in data.entries)
-                {
                     _accountCache[entry.key] = new AccountInfo
                     {
                         Username = entry.username,
                         UserId = entry.userId
                     };
-                }
             }
             catch (Exception ex)
             {
@@ -389,14 +374,12 @@ namespace HeroicUtils
         {
             var data = new AccountDataStorage();
             foreach (var kvp in _accountCache)
-            {
                 data.entries.Add(new AccountDataEntry
                 {
                     key = kvp.Key,
                     username = kvp.Value.Username,
                     userId = kvp.Value.UserId
                 });
-            }
             var json = JsonUtility.ToJson(data);
             PlayerPrefs.SetString(AccountDataKey, json);
             PlayerPrefs.Save();

@@ -15,7 +15,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace HiroChallenges
+namespace HiroChallenges.Tools
 {
     public static class UsernameAutocomplete
     {
@@ -39,14 +39,13 @@ namespace HiroChallenges
             var lastCommaIndex = input.LastIndexOf(',');
             string prefix;
             string currentSegment;
-            string whitespaceAfterComma;
 
             if (lastCommaIndex >= 0)
             {
                 var afterComma = input.Substring(lastCommaIndex + 1);
                 var trimmed = afterComma.TrimStart();
-                whitespaceAfterComma = afterComma.Substring(0, afterComma.Length - trimmed.Length);
-                prefix = input.Substring(0, lastCommaIndex + 1) + whitespaceAfterComma;
+                var whitespaceAfterComma = afterComma.Substring(0, afterComma.Length - trimmed.Length);
+                prefix = input[..(lastCommaIndex + 1)] + whitespaceAfterComma;
                 currentSegment = trimmed;
             }
             else
@@ -80,20 +79,18 @@ namespace HiroChallenges
             // Find matches excluding already-selected
             var matches = new List<string>();
             foreach (var username in usernames)
-            {
                 if (!string.IsNullOrEmpty(username) &&
                     (matchAll || username.StartsWith(currentSegment, comparison)) &&
                     !excluded.Contains(username))
-                {
                     matches.Add(username);
-                }
+
+            switch (matches.Count)
+            {
+                case 0:
+                    return input;
+                case 1:
+                    return prefix + matches[0];
             }
-
-            if (matches.Count == 0)
-                return input;
-
-            if (matches.Count == 1)
-                return prefix + matches[0];
 
             var commonPrefix = FindLongestCommonPrefix(matches, comparison);
 
@@ -117,13 +114,11 @@ namespace HiroChallenges
                 prefixLength = Math.Min(prefixLength, strings[i].Length);
 
                 for (var j = 0; j < prefixLength; j++)
-                {
                     if (!CharEquals(first[j], strings[i][j], comparison))
                     {
                         prefixLength = j;
                         break;
                     }
-                }
             }
 
             return first.Substring(0, prefixLength);
@@ -134,9 +129,7 @@ namespace HiroChallenges
             if (comparison == StringComparison.OrdinalIgnoreCase ||
                 comparison == StringComparison.CurrentCultureIgnoreCase ||
                 comparison == StringComparison.InvariantCultureIgnoreCase)
-            {
                 return char.ToUpperInvariant(a) == char.ToUpperInvariant(b);
-            }
 
             return a == b;
         }

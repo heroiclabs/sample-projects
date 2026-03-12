@@ -16,6 +16,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Hiro;
+using HiroChallenges.Tools;
+using UnityEngine;
 
 namespace HiroChallenges
 {
@@ -23,7 +25,7 @@ namespace HiroChallenges
     /// Controller/Presenter for the Challenges system.
     /// Handles business logic and coordinates with Hiro systems.
     /// </summary>
-    public class ChallengesController
+    public class ChallengesController : IDisposable
     {
         private const int DefaultMaxParticipants = 100;
         private const int DefaultDelaySeconds = 0;
@@ -41,21 +43,32 @@ namespace HiroChallenges
         public List<IChallenge> Challenges { get; } = new();
         public IChallenge SelectedChallenge { get; private set; }
 
-        public ChallengesController(NakamaSystem nakamaSystem, IChallengesSystem challengesSystem, IEconomySystem economySystem)
+        public ChallengesController(NakamaSystem nakamaSystem, IChallengesSystem challengesSystem,
+            IEconomySystem economySystem)
         {
             _nakamaSystem = nakamaSystem ?? throw new ArgumentNullException(nameof(nakamaSystem));
             _challengesSystem = challengesSystem ?? throw new ArgumentNullException(nameof(challengesSystem));
             _economySystem = economySystem ?? throw new ArgumentNullException(nameof(economySystem));
 
             CurrentUserId = _nakamaSystem.UserId;
+
+            AccountSwitcher.AccountSwitched += OnAccountSwitched;
         }
 
-        public async Task SwitchCompleteAsync()
+        private async void OnAccountSwitched()
         {
             SelectedChallenge = null;
             _selectedChallengeId = string.Empty;
             CurrentUserId = _nakamaSystem.UserId;
-            await _economySystem.RefreshAsync();
+
+            try
+            {
+                await _economySystem.RefreshAsync();
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
         }
 
         public async Task<List<ChallengeTemplateOption>> LoadChallengeTemplatesAsync()
@@ -74,7 +87,8 @@ namespace HiroChallenges
                 orderedTemplates.Add((template.Key, template.Value, displayName));
             }
 
-            orderedTemplates.Sort((a, b) => string.Compare(a.DisplayName, b.DisplayName, StringComparison.OrdinalIgnoreCase));
+            orderedTemplates.Sort((a, b) =>
+                string.Compare(a.DisplayName, b.DisplayName, StringComparison.OrdinalIgnoreCase));
 
             foreach (var template in orderedTemplates)
             {
@@ -91,12 +105,7 @@ namespace HiroChallenges
 
         public IChallengeTemplate GetTemplate(string templateId)
         {
-            if (string.IsNullOrEmpty(templateId))
-                return null;
-
-            return _challengeTemplates.TryGetValue(templateId, out var template)
-                ? template
-                : null;
+            return string.IsNullOrEmpty(templateId) ? null : _challengeTemplates.GetValueOrDefault(templateId);
         }
 
         public async Task<ChallengeRefreshResult> RefreshChallengesAsync()
@@ -124,25 +133,31 @@ namespace HiroChallenges
 
         public async Task<List<IChallengeScore>> SelectChallengeAsync(string challengeId)
         {
-            if (string.IsNullOrEmpty(challengeId))
+            var challenge = await _challengesSystem.GetChallengeAsync(challengeId, true);
+
+            return SelectChallenge(challenge);
+        }
+
+        public List<IChallengeScore> SelectChallenge(IChallenge challenge)
+        {
+            if (challenge == null)
             {
                 _selectedChallengeId = string.Empty;
                 SelectedChallenge = null;
                 return new List<IChallengeScore>();
             }
 
-            _selectedChallengeId = challengeId;
-            SelectedChallenge = await _challengesSystem.GetChallengeAsync(challengeId, true);
+            _selectedChallengeId = challenge.Id;
+            SelectedChallenge = challenge;
             return new List<IChallengeScore>(SelectedChallenge.Scores);
         }
+
 
         public IChallengeScore GetCurrentParticipant(IReadOnlyList<IChallengeScore> participants)
         {
             foreach (var participant in participants)
-            {
                 if (participant.Id == CurrentUserId)
                     return participant;
-            }
             return null;
         }
 
@@ -155,10 +170,8 @@ namespace HiroChallenges
             int durationSeconds,
             bool isOpen)
         {
-            if (string.IsNullOrEmpty(templateId) || !_challengeTemplates.ContainsKey(templateId))
+            if (string.IsNullOrEmpty(templateId) || !_challengeTemplates.TryGetValue(templateId, out var template))
                 throw new ArgumentException("Please select a valid Challenge template.", nameof(templateId));
-
-            var template = _challengeTemplates[templateId];
 
             template.AdditionalProperties.TryGetValue("description", out var description);
             template.AdditionalProperties.TryGetValue("category", out var category);
@@ -182,51 +195,69 @@ namespace HiroChallenges
             return newChallenge;
         }
 
-        public async Task JoinChallengeAsync()
+        public async Task<IChallenge> JoinChallengeAsync()
         {
             if (SelectedChallenge == null)
                 throw new InvalidOperationException("No challenge selected");
 
-            await _challengesSystem.JoinChallengeAsync(SelectedChallenge.Id);
+            return await _challengesSystem.JoinChallengeAsync(SelectedChallenge.Id);
         }
 
-        public async Task LeaveChallengeAsync()
+        public async Task<IChallenge> LeaveChallengeAsync()
         {
             if (SelectedChallenge == null)
                 throw new InvalidOperationException("No challenge selected");
 
-            await _challengesSystem.LeaveChallengeAsync(SelectedChallenge.Id);
+            return await _challengesSystem.LeaveChallengeAsync(SelectedChallenge.Id);
         }
 
-        public async Task ClaimChallengeAsync()
+        public async Task<IChallenge> ClaimChallengeAsync()
         {
             if (SelectedChallenge == null)
                 throw new InvalidOperationException("No challenge selected");
 
-            await _challengesSystem.ClaimChallengeAsync(SelectedChallenge.Id);
-            await _economySystem.RefreshAsync();
+            var claimedChallenge = await _challengesSystem.ClaimChallengeAsync(SelectedChallenge.Id);
+
+            var refreshTasks = new List<Task>();
+
+            if (claimedChallenge.Reward == null) return claimedChallenge;
+
+            if (claimedChallenge.Reward.Currencies.Count > 0)
+                refreshTasks.Add(_economySystem.RefreshAsync());
+
+            // Extra refreshes if using more Hiro systems:
+            //
+            // if (claimedChallenge.Reward.Items.Count > 0 || claimedChallenge.Reward.ItemInstances.Count > 0)
+            //     refreshTasks.Add(_inventorySystem.RefreshAsync());
+            //
+            // if (claimedChallenge.Reward.Energies.Count > 0 || claimedChallenge.Reward.EnergyModifiers.Count > 0)
+            //     refreshTasks.Add(_energiesSystem.RefreshAsync());
+
+            await Task.WhenAll(refreshTasks);
+
+            return claimedChallenge;
         }
 
-        public async Task SubmitScoreAsync(int score, int subScore)
+        public async Task<IChallenge> SubmitScoreAsync(int score, int subScore)
         {
             if (SelectedChallenge == null)
                 throw new InvalidOperationException("No challenge selected");
 
-            await _challengesSystem.SubmitChallengeScoreAsync(
+            return await _challengesSystem.SubmitChallengeScoreAsync(
                 SelectedChallenge.Id,
                 score,
                 subScore,
-                null,
+                null!,
                 true
             );
         }
 
-        public async Task InviteToChallengeAsync(string[] inviteeIds)
+        public async Task<IChallenge> InviteToChallengeAsync(string[] inviteeIds)
         {
             if (SelectedChallenge == null)
                 throw new InvalidOperationException("No challenge selected");
 
-            await _challengesSystem.InviteChallengeAsync(
+            return await _challengesSystem.InviteChallengeAsync(
                 SelectedChallenge.Id,
                 inviteeIds
             );
@@ -240,6 +271,11 @@ namespace HiroChallenges
                 DelaySeconds = DefaultDelaySeconds,
                 DurationSeconds = DefaultDurationSeconds
             };
+        }
+
+        public void Dispose()
+        {
+            AccountSwitcher.AccountSwitched -= OnAccountSwitched;
         }
     }
 

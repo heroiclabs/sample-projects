@@ -1,5 +1,6 @@
 using System.Text;
 using HeroicUtils;
+using HiroChallenges.Tools;
 using Nakama;
 using UnityEditor;
 using UnityEngine;
@@ -32,10 +33,7 @@ namespace HeroicUtils.Editor
 
             // Refresh any open Account Switcher windows
             var windows = Resources.FindObjectsOfTypeAll<AccountSwitcherEditor>();
-            foreach (var window in windows)
-            {
-                window.UpdateUsernameLabels();
-            }
+            foreach (var window in windows) window.UpdateUsernameLabels();
         }
 
         private void CreateGUI()
@@ -86,7 +84,8 @@ namespace HeroicUtils.Editor
             var nakamaSystem = AccountSwitcher.NakamaSystem;
             if (nakamaSystem == null) return;
 
-            Debug.Log($"[Editor] SwitchAccount triggered: dropdown index={accountDropdown.index}, dropdown value={changeEvt.newValue}, env={_env}");
+            Debug.Log(
+                $"[Editor] SwitchAccount triggered: dropdown index={accountDropdown.index}, dropdown value={changeEvt.newValue}, env={_env}");
 
             try
             {
@@ -96,7 +95,8 @@ namespace HeroicUtils.Editor
                     _env,
                     accountDropdown.index);
 
-                Debug.Log($"[Editor] Switch complete: index={accountDropdown.index}, user={session.Username}, userId={session.UserId}");
+                Debug.Log(
+                    $"[Editor] Switch complete: index={accountDropdown.index}, user={session.Username}, userId={session.UserId}");
             }
             catch (ApiResponseException e)
             {

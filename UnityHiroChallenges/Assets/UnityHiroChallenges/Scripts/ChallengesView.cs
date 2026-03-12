@@ -17,10 +17,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Hiro;
-using Hiro.System;
-using Hiro.Unity;
 using HeroicUI;
-using HeroicUtils;
+using HiroChallenges.Tools;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -144,7 +142,6 @@ namespace HiroChallenges
                 ThrowIfDisposedOrCancelled();
                 _challengesListSpinner.Show();
                 HideSelectedChallengePanel();
-                await _controller.SwitchCompleteAsync();
                 await RefreshChallengesAsync();
             }
             catch (OperationCanceledException)
@@ -355,7 +352,7 @@ namespace HiroChallenges
             _createModal = rootElement.RequireElement<VisualElement>("create-modal");
 
             _modalTemplateDropdown = _createModal.RequireElement<DropdownField>("create-modal-template");
-            _modalTemplateDropdown.RegisterValueChangedCallback(evt =>
+            _modalTemplateDropdown.RegisterValueChangedCallback(_ =>
             {
                 var template = GetSelectedTemplate();
                 if (template != null)
@@ -428,15 +425,11 @@ namespace HiroChallenges
             {
                 var excludeSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                 foreach (var p in _selectedChallengeParticipants)
-                {
                     if (!string.IsNullOrEmpty(p.Username))
                         excludeSet.Add(p.Username);
-                }
                 for (var i = usernames.Count - 1; i >= 0; i--)
-                {
                     if (excludeSet.Contains(usernames[i]))
                         usernames.RemoveAt(i);
-                }
             }
 
             return usernames;
@@ -478,7 +471,7 @@ namespace HiroChallenges
             _errorCloseButton.RegisterCallback<ClickEvent>(_ => HideErrorPopup());
         }
 
-        public async Task RefreshChallengesAsync()
+        private async Task RefreshChallengesAsync()
         {
             _challengesListSpinner.Show();
             try
@@ -518,30 +511,18 @@ namespace HiroChallenges
 
         private async Task SelectChallengeAsync()
         {
-            try
+            ThrowIfDisposedOrCancelled();
+            if (_challengesList.selectedIndex == -1)
             {
-                ThrowIfDisposedOrCancelled();
-                if (_challengesList.selectedIndex == -1)
-                {
-                    HideSelectedChallengePanel();
-                    return;
-                }
+                HideSelectedChallengePanel();
+                return;
+            }
 
-                var selectedChallenge = _controller.Challenges[_challengesList.selectedIndex];
-                var participants = await _controller.SelectChallengeAsync(selectedChallenge.Id);
-                ThrowIfDisposedOrCancelled();
+            var selectedChallenge = _controller.Challenges[_challengesList.selectedIndex];
+            var participants = await _controller.SelectChallengeAsync(selectedChallenge.Id);
+            ThrowIfDisposedOrCancelled();
 
-                UpdateSelectedChallengePanel(selectedChallenge, participants);
-            }
-            catch (OperationCanceledException)
-            {
-                // Expected on dispose
-            }
-            catch (Exception e)
-            {
-                ShowError(e.Message);
-                Debug.LogException(e);
-            }
+            UpdateSelectedChallengePanel(selectedChallenge, participants);
         }
 
         private void UpdateSelectedChallengePanel(IChallenge challenge, List<IChallengeScore> participants)
@@ -553,9 +534,7 @@ namespace HiroChallenges
             _selectedChallengeNameLabel.text = challenge.Name;
             _selectedChallengeDescriptionLabel.text = challenge.Description;
 
-            var now = DateTimeOffset.Now;
-            var startTime = DateTimeOffset.FromUnixTimeSeconds(challenge.StartTimeSec);
-            var difference = startTime - now;
+            var difference = TimeSpan.FromSeconds(challenge.StartTimeSec - challenge.CurrentTimeSec);
 
             if (difference.TotalSeconds > 0)
             {
@@ -584,15 +563,16 @@ namespace HiroChallenges
         {
             var participant = _controller.GetCurrentParticipant(_selectedChallengeParticipants);
 
-            var isInvited = participant != null && participant.State == ChallengeState.Invited;
+            var isInvited = participant is { State: ChallengeState.Invited };
             var canJoin = _currentChallenge.CanJoin(participant);
             var canLeave = _currentChallenge.CanLeave(participant);
             var canSubmit = _currentChallenge.CanSubmitScore(participant);
             var canInvite = _currentChallenge.CanInvite(participant);
             var canClaim = _currentChallenge.CanClaimReward(participant);
 
-            Debug.Log($"[UpdateButtonStates] UserId={_controller.CurrentUserId}, Participant={participant?.Id ?? "null"}, " +
-                      $"State={participant?.State}, CanJoin={canJoin}, CanLeave={canLeave}, CanSubmit={canSubmit}, CanInvite={canInvite}, CanClaim={canClaim}");
+            Debug.Log(
+                $"[UpdateButtonStates] UserId={_controller.CurrentUserId}, Participant={participant?.Id ?? "null"}, " +
+                $"State={participant?.State}, CanJoin={canJoin}, CanLeave={canLeave}, CanSubmit={canSubmit}, CanInvite={canInvite}, CanClaim={canClaim}");
 
             _joinButton.SetDisplay(canJoin);
             _joinButton.text = isInvited ? "Accept Invite" : "Join";
@@ -620,8 +600,9 @@ namespace HiroChallenges
             try
             {
                 ThrowIfDisposedOrCancelled();
-                await _controller.JoinChallengeAsync();
-                await SelectChallengeAsync();
+                var challenge = await _controller.JoinChallengeAsync();
+                var participants = _controller.SelectChallenge(challenge);
+                UpdateSelectedChallengePanel(challenge, participants);
             }
             catch (OperationCanceledException)
             {
@@ -644,9 +625,9 @@ namespace HiroChallenges
             try
             {
                 ThrowIfDisposedOrCancelled();
-                await _controller.LeaveChallengeAsync();
+                var challengeToRemove = await _controller.LeaveChallengeAsync();
                 _challengesList.ClearSelection();
-                await RefreshChallengesAsync();
+                RemoveChallengeFromList(challengeToRemove);
             }
             catch (OperationCanceledException)
             {
@@ -666,9 +647,9 @@ namespace HiroChallenges
             try
             {
                 ThrowIfDisposedOrCancelled();
-                await _controller.ClaimChallengeAsync();
+                var challengeToRemove = await _controller.ClaimChallengeAsync();
                 _challengesList.ClearSelection();
-                await RefreshChallengesAsync();
+                RemoveChallengeFromList(challengeToRemove);
             }
             catch (OperationCanceledException)
             {
@@ -688,31 +669,19 @@ namespace HiroChallenges
 
         private async Task LoadTemplatesAsync()
         {
-            try
-            {
-                ThrowIfDisposedOrCancelled();
-                _templateOptions = await _controller.LoadChallengeTemplatesAsync();
-                var displayNames = new List<string>(_templateOptions.Count);
-                foreach (var option in _templateOptions)
-                    displayNames.Add(option.DisplayName);
-                _modalTemplateDropdown.choices = displayNames;
+            ThrowIfDisposedOrCancelled();
+            _templateOptions = await _controller.LoadChallengeTemplatesAsync();
+            var displayNames = new List<string>(_templateOptions.Count);
+            foreach (var option in _templateOptions)
+                displayNames.Add(option.DisplayName);
+            _modalTemplateDropdown.choices = displayNames;
 
-                if (_templateOptions.Count > 0)
-                {
-                    _modalTemplateDropdown.index = 0;
-                    var firstTemplate = _controller.GetTemplate(_templateOptions[0].Id);
-                    if (firstTemplate != null)
-                        UpdateCreateModalLimits(firstTemplate);
-                }
-            }
-            catch (OperationCanceledException)
+            if (_templateOptions.Count > 0)
             {
-                // Expected on dispose
-            }
-            catch (Exception e)
-            {
-                ShowError(e.Message);
-                Debug.LogException(e);
+                _modalTemplateDropdown.index = 0;
+                var firstTemplate = _controller.GetTemplate(_templateOptions[0].Id);
+                if (firstTemplate != null)
+                    UpdateCreateModalLimits(firstTemplate);
             }
         }
 
@@ -852,8 +821,9 @@ namespace HiroChallenges
             try
             {
                 ThrowIfDisposedOrCancelled();
-                await _controller.SubmitScoreAsync(int.Parse(_scoreField.value), int.Parse(_subScoreField.value));
-                await SelectChallengeAsync();
+                var challenge =
+                    await _controller.SubmitScoreAsync(int.Parse(_scoreField.value), int.Parse(_subScoreField.value));
+                _controller.SelectChallenge(challenge);
             }
             catch (OperationCanceledException)
             {
@@ -892,8 +862,8 @@ namespace HiroChallenges
             {
                 ThrowIfDisposedOrCancelled();
                 var inviteeIds = AccountSwitcher.ParseUsernamesToIds(_inviteModalInvitees.value);
-                await _controller.InviteToChallengeAsync(inviteeIds);
-                await SelectChallengeAsync();
+                var challenge = await _controller.InviteToChallengeAsync(inviteeIds);
+                _controller.SelectChallenge(challenge);
             }
             catch (OperationCanceledException)
             {
@@ -911,7 +881,13 @@ namespace HiroChallenges
             }
         }
 
-        public void ShowError(string message)
+        private void RemoveChallengeFromList(IChallenge challengeToRemove)
+        {
+            _controller.Challenges.RemoveAll(x => x.Id == challengeToRemove.Id);
+            _challengesList.RefreshItems();
+        }
+
+        private void ShowError(string message)
         {
             _errorMessage.text = message;
             _errorPopup.Show();
