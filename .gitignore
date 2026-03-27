@@ -2,6 +2,10 @@
 */Packages/com.unity.asset-store-tools
 */.vscode/
 
+# Artifacts
+**/.claude/
+**/CLAUDE.md
+
 # Unity generated files
 */Library/
 */Logs/
