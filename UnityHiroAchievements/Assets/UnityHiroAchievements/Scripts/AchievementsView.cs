@@ -310,6 +310,7 @@ namespace HiroAchievements
                     var updatedAchievement = FindUpdatedAchievement(selectedAchievement.Id);
                     if (updatedAchievement != null)
                     {
+                        ResyncSelection(updatedAchievement);
                         ShowAchievementDetails(updatedAchievement);
                     }
                 }
@@ -342,6 +343,7 @@ namespace HiroAchievements
                     var updatedAchievement = FindUpdatedAchievement(selectedAchievement.Id);
                     if (updatedAchievement != null)
                     {
+                        ResyncSelection(updatedAchievement);
                         ShowAchievementDetails(updatedAchievement);
                     }
                 }
@@ -378,6 +380,19 @@ namespace HiroAchievements
             }
 
             return null;
+        }
+
+        // Re-select achievement to show the latest state
+        private void ResyncSelection(IAchievement updatedAchievement)
+        {
+            var subKey = _controller.GetSelectedSubAchievementKey();
+            _controller.SelectAchievement(updatedAchievement);
+
+            if (subKey != null &&
+                updatedAchievement.SubAchievements.TryGetValue(subKey, out var updatedSub))
+            {
+                _controller.SelectSubAchievement(updatedSub, updatedAchievement, subKey);
+            }
         }
 
         #endregion
