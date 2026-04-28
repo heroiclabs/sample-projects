@@ -36,7 +36,7 @@
                                 </ui:VisualElement>
                                 <ui:VisualElement style="height: 2px; background-color: rgba(132, 154, 255, 0.3); margin-bottom: 14px;" />
                                 <ui:Label name="details-description" text="Description for the achievement" style="white-space: normal; margin-bottom: 16px; color: rgb(50, 50, 50); font-size: 22px;" />
-                                <ui:VisualElement style="margin-bottom: 16px;">
+                                <ui:VisualElement name="details-progress-container" style="margin-bottom: 16px;">
                                     <ui:Label name="details-progress" text="Progress: 0 / 100 (0%)" style="margin-bottom: 8px; color: rgb(0, 0, 0); font-size: 20px;" />
                                     <ui:VisualElement name="details-progress-bar" style="height: 30px; background-color: rgb(220, 220, 220); border-radius: 15px; overflow: hidden;">
                                         <ui:VisualElement name="details-progress-fill" style="width: 0%; height: 100%; background-color: rgb(100, 200, 100); transition-duration: 0.3s;" />
@@ -44,12 +44,12 @@
                                 </ui:VisualElement>
                                 <ui:VisualElement name="details-sub-achievements" style="margin-bottom: 16px; display: none;" />
                                 <ui:VisualElement style="height: 1px; background-color: rgba(132, 154, 255, 0.2); margin-bottom: 16px;" />
-                                <ui:Label text="Rewards" style="font-size: 24px; -unity-font-style: bold; color: rgb(0, 0, 0); margin-bottom: 10px;" />
+                                <ui:Label name="details-rewards-label" text="Rewards" style="font-size: 24px; -unity-font-style: bold; color: rgb(0, 0, 0); margin-bottom: 10px;" />
                                 <ui:VisualElement name="details-rewards" style="flex-direction: row; flex-wrap: wrap; margin-bottom: 20px; min-height: 80px;" />
                             </ui:VisualElement>
                         </ui:ScrollView>
                         <ui:VisualElement name="action-buttons" style="flex-direction: row; justify-content: center; padding: 10px; margin-top: 15px;">
-                            <ui:Button text="Progress" name="progress-button" class="heroic-button heroic-button--small" />
+                            <ui:Button text="Add Progress" name="progress-button" class="heroic-button heroic-button--small" />
                             <ui:Button text="Claim Reward" name="claim-button" class="heroic-button heroic-button--small" />
                             <ui:Button text="Refresh" name="achievements-refresh" class="heroic-button heroic-button--small heroic-button--secondary" style="background-image: url(&quot;project://database/Assets/UnityHiroAchievements/HeroicUI/Button/button_rounded_h84_white_shadow.png?fileID=-1247119682716566457&amp;guid=4f539c64ecb59456bab590ecc5a4be5a&amp;type=3#button_rounded_h84_white_shadow_0&quot;);" />
                         </ui:VisualElement>

@@ -40,6 +40,9 @@ namespace HeroicUtils.Editor
 
         private void CreateGUI()
         {
+            if (!tree)
+                tree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UnityHiroAchievements/Editor/AccountSwitcher.uxml");
+
             tree.CloneTree(rootVisualElement);
 
             accountDropdown = rootVisualElement.Q<DropdownField>("account-dropdown");
