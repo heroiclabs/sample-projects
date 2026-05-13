@@ -43,8 +43,10 @@ namespace HiroAchievements
         private Label _detailsProgressLabel;
         private VisualElement _detailsProgressBar;
         private VisualElement _detailsProgressFill;
+        private VisualElement _detailsProgressContainer;
         private VisualElement _detailsSubAchievementsContainer;
         private VisualElement _detailsRewardsContainer;
+        private Label _detailsRewardsLabel;
         private Button _progressButton;
         private Button _claimButton;
 
@@ -166,8 +168,10 @@ namespace HiroAchievements
             _detailsProgressLabel = rootElement.Q<Label>("details-progress");
             _detailsProgressBar = rootElement.Q<VisualElement>("details-progress-bar");
             _detailsProgressFill = rootElement.Q<VisualElement>("details-progress-fill");
+            _detailsProgressContainer = rootElement.Q<VisualElement>("details-progress-container");
             _detailsSubAchievementsContainer = rootElement.Q<VisualElement>("details-sub-achievements");
             _detailsRewardsContainer = rootElement.Q<VisualElement>("details-rewards");
+            _detailsRewardsLabel = rootElement.Q<Label>("details-rewards-label");
 
             _progressButton = rootElement.Q<Button>("progress-button");
             _progressButton.RegisterCallback<ClickEvent>(_ => OnProgressButtonClicked());
@@ -208,6 +212,9 @@ namespace HiroAchievements
             try
             {
                 ThrowIfDisposedOrCancelled();
+                ShowEmptyState();
+                UpdateActionButtons();
+                _controller.SelectAchievement(null);
                 _controller.SetCurrentCategory(category);
                 UpdateTabButtons();
                 await RefreshAchievementsListAsync();
@@ -310,6 +317,7 @@ namespace HiroAchievements
                     var updatedAchievement = FindUpdatedAchievement(selectedAchievement.Id);
                     if (updatedAchievement != null)
                     {
+                        ResyncSelection(updatedAchievement);
                         ShowAchievementDetails(updatedAchievement);
                     }
                 }
@@ -342,6 +350,7 @@ namespace HiroAchievements
                     var updatedAchievement = FindUpdatedAchievement(selectedAchievement.Id);
                     if (updatedAchievement != null)
                     {
+                        ResyncSelection(updatedAchievement);
                         ShowAchievementDetails(updatedAchievement);
                     }
                 }
@@ -378,6 +387,19 @@ namespace HiroAchievements
             }
 
             return null;
+        }
+
+        // Re-select achievement to show the latest state
+        private void ResyncSelection(IAchievement updatedAchievement)
+        {
+            var subKey = _controller.GetSelectedSubAchievementKey();
+            _controller.SelectAchievement(updatedAchievement);
+
+            if (subKey != null &&
+                updatedAchievement.SubAchievements.TryGetValue(subKey, out var updatedSub))
+            {
+                _controller.SelectSubAchievement(updatedSub, updatedAchievement, subKey);
+            }
         }
 
         #endregion
@@ -596,6 +618,9 @@ namespace HiroAchievements
         {
             bool isLocked = _controller.IsAchievementLocked(achievement);
 
+            _detailsProgressContainer.style.display = DisplayStyle.Flex;
+            _detailsRewardsLabel.style.display = DisplayStyle.Flex;
+
             _detailsNameLabel.text = achievement.Name;
 
             if (isLocked)
@@ -744,17 +769,17 @@ namespace HiroAchievements
 
         private void ShowEmptyState()
         {
-            _detailsNameLabel.text = "No Achievement Selected";
-            _detailsDescriptionLabel.text = "Select an achievement from the list to view details.";
+            _detailsNameLabel.text = "Achievement Details";
+            _detailsDescriptionLabel.text = "Select an achievement from the list to view more information about it.";
             _detailsCategoryLabel.text = "";
-            _detailsProgressLabel.text = "";
-            _detailsProgressFill.style.width = Length.Percent(0);
+            _detailsProgressContainer.style.display = DisplayStyle.None;
             if (_detailsSubAchievementsContainer != null)
             {
                 _detailsSubAchievementsContainer.Clear();
                 _detailsSubAchievementsContainer.style.display = DisplayStyle.None;
             }
             _detailsRewardsContainer.Clear();
+            _detailsRewardsLabel.style.display = DisplayStyle.None;
 
             _achievementDetailsPanel.style.display = DisplayStyle.Flex;
         }

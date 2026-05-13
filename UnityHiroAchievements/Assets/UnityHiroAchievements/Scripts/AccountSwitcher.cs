@@ -339,8 +339,6 @@ namespace HeroicUtils
                     _currentIndex = i;
                     await AuthenticateAndStoreAccountAsync(nakamaSystem, env, i);
                 }
-
-                AccountSwitched?.Invoke();
             }
             finally
             {

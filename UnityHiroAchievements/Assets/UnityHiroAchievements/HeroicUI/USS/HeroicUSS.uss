@@ -731,11 +731,11 @@
 }
 
 /* Prevent runtime cursor warnings - use default arrow cursor for all interactive elements */
-Button {
-    cursor: arrow;
-}
-
-.unity-button {
+Button,
+Button:hover,
+Button:hover:enabled,
+.unity-button,
+.unity-button:hover {
     cursor: arrow;
 }
 

@@ -276,7 +276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ee968291b9ba4af6b816e987267b47d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HiroChallenges.HiroChallengesCoordinator
-  localHost: 1
+  localHost: 0
   scheme: https
   host: sample-prjcts.eu-west1-a.nakamacloud.io
   port: 443
@@ -362,10 +362,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a3f5e2c1d4b6a7890123456789abcde, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HiroAchievements.AchievementsViewBehaviour
-  _achievementItemTemplate: {fileID: 9197481963319205126, guid: 8dd3c785e50de45048715a68169a3967, type: 3}
-  _subAchievementItemTemplate: {fileID: 9197481963319205126, guid: 7f17426476a504b17893b1f0f966e366, type: 3}
   _achievementIconMappings:
   - achievementId: coins
     icon: {fileID: 2312241255967906428, guid: 05350d1a74b174a1ab61d06d5bb69a19, type: 3}
