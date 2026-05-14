@@ -22,6 +22,7 @@ namespace HiroChallenges
     /// </summary>
     public sealed class ChallengeParticipantView
     {
+        private VisualElement _parent;
         private Label _usernameLabel;
         private Label _scoreLabel;
         private Label _subScoreLabel;
@@ -29,6 +30,7 @@ namespace HiroChallenges
 
         public void SetVisualElement(VisualElement visualElement)
         {
+            _parent = visualElement;
             _usernameLabel = visualElement.Q<Label>("username");
             _scoreLabel = visualElement.Q<Label>("score");
             _subScoreLabel = visualElement.Q<Label>("sub-score");
@@ -37,9 +39,16 @@ namespace HiroChallenges
 
         public void SetChallengeParticipant(IChallenge challenge, IChallengeScore participantScore)
         {
+            if (participantScore.State != ChallengeState.Joined && participantScore.State != ChallengeState.Invited)
+            {
+                _parent.style.display = DisplayStyle.None;
+            }
+
             // Display username along with remaining score submissions
-            _usernameLabel.text =
-                $"<color=blue>({participantScore.NumScores}/{challenge.MaxNumScore})</color> {participantScore.Username} ";
+            _usernameLabel.text = participantScore.State == ChallengeState.Invited
+                ? $"<color=orange>Pending... </color> {participantScore.Username}"
+                : $"<color=blue>({participantScore.NumScores}/{challenge.MaxNumScore})</color> {participantScore.Username} ";
+            
             _scoreLabel.text = participantScore.Score.ToString();
             _subScoreLabel.text = participantScore.Subscore.ToString();
 

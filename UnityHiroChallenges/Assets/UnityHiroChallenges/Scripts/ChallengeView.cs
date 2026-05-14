@@ -43,11 +43,8 @@ namespace HiroChallenges
         {
             _nameLabel.text = challenge.Name;
             _categoryLabel.text = challenge.Category;
-
-            // Convert status to readable string
-            var now = DateTimeOffset.Now;
-            var startTime = DateTimeOffset.FromUnixTimeSeconds(challenge.StartTimeSec);
-            var difference = startTime - now;
+            
+            var difference = TimeSpan.FromSeconds(challenge.StartTimeSec - challenge.CurrentTimeSec);
             
             if (difference.TotalSeconds > 0)
             {

@@ -120,6 +120,9 @@ namespace HiroChallenges
                 if (challenge.Id != _selectedChallengeId)
                     continue;
 
+                if (challenge.ClaimTimeSec != 0)
+                    continue;
+
                 var participants = await SelectChallengeAsync(challenge.Id);
                 return new ChallengeRefreshResult
                 {
