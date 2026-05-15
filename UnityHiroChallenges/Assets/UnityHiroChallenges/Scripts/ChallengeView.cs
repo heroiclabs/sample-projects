@@ -24,6 +24,7 @@ namespace HiroChallenges
     /// </summary>
     public sealed class ChallengeView
     {
+        public VisualElement Parent { get; private set; }
         private Label _nameLabel;
         private Label _categoryLabel;
         private Label _statusLabel;
@@ -32,6 +33,8 @@ namespace HiroChallenges
 
         public void SetVisualElement(VisualElement visualElement)
         {
+            Parent = visualElement;
+
             _nameLabel = visualElement.Q<Label>("name");
             _categoryLabel = visualElement.Q<Label>("category");
             _statusLabel = visualElement.Q<Label>("status");

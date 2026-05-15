@@ -313,10 +313,16 @@ namespace HiroChallenges
             _challengesList.bindItem = (item, index) =>
             {
                 (item.userData as ChallengeView)?.SetChallenge(_controller.Challenges[index]);
+                var container = item.Q("challenge-item-container");
+                container.EnableInClassList("challenge-item--selected", _challengesList.selectedIndex == index);
             };
             _challengesList.itemsSource = _controller.Challenges;
 
-            _challengesList.selectionChanged += OnChallengeListSelectionChanged;
+            _challengesList.selectionChanged += objects =>
+            {
+                OnChallengeListSelectionChanged(objects);
+                _challengesList.RefreshItems();
+            };
 
             _challengesScrollView = _challengesList.Q<ScrollView>();
             _challengesScrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
