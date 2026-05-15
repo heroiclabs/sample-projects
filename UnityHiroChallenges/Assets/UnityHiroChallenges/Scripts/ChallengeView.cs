@@ -48,14 +48,14 @@ namespace HiroChallenges
             
             if (difference.TotalSeconds > 0)
             {
-                _statusLabel.text = $"Starting in {difference.Days}d, {difference.Hours}h, {difference.Minutes}m";
-                _statusLabel.style.color = new StyleColor(Color.yellow);
+                _statusLabel.text = $"Starting in {difference.Minutes}m, {difference.Seconds}s";
+                _statusLabel.style.color = new StyleColor(Color.orange);
             }
             else
             {
                 _statusLabel.text = challenge.IsActive ? "Active" : "Ended";
                 _statusLabel.style.color = challenge.IsActive
-                    ? new StyleColor(Color.green)
+                    ? new StyleColor(new Color(0.2980392f, 0.6862745f, 0.3137255f))
                     : new StyleColor(Color.red);
             }
 
