@@ -38,8 +38,27 @@ namespace HiroChallenges
         public void SetChallengeParticipant(IChallenge challenge, IChallengeScore participantScore)
         {
             // Display username along with remaining score submissions
-            _usernameLabel.text =
-                $"<color=blue>({participantScore.NumScores}/{challenge.MaxNumScore})</color> {participantScore.Username} ";
+            switch (participantScore.State)
+            {
+                case ChallengeState.Invited:
+                    _usernameLabel.text = $"<color=orange>Invited</color> {participantScore.Username}";
+                    break;
+                case ChallengeState.Left:
+                    _usernameLabel.text = $"<color=red>Left</color> {participantScore.Username}";
+                    break;
+                case ChallengeState.Declined:
+                    _usernameLabel.text = $"<color=red>Declined</color> {participantScore.Username}";
+                    break;
+                case ChallengeState.Joined:
+                case ChallengeState.Claimed:
+                    _usernameLabel.text =
+                        $"<color=blue>({participantScore.NumScores}/{challenge.MaxNumScore})</color> {participantScore.Username}";
+                    break;
+                default:
+                    _usernameLabel.text = $"<color=magenta>???</color> {participantScore.Username}";
+                    break;
+            }
+            
             _scoreLabel.text = participantScore.Score.ToString();
             _subScoreLabel.text = participantScore.Subscore.ToString();
 

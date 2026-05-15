@@ -113,7 +113,14 @@ namespace HiroChallenges
             Challenges.Clear();
 
             var userChallengesResult = await _challengesSystem.ListChallengesAsync(null);
-            Challenges.AddRange(userChallengesResult.Challenges);
+            foreach (var challenge in userChallengesResult.Challenges)
+            {
+                if (challenge.State is ChallengeState.Joined ||
+                    challenge.State is ChallengeState.Invited && !challenge.HasEnded())
+                {
+                    Challenges.Add(challenge);
+                }
+            }
 
             foreach (var challenge in Challenges)
             {

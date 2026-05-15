@@ -313,10 +313,16 @@ namespace HiroChallenges
             _challengesList.bindItem = (item, index) =>
             {
                 (item.userData as ChallengeView)?.SetChallenge(_controller.Challenges[index]);
+                var container = item.Q("challenge-item-container");
+                container.EnableInClassList("challenge-item--selected", _challengesList.selectedIndex == index);
             };
             _challengesList.itemsSource = _controller.Challenges;
 
-            _challengesList.selectionChanged += OnChallengeListSelectionChanged;
+            _challengesList.selectionChanged += objects =>
+            {
+                OnChallengeListSelectionChanged(objects);
+                _challengesList.RefreshItems();
+            };
 
             _challengesScrollView = _challengesList.Q<ScrollView>();
             _challengesScrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
@@ -484,9 +490,10 @@ namespace HiroChallenges
                 if (refreshResult != null)
                 {
                     _challengesList.selectedIndex = refreshResult.SelectedChallengeIndex;
+                    _selectedChallengeParticipants.Clear();
+                    _selectedChallengeParticipants.AddRange(refreshResult.Participants);
                     UpdateSelectedChallengePanel(
-                        _controller.Challenges[refreshResult.SelectedChallengeIndex],
-                        refreshResult.Participants);
+                        _controller.Challenges[refreshResult.SelectedChallengeIndex]);
                 }
                 else
                 {
@@ -520,16 +527,16 @@ namespace HiroChallenges
 
             var selectedChallenge = _controller.Challenges[_challengesList.selectedIndex];
             var participants = await _controller.SelectChallengeAsync(selectedChallenge.Id);
-            ThrowIfDisposedOrCancelled();
-
-            UpdateSelectedChallengePanel(selectedChallenge, participants);
-        }
-
-        private void UpdateSelectedChallengePanel(IChallenge challenge, List<IChallengeScore> participants)
-        {
-            _currentChallenge = challenge;
             _selectedChallengeParticipants.Clear();
             _selectedChallengeParticipants.AddRange(participants);
+            ThrowIfDisposedOrCancelled();
+
+            UpdateSelectedChallengePanel(selectedChallenge);
+        }
+
+        private void UpdateSelectedChallengePanel(IChallenge challenge)
+        {
+            _currentChallenge = challenge;
 
             _selectedChallengeNameLabel.text = challenge.Name;
             _selectedChallengeDescriptionLabel.text = challenge.Description;
@@ -539,14 +546,14 @@ namespace HiroChallenges
             if (difference.TotalSeconds > 0)
             {
                 _selectedChallengeStatusLabel.text =
-                    $"Starting in {difference.Days}d, {difference.Hours}h, {difference.Minutes}m";
-                _selectedChallengeStatusLabel.style.color = new StyleColor(Color.yellow);
+                    $"Starting in {difference.Minutes}m, {difference.Seconds}s";
+                _selectedChallengeStatusLabel.style.color = new StyleColor(Color.orange);
             }
             else
             {
                 _selectedChallengeStatusLabel.text = challenge.IsActive ? "Active" : "Ended";
                 _selectedChallengeStatusLabel.style.color = challenge.IsActive
-                    ? new StyleColor(Color.green)
+                    ? new StyleColor(new Color(0.2980392f, 0.6862745f, 0.3137255f))
                     : new StyleColor(Color.red);
             }
 
@@ -595,14 +602,22 @@ namespace HiroChallenges
 
         private async void JoinChallenge()
         {
-            HideSelectedChallengePanel();
             _selectedChallengeSpinner.Show();
             try
             {
                 ThrowIfDisposedOrCancelled();
                 var challenge = await _controller.JoinChallengeAsync();
                 var participants = _controller.SelectChallenge(challenge);
-                UpdateSelectedChallengePanel(challenge, participants);
+                var currentParticipant = _controller.GetCurrentParticipant(participants);
+                for (var i = 0; i < _selectedChallengeParticipants.Count; i++)
+                {
+                    if (_selectedChallengeParticipants[i].Id != currentParticipant.Id)
+                        continue;
+
+                    _selectedChallengeParticipants[i] = currentParticipant;
+                    break;
+                }
+                UpdateSelectedChallengePanel(challenge);
             }
             catch (OperationCanceledException)
             {
@@ -816,14 +831,16 @@ namespace HiroChallenges
         private async void SubmitScore()
         {
             HideSubmitScoreModal();
-            HideSelectedChallengePanel();
             _selectedChallengeSpinner.Show();
             try
             {
                 ThrowIfDisposedOrCancelled();
                 var challenge =
                     await _controller.SubmitScoreAsync(int.Parse(_scoreField.value), int.Parse(_subScoreField.value));
-                _controller.SelectChallenge(challenge);
+                var participants = _controller.SelectChallenge(challenge);
+                _selectedChallengeParticipants.Clear();
+                _selectedChallengeParticipants.AddRange(participants);
+                UpdateSelectedChallengePanel(challenge);
             }
             catch (OperationCanceledException)
             {
@@ -856,14 +873,29 @@ namespace HiroChallenges
         private async void InviteUsers()
         {
             HideInviteModal();
-            HideSelectedChallengePanel();
             _selectedChallengeSpinner.Show();
             try
             {
                 ThrowIfDisposedOrCancelled();
                 var inviteeIds = AccountSwitcher.ParseUsernamesToIds(_inviteModalInvitees.value);
                 var challenge = await _controller.InviteToChallengeAsync(inviteeIds);
-                _controller.SelectChallenge(challenge);
+                var participants = _controller.SelectChallenge(challenge);
+                foreach (var participant in participants)
+                {
+                    var found = false;
+                    foreach (var existingParticipant in _selectedChallengeParticipants)
+                    {
+                        if (participant.Id != existingParticipant.Id)
+                            continue;
+
+                        found = true;
+                        break;
+                    }
+
+                    if (!found)
+                        _selectedChallengeParticipants.Add(participant);
+                }
+                UpdateSelectedChallengePanel(challenge);
             }
             catch (OperationCanceledException)
             {

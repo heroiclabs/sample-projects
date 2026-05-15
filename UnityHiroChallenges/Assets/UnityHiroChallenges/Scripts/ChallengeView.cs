@@ -24,6 +24,7 @@ namespace HiroChallenges
     /// </summary>
     public sealed class ChallengeView
     {
+        public VisualElement Parent { get; private set; }
         private Label _nameLabel;
         private Label _categoryLabel;
         private Label _statusLabel;
@@ -32,6 +33,8 @@ namespace HiroChallenges
 
         public void SetVisualElement(VisualElement visualElement)
         {
+            Parent = visualElement;
+
             _nameLabel = visualElement.Q<Label>("name");
             _categoryLabel = visualElement.Q<Label>("category");
             _statusLabel = visualElement.Q<Label>("status");
@@ -43,22 +46,19 @@ namespace HiroChallenges
         {
             _nameLabel.text = challenge.Name;
             _categoryLabel.text = challenge.Category;
-
-            // Convert status to readable string
-            var now = DateTimeOffset.Now;
-            var startTime = DateTimeOffset.FromUnixTimeSeconds(challenge.StartTimeSec);
-            var difference = startTime - now;
+            
+            var difference = TimeSpan.FromSeconds(challenge.StartTimeSec - challenge.CurrentTimeSec);
             
             if (difference.TotalSeconds > 0)
             {
-                _statusLabel.text = $"Starting in {difference.Days}d, {difference.Hours}h, {difference.Minutes}m";
-                _statusLabel.style.color = new StyleColor(Color.yellow);
+                _statusLabel.text = $"Starting in {difference.Minutes}m, {difference.Seconds}s";
+                _statusLabel.style.color = new StyleColor(Color.orange);
             }
             else
             {
                 _statusLabel.text = challenge.IsActive ? "Active" : "Ended";
                 _statusLabel.style.color = challenge.IsActive
-                    ? new StyleColor(Color.green)
+                    ? new StyleColor(new Color(0.2980392f, 0.6862745f, 0.3137255f))
                     : new StyleColor(Color.red);
             }
 

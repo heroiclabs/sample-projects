@@ -633,3 +633,10 @@
     border-bottom-color: rgba(121, 99, 255, 0.3);
     border-left-color: rgba(121, 99, 255, 0.3);
 }
+
+.challenge-item--selected {
+    border-left-color: rgb(195, 192, 240);
+    border-right-color: rgb(195, 192, 240);
+    border-top-color: rgb(195, 192, 240);
+    border-bottom-color: rgb(195, 192, 240);
+}
