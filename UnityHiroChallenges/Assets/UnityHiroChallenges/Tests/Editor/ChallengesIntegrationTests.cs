@@ -69,6 +69,7 @@ namespace HiroChallenges.Tests.Editor
         [TearDown]
         public async Task TearDown()
         {
+            _controller.Dispose();
             await _client.DeleteAccountAsync(_session);
             await _client.DeleteAccountAsync(_inviteeSession);
         }
@@ -214,6 +215,7 @@ namespace HiroChallenges.Tests.Editor
         [TearDown]
         public async Task TearDown()
         {
+            _controller.Dispose();
             await _client.DeleteAccountAsync(_session);
         }
 
@@ -363,6 +365,8 @@ namespace HiroChallenges.Tests.Editor
         [TearDown]
         public async Task TearDown()
         {
+            _controller.Dispose();
+
             // Delete all test accounts
             for (var i = 0; i < 4; i++)
             {
