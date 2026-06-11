@@ -118,11 +118,10 @@ namespace HiroEventLeaderboards
                 _selectedEventLeaderboardRecords.Add(score);
             }
 
-            // Calculate zone boundaries and create display list
-            var boundaries = EventLeaderboardZoneCalculator.CalculateZones(detailedEventLeaderboard);
+            // Build display list with zone indicators derived from each score's TierDelta
             _displayItems.Clear();
             _displayItems.AddRange(EventLeaderboardZoneCalculator.CreateDisplayList(
-                new List<IEventLeaderboardScore>(_selectedEventLeaderboardRecords), boundaries));
+                new List<IEventLeaderboardScore>(_selectedEventLeaderboardRecords)));
 
             return new List<IEventLeaderboardScore>(_selectedEventLeaderboardRecords);
         }
