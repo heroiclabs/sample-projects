@@ -9,7 +9,7 @@
                         <ui:Label name="sub-achievements-text" text="0/0 Objectives" style="font-size: 18px; color: rgb(100, 100, 100); margin-top: 4px; display: none;" />
                     </ui:VisualElement>
                     <ui:VisualElement name="status-badge" class="achievement-status-badge" style="justify-content: flex-start;">
-                        <ui:Label name="status-text" text="Status" style="-unity-font-definition: url(&quot;project://database/Assets/UnityHiroAchievements/HeroicUI/Fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-Regular.ttf?fileID=12800000&amp;guid=e2ef62569164b4144847efcbba2e325a&amp;type=3#PlusJakartaSans-Regular&quot;); -unity-text-align: upper-center; font-size: 18px;" />
+                        <ui:Label name="status-text" text="Status" style="-unity-font-definition: url(&quot;project://database/Packages/com.heroiclabs.heroic-ui/Fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-Regular.ttf?fileID=12800000&amp;type=3#PlusJakartaSans-Regular&quot;); -unity-text-align: upper-center; font-size: 18px;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="achievement-progress-bar" style="height: 20px; background-color: rgb(230, 230, 230); border-radius: 10px; overflow: hidden;">
