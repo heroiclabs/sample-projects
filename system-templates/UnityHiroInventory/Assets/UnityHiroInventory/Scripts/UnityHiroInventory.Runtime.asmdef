@@ -3,9 +3,10 @@
     "rootNamespace": "HiroInventory",
     "references": [
         "NakamaRuntime",
-        "UnityHiroInventory.HeroicUI"
+        "HeroicUI"
     ],
-    "includePlatforms": [],
+    "includePl,
+        "HeroicUI"atforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,

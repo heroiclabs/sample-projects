@@ -3,7 +3,7 @@
     "rootNamespace": "HiroAchievements",
     "references": [
         "NakamaRuntime",
-        "UnityHiroAchievements.HeroicUI"
+        "HeroicUI"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
