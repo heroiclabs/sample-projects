@@ -1,0 +1,8 @@
+﻿<Solution>
+  <Project Path="UnityGacha.Runtime.csproj" />
+  <Project Path="NakamaRuntime.csproj" />
+  <Project Path="NakamaEditor.csproj" />
+  <Project Path="UnityGacha.HeroicUI.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
+  <Project Path="UnityGacha.Tests.Editor.csproj" />
+</Solution>
