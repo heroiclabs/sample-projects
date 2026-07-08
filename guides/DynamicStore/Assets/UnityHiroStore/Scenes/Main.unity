@@ -276,11 +276,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ee968291b9ba4af6b816e987267b47d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HiroChallenges.HiroChallengesCoordinator
-  localHost: 0
+  localHost: 1
   scheme: https
   host: sample-prjcts.eu-west1-a.nakamacloud.io
   port: 443
   serverKey: uNezOE3FOprj6nPs
+  satoriScheme: https
+  satoriHost: demo.us-east1-b.satoricloud.io
+  satoriPort: 443
+  satoriApiKey: ccb0cf70-b930-4c36-8087-026623092091
 --- !u!4 &634194746
 Transform:
   m_ObjectHideFlags: 0
@@ -362,9 +366,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7c8e9f1a2b3d4e5f6a7b8c9d0e1f2a3b, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HiroStore.StoreViewBehaviour
-  _storeItemTemplate: {fileID: 9197481963319205126, guid: 8dd3c785e50de45048715a68169a3967, type: 3}
   _itemIconMappings:
   - itemId: starter_pack
     icon: {fileID: -1077162195667718523, guid: 13f044dc61cb240cc9279e4aa7b6b6cc, type: 3}
