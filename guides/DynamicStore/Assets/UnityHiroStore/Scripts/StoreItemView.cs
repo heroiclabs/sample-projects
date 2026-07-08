@@ -131,7 +131,11 @@ namespace HiroStore
                     _currencyIcon.style.display = DisplayStyle.None;
                 }
 
-                _priceLabel.text = amount.ToString();
+                // Show a was/now price when a Satori flag variant discounted this item.
+                var originalCost = _controller.GetOriginalCost(item);
+                _priceLabel.text = originalCost > 0
+                    ? $"<color=#FFFFFF99><s>{originalCost}</s></color> {amount}"
+                    : amount.ToString();
             }
         }
 
