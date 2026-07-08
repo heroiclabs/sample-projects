@@ -69,11 +69,16 @@ namespace HiroStore
 
             var nakamaSystem = _coordinator.GetSystem<NakamaSystem>();
             var economySystem = _coordinator.GetSystem<EconomySystem>();
+            var satoriSystem = _coordinator.GetSystem<SatoriSystem>();
 
-            Controller = new StoreController(nakamaSystem, economySystem, BuildItemIconDictionary(), BuildCurrencyIconDictionary(), _defaultItemIcon);
+            Controller = new StoreController(nakamaSystem, economySystem, BuildItemIconDictionary(), BuildCurrencyIconDictionary(), _defaultItemIcon, satoriSystem);
 
             var env = _coordinator.IsLocalHost ? "local" : "heroiclabs";
             AccountSwitcher.Initialize(nakamaSystem, env);
+
+            // Keep the Satori identity in sync with the active Nakama account so
+            // audience-based offers follow account switches.
+            AccountSwitcher.SessionChangedAsync = () => _coordinator.AlignSatoriIdentityAsync();
 
             var storeItemTemplate = Resources.Load<VisualTreeAsset>("StoreItemTemplate");
 

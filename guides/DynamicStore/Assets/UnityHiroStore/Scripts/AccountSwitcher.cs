@@ -62,6 +62,12 @@ namespace HeroicUtils
         public static event Action Initialized;
         public static event Action AccountSwitched;
 
+        /// <summary>
+        /// Optional hook awaited after the Nakama session changes and before <see cref="AccountSwitched"/>
+        /// fires. Use it to re-align dependent sessions (e.g. Satori) with the new account.
+        /// </summary>
+        public static Func<Task> SessionChangedAsync { get; set; }
+
         public static void Initialize(NakamaSystem nakamaSystem, string env, int index = 0)
         {
             if (_nakamaSystem != null)
@@ -162,7 +168,7 @@ namespace HeroicUtils
             _currentEnv = env;
             _currentIndex = accountIndex;
             var newSession = await AuthenticateAndStoreAccountAsync(nakamaSystem, env, accountIndex);
-            AccountSwitched?.Invoke();
+            await NotifyAccountSwitchedAsync();
             return newSession;
         }
 
@@ -171,6 +177,23 @@ namespace HeroicUtils
             ISession newSession)
         {
             await ApplySessionAsync(nakamaSystem, newSession);
+            await NotifyAccountSwitchedAsync();
+        }
+
+        private static async Task NotifyAccountSwitchedAsync()
+        {
+            if (SessionChangedAsync != null)
+            {
+                try
+                {
+                    await SessionChangedAsync();
+                }
+                catch (Exception e)
+                {
+                    Debug.LogWarning($"Session changed hook failed: {e.Message}");
+                }
+            }
+
             AccountSwitched?.Invoke();
         }
 
@@ -340,7 +363,7 @@ namespace HeroicUtils
                     await AuthenticateAndStoreAccountAsync(nakamaSystem, env, i);
                 }
 
-                AccountSwitched?.Invoke();
+                await NotifyAccountSwitchedAsync();
             }
             finally
             {
