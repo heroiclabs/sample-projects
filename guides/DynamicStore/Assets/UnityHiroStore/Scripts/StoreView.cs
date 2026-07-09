@@ -28,14 +28,14 @@ namespace HiroStore
         private Button _refreshButton;
         private Button _tabCurrency;
         private Button _tabItems;
-        private Button _tabSeasonal;
         private VisualElement _storeGrid;
 
-        // Seasonal live event countdown
-        private Label _seasonalCountdown;
+        // Live event banner and countdown
+        private VisualElement _eventBanner;
+        private Label _eventCountdown;
         private IVisualElementScheduledItem _countdownTicker;
-        private long _seasonalEndTimeSec;
-        private string _seasonalEventId;
+        private long _eventEndTimeSec;
+        private string _liveEventId;
 
         // Featured Item Elements
         private VisualElement _featuredItem;
@@ -157,12 +157,10 @@ namespace HiroStore
             _tabItems = root.Q<Button>("tab-items");
             _tabItems.RegisterCallback<ClickEvent>(_ => SwitchTab(StoreController.StoreTab.Items));
 
-            // Seasonal tab and countdown only appear while a Satori live event serves seasonal items.
-            _tabSeasonal = root.Q<Button>("tab-seasonal");
-            _tabSeasonal.RegisterCallback<ClickEvent>(_ => SwitchTab(StoreController.StoreTab.Seasonal));
-
-            _seasonalCountdown = root.Q<Label>("seasonal-countdown");
-            _countdownTicker = _seasonalCountdown.schedule.Execute(UpdateCountdownLabel).Every(1000);
+            // Event banner: only appears while a Satori live event is discounting the store.
+            _eventBanner = root.Q<VisualElement>("event-banner");
+            _eventCountdown = root.Q<Label>("event-banner-countdown");
+            _countdownTicker = _eventBanner.schedule.Execute(UpdateCountdownLabel).Every(1000);
 
             // Store Grid
             _storeGrid = root.Q<VisualElement>("store-grid");
@@ -309,7 +307,7 @@ namespace HiroStore
             PopulateFeaturedItem();
             PopulateStoreGrid();
             UpdateTabButtons();
-            await UpdateSeasonalOfferStateAsync();
+            await UpdateLiveEventBannerAsync();
 
             // Let the player know when a Satori audience change unlocked (or removed) offers.
             if (_controller.ConsumeOffersChanged())
@@ -318,30 +316,21 @@ namespace HiroStore
             }
         }
 
-        private async Task UpdateSeasonalOfferStateAsync()
+        private async Task UpdateLiveEventBannerAsync()
         {
-            var hasSeasonal = _controller.HasSeasonalItems();
-            _tabSeasonal.style.display = hasSeasonal ? DisplayStyle.Flex : DisplayStyle.None;
-
-            // Leave the seasonal tab gracefully when the live event ends.
-            if (!hasSeasonal && _controller.GetCurrentTab() == StoreController.StoreTab.Seasonal)
-            {
-                _controller.SwitchTab(StoreController.StoreTab.Currency);
-                PopulateFeaturedItem();
-                PopulateStoreGrid();
-                UpdateTabButtons();
-            }
-
-            var eventId = _controller.GetSeasonalEventId();
+            var eventId = _controller.GetLiveEventId();
             if (string.IsNullOrEmpty(eventId))
             {
-                _seasonalEventId = null;
-                _seasonalEndTimeSec = 0;
+                _liveEventId = null;
+                _eventEndTimeSec = 0;
             }
-            else if (eventId != _seasonalEventId)
+            else if (eventId != _liveEventId ||
+                     _eventEndTimeSec <= DateTimeOffset.UtcNow.ToUnixTimeSeconds())
             {
-                _seasonalEventId = eventId;
-                _seasonalEndTimeSec = await _controller.GetLiveEventEndTimeAsync(eventId);
+                // Refetch when the event changed, was never resolved, or its cached end time
+                // has passed 
+                _liveEventId = eventId;
+                _eventEndTimeSec = await _controller.GetLiveEventEndTimeAsync(eventId);
             }
 
             UpdateCountdownLabel();
@@ -349,18 +338,18 @@ namespace HiroStore
 
         private void UpdateCountdownLabel()
         {
-            var remaining = _seasonalEndTimeSec - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            var remaining = _eventEndTimeSec - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             if (remaining <= 0)
             {
-                _seasonalCountdown.style.display = DisplayStyle.None;
+                _eventBanner.style.display = DisplayStyle.None;
                 return;
             }
 
             var span = TimeSpan.FromSeconds(remaining);
-            _seasonalCountdown.text = span.TotalDays >= 1
+            _eventCountdown.text = span.TotalDays >= 1
                 ? $"Ends in {(int)span.TotalDays}d {span.Hours:D2}:{span.Minutes:D2}:{span.Seconds:D2}"
                 : $"Ends in {span.Hours:D2}:{span.Minutes:D2}:{span.Seconds:D2}";
-            _seasonalCountdown.style.display = DisplayStyle.Flex;
+            _eventBanner.style.display = DisplayStyle.Flex;
         }
 
         private void PopulateFeaturedItem()
@@ -577,7 +566,6 @@ namespace HiroStore
             // Toggle the 'selected' class on each tab based on current selection
             _tabCurrency.EnableInClassList("selected", currentTab == StoreController.StoreTab.Currency);
             _tabItems.EnableInClassList("selected", currentTab == StoreController.StoreTab.Items);
-            _tabSeasonal.EnableInClassList("selected", currentTab == StoreController.StoreTab.Seasonal);
         }
 
         #endregion
