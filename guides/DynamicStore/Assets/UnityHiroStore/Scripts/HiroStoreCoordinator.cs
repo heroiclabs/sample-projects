@@ -145,6 +145,8 @@ namespace HiroStore
             }
         }
 
+
+
         public static NakamaSystem.AuthorizerFunc NakamaAuthorizerFunc(string env = "default", int index = 0)
         {
             const string playerPrefsAuthToken = "nakama.AuthToken";

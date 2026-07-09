@@ -90,9 +90,13 @@ namespace HiroStore
         {
             _itemBadge.style.display = DisplayStyle.None;
 
-            if (item.AdditionalProperties != null && item.AdditionalProperties.ContainsKey("badge"))
+            // An empty badge value counts as no badge: personalized configs use badge "" to
+            // remove a badge the base config defines.
+            if (item.AdditionalProperties != null &&
+                item.AdditionalProperties.TryGetValue("badge", out var badge) &&
+                !string.IsNullOrEmpty(badge))
             {
-                _itemBadge.text = item.AdditionalProperties["badge"];
+                _itemBadge.text = badge;
                 _itemBadge.style.display = DisplayStyle.Flex;
             }
         }
@@ -131,11 +135,7 @@ namespace HiroStore
                     _currencyIcon.style.display = DisplayStyle.None;
                 }
 
-                // Show a was/now price when a Satori flag variant discounted this item.
-                var originalCost = _controller.GetOriginalCost(item);
-                _priceLabel.text = originalCost > 0
-                    ? $"<color=#FFFFFF99><s>{originalCost}</s></color> {amount}"
-                    : amount.ToString();
+                _priceLabel.text = amount.ToString();
             }
         }
 

@@ -24,12 +24,6 @@ namespace HiroStore
         /// </summary>
         public const string SeasonalEventProperty = "event_id";
 
-        /// <summary>
-        /// Store item additional property carrying the pre-discount price, set on flag variants
-        /// so the UI can render a was/now price.
-        /// </summary>
-        public const string OriginalCostProperty = "original_cost";
-
         private readonly NakamaSystem _nakamaSystem;
         private readonly IEconomySystem _economySystem;
         private readonly ISatoriSystem _satoriSystem;
@@ -201,28 +195,6 @@ namespace HiroStore
         #region Satori Operations
 
         /// <summary>
-        /// Updates the player's Satori properties, recomputes their audience memberships, and
-        /// refreshes the store so the server returns the catalog personalized for the new segments.
-        /// </summary>
-        public async Task UpdateSegmentPropertiesAsync(
-            Dictionary<string, string> defaultProperties,
-            Dictionary<string, string> customProperties = null)
-        {
-            if (_satoriSystem == null)
-            {
-                Debug.LogWarning("Satori system unavailable, skipping property update");
-                return;
-            }
-
-            await _satoriSystem.UpdatePropertiesAsync(
-                defaultProperties ?? new Dictionary<string, string>(),
-                customProperties ?? new Dictionary<string, string>(),
-                recompute: true);
-
-            await RefreshStoreAsync();
-        }
-
-        /// <summary>
         /// Fetches the economy flag and reports whether the player's audience membership for it
         /// changed since the last fetch (they gained or lost an offer).
         /// </summary>
@@ -314,22 +286,6 @@ namespace HiroStore
             return 0;
         }
 
-        /// <summary>
-        /// Returns the pre-discount price a flag variant recorded on the item, or 0 when the item
-        /// isn't discounted. Only prices higher than the current cost count as a discount.
-        /// </summary>
-        public long GetOriginalCost(IEconomyListStoreItem item)
-        {
-            if (item?.AdditionalProperties != null &&
-                item.AdditionalProperties.TryGetValue(OriginalCostProperty, out var value) &&
-                long.TryParse(value, out var originalCost) &&
-                originalCost > GetPrimaryCurrencyAmount(item))
-            {
-                return originalCost;
-            }
-            return 0;
-        }
-
         #endregion
 
         #region Purchase Operations
@@ -348,7 +304,36 @@ namespace HiroStore
                 throw new Exception("No item selected");
 
             var result = await _economySystem.PurchaseStoreItemAsync(item.Id);
+
+            await MarkItemPurchasedAsync(item);
+
             return result;
+        }
+
+        /// <summary>
+        /// Records the purchase on the player's Satori identity as a custom property
+        /// (purchased_&lt;itemId&gt; = "true") and recomputes audience membership, so purchase-based
+        /// segments apply from the next store refresh. Satori silently ignores custom properties
+        /// that aren't registered in the console's Taxonomy, so this is sent for every item and
+        /// only the properties LiveOps has registered take effect — building an audience on a new
+        /// item is a console-only change.
+        /// </summary>
+        private async Task MarkItemPurchasedAsync(IEconomyListStoreItem item)
+        {
+            if (_satoriSystem == null) return;
+
+            try
+            {
+                await _satoriSystem.UpdatePropertiesAsync(
+                    new Dictionary<string, string>(),
+                    new Dictionary<string, string> { { $"purchased_{item.Id}", "true" } },
+                    recompute: true);
+            }
+            catch (Exception e)
+            {
+                // Segmentation is a bonus on top of the purchase; never let it break the flow.
+                Debug.LogWarning($"Failed to update Satori purchase property: {e.Message}");
+            }
         }
 
         public bool CanAffordItem(IEconomyListStoreItem item)

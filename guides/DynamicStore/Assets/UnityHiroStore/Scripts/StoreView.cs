@@ -387,8 +387,10 @@ namespace HiroStore
             SetFeaturedRewardValue(featured);
             SetFeaturedPrice(featured);
 
-            // Set badge if applicable
-            if (featured.AdditionalProperties.TryGetValue("badge", out var property))
+            // Set badge if applicable. An empty badge value counts as no badge: personalized
+            // configs use badge "" to remove a badge the base config defines.
+            if (featured.AdditionalProperties.TryGetValue("badge", out var property) &&
+                !string.IsNullOrEmpty(property))
             {
                 _featuredBadge.text = property;
                 _featuredBadge.style.display = DisplayStyle.Flex;
@@ -517,11 +519,7 @@ namespace HiroStore
                     }
                 }
 
-                // Show a was/now price when a Satori flag variant discounted this item.
-                var originalCost = _controller.GetOriginalCost(featured);
-                _featuredPrice.text = originalCost > 0
-                    ? $"<color=#FFFFFF99><s>{originalCost}</s></color> {amount}"
-                    : amount.ToString();
+                _featuredPrice.text = amount.ToString();
             }
             // Free
             else
