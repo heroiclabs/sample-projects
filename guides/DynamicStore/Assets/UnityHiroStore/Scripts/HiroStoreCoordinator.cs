@@ -23,10 +23,10 @@ namespace HiroStore
         [SerializeField] private string serverKey = "uNezOE3FOprj6nPs";
 
         [Header("Satori Settings")]
-        [SerializeField] private string satoriScheme = "https";
-        [SerializeField] private string satoriHost = "demo.us-east1-b.satoricloud.io";
+        [SerializeField] private string satoriScheme = "";
+        [SerializeField] private string satoriHost = "";
         [SerializeField] private int satoriPort = 443;
-        [SerializeField] private string satoriApiKey = "297c3e54-1ce4-40db-bd86-87f81aeac640";
+        [SerializeField] private string satoriApiKey = "";
 
         public event Action<Exception> ReceivedStartError;
         public event Action<ISession> ReceivedStartSuccess;
