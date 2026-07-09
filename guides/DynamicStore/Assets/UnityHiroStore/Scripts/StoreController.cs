@@ -13,16 +13,8 @@ namespace HiroStore
     /// </summary>
     public class StoreController
     {
-        /// <summary>
-        /// The Satori feature flag the server-side SatoriPersonalizer merges onto the economy config.
-        /// </summary>
         public const string EconomyFlagName = "Hiro-Economy";
-
-        /// <summary>
-        /// Store item additional property naming the Satori live event the item belongs to.
-        /// Items carrying this property only exist while their live event is active.
-        /// </summary>
-        public const string SeasonalEventProperty = "event_id";
+        public const string LiveEventProperty = "event_id";
 
         private readonly NakamaSystem _nakamaSystem;
         private readonly IEconomySystem _economySystem;
@@ -57,8 +49,7 @@ namespace HiroStore
         public enum StoreTab
         {
             Currency,
-            Items,
-            Seasonal
+            Items
         }
 
         private StoreTab _currentTab = StoreTab.Currency;
@@ -163,7 +154,6 @@ namespace HiroStore
             {
                 StoreTab.Currency => "currency",
                 StoreTab.Items => "items",
-                StoreTab.Seasonal => "seasonal",
                 _ => ""
             };
         }
@@ -226,26 +216,16 @@ namespace HiroStore
             return false;
         }
 
-        public bool HasSeasonalItems()
-        {
-            foreach (var item in StoreItems)
-            {
-                if (item.Category == "seasonal") return true;
-            }
-            return false;
-        }
-
         /// <summary>
-        /// Returns the live event ID advertised by the seasonal items currently in the store,
-        /// or null when no seasonal offer is running. By convention the Satori live event is
-        /// named after this value, so it can be looked up for scheduling details.
+        /// Returns the live event ID bound to the items currently in the store, or null when
+        /// no event is running.
         /// </summary>
-        public string GetSeasonalEventId()
+        public string GetLiveEventId()
         {
             foreach (var item in StoreItems)
             {
                 if (item.AdditionalProperties != null &&
-                    item.AdditionalProperties.TryGetValue(SeasonalEventProperty, out var eventId) &&
+                    item.AdditionalProperties.TryGetValue(LiveEventProperty, out var eventId) &&
                     !string.IsNullOrEmpty(eventId))
                 {
                     return eventId;
@@ -255,8 +235,8 @@ namespace HiroStore
         }
 
         /// <summary>
-        /// Returns the end time (Unix seconds) of the active run of the named Satori live event,
-        /// or 0 when the event can't be found. Used to drive the seasonal countdown.
+        /// Returns the end time (Unix seconds) of the active run of the Satori live event,
+        /// or 0 when the event can't be found.
         /// </summary>
         public async Task<long> GetLiveEventEndTimeAsync(string liveEventName)
         {
@@ -277,6 +257,11 @@ namespace HiroStore
                         return endTimeSec;
                     }
                 }
+
+                // If the live event is in the item catalog but no event is found, log a warning.
+                Debug.LogWarning($"Live event '{liveEventName}' not found for this player; " +
+                                 "check the event name in the Satori Console matches the items' " +
+                                 "event_id and that the event is not explicit-join.");
             }
             catch (Exception e)
             {
@@ -310,14 +295,6 @@ namespace HiroStore
             return result;
         }
 
-        /// <summary>
-        /// Records the purchase on the player's Satori identity as a custom property
-        /// (purchased_&lt;itemId&gt; = "true") and recomputes audience membership, so purchase-based
-        /// segments apply from the next store refresh. Satori silently ignores custom properties
-        /// that aren't registered in the console's Taxonomy, so this is sent for every item and
-        /// only the properties LiveOps has registered take effect — building an audience on a new
-        /// item is a console-only change.
-        /// </summary>
         private async Task MarkItemPurchasedAsync(IEconomyListStoreItem item)
         {
             if (_satoriSystem == null) return;
