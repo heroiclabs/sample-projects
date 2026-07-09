@@ -56,6 +56,10 @@ namespace HiroStore
 
         public event Action<IEconomyListStoreItem> OnItemSelected;
 
+        /// <summary>
+        /// The Satori system is optional: when it's absent, every Satori-dependent operation in
+        /// this controller becomes a no-op, so the store keeps working if Satori is unreachable
+        /// </summary>
         public StoreController(
             NakamaSystem nakamaSystem,
             IEconomySystem economySystem,
