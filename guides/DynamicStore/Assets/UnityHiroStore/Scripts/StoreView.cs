@@ -229,12 +229,8 @@ namespace HiroStore
             {
                 ThrowIfDisposedOrCancelled();
                 await _controller.RefreshStoreAsync();
-                var offersChanged = _controller.OffersChanged;
                 await RefreshStoreDisplayAsync();
-                if (!offersChanged)
-                {
-                    ShowToast("Store and wallet synced");
-                }
+                ShowToast("Store and wallet synced");
             }
             catch (OperationCanceledException)
             {
@@ -308,12 +304,6 @@ namespace HiroStore
             PopulateStoreGrid();
             UpdateTabButtons();
             await UpdateLiveEventBannerAsync();
-
-            // Let the player know when a Satori audience change unlocked (or removed) offers.
-            if (_controller.ConsumeOffersChanged())
-            {
-                ShowToast("New offers unlocked!");
-            }
         }
 
         private async Task UpdateLiveEventBannerAsync()

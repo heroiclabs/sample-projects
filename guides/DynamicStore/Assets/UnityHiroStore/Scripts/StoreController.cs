@@ -13,9 +13,6 @@ namespace HiroStore
     /// </summary>
     public class StoreController
     {
-        public const string EconomyFlagName = "Hiro-Economy";
-        public const string LiveEventProperty = "event_id";
-
         private readonly NakamaSystem _nakamaSystem;
         private readonly IEconomySystem _economySystem;
         private readonly ISatoriSystem _satoriSystem;
@@ -28,23 +25,6 @@ namespace HiroStore
         public string CurrentUserId => _nakamaSystem.UserId;
         public List<IEconomyListStoreItem> StoreItems { get; } = new();
         public IReadOnlyDictionary<string, long> Wallet => _economySystem.Wallet;
-
-        /// <summary>
-        /// True when the last store refresh detected the player moved into or out of a Satori
-        /// audience for the economy flag, meaning the offers on display changed for this player.
-        /// </summary>
-        public bool OffersChanged { get; private set; }
-
-        /// <summary>
-        /// Returns whether offers changed on the last refresh and clears the flag, so the UI
-        /// notifies the player once per change rather than on every redraw.
-        /// </summary>
-        public bool ConsumeOffersChanged()
-        {
-            var changed = OffersChanged;
-            OffersChanged = false;
-            return changed;
-        }
 
         public enum StoreTab
         {
@@ -80,10 +60,6 @@ namespace HiroStore
 
         public async Task RefreshStoreAsync()
         {
-            // Pull the latest Satori flag state first: the server personalizes the store from the
-            // same flag, and ConditionChanged tells us whether this player's offers just changed.
-            OffersChanged = await CheckOffersChangedAsync();
-
             await _economySystem.RefreshStoreAsync();
             await _economySystem.RefreshAsync();
 
@@ -189,38 +165,6 @@ namespace HiroStore
         #region Satori Operations
 
         /// <summary>
-        /// Fetches the economy flag and reports whether the player's audience membership for it
-        /// changed since the last fetch (they gained or lost an offer).
-        /// </summary>
-        private async Task<bool> CheckOffersChangedAsync()
-        {
-            if (_satoriSystem == null) return false;
-
-            try
-            {
-                var flagList = await _satoriSystem.GetFlagsAsync(
-                    new[] { EconomyFlagName }, Array.Empty<string>());
-
-                if (flagList?.Flags == null) return false;
-
-                foreach (var flag in flagList.Flags)
-                {
-                    if (flag.Name == EconomyFlagName)
-                    {
-                        return flag.ConditionChanged;
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                // Flag state is a UI nicety; never let it break the store refresh.
-                Debug.LogWarning($"Failed to fetch Satori flags: {e.Message}");
-            }
-
-            return false;
-        }
-
-        /// <summary>
         /// Returns the live event ID bound to the items currently in the store, or null when
         /// no event is running.
         /// </summary>
@@ -229,7 +173,7 @@ namespace HiroStore
             foreach (var item in StoreItems)
             {
                 if (item.AdditionalProperties != null &&
-                    item.AdditionalProperties.TryGetValue(LiveEventProperty, out var eventId) &&
+                    item.AdditionalProperties.TryGetValue("event_id", out var eventId) &&
                     !string.IsNullOrEmpty(eventId))
                 {
                     return eventId;
