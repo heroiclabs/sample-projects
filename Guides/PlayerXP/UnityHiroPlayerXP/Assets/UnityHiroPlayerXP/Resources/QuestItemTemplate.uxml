@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="quest-item-container" style="flex-direction: row; align-items: center; padding: 14px 16px; background-color: rgb(255, 255, 255); border-radius: 12px; margin-bottom: 10px; border-width: 2px; border-color: rgba(132, 154, 255, 0.2);">
+        <ui:VisualElement name="quest-icon" style="width: 44px; height: 44px; background-color: rgb(255, 190, 40); border-radius: 8px; margin-right: 14px; flex-shrink: 0;" />
+        <ui:VisualElement style="flex-grow: 1; flex-direction: column;">
+            <ui:Label name="quest-name" text="Quest Name" style="font-size: 20px; -unity-font-style: bold; color: rgb(31, 49, 81); margin-bottom: 8px;" />
+            <ui:VisualElement style="height: 6px; background-color: rgb(220, 220, 220); border-radius: 3px; overflow: hidden;">
+                <ui:VisualElement name="quest-progress-fill" style="width: 0%; height: 100%; background-color: rgb(121, 99, 255);" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="quest-status-badge" style="padding: 6px 14px; background-color: rgb(121, 99, 255); border-radius: 20px; margin-left: 14px; flex-shrink: 0;">
+            <ui:Label name="quest-status-text" text="Not Started" style="font-size: 16px; color: rgb(255, 255, 255); -unity-font-style: bold;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
