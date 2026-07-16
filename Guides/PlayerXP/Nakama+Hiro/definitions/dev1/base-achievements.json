@@ -1,0 +1,262 @@
+{
+    "achievements": {
+        "defeat_thunder_world": {
+            "name": "Defeat Thunder World",
+            "description": "Complete the Thunder World quest chain.",
+            "category": "quests",
+            "auto_reset": false,
+            "auto_claim_total": false,
+            "count": 0,
+            "max_count": 1,
+            "sub_achievements": {
+                "clear_goblin_camp": {
+                    "name": "Silence the Storm Heralds",
+                    "description": "A storm cult has taken root in the Ashfen Marshes, channelling elemental power to call down lightning strikes across the region. Disrupt their ritual sites and scatter the worshippers before the summoning is complete.",
+                    "auto_claim": false,
+                    "auto_reset": false,
+                    "count": 0,
+                    "max_count": 1,
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": {
+                                "xp": { "min": 50 }
+                            }
+                        }
+                    }
+                },
+                "defend_the_village": {
+                    "name": "Hold the Thunderpass",
+                    "description": "Stormclaw warbands are pushing through Thunderpass toward the lowland settlements. Hold the canyon's narrow choke point and drive back the assault before they breach the defensive line.",
+                    "auto_claim": false,
+                    "auto_reset": false,
+                    "count": 0,
+                    "max_count": 1,
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": {
+                                "xp": { "min": 50 },
+                                "gems": { "min": 10 }
+                            },
+                            "reward_modifiers": [
+                                {
+                                    "id": "xp",
+                                    "type": "currency",
+                                    "operator": "multiplier",
+                                    "value": {
+                                        "min": 2
+                                    },
+                                    "duration_sec": {
+                                        "min": 120
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                "dungeon_delver": {
+                    "name": "Into the Eye of the Storm",
+                    "description": "The heart of Thunder World pulses beneath the Vaultspire ruins. Descend into the storm core, defeat the guardian that channels its power, and shatter the vortex crystal.",
+                    "auto_claim": false,
+                    "auto_reset": false,
+                    "count": 0,
+                    "max_count": 1,
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": {
+                                "xp": { "min": 50 },
+                                "coins": { "min": 15 }
+                            }
+                        }
+                    }
+                },
+                "gather_supplies_blacksmith": {
+                    "name": "Forge the Stormbreaker",
+                    "description": "The blacksmith needs thunderstone ore found only in the high ridges above the storm line. Brave the lightning-struck peaks and bring back enough ore to forge a weapon capable of ending this threat.",
+                    "auto_claim": false,
+                    "auto_reset": false,
+                    "count": 0,
+                    "max_count": 1,
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": {
+                                "xp": { "min": 50 },
+                                "gems": { "min": 10 },
+                                "coins": { "min": 15 }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "player_levels": {
+            "name": "Player Level",
+            "description": "Earn XP to level up.",
+            "category": "progression",
+            "auto_reset": false,
+            "auto_claim_total": false,
+            "count": 0,
+            "max_count": 1,
+            "sub_achievements": {
+                "level_1": {
+                    "name": "Level 1",
+                    "description": "Reach 100 XP.",
+                    "auto_claim": true,
+                    "auto_reset": false,
+                    "count": 0,
+                    "max_count": 100,
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": {
+                                "gems": { "min": 10 }
+                            }
+                        }
+                    }
+                },
+                "level_2": {
+                    "name": "Level 2",
+                    "description": "Earn 200 XP to reach Level 2.",
+                    "auto_claim": true,
+                    "auto_reset": false,
+                    "count": 0,
+                    "max_count": 200,
+                    "precondition_ids": ["level_1"],
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": {
+                                "gems": { "min": 20 }
+                            }
+                        }
+                    }
+                },
+                "level_3": {
+                    "name": "Level 3",
+                    "description": "Earn 300 XP to reach Level 3.",
+                    "auto_claim": true,
+                    "auto_reset": false,
+                    "count": 0,
+                    "max_count": 300,
+                    "precondition_ids": ["level_2"],
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": {
+                                "gems": { "min": 30 }
+                            }
+                        }
+                    }
+                },
+                "level_4": {
+                    "name": "Level 4",
+                    "description": "Earn 400 XP to reach Level 4.",
+                    "auto_claim": true,
+                    "auto_reset": false,
+                    "count": 0,
+                    "max_count": 400,
+                    "precondition_ids": ["level_3"],
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": {
+                                "gems": { "min": 40 }
+                            }
+                        }
+                    }
+                },
+                "level_5": {
+                    "name": "Level 5",
+                    "description": "Earn 500 XP to reach Level 5.",
+                    "auto_claim": true,
+                    "auto_reset": false,
+                    "count": 0,
+                    "max_count": 500,
+                    "precondition_ids": ["level_4"],
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": {
+                                "gems": { "min": 50 }
+                            }
+                        }
+                    }
+                },
+                "level_6": {
+                    "name": "Level 6",
+                    "description": "Earn 600 XP to reach Level 6.",
+                    "auto_claim": true,
+                    "auto_reset": false,
+                    "count": 0,
+                    "max_count": 600,
+                    "precondition_ids": ["level_5"],
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": {
+                                "gems": { "min": 60 }
+                            }
+                        }
+                    }
+                },
+                "level_7": {
+                    "name": "Level 7",
+                    "description": "Earn 700 XP to reach Level 7.",
+                    "auto_claim": true,
+                    "auto_reset": false,
+                    "count": 0,
+                    "max_count": 700,
+                    "precondition_ids": ["level_6"],
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": {
+                                "gems": { "min": 70 }
+                            }
+                        }
+                    }
+                },
+                "level_8": {
+                    "name": "Level 8",
+                    "description": "Earn 800 XP to reach Level 8.",
+                    "auto_claim": true,
+                    "auto_reset": false,
+                    "count": 0,
+                    "max_count": 800,
+                    "precondition_ids": ["level_7"],
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": {
+                                "gems": { "min": 80 }
+                            }
+                        }
+                    }
+                },
+                "level_9": {
+                    "name": "Level 9",
+                    "description": "Earn 900 XP to reach Level 9.",
+                    "auto_claim": true,
+                    "auto_reset": false,
+                    "count": 0,
+                    "max_count": 900,
+                    "precondition_ids": ["level_8"],
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": {
+                                "gems": { "min": 90 }
+                            }
+                        }
+                    }
+                },
+                "level_10": {
+                    "name": "Level 10",
+                    "description": "Earn 1000 XP to reach Level 10.",
+                    "auto_claim": true,
+                    "auto_reset": false,
+                    "count": 0,
+                    "max_count": 1000,
+                    "precondition_ids": ["level_9"],
+                    "reward": {
+                        "guaranteed": {
+                            "currencies": {
+                                "gems": { "min": 100 }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

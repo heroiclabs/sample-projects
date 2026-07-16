@@ -1,0 +1,22 @@
+{
+    "name": "PlayerXP.Runtime",
+    "rootNamespace": "PlayerXP",
+    "references": [
+        "NakamaRuntime",
+        "UnityHiroPlayerXP.HeroicUI"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Nakama.dll",
+        "Hiro.dll",
+        "Hiro.Unity.dll",
+        "Satori.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

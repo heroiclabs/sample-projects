@@ -1,0 +1,9 @@
+{
+    "initialize_user": {
+        "currencies": {
+            "coins": 100,
+            "gems": 10,
+            "xp": 0
+        }
+    }
+}
