@@ -53,63 +53,30 @@ namespace HiroStore
 
             var satoriClient = new Satori.Client(satoriScheme, satoriHost, satoriPort, satoriApiKey,
                 Satori.UnityWebRequestAdapter.Instance);
-            var satoriSystem = new SatoriSystem(logger, satoriClient, SatoriAuthorizerFunc(nakamaSystem, env));
+            var satoriSystem = new SatoriSystem(logger, satoriClient, SatoriAuthorizerFunc(nakamaSystem));
             systems.Add(satoriSystem);
-
-            _env = env;
 
             return Task.FromResult(systems);
         }
-
-        private const string PlayerPrefsSatoriAuthToken = "satori.AuthToken";
-        private const string PlayerPrefsSatoriRefreshToken = "satori.RefreshToken";
-
-        private string _env = "default";
 
         /// <summary>
         /// Authorizes the Satori session with the Nakama user ID as the Satori identity.
         /// The server-side SatoriPersonalizer looks players up in Satori by their Nakama user ID,
         /// so the client must authenticate as the same identity for audience targeting to apply.
-        /// Systems initialize in registration order, so the Nakama session exists by the time this runs.
         /// </summary>
-        public static SatoriSystem.AuthorizerFunc SatoriAuthorizerFunc(NakamaSystem nakamaSystem, string env = "default")
+        public static SatoriSystem.AuthorizerFunc SatoriAuthorizerFunc(NakamaSystem nakamaSystem)
         {
             return async client =>
             {
                 var userId = nakamaSystem.Session.UserId;
-
-                // Attempt to load a previous session if it belongs to the same player and is still valid.
-                var authToken = PlayerPrefs.GetString($"{PlayerPrefsSatoriAuthToken}_{env}");
-                var refreshToken = PlayerPrefs.GetString($"{PlayerPrefsSatoriRefreshToken}_{env}");
-                var session = Satori.Session.Restore(authToken, refreshToken);
-
-                // Add an hour, so we check whether the token is within an hour of expiration to refresh it.
-                var expiredDate = DateTime.UtcNow.AddHours(1);
-                if (session != null && session.IdentityId == userId && !session.HasRefreshExpired(expiredDate))
-                {
-                    try
-                    {
-                        // Validate the session by refreshing it
-                        session = await client.SessionRefreshAsync(session);
-                        PlayerPrefs.SetString($"{PlayerPrefsSatoriAuthToken}_{env}", session.AuthToken);
-                        PlayerPrefs.SetString($"{PlayerPrefsSatoriRefreshToken}_{env}", session.RefreshToken);
-                        return session;
-                    }
-                    catch (Satori.ApiResponseException e)
-                    {
-                        Debug.LogWarning($"Stored Satori session invalid ({e.Message}), re-authenticating...");
-                    }
-                }
-
-                return await AuthenticateSatoriAsync(client, userId, env);
+                return await AuthenticateSatoriAsync(client, userId);
             };
         }
 
         /// <summary>
-        /// Authenticates a Satori session for the given user ID and stores its tokens.
-        /// The default properties sent here are available for audience filters in the Satori Console.
+        /// Authenticates a fresh Satori session for the given user ID.
         /// </summary>
-        public static async Task<Satori.ISession> AuthenticateSatoriAsync(Satori.IClient client, string userId, string env)
+        public static async Task<Satori.ISession> AuthenticateSatoriAsync(Satori.IClient client, string userId)
         {
             var defaultProperties = new Dictionary<string, string>
             {
@@ -117,17 +84,11 @@ namespace HiroStore
                 { "language", Application.systemLanguage.ToString() }
             };
 
-            var session = await client.AuthenticateAsync(userId, defaultProperties);
-
-            PlayerPrefs.SetString($"{PlayerPrefsSatoriAuthToken}_{env}", session.AuthToken);
-            PlayerPrefs.SetString($"{PlayerPrefsSatoriRefreshToken}_{env}", session.RefreshToken);
-
-            return session;
+            return await client.AuthenticateAsync(userId, defaultProperties);
         }
 
         /// <summary>
-        /// Re-authenticates the Satori session when the active Nakama account changes,
-        /// so audience targeting follows the account currently in use.
+        /// Re-authenticates the Satori session when the active Nakama account changes
         /// </summary>
         public async Task AlignSatoriIdentityAsync()
         {
@@ -138,7 +99,7 @@ namespace HiroStore
             var userId = nakamaSystem.Session.UserId;
             if (satoriSystem.Session.IdentityId == userId) return;
 
-            var newSession = await AuthenticateSatoriAsync(satoriSystem.Client, userId, _env);
+            var newSession = await AuthenticateSatoriAsync(satoriSystem.Client, userId);
             if (satoriSystem.Session is Satori.Session current)
             {
                 current.Update(newSession.AuthToken, newSession.RefreshToken);
