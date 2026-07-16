@@ -13,9 +13,7 @@ import (
 	"errors"
 	"fmt"
 	"path/filepath"
-	"sort"
 	"strconv"
-	"strings"
 	"time"
 
 	osruntime "runtime"
@@ -23,6 +21,22 @@ import (
 	"github.com/heroiclabs/hiro"
 	"github.com/heroiclabs/nakama-common/runtime"
 )
+
+// grantXPRequest is the JSON payload the client sends when calling rpc_grant_xp.
+type grantXPRequest struct {
+	// Amount is the base XP to grant. Active economy modifiers (e.g. a double-XP
+	// weekend) may cause the actual amount added to the wallet to differ.
+	Amount int64 `json:"amount"`
+}
+
+// XPLevelPublisher advances a player's level achievements in response to the
+// currencyGranted events Hiro emits when XP is granted.
+type XPLevelPublisher struct {
+	achievements hiro.AchievementsSystem
+}
+
+// Compile-time assertion to ensure that XPLevelPublisher implements hiro.Publisher.
+var _ hiro.Publisher = (*XPLevelPublisher)(nil)
 
 // InitModule is the Nakama plugin entry point. It runs once on server startup
 // and is responsible for initialising Hiro systems and registering all RPCs.
@@ -94,13 +108,6 @@ func InitModule(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runti
 	return nil
 }
 
-type XPLevelPublisher struct {
-	achievements hiro.AchievementsSystem
-}
-
-// Compile-time assertion to ensure that XPLevelPublisher implements hiro.Publisher.
-var _ hiro.Publisher = (*XPLevelPublisher)(nil)
-
 // The Publisher interface in Hiro requires two methods: Send and Authenticate.
 // This publisher doesn't need to act on authentication, so it's a no-op.
 func (p *XPLevelPublisher) Authenticate(_ context.Context, _ runtime.Logger, _ runtime.NakamaModule, _ string, _ bool) {
@@ -144,24 +151,11 @@ func advanceLevelsFromXP(ctx context.Context, logger runtime.Logger, nk runtime.
 		return errors.New("player_levels achievement not found")
 	}
 
-	// Sub-achievements are stored in a map, and Go map iteration order is random.
-	// Sort level IDs numerically so level_9 always comes before level_10.
-	// (A plain alphabetical sort would incorrectly place level_10 before level_2.)
-	levelIDs := make([]string, 0, len(playerLevels.SubAchievements))
-	for id := range playerLevels.SubAchievements {
-		if !isLevelID(id) {
-			logger.Warn("Skipping sub-achievement with unexpected ID format: %q", id)
-			continue
-		}
-		levelIDs = append(levelIDs, id)
-	}
-	sort.Slice(levelIDs, func(i, j int) bool {
-		numI, _ := strconv.Atoi(strings.TrimPrefix(levelIDs[i], "level_"))
-		numJ, _ := strconv.Atoi(strings.TrimPrefix(levelIDs[j], "level_"))
-		return numI < numJ
-	})
-
 	// Build a single batch of level updates to apply in one database call.
+	//
+	// Levels are keyed "level_1", "level_2", ... so we walk them in order by
+	// constructing each key directly rather than sorting the map. A missing key
+	// marks the end of the defined levels (or a malformed config).
 	//
 	// XP can overflow across levels (e.g. a large grant may complete level 3 and
 	// partially fill level 4). Hiro evaluates preconditions sequentially within a
@@ -169,11 +163,12 @@ func advanceLevelsFromXP(ctx context.Context, logger runtime.Logger, nk runtime.
 	// handled correctly.
 	updates := make(map[string]int64)
 	remaining := xp
-	for _, levelID := range levelIDs {
-		if remaining <= 0 {
+	for i := 1; remaining > 0; i++ {
+		levelID := "level_" + strconv.Itoa(i)
+		sub, ok := playerLevels.SubAchievements[levelID]
+		if !ok {
 			break
 		}
-		sub := playerLevels.SubAchievements[levelID]
 		if sub.Count >= sub.MaxCount {
 			continue
 		}
@@ -192,19 +187,6 @@ func advanceLevelsFromXP(ctx context.Context, logger runtime.Logger, nk runtime.
 	}
 
 	return nil
-}
-
-// isLevelID reports whether id has the expected "level_<N>" format (e.g. "level_1").
-func isLevelID(id string) bool {
-	n, err := strconv.Atoi(strings.TrimPrefix(id, "level_"))
-	return err == nil && n > 0
-}
-
-// grantXPRequest is the JSON payload the client sends when calling rpc_grant_xp.
-type grantXPRequest struct {
-	// Amount is the base XP to grant. Active economy modifiers (e.g. a double-XP
-	// weekend) may cause the actual amount added to the wallet to differ.
-	Amount int64 `json:"amount"`
 }
 
 // rpcGrantXP grants XP to the calling player. Level progression is handled
@@ -226,6 +208,10 @@ func rpcGrantXP(systems hiro.Hiro) func(ctx context.Context, logger runtime.Logg
 			return "", runtime.NewError("amount must be greater than 0", 3)
 		}
 
+		// Roll and grant the XP as an Economy reward. Even though the amount is
+		// fixed, going through RewardRoll is what applies the player's active
+		// reward modifiers (e.g. a double-XP booster) to the granted amount.
+		// RewardGrant only deposits the already-rolled contents into the wallet.
 		econ := systems.GetEconomySystem()
 		rewardConfig := econ.RewardCreate()
 		rewardConfig.Guaranteed = &hiro.EconomyConfigRewardContents{
