@@ -1,0 +1,302 @@
+{
+    "items": {
+        "gacha_ticket": {
+            "name": "Gacha Ticket",
+            "description": "Crack open to see who you get!",
+            "category":"gacha_ticket",
+            "max_count": 999,
+            "stackable": true,
+            "consumable": true,
+            "consume_reward": {
+                "weighted": [
+                    {
+                        "item_sets": [
+                            {
+                                "set": [
+                                    "gacha_ticket_four_star"
+                                ],
+                                "min": 1
+                            }
+                        ],
+                        "weight": 91
+                    },
+                    {
+                        "item_sets": [
+                            {
+                                "set": [
+                                    "gacha_ticket_five_star"
+                                ],
+                                "min": 1
+                            }
+                        ],
+                        "weight": 8
+                    },
+                    {
+                        "item_sets": [
+                            {
+                                "set": [
+                                    "gacha_ticket_six_star"
+                                ],
+                                "min": 1
+                            }
+                        ],
+                        "weight": 1
+                    }
+                ],
+                "max_rolls": 1
+            },
+            "numeric_properties": {
+                "five_star_pity": 10,
+                "six_star_pity": 80
+            }
+        },
+        "gacha_ticket_premium": {
+            "name": "Premium Gacha Ticket",
+            "description": "Crack open to see if you get the best of the best!",
+            "category":"gacha_ticket",
+            "max_count": 999,
+            "stackable": true,
+            "consumable": true,
+            "consume_reward": {
+                "weighted": [
+                    {
+                        "item_sets": [
+                            {
+                                "set": [
+                                    "gacha_ticket_premium_four_star"
+                                ],
+                                "min": 1
+                            }
+                        ],
+                        "weight": 91
+                    },
+                    {
+                        "item_sets": [
+                            {
+                                "set": [
+                                    "gacha_ticket_premium_five_star"
+                                ],
+                                "min": 1
+                            }
+                        ],
+                        "weight": 8
+                    },
+                    {
+                        "item_sets": [
+                            {
+                                "set": [
+                                    "gacha_ticket_premium_six_star"
+                                ],
+                                "min": 1
+                            }
+                        ],
+                        "weight": 1
+                    }
+                ],
+                "max_rolls": 1
+            },
+            "numeric_properties": {
+                "five_star_pity": 5,
+                "six_star_pity": 40
+            }
+        },
+        "shield": {
+            "name": "Shield",
+            "category": "item",
+            "description": "A playable character.",
+            "item_sets": ["gacha_ticket_four_star"],
+            "numeric_properties": {
+                "star_rarity": 4
+            }
+        },
+        "shield_token": {
+            "name": "Shield Token",
+            "category": "item_token",
+            "description": "Represents a duplicate copy of Shield.",
+            "stackable": true,
+            "numeric_properties": {
+                "star_rarity": 4
+            }
+        },
+        "sword": {
+            "name": "Sword",
+            "category": "item",
+            "description": "A playable character.",
+            "item_sets": ["gacha_ticket_four_star"],
+            "numeric_properties": {
+                "star_rarity": 4
+            }
+        },
+        "sword_token": {
+            "name": "Sword Token",
+            "category": "item_token",
+            "description": "Represents a duplicate copy of Sword.",
+            "stackable": true,
+            "numeric_properties": {
+                "star_rarity": 4
+            }
+        },
+        "star": {
+            "name": "Star",
+            "category": "item",
+            "description": "A playable character.",
+            "item_sets": ["gacha_ticket_four_star"],
+            "numeric_properties": {
+                "star_rarity": 4
+            }
+        },
+        "star_token": {
+            "name": "Star Token",
+            "category": "item_token",
+            "description": "Represents a duplicate copy of Star.",
+            "stackable": true,
+            "numeric_properties": {
+                "star_rarity": 4
+            }
+        },
+        "clover": {
+            "name": "Clover",
+            "category": "item",
+            "description": "A playable character.",
+            "item_sets": ["gacha_ticket_five_star"],
+            "numeric_properties": {
+                "star_rarity": 5
+            }
+        },
+        "clover_token": {
+            "name": "Clover Token",
+            "category": "item_token",
+            "description": "Represents a duplicate copy of Clover.",
+            "stackable": true,
+            "numeric_properties": {
+                "star_rarity": 5
+            }
+        },
+        "gem": {
+            "name": "Gem",
+            "category": "item",
+            "description": "A playable character.",
+            "item_sets": ["gacha_ticket_five_star"],
+            "numeric_properties": {
+                "star_rarity": 5
+            }
+        },
+        "gem_token": {
+            "name": "Gem Token",
+            "category": "item_token",
+            "description": "Represents a duplicate copy of Gem.",
+            "stackable": true,
+            "numeric_properties": {
+                "star_rarity": 5
+            }
+        },
+        "demon_eye": {
+            "name": "Demon Eye",
+            "category": "item",
+            "description": "A playable character.",
+            "item_sets": ["gacha_ticket_six_star"],
+            "numeric_properties": {
+                "star_rarity": 6
+            }
+        },
+        "demon_eye_token": {
+            "name": "Demon Eye Token",
+            "category": "item_token",
+            "description": "Represents a duplicate copy of Demon Eye.",
+            "stackable": true,
+            "numeric_properties": {
+                "star_rarity": 6
+            }
+        },
+        "demon_skull": {
+            "name": "Demon Skull",
+            "category": "item",
+            "description": "A playable character.",
+            "item_sets": ["gacha_ticket_premium_five_star"],
+            "numeric_properties": {
+                "star_rarity": 5
+            }
+        },
+        "demon_skull_token": {
+            "name": "Demon Skull Token",
+            "category": "item_token",
+            "description": "Represents a duplicate copy of Demon Skull.",
+            "stackable": true,
+            "numeric_properties": {
+                "star_rarity": 5
+            }
+        },
+        "portable_planet": {
+            "name": "Portable Planet",
+            "category": "item",
+            "description": "A playable character.",
+            "item_sets": ["gacha_ticket_premium_six_star"],
+            "numeric_properties": {
+                "star_rarity": 6
+            }
+        },
+        "portable_planet_token": {
+            "name": "Portable Planet Token",
+            "category": "item_token",
+            "description": "Represents a duplicate copy of Portable Planet.",
+            "stackable": true,
+            "numeric_properties": {
+                "star_rarity": 6
+            }
+        },
+        "neutron_bomb": {
+            "name": "Neutron Bomb",
+            "category": "item",
+            "description": "A playable character.",
+            "item_sets": ["gacha_ticket_premium_six_star"],
+            "numeric_properties": {
+                "star_rarity": 6
+            }
+        },
+        "neutron_bomb_token": {
+            "name": "Neutron Bomb Token",
+            "category": "item_token",
+            "description": "Represents a duplicate copy of Neutron Bomb.",
+            "stackable": true,
+            "numeric_properties": {
+                "star_rarity": 6
+            }
+        },
+        "bottled_thunder": {
+            "name": "Bottled Thunder",
+            "category": "item",
+            "description": "A playable character.",
+            "item_sets": ["gacha_ticket_premium_four_star"],
+            "numeric_properties": {
+                "star_rarity": 4
+            }
+        },
+        "bottled_thunder_token": {
+            "name": "Bottled Thunder Token",
+            "category": "item_token",
+            "description": "Represents a duplicate copy of Bottled Thunder.",
+            "stackable": true,
+            "numeric_properties": {
+                "star_rarity": 4
+            }
+        },
+        "bottled_lightning": {
+            "name": "Bottled Lightning",
+            "category": "item",
+            "description": "A playable character.",
+            "item_sets": ["gacha_ticket_premium_five_star"],
+            "numeric_properties": {
+                "star_rarity": 5
+            }
+        },
+        "bottled_lightning_token": {
+            "name": "Bottled Lightning Token",
+            "category": "item_token",
+            "description": "Represents a duplicate copy of Bottled Lightning.",
+            "stackable": true,
+            "numeric_properties": {
+                "star_rarity": 5
+            }
+        }
+    }
+}
