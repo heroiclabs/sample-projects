@@ -1,0 +1,702 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="21" result="Passed" total="21" passed="21" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-07-16 11:46:55Z" end-time="2026-07-16 11:47:04Z" duration="8.7712168">
+  <test-suite type="TestSuite" id="1000" name="UnityHiroPlayerXP" fullname="UnityHiroPlayerXP" runstate="Runnable" testcasecount="21" result="Passed" start-time="2026-07-16 11:46:55Z" end-time="2026-07-16 11:47:04Z" duration="8.771217" total="21" passed="21" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1024" name="PlayerXP.Tests.Editor.dll" fullname="/Users/fabiosousa/Documents/sample-projects/Guides/PlayerXP/UnityHiroPlayerXP/Library/ScriptAssemblies/PlayerXP.Tests.Editor.dll" runstate="Runnable" testcasecount="21" result="Passed" start-time="2026-07-16 11:46:55Z" end-time="2026-07-16 11:47:04Z" duration="8.768253" total="21" passed="21" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="6226" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1025" name="PlayerXP" fullname="PlayerXP" runstate="Runnable" testcasecount="21" result="Passed" start-time="2026-07-16 11:46:55Z" end-time="2026-07-16 11:47:04Z" duration="8.767958" total="21" passed="21" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1026" name="Tests" fullname="PlayerXP.Tests" runstate="Runnable" testcasecount="21" result="Passed" start-time="2026-07-16 11:46:55Z" end-time="2026-07-16 11:47:04Z" duration="8.767733" total="21" passed="21" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1027" name="Editor" fullname="PlayerXP.Tests.Editor" runstate="Runnable" testcasecount="21" result="Passed" start-time="2026-07-16 11:46:55Z" end-time="2026-07-16 11:47:04Z" duration="8.767486" total="21" passed="21" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1001" name="XPControllerTests" fullname="PlayerXP.Tests.Editor.XPControllerTests" classname="PlayerXP.Tests.Editor.XPControllerTests" runstate="Runnable" testcasecount="20" result="Passed" start-time="2026-07-16 11:46:55Z" end-time="2026-07-16 11:47:04Z" duration="8.766277" total="20" passed="20" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1018" name="ClearSelection_ClearsSelectedLevel" fullname="PlayerXP.Tests.Editor.XPControllerTests.ClearSelection_ClearsSelectedLevel" methodname="ClearSelection_ClearsSelectedLevel" classname="PlayerXP.Tests.Editor.XPControllerTests" runstate="Runnable" seed="227774347" result="Passed" start-time="2026-07-16 11:46:55Z" end-time="2026-07-16 11:46:55Z" duration="0.501907" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2ODQ4YzExNS0xYzU1LTQzNjYtODFhNi1kYmRkYWVmZTg1NjEiLCJ1aWQiOiI1MDE1OWY1Ni05NWEwLTQ1NGUtODcwNi0wNTU4MTY0NjQzY2IiLCJ1c24iOiJQbGF5ZXIxMzY5MzcyMyIsImV4cCI6MTc4NDIwNjAxNSwiaWF0IjoxNzg0MjAyNDE1fQ.81gq5kqmcct8zY8KjltAkqZtsZ6aajrBsUiFy1a_p8U"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2ODQ4YzExNS0xYzU1LTQzNjYtODFhNi1kYmRkYWVmZTg1NjEiLCJ1aWQiOiI1MDE1OWY1Ni05NWEwLTQ1NGUtODcwNi0wNTU4MTY0NjQzY2IiLCJ1c24iOiJQbGF5ZXIxMzY5MzcyMyIsImV4cCI6MTc4NDIwMjQ3NSwiaWF0IjoxNzg0MjAyNDE1fQ.qGLSqV1QsXC3xYRn9oO9Twv8Z3DjgbuoFfQOmQTkJhE', Created=True, CreateTime=1784202415, ExpireTime=1784202475, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2ODQ4YzExNS0xYzU1LTQzNjYtODFhNi1kYmRkYWVmZTg1NjEiLCJ1aWQiOiI1MDE1OWY1Ni05NWEwLTQ1NGUtODcwNi0wNTU4MTY0NjQzY2IiLCJ1c24iOiJQbGF5ZXIxMzY5MzcyMyIsImV4cCI6MTc4NDIwNjAxNSwiaWF0IjoxNzg0MjAyNDE1fQ.81gq5kqmcct8zY8KjltAkqZtsZ6aajrBsUiFy1a_p8U, RefreshExpireTime=1784206015, Variables={}, Username='Player13693723', UserId='50159f56-95a0-454e-8706-0558164643cb')
+AchievementsSystem initialized.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2ODQ4YzExNS0xYzU1LTQzNjYtODFhNi1kYmRkYWVmZTg1NjEiLCJ1aWQiOiI1MDE1OWY1Ni05NWEwLTQ1NGUtODcwNi0wNTU4MTY0NjQzY2IiLCJ1c24iOiJQbGF5ZXIxMzY5MzcyMyIsImV4cCI6MTc4NDIwNjAxNSwiaWF0IjoxNzg0MjAyNDE1fQ.81gq5kqmcct8zY8KjltAkqZtsZ6aajrBsUiFy1a_p8U"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2ODQ4YzExNS0xYzU1LTQzNjYtODFhNi1kYmRkYWVmZTg1NjEiLCJ1aWQiOiI1MDE1OWY1Ni05NWEwLTQ1NGUtODcwNi0wNTU4MTY0NjQzY2IiLCJ1c24iOiJQbGF5ZXIxMzY5MzcyMyIsImV4cCI6MTc4NDIwNjAxNSwiaWF0IjoxNzg0MjAyNDE1fQ.81gq5kqmcct8zY8KjltAkqZtsZ6aajrBsUiFy1a_p8U"}'
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2ODQ4YzExNS0xYzU1LTQzNjYtODFhNi1kYmRkYWVmZTg1NjEiLCJ1aWQiOiI1MDE1OWY1Ni05NWEwLTQ1NGUtODcwNi0wNTU4MTY0NjQzY2IiLCJ1c24iOiJQbGF5ZXIxMzY5MzcyMyIsImV4cCI6MTc4NDIwNjAxNSwiaWF0IjoxNzg0MjAyNDE1fQ.81gq5kqmcct8zY8KjltAkqZtsZ6aajrBsUiFy1a_p8U"}'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2ODQ4YzExNS0xYzU1LTQzNjYtODFhNi1kYmRkYWVmZTg1NjEiLCJ1aWQiOiI1MDE1OWY1Ni05NWEwLTQ1NGUtODcwNi0wNTU4MTY0NjQzY2IiLCJ1c24iOiJQbGF5ZXIxMzY5MzcyMyIsImV4cCI6MTc4NDIwNjAxNSwiaWF0IjoxNzg0MjAyNDE1fQ.81gq5kqmcct8zY8KjltAkqZtsZ6aajrBsUiFy1a_p8U"}'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1003" name="Constructor_NullAchievementsSystem_ThrowsArgumentNullException" fullname="PlayerXP.Tests.Editor.XPControllerTests.Constructor_NullAchievementsSystem_ThrowsArgumentNullException" methodname="Constructor_NullAchievementsSystem_ThrowsArgumentNullException" classname="PlayerXP.Tests.Editor.XPControllerTests" runstate="Runnable" seed="1740807770" result="Passed" start-time="2026-07-16 11:46:55Z" end-time="2026-07-16 11:46:56Z" duration="0.247660" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0ZjExNWQxOS0zMTBhLTQyZGUtODUwZC1iNTA1NDI2NjJmNTIiLCJ1aWQiOiI1MjY2MGIzMy1lMTM3LTQ2MTktODVjOC05YjUwYmM2NTM4OTEiLCJ1c24iOiJQbGF5ZXI0MzY5MDA4NCIsImV4cCI6MTc4NDIwNjAxNSwiaWF0IjoxNzg0MjAyNDE1fQ.guZiZDWir--CxYBhgRc67HsHZW5NQn9pyRHlRHJcDAI"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0ZjExNWQxOS0zMTBhLTQyZGUtODUwZC1iNTA1NDI2NjJmNTIiLCJ1aWQiOiI1MjY2MGIzMy1lMTM3LTQ2MTktODVjOC05YjUwYmM2NTM4OTEiLCJ1c24iOiJQbGF5ZXI0MzY5MDA4NCIsImV4cCI6MTc4NDIwMjQ3NSwiaWF0IjoxNzg0MjAyNDE1fQ.y8-ENONrj7Hrr0h6OLJ6A0XR-FDvQ8nTWXTlf2gANto', Created=True, CreateTime=1784202415, ExpireTime=1784202475, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0ZjExNWQxOS0zMTBhLTQyZGUtODUwZC1iNTA1NDI2NjJmNTIiLCJ1aWQiOiI1MjY2MGIzMy1lMTM3LTQ2MTktODVjOC05YjUwYmM2NTM4OTEiLCJ1c24iOiJQbGF5ZXI0MzY5MDA4NCIsImV4cCI6MTc4NDIwNjAxNSwiaWF0IjoxNzg0MjAyNDE1fQ.guZiZDWir--CxYBhgRc67HsHZW5NQn9pyRHlRHJcDAI, RefreshExpireTime=1784206015, Variables={}, Username='Player43690084', UserId='52660b33-e137-4619-85c8-9b50bc653891')
+AchievementsSystem initialized.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0ZjExNWQxOS0zMTBhLTQyZGUtODUwZC1iNTA1NDI2NjJmNTIiLCJ1aWQiOiI1MjY2MGIzMy1lMTM3LTQ2MTktODVjOC05YjUwYmM2NTM4OTEiLCJ1c24iOiJQbGF5ZXI0MzY5MDA4NCIsImV4cCI6MTc4NDIwNjAxNSwiaWF0IjoxNzg0MjAyNDE1fQ.guZiZDWir--CxYBhgRc67HsHZW5NQn9pyRHlRHJcDAI"}'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1005" name="Constructor_NullClient_ThrowsArgumentNullException" fullname="PlayerXP.Tests.Editor.XPControllerTests.Constructor_NullClient_ThrowsArgumentNullException" methodname="Constructor_NullClient_ThrowsArgumentNullException" classname="PlayerXP.Tests.Editor.XPControllerTests" runstate="Runnable" seed="731477939" result="Passed" start-time="2026-07-16 11:46:56Z" end-time="2026-07-16 11:46:56Z" duration="0.249995" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIyYjE3NTRhNC04ZjE1LTQ4NGMtOTQ4NC1kMzVlMzcxNWU1ZjAiLCJ1aWQiOiIzZmQ4NzM5Ni1iMTc2LTQxZmMtODNiOS1hYTAzMjQyYjZmZTkiLCJ1c24iOiJQbGF5ZXIyNTc0MjUzNCIsImV4cCI6MTc4NDIwNjAxNiwiaWF0IjoxNzg0MjAyNDE2fQ.9QwfWlwfz3cjkLTSf6rlT9R5cNUIRa6eM-h6lyCf7xE"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIyYjE3NTRhNC04ZjE1LTQ4NGMtOTQ4NC1kMzVlMzcxNWU1ZjAiLCJ1aWQiOiIzZmQ4NzM5Ni1iMTc2LTQxZmMtODNiOS1hYTAzMjQyYjZmZTkiLCJ1c24iOiJQbGF5ZXIyNTc0MjUzNCIsImV4cCI6MTc4NDIwMjQ3NiwiaWF0IjoxNzg0MjAyNDE2fQ.peIRcvvVUNtE-lWKdVOlGeFBd1_l1x_W0subKW8KbEs', Created=True, CreateTime=1784202416, ExpireTime=1784202476, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIyYjE3NTRhNC04ZjE1LTQ4NGMtOTQ4NC1kMzVlMzcxNWU1ZjAiLCJ1aWQiOiIzZmQ4NzM5Ni1iMTc2LTQxZmMtODNiOS1hYTAzMjQyYjZmZTkiLCJ1c24iOiJQbGF5ZXIyNTc0MjUzNCIsImV4cCI6MTc4NDIwNjAxNiwiaWF0IjoxNzg0MjAyNDE2fQ.9QwfWlwfz3cjkLTSf6rlT9R5cNUIRa6eM-h6lyCf7xE, RefreshExpireTime=1784206016, Variables={}, Username='Player25742534', UserId='3fd87396-b176-41fc-83b9-aa03242b6fe9')
+AchievementsSystem initialized.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIyYjE3NTRhNC04ZjE1LTQ4NGMtOTQ4NC1kMzVlMzcxNWU1ZjAiLCJ1aWQiOiIzZmQ4NzM5Ni1iMTc2LTQxZmMtODNiOS1hYTAzMjQyYjZmZTkiLCJ1c24iOiJQbGF5ZXIyNTc0MjUzNCIsImV4cCI6MTc4NDIwNjAxNiwiaWF0IjoxNzg0MjAyNDE2fQ.9QwfWlwfz3cjkLTSf6rlT9R5cNUIRa6eM-h6lyCf7xE"}'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1004" name="Constructor_NullEconomySystem_ThrowsArgumentNullException" fullname="PlayerXP.Tests.Editor.XPControllerTests.Constructor_NullEconomySystem_ThrowsArgumentNullException" methodname="Constructor_NullEconomySystem_ThrowsArgumentNullException" classname="PlayerXP.Tests.Editor.XPControllerTests" runstate="Runnable" seed="1557725407" result="Passed" start-time="2026-07-16 11:46:56Z" end-time="2026-07-16 11:46:56Z" duration="0.250033" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3OTM3ZDBlYy1iNTNjLTQ2ZDQtOGUwNC0zYmU2YzBmOTdmZTAiLCJ1aWQiOiI5YWQ0NjliNS1hNzMyLTQ2OGItYWUxOC1kYzkwNGI4Y2EzNGQiLCJ1c24iOiJQbGF5ZXI2Nzg4MTIyNyIsImV4cCI6MTc4NDIwNjAxNiwiaWF0IjoxNzg0MjAyNDE2fQ.SFSoTPmlY1D8e8yt-9AlZ7y9bRE1Aghiz4F2fa5RjEM"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3OTM3ZDBlYy1iNTNjLTQ2ZDQtOGUwNC0zYmU2YzBmOTdmZTAiLCJ1aWQiOiI5YWQ0NjliNS1hNzMyLTQ2OGItYWUxOC1kYzkwNGI4Y2EzNGQiLCJ1c24iOiJQbGF5ZXI2Nzg4MTIyNyIsImV4cCI6MTc4NDIwMjQ3NiwiaWF0IjoxNzg0MjAyNDE2fQ.Is0VdxB4ZUapXFfhOfEb81BjFpSkRYETTqLh4aDNlm4', Created=True, CreateTime=1784202416, ExpireTime=1784202476, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3OTM3ZDBlYy1iNTNjLTQ2ZDQtOGUwNC0zYmU2YzBmOTdmZTAiLCJ1aWQiOiI5YWQ0NjliNS1hNzMyLTQ2OGItYWUxOC1kYzkwNGI4Y2EzNGQiLCJ1c24iOiJQbGF5ZXI2Nzg4MTIyNyIsImV4cCI6MTc4NDIwNjAxNiwiaWF0IjoxNzg0MjAyNDE2fQ.SFSoTPmlY1D8e8yt-9AlZ7y9bRE1Aghiz4F2fa5RjEM, RefreshExpireTime=1784206016, Variables={}, Username='Player67881227', UserId='9ad469b5-a732-468b-ae18-dc904b8ca34d')
+AchievementsSystem initialized.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3OTM3ZDBlYy1iNTNjLTQ2ZDQtOGUwNC0zYmU2YzBmOTdmZTAiLCJ1aWQiOiI5YWQ0NjliNS1hNzMyLTQ2OGItYWUxOC1kYzkwNGI4Y2EzNGQiLCJ1c24iOiJQbGF5ZXI2Nzg4MTIyNyIsImV4cCI6MTc4NDIwNjAxNiwiaWF0IjoxNzg0MjAyNDE2fQ.SFSoTPmlY1D8e8yt-9AlZ7y9bRE1Aghiz4F2fa5RjEM"}'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1002" name="Constructor_NullNakamaSystem_ThrowsArgumentNullException" fullname="PlayerXP.Tests.Editor.XPControllerTests.Constructor_NullNakamaSystem_ThrowsArgumentNullException" methodname="Constructor_NullNakamaSystem_ThrowsArgumentNullException" classname="PlayerXP.Tests.Editor.XPControllerTests" runstate="Runnable" seed="130567573" result="Passed" start-time="2026-07-16 11:46:56Z" end-time="2026-07-16 11:46:56Z" duration="0.250123" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3YmI4MzdhMy1lZDI0LTQyMTAtYmE2ZC02NjBhYjYzYmI2YzciLCJ1aWQiOiI3ZmQ4NGFjMC01MDU2LTRjMTYtOWRmZS00OTMwMWUxYTZlNTEiLCJ1c24iOiJQbGF5ZXIxNTM4MTU3OCIsImV4cCI6MTc4NDIwNjAxNiwiaWF0IjoxNzg0MjAyNDE2fQ._NZD-qcP67vjbTAVfXetMDzzzr81Pt5hMC4FfugVEds"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3YmI4MzdhMy1lZDI0LTQyMTAtYmE2ZC02NjBhYjYzYmI2YzciLCJ1aWQiOiI3ZmQ4NGFjMC01MDU2LTRjMTYtOWRmZS00OTMwMWUxYTZlNTEiLCJ1c24iOiJQbGF5ZXIxNTM4MTU3OCIsImV4cCI6MTc4NDIwMjQ3NiwiaWF0IjoxNzg0MjAyNDE2fQ.3JIYNcgXBJ7UGkEloZXdO1iFsl8f5RfadaIVtp9Imm8', Created=True, CreateTime=1784202416, ExpireTime=1784202476, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3YmI4MzdhMy1lZDI0LTQyMTAtYmE2ZC02NjBhYjYzYmI2YzciLCJ1aWQiOiI3ZmQ4NGFjMC01MDU2LTRjMTYtOWRmZS00OTMwMWUxYTZlNTEiLCJ1c24iOiJQbGF5ZXIxNTM4MTU3OCIsImV4cCI6MTc4NDIwNjAxNiwiaWF0IjoxNzg0MjAyNDE2fQ._NZD-qcP67vjbTAVfXetMDzzzr81Pt5hMC4FfugVEds, RefreshExpireTime=1784206016, Variables={}, Username='Player15381578', UserId='7fd84ac0-5056-4c16-9dfe-49301e1a6e51')
+AchievementsSystem initialized.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3YmI4MzdhMy1lZDI0LTQyMTAtYmE2ZC02NjBhYjYzYmI2YzciLCJ1aWQiOiI3ZmQ4NGFjMC01MDU2LTRjMTYtOWRmZS00OTMwMWUxYTZlNTEiLCJ1c24iOiJQbGF5ZXIxNTM4MTU3OCIsImV4cCI6MTc4NDIwNjAxNiwiaWF0IjoxNzg0MjAyNDE2fQ._NZD-qcP67vjbTAVfXetMDzzzr81Pt5hMC4FfugVEds"}'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1006" name="Constructor_NullSession_ThrowsArgumentNullException" fullname="PlayerXP.Tests.Editor.XPControllerTests.Constructor_NullSession_ThrowsArgumentNullException" methodname="Constructor_NullSession_ThrowsArgumentNullException" classname="PlayerXP.Tests.Editor.XPControllerTests" runstate="Runnable" seed="1122194268" result="Passed" start-time="2026-07-16 11:46:56Z" end-time="2026-07-16 11:46:57Z" duration="0.249979" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0ZWQ1NzVmYS1mYTM4LTQ3MjMtYmQ1MS0wMzU0ZWUwMjY3YjgiLCJ1aWQiOiI1OGU2YzIxNy04ZDVhLTQ2N2YtYmQ0Yi05Yzc3MTcwODQ0YmEiLCJ1c24iOiJQbGF5ZXI2NTM3ODcwMyIsImV4cCI6MTc4NDIwNjAxNiwiaWF0IjoxNzg0MjAyNDE2fQ.4-HrnqiiEcQBhSMnoqer4WRKbfUXzubvQzq6CGUQSMA"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0ZWQ1NzVmYS1mYTM4LTQ3MjMtYmQ1MS0wMzU0ZWUwMjY3YjgiLCJ1aWQiOiI1OGU2YzIxNy04ZDVhLTQ2N2YtYmQ0Yi05Yzc3MTcwODQ0YmEiLCJ1c24iOiJQbGF5ZXI2NTM3ODcwMyIsImV4cCI6MTc4NDIwMjQ3NiwiaWF0IjoxNzg0MjAyNDE2fQ.lRjpos05Mj_J5I6kqktgaUN9POEvpvMMUzTimtyOrNI', Created=True, CreateTime=1784202416, ExpireTime=1784202476, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0ZWQ1NzVmYS1mYTM4LTQ3MjMtYmQ1MS0wMzU0ZWUwMjY3YjgiLCJ1aWQiOiI1OGU2YzIxNy04ZDVhLTQ2N2YtYmQ0Yi05Yzc3MTcwODQ0YmEiLCJ1c24iOiJQbGF5ZXI2NTM3ODcwMyIsImV4cCI6MTc4NDIwNjAxNiwiaWF0IjoxNzg0MjAyNDE2fQ.4-HrnqiiEcQBhSMnoqer4WRKbfUXzubvQzq6CGUQSMA, RefreshExpireTime=1784206016, Variables={}, Username='Player65378703', UserId='58e6c217-8d5a-467f-bd4b-9c77170844ba')
+AchievementsSystem initialized.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0ZWQ1NzVmYS1mYTM4LTQ3MjMtYmQ1MS0wMzU0ZWUwMjY3YjgiLCJ1aWQiOiI1OGU2YzIxNy04ZDVhLTQ2N2YtYmQ0Yi05Yzc3MTcwODQ0YmEiLCJ1c24iOiJQbGF5ZXI2NTM3ODcwMyIsImV4cCI6MTc4NDIwNjAxNiwiaWF0IjoxNzg0MjAyNDE2fQ.4-HrnqiiEcQBhSMnoqer4WRKbfUXzubvQzq6CGUQSMA"}'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1020" name="CurrentUserId_ReturnsValidUserId" fullname="PlayerXP.Tests.Editor.XPControllerTests.CurrentUserId_ReturnsValidUserId" methodname="CurrentUserId_ReturnsValidUserId" classname="PlayerXP.Tests.Editor.XPControllerTests" runstate="Runnable" seed="1904586333" result="Passed" start-time="2026-07-16 11:46:57Z" end-time="2026-07-16 11:46:57Z" duration="0.250042" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlZjI0NDZiZC1kNzRlLTRmMGYtYjUyMC0zNmI4MDczNGEwN2QiLCJ1aWQiOiIxYjI5NmE5MC0zMGEyLTQ5ODItYTUzZS1jNzRiYWZmMTcyZTEiLCJ1c24iOiJQbGF5ZXI1NTM4Mjk3NCIsImV4cCI6MTc4NDIwNjAxNywiaWF0IjoxNzg0MjAyNDE3fQ.lJQLI_-KRdNqBcUKilPW0EDH--Q4pCyNpyBr3_NJBxU"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlZjI0NDZiZC1kNzRlLTRmMGYtYjUyMC0zNmI4MDczNGEwN2QiLCJ1aWQiOiIxYjI5NmE5MC0zMGEyLTQ5ODItYTUzZS1jNzRiYWZmMTcyZTEiLCJ1c24iOiJQbGF5ZXI1NTM4Mjk3NCIsImV4cCI6MTc4NDIwMjQ3NywiaWF0IjoxNzg0MjAyNDE3fQ.CLALpyDfpcp7AwhpAfQ5imXcr_WDVWdHyDFrDrracIM', Created=True, CreateTime=1784202417, ExpireTime=1784202477, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlZjI0NDZiZC1kNzRlLTRmMGYtYjUyMC0zNmI4MDczNGEwN2QiLCJ1aWQiOiIxYjI5NmE5MC0zMGEyLTQ5ODItYTUzZS1jNzRiYWZmMTcyZTEiLCJ1c24iOiJQbGF5ZXI1NTM4Mjk3NCIsImV4cCI6MTc4NDIwNjAxNywiaWF0IjoxNzg0MjAyNDE3fQ.lJQLI_-KRdNqBcUKilPW0EDH--Q4pCyNpyBr3_NJBxU, RefreshExpireTime=1784206017, Variables={}, Username='Player55382974', UserId='1b296a90-30a2-4982-a53e-c74baff172e1')
+AchievementsSystem initialized.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlZjI0NDZiZC1kNzRlLTRmMGYtYjUyMC0zNmI4MDczNGEwN2QiLCJ1aWQiOiIxYjI5NmE5MC0zMGEyLTQ5ODItYTUzZS1jNzRiYWZmMTcyZTEiLCJ1c24iOiJQbGF5ZXI1NTM4Mjk3NCIsImV4cCI6MTc4NDIwNjAxNywiaWF0IjoxNzg0MjAyNDE3fQ.lJQLI_-KRdNqBcUKilPW0EDH--Q4pCyNpyBr3_NJBxU"}'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1010" name="GetCurrentLevel_NewUser_ReturnsZero" fullname="PlayerXP.Tests.Editor.XPControllerTests.GetCurrentLevel_NewUser_ReturnsZero" methodname="GetCurrentLevel_NewUser_ReturnsZero" classname="PlayerXP.Tests.Editor.XPControllerTests" runstate="Runnable" seed="1768106224" result="Passed" start-time="2026-07-16 11:46:57Z" end-time="2026-07-16 11:46:57Z" duration="0.450404" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiYjYyMjZkYS0xNzJkLTRlMDEtYThlNC04ZThjM2Y0NTM4MzkiLCJ1aWQiOiJjNzZkOWNiZS05YWRjLTRlYWYtOGVlMC1lMGY0ZTFjMGQzZDEiLCJ1c24iOiJQbGF5ZXIwNTkwNjA0NSIsImV4cCI6MTc4NDIwNjAxNywiaWF0IjoxNzg0MjAyNDE3fQ.ARKYWki8NCG9cMylv9cz3v3Ww5Bx4npDfdXwyQTATsk"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiYjYyMjZkYS0xNzJkLTRlMDEtYThlNC04ZThjM2Y0NTM4MzkiLCJ1aWQiOiJjNzZkOWNiZS05YWRjLTRlYWYtOGVlMC1lMGY0ZTFjMGQzZDEiLCJ1c24iOiJQbGF5ZXIwNTkwNjA0NSIsImV4cCI6MTc4NDIwMjQ3NywiaWF0IjoxNzg0MjAyNDE3fQ.jpNYmXXboty7f37qCk5IcCcnEfsJW10FHulDzPAh74c', Created=True, CreateTime=1784202417, ExpireTime=1784202477, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiYjYyMjZkYS0xNzJkLTRlMDEtYThlNC04ZThjM2Y0NTM4MzkiLCJ1aWQiOiJjNzZkOWNiZS05YWRjLTRlYWYtOGVlMC1lMGY0ZTFjMGQzZDEiLCJ1c24iOiJQbGF5ZXIwNTkwNjA0NSIsImV4cCI6MTc4NDIwNjAxNywiaWF0IjoxNzg0MjAyNDE3fQ.ARKYWki8NCG9cMylv9cz3v3Ww5Bx4npDfdXwyQTATsk, RefreshExpireTime=1784206017, Variables={}, Username='Player05906045', UserId='c76d9cbe-9adc-4eaf-8ee0-e0f4e1c0d3d1')
+AchievementsSystem initialized.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiYjYyMjZkYS0xNzJkLTRlMDEtYThlNC04ZThjM2Y0NTM4MzkiLCJ1aWQiOiJjNzZkOWNiZS05YWRjLTRlYWYtOGVlMC1lMGY0ZTFjMGQzZDEiLCJ1c24iOiJQbGF5ZXIwNTkwNjA0NSIsImV4cCI6MTc4NDIwNjAxNywiaWF0IjoxNzg0MjAyNDE3fQ.ARKYWki8NCG9cMylv9cz3v3Ww5Bx4npDfdXwyQTATsk"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiYjYyMjZkYS0xNzJkLTRlMDEtYThlNC04ZThjM2Y0NTM4MzkiLCJ1aWQiOiJjNzZkOWNiZS05YWRjLTRlYWYtOGVlMC1lMGY0ZTFjMGQzZDEiLCJ1c24iOiJQbGF5ZXIwNTkwNjA0NSIsImV4cCI6MTc4NDIwNjAxNywiaWF0IjoxNzg0MjAyNDE3fQ.ARKYWki8NCG9cMylv9cz3v3Ww5Bx4npDfdXwyQTATsk"}'
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiYjYyMjZkYS0xNzJkLTRlMDEtYThlNC04ZThjM2Y0NTM4MzkiLCJ1aWQiOiJjNzZkOWNiZS05YWRjLTRlYWYtOGVlMC1lMGY0ZTFjMGQzZDEiLCJ1c24iOiJQbGF5ZXIwNTkwNjA0NSIsImV4cCI6MTc4NDIwNjAxNywiaWF0IjoxNzg0MjAyNDE3fQ.ARKYWki8NCG9cMylv9cz3v3Ww5Bx4npDfdXwyQTATsk"}'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJiYjYyMjZkYS0xNzJkLTRlMDEtYThlNC04ZThjM2Y0NTM4MzkiLCJ1aWQiOiJjNzZkOWNiZS05YWRjLTRlYWYtOGVlMC1lMGY0ZTFjMGQzZDEiLCJ1c24iOiJQbGF5ZXIwNTkwNjA0NSIsImV4cCI6MTc4NDIwNjAxNywiaWF0IjoxNzg0MjAyNDE3fQ.ARKYWki8NCG9cMylv9cz3v3Ww5Bx4npDfdXwyQTATsk"}'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1009" name="GetCurrentXP_NewUser_ReturnsZero" fullname="PlayerXP.Tests.Editor.XPControllerTests.GetCurrentXP_NewUser_ReturnsZero" methodname="GetCurrentXP_NewUser_ReturnsZero" classname="PlayerXP.Tests.Editor.XPControllerTests" runstate="Runnable" seed="4734131" result="Passed" start-time="2026-07-16 11:46:57Z" end-time="2026-07-16 11:46:58Z" duration="0.450233" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlOGViNzRhYy02NDAzLTQzZjQtOWQzNC03MGFhYzBlMmY4NjciLCJ1aWQiOiJjOTUwZGM4Mi1mN2M4LTRlNmQtYjA0ZS0wYjVhYTllYTQ5MTAiLCJ1c24iOiJQbGF5ZXIyMjc0MTc3NCIsImV4cCI6MTc4NDIwNjAxNywiaWF0IjoxNzg0MjAyNDE3fQ.DsTsXRQJ6X_zTZM4O0mkHadcZHzw9TvrtwjgMfiIkdk"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlOGViNzRhYy02NDAzLTQzZjQtOWQzNC03MGFhYzBlMmY4NjciLCJ1aWQiOiJjOTUwZGM4Mi1mN2M4LTRlNmQtYjA0ZS0wYjVhYTllYTQ5MTAiLCJ1c24iOiJQbGF5ZXIyMjc0MTc3NCIsImV4cCI6MTc4NDIwMjQ3NywiaWF0IjoxNzg0MjAyNDE3fQ.fxcdE0Gcoz5OMmU8i6CrCjVUHyBfBdHaJKP4o3tCUmE', Created=True, CreateTime=1784202417, ExpireTime=1784202477, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlOGViNzRhYy02NDAzLTQzZjQtOWQzNC03MGFhYzBlMmY4NjciLCJ1aWQiOiJjOTUwZGM4Mi1mN2M4LTRlNmQtYjA0ZS0wYjVhYTllYTQ5MTAiLCJ1c24iOiJQbGF5ZXIyMjc0MTc3NCIsImV4cCI6MTc4NDIwNjAxNywiaWF0IjoxNzg0MjAyNDE3fQ.DsTsXRQJ6X_zTZM4O0mkHadcZHzw9TvrtwjgMfiIkdk, RefreshExpireTime=1784206017, Variables={}, Username='Player22741774', UserId='c950dc82-f7c8-4e6d-b04e-0b5aa9ea4910')
+AchievementsSystem initialized.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlOGViNzRhYy02NDAzLTQzZjQtOWQzNC03MGFhYzBlMmY4NjciLCJ1aWQiOiJjOTUwZGM4Mi1mN2M4LTRlNmQtYjA0ZS0wYjVhYTllYTQ5MTAiLCJ1c24iOiJQbGF5ZXIyMjc0MTc3NCIsImV4cCI6MTc4NDIwNjAxNywiaWF0IjoxNzg0MjAyNDE3fQ.DsTsXRQJ6X_zTZM4O0mkHadcZHzw9TvrtwjgMfiIkdk"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlOGViNzRhYy02NDAzLTQzZjQtOWQzNC03MGFhYzBlMmY4NjciLCJ1aWQiOiJjOTUwZGM4Mi1mN2M4LTRlNmQtYjA0ZS0wYjVhYTllYTQ5MTAiLCJ1c24iOiJQbGF5ZXIyMjc0MTc3NCIsImV4cCI6MTc4NDIwNjAxOCwiaWF0IjoxNzg0MjAyNDE3fQ.ndvod3sbb7TjbLxeGtL7KYjM-_YlZc09kQGzuTdJWpI"}'
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlOGViNzRhYy02NDAzLTQzZjQtOWQzNC03MGFhYzBlMmY4NjciLCJ1aWQiOiJjOTUwZGM4Mi1mN2M4LTRlNmQtYjA0ZS0wYjVhYTllYTQ5MTAiLCJ1c24iOiJQbGF5ZXIyMjc0MTc3NCIsImV4cCI6MTc4NDIwNjAxOCwiaWF0IjoxNzg0MjAyNDE3fQ.ndvod3sbb7TjbLxeGtL7KYjM-_YlZc09kQGzuTdJWpI"}'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlOGViNzRhYy02NDAzLTQzZjQtOWQzNC03MGFhYzBlMmY4NjciLCJ1aWQiOiJjOTUwZGM4Mi1mN2M4LTRlNmQtYjA0ZS0wYjVhYTllYTQ5MTAiLCJ1c24iOiJQbGF5ZXIyMjc0MTc3NCIsImV4cCI6MTc4NDIwNjAxOCwiaWF0IjoxNzg0MjAyNDE3fQ.ndvod3sbb7TjbLxeGtL7KYjM-_YlZc09kQGzuTdJWpI"}'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1011" name="GetProgressToNextLevel_NewUser_ReturnsFirstLevelThreshold" fullname="PlayerXP.Tests.Editor.XPControllerTests.GetProgressToNextLevel_NewUser_ReturnsFirstLevelThreshold" methodname="GetProgressToNextLevel_NewUser_ReturnsFirstLevelThreshold" classname="PlayerXP.Tests.Editor.XPControllerTests" runstate="Runnable" seed="1689916581" result="Passed" start-time="2026-07-16 11:46:58Z" end-time="2026-07-16 11:46:58Z" duration="0.450103" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlNGFkZGE3Yy01NDYxLTRjNTktYWRiNi1kNjRjMmYzNzQ0ZTUiLCJ1aWQiOiIwYjM4ODQxNC1kODA5LTQ3NzEtOGQwMy02YWM0MGFiZjQ3MTIiLCJ1c24iOiJQbGF5ZXIwMzY1OTk0NCIsImV4cCI6MTc4NDIwNjAxOCwiaWF0IjoxNzg0MjAyNDE4fQ.gOpPLhlcheUuBh-a-NJNru2L-FbYrSNMtMlY6FyZPuc"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlNGFkZGE3Yy01NDYxLTRjNTktYWRiNi1kNjRjMmYzNzQ0ZTUiLCJ1aWQiOiIwYjM4ODQxNC1kODA5LTQ3NzEtOGQwMy02YWM0MGFiZjQ3MTIiLCJ1c24iOiJQbGF5ZXIwMzY1OTk0NCIsImV4cCI6MTc4NDIwMjQ3OCwiaWF0IjoxNzg0MjAyNDE4fQ.F6Lvd9YEaOzw9gAHjXndoUatBU6SrLjB_a9dD2ovOhI', Created=True, CreateTime=1784202418, ExpireTime=1784202478, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlNGFkZGE3Yy01NDYxLTRjNTktYWRiNi1kNjRjMmYzNzQ0ZTUiLCJ1aWQiOiIwYjM4ODQxNC1kODA5LTQ3NzEtOGQwMy02YWM0MGFiZjQ3MTIiLCJ1c24iOiJQbGF5ZXIwMzY1OTk0NCIsImV4cCI6MTc4NDIwNjAxOCwiaWF0IjoxNzg0MjAyNDE4fQ.gOpPLhlcheUuBh-a-NJNru2L-FbYrSNMtMlY6FyZPuc, RefreshExpireTime=1784206018, Variables={}, Username='Player03659944', UserId='0b388414-d809-4771-8d03-6ac40abf4712')
+AchievementsSystem initialized.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlNGFkZGE3Yy01NDYxLTRjNTktYWRiNi1kNjRjMmYzNzQ0ZTUiLCJ1aWQiOiIwYjM4ODQxNC1kODA5LTQ3NzEtOGQwMy02YWM0MGFiZjQ3MTIiLCJ1c24iOiJQbGF5ZXIwMzY1OTk0NCIsImV4cCI6MTc4NDIwNjAxOCwiaWF0IjoxNzg0MjAyNDE4fQ.gOpPLhlcheUuBh-a-NJNru2L-FbYrSNMtMlY6FyZPuc"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlNGFkZGE3Yy01NDYxLTRjNTktYWRiNi1kNjRjMmYzNzQ0ZTUiLCJ1aWQiOiIwYjM4ODQxNC1kODA5LTQ3NzEtOGQwMy02YWM0MGFiZjQ3MTIiLCJ1c24iOiJQbGF5ZXIwMzY1OTk0NCIsImV4cCI6MTc4NDIwNjAxOCwiaWF0IjoxNzg0MjAyNDE4fQ.gOpPLhlcheUuBh-a-NJNru2L-FbYrSNMtMlY6FyZPuc"}'
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlNGFkZGE3Yy01NDYxLTRjNTktYWRiNi1kNjRjMmYzNzQ0ZTUiLCJ1aWQiOiIwYjM4ODQxNC1kODA5LTQ3NzEtOGQwMy02YWM0MGFiZjQ3MTIiLCJ1c24iOiJQbGF5ZXIwMzY1OTk0NCIsImV4cCI6MTc4NDIwNjAxOCwiaWF0IjoxNzg0MjAyNDE4fQ.gOpPLhlcheUuBh-a-NJNru2L-FbYrSNMtMlY6FyZPuc"}'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Progress to next level: 0 / 100
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlNGFkZGE3Yy01NDYxLTRjNTktYWRiNi1kNjRjMmYzNzQ0ZTUiLCJ1aWQiOiIwYjM4ODQxNC1kODA5LTQ3NzEtOGQwMy02YWM0MGFiZjQ3MTIiLCJ1c24iOiJQbGF5ZXIwMzY1OTk0NCIsImV4cCI6MTc4NDIwNjAxOCwiaWF0IjoxNzg0MjAyNDE4fQ.gOpPLhlcheUuBh-a-NJNru2L-FbYrSNMtMlY6FyZPuc"}'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1016" name="GetSelectedLevel_NoSelection_ReturnsNull" fullname="PlayerXP.Tests.Editor.XPControllerTests.GetSelectedLevel_NoSelection_ReturnsNull" methodname="GetSelectedLevel_NoSelection_ReturnsNull" classname="PlayerXP.Tests.Editor.XPControllerTests" runstate="Runnable" seed="532158894" result="Passed" start-time="2026-07-16 11:46:58Z" end-time="2026-07-16 11:46:59Z" duration="0.250014" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIxZjdiMGRkMC00YjNkLTQ4MjAtYTg5YS01OWZlODBhNTIxZmUiLCJ1aWQiOiJiZTg5NmY5NS1lNTg3LTRkMmEtYjc4Yi0wN2EzYWNmNDBlZWMiLCJ1c24iOiJQbGF5ZXI1ODUzNTcyNyIsImV4cCI6MTc4NDIwNjAxOCwiaWF0IjoxNzg0MjAyNDE4fQ.EWsZ3ztyuHsTQtl3K_1Q8RqbqLosk-d6PfXF2X8-X94"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIxZjdiMGRkMC00YjNkLTQ4MjAtYTg5YS01OWZlODBhNTIxZmUiLCJ1aWQiOiJiZTg5NmY5NS1lNTg3LTRkMmEtYjc4Yi0wN2EzYWNmNDBlZWMiLCJ1c24iOiJQbGF5ZXI1ODUzNTcyNyIsImV4cCI6MTc4NDIwMjQ3OCwiaWF0IjoxNzg0MjAyNDE4fQ.0nDFqVb5Gw7RtkUznF71bqce1U3X8nU0smqHGzEAoKo', Created=True, CreateTime=1784202418, ExpireTime=1784202478, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIxZjdiMGRkMC00YjNkLTQ4MjAtYTg5YS01OWZlODBhNTIxZmUiLCJ1aWQiOiJiZTg5NmY5NS1lNTg3LTRkMmEtYjc4Yi0wN2EzYWNmNDBlZWMiLCJ1c24iOiJQbGF5ZXI1ODUzNTcyNyIsImV4cCI6MTc4NDIwNjAxOCwiaWF0IjoxNzg0MjAyNDE4fQ.EWsZ3ztyuHsTQtl3K_1Q8RqbqLosk-d6PfXF2X8-X94, RefreshExpireTime=1784206018, Variables={}, Username='Player58535727', UserId='be896f95-e587-4d2a-b78b-07a3acf40eec')
+AchievementsSystem initialized.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIxZjdiMGRkMC00YjNkLTQ4MjAtYTg5YS01OWZlODBhNTIxZmUiLCJ1aWQiOiJiZTg5NmY5NS1lNTg3LTRkMmEtYjc4Yi0wN2EzYWNmNDBlZWMiLCJ1c24iOiJQbGF5ZXI1ODUzNTcyNyIsImV4cCI6MTc4NDIwNjAxOCwiaWF0IjoxNzg0MjAyNDE4fQ.EWsZ3ztyuHsTQtl3K_1Q8RqbqLosk-d6PfXF2X8-X94"}'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1013" name="GrantXPAsync_NegativeAmount_ThrowsArgumentException" fullname="PlayerXP.Tests.Editor.XPControllerTests.GrantXPAsync_NegativeAmount_ThrowsArgumentException" methodname="GrantXPAsync_NegativeAmount_ThrowsArgumentException" classname="PlayerXP.Tests.Editor.XPControllerTests" runstate="Runnable" seed="1927993898" result="Passed" start-time="2026-07-16 11:46:59Z" end-time="2026-07-16 11:46:59Z" duration="0.450288" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <reason>
+                  <message><![CDATA[ArgumentException thrown as expected]]></message>
+                </reason>
+                <output><![CDATA[Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2MGMwNmQ4Yy04ZjcwLTRkMmMtOWVjMy1mZjBlMDM3YjY5YzEiLCJ1aWQiOiJiMDU3NTgzZS0xM2RmLTRmZGItYTkyYS0zOGIwYWQ3YjAxOTgiLCJ1c24iOiJQbGF5ZXIxMDEwMTYwOSIsImV4cCI6MTc4NDIwNjAxOSwiaWF0IjoxNzg0MjAyNDE5fQ._cq-P442CxY_gcGzjh6IdZicqlI4UJcKFmA8BFQpX14"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2MGMwNmQ4Yy04ZjcwLTRkMmMtOWVjMy1mZjBlMDM3YjY5YzEiLCJ1aWQiOiJiMDU3NTgzZS0xM2RmLTRmZGItYTkyYS0zOGIwYWQ3YjAxOTgiLCJ1c24iOiJQbGF5ZXIxMDEwMTYwOSIsImV4cCI6MTc4NDIwMjQ3OSwiaWF0IjoxNzg0MjAyNDE5fQ.uY4NvD8nO0KPcZ9h_u1Z-1dvpFXPha1QxcIpQwXU5YY', Created=True, CreateTime=1784202419, ExpireTime=1784202479, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2MGMwNmQ4Yy04ZjcwLTRkMmMtOWVjMy1mZjBlMDM3YjY5YzEiLCJ1aWQiOiJiMDU3NTgzZS0xM2RmLTRmZGItYTkyYS0zOGIwYWQ3YjAxOTgiLCJ1c24iOiJQbGF5ZXIxMDEwMTYwOSIsImV4cCI6MTc4NDIwNjAxOSwiaWF0IjoxNzg0MjAyNDE5fQ._cq-P442CxY_gcGzjh6IdZicqlI4UJcKFmA8BFQpX14, RefreshExpireTime=1784206019, Variables={}, Username='Player10101609', UserId='b057583e-13df-4fdb-a92a-38b0ad7b0198')
+AchievementsSystem initialized.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2MGMwNmQ4Yy04ZjcwLTRkMmMtOWVjMy1mZjBlMDM3YjY5YzEiLCJ1aWQiOiJiMDU3NTgzZS0xM2RmLTRmZGItYTkyYS0zOGIwYWQ3YjAxOTgiLCJ1c24iOiJQbGF5ZXIxMDEwMTYwOSIsImV4cCI6MTc4NDIwNjAxOSwiaWF0IjoxNzg0MjAyNDE5fQ._cq-P442CxY_gcGzjh6IdZicqlI4UJcKFmA8BFQpX14"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2MGMwNmQ4Yy04ZjcwLTRkMmMtOWVjMy1mZjBlMDM3YjY5YzEiLCJ1aWQiOiJiMDU3NTgzZS0xM2RmLTRmZGItYTkyYS0zOGIwYWQ3YjAxOTgiLCJ1c24iOiJQbGF5ZXIxMDEwMTYwOSIsImV4cCI6MTc4NDIwNjAxOSwiaWF0IjoxNzg0MjAyNDE5fQ._cq-P442CxY_gcGzjh6IdZicqlI4UJcKFmA8BFQpX14"}'
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2MGMwNmQ4Yy04ZjcwLTRkMmMtOWVjMy1mZjBlMDM3YjY5YzEiLCJ1aWQiOiJiMDU3NTgzZS0xM2RmLTRmZGItYTkyYS0zOGIwYWQ3YjAxOTgiLCJ1c24iOiJQbGF5ZXIxMDEwMTYwOSIsImV4cCI6MTc4NDIwNjAxOSwiaWF0IjoxNzg0MjAyNDE5fQ._cq-P442CxY_gcGzjh6IdZicqlI4UJcKFmA8BFQpX14"}'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI2MGMwNmQ4Yy04ZjcwLTRkMmMtOWVjMy1mZjBlMDM3YjY5YzEiLCJ1aWQiOiJiMDU3NTgzZS0xM2RmLTRmZGItYTkyYS0zOGIwYWQ3YjAxOTgiLCJ1c24iOiJQbGF5ZXIxMDEwMTYwOSIsImV4cCI6MTc4NDIwNjAxOSwiaWF0IjoxNzg0MjAyNDE5fQ._cq-P442CxY_gcGzjh6IdZicqlI4UJcKFmA8BFQpX14"}'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1015" name="GrantXPAsync_SufficientAmount_AdvancesLevel" fullname="PlayerXP.Tests.Editor.XPControllerTests.GrantXPAsync_SufficientAmount_AdvancesLevel" methodname="GrantXPAsync_SufficientAmount_AdvancesLevel" classname="PlayerXP.Tests.Editor.XPControllerTests" runstate="Runnable" seed="2101411666" result="Passed" start-time="2026-07-16 11:46:59Z" end-time="2026-07-16 11:47:00Z" duration="0.753628" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlMmUwNTBhNC1lZGQwLTQ4YjUtYmRmOS1hYmY3MDE0MDQyNzkiLCJ1aWQiOiI3M2U5YmMwNC1iZmRkLTQ3MTYtYTE4Yi03OWYxNjYyZDU2YjgiLCJ1c24iOiJQbGF5ZXI5ODA1MzAyNCIsImV4cCI6MTc4NDIwNjAxOSwiaWF0IjoxNzg0MjAyNDE5fQ.OqvVnC9oKwAK-SkPa0LXP-0MSNRiuudbE7AY7Cxyoo8"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlMmUwNTBhNC1lZGQwLTQ4YjUtYmRmOS1hYmY3MDE0MDQyNzkiLCJ1aWQiOiI3M2U5YmMwNC1iZmRkLTQ3MTYtYTE4Yi03OWYxNjYyZDU2YjgiLCJ1c24iOiJQbGF5ZXI5ODA1MzAyNCIsImV4cCI6MTc4NDIwMjQ3OSwiaWF0IjoxNzg0MjAyNDE5fQ.iCVcvoyon0BCnrm0flPMZKNanW6EjHfgzFxFQ_A-2Ww', Created=True, CreateTime=1784202419, ExpireTime=1784202479, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlMmUwNTBhNC1lZGQwLTQ4YjUtYmRmOS1hYmY3MDE0MDQyNzkiLCJ1aWQiOiI3M2U5YmMwNC1iZmRkLTQ3MTYtYTE4Yi03OWYxNjYyZDU2YjgiLCJ1c24iOiJQbGF5ZXI5ODA1MzAyNCIsImV4cCI6MTc4NDIwNjAxOSwiaWF0IjoxNzg0MjAyNDE5fQ.OqvVnC9oKwAK-SkPa0LXP-0MSNRiuudbE7AY7Cxyoo8, RefreshExpireTime=1784206019, Variables={}, Username='Player98053024', UserId='73e9bc04-bfdd-4716-a18b-79f1662d56b8')
+AchievementsSystem initialized.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlMmUwNTBhNC1lZGQwLTQ4YjUtYmRmOS1hYmY3MDE0MDQyNzkiLCJ1aWQiOiI3M2U5YmMwNC1iZmRkLTQ3MTYtYTE4Yi03OWYxNjYyZDU2YjgiLCJ1c24iOiJQbGF5ZXI5ODA1MzAyNCIsImV4cCI6MTc4NDIwNjAxOSwiaWF0IjoxNzg0MjAyNDE5fQ.OqvVnC9oKwAK-SkPa0LXP-0MSNRiuudbE7AY7Cxyoo8"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlMmUwNTBhNC1lZGQwLTQ4YjUtYmRmOS1hYmY3MDE0MDQyNzkiLCJ1aWQiOiI3M2U5YmMwNC1iZmRkLTQ3MTYtYTE4Yi03OWYxNjYyZDU2YjgiLCJ1c24iOiJQbGF5ZXI5ODA1MzAyNCIsImV4cCI6MTc4NDIwNjAxOSwiaWF0IjoxNzg0MjAyNDE5fQ.OqvVnC9oKwAK-SkPa0LXP-0MSNRiuudbE7AY7Cxyoo8"}'
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlMmUwNTBhNC1lZGQwLTQ4YjUtYmRmOS1hYmY3MDE0MDQyNzkiLCJ1aWQiOiI3M2U5YmMwNC1iZmRkLTQ3MTYtYTE4Yi03OWYxNjYyZDU2YjgiLCJ1c24iOiJQbGF5ZXI5ODA1MzAyNCIsImV4cCI6MTc4NDIwNjAxOSwiaWF0IjoxNzg0MjAyNDE5fQ.OqvVnC9oKwAK-SkPa0LXP-0MSNRiuudbE7AY7Cxyoo8"}'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlMmUwNTBhNC1lZGQwLTQ4YjUtYmRmOS1hYmY3MDE0MDQyNzkiLCJ1aWQiOiI3M2U5YmMwNC1iZmRkLTQ3MTYtYTE4Yi03OWYxNjYyZDU2YjgiLCJ1c24iOiJQbGF5ZXI5ODA1MzAyNCIsImV4cCI6MTc4NDIwNjAxOSwiaWF0IjoxNzg0MjAyNDE5fQ.OqvVnC9oKwAK-SkPa0LXP-0MSNRiuudbE7AY7Cxyoo8"}'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/rpc_grant_xp', body='"{\"amount\":100}"'
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlMmUwNTBhNC1lZGQwLTQ4YjUtYmRmOS1hYmY3MDE0MDQyNzkiLCJ1aWQiOiI3M2U5YmMwNC1iZmRkLTQ3MTYtYTE4Yi03OWYxNjYyZDU2YjgiLCJ1c24iOiJQbGF5ZXI5ODA1MzAyNCIsImV4cCI6MTc4NDIwNjAxOSwiaWF0IjoxNzg0MjAyNDE5fQ.OqvVnC9oKwAK-SkPa0LXP-0MSNRiuudbE7AY7Cxyoo8"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlMmUwNTBhNC1lZGQwLTQ4YjUtYmRmOS1hYmY3MDE0MDQyNzkiLCJ1aWQiOiI3M2U5YmMwNC1iZmRkLTQ3MTYtYTE4Yi03OWYxNjYyZDU2YjgiLCJ1c24iOiJQbGF5ZXI5ODA1MzAyNCIsImV4cCI6MTc4NDIwNjAxOSwiaWF0IjoxNzg0MjAyNDE5fQ.OqvVnC9oKwAK-SkPa0LXP-0MSNRiuudbE7AY7Cxyoo8"}'
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlMmUwNTBhNC1lZGQwLTQ4YjUtYmRmOS1hYmY3MDE0MDQyNzkiLCJ1aWQiOiI3M2U5YmMwNC1iZmRkLTQ3MTYtYTE4Yi03OWYxNjYyZDU2YjgiLCJ1c24iOiJQbGF5ZXI5ODA1MzAyNCIsImV4cCI6MTc4NDIwNjAxOSwiaWF0IjoxNzg0MjAyNDE5fQ.OqvVnC9oKwAK-SkPa0LXP-0MSNRiuudbE7AY7Cxyoo8"}'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Level changed from 0 to 1
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlMmUwNTBhNC1lZGQwLTQ4YjUtYmRmOS1hYmY3MDE0MDQyNzkiLCJ1aWQiOiI3M2U5YmMwNC1iZmRkLTQ3MTYtYTE4Yi03OWYxNjYyZDU2YjgiLCJ1c24iOiJQbGF5ZXI5ODA1MzAyNCIsImV4cCI6MTc4NDIwNjAyMCwiaWF0IjoxNzg0MjAyNDE5fQ.HRu1QcrhUyuQLzqOGUWL23L3moZwqeKWhJ3MEq3Kbh4"}'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1014" name="GrantXPAsync_ValidAmount_IncreasesXP" fullname="PlayerXP.Tests.Editor.XPControllerTests.GrantXPAsync_ValidAmount_IncreasesXP" methodname="GrantXPAsync_ValidAmount_IncreasesXP" classname="PlayerXP.Tests.Editor.XPControllerTests" runstate="Runnable" seed="1500359531" result="Passed" start-time="2026-07-16 11:47:00Z" end-time="2026-07-16 11:47:00Z" duration="0.750628" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0MjMyMDRjNy0zY2JmLTQ2NzYtYjFkNS0yZDNiMDllMTMyYjQiLCJ1aWQiOiJjZTI5ODJmZS1iMDM2LTQ1ZTktOTE3ZC0zNTlhNDg1MGFlMWIiLCJ1c24iOiJQbGF5ZXI5NDIzOTE3NyIsImV4cCI6MTc4NDIwNjAyMCwiaWF0IjoxNzg0MjAyNDIwfQ.WhmRKifcfJhl0qPNhOTAuYAjCzOAe2u3BvYfCWZRk2A"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0MjMyMDRjNy0zY2JmLTQ2NzYtYjFkNS0yZDNiMDllMTMyYjQiLCJ1aWQiOiJjZTI5ODJmZS1iMDM2LTQ1ZTktOTE3ZC0zNTlhNDg1MGFlMWIiLCJ1c24iOiJQbGF5ZXI5NDIzOTE3NyIsImV4cCI6MTc4NDIwMjQ4MCwiaWF0IjoxNzg0MjAyNDIwfQ.P11vBRmoyMXEVnjRpQB2XMo1iOnl48AVIQQp-by8LKE', Created=True, CreateTime=1784202420, ExpireTime=1784202480, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0MjMyMDRjNy0zY2JmLTQ2NzYtYjFkNS0yZDNiMDllMTMyYjQiLCJ1aWQiOiJjZTI5ODJmZS1iMDM2LTQ1ZTktOTE3ZC0zNTlhNDg1MGFlMWIiLCJ1c24iOiJQbGF5ZXI5NDIzOTE3NyIsImV4cCI6MTc4NDIwNjAyMCwiaWF0IjoxNzg0MjAyNDIwfQ.WhmRKifcfJhl0qPNhOTAuYAjCzOAe2u3BvYfCWZRk2A, RefreshExpireTime=1784206020, Variables={}, Username='Player94239177', UserId='ce2982fe-b036-45e9-917d-359a4850ae1b')
+AchievementsSystem initialized.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0MjMyMDRjNy0zY2JmLTQ2NzYtYjFkNS0yZDNiMDllMTMyYjQiLCJ1aWQiOiJjZTI5ODJmZS1iMDM2LTQ1ZTktOTE3ZC0zNTlhNDg1MGFlMWIiLCJ1c24iOiJQbGF5ZXI5NDIzOTE3NyIsImV4cCI6MTc4NDIwNjAyMCwiaWF0IjoxNzg0MjAyNDIwfQ.WhmRKifcfJhl0qPNhOTAuYAjCzOAe2u3BvYfCWZRk2A"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0MjMyMDRjNy0zY2JmLTQ2NzYtYjFkNS0yZDNiMDllMTMyYjQiLCJ1aWQiOiJjZTI5ODJmZS1iMDM2LTQ1ZTktOTE3ZC0zNTlhNDg1MGFlMWIiLCJ1c24iOiJQbGF5ZXI5NDIzOTE3NyIsImV4cCI6MTc4NDIwNjAyMCwiaWF0IjoxNzg0MjAyNDIwfQ.WhmRKifcfJhl0qPNhOTAuYAjCzOAe2u3BvYfCWZRk2A"}'
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0MjMyMDRjNy0zY2JmLTQ2NzYtYjFkNS0yZDNiMDllMTMyYjQiLCJ1aWQiOiJjZTI5ODJmZS1iMDM2LTQ1ZTktOTE3ZC0zNTlhNDg1MGFlMWIiLCJ1c24iOiJQbGF5ZXI5NDIzOTE3NyIsImV4cCI6MTc4NDIwNjAyMCwiaWF0IjoxNzg0MjAyNDIwfQ.WhmRKifcfJhl0qPNhOTAuYAjCzOAe2u3BvYfCWZRk2A"}'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0MjMyMDRjNy0zY2JmLTQ2NzYtYjFkNS0yZDNiMDllMTMyYjQiLCJ1aWQiOiJjZTI5ODJmZS1iMDM2LTQ1ZTktOTE3ZC0zNTlhNDg1MGFlMWIiLCJ1c24iOiJQbGF5ZXI5NDIzOTE3NyIsImV4cCI6MTc4NDIwNjAyMCwiaWF0IjoxNzg0MjAyNDIwfQ.WhmRKifcfJhl0qPNhOTAuYAjCzOAe2u3BvYfCWZRk2A"}'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/rpc_grant_xp', body='"{\"amount\":50}"'
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0MjMyMDRjNy0zY2JmLTQ2NzYtYjFkNS0yZDNiMDllMTMyYjQiLCJ1aWQiOiJjZTI5ODJmZS1iMDM2LTQ1ZTktOTE3ZC0zNTlhNDg1MGFlMWIiLCJ1c24iOiJQbGF5ZXI5NDIzOTE3NyIsImV4cCI6MTc4NDIwNjAyMCwiaWF0IjoxNzg0MjAyNDIwfQ.WhmRKifcfJhl0qPNhOTAuYAjCzOAe2u3BvYfCWZRk2A"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0MjMyMDRjNy0zY2JmLTQ2NzYtYjFkNS0yZDNiMDllMTMyYjQiLCJ1aWQiOiJjZTI5ODJmZS1iMDM2LTQ1ZTktOTE3ZC0zNTlhNDg1MGFlMWIiLCJ1c24iOiJQbGF5ZXI5NDIzOTE3NyIsImV4cCI6MTc4NDIwNjAyMCwiaWF0IjoxNzg0MjAyNDIwfQ.WhmRKifcfJhl0qPNhOTAuYAjCzOAe2u3BvYfCWZRk2A"}'
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0MjMyMDRjNy0zY2JmLTQ2NzYtYjFkNS0yZDNiMDllMTMyYjQiLCJ1aWQiOiJjZTI5ODJmZS1iMDM2LTQ1ZTktOTE3ZC0zNTlhNDg1MGFlMWIiLCJ1c24iOiJQbGF5ZXI5NDIzOTE3NyIsImV4cCI6MTc4NDIwNjAyMCwiaWF0IjoxNzg0MjAyNDIwfQ.WhmRKifcfJhl0qPNhOTAuYAjCzOAe2u3BvYfCWZRk2A"}'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+XP increased from 0 to 50
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0MjMyMDRjNy0zY2JmLTQ2NzYtYjFkNS0yZDNiMDllMTMyYjQiLCJ1aWQiOiJjZTI5ODJmZS1iMDM2LTQ1ZTktOTE3ZC0zNTlhNDg1MGFlMWIiLCJ1c24iOiJQbGF5ZXI5NDIzOTE3NyIsImV4cCI6MTc4NDIwNjAyMCwiaWF0IjoxNzg0MjAyNDIwfQ.WhmRKifcfJhl0qPNhOTAuYAjCzOAe2u3BvYfCWZRk2A"}'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1012" name="GrantXPAsync_ZeroAmount_ThrowsArgumentException" fullname="PlayerXP.Tests.Editor.XPControllerTests.GrantXPAsync_ZeroAmount_ThrowsArgumentException" methodname="GrantXPAsync_ZeroAmount_ThrowsArgumentException" classname="PlayerXP.Tests.Editor.XPControllerTests" runstate="Runnable" seed="1238595725" result="Passed" start-time="2026-07-16 11:47:00Z" end-time="2026-07-16 11:47:01Z" duration="0.450272" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <reason>
+                  <message><![CDATA[ArgumentException thrown as expected]]></message>
+                </reason>
+                <output><![CDATA[Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0NDFlNDEzYS0wZWU2LTQ4OTYtYjMxMC02YzVmNWQ0ZjI2YjAiLCJ1aWQiOiJjZmE4MDI4My0zMGFhLTQ1MjktOGIxOC03MzJiMzFkMWY4NWQiLCJ1c24iOiJQbGF5ZXIzNDkwODk5OCIsImV4cCI6MTc4NDIwNjAyMCwiaWF0IjoxNzg0MjAyNDIwfQ.Fb-pKEsJ9WzbLrswaOfz0WND4viQfzysLujVxPj8vn4"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0NDFlNDEzYS0wZWU2LTQ4OTYtYjMxMC02YzVmNWQ0ZjI2YjAiLCJ1aWQiOiJjZmE4MDI4My0zMGFhLTQ1MjktOGIxOC03MzJiMzFkMWY4NWQiLCJ1c24iOiJQbGF5ZXIzNDkwODk5OCIsImV4cCI6MTc4NDIwMjQ4MSwiaWF0IjoxNzg0MjAyNDIwfQ.p7whQPWBQTvhnGNJLwSyE-YnxYXfQdWS-XigBXWLo98', Created=True, CreateTime=1784202420, ExpireTime=1784202481, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0NDFlNDEzYS0wZWU2LTQ4OTYtYjMxMC02YzVmNWQ0ZjI2YjAiLCJ1aWQiOiJjZmE4MDI4My0zMGFhLTQ1MjktOGIxOC03MzJiMzFkMWY4NWQiLCJ1c24iOiJQbGF5ZXIzNDkwODk5OCIsImV4cCI6MTc4NDIwNjAyMSwiaWF0IjoxNzg0MjAyNDIwfQ.jk2ITYmdTElJHnfGf1tCqqokMXsfQH42yBvKn74lR6g, RefreshExpireTime=1784206021, Variables={}, Username='Player34908998', UserId='cfa80283-30aa-4529-8b18-732b31d1f85d')
+AchievementsSystem initialized.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0NDFlNDEzYS0wZWU2LTQ4OTYtYjMxMC02YzVmNWQ0ZjI2YjAiLCJ1aWQiOiJjZmE4MDI4My0zMGFhLTQ1MjktOGIxOC03MzJiMzFkMWY4NWQiLCJ1c24iOiJQbGF5ZXIzNDkwODk5OCIsImV4cCI6MTc4NDIwNjAyMSwiaWF0IjoxNzg0MjAyNDIwfQ.jk2ITYmdTElJHnfGf1tCqqokMXsfQH42yBvKn74lR6g"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0NDFlNDEzYS0wZWU2LTQ4OTYtYjMxMC02YzVmNWQ0ZjI2YjAiLCJ1aWQiOiJjZmE4MDI4My0zMGFhLTQ1MjktOGIxOC03MzJiMzFkMWY4NWQiLCJ1c24iOiJQbGF5ZXIzNDkwODk5OCIsImV4cCI6MTc4NDIwNjAyMSwiaWF0IjoxNzg0MjAyNDIwfQ.jk2ITYmdTElJHnfGf1tCqqokMXsfQH42yBvKn74lR6g"}'
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0NDFlNDEzYS0wZWU2LTQ4OTYtYjMxMC02YzVmNWQ0ZjI2YjAiLCJ1aWQiOiJjZmE4MDI4My0zMGFhLTQ1MjktOGIxOC03MzJiMzFkMWY4NWQiLCJ1c24iOiJQbGF5ZXIzNDkwODk5OCIsImV4cCI6MTc4NDIwNjAyMSwiaWF0IjoxNzg0MjAyNDIwfQ.jk2ITYmdTElJHnfGf1tCqqokMXsfQH42yBvKn74lR6g"}'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI0NDFlNDEzYS0wZWU2LTQ4OTYtYjMxMC02YzVmNWQ0ZjI2YjAiLCJ1aWQiOiJjZmE4MDI4My0zMGFhLTQ1MjktOGIxOC03MzJiMzFkMWY4NWQiLCJ1c24iOiJQbGF5ZXIzNDkwODk5OCIsImV4cCI6MTc4NDIwNjAyMSwiaWF0IjoxNzg0MjAyNDIwfQ.jk2ITYmdTElJHnfGf1tCqqokMXsfQH42yBvKn74lR6g"}'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1008" name="LoadAsync_Success_LoadsOrderedLevels" fullname="PlayerXP.Tests.Editor.XPControllerTests.LoadAsync_Success_LoadsOrderedLevels" methodname="LoadAsync_Success_LoadsOrderedLevels" classname="PlayerXP.Tests.Editor.XPControllerTests" runstate="Runnable" seed="938082644" result="Passed" start-time="2026-07-16 11:47:01Z" end-time="2026-07-16 11:47:01Z" duration="0.450289" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJhMzMxNDNiNy0wN2ZkLTQ2MjEtYTIxYy1lYTE5MGNkZjYyYWQiLCJ1aWQiOiJmYzIyMjdjYS0zYjQ4LTQyYzYtYWY1ZS1jZTU0MDE3NzcxOWIiLCJ1c24iOiJQbGF5ZXIwNTE3OTE2MiIsImV4cCI6MTc4NDIwNjAyMSwiaWF0IjoxNzg0MjAyNDIxfQ.8YjVT6D3ZNxQyhrppqQYarzOFL-KLp0NJ_jb3Hy8vuU"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJhMzMxNDNiNy0wN2ZkLTQ2MjEtYTIxYy1lYTE5MGNkZjYyYWQiLCJ1aWQiOiJmYzIyMjdjYS0zYjQ4LTQyYzYtYWY1ZS1jZTU0MDE3NzcxOWIiLCJ1c24iOiJQbGF5ZXIwNTE3OTE2MiIsImV4cCI6MTc4NDIwMjQ4MSwiaWF0IjoxNzg0MjAyNDIxfQ.EMG-gv2UgrgyQuo4BrceGLoLez-U8M6_Xs51gGlUsfA', Created=True, CreateTime=1784202421, ExpireTime=1784202481, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJhMzMxNDNiNy0wN2ZkLTQ2MjEtYTIxYy1lYTE5MGNkZjYyYWQiLCJ1aWQiOiJmYzIyMjdjYS0zYjQ4LTQyYzYtYWY1ZS1jZTU0MDE3NzcxOWIiLCJ1c24iOiJQbGF5ZXIwNTE3OTE2MiIsImV4cCI6MTc4NDIwNjAyMSwiaWF0IjoxNzg0MjAyNDIxfQ.8YjVT6D3ZNxQyhrppqQYarzOFL-KLp0NJ_jb3Hy8vuU, RefreshExpireTime=1784206021, Variables={}, Username='Player05179162', UserId='fc2227ca-3b48-42c6-af5e-ce540177719b')
+AchievementsSystem initialized.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJhMzMxNDNiNy0wN2ZkLTQ2MjEtYTIxYy1lYTE5MGNkZjYyYWQiLCJ1aWQiOiJmYzIyMjdjYS0zYjQ4LTQyYzYtYWY1ZS1jZTU0MDE3NzcxOWIiLCJ1c24iOiJQbGF5ZXIwNTE3OTE2MiIsImV4cCI6MTc4NDIwNjAyMSwiaWF0IjoxNzg0MjAyNDIxfQ.8YjVT6D3ZNxQyhrppqQYarzOFL-KLp0NJ_jb3Hy8vuU"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJhMzMxNDNiNy0wN2ZkLTQ2MjEtYTIxYy1lYTE5MGNkZjYyYWQiLCJ1aWQiOiJmYzIyMjdjYS0zYjQ4LTQyYzYtYWY1ZS1jZTU0MDE3NzcxOWIiLCJ1c24iOiJQbGF5ZXIwNTE3OTE2MiIsImV4cCI6MTc4NDIwNjAyMSwiaWF0IjoxNzg0MjAyNDIxfQ.8YjVT6D3ZNxQyhrppqQYarzOFL-KLp0NJ_jb3Hy8vuU"}'
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJhMzMxNDNiNy0wN2ZkLTQ2MjEtYTIxYy1lYTE5MGNkZjYyYWQiLCJ1aWQiOiJmYzIyMjdjYS0zYjQ4LTQyYzYtYWY1ZS1jZTU0MDE3NzcxOWIiLCJ1c24iOiJQbGF5ZXIwNTE3OTE2MiIsImV4cCI6MTc4NDIwNjAyMSwiaWF0IjoxNzg0MjAyNDIxfQ.8YjVT6D3ZNxQyhrppqQYarzOFL-KLp0NJ_jb3Hy8vuU"}'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Loaded 10 level milestones
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJhMzMxNDNiNy0wN2ZkLTQ2MjEtYTIxYy1lYTE5MGNkZjYyYWQiLCJ1aWQiOiJmYzIyMjdjYS0zYjQ4LTQyYzYtYWY1ZS1jZTU0MDE3NzcxOWIiLCJ1c24iOiJQbGF5ZXIwNTE3OTE2MiIsImV4cCI6MTc4NDIwNjAyMSwiaWF0IjoxNzg0MjAyNDIxfQ.8YjVT6D3ZNxQyhrppqQYarzOFL-KLp0NJ_jb3Hy8vuU"}'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1007" name="LoadAsync_Success_LoadsPlayerLevels" fullname="PlayerXP.Tests.Editor.XPControllerTests.LoadAsync_Success_LoadsPlayerLevels" methodname="LoadAsync_Success_LoadsPlayerLevels" classname="PlayerXP.Tests.Editor.XPControllerTests" runstate="Runnable" seed="1241300157" result="Passed" start-time="2026-07-16 11:47:01Z" end-time="2026-07-16 11:47:02Z" duration="0.450170" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmOGZjYzM0Yi1hNDkxLTRhZjgtOTNmOC0wMTQ1YTg0YzZjYjkiLCJ1aWQiOiJmOWY1ZTFlMS02NmNjLTRkMzgtOTVmNy1iMDNjYWIzMGM1YjAiLCJ1c24iOiJQbGF5ZXIwOTY3MDM3MCIsImV4cCI6MTc4NDIwNjAyMSwiaWF0IjoxNzg0MjAyNDIxfQ.Zb9nzhFWQ6gjSP2DvNxqh8GcLH3uaFy7CBKhvfwczKw"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmOGZjYzM0Yi1hNDkxLTRhZjgtOTNmOC0wMTQ1YTg0YzZjYjkiLCJ1aWQiOiJmOWY1ZTFlMS02NmNjLTRkMzgtOTVmNy1iMDNjYWIzMGM1YjAiLCJ1c24iOiJQbGF5ZXIwOTY3MDM3MCIsImV4cCI6MTc4NDIwMjQ4MSwiaWF0IjoxNzg0MjAyNDIxfQ.skk2n1DWfZuI8zzRFZP19mmrpSe3s1ccRAZQng5Df-s', Created=True, CreateTime=1784202421, ExpireTime=1784202481, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmOGZjYzM0Yi1hNDkxLTRhZjgtOTNmOC0wMTQ1YTg0YzZjYjkiLCJ1aWQiOiJmOWY1ZTFlMS02NmNjLTRkMzgtOTVmNy1iMDNjYWIzMGM1YjAiLCJ1c24iOiJQbGF5ZXIwOTY3MDM3MCIsImV4cCI6MTc4NDIwNjAyMSwiaWF0IjoxNzg0MjAyNDIxfQ.Zb9nzhFWQ6gjSP2DvNxqh8GcLH3uaFy7CBKhvfwczKw, RefreshExpireTime=1784206021, Variables={}, Username='Player09670370', UserId='f9f5e1e1-66cc-4d38-95f7-b03cab30c5b0')
+AchievementsSystem initialized.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmOGZjYzM0Yi1hNDkxLTRhZjgtOTNmOC0wMTQ1YTg0YzZjYjkiLCJ1aWQiOiJmOWY1ZTFlMS02NmNjLTRkMzgtOTVmNy1iMDNjYWIzMGM1YjAiLCJ1c24iOiJQbGF5ZXIwOTY3MDM3MCIsImV4cCI6MTc4NDIwNjAyMSwiaWF0IjoxNzg0MjAyNDIxfQ.Zb9nzhFWQ6gjSP2DvNxqh8GcLH3uaFy7CBKhvfwczKw"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmOGZjYzM0Yi1hNDkxLTRhZjgtOTNmOC0wMTQ1YTg0YzZjYjkiLCJ1aWQiOiJmOWY1ZTFlMS02NmNjLTRkMzgtOTVmNy1iMDNjYWIzMGM1YjAiLCJ1c24iOiJQbGF5ZXIwOTY3MDM3MCIsImV4cCI6MTc4NDIwNjAyMiwiaWF0IjoxNzg0MjAyNDIxfQ.FIEQYSkUP9fIyjBPCchGGRstzX0v8xDXY0KRbEoBVZM"}'
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmOGZjYzM0Yi1hNDkxLTRhZjgtOTNmOC0wMTQ1YTg0YzZjYjkiLCJ1aWQiOiJmOWY1ZTFlMS02NmNjLTRkMzgtOTVmNy1iMDNjYWIzMGM1YjAiLCJ1c24iOiJQbGF5ZXIwOTY3MDM3MCIsImV4cCI6MTc4NDIwNjAyMiwiaWF0IjoxNzg0MjAyNDIxfQ.FIEQYSkUP9fIyjBPCchGGRstzX0v8xDXY0KRbEoBVZM"}'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Loaded player_levels with 10 sub-achievements
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJmOGZjYzM0Yi1hNDkxLTRhZjgtOTNmOC0wMTQ1YTg0YzZjYjkiLCJ1aWQiOiJmOWY1ZTFlMS02NmNjLTRkMzgtOTVmNy1iMDNjYWIzMGM1YjAiLCJ1c24iOiJQbGF5ZXIwOTY3MDM3MCIsImV4cCI6MTc4NDIwNjAyMiwiaWF0IjoxNzg0MjAyNDIxfQ.FIEQYSkUP9fIyjBPCchGGRstzX0v8xDXY0KRbEoBVZM"}'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1017" name="SelectLevel_ValidLevel_SetsSelection" fullname="PlayerXP.Tests.Editor.XPControllerTests.SelectLevel_ValidLevel_SetsSelection" methodname="SelectLevel_ValidLevel_SetsSelection" classname="PlayerXP.Tests.Editor.XPControllerTests" runstate="Runnable" seed="1827940410" result="Passed" start-time="2026-07-16 11:47:02Z" end-time="2026-07-16 11:47:02Z" duration="0.450374" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIwNzliZGJjMC1hMjlmLTQwMjgtYmE2Yi0wN2U1ZWI1YzU4MGMiLCJ1aWQiOiI0ODY2MWE1Ny1kOTIwLTQ1MDMtYjRmNy1kOWU3YjY1NTIzNTgiLCJ1c24iOiJQbGF5ZXI5MDYzNjMyNiIsImV4cCI6MTc4NDIwNjAyMiwiaWF0IjoxNzg0MjAyNDIyfQ.FagClGQO7ya8JM4KBon2CPK3ifYvk_YAWt8JiIIMR_c"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIwNzliZGJjMC1hMjlmLTQwMjgtYmE2Yi0wN2U1ZWI1YzU4MGMiLCJ1aWQiOiI0ODY2MWE1Ny1kOTIwLTQ1MDMtYjRmNy1kOWU3YjY1NTIzNTgiLCJ1c24iOiJQbGF5ZXI5MDYzNjMyNiIsImV4cCI6MTc4NDIwMjQ4MiwiaWF0IjoxNzg0MjAyNDIyfQ.VNAaMFvrHz9xfGIpAgvP-4skUU-eMjXfSkWGxjPfhwM', Created=True, CreateTime=1784202422, ExpireTime=1784202482, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIwNzliZGJjMC1hMjlmLTQwMjgtYmE2Yi0wN2U1ZWI1YzU4MGMiLCJ1aWQiOiI0ODY2MWE1Ny1kOTIwLTQ1MDMtYjRmNy1kOWU3YjY1NTIzNTgiLCJ1c24iOiJQbGF5ZXI5MDYzNjMyNiIsImV4cCI6MTc4NDIwNjAyMiwiaWF0IjoxNzg0MjAyNDIyfQ.FagClGQO7ya8JM4KBon2CPK3ifYvk_YAWt8JiIIMR_c, RefreshExpireTime=1784206022, Variables={}, Username='Player90636326', UserId='48661a57-d920-4503-b4f7-d9e7b6552358')
+AchievementsSystem initialized.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIwNzliZGJjMC1hMjlmLTQwMjgtYmE2Yi0wN2U1ZWI1YzU4MGMiLCJ1aWQiOiI0ODY2MWE1Ny1kOTIwLTQ1MDMtYjRmNy1kOWU3YjY1NTIzNTgiLCJ1c24iOiJQbGF5ZXI5MDYzNjMyNiIsImV4cCI6MTc4NDIwNjAyMiwiaWF0IjoxNzg0MjAyNDIyfQ.FagClGQO7ya8JM4KBon2CPK3ifYvk_YAWt8JiIIMR_c"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIwNzliZGJjMC1hMjlmLTQwMjgtYmE2Yi0wN2U1ZWI1YzU4MGMiLCJ1aWQiOiI0ODY2MWE1Ny1kOTIwLTQ1MDMtYjRmNy1kOWU3YjY1NTIzNTgiLCJ1c24iOiJQbGF5ZXI5MDYzNjMyNiIsImV4cCI6MTc4NDIwNjAyMiwiaWF0IjoxNzg0MjAyNDIyfQ.FagClGQO7ya8JM4KBon2CPK3ifYvk_YAWt8JiIIMR_c"}'
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIwNzliZGJjMC1hMjlmLTQwMjgtYmE2Yi0wN2U1ZWI1YzU4MGMiLCJ1aWQiOiI0ODY2MWE1Ny1kOTIwLTQ1MDMtYjRmNy1kOWU3YjY1NTIzNTgiLCJ1c24iOiJQbGF5ZXI5MDYzNjMyNiIsImV4cCI6MTc4NDIwNjAyMiwiaWF0IjoxNzg0MjAyNDIyfQ.FagClGQO7ya8JM4KBon2CPK3ifYvk_YAWt8JiIIMR_c"}'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiIwNzliZGJjMC1hMjlmLTQwMjgtYmE2Yi0wN2U1ZWI1YzU4MGMiLCJ1aWQiOiI0ODY2MWE1Ny1kOTIwLTQ1MDMtYjRmNy1kOWU3YjY1NTIzNTgiLCJ1c24iOiJQbGF5ZXI5MDYzNjMyNiIsImV4cCI6MTc4NDIwNjAyMiwiaWF0IjoxNzg0MjAyNDIyfQ.FagClGQO7ya8JM4KBon2CPK3ifYvk_YAWt8JiIIMR_c"}'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1019" name="SwitchCompleteAsync_ClearsSelectionAndRefreshes" fullname="PlayerXP.Tests.Editor.XPControllerTests.SwitchCompleteAsync_ClearsSelectionAndRefreshes" methodname="SwitchCompleteAsync_ClearsSelectionAndRefreshes" classname="PlayerXP.Tests.Editor.XPControllerTests" runstate="Runnable" seed="1742305376" result="Passed" start-time="2026-07-16 11:47:02Z" end-time="2026-07-16 11:47:03Z" duration="0.650623" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlNGYyYzFhOS00NWQ2LTRiZDEtYTllZS0wZWIwZDJiZTEyZDQiLCJ1aWQiOiJlZjU1YjYzZS0wZjhiLTQ1ZmMtYWRmZi01NTU1MDc4NzljMTgiLCJ1c24iOiJQbGF5ZXIwOTQwNzA3MyIsImV4cCI6MTc4NDIwNjAyMiwiaWF0IjoxNzg0MjAyNDIyfQ._HpQs4QEQsQwk4N9J7UKpBIicAP5ZKKevTV7edB8zD8"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlNGYyYzFhOS00NWQ2LTRiZDEtYTllZS0wZWIwZDJiZTEyZDQiLCJ1aWQiOiJlZjU1YjYzZS0wZjhiLTQ1ZmMtYWRmZi01NTU1MDc4NzljMTgiLCJ1c24iOiJQbGF5ZXIwOTQwNzA3MyIsImV4cCI6MTc4NDIwMjQ4MiwiaWF0IjoxNzg0MjAyNDIyfQ.CsSMMfQhPx_vmBDWxoAlKOtkrWPlQPjM5R99iuXHY6E', Created=True, CreateTime=1784202422, ExpireTime=1784202482, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlNGYyYzFhOS00NWQ2LTRiZDEtYTllZS0wZWIwZDJiZTEyZDQiLCJ1aWQiOiJlZjU1YjYzZS0wZjhiLTQ1ZmMtYWRmZi01NTU1MDc4NzljMTgiLCJ1c24iOiJQbGF5ZXIwOTQwNzA3MyIsImV4cCI6MTc4NDIwNjAyMiwiaWF0IjoxNzg0MjAyNDIyfQ._HpQs4QEQsQwk4N9J7UKpBIicAP5ZKKevTV7edB8zD8, RefreshExpireTime=1784206022, Variables={}, Username='Player09407073', UserId='ef55b63e-0f8b-45fc-adff-555507879c18')
+AchievementsSystem initialized.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlNGYyYzFhOS00NWQ2LTRiZDEtYTllZS0wZWIwZDJiZTEyZDQiLCJ1aWQiOiJlZjU1YjYzZS0wZjhiLTQ1ZmMtYWRmZi01NTU1MDc4NzljMTgiLCJ1c24iOiJQbGF5ZXIwOTQwNzA3MyIsImV4cCI6MTc4NDIwNjAyMiwiaWF0IjoxNzg0MjAyNDIyfQ._HpQs4QEQsQwk4N9J7UKpBIicAP5ZKKevTV7edB8zD8"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlNGYyYzFhOS00NWQ2LTRiZDEtYTllZS0wZWIwZDJiZTEyZDQiLCJ1aWQiOiJlZjU1YjYzZS0wZjhiLTQ1ZmMtYWRmZi01NTU1MDc4NzljMTgiLCJ1c24iOiJQbGF5ZXIwOTQwNzA3MyIsImV4cCI6MTc4NDIwNjAyMiwiaWF0IjoxNzg0MjAyNDIyfQ._HpQs4QEQsQwk4N9J7UKpBIicAP5ZKKevTV7edB8zD8"}'
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlNGYyYzFhOS00NWQ2LTRiZDEtYTllZS0wZWIwZDJiZTEyZDQiLCJ1aWQiOiJlZjU1YjYzZS0wZjhiLTQ1ZmMtYWRmZi01NTU1MDc4NzljMTgiLCJ1c24iOiJQbGF5ZXIwOTQwNzA3MyIsImV4cCI6MTc4NDIwNjAyMiwiaWF0IjoxNzg0MjAyNDIyfQ._HpQs4QEQsQwk4N9J7UKpBIicAP5ZKKevTV7edB8zD8"}'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlNGYyYzFhOS00NWQ2LTRiZDEtYTllZS0wZWIwZDJiZTEyZDQiLCJ1aWQiOiJlZjU1YjYzZS0wZjhiLTQ1ZmMtYWRmZi01NTU1MDc4NzljMTgiLCJ1c24iOiJQbGF5ZXIwOTQwNzA3MyIsImV4cCI6MTc4NDIwNjAyMywiaWF0IjoxNzg0MjAyNDIyfQ._u1rgOyuyKvp2KRPFaX-0d46IWf4NssJpZVTZ9Tyt1I"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlNGYyYzFhOS00NWQ2LTRiZDEtYTllZS0wZWIwZDJiZTEyZDQiLCJ1aWQiOiJlZjU1YjYzZS0wZjhiLTQ1ZmMtYWRmZi01NTU1MDc4NzljMTgiLCJ1c24iOiJQbGF5ZXIwOTQwNzA3MyIsImV4cCI6MTc4NDIwNjAyMywiaWF0IjoxNzg0MjAyNDIyfQ._u1rgOyuyKvp2KRPFaX-0d46IWf4NssJpZVTZ9Tyt1I"}'
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlNGYyYzFhOS00NWQ2LTRiZDEtYTllZS0wZWIwZDJiZTEyZDQiLCJ1aWQiOiJlZjU1YjYzZS0wZjhiLTQ1ZmMtYWRmZi01NTU1MDc4NzljMTgiLCJ1c24iOiJQbGF5ZXIwOTQwNzA3MyIsImV4cCI6MTc4NDIwNjAyMywiaWF0IjoxNzg0MjAyNDIyfQ._u1rgOyuyKvp2KRPFaX-0d46IWf4NssJpZVTZ9Tyt1I"}'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiJlNGYyYzFhOS00NWQ2LTRiZDEtYTllZS0wZWIwZDJiZTEyZDQiLCJ1aWQiOiJlZjU1YjYzZS0wZjhiLTQ1ZmMtYWRmZi01NTU1MDc4NzljMTgiLCJ1c24iOiJQbGF5ZXIwOTQwNzA3MyIsImV4cCI6MTc4NDIwNjAyMywiaWF0IjoxNzg0MjAyNDIyfQ._u1rgOyuyKvp2KRPFaX-0d46IWf4NssJpZVTZ9Tyt1I"}'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+              <test-case id="1021" name="XPLifecycle_GrantAndLevelUp_WorksCorrectly" fullname="PlayerXP.Tests.Editor.XPControllerTests.XPLifecycle_GrantAndLevelUp_WorksCorrectly" methodname="XPLifecycle_GrantAndLevelUp_WorksCorrectly" classname="PlayerXP.Tests.Editor.XPControllerTests" runstate="Runnable" seed="511024584" result="Passed" start-time="2026-07-16 11:47:03Z" end-time="2026-07-16 11:47:04Z" duration="0.750480" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3MjFlZjQ5NC1mZGNlLTRkMzgtYTJkZC1kMmQ4OTQ4MDk3ZTUiLCJ1aWQiOiI5NTkwYzNhMy03OGIzLTRhNTUtYWFhNy1mNmU1ZTg3YzNmNjkiLCJ1c24iOiJQbGF5ZXI5MTkyNzQwOSIsImV4cCI6MTc4NDIwNjAyMywiaWF0IjoxNzg0MjAyNDIzfQ.Do9g-Q5nQud3XTje-A_-ANGOYztI60AK9n4NYMc12ZU"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.NakamaSystem: Notifying 0 observers.
+NakamaSystem initialized.
+Initialized Nakama session: Session(AuthToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3MjFlZjQ5NC1mZGNlLTRkMzgtYTJkZC1kMmQ4OTQ4MDk3ZTUiLCJ1aWQiOiI5NTkwYzNhMy03OGIzLTRhNTUtYWFhNy1mNmU1ZTg3YzNmNjkiLCJ1c24iOiJQbGF5ZXI5MTkyNzQwOSIsImV4cCI6MTc4NDIwMjQ4MywiaWF0IjoxNzg0MjAyNDIzfQ.2soY9v67aZWK5rl-R648diTs2Jm7tKXt3dVhGfBHtXY', Created=True, CreateTime=1784202423, ExpireTime=1784202483, RefreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3MjFlZjQ5NC1mZGNlLTRkMzgtYTJkZC1kMmQ4OTQ4MDk3ZTUiLCJ1aWQiOiI5NTkwYzNhMy03OGIzLTRhNTUtYWFhNy1mNmU1ZTg3YzNmNjkiLCJ1c24iOiJQbGF5ZXI5MTkyNzQwOSIsImV4cCI6MTc4NDIwNjAyMywiaWF0IjoxNzg0MjAyNDIzfQ.Do9g-Q5nQud3XTje-A_-ANGOYztI60AK9n4NYMc12ZU, RefreshExpireTime=1784206023, Variables={}, Username='Player91927409', UserId='9590c3a3-78b3-4a55-aaa7-f6e5e87c3f69')
+AchievementsSystem initialized.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3MjFlZjQ5NC1mZGNlLTRkMzgtYTJkZC1kMmQ4OTQ4MDk3ZTUiLCJ1aWQiOiI5NTkwYzNhMy03OGIzLTRhNTUtYWFhNy1mNmU1ZTg3YzNmNjkiLCJ1c24iOiJQbGF5ZXI5MTkyNzQwOSIsImV4cCI6MTc4NDIwNjAyMywiaWF0IjoxNzg0MjAyNDIzfQ.Do9g-Q5nQud3XTje-A_-ANGOYztI60AK9n4NYMc12ZU"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3MjFlZjQ5NC1mZGNlLTRkMzgtYTJkZC1kMmQ4OTQ4MDk3ZTUiLCJ1aWQiOiI5NTkwYzNhMy03OGIzLTRhNTUtYWFhNy1mNmU1ZTg3YzNmNjkiLCJ1c24iOiJQbGF5ZXI5MTkyNzQwOSIsImV4cCI6MTc4NDIwNjAyMywiaWF0IjoxNzg0MjAyNDIzfQ.Do9g-Q5nQud3XTje-A_-ANGOYztI60AK9n4NYMc12ZU"}'
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3MjFlZjQ5NC1mZGNlLTRkMzgtYTJkZC1kMmQ4OTQ4MDk3ZTUiLCJ1aWQiOiI5NTkwYzNhMy03OGIzLTRhNTUtYWFhNy1mNmU1ZTg3YzNmNjkiLCJ1c24iOiJQbGF5ZXI5MTkyNzQwOSIsImV4cCI6MTc4NDIwNjAyMywiaWF0IjoxNzg0MjAyNDIzfQ.Do9g-Q5nQud3XTje-A_-ANGOYztI60AK9n4NYMc12ZU"}'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+Initial state: XP=0, Level=0
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3MjFlZjQ5NC1mZGNlLTRkMzgtYTJkZC1kMmQ4OTQ4MDk3ZTUiLCJ1aWQiOiI5NTkwYzNhMy03OGIzLTRhNTUtYWFhNy1mNmU1ZTg3YzNmNjkiLCJ1c24iOiJQbGF5ZXI5MTkyNzQwOSIsImV4cCI6MTc4NDIwNjAyMywiaWF0IjoxNzg0MjAyNDIzfQ.Do9g-Q5nQud3XTje-A_-ANGOYztI60AK9n4NYMc12ZU"}'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/rpc_grant_xp', body='"{\"amount\":150}"'
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3MjFlZjQ5NC1mZGNlLTRkMzgtYTJkZC1kMmQ4OTQ4MDk3ZTUiLCJ1aWQiOiI5NTkwYzNhMy03OGIzLTRhNTUtYWFhNy1mNmU1ZTg3YzNmNjkiLCJ1c24iOiJQbGF5ZXI5MTkyNzQwOSIsImV4cCI6MTc4NDIwNjAyMywiaWF0IjoxNzg0MjAyNDIzfQ.Do9g-Q5nQud3XTje-A_-ANGOYztI60AK9n4NYMc12ZU"}'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ACHIEVEMENTS_GET'
+Hiro.AchievementsSystem: Notifying 0 observers.
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3MjFlZjQ5NC1mZGNlLTRkMzgtYTJkZC1kMmQ4OTQ4MDk3ZTUiLCJ1aWQiOiI5NTkwYzNhMy03OGIzLTRhNTUtYWFhNy1mNmU1ZTg3YzNmNjkiLCJ1c24iOiJQbGF5ZXI5MTkyNzQwOSIsImV4cCI6MTc4NDIwNjAyMywiaWF0IjoxNzg0MjAyNDIzfQ.Do9g-Q5nQud3XTje-A_-ANGOYztI60AK9n4NYMc12ZU"}'
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3MjFlZjQ5NC1mZGNlLTRkMzgtYTJkZC1kMmQ4OTQ4MDk3ZTUiLCJ1aWQiOiI5NTkwYzNhMy03OGIzLTRhNTUtYWFhNy1mNmU1ZTg3YzNmNjkiLCJ1c24iOiJQbGF5ZXI5MTkyNzQwOSIsImV4cCI6MTc4NDIwNjAyMywiaWF0IjoxNzg0MjAyNDIzfQ.Do9g-Q5nQud3XTje-A_-ANGOYztI60AK9n4NYMc12ZU"}'
+Send: method='POST', uri='http://127.0.0.1:7350/v2/rpc/RPC_ID_ECONOMY_STORE_GET', body='"{\"store_type\":0}"'
+Send: method='GET', uri='http://127.0.0.1:7350/v2/account'
+Hiro.EconomySystem: Notifying 0 observers.
+Hiro.EconomySystem: Notifying 0 observers.
+After grant: XP=150, Level=1, Progress=50/200
+Session lifetime too short, please set '--session.token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Session refresh lifetime too short, please set '--session.refresh_token_expiry_sec' option. See the documentation for more info: https://heroiclabs.com/docs/install-configuration/#session
+Send: method='POST', uri='http://127.0.0.1:7350/v2/account/session/refresh', body='{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3MjFlZjQ5NC1mZGNlLTRkMzgtYTJkZC1kMmQ4OTQ4MDk3ZTUiLCJ1aWQiOiI5NTkwYzNhMy03OGIzLTRhNTUtYWFhNy1mNmU1ZTg3YzNmNjkiLCJ1c24iOiJQbGF5ZXI5MTkyNzQwOSIsImV4cCI6MTc4NDIwNjAyMywiaWF0IjoxNzg0MjAyNDIzfQ.Do9g-Q5nQud3XTje-A_-ANGOYztI60AK9n4NYMc12ZU"}'
+Send: method='DELETE', uri='http://127.0.0.1:7350/v2/account'
+]]></output>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1022" name="XPProgressHelperTests" fullname="PlayerXP.Tests.Editor.XPProgressHelperTests" classname="PlayerXP.Tests.Editor.XPProgressHelperTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-07-16 11:47:04Z" end-time="2026-07-16 11:47:04Z" duration="0.000510" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1023" name="CalculateSubAchievementPercent_ZeroCount_ReturnsZero" fullname="PlayerXP.Tests.Editor.XPProgressHelperTests.CalculateSubAchievementPercent_ZeroCount_ReturnsZero" methodname="CalculateSubAchievementPercent_ZeroCount_ReturnsZero" classname="PlayerXP.Tests.Editor.XPProgressHelperTests" runstate="Runnable" seed="1753400481" result="Passed" start-time="2026-07-16 11:47:04Z" end-time="2026-07-16 11:47:04Z" duration="0.000191" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <reason>
+                  <message><![CDATA[XPProgressHelper static methods are tested indirectly through XPControllerTests]]></message>
+                </reason>
+                <output><![CDATA[Saving results to: /Users/fabiosousa/Library/Application Support/DefaultCompany/UnityHiroPlayerXP/TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

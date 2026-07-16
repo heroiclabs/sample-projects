@@ -1,0 +1,124 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="ErrorPopup" src="project://database/Assets/UnityHiroPlayerXP/HeroicUI/CustomComponents/ErrorPopup.uxml?fileID=9197481963319205126&amp;guid=0104c211a1dfc4d17b2607e880de676f&amp;type=3#ErrorPopup" />
+    <Style src="project://database/Assets/UnityHiroPlayerXP/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS" />
+
+    <!-- Title bar -->
+    <ui:VisualElement name="xpguide-top" class="heroic-top__background">
+        <ui:Label text="XP and Levels" class="heroic-title" />
+        <ui:Button name="reset-button" text="Reset" class="heroic-button heroic-button--small" style="position: absolute; top: 10px; right: 20px;" />
+    </ui:VisualElement>
+
+    <!-- Status bar: Total XP | Level progress | XP Booster -->
+    <ui:VisualElement name="status-bar" style="flex-direction: row; background-color: rgb(152, 132, 255); padding: 16px 30px; align-items: center;">
+        <!-- Left: Total XP, Coins, Gems -->
+        <ui:VisualElement style="flex-grow: 1; align-items: flex-start;">
+            <ui:Label name="total-xp-label" text="Total XP:  0 pts" style="font-size: 28px; -unity-font-style: bold; color: rgb(255, 255, 255);" />
+            <ui:VisualElement style="flex-direction: row; align-items: center; margin-top: 6px;">
+                <ui:VisualElement class="status-bar-currency-icon status-bar-currency-icon--coins" />
+                <ui:Label name="coins-label" text="0" style="font-size: 22px; -unity-font-style: bold; color: rgb(255, 255, 255); margin-right: 20px;" />
+                <ui:VisualElement class="status-bar-currency-icon status-bar-currency-icon--gems" />
+                <ui:Label name="gems-label" text="0" style="font-size: 22px; -unity-font-style: bold; color: rgb(255, 255, 255);" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <!-- Center: Level progress (40%) -->
+        <ui:VisualElement style="width: 40%; align-items: center;">
+            <ui:VisualElement style="flex-direction: row; align-items: center; width: 100%; margin-bottom: 4px;">
+                <ui:Label name="level-label" text="Level 0:" style="font-size: 28px; -unity-font-style: bold; color: rgb(255, 255, 255); margin-right: 16px; flex-shrink: 0;" />
+                <ui:VisualElement style="flex-grow: 1; flex-direction: column;">
+                    <ui:Label name="xp-required-label" text="XP required to level up: 0" style="font-size: 20px; color: rgba(255, 255, 255, 0.85); margin-bottom: 4px;" />
+                    <ui:VisualElement name="level-progress-bar" style="height: 28px; background-color: rgba(255, 255, 255, 0.35); border-radius: 14px; overflow: hidden;">
+                        <ui:VisualElement name="level-progress-fill" style="width: 0%; height: 100%; background-color: rgb(255, 190, 40); border-radius: 14px; transition-duration: 0.3s;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement style="flex-direction: row; justify-content: space-between; margin-top: 3px;">
+                        <ui:Label text="0%" style="font-size: 14px; color: rgba(255, 255, 255, 0.6);" />
+                        <ui:Label text="100%" style="font-size: 14px; color: rgba(255, 255, 255, 0.6);" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <!-- Right: XP Booster status -->
+        <ui:VisualElement style="flex-grow: 1; align-items: flex-end;">
+            <ui:VisualElement style="flex-direction: row; align-items: center;">
+                <ui:Label text="XP Booster" style="font-size: 28px; -unity-font-style: bold; color: rgba(255, 255, 255, 0.75); margin-right: 12px;" />
+                <ui:VisualElement name="xp-booster-badge" style="padding: 5px 16px; background-color: rgba(255, 255, 255, 0.2); border-radius: 20px;">
+                    <ui:Label name="xp-booster-label" text="OFF" style="font-size: 28px; -unity-font-style: bold; color: rgba(255, 255, 255, 0.6);" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+
+    <!-- Tab navigation bar -->
+    <ui:VisualElement name="tab-bar" style="flex-direction: row; background-color: rgb(214, 215, 223); padding-top: 16px; padding-left: 24px; overflow: visible;">
+        <ui:Button name="tab-reward" text="Quests" class="heroic-horizontal-tab-button selected">
+            <ui:VisualElement class="heroic-horizontal-tab-button__arrow" />
+        </ui:Button>
+        <ui:Button name="tab-direct" text="Direct XP Grant" class="heroic-horizontal-tab-button" style="margin-left: 8px;">
+            <ui:VisualElement class="heroic-horizontal-tab-button__arrow" />
+        </ui:Button>
+    </ui:VisualElement>
+
+    <!-- Tab content area -->
+    <ui:VisualElement name="tab-content-area" class="heroic-main__background" style="flex-grow: 1; flex-direction: column; padding: 30px;">
+        <ui:VisualElement name="content-direct" style="flex-grow: 1; flex-direction: column;">
+            <!-- Tab header bar -->
+            <ui:VisualElement style="margin-bottom: 20px; padding-bottom: 16px; border-bottom-width: 1px; border-bottom-color: rgba(132, 154, 255, 0.3);">
+                <ui:Label text="Granting XP directly" style="font-size: 28px; -unity-font-style: bold; color: rgb(31, 49, 81);" />
+                <ui:Label text="This is an example of manually triggering XP increase from gameplay logic. Client calls a 'grant RPC' on the server which handles the XP updates." style="font-size: 32px; color: rgb(120, 130, 150); margin-top: 4px; white-space: normal;" />
+                <ui:Label text="The final XP gain depends on how XP is granted on the server: if XP is granted using a Hiro reward object, the active reward modifier for XP applies; if XP is granted using Economy.Grant directly, no reward modifier applies." style="font-size: 32px; color: rgb(120, 130, 150); margin-top: 12px; white-space: normal;" />
+            </ui:VisualElement>
+            <!-- Form box -->
+            <ui:VisualElement style="flex-grow: 1; align-items: center; justify-content: center;">
+                <ui:VisualElement class="heroic-main__panel" style="height: auto; width: 860px;">
+                    <ui:VisualElement style="height: 100px; background-color: rgb(100, 180, 100); border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                        <ui:Label text="EARN XP" class="heroic-title" style="color: rgb(255, 255, 255); -unity-text-align: middle-center; flex-grow: 1;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement style="align-self: center; align-items: center; width: 100%; padding: 30px;">
+                        <ui:TextField label="XP Amount" value="50" name="direct-xp-amount" style="width: 100%; margin-bottom: 20px; font-size: 20px;" />
+                        <ui:Button name="gain-xp-button" text="Earn XP" class="heroic-button" style="margin-top: 10px; padding: 15px; min-width: 300px;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="content-reward" style="flex-grow: 1; display: none; flex-direction: column;">
+            <!-- Tab header bar -->
+            <ui:VisualElement style="margin-bottom: 20px; padding-bottom: 16px; border-bottom-width: 1px; border-bottom-color: rgba(132, 154, 255, 0.3);">
+                <ui:Label text="Quests" style="font-size: 28px; -unity-font-style: bold; color: rgb(31, 49, 81);" />
+                <ui:Label text="XP is defined in reward objects of each quest in base-achievements.json." style="font-size: 32px; color: rgb(120, 130, 150); margin-top: 4px;" />
+            </ui:VisualElement>
+            <!-- Quest list and detail row -->
+            <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
+            <!-- Quest list (left) -->
+            <ui:ScrollView name="quest-scroll" horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Hidden" style="width: 55%; padding: 10px; margin: 0;">
+                <ui:VisualElement name="quest-list" style="flex-direction: column;" />
+            </ui:ScrollView>
+            <!-- Quest detail (right) -->
+            <ui:VisualElement name="quest-detail-panel" style="width: 45%; flex-direction: column; padding: 10px 10px 10px 0;">
+                <ui:VisualElement name="quest-detail-placeholder" style="flex-grow: 1; align-items: center; justify-content: center;">
+                    <ui:Label text="Select a quest to view details." style="font-size: 20px; color: rgba(31, 49, 81, 0.4);" />
+                </ui:VisualElement>
+                <ui:VisualElement name="quest-detail-card" style="flex-grow: 1; flex-direction: column; background-color: rgb(255, 255, 255); border-radius: 15px; padding: 24px; border-width: 2px; border-color: rgba(132, 154, 255, 0.3); display: none;">
+                    <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+                        <ui:Label name="quest-detail-name" text="" style="font-size: 24px; -unity-font-style: bold; color: rgb(31, 49, 81); flex-grow: 1; white-space: normal;" />
+                        <ui:Label text="quest" style="font-size: 18px; color: rgb(121, 99, 255); margin-left: 12px; flex-shrink: 0;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement style="height: 1px; background-color: rgba(132, 154, 255, 0.3); margin-bottom: 14px;" />
+                    <ui:Label name="quest-detail-description" text="" style="font-size: 19px; color: rgb(50, 50, 50); white-space: normal; margin-bottom: 12px;" />
+                    <ui:VisualElement name="quest-bonus-note" style="display: none; background-color: rgba(255, 190, 40, 0.15); border-radius: 8px; padding: 10px 14px; margin-bottom: 20px; border-width: 1px; border-color: rgba(255, 190, 40, 0.6);">
+                        <ui:Label name="quest-bonus-note-text" text="" style="font-size: 17px; -unity-font-style: bold; color: rgb(160, 110, 0); white-space: normal;" />
+                    </ui:VisualElement>
+                    <ui:Label text="Rewards" style="font-size: 20px; -unity-font-style: bold; color: rgb(31, 49, 81); margin-bottom: 10px;" />
+                    <ui:VisualElement name="quest-detail-rewards" style="flex-direction: row; flex-wrap: wrap; margin-bottom: 20px; min-height: 80px;" />
+                    <ui:VisualElement style="flex-grow: 1;" />
+                    <ui:VisualElement style="flex-direction: row; justify-content: flex-end;">
+                        <ui:Button name="quest-complete-button" text="Complete" class="heroic-button heroic-button--small" />
+                        <ui:Button name="quest-claim-button" text="Claim Reward" class="heroic-button heroic-button--small" style="margin-left: 12px;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+
+    <!-- Error popup (full-screen overlay) -->
+    <ui:Instance template="ErrorPopup" name="error-popup" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: none;" />
+</ui:UXML>
