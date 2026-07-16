@@ -73,17 +73,6 @@ func InitModule(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runti
 		return err
 	}
 
-	// Satori personalization: merges Satori feature flag values (e.g. "Hiro-Economy")
-	// onto the base configs per player, enabling audience-based offers and live events.
-	// Requires the Satori integration to be configured on the Nakama instance.
-	// PublishAuthenticateEvents also creates the Satori identity (as the Nakama user ID)
-	// on login, so players are targetable before they send any client-side events.
-	systems.AddPersonalizer(hiro.NewSatoriPersonalizer(ctx,
-		hiro.SatoriPersonalizerPublishAuthenticateEvents(),
-		hiro.SatoriPersonalizerPublishEconomyEvents(),
-	))
-	logger.Info("Satori personalizer registered")
-
 	// Activity calculator for Teams
 	// For simplicity, member count is a proxy for team activity - more members = more active team
 	if teamsSystem := systems.GetTeamsSystem(); teamsSystem != nil {
