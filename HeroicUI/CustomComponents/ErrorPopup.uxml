@@ -1,0 +1,10 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Packages/com.heroiclabs.heroic-ui/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=2e0b3941fd76042b8b887ab9947e24fa&amp;type=3#HeroicUSS"/>
+    <ui:VisualElement name="error-background" class="heroic-error-popup__background">
+        <ui:VisualElement name="error-panel" class="heroic-error-popup__panel">
+            <ui:VisualElement name="error-icon" class="heroic-error-popup__icon"/>
+            <ui:Label text="ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR" name="error-message" class="heroic-error-popup__message" style="top: 0; bottom: 0; right: 0; left: 0;"/>
+            <ui:Button name="error-close" class="heroic-close-button"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
