@@ -33,7 +33,8 @@ A collection of examples and guides for building multiplayer and live service ga
 **Guides**
 
 - [Gacha](guides/Gacha/) - Spend currency for a random item drawn from a weighted pool of rewards. Also known as a lootbox.
-- [Player XP](guides/PlayerXP/) - Earn points, cross a threshold, and level up. That simplicity hides a surprising amount of design complexity.
+- [Player XP](guides/PlayerXP/) - Earn experience points, cross a threshold, and level up. This project uses Achievements and Currency to build an XP system.
+- [Dynamic Store](guides/DynamicStore/) - Configure store contents and pricing remotely using Satori, the LiveOps platform.
 
 ## About the Heroic tech stack
 
