@@ -1,11 +1,39 @@
 # Heroic Labs Sample Projects
 
-A collection of sample projects and guides for building multiplayer and live service games with the Heroic Labs tech stack.
+A collection of examples and guides for building multiplayer and live service games with the Heroic Labs tech stack.
 
 ## Contents
 
-- [system-templates/](./system-templates/) — Fully working Unity projects covering common multiplayer and social features. Download, play, and copy the code into your own games.
+## What's inside
+
+- [examples/](./examples/) — Fully working Unity projects covering common multiplayer and social features. Download, play, and copy the code into your own games.
 - [guides/](./guides/) — Companion projects for how-to guides from the Heroic Labs documentation, covering popular game mechanics and features.
+
+**Nakama examples**
+
+[Nakama](https://heroiclabs.com/nakama/) is an open-source game backend for multiplayer and social features.
+
+- [Cloud Save](examples/UnityNakamaCloudSave/) - Save player data in the cloud that syncs between devices.
+- [Friends](examples/UnityNakamaFriends/) - Manage friend lists and requests, block and unblock players.
+- [Groups](examples/UnityNakamaGroups/) - Create in-game communities for players to band together.
+- [Leaderboards](examples/UnityNakamaLeaderboards/) - Weekly and global rankings with real-time record updates.
+- [Tournaments](examples/UnityNakamaTournaments/) - Run tournaments with rules around participation and scoring.
+
+**Hiro examples**
+
+[Hiro](https://heroiclabs.com/hiro/) is a metagame framework that adds advanced player progression, competitive systems, economies, and teamplay features on top of Nakama.
+
+- [Achievements](examples/UnityHiroAchievements/) - Track and reward players for completing missions or reaching milestones.
+- [Challenges](examples/UnityHiroChallenges/) - Compete against friends in different game modes.
+- [Event Leaderboards](examples/UnityHiroEventLeaderboards/) - Create cohort-based leaderboards with tiered progression.
+- [Inventory](examples/UnityHiroInventory/) - Manage player items, equipment, and collectibles.
+- [Store](examples/UnityHiroStore/) - Set up virtual storefronts for in-game purchases.
+- [Teams](examples/UnityHiroTeams/) - Form and manage player teams (e.g., guilds, clans) for cooperative gameplay.
+
+**Guides**
+
+- [Gacha](guides/Gacha/) - Spend currency for a random item drawn from a weighted pool of rewards. Also known as a lootbox.
+- [Player XP](guides/PlayerXP/) - Earn points, cross a threshold, and level up. That simplicity hides a surprising amount of design complexity.
 
 ## About the Heroic tech stack
 
