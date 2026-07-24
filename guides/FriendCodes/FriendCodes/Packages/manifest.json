@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "com.unity.2d.sprite": "1.0.0",
+    "com.unity.ide.rider": "3.0.40",
+    "com.unity.inputsystem": "1.19.0",
+    "com.unity.render-pipelines.universal": "17.4.0",
+    "com.unity.modules.adaptiveperformance": "1.0.0",
+    "com.unity.modules.unitywebrequest": "1.0.0",
+    "com.unity.modules.vectorgraphics": "1.0.0"
+  }
+}
