@@ -1,0 +1,103 @@
+{
+    "initial_max_team_size": 30,
+    "max_team_size": 50,
+    "allow_multiple_teams": false,
+    "wallet": {
+        "currencies": {
+            "team_coins": 1000,
+            "team_gems": 100,
+            "raid_tokens": 5
+        }
+    },
+    "stats": {
+        "stats_public": {
+            "wins": { "value": 0 },
+            "level": { "value": 1 },
+            "points": { "value": 0 }
+        },
+        "stats_private": {
+            "private_rating": { "value": 1000 }
+        }
+    },
+    "gifts": {
+        "gifts": {
+            "daily_gift": {
+                "name": "Daily Team Gift",
+                "description": "Contribute together for rewards!",
+                "category": "daily",
+                "max_count": 100,
+                "max_contributor_count": 5,
+                "reset_schedule": "0 0 * * *",
+                "duration_sec": 86400,
+                "contribution_cost": {
+                    "currencies": {
+                        "team_coins": { "min": 10 }
+                    }
+                },
+                "contribution_reward": {
+                    "guaranteed": {
+                        "currencies": {
+                            "team_coins": { "min": 5 }
+                        }
+                    }
+                },
+                "rewards": [
+                    {
+                        "min_count": 25,
+                        "contributor_reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "team_coins": { "min": 50 }
+                                }
+                            }
+                        },
+                        "noncontributor_reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "team_coins": { "min": 25 }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "min_count": 50,
+                        "contributor_reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "team_coins": { "min": 100 }
+                                }
+                            }
+                        },
+                        "noncontributor_reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "team_coins": { "min": 50 }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "min_count": 100,
+                        "contributor_reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "team_coins": { "min": 200 }
+                                }
+                            }
+                        },
+                        "noncontributor_reward": {
+                            "guaranteed": {
+                                "currencies": {
+                                    "team_coins": { "min": 100 }
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "reward_mailbox": {
+        "max_size": 100
+    }
+}
