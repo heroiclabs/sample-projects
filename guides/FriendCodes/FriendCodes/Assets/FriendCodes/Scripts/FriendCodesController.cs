@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Nakama;
+using Nakama.TinyJson;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -39,6 +40,10 @@ namespace FriendCodes
         private ListView recordsList;
         private ScrollView scrollView;
 
+        private Button generateFriendCodeButton;
+        private TextField friendCodeField;
+        private Button claimFriendCodeButton;
+        
         private VisualElement errorPopup;
         private Button errorCloseButton;
         private Label errorMessage;
@@ -85,7 +90,7 @@ namespace FriendCodes
                 var pending = DeepLinkManager.Instance != null ? DeepLinkManager.Instance.PendingInviteCode : null;
                 if (!string.IsNullOrEmpty(pending))
                 {
-                    _ = RedeemFriendCode(pending);
+                    _ = ClaimFriendCode(pending);
                 }
             };
         }
@@ -124,6 +129,7 @@ namespace FriendCodes
             _ = UpdateFriendsList(selectedState);
             friendsNotification.style.display = DisplayStyle.None;
             receivedNotification.style.display = DisplayStyle.None;
+            friendCodeField.SetValueWithoutNotify(string.Empty);
         }
         #endregion
 
@@ -205,6 +211,14 @@ namespace FriendCodes
             scrollView = recordsList.Q<ScrollView>();
             scrollView.verticalScrollerVisibility = ScrollerVisibility.AlwaysVisible;
 
+            generateFriendCodeButton = rootElement.Q<Button>("generate-friend-code");
+            generateFriendCodeButton.RegisterCallback<ClickEvent>(evt => _ = GenerateFriendCode());
+
+            friendCodeField = rootElement.Q<TextField>("friend-code-input");
+
+            claimFriendCodeButton = rootElement.Q<Button>("claim-friend-code");
+            claimFriendCodeButton.RegisterCallback<ClickEvent>(evt => _ = ClaimFriendCode(friendCodeField.text));
+
             errorPopup = rootElement.Q<VisualElement>("error-popup");
             errorMessage = rootElement.Q<Label>("error-message");
             errorCloseButton = rootElement.Q<Button>("error-close");
@@ -223,46 +237,67 @@ namespace FriendCodes
 
         #region Friends
         [Serializable]
-        private class RedeemRequest
+        private class FriendCodeData
         {
             public string code;
         }
  
         [Serializable]
-        private class RedeemResponse
+        private class ClaimCodeResponse
         {
             public bool success;
         }
 
         private async void HandleInviteCodeReceived(string code)
         {
-            await RedeemFriendCode(code);
+            await ClaimFriendCode(code);
         }
 
-        private async Task RedeemFriendCode(string code)
+        private async Task ClaimFriendCode(string code)
         {
-            var payload = JsonUtility.ToJson(new RedeemRequest { code = code });
+            var payload = JsonUtility.ToJson(new FriendCodeData { code = code });
 
             try
             {
                 var session = NakamaSingleton.Instance.Session;
-                var result = await NakamaSingleton.Instance.Client.RpcAsync(session, "redeem_friend_code", payload);
-                var response = JsonUtility.FromJson<RedeemResponse>(result.Payload);
+                var result = await NakamaSingleton.Instance.Client.RpcAsync(session, "claim_friend_code", payload);
+                var response = JsonUtility.FromJson<ClaimCodeResponse>(result.Payload);
+
                 if (!response.success)
                 {
-                    Debug.LogWarning("Friend code redeem failed.");
+                    Debug.LogWarning("Friend code claim failed.");
                     return;
                 }
-                Debug.Log($"Code redeemed successfully.");
+                Debug.Log($"Code claimed successfully.");
             }
             catch (Exception e)
             {
-                Debug.LogWarning($"Friend code redeem failed: {e.Message}");
+                Debug.LogWarning($"Friend code claim failed: {e.Message}");
                 return;
             }
 
             // After successfully adding the friend, update the friends list.
             _ = UpdateFriendsList(selectedState);
+        }
+
+        private async Task GenerateFriendCode()
+        {
+            try
+            {
+                var session = NakamaSingleton.Instance.Session;
+                var result = await NakamaSingleton.Instance.Client.RpcAsync(session, "generate_friend_code");
+                var response = JsonUtility.FromJson<FriendCodeData>(result.Payload);
+
+                Debug.Log($"Code generated successfully.");
+
+                // Display code on UI and copy to clipboard.
+                friendCodeField.SetValueWithoutNotify(response.code);
+                GUIUtility.systemCopyBuffer = response.code;
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"Generate friend code failed: {e.Message}");
+            }
         }
 
         private async Task UpdateFriendsList(FriendState friendState)

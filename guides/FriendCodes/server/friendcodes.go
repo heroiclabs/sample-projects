@@ -29,7 +29,7 @@ type userInviteRecord struct {
 	ExpiresAt int64  `json:"expires_at"`
 }
 
-type redeemRequest struct {
+type claimRequest struct {
 	Code string `json:"code"`
 }
 
@@ -92,14 +92,14 @@ func RpcGenerateFriendCode(ctx context.Context, logger runtime.Logger, db *sql.D
 	return marshalCodeResponse(code, expiresAt)
 }
 
-// RpcRedeemFriendCode Try to redeem a friend code for the calling user.
-func RpcRedeemFriendCode(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runtime.NakamaModule, payload string) (string, error) {
-	redeemerID, ok := ctx.Value(runtime.RUNTIME_CTX_USER_ID).(string)
-	if !ok || redeemerID == "" {
+// RpcClaimFriendCode Try to claim a friend code for the calling user.
+func RpcClaimFriendCode(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runtime.NakamaModule, payload string) (string, error) {
+	claimerID, ok := ctx.Value(runtime.RUNTIME_CTX_USER_ID).(string)
+	if !ok || claimerID == "" {
 		return "", runtime.NewError("no user id in context", 3)
 	}
 
-	var req redeemRequest
+	var req claimRequest
 	if err := json.Unmarshal([]byte(payload), &req); err != nil || req.Code == "" {
 		return "", runtime.NewError("code is required", 3)
 	}
@@ -118,17 +118,17 @@ func RpcRedeemFriendCode(ctx context.Context, logger runtime.Logger, db *sql.DB,
 	if time.Now().Unix() > rec.ExpiresAt {
 		return "", runtime.NewError("invalid or expired code", 5)
 	}
-	if rec.OwnerID == redeemerID {
-		return "", runtime.NewError("you can't redeem your own code", 3)
+	if rec.OwnerID == claimerID {
+		return "", runtime.NewError("you can't claim your own code", 3)
 	}
 
 	// Add in both directions so the request is auto-confirmed
-	if err := nk.FriendsAdd(ctx, redeemerID, "", []string{rec.OwnerID}, nil, nil); err != nil {
-		logger.Error("friendsAdd (redeemer->owner) failed: %v", err)
+	if err := nk.FriendsAdd(ctx, claimerID, "", []string{rec.OwnerID}, nil, nil); err != nil {
+		logger.Error("friendsAdd (claimer->owner) failed: %v", err)
 		return "", runtime.NewError("could not add friend", 13)
 	}
-	if err := nk.FriendsAdd(ctx, rec.OwnerID, "", []string{redeemerID}, nil, nil); err != nil {
-		logger.Error("friendsAdd (owner->redeemer) failed: %v", err)
+	if err := nk.FriendsAdd(ctx, rec.OwnerID, "", []string{claimerID}, nil, nil); err != nil {
+		logger.Error("friendsAdd (owner->claimer) failed: %v", err)
 		return "", runtime.NewError("could not add friend", 13)
 	}
 

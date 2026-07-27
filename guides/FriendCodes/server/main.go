@@ -77,7 +77,7 @@ func InitModule(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runti
 	if err := initializer.RegisterRpc("generate_friend_code", RpcGenerateFriendCode); err != nil {
 		return err
 	}
-	if err := initializer.RegisterRpc("redeem_friend_code", RpcRedeemFriendCode); err != nil {
+	if err := initializer.RegisterRpc("claim_friend_code", RpcClaimFriendCode); err != nil {
 		return err
 	}
 
