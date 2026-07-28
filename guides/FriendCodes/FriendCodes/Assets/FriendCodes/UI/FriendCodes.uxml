@@ -2,7 +2,7 @@
     <ui:Template name="ErrorPopup" src="project://database/Assets/FriendCodes/HeroicUI/CustomComponents/ErrorPopup.uxml?fileID=9197481963319205126&amp;guid=0104c211a1dfc4d17b2607e880de676f&amp;type=3#ErrorPopup"/>
     <Style src="project://database/Assets/FriendCodes/HeroicUI/USS/HeroicUSS.uss?fileID=7433441132597879392&amp;guid=c85112b37ef124d80aa9b1b987d1c4d8&amp;type=3#HeroicUSS"/>
     <ui:VisualElement name="friends-top" class="heroic-top__background">
-        <ui:Label text="FRIENDS" class="heroic-title" style="color: rgb(31, 49, 81);"/>
+        <ui:Label text="FRIEND CODES" class="heroic-title" style="color: rgb(31, 49, 81);"/>
     </ui:VisualElement>
     <ui:VisualElement name="friends-main" class="heroic-main__background">
         <ui:VisualElement name="main-left" style="padding-top: 20px; padding-right: 20px; padding-bottom: 24px; padding-left: 20px; width: 25%;">
@@ -42,7 +42,7 @@
         <ui:VisualElement name="main-right" style="width: 75%; padding-top: 20px; padding-right: 20px; padding-bottom: 24px; padding-left: 20px;">
             <ui:VisualElement style="flex-direction: row; align-self: flex-end; padding-right: 40px; width: 100%; align-items: stretch; align-content: flex-end; justify-content: flex-end; height: 10%; margin-bottom: 20px;">
                 <ui:VisualElement name="VisualElement" style="flex-grow: 1; flex-direction: row; background-image: url(&quot;project://database/Assets/FriendCodes/HeroicUI/Background/bg_rounded_flat_gray.png?fileID=2800000&amp;guid=1dda16706eb0249af9600b26b64f0afa&amp;type=3#bg_rounded_flat_gray&quot;); -unity-background-scale-mode: stretch-to-fill; -unity-slice-left: 20; -unity-slice-top: 20; -unity-slice-right: 20; -unity-slice-bottom: 20; align-self: stretch; align-items: center; justify-content: space-evenly; height: 110%; margin-right: 10px;">
-                    <ui:Button text="Generate" name="generate-friend-code" icon-image="" class="heroic-button-dark" style="width: 190px; flex-direction: row; padding-left: 12px; padding-right: 12px; justify-content: space-evenly; font-size: 32px; height: 75px;"/>
+                    <ui:Button text="Generate" name="generate-friend-code" class="heroic-button-dark" style="width: 190px; flex-direction: row; padding-left: 12px; padding-right: 12px; justify-content: space-evenly; font-size: 32px; height: 75px;"/>
                     <ui:TextField placeholder-text="Enter code..." name="friend-code-input" class="unity-text-field" style="margin-right: 16px;"/>
                     <ui:Button text="Claim" name="claim-friend-code" icon-image="project://database/Assets/FriendCodes/HeroicUI/Frame/frame_item_icon_add.png?fileID=2800000&amp;guid=53d006f88b10f49e78a3afc686176768&amp;type=3#frame_item_icon_add" class="heroic-button-dark" style="width: 190px; flex-direction: row; padding-left: 12px; padding-right: 12px; justify-content: space-evenly; font-size: 32px; height: 75px;"/>
                 </ui:VisualElement>

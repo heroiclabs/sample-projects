@@ -15,7 +15,7 @@ const (
 	userInviteCollection  = "invite_codes_user"
 	codeLength            = 6
 	codeAlphabet          = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789" // no O/0, I/1 to avoid ambiguity
-	codeTTL               = 72 * time.Hour                     // time to live (how long the code is valid for after creation
+	codeTTL               = 72 * time.Hour                     // time to live (how long the code is valid for after creation)
 	deepLinkScheme        = "myunityapp"
 )
 
