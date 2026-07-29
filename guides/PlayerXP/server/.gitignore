@@ -1,5 +1,4 @@
 .cookie
-local.yml
 lib/*.bin
 
 # Created by https://gitignore.io/api/linux,macos,windows,go,intellij+all,sublimetext,visualstudiocode
@@ -244,3 +243,5 @@ $RECYCLE.BIN/
 
 # End of https://gitignore.io/api/linux,macos,windows,go,intellij+all,sublimetext,visualstudiocode
 
+.env
+.env.local

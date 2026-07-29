@@ -8,7 +8,6 @@ logger:
 runtime:
     env:
         - "ENV=dev1"
-        - "HIRO_LICENSE="
 satori:
     url: ""
     api_key_name: ""

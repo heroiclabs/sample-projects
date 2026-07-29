@@ -20,6 +20,12 @@ import (
 	"github.com/heroiclabs/nakama-common/runtime"
 )
 
+var (
+	ErrEnergyNotFound     = runtime.NewError("energy not found", 3)        // INVALID_ARGUMENT
+	ErrEnergyInsufficient = runtime.NewError("energy insufficient", 3)     // INVALID_ARGUMENT
+	ErrEnergyNoAmounts    = runtime.NewError("energy amounts required", 3) // INVALID_ARGUMENT
+)
+
 // EnergyConfig is the data definition for the EnergySystem type.
 type EnergyConfig struct {
 	Energies map[string]*EnergyConfigEnergy `json:"energies,omitempty"`
@@ -46,8 +52,14 @@ type EnergySystem interface {
 	// Get returns all energies defined and the values a user currently owns by ID.
 	Get(ctx context.Context, logger runtime.Logger, nk runtime.NakamaModule, userID string) (energies map[string]*Energy, err error)
 
+	// BatchSpend will deduct the amounts from each energy for each user by ID.
+	BatchSpend(ctx context.Context, logger runtime.Logger, nk runtime.NakamaModule, usersAmounts map[string]map[string]int32) (map[string]map[string]*Energy, map[string]*Reward, error)
+
 	// Spend will deduct the amounts from each energy for a user by ID.
 	Spend(ctx context.Context, logger runtime.Logger, nk runtime.NakamaModule, userID string, amounts map[string]int32) (energies map[string]*Energy, reward *Reward, err error)
+
+	// SpendWithRefillStartTime will deduct the amounts from each energy for a user by ID and set a custom start refill time.
+	SpendWithRefillStartTime(ctx context.Context, logger runtime.Logger, nk runtime.NakamaModule, userID string, spends map[string]*EnergySpendWithTime) (map[string]*Energy, *Reward, error)
 
 	// Grant will add the amounts to each energy (while applying any energy modifiers) for a user by ID.
 	Grant(ctx context.Context, logger runtime.Logger, nk runtime.NakamaModule, userID string, amounts map[string]int32, modifiers []*RewardEnergyModifier) (energies map[string]*Energy, err error)

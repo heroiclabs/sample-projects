@@ -21,6 +21,17 @@ import (
 	"github.com/heroiclabs/nakama-common/runtime"
 )
 
+var (
+	ErrEventLeaderboardsNotFound       = runtime.NewError("event leaderboard not found", 3)           // INVALID_ARGUMENT
+	ErrEventLeaderboardsAlreadyClaimed = runtime.NewError("event leaderboard already claimed", 3)     // INVALID_ARGUMENT
+	ErrEventLeaderboardsNotComplete    = runtime.NewError("event leaderboard not complete", 3)        // INVALID_ARGUMENT
+	ErrEventLeaderboardsNotActive      = runtime.NewError("event leaderboard not active", 3)          // INVALID_ARGUMENT
+	ErrEventLeaderboardsNotJoined      = runtime.NewError("event leaderboard cohort not assigned", 9) // FAILED_PRECONDITION
+	ErrEventLeaderboardsNotClaimed     = runtime.NewError("event leaderboard not claimed", 3)         // INVALID_ARGUMENT
+	ErrEventLeaderboardsNotUpdatable   = runtime.NewError("event leaderboard not updatable", 3)       // INVALID_ARGUMENT
+	ErrEventLeaderboardsNotClaimable   = runtime.NewError("event leaderboard not claimable", 3)       // INVALID_ARGUMENT
+)
+
 // EventLeaderboardsConfig is the data definition for the EventLeaderboardsSystem type.
 type EventLeaderboardsConfig struct {
 	EventLeaderboards map[string]*EventLeaderboardsConfigLeaderboard `json:"event_leaderboards,omitempty"`
@@ -44,27 +55,47 @@ type EventLeaderboardsConfigLeaderboard struct {
 	StartTimeSec         int64                                                      `json:"start_time_sec,omitempty"`
 	EndTimeSec           int64                                                      `json:"end_time_sec,omitempty"`
 	Duration             int64                                                      `json:"duration,omitempty"`
+	MaxRolls             int64                                                      `json:"max_rolls,omitempty"`
+	ScoreTarget          int64                                                      `json:"score_target,omitempty"`
+	ScoreTargetPlayers   int64                                                      `json:"score_target_players,omitempty"`
+	ScoreTimeLimitSec    int64                                                      `json:"score_time_limit_sec,omitempty"`
+	TierDeltaPerPhase    int64                                                      `json:"tier_delta_per_phase,omitempty"`
+	RollCooldownSec      int64                                                      `json:"roll_cooldown_sec,omitempty"`
+	//TierChangeOnReroll   bool                                                       `json:"tier_change_on_reroll,omitempty"`
 
 	BackingId           string `json:"-"`
 	CalculatedBackingId string `json:"-"`
 }
 
 type EventLeaderboardsConfigLeaderboardTierOverride struct {
-	CohortSize int `json:"cohort_size,omitempty"`
+	Name               string `json:"name,omitempty"`
+	Description        string `json:"description,omitempty"`
+	CohortSize         int    `json:"cohort_size,omitempty"`
+	MaxNumScore        int    `json:"max_num_score,omitempty"`
+	ScoreTarget        int64  `json:"score_target,omitempty"`
+	ScoreTargetPlayers int64  `json:"score_target_players,omitempty"`
+	ScoreTimeLimitSec  int64  `json:"score_time_limit_sec,omitempty"`
+	TierDeltaPerPhase  int64  `json:"tier_delta_per_phase,omitempty"`
 }
 
 type EventLeaderboardsConfigLeaderboardRewardTier struct {
-	Name       string               `json:"name,omitempty"`
-	RankMax    int                  `json:"rank_max,omitempty"`
-	RankMin    int                  `json:"rank_min,omitempty"`
-	Reward     *EconomyConfigReward `json:"reward,omitempty"`
-	TierChange int                  `json:"tier_change,omitempty"`
+	Name              string               `json:"name,omitempty"`
+	RankMax           int                  `json:"rank_max,omitempty"`
+	RankMin           int                  `json:"rank_min,omitempty"`
+	Reward            *EconomyConfigReward `json:"reward,omitempty"`
+	TierChange        int                  `json:"tier_change,omitempty"`
+	RollCooldownSec   int64                `json:"roll_cooldown_sec,omitempty"`
+	RerollCountFreeze bool                 `json:"reroll_count_freeze,omitempty"`
 }
 
 type EventLeaderboardsConfigChangeZone struct {
-	Promotion  float64 `json:"promotion,omitempty"`
-	Demotion   float64 `json:"demotion,omitempty"`
-	DemoteIdle bool    `json:"demote_idle,omitempty"`
+	Promotion                  float64 `json:"promotion,omitempty"`
+	Demotion                   float64 `json:"demotion,omitempty"`
+	DemoteIdle                 bool    `json:"demote_idle,omitempty"`
+	UseMaxCohortSize           bool    `json:"use_max_cohort_size,omitempty"`
+	PromotionRerollCountFreeze bool    `json:"promotion_reroll_count_freeze,omitempty"`
+	DemotionRerollCountFreeze  bool    `json:"demotion_reroll_count_freeze,omitempty"`
+	NochangeRerollCountFreeze  bool    `json:"nochange_reroll_count_freeze,omitempty"`
 }
 
 // An EventLeaderboardsSystem is a gameplay system which represents cohort-segmented, tier-based event leaderboards.
@@ -78,7 +109,7 @@ type EventLeaderboardsSystem interface {
 	GetEventLeaderboard(ctx context.Context, logger runtime.Logger, nk runtime.NakamaModule, userID, eventLeaderboardID string) (eventLeaderboard *EventLeaderboard, err error)
 
 	// RollEventLeaderboard places the user into a new cohort for the specified event leaderboard if possible.
-	RollEventLeaderboard(ctx context.Context, logger runtime.Logger, nk runtime.NakamaModule, userID, eventLeaderboardID string, tier *int, matchmakerProperties map[string]interface{}, metadata map[string]interface{}) (eventLeaderboard *EventLeaderboard, err error)
+	RollEventLeaderboard(ctx context.Context, logger runtime.Logger, nk runtime.NakamaModule, userID, eventLeaderboardID string, tier *int, claimReward bool, matchmakerProperties map[string]interface{}, metadata map[string]interface{}) (eventLeaderboard *EventLeaderboard, err error)
 
 	// UpdateEventLeaderboard updates the user's score in the specified event leaderboard, and returns the user's updated cohort information.
 	UpdateEventLeaderboard(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runtime.NakamaModule, userID, username, eventLeaderboardID string, score, subscore int64, metadata map[string]interface{}, conditionalMetadataUpdate bool) (eventLeaderboard *EventLeaderboard, err error)
@@ -97,6 +128,9 @@ type EventLeaderboardsSystem interface {
 
 	// DebugRandomScores assigns random scores to the participants of the user's current cohort, except to the user themselves.
 	DebugRandomScores(ctx context.Context, logger runtime.Logger, nk runtime.NakamaModule, userID, eventLeaderboardID string, scoreMin, scoreMax, subscoreMin, subscoreMax int64, operator *int) (eventLeaderboard *EventLeaderboard, err error)
+
+	// DebugUnenroll removes the user from their current cohort in the specified event leaderboard.
+	DebugUnenroll(ctx context.Context, logger runtime.Logger, nk runtime.NakamaModule, userID, eventLeaderboardID string) (eventLeaderboard *EventLeaderboard, err error)
 }
 
 type EventLeaderboardCohortConfig struct {

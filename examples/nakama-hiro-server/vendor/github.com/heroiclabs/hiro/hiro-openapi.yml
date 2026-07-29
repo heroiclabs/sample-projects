@@ -552,6 +552,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /rpc/RPC_ID_ENERGY_SPEND_WITH_REFILL_START_TIME?unwrap:
+    post:
+      summary: ENERGY_SPEND_WITH_REFILL_START_TIME
+      description: "Spend one or more energies with custom refill start times for the player."
+      operationId: ENERGY_SPEND_WITH_REFILL_START_TIME
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnergySpendWithRefillStartTimeRequest'
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnergySpendReward'
+        'default':
+          description: An error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /rpc/RPC_ID_TUTORIALS_GET?unwrap:
     post:
       summary: TUTORIALS_GET
@@ -1245,7 +1269,7 @@ paths:
   /rpc/RPC_ID_TEAMS_EVENT_LEADERBOARD_UPDATE?unwrap:
     post:
       summary: TEAMS_EVENT_LEADERBOARD_UPDATE
-      description: "Update an event leaderboard record for a user."
+      description: "Update an event leaderboard score for a user."
       operationId: TEAMS_EVENT_LEADERBOARD_UPDATE
       requestBody:
         required: true
@@ -1767,7 +1791,7 @@ paths:
   /rpc/RPC_ID_LEADERBOARDS_CONFIG_GET?unwrap:
     post:
       summary: LEADERBOARDS_CONFIG_GET
-      description: "Get the leaderboards defined for the game."
+      description: "Deprecated: Use RPC_ID_LEADERBOARD_LIST instead. List available leaderboards."
       operationId: LEADERBOARDS_CONFIG_GET
       responses:
         '200':
@@ -1776,6 +1800,126 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LeaderboardConfigList'
+        'default':
+          description: An error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /rpc/RPC_ID_LEADERBOARD_LIST?unwrap:
+    post:
+      summary: LEADERBOARD_LIST
+      description: "List available leaderboards."
+      operationId: LEADERBOARD_LIST
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeaderboardListRequest'
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaderboardList'
+        'default':
+          description: An error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /rpc/RPC_ID_LEADERBOARD_GET?unwrap:
+    post:
+      summary: LEADERBOARD_GET
+      description: "Get a specified leaderboard with scores."
+      operationId: LEADERBOARD_GET
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeaderboardGet'
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Leaderboard'
+        'default':
+          description: An error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /rpc/RPC_ID_LEADERBOARD_UPDATE?unwrap:
+    post:
+      summary: LEADERBOARD_UPDATE
+      description: "Update a leaderboard score."
+      operationId: LEADERBOARD_UPDATE
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeaderboardUpdate'
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaderboardScore'
+        'default':
+          description: An error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /rpc/RPC_ID_LEADERBOARD_SCORES_LIST?unwrap:
+    post:
+      summary: LEADERBOARD_SCORES_LIST
+      description: "List scores on a specified leaderboard."
+      operationId: LEADERBOARD_SCORES_LIST
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeaderboardScoresListRequest'
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaderboardScoreList'
+        'default':
+          description: An error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /rpc/RPC_ID_LEADERBOARD_SCORES_LIST_AROUND_OWNER?unwrap:
+    post:
+      summary: LEADERBOARD_SCORES_LIST_AROUND_OWNER
+      description: "List scores on a specified leaderboard around the owner."
+      operationId: LEADERBOARD_SCORES_LIST_AROUND_OWNER
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeaderboardScoresListAroundOwnerRequest'
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaderboardScoreList'
         'default':
           description: An error response
           content:
@@ -1833,7 +1977,7 @@ paths:
   /rpc/RPC_ID_EVENT_LEADERBOARD_UPDATE?unwrap:
     post:
       summary: EVENT_LEADERBOARD_UPDATE
-      description: "Update an event leaderboard record for a user."
+      description: "Update an event leaderboard score for a user."
       operationId: EVENT_LEADERBOARD_UPDATE
       requestBody:
         required: true
@@ -1931,6 +2075,30 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EventLeaderboardDebugRandomScoresRequest'
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventLeaderboard'
+        'default':
+          description: An error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /rpc/RPC_ID_EVENT_LEADERBOARD_DEBUG_UNENROLL?unwrap:
+    post:
+      summary: EVENT_LEADERBOARD_DEBUG_UNENROLL
+      description: "DEBUG. Unenroll from an event leaderboard cohort."
+      operationId: EVENT_LEADERBOARD_DEBUG_UNENROLL
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventLeaderboardDebugUnenrollRequest'
       responses:
         '200':
           description: A successful response
@@ -2881,6 +3049,193 @@ components:
         code:
           type: integer
           format: int32
+    LeaderboardUpdate:
+      type: object
+      properties:
+        id:
+          type: string
+        score:
+          type: integer
+          format: int64
+        subscore:
+          type: integer
+          format: int64
+        metadata:
+          type: string
+    LeaderboardGet:
+      type: object
+      properties:
+        id:
+          type: string
+    LeaderboardListRequest:
+      type: object
+      properties:
+        categories:
+          type: array
+          items:
+            type: string
+    LeaderboardScoresListRequest:
+      type: object
+      properties:
+        id:
+          type: string
+        owner_ids:
+          type: array
+          items:
+            type: string
+        limit:
+          type: integer
+          format: int32
+        cursor:
+          type: string
+        expiry:
+          type: integer
+          format: int64
+        region:
+          type: string
+    LeaderboardScoresListAroundOwnerRequest:
+      type: object
+      properties:
+        id:
+          type: string
+        limit:
+          type: integer
+          format: int32
+        owner_id:
+          type: string
+        expiry:
+          type: integer
+          format: int64
+        cursor:
+          type: string
+        region:
+          type: string
+    LeaderboardScore:
+      type: object
+      properties:
+        leaderboard_id:
+          type: string
+        owner_id:
+          type: string
+        username:
+          type: string
+        score:
+          type: integer
+          format: int64
+        subscore:
+          type: integer
+          format: int64
+        num_score:
+          type: integer
+          format: int32
+        metadata:
+          type: string
+        create_time_sec:
+          type: integer
+          format: int64
+        update_time_sec:
+          type: integer
+          format: int64
+        expiry_time_sec:
+          type: integer
+          format: int64
+        rank:
+          type: integer
+          format: int64
+        num_scores:
+          type: integer
+          format: int64
+    Leaderboard:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+        ascending:
+          type: boolean
+        operator:
+          type: string
+        prev_reset_time_sec:
+          type: integer
+          format: int64
+        next_reset_time_sec:
+          type: integer
+          format: int64
+        current_time_sec:
+          type: integer
+          format: int64
+        start_time_sec:
+          type: integer
+          format: int64
+        end_time_sec:
+          type: integer
+          format: int64
+        regions:
+          type: array
+          items:
+            type: string
+        authoritative:
+          type: boolean
+        additionalProperties:
+          type: object
+          additionalProperties:
+            type: string
+    LeaderboardList:
+      type: object
+      properties:
+        leaderboards:
+          type: array
+          items:
+            $ref: '#/components/schemas/Leaderboard'
+    LeaderboardScoreList:
+      type: object
+      properties:
+        scores:
+          type: array
+          items:
+            $ref: '#/components/schemas/LeaderboardScore'
+        owner_scores:
+          type: array
+          items:
+            $ref: '#/components/schemas/LeaderboardScore'
+        next_cursor:
+          type: string
+        prev_cursor:
+          type: string
+        rank_count:
+          type: integer
+          format: int64
+        leaderboard:
+          $ref: '#/components/schemas/Leaderboard'
+    LeaderboardConfig:
+      type: object
+      properties:
+        id:
+          type: string
+        sort_order:
+          type: string
+        operator:
+          type: string
+        reset_schedule:
+          type: string
+        authoritative:
+          type: boolean
+        regions:
+          type: array
+          items:
+            type: string
+    LeaderboardConfigList:
+      type: object
+      properties:
+        leaderboard_configs:
+          type: array
+          items:
+            $ref: '#/components/schemas/LeaderboardConfig'
     ProgressionCost:
       type: object
       properties:
@@ -3263,6 +3618,8 @@ components:
           format: int64
         team_reward:
           $ref: '#/components/schemas/TeamReward'
+        message:
+          type: string
         items:
           type: object
           additionalProperties:
@@ -3487,6 +3844,8 @@ components:
           format: int64
         team_reward:
           $ref: '#/components/schemas/AvailableTeamRewards'
+        message:
+          type: string
     IncentiveClaim:
       type: object
       properties:
@@ -3906,6 +4265,8 @@ components:
           type: string
         metadata:
           type: string
+        claim_reward:
+          type: boolean
     EventLeaderboardScore:
       type: object
       properties:
@@ -3935,6 +4296,9 @@ components:
         num_scores:
           type: integer
           format: int64
+        tier_delta:
+          type: integer
+          format: int32
         metadata:
           type: string
     EventLeaderboardRewardTier:
@@ -3953,6 +4317,11 @@ components:
         tier_change:
           type: integer
           format: int32
+        roll_cooldown_sec:
+          type: integer
+          format: int64
+        reroll_count_freeze:
+          type: boolean
     EventLeaderboardRewardTiers:
       type: object
       properties:
@@ -3970,6 +4339,14 @@ components:
           type: number
           format: double
         demote_idle:
+          type: boolean
+        use_max_cohort_size:
+          type: boolean
+        promotion_reroll_count_freeze:
+          type: boolean
+        demotion_reroll_count_freeze:
+          type: boolean
+        nochange_reroll_count_freeze:
           type: boolean
     EventLeaderboard:
       type: object
@@ -4034,6 +4411,42 @@ components:
           type: string
         backing_id:
           type: string
+        rolls:
+          type: integer
+          format: int64
+        max_rolls:
+          type: integer
+          format: int64
+        score_target:
+          type: integer
+          format: int64
+        score_target_players:
+          type: integer
+          format: int64
+        score_time_limit_sec:
+          type: integer
+          format: int64
+        score_time_limit_ends_sec:
+          type: integer
+          format: int64
+        tier_delta_per_phase:
+          type: integer
+          format: int64
+        roll_cooldown_sec:
+          type: integer
+          format: int64
+        roll_cooldown_ends_sec:
+          type: integer
+          format: int64
+        reroll_count_freeze:
+          type: boolean
+        best_rank:
+          type: integer
+          format: int64
+        can_update:
+          type: boolean
+        can_roll_with_claim:
+          type: boolean
         additionalProperties:
           type: object
           additionalProperties:
@@ -4073,6 +4486,13 @@ components:
         subscore_max:
           type: integer
           format: int64
+    EventLeaderboardDebugUnenrollRequest:
+      type: object
+      properties:
+        id:
+          type: string
+        user_id:
+          type: string
     EconomyDonationContributor:
       type: object
       properties:
@@ -4282,6 +4702,8 @@ components:
           format: int64
         instance_id:
           type: string
+        keep_zero:
+          type: boolean
         stringProperties:
           type: object
           additionalProperties:
@@ -4863,30 +5285,18 @@ components:
     EnergyGrantRequest:
       type: object
       properties:
-    LeaderboardConfig:
+    EnergySpendWithTime:
       type: object
       properties:
-        id:
-          type: string
-        sort_order:
-          type: string
-        operator:
-          type: string
-        reset_schedule:
-          type: string
-        authoritative:
-          type: boolean
-        regions:
-          type: array
-          items:
-            type: string
-    LeaderboardConfigList:
+        amount:
+          type: integer
+          format: int32
+        refill_start_time:
+          type: integer
+          format: int64
+    EnergySpendWithRefillStartTimeRequest:
       type: object
       properties:
-        leaderboard_configs:
-          type: array
-          items:
-            $ref: '#/components/schemas/LeaderboardConfig'
     Tutorial:
       type: object
       properties:
@@ -5308,6 +5718,11 @@ components:
           type: boolean
         auto_reset:
           type: boolean
+        update_time_sec:
+          type: integer
+          format: int64
+        is_active:
+          type: boolean
         additionalProperties:
           type: object
           additionalProperties:
@@ -5368,6 +5783,11 @@ components:
         end_time_sec:
           type: integer
           format: int64
+        update_time_sec:
+          type: integer
+          format: int64
+        is_active:
+          type: boolean
         additionalProperties:
           type: object
           additionalProperties:
@@ -5816,6 +6236,8 @@ components:
           type: string
         metadata:
           type: string
+        claim_reward:
+          type: boolean
     TeamEventLeaderboardScore:
       type: object
       properties:
@@ -5940,6 +6362,42 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TeamEventLeaderboardContribution'
+        rolls:
+          type: integer
+          format: int64
+        max_rolls:
+          type: integer
+          format: int64
+        score_target:
+          type: integer
+          format: int64
+        score_target_players:
+          type: integer
+          format: int64
+        score_time_limit_sec:
+          type: integer
+          format: int64
+        score_time_limit_ends_sec:
+          type: integer
+          format: int64
+        tier_delta_per_phase:
+          type: integer
+          format: int64
+        roll_cooldown_sec:
+          type: integer
+          format: int64
+        roll_cooldown_ends_sec:
+          type: integer
+          format: int64
+        reroll_count_freeze:
+          type: boolean
+        best_rank:
+          type: integer
+          format: int64
+        can_update:
+          type: boolean
+        can_roll_with_claim:
+          type: boolean
         additionalProperties:
           type: object
           additionalProperties:
@@ -6405,6 +6863,7 @@ components:
         - RPC_ID_ENERGY_GET
         - RPC_ID_ENERGY_SPEND
         - RPC_ID_ENERGY_GRANT
+        - RPC_ID_ENERGY_SPEND_WITH_REFILL_START_TIME
         - RPC_ID_TUTORIALS_GET
         - RPC_ID_TUTORIALS_ACCEPT
         - RPC_ID_TUTORIALS_DECLINE
@@ -6458,6 +6917,11 @@ components:
         - RPC_ID_BASE_SET_DEVICE_PREFS
         - RPC_ID_BASE_SYNC
         - RPC_ID_LEADERBOARDS_CONFIG_GET
+        - RPC_ID_LEADERBOARD_LIST
+        - RPC_ID_LEADERBOARD_GET
+        - RPC_ID_LEADERBOARD_UPDATE
+        - RPC_ID_LEADERBOARD_SCORES_LIST
+        - RPC_ID_LEADERBOARD_SCORES_LIST_AROUND_OWNER
         - RPC_ID_EVENT_LEADERBOARD_LIST
         - RPC_ID_EVENT_LEADERBOARD_GET
         - RPC_ID_EVENT_LEADERBOARD_UPDATE
@@ -6465,6 +6929,7 @@ components:
         - RPC_ID_EVENT_LEADERBOARD_ROLL
         - RPC_ID_EVENT_LEADERBOARD_DEBUG_FILL
         - RPC_ID_EVENT_LEADERBOARD_DEBUG_RANDOM_SCORES
+        - RPC_ID_EVENT_LEADERBOARD_DEBUG_UNENROLL
         - RPC_ID_STATS_GET
         - RPC_ID_STATS_UPDATE
         - RPC_ID_PROGRESSIONS_GET

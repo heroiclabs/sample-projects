@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Nakama.iml" filepath="$PROJECT_DIR$/.idea/Nakama.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/nakama-server.iml" filepath="$PROJECT_DIR$/.idea/nakama-server.iml" />
     </modules>
   </component>
 </project>

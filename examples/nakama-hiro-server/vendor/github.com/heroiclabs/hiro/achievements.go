@@ -20,6 +20,12 @@ import (
 	"github.com/heroiclabs/nakama-common/runtime"
 )
 
+var (
+	ErrAchievementsNotFound       = runtime.NewError("achievement not found", 3)       // INVALID_ARGUMENT
+	ErrAchievementsAlreadyClaimed = runtime.NewError("achievement already claimed", 3) // INVALID_ARGUMENT
+	ErrAchievementsNotComplete    = runtime.NewError("achievement not complete", 3)    // INVALID_ARGUMENT
+)
+
 // AchievementsConfig is the data definition for the TutorialsSystem type.
 type AchievementsConfig struct {
 	Achievements map[string]*AchievementsConfigAchievement `json:"achievements,omitempty"`
@@ -35,6 +41,7 @@ type AchievementsConfigAchievement struct {
 	StartTimeSec         int64                                        `json:"start_time_sec,omitempty"`
 	EndTimeSec           int64                                        `json:"end_time_sec,omitempty"`
 	ResetCronexpr        string                                       `json:"reset_cronexpr,omitempty"`
+	TimeOffsetSec        int64                                        `json:"time_offset_sec,omitempty"`
 	DurationSec          int64                                        `json:"duration_sec,omitempty"`
 	MaxCount             int64                                        `json:"max_count,omitempty"`
 	Name                 string                                       `json:"name,omitempty"`
@@ -52,6 +59,7 @@ type AchievementsConfigSubAchievement struct {
 	Count                int64                `json:"count,omitempty"`
 	Description          string               `json:"description,omitempty"`
 	ResetCronexpr        string               `json:"reset_cronexpr,omitempty"`
+	TimeOffsetSec        int64                `json:"time_offset_sec,omitempty"`
 	DurationSec          int64                `json:"duration_sec,omitempty"`
 	MaxCount             int64                `json:"max_count,omitempty"`
 	Name                 string               `json:"name,omitempty"`
@@ -72,6 +80,9 @@ type AchievementsSystem interface {
 
 	// UpdateAchievements updates progress on one or more achievements by the same amount.
 	UpdateAchievements(ctx context.Context, logger runtime.Logger, nk runtime.NakamaModule, userID string, achievementUpdates map[string]int64) (achievements map[string]*Achievement, repeatAchievements map[string]*Achievement, err error)
+
+	// ResetAchievements resets one or more achievements by their IDs by deleting their progress from the storage entry.
+	ResetAchievements(ctx context.Context, logger runtime.Logger, nk runtime.NakamaModule, userID string, achievementIDs []string) (achievements map[string]*Achievement, repeatAchievements map[string]*Achievement, err error)
 
 	// SetOnAchievementReward sets a custom reward function which will run after an achievement's reward is rolled.
 	SetOnAchievementReward(fn OnReward[*AchievementsConfigAchievement])

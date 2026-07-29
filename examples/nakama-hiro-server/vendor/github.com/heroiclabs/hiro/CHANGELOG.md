@@ -5,6 +5,103 @@ The format is based on [keep a changelog](http://keepachangelog.com) and this pr
 
 :warning: This server code is versioned separately to the download of the [Hiro game framework](https://heroiclabs.com/hiro/). :warning:
 
+## [1.33.0] - 2026-04-02
+### Added
+- Add "DebugUnenroll" function to Event Leaderboards for easier QA tests.
+- Return "tier_delta" in Event Leaderboard scores which indicates promotion/demotion zones.
+- (Unity) Provide "OnlineChanged" event signal in "NetworkProbe" for eager detection.
+
+### Changed
+- All analytics events published to Satori are now public functions.
+- Update all JSON schemas to include latest game system fields and definitions.
+- Expand "LeaderboardsSystem" to wrap everything in Nakama Leaderboards to use Hiro personalizers.
+- (Unreal) Simplify Steam authentication with Identity in Hiro Online Subsystem.
+- (CPP) (Dart) (Godot) (Python) (TypeScript) (Unity) (Unreal) Update clients for all new APIs.
+
+### Fixed
+- Handle Auction bid won by player account which has since been deleted gracefully.
+- Fix currency delta dropped when balance matches server after offline.
+- (Unity) Fix "PlayerPrefsStorage" returns hollow objects for missing keys.
+- (Unity) Copy codex properties into inventory items granted in rewards while offline.
+- (Unity) Return valid "AchievementClaimAck" and "EnergySpendReward" types when offline.
+
+## [1.32.0] - 2026-02-22
+### Added
+- Huge improvement to Event Leaderboards (2.0) which can now handle many different rulesets, replay, and win conditions. 🎉
+- Both claim any rewards and roll into a cohort within a Team Event Leaderboard can be done together.
+- New profanity filter options for User display name, chat message update, Team description, and Challenge name and description fields.
+- New server function to reset an Achievement's progress.
+- (Unity) Add "IsClaimed" util extension method to "ISubAchievement" type.
+- (Unity) Add "GetStoreItemsByCategory" util extension method to "IEconomySystem" type.
+
+### Changed
+- AllowFakeReceipts option can now be set outside of Economy data definition for easier environment selection.
+- Update server function to fetch more than one Team by ID.
+- Update to Nakama common v1.44.2 release.
+- (Unity) Logger type can be assigned to both Nakama and Satori client types.
+- (Unity) Update to '3.21.2' Nakama/Satori .NET client release.
+- (Unity) Use "IInitializeSystem" with "RewardMailboxSystem" type.
+- (Unity) "PurchaseStoreItemAsync" can take a raw receipt (not using the UnityPurchasing wrapper).
+- (Unity) Check exception not "IsTransientException(e)" with catch block to switch to offline mode.
+
+### Fixed
+- Apply profanity filter checks to both team names and team chat message contents.
+- Use the time offset (if specified) when an Achievement is checked for expiry.
+- (Unity) "EventLeaderboardsSystem" should not be Observable because it does not store internal state.
+- (Unity) Recalculate update time to compute "IsActive" with offline Achievements progress.
+- (Unity) Use correct ID when merging achievement updates in offline progress.
+- (Unity) Trim achievement progress with separate removal list when offline.
+- (Unity) Raise exception when reverse item grant has insufficient items to deduct.
+
+## [1.31.0] - 2025-12-10
+### Fixed
+- Update lookahead/lookbehind inputs to Live Events selector in Satori Personalizer.
+
+## [1.30.0] - 2025-12-09
+### Added
+- Achievements, Team Achievements, and Streaks can now specify a UTC time offset to anchor active phases to a player's localtime.
+- New profanity filter can be enabled on usernames, team names, and chat messages.
+
+### Changed
+- Request trace IDs are attached to analytics events in the Satori Publisher.
+- Update to Nakama common v1.44.0 release.
+
+## [1.29.0] - 2025-11-18
+### Added
+- New BatchSpend function in Energy system.
+- "RollEventLeaderboard" function can claim which will return the rolled Reward.
+- New option to use max participant count in EventLeaderboard change zone brackets.
+- A custom refill start time can be set by a client to anchor when refill started while offline.
+- Register various endpoints which can be used via the Nakama Console.
+- All leaderboards defined can be returned by the Leaderboard system.
+- Achievements with a duration now have an "is_active" field to know when in an active phase.
+- Reward Mailbox messages can now contain text content.
+- (Unreal) Add OnlineSubsystem for Leaderboards.
+
+### Changed
+- Make Go error types public.
+- Update various JSON schemas for the gameplay systems.
+- When claiming a repeating Achievement its Reward is returned.
+- Internally track product SKUs used across multiple store items.
+- "keep_zero" is now returned with Inventory Items for Offline Mode.
+- A Challenge can be created without any initial invitees.
+- Deleted Teams now appear with no name in the Team Event Leaderboard list.
+- A deleted Team now also has its leaderboard scores removed.
+- A Team can be searched with no input or 3+ character input to support filter only searches.
+- Nakama error types are surfaced in Teams system for "name already in use" and scenarios.
+- (Unity) "PollPlacementStatusAsync" now uses "Task.Delay" due to Unity improvements.
+- (Unity) Update "ExampleCoordinator" code to show how to control play session lifetimes.
+- (Unity) (TypeScript) (Dart) (CPP) (Unreal) (Godot) (Python) Update clients for all new APIs.
+
+### Fixed
+- Add missing empty storage object definitions to import file.
+- Fix panic when Store Item is purchased but has no Reward definition.
+- Do not progress an Achievement's count after the end of its active phase.
+- Initialize Options in Inventory Item's string properties when deep cloned.
+- Fix incorrect rank calculation for the caller's Team in a Team Event Leaderboard.
+- (Unity) "TeamsSystem" observer emits signal on refresh even where logic returns early.
+- (Unity) Add "langTag" parameter to Create function.
+
 ## [1.28.0] - 2025-10-07
 ### Added
 - Add function to fetch user with Team profile.
