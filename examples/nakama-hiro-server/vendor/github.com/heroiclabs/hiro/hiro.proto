@@ -82,6 +82,8 @@ enum RpcId {
   RPC_ID_ENERGY_SPEND = 20 [(input) = "EnergySpendRequest", (output) = "EnergySpendReward"];
   // Grant one or more energies to the player.
   RPC_ID_ENERGY_GRANT = 65 [(input) = "EnergyGrantRequest", (output) = "EnergyList"];
+  // Spend one or more energies with custom refill start times for the player.
+  RPC_ID_ENERGY_SPEND_WITH_REFILL_START_TIME = 125 [(input) = "EnergySpendWithRefillStartTimeRequest", (output) = "EnergySpendReward"];
 
   // Get the tutorials and current progress step for the player.
   RPC_ID_TUTORIALS_GET = 21 [(input) = "", (output) = "TutorialList"];
@@ -148,7 +150,7 @@ enum RpcId {
   RPC_ID_TEAMS_EVENT_LEADERBOARD_LIST = 108 [(input) = "TeamEventLeaderboardList", (output) = "TeamEventLeaderboards"];
   // Get a specified event leaderboard defined for the game.
   RPC_ID_TEAMS_EVENT_LEADERBOARD_GET = 109 [(input) = "TeamEventLeaderboardGet", (output) = "TeamEventLeaderboard"];
-  // Update an event leaderboard record for a user.
+  // Update an event leaderboard score for a user.
   RPC_ID_TEAMS_EVENT_LEADERBOARD_UPDATE = 110 [(input) = "TeamEventLeaderboardUpdate", (output) = "TeamEventLeaderboard"];
   // Claim an event leaderboard reward for a user.
   RPC_ID_TEAMS_EVENT_LEADERBOARD_CLAIM = 111 [(input) = "TeamEventLeaderboardClaim", (output) = "TeamEventLeaderboard"];
@@ -199,14 +201,24 @@ enum RpcId {
   // Sync offline state.
   RPC_ID_BASE_SYNC = 58 [(input) = "SyncRequest", (output) = "SyncResponse"];
 
-  // Get the leaderboards defined for the game.
+  // Deprecated: Use RPC_ID_LEADERBOARD_LIST instead. List available leaderboards.
   RPC_ID_LEADERBOARDS_CONFIG_GET = 38 [(input) = "", (output) = "LeaderboardConfigList"];
+  // List available leaderboards.
+  RPC_ID_LEADERBOARD_LIST = 127 [(input) = "LeaderboardListRequest", (output) = "LeaderboardList"];
+  // Get a specified leaderboard with scores.
+  RPC_ID_LEADERBOARD_GET = 128 [(input) = "LeaderboardGet", (output) = "Leaderboard"];
+  // Update a leaderboard score.
+  RPC_ID_LEADERBOARD_UPDATE = 129 [(input) = "LeaderboardUpdate", (output) = "LeaderboardScore"];
+  // List scores on a specified leaderboard.
+  RPC_ID_LEADERBOARD_SCORES_LIST = 130 [(input) = "LeaderboardScoresListRequest", (output) = "LeaderboardScoreList"];
+  // List scores on a specified leaderboard around the owner.
+  RPC_ID_LEADERBOARD_SCORES_LIST_AROUND_OWNER = 131 [(input) = "LeaderboardScoresListAroundOwnerRequest", (output) = "LeaderboardScoreList"];
 
   // List available event leaderboards.
   RPC_ID_EVENT_LEADERBOARD_LIST = 80 [(input) = "EventLeaderboardList", (output) = "EventLeaderboards"];
   // Get a specified event leaderboard defined for the game.
   RPC_ID_EVENT_LEADERBOARD_GET = 42 [(input) = "EventLeaderboardGet", (output) = "EventLeaderboard"];
-  // Update an event leaderboard record for a user.
+  // Update an event leaderboard score for a user.
   RPC_ID_EVENT_LEADERBOARD_UPDATE = 43 [(input) = "EventLeaderboardUpdate", (output) = "EventLeaderboard"];
   // Claim an event leaderboard reward for a user.
   RPC_ID_EVENT_LEADERBOARD_CLAIM = 44 [(input) = "EventLeaderboardClaim", (output) = "EventLeaderboard"];
@@ -216,6 +228,8 @@ enum RpcId {
   RPC_ID_EVENT_LEADERBOARD_DEBUG_FILL = 60 [(input) = "", (output) = "EventLeaderboard"];
   // DEBUG. Assign random scores within a given range to users within the caller's cohort, except for the caller themselves.
   RPC_ID_EVENT_LEADERBOARD_DEBUG_RANDOM_SCORES = 61 [(input) = "EventLeaderboardDebugRandomScoresRequest", (output) = "EventLeaderboard"];
+  // DEBUG. Unenroll from an event leaderboard cohort.
+  RPC_ID_EVENT_LEADERBOARD_DEBUG_UNENROLL = 126 [(input) = "EventLeaderboardDebugUnenrollRequest", (output) = "EventLeaderboard"];
 
   // Get all stats.
   RPC_ID_STATS_GET = 46 [(input) = "", (output) = "StatList"];
@@ -318,6 +332,165 @@ enum RpcSocketId {
   RPC_SOCKET_ID_AUCTIONS_FOLLOW = 1 [(input) = "AuctionFollowRequest", (output) = "AuctionList"];
   // Bid on an auction and follow it for further updates.
   RPC_SOCKET_ID_AUCTIONS_BID = 2 [(input) = "AuctionBidRequest", (output) = "Auction"];
+}
+
+message LeaderboardUpdate {
+  // Leaderboard ID.
+  string id = 1;
+  // Score.
+  int64 score = 2;
+  // Subscore.
+  int64 subscore = 3;
+  // Metadata.
+  string metadata = 4;
+}
+
+// Get a specified leaderboard.
+message LeaderboardGet {
+  // Leaderboard ID to get.
+  string id = 1;
+}
+
+message LeaderboardListRequest {
+  // Optional filter of Leaderboard categories to list. If empty does not filter on category.
+  repeated string categories = 1;
+}
+
+// List scores on a specified leaderboard.
+message LeaderboardScoresListRequest {
+  // Leaderboard ID to list scores from.
+  string id = 1;
+  // One or more owners to retrieve records for.
+  repeated string owner_ids = 2;
+  // Max number of records to return. Between 1 and 1000.
+  int32 limit = 3;
+  // A next or previous page cursor.
+  string cursor = 4;
+  // Expiry in seconds (since epoch) to begin fetching records from. Optional. 0 means from current time.
+  int64 expiry = 5;
+  // Optional region to list scores from. If empty does not filter on region.
+  string region = 6;
+}
+
+// List scores on a specified leaderboard around the owner.
+message LeaderboardScoresListAroundOwnerRequest {
+  // The ID of the leaderboard to list for.
+  string id = 1;
+  // Max number of records to return. Between 1 and 100.
+  int32 limit = 2;
+  // The owner to retrieve records around.
+  string owner_id = 3;
+  // Expiry in seconds (since epoch) to begin fetching records from.
+  int64 expiry = 4;
+  // A next or previous page cursor.
+  string cursor = 5;
+  // Optional region to list scores from. If empty does not filter on region.
+  string region = 6;
+}
+
+// A leaderboard score record.
+message LeaderboardScore {
+  // The ID of the leaderboard this score belongs to.
+  string leaderboard_id = 1;
+  // The ID of the score owner, usually a user or group.
+  string owner_id = 2;
+  // The username of the score owner, if the owner is a user.
+  string username = 3;
+  // The score value.
+  int64 score = 4;
+  // An optional subscore value.
+  int64 subscore = 5;
+  // The number of submissions to this score record.
+  int32 num_score = 6;
+  // Metadata.
+  string metadata = 7;
+  // Time when the score was first created.
+  int64 create_time_sec = 8;
+  // Time when the score was last updated.
+  int64 update_time_sec = 9;
+  // Time when the score will expire.
+  int64 expiry_time_sec = 10;
+  // The rank of this score.
+  int64 rank = 11;
+  // Number of score submissions.
+  int64 num_scores = 12;
+}
+
+// Details about a specific leaderboard.
+message Leaderboard {
+  // Leaderboard ID.
+  string id = 1;
+  // The name of the leaderboard. May be an i18n code.
+  string name = 2;
+  // A description of the leaderboard. May be an i18n code.
+  string description = 3;
+  // The category to group the leaderboard together with others.
+  string category = 4;
+  // The leaderboard score ordering.
+  bool ascending = 5;
+  // Score submission operator.
+  string operator = 6;
+  // Time when the leaderboard last reset if it has a reset schedule.
+  int64 prev_reset_time_sec = 7;
+  // The next scheduled reset time for the leaderboard if it has a reset schedule.
+  int64 next_reset_time_sec = 8;
+  // The UNIX timestamp for the current server time.
+  int64 current_time_sec = 9;
+  // The UNIX timestamp for the start time of the tournament (only relevant for tournament leaderboards).
+  int64 start_time_sec = 10;
+  // The UNIX timestamp for the end time of the tournament (only relevant for tournament leaderboards).
+  int64 end_time_sec = 11;
+  // Additional metadata properties.
+  map<string, string> additional_properties = 12;
+  // List of regional leaderboards, if any.
+  repeated string regions = 13;
+  // Whether the leaderboard is authoritative or not.
+  bool authoritative = 14;
+}
+
+// Several leaderboards, resulting from a listing operation.
+message LeaderboardList {
+  // Zero or more leaderboards.
+  repeated Leaderboard leaderboards = 1;
+}
+
+message LeaderboardScoreList {
+  // A list of leaderboard scores.
+  repeated LeaderboardScore scores = 1;
+  // A batched set of leaderboard scores belonging to specified owners.
+  repeated LeaderboardScore owner_scores = 2;
+  // The cursor to send when retrieving the next page, if any.
+  string next_cursor = 3;
+  // The cursor to send when retrieving the previous page, if any.
+  string prev_cursor = 4;
+  // The total number of ranks available.
+  int64 rank_count = 5;
+  // Leaderboard type
+  Leaderboard leaderboard = 6;
+}
+
+// A leaderboard configuration.
+message LeaderboardConfig {
+  option deprecated = true;
+  // The leaderboard id.
+  string id = 1;
+  // The leaderboard sort order.
+  string sort_order = 2;
+  // The leaderboard operator.
+  string operator = 3;
+  // The leaderboard reset schedule.
+  string reset_schedule = 4;
+  // Whether the leaderboard is authoritative or not.
+  bool authoritative = 5;
+  // List of regional leaderboards of the leaderboard, if any.
+  repeated string regions = 6;
+}
+
+// A list of leaderboard configurations.
+message LeaderboardConfigList {
+  option deprecated = true;
+  // The list of leaderboard configurations.
+  repeated LeaderboardConfig leaderboard_configs = 1;
 }
 
 // The cost(s) associated with permanently unlocking a progression.
@@ -696,6 +869,8 @@ message Reward {
   int64 to_mailbox_expiry_sec = 8;
   // Team reward, if any.
   TeamReward team_reward = 9;
+  // Message associated with the reward, if any.
+  string message = 10;
 }
 
 // A list of rewards granted to the player.
@@ -899,6 +1074,8 @@ message AvailableRewards {
   int64 to_mailbox_expiry_sec = 6;
   // Rewards for the claimant's team, if any.
   AvailableTeamRewards team_reward = 7;
+  // Message associated with the reward, if any.
+  string message = 8;
 }
 
 // Types of incentives.
@@ -1031,8 +1208,9 @@ message ChallengeCreateRequest {
   repeated string invitees = 4;
   // Whether the challenged users have to accept the challenge or not.
   bool open = 5;
+  // Deprecated: This field is no longer used and will be removed in future versions.
   // Maximum number of scores a user can submit to the leaderboard.
-  int64 max_scores = 6;
+  int64 max_scores = 6 [deprecated = true];
   // Start time of the challenge. Set to 0 to start immediately.
   int64 start_delay_sec = 7;
   // Duration of the challenge. Set to 0 to have an unlimited challenge.
@@ -1304,6 +1482,8 @@ message EventLeaderboardRoll {
   string id = 1;
   // Metadata for the initial score write.
   string metadata = 2;
+  // Claim reward while rolling into a cohort.
+  bool claim_reward = 3;
 }
 
 // A single participant entry to an event leaderboard.
@@ -1328,6 +1508,8 @@ message EventLeaderboardScore {
   int64 subscore = 9;
   // Number of score submissions.
   int64 num_scores = 10;
+  // Score change zone
+  int32 tier_delta = 12;
   // Metadata.
   string metadata = 11;
 }
@@ -1344,6 +1526,10 @@ message EventLeaderboardRewardTier {
   AvailableRewards available_rewards = 4;
   // Change in tier for this rank range.
   int32 tier_change = 5;
+  // Amount of time in seconds that must pass before rolling is allowed again after a cohort ends.
+  int64 roll_cooldown_sec = 6;
+  // True if rerolling should not count towards rolls, false if it should increase rolls count.
+  bool reroll_count_freeze = 7;
 }
 
 // An event leaderboard's tier-specific set of rewards.
@@ -1360,6 +1546,14 @@ message EventLeaderboardChangeZone {
   double demotion = 2;
   // Whether or not to always demote players that failed to submit a score at all.
   bool demote_idle = 3;
+  // Whether or not to use the max cohort size or the actual cohort size to compute the change zones.
+  bool use_max_cohort_size = 4;
+  // True if rerolling with a promotion should not count towards rolls, false if it should increase rolls count.
+  bool promotion_reroll_count_freeze = 5;
+  // True if rerolling with a demotion should not count towards rolls, false if it should increase rolls count.
+  bool demotion_reroll_count_freeze = 6;
+  // True if rerolling with no tier change should not count towards rolls, false if it should increase rolls count.
+  bool nochange_reroll_count_freeze = 7;
 }
 
 // Details about a specific event leaderboard.
@@ -1418,6 +1612,32 @@ message EventLeaderboard {
   string cohort_id = 26;
   // Backing ID for underlying score tracking.
   string backing_id = 27;
+  // Number of rolls so far in this event leaderboard active phase.
+  int64 rolls = 28;
+  // Maximum number of rolls allowed within a single event leaderboard active phase.
+  int64 max_rolls = 29;
+  // Score target that must be reached, or 0 for unlimited.
+  int64 score_target = 30;
+  // Number of players that can reach the score target, if one is defined.
+  int64 score_target_players = 31;
+  // Amount of time since rolling into the cohort that participants have to submit scores.
+  int64 score_time_limit_sec = 32;
+  // Time when the score time limit ends, if it is set.
+  int64 score_time_limit_ends_sec = 33;
+  // Tier change amount between event leaderboard active phases.
+  int64 tier_delta_per_phase = 34;
+  // Amount of time in seconds that must pass before rolling is allowed again after a cohort ends.
+  int64 roll_cooldown_sec = 35;
+  // Time when the roll cooldown ends, if it is set.
+  int64 roll_cooldown_ends_sec = 36;
+  // If roll count will increase on rerolls. By default it is not "frozen" so it increases.
+  bool reroll_count_freeze = 37;
+  // Best rank achieved so far within the event leaderboard active phase.
+  int64 best_rank = 38;
+  // Indicates if the event can receive score updates.
+  bool can_update = 39;
+  // Indicates if the cohort can be rolled if being claimed at the same time.
+  bool can_roll_with_claim = 40;
 }
 
 // Several event leaderboards the user has access to, resulting from a listing operation.
@@ -1447,6 +1667,14 @@ message EventLeaderboardDebugRandomScoresRequest {
   int64 subscore_min = 5;
   // Maximum subscore, inclusive.
   int64 subscore_max = 6;
+}
+
+// DEBUG. Request to unenroll from an event leaderboard cohort.
+message EventLeaderboardDebugUnenrollRequest {
+  // Event leaderboard ID to unenroll from.
+  string id = 1;
+  // Optional user ID to unenroll. If empty, unenrolls the caller.
+  string user_id = 2;
 }
 
 // A contributor to this donation.
@@ -1641,6 +1869,8 @@ message InventoryItem {
   int64 update_time_sec = 14;
   // The instance ID of the item, if any.
   string instance_id = 15;
+  // Indicates if the item stays in the inventory even if there are non left.
+  bool keep_zero = 16;
 }
 
 // Request all inventory items in the economy.
@@ -2184,26 +2414,18 @@ message EnergyGrantRequest {
   map<string, int32> amounts = 1;
 }
 
-// A leaderboard configuration.
-message LeaderboardConfig {
-  // The leaderboard id.
-  string id = 1;
-  // The leaderboard sort order.
-  string sort_order = 2;
-  // The leaderboard operator.
-  string operator = 3;
-  // The leaderboard reset schedule.
-  string reset_schedule = 4;
-  // Whether the leaderboard is authoritative or not.
-  bool authoritative = 5;
-  // List of regional leaderboards of the leaderboard, if any.
-  repeated string regions = 6;
+// An energy spend with a custom refill start time.
+message EnergySpendWithTime {
+  // The amount to spend.
+  int32 amount = 1;
+  // The custom refill start time in seconds since Unix epoch.
+  int64 refill_start_time = 2;
 }
 
-// A list of leaderboard configurations.
-message LeaderboardConfigList {
-  // The list of leaderboard configurations.
-  repeated LeaderboardConfig leaderboard_configs = 1;
+// Request to spend one or more energies with custom refill start times.
+message EnergySpendWithRefillStartTimeRequest {
+  // Energy spends with custom refill start times, keyed on the energy identifier.
+  map<string, EnergySpendWithTime> spends = 1;
 }
 
 // The states of a Tutorial.
@@ -2606,6 +2828,10 @@ message SubAchievement {
   bool auto_claim = 15;
   // Whether the sub-achievement will reset after completion.
   bool auto_reset = 16;
+  // The UNIX timestamp when this sub-achievement was last updated.
+  int64 update_time_sec = 17;
+  // True if the sub-achievement is in an active period, false otherwise.
+  bool is_active = 18;
 }
 
 // An achievement which is a numeric task which can be unlocked and has an optional reward.
@@ -2656,6 +2882,10 @@ message Achievement {
   int64 start_time_sec = 22;
   // The UNIX timestamp when this achievement will allow updates. This may be before its next reset. A zero means it does not end.
   int64 end_time_sec = 23;
+  // The UNIX timestamp when this achievement was last updated.
+  int64 update_time_sec = 24;
+  // True if the achievement is in an active period, false otherwise.
+  bool is_active = 25;
 }
 
 // The achievements returned by the server.
@@ -2879,7 +3109,7 @@ message TeamStoreItem {
 message TeamStore {
   // The list of store items.
   repeated TeamStoreItem store_items = 1;
-   // The list of active reward modifiers.
+  // The list of active reward modifiers.
   repeated ActiveRewardModifier active_reward_modifiers = 4;
   // Current server time.
   int64 current_time_sec = 5;
@@ -3059,6 +3289,8 @@ message TeamEventLeaderboardRoll {
   string event_leaderboard_id = 2;
   // Metadata for the initial score write.
   string metadata = 3;
+  // Claim reward while rolling into a cohort.
+  bool claim_reward = 4;
 }
 
 // A single participant entry to a team event leaderboard.
@@ -3167,6 +3399,32 @@ message TeamEventLeaderboard {
   string backing_id = 27;
   // Contributions from team members towards the score.
   repeated TeamEventLeaderboardContribution contributions = 28;
+  // Number of rolls so far in this event leaderboard active phase.
+  int64 rolls = 29;
+  // Maximum number of rolls allowed within a single event leaderboard active phase.
+  int64 max_rolls = 30;
+  // Score target that must be reached, or 0 for unlimited.
+  int64 score_target = 31;
+  // Number of players that can reach the score target, if one is defined.
+  int64 score_target_players = 32;
+  // Amount of time since rolling into the cohort that participants have to submit scores.
+  int64 score_time_limit_sec = 33;
+  // Time when the score time limit ends, if it is set.
+  int64 score_time_limit_ends_sec = 34;
+  // Tier change amount between event leaderboard active phases.
+  int64 tier_delta_per_phase = 35;
+  // Amount of time in seconds that must pass before rolling is allowed again after a cohort ends.
+  int64 roll_cooldown_sec = 36;
+  // Time when the roll cooldown ends, if it is set.
+  int64 roll_cooldown_ends_sec = 37;
+  // If roll count will increase on rerolls. By default it is not "frozen" so it increases.
+  bool reroll_count_freeze = 38;
+  // Best rank achieved so far within the event leaderboard active phase.
+  int64 best_rank = 39;
+  // Indicates if the event can receive score updates.
+  bool can_update = 40;
+  // Indicates if the cohort can be rolled if being claimed at the same time.
+  bool can_roll_with_claim = 41;
 }
 
 // Several team event leaderboards the team has access to, resulting from a listing operation.

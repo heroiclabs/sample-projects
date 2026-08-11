@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"os"
 	"path/filepath"
 	"time"
 
@@ -39,8 +40,11 @@ func InitModule(ctx context.Context, logger runtime.Logger, db *sql.DB, nk runti
 	}
 	logger.Info("Using env named %q", env)
 
-	hiroLicense, ok := props["HIRO_LICENSE"]
-	if !ok || hiroLicense == "" {
+	hiroLicense := os.Getenv("HIRO_LICENSE")
+	if hiroLicense == "" {
+		hiroLicense = props["HIRO_LICENSE"]
+	}
+	if hiroLicense == "" {
 		return errors.New("'HIRO_LICENSE' key missing or invalid in env")
 	}
 

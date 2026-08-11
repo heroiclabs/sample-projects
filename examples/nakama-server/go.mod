@@ -1,7 +1,7 @@
 module heroiclabs/sample-templates
 
-go 1.25.0
+go 1.26.3
 
-require github.com/heroiclabs/nakama-common v1.42.0
+require github.com/heroiclabs/nakama-common v1.46.0
 
-require google.golang.org/protobuf v1.36.8 // indirect
+require google.golang.org/protobuf v1.36.11 // indirect

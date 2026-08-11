@@ -18,6 +18,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"maps"
 	"strings"
 	"sync"
 	"sync/atomic"
@@ -242,7 +243,7 @@ func (p *SatoriPersonalizer) Authenticate(ctx context.Context, logger runtime.Lo
 	if !p.IsPublishAuthenticateRequest() && !p.IsPublishAuthenticateRequestWithSession() {
 		return
 	}
-	if _, err := nk.GetSatori().Authenticate(ctx, userID, nil, nil, p.IsPublishAuthenticateRequestWithSession()); err != nil && !errors.Is(err, runtime.ErrSatoriConfigurationInvalid) {
+	if _, err := nk.GetSatori().Authenticate(ctx, userID, nil, nil, !p.IsPublishAuthenticateRequestWithSession()); err != nil && !errors.Is(err, runtime.ErrSatoriConfigurationInvalid) {
 		logger.WithField("error", err.Error()).Error("failed to authenticate with Satori")
 	}
 }
@@ -251,6 +252,8 @@ func (p *SatoriPersonalizer) Send(ctx context.Context, logger runtime.Logger, nk
 	if len(events) == 0 {
 		return
 	}
+
+	traceID, _ := ctx.Value(runtime.RUNTIME_CTX_TRACE_ID).(string)
 
 	satoriEvents := make([]*runtime.Event, 0, len(events))
 	for _, event := range events {
@@ -322,10 +325,16 @@ func (p *SatoriPersonalizer) Send(ctx context.Context, logger runtime.Logger, nk
 		default:
 		}
 
+		metadata := event.Metadata
+		if traceID != "" {
+			metadata = maps.Clone(event.Metadata)
+			metadata["trace_id"] = traceID
+		}
+
 		satoriEvent := &runtime.Event{
 			Name:      event.Name,
 			Id:        event.Id,
-			Metadata:  event.Metadata,
+			Metadata:  metadata,
 			Value:     event.Value,
 			Timestamp: event.Timestamp,
 		}
@@ -421,7 +430,7 @@ func (p *SatoriPersonalizer) GetValue(ctx context.Context, logger runtime.Logger
 	var found bool
 
 	if p.noCache {
-		flagList, err := nk.GetSatori().FlagsList(ctx, userID, flagName)
+		flagList, err := nk.GetSatori().FlagsList(ctx, userID, []string{flagName}, nil)
 		if err != nil {
 			if strings.Contains(err.Error(), "404 status code") {
 				logger.WithField("userID", userID).WithField("error", err.Error()).Warn("error requesting Satori flag list, user not found")
@@ -444,7 +453,7 @@ func (p *SatoriPersonalizer) GetValue(ctx context.Context, logger runtime.Logger
 
 		if s := system.GetType(); s == SystemTypeEventLeaderboards || s == SystemTypeAchievements {
 			// If looking at event leaderboards, also load live events.
-			liveEventsList, err := nk.GetSatori().LiveEventsList(ctx, userID)
+			liveEventsList, err := nk.GetSatori().LiveEventsList(ctx, userID, nil, nil, 0, 0, 0, 0)
 			if err != nil {
 				if strings.Contains(err.Error(), "404 status code") {
 					logger.WithField("userID", userID).WithField("error", err.Error()).Warn("error requesting Satori live events list, user not found")
@@ -475,7 +484,7 @@ func (p *SatoriPersonalizer) GetValue(ctx context.Context, logger runtime.Logger
 		p.cacheMutex.RUnlock()
 
 		if !found {
-			flagList, err := nk.GetSatori().FlagsList(ctx, userID, allFlagNames...)
+			flagList, err := nk.GetSatori().FlagsList(ctx, userID, allFlagNames, nil)
 			if err != nil {
 				if strings.Contains(err.Error(), "404 status code") {
 					logger.WithField("userID", userID).WithField("error", err.Error()).Warn("error requesting Satori flag list, user not found")
@@ -487,7 +496,7 @@ func (p *SatoriPersonalizer) GetValue(ctx context.Context, logger runtime.Logger
 
 			var liveEventsList *runtime.LiveEventList
 			if s := system.GetType(); s == SystemTypeEventLeaderboards || s == SystemTypeAchievements {
-				liveEventsList, err = nk.GetSatori().LiveEventsList(ctx, userID)
+				liveEventsList, err = nk.GetSatori().LiveEventsList(ctx, userID, nil, nil, 0, 0, 0, 0)
 				if err != nil {
 					if strings.Contains(err.Error(), "404 status code") {
 						logger.WithField("userID", userID).WithField("error", err.Error()).Warn("error requesting Satori live events list, user not found")
@@ -517,7 +526,7 @@ func (p *SatoriPersonalizer) GetValue(ctx context.Context, logger runtime.Logger
 		}
 
 		if s := system.GetType(); (s == SystemTypeEventLeaderboards || s == SystemTypeAchievements) && cacheEntry.liveEvents.Load() == nil {
-			liveEventsList, err := nk.GetSatori().LiveEventsList(ctx, userID)
+			liveEventsList, err := nk.GetSatori().LiveEventsList(ctx, userID, nil, nil, 0, 0, 0, 0)
 			if err != nil {
 				if strings.Contains(err.Error(), "404 status code") {
 					logger.WithField("userID", userID).WithField("error", err.Error()).Warn("error requesting Satori live events list, user not found")
