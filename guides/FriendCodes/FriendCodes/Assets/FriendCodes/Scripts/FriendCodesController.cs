@@ -53,24 +53,13 @@ namespace FriendCodes
 
         #region Initialization
 
-        private void OnEnable()
+        private void Start()
         {
             if (DeepLinkManager.Instance != null)
             {
                 DeepLinkManager.Instance.OnInviteCodeReceived += HandleInviteCodeReceived;
             }
-        }
 
-        private void OnDisable()
-        {
-            if (DeepLinkManager.Instance != null)
-            {
-                DeepLinkManager.Instance.OnInviteCodeReceived -= HandleInviteCodeReceived;
-            }
-        }
-
-        private void Start()
-        {
             InitializeUI();
             NakamaSingleton.Instance.ReceivedStartError += e =>
             {
@@ -93,6 +82,14 @@ namespace FriendCodes
                     _ = ClaimFriendCode(pending);
                 }
             };
+        }
+
+        private void OnDestroy()
+        {
+            if (DeepLinkManager.Instance != null)
+            {
+                DeepLinkManager.Instance.OnInviteCodeReceived -= HandleInviteCodeReceived;
+            }
         }
 
         private void OnReceivedNotification(IApiNotification notification)
@@ -240,6 +237,7 @@ namespace FriendCodes
         private class FriendCodeData
         {
             public string code;
+            public string deep_link;
         }
  
         [Serializable]
@@ -250,6 +248,7 @@ namespace FriendCodes
 
         private async void HandleInviteCodeReceived(string code)
         {
+            Debug.Log("claiming invite code");
             await ClaimFriendCode(code);
         }
 
@@ -291,8 +290,8 @@ namespace FriendCodes
                 Debug.Log($"Code generated successfully.");
 
                 // Display code on UI and copy to clipboard.
-                friendCodeField.SetValueWithoutNotify(response.code);
-                GUIUtility.systemCopyBuffer = response.code;
+                friendCodeField.SetValueWithoutNotify(response.deep_link);
+                GUIUtility.systemCopyBuffer = response.deep_link;
             }
             catch (Exception e)
             {
