@@ -19,11 +19,12 @@ namespace FriendCodes
             Blocked = 3
         }
 
-        [Header("Friend List Settings")] [SerializeField]
-        private int friendRecordsLimit = 1000;
+        [Header("Friend List Settings")]
+        [SerializeField] private bool useDeepLink = false;
+        [SerializeField] private int friendRecordsLimit = 1000;
 
-        [Header("References")] [SerializeField]
-        private VisualTreeAsset listRecordTemplate;
+        [Header("References")]
+        [SerializeField] private VisualTreeAsset listRecordTemplate;
 
         public event Action<ISession, FriendCodesController> OnInitialized;
 
@@ -248,8 +249,14 @@ namespace FriendCodes
 
         private async void HandleInviteCodeReceived(string code)
         {
-            Debug.Log("claiming invite code");
-            await ClaimFriendCode(code);
+            try
+            {
+                await ClaimFriendCode(code);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Failed to claim friend code: {e.Message}");
+            }
         }
 
         private async Task ClaimFriendCode(string code)
@@ -290,8 +297,8 @@ namespace FriendCodes
                 Debug.Log($"Code generated successfully.");
 
                 // Display code on UI and copy to clipboard.
-                friendCodeField.SetValueWithoutNotify(response.deep_link);
-                GUIUtility.systemCopyBuffer = response.deep_link;
+                friendCodeField.SetValueWithoutNotify(useDeepLink ? response.deep_link : response.code);
+                GUIUtility.systemCopyBuffer = useDeepLink ? response.deep_link : response.code;
             }
             catch (Exception e)
             {
