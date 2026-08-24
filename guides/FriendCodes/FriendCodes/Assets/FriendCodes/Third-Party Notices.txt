@@ -1,0 +1,63 @@
+THIRD-PARTY NOTICES
+==================
+
+This package contains third-party software components governed by the license(s) 
+listed below:
+
+Nakama Unity SDK
+----------------
+
+The following files are covered by the Apache License 2.0:
+- All files in the Packages/Nakama Unity folder and its subdirectories
+
+Apache License 2.0:
+
+Copyright (c) 2017 GameUp Online Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Additional Information:
+- Nakama Unity SDK Source: https://github.com/heroiclabs/nakama-unity
+- Full Apache 2.0 License Text: https://www.apache.org/licenses/LICENSE-2.0
+
+LayerLab UI Assets
+------------------
+
+The following files are covered by Creative Commons CC0 1.0 Universal:
+- All PNG files in the HeroicUI folder and its subdirectories, which includes: UI design assets, icons, and backgrounds.
+
+Creative Commons CC0 1.0 Universal Public Domain Dedication:
+Original work created by LayerLab (2025)
+
+To the extent possible under law, LayerLab has dedicated this work to the public domain under Creative Commons CC0 1.0 Universal Public Domain Dedication.
+
+You can copy, modify, distribute, and perform the work, even for commercial purposes, all without asking permission.
+
+Additional Information:
+- Full Creative Commons CC0 1.0 License: https://creativecommons.org/publicdomain/zero/1.0/
+
+IMPORTANT NOTES FOR END USERS:
+==============================
+1. The Nakama Unity SDK is free to use under Apache 2.0 license for both 
+   commercial and non-commercial projects.
+
+2. The LayerLab UI assets are provided under Creative Commons CC0 1.0 Universal, 
+   which means you can copy, modify, distribute, and perform the work, even for commercial purposes, all without asking permission.
+
+3. You will need to set up your own Nakama server to use this template in production. 
+   The demo server is provided for testing purposes only.
+
+4. This package redistributes the Nakama Unity SDK under the terms of the 
+   Apache License 2.0, which permits such distribution.
+
+Last Updated: September 2025
